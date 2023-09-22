@@ -1,39 +1,544 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Error in RSSHub!</title>
-        <style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:16px;color:#2c3e50}.content{width:800px;margin:100px auto 0;text-align:center}.message{white-space:pre-wrap;text-align:left}a{color:#f5712c}img{filter:grayscale(1)}</style>
-    </head>
-    <body>
-        <div class="content">
-            <p>
-                <img src="/logo.png" alt="RSSHub" width="120">
-                </p>
-                <h1>Looks like something went wrong</h1>
-                <pre class="message">Route requested: /news/project</pre>
-                <pre class="message">Error message: Proxy connection timed out: target website might be blocking our access, you can 
-                    <a href="https://docs.rsshub.app/install/">host your own RSSHub instance</a> for a better usability.
-                </pre>
-                <pre class="message">
-Helpful Information to provide when opening issue:
-Path: /news/project
-Node version: v18.17.1
-Git Hash: bc75193
-        </pre>
-                <pre class="message">
-If you believe this is an error caused by RSSHub, please 
-                    <a href="https://github.com/DIYgod/RSSHub/issues/new?assignees=&labels=RSS+bug&template=bug_report_en.yml" target="_blank">report on github</a>
-如果您认为 RSSHub 导致了该错误，请在 GitHub 按照模版，复制本页面信息进行 
-                    <a href="https://github.com/DIYgod/RSSHub/issues/new?assignees=&labels=RSS+bug&template=bug_report_zh.yml" target="_blank">汇报</a>
-                </pre>
-                <div style="margin:50px 0">
-                    <p>For online documentation and support please refer to 
-                        <a href="https://docs.rsshub.app/" target="_blank">docs.rsshub.app</a>.
-                    </p>
-                    <p>在线文档与支持，请访问 
-                        <a href="https://docs.rsshub.app/" target="_blank">docs.rsshub.app</a>。
-                    </p>
-                </div>
-            </div>
-        </body>
-    </html>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss
+    xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"
+
+
+>
+    <channel>
+        <title>
+            <![CDATA[开源中国-软件更新资讯]]>
+        </title>
+        <link>https://www.oschina.net/news/project</link>
+        <atom:link href="https://rsshub.app/oschina/news/project" rel="self" type="application/rss+xml" />
+        <description>
+            <![CDATA[开源中国-软件更新资讯 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
+        </description>
+        <generator>RSSHub</generator>
+        <webMaster>i@diygod.me (DIYgod)</webMaster>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 22 Sep 2023 08:32:52 GMT</lastBuildDate>
+        <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[DamiBus v0.27 发布，主打多模块解耦]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p style="color:#24292e; text-align:start">DamiBus，专为<span style="background-color:#f1c40f">本地多模块</span>之间通讯<span style="background-color:#f1c40f">解耦</span>而设计（尤其是未知模块、隔离模块、领域模块）。零依赖，特适合 DDD。</p><h3>特点</h3><p style="color:#24292e; text-align:start">结合 Bus 与 RPC 的概念，可作事件分发，可作接口调用，可作异步响应。</p><ul><li>支持事务传导（同步分发、异常透传）</li><li>支持事件标识、拦截器（方便跟踪）</li><li>支持监听者排序、附件传递（多监听时，可相互合作）</li><li>支持 Bus 和 Api 两种体验风格</li></ul><h3>与常见的 EventBus、ApiBean 的区别</h3><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,"><tbody><tr><th>&nbsp;</th><th>Dami</th><th>EventBus</th><th>Api</th><th>Dami 的情况说明</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">广播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送 (send) + 监听 (listen) 以及 Api 模式</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">应答</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送并等响应 (sendAndResponse) + 监听 (listen) + 答复 (reply) 以及 Api 模式</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">回调</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有+</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有-</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送并等回调 (sendAndCallback) + 监听 (listen) + 答复 (reply)</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">耦合</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">弱-</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">弱+</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">强++</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr></tbody></table><p style="color:#24292e; text-align:start">如果涉及类加载器隔离：请在主程序标为编译，在其它模块标为可选。</p><h3>本次更新了什么？</h3><ul><li>增加模式匹配路由器</li><li>提供可切换实现的机制（方便用户定制）</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">Demo15_custom</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>()</span>{
+        <em>//切换为模式匹配路由器（支持 * 和 ** 占位符；支持 / 或 . 做为间隔）</em>
+        DamiConfig.configure(<span style="color:#a626a4">new</span><span style="color:#c18401">DamiBusImpl</span>(<span style="color:#a626a4">new</span><span style="color:#c18401">TopicRouterPatterned</span>()));
+
+        <em>//拦截</em>
+        Dami.bus().listen(<span style="color:#50a14f">"demo/*/**"</span>, (payload) -&gt; {
+            System.err.println(payload);
+        });
+
+        <em>//发送事件</em>
+        Dami.bus().send(<span style="color:#50a14f">"demo/a/1"</span>, <span style="color:#50a14f">"world1"</span>);
+        Dami.bus().send(<span style="color:#50a14f">"demo/a/2"</span>, <span style="color:#50a14f">"world2"</span>);
+        Dami.bus().send(<span style="color:#50a14f">"Demo/b/1/2"</span>, <span style="color:#50a14f">"world3"</span>); <em>//大小写敏感</em>
+    }
+}
+</code></pre><h3>项目地址</h3><ul><li><a href="https://gitee.com/noear/dami">https://gitee.com/noear/dami</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fdami" target="_blank">https://github.com/noear/dami</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 08:20:25 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259103/damibus-0-27-released</guid>
+            <link>https://www.oschina.net/news/259103/damibus-0-27-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ProxyPin 1.0.3 已经发布，全平台 HTTP 抓包工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>ProxyPin 1.0.3 已经发布，全平台 HTTP 抓包工具</p><p>此版本更新内容包括：</p><p>iOS 国内 TF 下载地址 (有 1 万名额限制，满了会清理不使用的用户)： <a href="https://gitee.com/link?target=https%3A%2F%2Ftestflight.apple.com%2Fjoin%2FgURGH6B4" target="_blank" rel="nofollow">https://testflight.apple.com/join/gURGH6B4</a></p><p>安卓 10 以下的版本不支持，问题反馈交流 TG: <a href="https://gitee.com/link?target=https%3A%2F%2Ft.me%2Fproxypin_tg" target="_blank" rel="nofollow">https://t.me/proxypin_tg</a></p><p>新增更新:</p><ol><li>增加历史记录功能</li><li>历史记录导入，导出 Har 格式，可与 Chrome Postman 互相导入导出</li><li>请求重写增加名称&amp;URL 参数重写;</li><li>请求重写增加重定向</li><li>建立连接异常显示请求体</li><li>请求编辑重发响应体查看增加多种格式，详情 Body 体增加快速解码入口</li></ol><p>详情查看：<a href="https://gitee.com/wanghongenpin/network-proxy-flutter/releases/1.0.3" rel="nofollow">https://gitee.com/wanghongenpin/network-proxy-flutter/releases/1.0.3</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 07:23:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259092/proxypin-1-0-3-released</guid>
+            <link>https://www.oschina.net/news/259092/proxypin-1-0-3-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[GNOME 45]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>GNOME 45 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdiscourse.gnome.org%2Ft%2Fgnome-45-released%2F17296" target="_blank">发布</a>，代号 <strong>"Rīga"</strong>。此版本带来了新的活动指示器、摄像头使用指示器、新的快速设置、浅色模式、新的图像查看器和新的相机应用程序、众多应用程序更新和增强功能等等。</p><p>公告写道，新版本专注于改进日常交互、增强性能，并使整体体验更流畅、更高效。从微妙的设计调整到功能升级，GNOME 45 致力于优化用户依赖的核心桌面环境。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ac730b329de5b464942ca32cf88e241d49b.png" referrerpolicy="no-referrer"></p><p>下面介绍值得关注的新特性。</p><ul><li><strong>活动指示器 (Activities Indicator)</strong></li></ul><p>「活动指示器」是位于顶部导航栏的动态工作空间。用户通过点击和滑动即可切换不同的工作区，当前选中的工作区以药丸形状进行指示，为工作区切换提供了更加直观的方式。</p><p><img src="https://static.oschina.net/uploads/space/2023/0922/144408_9OLi_2720166.gif" referrerpolicy="no-referrer"></p><ul><li><strong>提升搜索性能</strong></li></ul><p>此版本针对「搜索」的性能改进是系统级特性，适用于一系列应用程序，包括 GNOME Software、GNOME Characters、时钟、文件和计算器。</p><p>这些优化带来了更快的搜索速度和更少的资源使用。</p><ul><li><strong>改进「文件」应用</strong></li></ul><p>GNOME 45 的「文件」应用显著提升了速度，即使在搜索数百万个文件时，现在也可以在几毫秒内返回结果。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-485699d023cdae2911578b42e1a3367f9ad.png" referrerpolicy="no-referrer"></p><ul><li><strong>键盘背光快速设置 &amp;&nbsp;</strong><strong style="color:#000000">新的快速设置键盘快捷键</strong></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-17e902fdd1d15406071ecea1f77340ade3e.png" referrerpolicy="no-referrer"></p><ul><li><strong>浅色模式</strong></li></ul><p>GNOME 45 提供新选项为系统提供浅色界面风格，而不是默认的深色外观。</p><p>通过<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fextensions.gnome.org%2Fextension%2F6198%2Flight-style%2F" target="_blank">扩展程序</a>或从命令行使用<code>gsettings set org.gnome.desktop.interface color-scheme prefer-light</code>启用此功能。</p><ul><li><strong>新的图像查看器</strong></li></ul><p>GNOME 45 使用了新的默认图像查看器，亮点是快速、简洁。</p><p><img height="422" src="https://static.oschina.net/uploads/space/2023/0922/150907_wL3z_2720166.gif" width="600" referrerpolicy="no-referrer"></p><ul><li><strong>新的相机应用</strong></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2d1e97e49d998130d17332e2c68f3721c34.png" referrerpolicy="no-referrer"></p><p>详情查看&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.gnome.org%2F45%2F" target="_blank">Release Notes</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 07:10:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259088/gnome-45-r%C4%ABga-released</guid>
+            <link>https://www.oschina.net/news/259088/gnome-45-r%C4%ABga-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Calibre 6.27 发布，功能强大的开源电子书工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Calibre 开源项目是 Calibre 官方出的电子书管理工具。它可以查看，转换，编辑和分类所有主流格式的电子书。Calibre 是个跨平台软件，可以在 Linux、Windows 和 macOS 上运行。</p><p>Calibre 6.27 现已正式发布，此次更新内容如下：</p><p><strong>New features</strong></p><ul><li>Kobo driver：支持更新固件</li><li>Nook driver：添加对 Nook Glowlight Plus 2023 的支持</li><li>Data files manager：允许将文件拖放到文件列表中以添加新文件</li><li>除了 ZIP 和 RAR 之外，还支持 7z 存档，以便在添加到 calibre 时自动提取电子书</li><li>Linux/macOS：修复带有 MTP 固件的 Kindle Scribe 的检测</li><li>E-book viewer：允许从打开按钮的弹出菜单本身清除最近打开的书籍列表</li><li>E-book viewer：添加一个链接以显示当前在 calibre 库中查看的书籍</li></ul><p><strong>Bug 修复</strong></p><ul><li>Book information dialog：修复导致深色模式下标题颜色不正确的回归</li><li>E-book viewer：修复如果所有匹配项都在书中当前位置之前，搜索不会跳转到第一个匹配项的问题</li><li>EPUB Output：修复书脊中重复的扉页条目，这些条目定义的扉页最终会被拆分</li><li>允许浅色/深色主题图标覆盖适用于用户放置在覆盖文件夹中的插件图标</li><li>PDF Outpu：修复多次使用相同背景图片和不同文本时背景图片和文本无法正确呈现的问题</li><li>E-book viewer：修复当该部分有多个 highlights 时，highlights 面板中的 section titles 被错误地扩展为 full titles 的问题</li><li>防止在后台打开快速查看窗口</li><li>Edit book：修复了先前版本中在进行基于文本的搜索时导致错误的回归</li></ul><p><span style="background-color:#ffffff; color:#333333">更多详情可查看：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcalibre-ebook.com%2Fwhats-new" target="_blank">https://calibre-ebook.com/whats-new</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 06:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259080/calibre-6-27-released</guid>
+            <link>https://www.oschina.net/news/259080/calibre-6-27-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Svelte 造了个「新轮子」—— runes]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>前端 UI 框架 Svelte<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fsveltejs%2Fstatus%2F1704496039468605842" target="_blank"> 宣布</a>下一个大版本 Svelte 5 将引入名为<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsvelte.dev%2Fblog%2Frunes" target="_blank"><strong>「runes」</strong></a>的新 API。</p><p><img src="https://static.oschina.net/uploads/space/2023/0922/114521_CYvH_2720166.png" referrerpolicy="no-referrer"></p><p>从公告来看，runes 是 Svelte 开发团队对<strong>「响应式」 (reactivity) </strong>进行反思的一次探索。</p><blockquote><p>Svelte 5 changes all that with runes, which <strong>unlock universal, fine-grained reactivity</strong>.</p></blockquote><p>他们表示 runes 提供了<strong>更通用、以及更细粒度的响应性</strong>。</p><p>由于 Svelte 的 runes 和 Vue Reactive Transform 的设计思想比较相似，有开发者进行了如下总结：</p><blockquote><p>runes(Svelte) = ref(Vue) = signal(Solid/Angular) = observable(Mobx) ...</p></blockquote><p>更是有人做了一张 Svelte 和 Vue 的代码对比图，表示 Svelte 5 将会和 Vue 变得<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Ficarusgkx%2Fstatus%2F1704512491865207205" target="_blank">非常相似</a>：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5ae8c25a6c6dfd9bb24eda8e2f619c5026e.png" referrerpolicy="no-referrer"></p><p>目前 Svelte 5&nbsp;尚未准备好用于正式环境，不过其开发团队提供了可以体验新特性的 Playground：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsvelte-5-preview.vercel.app%2F" target="_blank">svelte-5-preview</a></strong>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 04:05:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259069/svelte-5-api-runes</guid>
+            <link>https://www.oschina.net/news/259069/svelte-5-api-runes</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Netty 4.1.98.Final 发布，Java 网络应用框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Netty 4.1.98 稳定版已发布。Netty 是一个异步事件驱动的网络应用框架，主要用于可维护的高性能协议服务器和客户端的快速开发。</p><p style="text-align:justify"><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>此版本还原了上一版本中所做的更改，这些更改导致 HTTP header 验证比所需的更严格 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13615" target="_blank">#13615</a>)。除此之外，当使用&nbsp;native SSL 实现时，该版本最终还默认启用了 SSL 客户端会话缓存（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13562" target="_blank">#13562</a>）。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:justify"><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>主要变化包括：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>Revert 「HttpHeaderValidationUtil should reject chars past the 1 byte range」(&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13615" target="_blank">#13615</a>&nbsp;)</li><li>解析 resolv.conf 时过滤掉未解析的地址 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13614" target="_blank">#13614</a>&nbsp;)</li><li>通过 JNI 防止类加载器泄漏 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13584" target="_blank">#13584</a>&nbsp;)</li><li>如果 javax.security.cert.X509Certificate 无法创建，则 SSLSession.getPeerCertificateChain() 应抛出 UnsupportedOperationException (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13564" target="_blank">#13564</a>&nbsp;)</li><li>默认情况下使用&nbsp;native&nbsp;SSL 时启用客户端会话缓存 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetty%2Fnetty%2Fpull%2F13562" target="_blank">#13562</a>&nbsp;)</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnetty.io%2Fdownloads.html" target="_blank">下载地址</a><span style="background-color:#ffffff; color:#333333">&nbsp;|&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnetty.io%2Fnews%2F2023%2F09%2F21%2F4-1-98-Final.html" target="_blank">发布公告</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 02:36:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259050/netty-4-1-98-released</guid>
+            <link>https://www.oschina.net/news/259050/netty-4-1-98-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[MyBatis-Flex v1.6.6 发布，已支持 JDK 21]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p style="color:#333333; margin-left:0; margin-right:0; text-align:center"><img alt="" height="265" src="https://oscimg.oschina.net/oscnet/up-0d6ec96d8070deb116566704fcc7bfd1291.png" width="500" referrerpolicy="no-referrer"></p><h1>MyBatis-Flex： 一个优雅的 MyBatis 增强框架</h1><h1>特征</h1><h4>1、很轻量</h4><blockquote><p style="margin-left:0; margin-right:0">MyBatis-Flex 整个框架只依赖 MyBatis，再无其他任何第三方依赖。</p></blockquote><h4>2、只增强</h4><blockquote><p style="margin-left:0; margin-right:0">MyBatis-Flex 支持 CRUD、分页查询、多表查询、批量操作，但不丢失 MyBatis 原有的任何功能。</p></blockquote><h4>3、高性能</h4><blockquote><p style="margin-left:0; margin-right:0">MyBatis-Flex 采用独特的技术架构、相比许多同类框架，MyBatis-Flex 的在增删改查等方面的性能均超越其 5~10 倍或以上。</p></blockquote><h4>4、更灵动</h4><blockquote><p style="margin-left:0; margin-right:0">MyBatis-Flex 支持多主键、多表查询、逻辑删除、乐观锁、数据脱敏、数据加密、多数据源、分库分表、字段权限、 字段加密、多租户、事务管理、SQL 审计... 等等等等。 这一切，免费且灵动。</p></blockquote><p style="margin-left:0px; margin-right:0px; text-align:left">&nbsp;</p><p style="margin-left:0px; margin-right:0px; text-align:left">MyBatis-Flex v1.6.6 发布，已添加对 jdk21 的支持，到目前为止， MyBatis-Flex 已支持 jdk8 ~ jdk21 所有版本。</p><p>&nbsp;</p><h4><strong>MyBatis-Flex v1.6.6 更新细节如下：</strong></h4><div><ul><li>新增：UpdateChain.of 使用 Mapper 进行构造方便在批量操作使用的功能</li><li>新增：QueryWrapper.select(Iterable) 方法，方便 Kotlin 扩展</li><li>新增：Relation 注解新增 valueField 配置，当不为空串时值进行某个字段赋值，感谢<span>&nbsp;</span><a href="https://gitee.com/ice-samll" target="_blank">@Ice-samll</a></li><li>优化：转驼峰方法多次转换保持结果一致，感谢<span>&nbsp;</span><a href="https://gitee.com/617054137" target="_blank">@tangxin</a></li><li>优化：生成列别名规范，保持用户原始的列别名命名，感谢<span>&nbsp;</span><a href="https://gitee.com/font-c" target="_blank">@Font_C</a></li><li>修复：Db 或 MyBatis 原生查询驼峰转换需处理不包含下划线的字段，感谢<span>&nbsp;</span><a href="https://gitee.com/617054137" target="_blank">@tangxin</a></li><li>测试：增加 Relation 注解单字段赋值 Springboot 测试，感谢<span>&nbsp;</span><a href="https://gitee.com/ice-samll" target="_blank">@Ice-samll</a></li><li>文档：添加 Relation 注解单字段赋值的相关文档，感谢<span>&nbsp;</span><a href="https://gitee.com/ice-samll" target="_blank">@Ice-samll</a></li><li>文档：添加关于批量操作使用 UpdateChain 的相关示例</li></ul><p style="margin-left:0; margin-right:0">&nbsp;</p><p>&nbsp;</p><p style="margin-left:0; margin-right:0">更多的代码贡献者，请参考：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fintro%2Fwhat-is-mybatisflex.html%23%25E8%25B4%25A1%25E7%258C%25AE%25E8%2580%2585" target="_blank">https://mybatis-flex.com/zh/intro/what-is-mybatisflex.html#%E8%B4%A1%E7%8C%AE%E8%80%85</a></p><p style="margin-left:0; margin-right:0">&nbsp;</p></div><h4><strong>进一步了解 MyBatis-Flex 框架，请参考一下链接：</strong></h4><ul><li>1、快速开始：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fintro%2Fgetting-started.html" target="_blank">https://mybatis-flex.com/zh/intro/getting-started.html</a></li><li>2、多表关联查询：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fbase%2Fquery.html%23%25E5%2585%25B3%25E8%2581%2594%25E6%259F%25A5%25E8%25AF%25A2-%25E6%2588%2596%25E5%25A4%259A%25E8%25A1%25A8%25E6%259F%25A5%25E8%25AF%25A2" target="_blank">https://mybatis-flex.com/zh/base/query.html</a></li><li>3、一对多、多对一：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fbase%2Frelations-query.html" target="_blank">https://mybatis-flex.com/zh/base/relations-query.html</a></li><li>4、灵活的 QueryWrapper：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fbase%2Fquerywrapper.html" target="_blank">https://mybatis-flex.com/zh/base/querywrapper.html</a></li><li>5、逻辑删除：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Flogic-delete.html" target="_blank">https://mybatis-flex.com/zh/core/logic-delete.html</a></li><li>6、乐观锁：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fversion.html" target="_blank">https://mybatis-flex.com/zh/core/version.html</a></li><li>7、数据填充：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Ffill.html" target="_blank">https://mybatis-flex.com/zh/core/fill.html</a></li><li>6、数据脱敏：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fmask.html" target="_blank">https://mybatis-flex.com/zh/core/mask.html</a></li><li>7、SQL 审计：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Faudit.html" target="_blank">https://mybatis-flex.com/zh/core/audit.html</a></li><li>8、多数据源：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fmulti-datasource.html" target="_blank">https://mybatis-flex.com/zh/core/multi-datasource.htm</a></li><li>9、数据源加密：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fdatasource-encryption.html" target="_blank">https://mybatis-flex.com/zh/core/datasource-encryption.html</a></li><li>10、动态表名：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fdynamic-table.html" target="_blank">https://mybatis-flex.com/zh/core/dynamic-table.html</a></li><li>11、事务管理：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Ftx.html" target="_blank">https://mybatis-flex.com/zh/core/tx.html</a></li><li>12、数据权限：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fdata-permission.html" target="_blank">https://mybatis-flex.com/zh/core/data-permission.html</a></li><li>13、字段权限：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fcolumns-permission.html" target="_blank">https://mybatis-flex.com/zh/core/columns-permission.html</a></li><li>14、字段加密：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fcolumns-encrypt.html" target="_blank">https://mybatis-flex.com/zh/core/columns-encrypt.html</a></li><li>15、字典回写：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fcolumns-dict.html" target="_blank">https://mybatis-flex.com/zh/core/columns-dict.html</a></li><li>16、枚举属性：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fenum-property.html" target="_blank">https://mybatis-flex.com/zh/core/enum-property.html</a></li><li>17、多租户：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fcore%2Fmulti-tenancy.html" target="_blank">https://mybatis-flex.com/zh/core/multi-tenancy.html</a></li><li>18、代码生成器：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fothers%2Fcodegen.html" target="_blank">https://mybatis-flex.com/zh/others/codegen.html</a></li><li>19、QQ 交流群：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com%2Fzh%2Fintro%2Fqq-group.html" target="_blank">https://mybatis-flex.com/zh/intro/qq-group.html</a></li><li>20、更好用的功能正在路上：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmybatis-flex.com" target="_blank">https://mybatis-flex.com</a></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">&nbsp;</p><h4><strong>bilibili 视频教程（免费）：</strong></h4><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start"><strong>课程 1：《MyBatis-Flex 视频教程》</strong></p><blockquote><p style="color:var(--vp-c-text-2); margin-left:0; margin-right:0">课程简介：该课程由<span>&nbsp;</span><a href="https://gitee.com/Suomm" target="_blank">王帅</a><span>&nbsp;</span>老师录制主讲，<span>&nbsp;</span><a href="https://gitee.com/Suomm" target="_blank">王帅</a><span>&nbsp;</span>老师也是除了作者以外，对 MyBatis-Flex 代码贡献最大的 committer。 其无论对 MyBatis 还是 MyBatis-Flex，都有非常深入的理解。</p></blockquote><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start">课程地址：</p><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV11h411A7cU" target="_blank">https://www.bilibili.com/video/BV11h411A7cU</a></p><hr><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start"><strong>课程 2：《MyBatis-Flex 轻松掌握，从零基础到高级应用的完整教程！持续更新中～》</strong></p><blockquote><p style="color:var(--vp-c-text-2); margin-left:0; margin-right:0">课程简介：该课程由周游老师录制，周游老师有多年的开发经验以及丰富的教学经验，能够把 MyBatis-Flex 的许多原理知识讲解的通俗易懂、深入浅出。</p></blockquote><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start">课程地址：</p><p style="color:#3c3c43; margin-left:0; margin-right:0; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1kF411r7ky" target="_blank">https://www.bilibili.com/video/BV1kF411r7ky</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 01:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259041/mybatis-flex-1-6-6-released</guid>
+            <link>https://www.oschina.net/news/259041/mybatis-flex-1-6-6-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[开源免费的低代码平台 — JeecgBoot v3.5.5 版本发布，性能大升级版本]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><h3>项目介绍</h3><blockquote><p style="margin-left:0; margin-right:0">JeecgBoot 是一款企业级的低代码平台！前后端分离架构 SpringBoot2.x，SpringCloud，Ant Design&amp;Vue3，Mybatis-plus，Shiro，JWT 支持微服务。强大的代码生成器让前后端代码一键生成！JeecgBoot 引领低代码开发模式 (OnlineCoding-&gt; 代码生成 -&gt; 手工 MERGE)， 帮助解决 Java 项目 70% 的重复工作，让开发更多关注业务。既能快速提高效率，节省成本，同时又不失灵活性！</p></blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>当前版本</strong>：v3.5.5 | 2023-09-22</p><h3>源码下载</h3><p>github 地址</p><ul><li>后端：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot" target="_blank">https://github.com/jeecgboot/jeecg-boot</a></li><li>前端：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3" target="_blank">https://github.com/jeecgboot/jeecgboot-vue3</a></li></ul><p>gitee 地址</p><ul><li>后端：<a href="https://gitee.com/jeecg/jeecg-boot">https://gitee.com/jeecg/jeecg-boot</a></li><li>前端：<a href="https://gitee.com/jeecg/jeecgboot-vue3">https://gitee.com/jeecg/jeecgboot-vue3</a></li></ul><h3>升级日志</h3><blockquote><p style="margin-left:0; margin-right:0">本次升级重点做了性能优化，针对首屏和打包性能差了的问题做了革命性的优化，经过优化首屏缩短至 10 秒多 &amp; 打包时间缩短至一半！主要重点升级了 vite4 和 vue3.3、采用 UnoCSS 替代 windicss。</p></blockquote><h4>ISSUE 处理</h4><ul><li>【性能优化】首屏缩短至 10 秒多 &amp; 打包时间缩短至一半，升级 vite4 和 vue3.3</li><li>【性能优化】UnoCSS 替代 windicss,Windi CSS 导致 vite 变慢</li><li>【性能优化】按需加载代码部分修改，聊天头像太大改成按需加载、行编辑的组件引入导致全局注册整个 form</li><li>【性能优化】打包优化默认 index 太大，自定义拆包策略</li><li>【性能优化】升级 @jeecg/online 模块，支持 erp 风格 &amp; 体积更小、聊天头像集成有问题修复</li><li>【性能优化】升级仪表盘，解决仪表盘依赖过大的问题</li><li>【新功能】Online 表单一对多，新增 ERP 风格、内嵌风格、TAB 风格</li><li>【漏洞修复】升级积木报表 1.6.2，解决严重 SQL 漏洞问题</li><li>【漏洞修复】重构表字典逻辑，深度解决 SQL 注入漏洞问题 (修复导致的 bug 修复)</li><li>【漏洞修复】打开权限注解，解决 jeecg 存在权限提升漏洞，可直接获得管理员权限 #5270</li><li>【漏洞修复】时间盲注 SQL 注入绕过 #5269</li><li>【漏洞修复】freemarker 模板注入漏洞 —— 升级仪表盘</li><li>【漏洞修复】解决 Apache Shiro 高危漏洞编号：CVE-2023-34478</li><li>删除 vite-plugin-pwa</li><li>修复 UnoCSS 替代 windicss 样式兼容问题</li><li>生产环境字典慢的问题</li><li>JVxeTable 出现循环依赖问题</li><li>安装命令出现死循环</li><li>升级 mybatis-plus、dynamic-datasource-spring-boot-starter、commons-fileupload 依赖版本号</li><li>【issues/5368】缺少租户选择套餐权限升级 sql -【issues/638】表格合计，列表 table 和合计 table 滚动联动 -【issues/674】vue3 在线表单配置验证规则时无法自定义正则表达式</li><li>【误删接口恢复】用户配置多租户后，登录后点击切换部门按钮，报错 #5298</li><li>仪表盘分享链接 404<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5046" target="_blank">#5046</a></li><li>仪表盘编辑页面显示 404 错误信息<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5075" target="_blank">#5075</a></li><li>批量删除部门时未正确置为叶子节点<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5132" target="_blank"><span>&nbsp;</span>#5132</a></li><li>仪表盘设计功能中的 「数据源」 配置页面显示异常<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F595" target="_blank">#595</a></li><li>登陆后无法返回原页面<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F669" target="_blank">#669</a></li><li>下拉组件重置问题<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F651" target="_blank"><span>&nbsp;</span>#651</a></li><li>仪表盘 API 数据源开发问题<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F642" target="_blank"><span>&nbsp;</span>#642</a></li><li>示例代码错误，需要修改<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F665" target="_blank"><span>&nbsp;</span>#665</a></li><li>vue3 在线表单配置验证规则时无法自定义正则表达式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F674" target="_blank"><span>&nbsp;</span>#674</a></li><li>调整表格搜索表单的 span 配置无效<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F641" target="_blank"><span>&nbsp;</span>#641</a></li><li>useSelectBiz 右侧选中列表删除无效，第二页选中数据，会导致系统崩溃<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F657" target="_blank">#657</a></li><li>Form 中的 JPopup 组件为何不能触发 onChange<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5213" target="_blank"><span>&nbsp;</span>#5213</a></li><li>子表字段 Popup 弹框数据更新问题<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F675" target="_blank"><span>&nbsp;</span>#675</a></li><li>第二次点击消息，时 ，消息详情在消息列表下面去了<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F656" target="_blank"><span>&nbsp;</span>#656</a></li><li>JDictSelectUtil 数据字典工具类中的 getDictItems 方法出错<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F668" target="_blank">#668</a></li><li>vue3 项目中在 main.js 内引入的 windi 会影响到 html2canvas 绘制的图片样式<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F640" target="_blank">#640</a></li><li>Online 表单开发，代码生成后下载本地报错<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5237" target="_blank"><span>&nbsp;</span>#5237</a></li><li>打印预览图片加载不全<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1863" target="_blank">#1863</a></li><li>数据库字段备注错误，部门表<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5242" target="_blank">#5242</a></li><li>参数的宽度怎么调整<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1631" target="_blank"><span>&nbsp;</span>#1631</a></li><li>自带的分页查询接口返回 pageNo 不对<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1578" target="_blank"><span>&nbsp;</span>#1578</a></li><li>建议完善 JVxeTable 的 JVxeInputCellblur 事件<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F636" target="_blank"><span>&nbsp;</span>#636</a></li><li>JSelectUser 组件内如果有值，编辑时浏览器卡死<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F687" target="_blank">#687</a></li><li>主表的 popup 弹窗修改后增强 js 无法获取弹窗的值完成填值规则赋值<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5010" target="_blank">#5010</a></li><li>时间盲注 SQL 注入绕过<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5269" target="_blank">#5269</a></li><li>setSelectedRowKeys 碰到勾选项不在当前页时标签页卡死现象<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5263" target="_blank"><span>&nbsp;</span>#5263</a></li><li>仪表盘配置进菜单后，显示的 bug<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5159" target="_blank">#5159</a></li><li>仪表盘设计器，添加到菜单栏时样式错位，预览没问题<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F654" target="_blank"><span>&nbsp;</span>#654</a></li><li>JVxeTypes.userSelect 选择用户界面卡死<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5307" target="_blank">#5307</a></li><li>在线表单 popup 弹框，无法将选择的数据填充到自身<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5288" target="_blank"><span>&nbsp;</span>#5288</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=mailto%3Ajeecgboot-vue3%403.5.3" target="_blank">jeecgboot-vue3@3.5.3</a><span>&nbsp;</span>build 出错<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F728" target="_blank"><span>&nbsp;</span>#728</a></li><li>sql 注入盲注绕过<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5296" target="_blank">#5296</a></li><li>org.jeecg.modules.system.util.RandImageUtil 109 行存在弱随机性问题（CWE-338）<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5295" target="_blank">#5295</a></li><li>记录登录失败次数逻辑有漏洞并且错误提示和设置时间不一致<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5255" target="_blank"><span>&nbsp;</span>#5255</a></li><li>windi 会影响到 html2canvas 绘制的图片样式</li><li>菜单样式调整上下滚动条</li><li>[issues/5327] Upload 组件 returnUrl 为 false 时上传的字段值返回了一个 '[object Object] -【issues/5357】点击行选中</li><li>下拉搜索报错处理</li><li>JVxeTable 新增行时无法设置 Column_type=JVxeTypes.hidden 的值</li><li>【issues/694】404 返回首页问题</li><li>【QQYUN-6424】table 字段列表设置不显示后，再拖拽字段顺序，原本不显示的，又显示了</li><li>【issues/5305】JVxeTypes.select 无法按照预期进行搜索</li><li>typescript 从 5 降到 4 解决，升级后报红，并且代码提示没有了 (Issue #738)</li><li>【issues/5288】popup 弹框，无法将选择的数据填充到自身</li><li>【issues/726】JPopup 组件里的表格全选没有选中数据</li><li>解决仪表盘导致 docker 镜像问题，打包部署之后无法访问 #731</li><li>路径大小写不一致导致 linux 下 build 出错 #728</li><li>【QQYUN-6283】点击表格清空，rowSelect 里面的 selectedRowKeys 没置空</li><li>【issues-641】调整表格搜索表单的 span 配置无效</li><li>【issues/668】JDictSelectUtil 数据字典工具类中的 getDictItems 方法出错</li><li>jeecg-cloud-nacos 打包镜像运行问题<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5379" target="_blank">#5379</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F731" target="_blank">docker 镜像问题，打包部署之后无法访问・Issue #731</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F726" target="_blank">JPopup 组件里的表格全选没有选中数据・Issue #726</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F627" target="_blank">component 模式的 JPopup 组件选中数据后进行其他操作・Issue #627</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F738" target="_blank">升级后报红，并且代码提示没有了・Issue #738</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5305" target="_blank">JVxeColumn ，type: JVxeTypes.select 无法按照预期进行搜索・Issue #5305</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F740" target="_blank">列设置隐藏列，拖动排序隐藏列自动显示的问题・Issue #740</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F744" target="_blank">表单组件 label 的 helpMessage 图标显示错位・Issue #744</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5357" target="_blank">JPopup 的 bug・Issue #5357</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F732" target="_blank">生产环境中调用 Persistent.getLocal 过慢・Issue #732</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5327" target="_blank">JUpload 组件 returnUrl 为 false 时上传的字段值返回了一个 '[object Object]'・Issue #5327</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5368" target="_blank">租户选择套餐没有权限・Issue #5368</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5357" target="_blank">JPopup 的 bug・Issue #5357</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F729" target="_blank">MarkDown 组件的结果显示问题・Issue #729</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecg-boot%2Fissues%2F5416" target="_blank">仪表盘设计中，数据集中获取分组报错 #5416</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F770" target="_blank">存在一个导致全部页面都异常报错的问题 #770</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F747" target="_blank">前端项目安装之后启动报错 #747</a></li></ul><h3>技术交流</h3><ul><li>开发文档：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com" target="_blank">https://help.jeecg.com</a></li><li>官方网站：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.jeecg.com" target="_blank">http://www.jeecg.com</a></li><li>在线演示：<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fboot3.jeecg.com" target="_blank">http://boot3.jeecg.com</a></li><li>快速入门：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1V34y187Y9" target="_blank">入门视频</a><span>&nbsp;</span>|<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fvue3%2Fcodegen%2Fonline.html" target="_blank">代码生成</a></li><li>QQ 交流群：791696430</li><li>仪表盘文档：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fchart%2Freadme.html" target="_blank">https://help.jeecg.com/chart</a></li></ul><h3>为什么选择 JeecgBoot?</h3><blockquote><p style="margin-left:0; margin-right:0">开源界 「小普元」 超越传统商业平台。引领低代码开发模式 (OnlineCoding-&gt; 代码生成器 -&gt; 手工 MERGE)，低代码开发同时又支持灵活编码， 可以帮助解决 Java 项目 70% 的重复工作，让开发更多关注业务。既能快速提高开发效率，节省成本，同时又不失灵活性。</p></blockquote><ul><li>采用最新主流前后分离框架（SpringBoot+Mybatis-plus+Ant-Design+Vue），容易上手；代码生成器依赖性低，灵活的扩展能力，可灵活实现二次开发；</li><li>开发效率很高，采用代码生成器，单表数据模型和一对多 (父子表)、树列表等数据模型，增删改查功能自动生成，菜单配置直接使用（前端代码和后端代码都一键生成）；</li><li>代码生成器提供强大模板机制，支持自定义模板风格。目前提供四套风格模板（单表两套、一对多两套）</li><li>封装完善的用户、角色、菜单、组织机构、数据字典、在线定时任务等基础功能。强大的权限机制，支持访问授权、按钮权限、数据权限、表单权限等</li><li>零代码在线开发能力，在线配置表单、在线配置报表、在线配置图表、在线设计表单</li><li>常用共通封装，各种工具类 (定时任务，短信接口，邮件发送，Excel 导入导出等), 基本满足 80% 项目需求</li><li>简易 Excel 导入导出，支持单表导出和一对多表模式导出，生成的代码自带导入导出功能</li><li>集成简易报表工具，图像报表和数据导出非常方便，可极其方便的生成图形报表、pdf、excel、word 等报表；</li><li>采用前后分离技术，页面 UI 精美，针对常用组件做了封装：时间、行表格控件、截取显示控件、报表组件，编辑器等等</li><li>查询过滤器：查询功能自动生成，后台动态拼 SQL 追加查询条件；支持多种匹配方式（全匹配 / 模糊查询 / 包含查询 / 不匹配查询）；</li><li>数据权限（精细化数据权限控制，控制到行级，列表级，表单字段级，实现不同人看不同数据，不同人对同一个页面操作不同字段</li><li>在线配置报表（无需编码，通过在线配置方式，实现曲线图，柱状图，数据等报表）</li><li>页面校验自动生成 (必须输入、数字校验、金额校验、时间空间等);</li><li>提供单点登录 CAS 集成方案，项目中已经提供完善的对接代码</li><li>表单设计器，支持用户自定义表单布局，支持单表，一对多表单、支持 select、radio、checkbox、textarea、date、popup、列表、宏等控件</li><li>专业接口对接机制，统一采用 restful 接口方式，集成 swagger-ui 在线接口文档，Jwt token 安全验证，方便客户端对接</li><li>接口安全机制，可细化控制接口授权，非常简便实现不同客户端只看自己数据等控制</li><li>高级组合查询功能，在线配置支持主子表关联查询，可保存查询历史</li><li>提供各种系统监控，实时跟踪系统运行情况（监控 Redis、Tomcat、jvm、服务器信息、请求追踪、SQL 监控）</li><li>消息中心（支持短信、邮件、微信推送等等）</li><li>集成 Websocket 消息通知机制</li><li>提供 APP 发布方案：</li><li>支持多语言，提供国际化方案；</li><li>数据变更记录日志，可记录数据每次变更内容，通过版本对比功能查看历史变化</li><li>平台 UI 强大，实现了移动自适应</li><li>平台首页风格，提供多种组合模式，支持自定义风格</li><li>提供简单易用的打印插件，支持谷歌、IE 浏览器等各种浏览器</li><li>示例代码丰富，提供很多案例参考</li><li>采用 maven 分模块开发方式</li><li>支持菜单动态路由</li><li>权限控制采用 RBAC（Role-Based Access Control，基于角色的访问控制）</li></ul><h3>系统效果</h3><h4>开源版功能</h4><p>PC 端</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-000530d95df337b43089ac77e562494f454.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-9d6f36f251e71a0b515a01323474b03004c.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-03d9a6bfaabeed60f49fdfa3f7a8c7265cb.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-c53ac5709705d30ba33f65ec67e2453571f.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-a3bb3a938a4a359ed1a759ce72c150ef4a4.png" referrerpolicy="no-referrer"></p><p>系统交互</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-78b151fc888d4319377bf1cc311fe826871.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-16c07e000278329b69b228ae3189814b8e9.png" referrerpolicy="no-referrer"></p><p>仪表盘</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9c9d41288c31398d76b390bdd400f13a582.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fad98d42b2cf92f92a903c9cff7579f18ec.png" referrerpolicy="no-referrer"></p><p>图表示例</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-218bc6a1669496b241ebb23506440c0083e.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-7dfcefb866ba7699d886dae9b99dc9ada8e.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-25965d05fbab32a59754ab09f4cbb5a52f1.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-81135ff76c58e7942e0c6f81870aa82fa12.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-745c2a59ae54aa2f7c05a719678f98f1e48.png" referrerpolicy="no-referrer"></p><p>仪表盘设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9c9d41288c31398d76b390bdd400f13a582.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-fad98d42b2cf92f92a903c9cff7579f18ec.png" referrerpolicy="no-referrer"></p><p>报表设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-64648de000851f15f6c7b9573d107ebb5f8.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-fa52b44445db281c51d3f267dce7450d21b.gif" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-68a19149d640f1646c8ed89ed4375e3326c.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-f7e9cb2e3740f2d19ff63b40ec2dd554f96.png" referrerpolicy="no-referrer"></p><p>UNIAPP 效果</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-aac943fbd26561879c57a41f7a406edf274.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9a44ba2e82b09c750629d12fafd7f60f553.png" referrerpolicy="no-referrer"></p><p>手机端</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/da543c5d0d57baab0cecaa4670c8b68c521.jpg" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/fda4bd82cab9d682de1c1fbf2060bf14fa6.jpg" referrerpolicy="no-referrer"></p><p>PAD 端</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/e90fef970a8c33790ab03ffd6c4c7cec225.jpg" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/d78218803a9e856a0aa82b45efc49849a0c.jpg" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/59c23b230f52384e588ee16309b44fa20de.jpg" referrerpolicy="no-referrer"></p><p>在线接口文档</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-df062a4eae6c0ed33c361993ae876d61f5f.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-52ce1f744223d464e3d8ad9b234ab2e7622.png" referrerpolicy="no-referrer"></p><h4>更多高级功能</h4><p>流程设计</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-981ce174e4fbb48c8a2ce4ccfd7372e2994.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-c7661a8cb0dd4565a505be4404d589a9063.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-fda01ae3b4f6787ba5c6fb154ad2aea93a5.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-ab5cac1a64c662b22416a4c7c92c4aeba86.png" referrerpolicy="no-referrer"></p><p>简版流程设计</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-1dc0d052149ec675f3e4fad632b82b48add.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-de31bc2f9d9b8332c554b0954cc73d79593.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-7f83b25159663686d67ed080eb16068c3b4.png" referrerpolicy="no-referrer"></p><p>表单设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-5f8cb657615714b02190b355e59f60c5937.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d9659b2f324e33218476ec98c9b400e6508.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4868615395272d3206dbb960ade02dbc291.png" referrerpolicy="no-referrer"></p><p>大屏设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-402a6034124474bfef8dfc5b4b2bac1ce5c.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-6f7ba2e2ebbeea0d203db8d69fd87644c9f.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-ee8d34f318da466b8a6070a6e3111d12ce7.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-6b81781b43086819049c4421206810667c5.png" referrerpolicy="no-referrer"></p><p>零代码应用</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4be29ae761b2615c8c54b3f668cd8432d9b.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-787e76bc24b38ecc7ed19f338808d128255.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-99d24a236c483362868523ad0d90f611487.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-339a0f29d10449abc7724e3bcda802761c1.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b356670cdc14c609958c7619a537397c4b9.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">欢迎吐槽，欢迎 star~</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 01:31:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259039/jeecgboot-3-5-5-released</guid>
+            <link>https://www.oschina.net/news/259039/jeecgboot-3-5-5-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[开源免费的低代码报表 — JimuReport 积木报表 v1.6.2 版本正式发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>项目介绍</p><blockquote><p style="margin-left:0; margin-right:0">一款免费的数据可视化报表，含报表和大屏设计，像搭建积木一样在线设计报表！功能涵盖，数据报表、打印设计、图表报表、大屏设计等！</p><ul><li>Web 版报表设计器，类似于 excel 操作风格，通过拖拽完成报表设计。</li><li>秉承 「简单、易用、专业」 的产品理念，极大的降低报表开发难度、缩短开发周期、节省成本、解决各类报表难题。</li><li>领先的企业级 Web 报件，采用纯 Web 在线技术，专注于解决企业报表快速制作难题。</li></ul></blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>当前版本</strong>：v1.6.2 | 2023-09-22</p><p>#升级内容</p><blockquote><p style="margin-left:0; margin-right:0">稳固 1.6.2-GA 版本，修复 GA 版本发现的 bug，新增了几个新功能；</p></blockquote><p>集成依赖</p><pre><code><span style="color:#333333">&lt;<span style="color:#22863a">dependency</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">groupId</span>&gt;</span>org.jeecgframework.jimureport<span style="color:#333333">&lt;/<span style="color:#22863a">groupId</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">artifactId</span>&gt;</span>jimureport-spring-boot-starter<span style="color:#333333">&lt;/<span style="color:#22863a">artifactId</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">version</span>&gt;</span>1.6.2<span style="color:#333333">&lt;/<span style="color:#22863a">version</span>&gt;</span><span style="color:#333333">&lt;/<span style="color:#22863a">dependency</span>&gt;</span></code></pre><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">最新依赖还未上传 maven 官仓，下载失败请先配置<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fjava%2Fsetup%2Fmaven.html" target="_blank">JEECG 的 Maven 私服</a>。</p><p>#升级日志</p><p>#issues</p><ul><li>【新增功能】新增富文本、图片可设置、打印页码功能和修复导出图片背景色</li><li>【优化】sql 解析提示体验友好处理</li><li>【bug】升级 minidao 解决空指针问题</li><li>解决导出图片和 PDF，背景图是平铺的不平铺</li><li>解决主体非居中时，浮动图层加上了左边距.(导致打印跟设计页面展示的内容会少一部分)</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1984" target="_blank">字典 code sql 包含系统变量时，报表该列数据无法正常翻译为显示值・Issue #1984</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1976" target="_blank">报表打印时显示总页数及当前页・Issue #1976</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1579" target="_blank">表格里，图片变形・Issue #1579</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1490" target="_blank">图片大小跟随单元格大小，也可右侧设置图片大小・Issue #1490</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1971" target="_blank">保留数值格式导出的 execl 存在的问题。・Issue #1971</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1477" target="_blank">自定义横向分组数据超过 8 条时报错・Issue #1477</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2005" target="_blank">跨站点脚本编制漏洞・Issue #2005</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2009" target="_blank">报表导出普通 excel，单元格为数值，小数位数设为 2 的，值为 0 时，预览为 0，导出结果为 .00・Issue #2009</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2024" target="_blank">打印设置设置了页码，但打印预览不能显示・Issue #2024</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1997" target="_blank">导出带图形的报表配置 sql 再导入到另一个数据库，报表中的图形消失・Issue #1997</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F1624" target="_blank">刚好一页的时候， 多出一个表头，表尾 #1624</a></li></ul><p>#代码下载</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport" target="_blank">https://github.com/jeecgboot/JimuReport</a></li><li><a href="https://gitee.com/jeecg/JimuReport">https://gitee.com/jeecg/JimuReport</a></li></ul><p>#技术文档</p><ul><li>体验官网：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fjimureport.com%2F" target="_blank">http://jimureport.com</a></li><li>快速集成文档 ：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fjimureport%2Fquick.html" target="_blank">https://help.jeecg.com/jimureport/quick.html</a></li><li>技术文档：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fjimureport" target="_blank">https://help.jeecg.com/jimureport</a></li></ul><h3>为什么选择 JimuReport?</h3><blockquote><p style="margin-left:0; margin-right:0">永久免费，支持各种复杂报表，并且傻瓜式在线设计，非常的智能，低代码时代，这个是你的首选！</p></blockquote><ul><li>采用 SpringBoot 的脚手架项目，都可以快速集成</li><li>Web 版设计器，类似于 excel 操作风格，通过拖拽完成报表设计</li><li>通过 SQL、API 等方式，将数据源与模板绑定。同时支持表达式，自动计算合计等功能，使计算工作量降低</li><li>开发效率很高，傻瓜式在线报表设计，一分钟设计一个报表，又简单又强大</li><li>支持 ECharts，目前支持 28 种图表，在线拖拽设计，支持 SQL 和 API 两种数据源</li><li>支持分组、交叉，合计、表达式等复杂报表</li><li>支持打印设计（支持套打、背景打印等）可设置打印边距、方向、页眉页脚等参数，一键快速打印，同时可实现套打，不动产证等精准、无缝打印</li><li>大屏设计器支持几十种图表样式，可自由拼接、组合，设计炫酷大屏</li><li>可设计各种类型的单据、大屏，如出入库单、销售单、财务报表、合同、监控大屏、旅游数据大屏等</li></ul><p>报表设计效果</p><ul><li>报表设计器（专业一流，数据可视化，解决各类报表难题）<span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-a2a8557722593e6c5a5e8f015a0df2b70e9.png" referrerpolicy="no-referrer"></li><li>报表设计器（完全在线设计，简单易用）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-752b454f64ed87c798b3e8a083fbd6622d4.gif" referrerpolicy="no-referrer"></p><ul><li>打印设计（支持套打、背景打印）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9b6cd73719de68e0e45e1cf95cd6104a103.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-8863ea4e67c02dbd844bb8022652f1be651.png" referrerpolicy="no-referrer"></p><ul><li>数据报表（支持分组、交叉，合计等复杂报表）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fe2ac0dfc3933734961924de0538b3049d2.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-be956cbc19287e4df9cc46c9d15e96da99d.png" referrerpolicy="no-referrer"></p><ul><li>图形报表（目前支持 28 种图表）<span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-3eda428ef182cb64a1a8e132e4bfeb87718.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-22096123c5b6a10a801967c33cc33a7af11.png" referrerpolicy="no-referrer"></li><li>数据报表斑马线</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-e77ba28f6fb56d1147c13388e7e5d19d1bc.png" referrerpolicy="no-referrer"></p><p>大屏设计效果</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-402a6034124474bfef8dfc5b4b2bac1ce5c.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-6f7ba2e2ebbeea0d203db8d69fd87644c9f.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-ee8d34f318da466b8a6070a6e3111d12ce7.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-826f13c88f23c24ff218687f57f03d802a8.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-61dfc52c383f86a4055e20d030503bef93c.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-3aabd991c6c5af43f35b204d3ec94caf468.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b75fde569ab528d8607596e147b8bb7d5e.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b8d034341d0190156d63484ce09a863c9c.png" referrerpolicy="no-referrer"></p><p>仪表盘设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9c9d41288c31398d76b390bdd400f13a582.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ebff9357b6a22161f668586af28be31488.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fad98d42b2cf92f92a903c9cff7579f18ec.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4be5b44bf771d8c55aba2adf9ae074eac18.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-57676eb5dcf4726933e0f6e429a4b2e31a9.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-7938331a342ba363a9691d76a53f34298fc.png" referrerpolicy="no-referrer"></p><p>#功能清单</p><pre><code>├─报表设计器
+│  ├─数据源
+│  │  ├─支持多种数据源，如 Oracle,MySQL,SQLServer,PostgreSQL 等主流的数据库
+│  │  ├─支持 SQL 编写页面智能化，可以看到数据源下面的表清单和字段清单
+│  │  ├─支持参数
+│  │  ├─支持单数据源和多数数据源设置
+│  │  ├─支持 Nosql 数据源 Redis，MongoDB
+│  │  ├─支持存储过程
+│  ├─单元格格式
+│  │  ├─边框
+│  │  ├─字体大小
+│  │  ├─字体颜色
+│  │  ├─背景色
+│  │  ├─字体加粗
+│  │  ├─支持水平和垂直的分散对齐
+│  │  ├─支持文字自动换行设置
+│  │  ├─图片设置为图片背景
+│  │  ├─支持无线行和无限列
+│  │  ├─支持设计器内冻结窗口
+│  │  ├─支持对单元格内容或格式的复制、粘贴和删除等功能
+│  │  ├─等等
+│  ├─报表元素
+│  │  ├─文本类型：直接写文本；支持数值类型的文本设置小数位数
+│  │  ├─图片类型：支持上传一张图表；支持图片动态生成
+│  │  ├─图表类型
+│  │  ├─函数类型
+│  │  └─支持求和
+│  │  └─平均值
+│  │  └─最大值
+│  │  └─最小值
+│  ├─背景
+│  │  ├─背景颜色设置
+│  │  ├─背景图片设置
+│  │  ├─背景透明度设置
+│  │  ├─背景大小设置
+│  ├─数据字典
+│  ├─报表打印
+│  │  ├─自定义打印
+│  │  └─医药笺、逮捕令、介绍信等自定义样式设计打印
+│  │  ├─简单数据打印
+│  │  └─出入库单、销售表打印
+│  │  └─带参数打印
+│  │  └─分页打印
+│  │  ├─套打
+│  │  └─不动产证打印
+│  │  └─打印
+│  ├─数据报表
+│  │  ├─分组数据报表
+│  │  └─横向数据分组
+│  │  └─纵向数据分组
+│  │  └─多级循环表头分组
+│  │  └─横向分组小计
+│  │  └─纵向分组小计
+│  │  └─分版
+│  │  └─分栏
+│  │  └─动态合并格
+│  │  └─自定义分页条数
+│  │  └─合计
+│  │  ├─交叉报表
+│  │  ├─明细表
+│  │  ├─带条件查询报表
+│  │  ├─表达式报表
+│  │  ├─带二维码/条形码报表
+│  │  ├─多表头复杂报表
+│  │  ├─主子报表
+│  │  ├─预警报表
+│  │  ├─数据钻取报表
+│  ├─图形报表
+│  │  ├─柱形图
+│  │  ├─堆叠柱形图
+│  │  ├─折线图
+│  │  ├─饼图
+│  │  ├─动态轮播图
+│  │  ├─折柱图
+│  │  ├─散点图
+│  │  ├─漏斗图
+│  │  ├─雷达图
+│  │  ├─象形图
+│  │  ├─地图
+│  │  ├─仪盘表
+│  │  ├─关系图
+│  │  ├─图表背景
+│  │  ├─图表动态刷新
+│  │  ├─图表数据字典
+│  ├─参数
+│  │  ├─参数配置
+│  │  ├─参数管理
+│  ├─导入导出
+│  │  ├─支持导入 Excel
+│  │  ├─支持导出 Excel、pdf；支持导出 excel、pdf 带参数
+│  ├─打印设置
+│  │  ├─打印区域设置
+│  │  ├─打印机设置
+│  │  ├─预览
+│  │  ├─打印页码设置
+├─大屏设计器
+│  ├─系统功能
+│  │  ├─静态数据源和动态数据源设置
+│  │  ├─基础功能
+│  │  └─支持拖拽设计
+│  │  └─支持增、删、改、查大屏
+│  │  └─支持复制大屏数据和样式
+│  │  └─支持大屏预览、分享
+│  │  └─支持系统自动保存数据，同时支持手动恢复数据
+│  │  └─支持设置大屏密码
+│  │  └─支持对组件图层的删除、组合、上移、下移、置顶、置底等
+│  │  ├─背景设置
+│  │  └─大屏的宽度和高度设置
+│  │  └─大屏简介设置
+│  │  └─背景颜色、背景图片设置
+│  │  └─封面图设置
+│  │  └─缩放比例设置
+│  │  └─环境地址设置
+│  │  └─水印设置
+│  │  ├─地图设置
+│  │  └─添加地图
+│  │  └─地图数据隔离
+│  ├─图表
+│  │  ├─柱形图
+│  │  ├─折线图
+│  │  ├─折柱图
+│  │  ├─饼图
+│  │  ├─象形图
+│  │  ├─雷达图
+│  │  ├─散点图
+│  │  ├─漏斗图
+│  │  ├─文本框
+│  │  ├─跑马灯
+│  │  ├─超链接
+│  │  ├─实时时间
+│  │  ├─地图
+│  │  ├─全国物流地图
+│  │  ├─地理座标地图
+│  │  ├─城市派件地图
+│  │  ├─图片
+│  │  ├─图片框
+│  │  ├─轮播图
+│  │  ├─滑动组件
+│  │  ├─iframe
+│  │  ├─video
+│  │  ├─翻牌器
+│  │  ├─环形图
+│  │  ├─进度条
+│  │  ├─仪盘表
+│  │  ├─字浮云
+│  │  ├─表格
+│  │  ├─选项卡
+│  │  ├─万能组件
+└─其他模块
+   └─更多功能开发中。。</code></pre></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 22 Sep 2023 01:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259038/jimureport-1-6-2-released</guid>
+            <link>https://www.oschina.net/news/259038/jimureport-1-6-2-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[开源 MQTT GUI 客户端 MqttInsight 发布 v1.0.1]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><div><div>
+  MqttInsight 
+  <span>是一个使用</span> java swing 
+  <span>开发的</span> MQTT 
+  <span>图形客户端</span>. 
+  <h2>主要功能</h2><ul><li><span>支持</span> MQTT3<span>、</span>MQTT5<span>；</span></li><li><em>&nbsp;</em><span>支持表格和对话两种消息视图；</span></li><li><span>支持</span> Node.js <span>脚本 </span><span style="color:#e8ba36">(</span>Javet<span style="color:#e8ba36">)</span><span>；</span></li><li><span>支持</span> PlainText<span>、</span>JSON<span>、</span>XML<span>、</span>HEX <span>和</span> Base64 <span>常规消息编解码</span>, <span>支持</span> SPI <span>扩展编解码器；</span></li></ul></div></div><div>
+ 本次更新内容如下：
+</div><ul><li><em>&nbsp;</em><strong><span>新增 ✨</span></strong><ul><li><span>消息发布面板已发布主题历史记录</span></li><li><span>订阅主题自动完成</span></li><li><span>订阅按钮新增下拉快速订阅已收藏主题</span></li></ul></li><li><strong><span>优化 🙌</span></strong><ul><li><span>变更消息格式</span>Auto<span>为</span> Default</li><li><span>订阅随机亮度和透明度范围调整</span></li><li><span>订阅列表菜单调整</span></li><li><span>优化关闭时配置保存</span></li><li><span>启动时打开连接管理对话框</span></li><li><span>延长</span> Tooltip <span>显示时长</span></li><li><span>消息预览时自动格式化（取决于设定的消息格式）</span></li></ul></li><li><strong><span>修复 🐛</span></strong><ul><li><span>重复点击视图切换时布局异常问题</span></li><li><span>解码时消息格式逻辑问题</span></li><li><span>处理</span> paho.mqttv5 <span>订阅和取消订阅潜在的可能出现的异常</span></li><li><span>启用搜索过滤的情况下，切换试图后过滤未生效的问题</span></li><li><span>重复点击视图切换按钮时布局异常问题</span></li><li><span>修复脚本说明文档中示例代码中的变量冲突</span></li></ul></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 14:21:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259010/mqttinsight-1-0-1-released</guid>
+            <link>https://www.oschina.net/news/259010/mqttinsight-1-0-1-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[qiaoshengda-es-client 3.0.3 已经发布，ES 查询客户端]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>qiaoshengda-es-client 3.0.3 已经发布，ES 查询客户端</p><p>此版本更新内容包括：</p><ul><li>【新增】新增历史记录功能，可以保存记录用于以后重复使用</li><li>【新增】新增文件备份功能</li><li>【更新】修复 Windows 客户端复制等功能无效问题</li></ul><p>msi 为 tauri 打包的版本，exe 和 zip 是 electron 打包的</p><p>详情查看：<a href="https://gitee.com/qiaoshengda/es-client/releases/3.0.3">https://gitee.com/qiaoshengda/es-client/releases/3.0.3</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 14:10:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259005/qiaoshengda-es-client-3-0-3-released</guid>
+            <link>https://www.oschina.net/news/259005/qiaoshengda-es-client-3-0-3-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Bee 2.1.8 支持多表增删改，自动生成带 Swagger 的 Javabean（更新 Maven）]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><strong>Hibernate? MyBatis? JPA? 试下 Bee,简单易用又功能强大,面向对象,自定义 sql 都支持良好,还支持 Sharding 分库分表.</strong></p><p><strong>一键即可生成能立即运行的后端代码.自动生成 Spring Boot 后端微服务代码,支持 Swagger.</strong></p><p><strong><span style="color:#3498db">Hibernate/MyBatis+ plus +Sharding JDBC + Jpa+ Spring data+ GraphQL+ App ORM (Android, 鸿蒙)</span><span style="color:#9b59b6">=</span><span style="color:#2980b9"><span>&nbsp;</span></span><span style="color:#e67e22">Bee</span><br> 要整合一堆的工具，还不如只用一个小巧又功能强大的工具。犹如 JAVA 界的数据源连接池 Hikari， 文件虽小，功能却不赖！</strong></p><p>&nbsp;</p><h3><strong>V2.1.8 (2.1.8.916 LTS 版)</strong></h3><ol><li>&nbsp;</li></ol><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">1.1 兼容 spring boot 命令行 active 选择环境，<br> 如:java -jar springbootDemo.jar --spring.profiles.active=dev, 会觖发 bee-dev.properties<br> 1.2 兼容 spring boot 数据源配置，如<span>&nbsp;</span><strong>spring.datasource.url</strong><br> 1.3 不启动应用，<strong>直接运行 main 方法</strong><span>&nbsp;</span>,bee.properties 没有配置数据源时，也可以使用 application.properties 的 spring boot 单数据源配置<br> 2.<span>&nbsp;</span><strong>多表关联插入，更新，删除</strong><br> 3.<strong>DateUtil 增加判断日期格式，计算年龄</strong><br> 4.CurrencyArithmetic 变量 bug<br> 5.CacheSuidStruct 表名不区分大小写<br> 6.MongodbObjSQLRichExt 完善拦截器及上下文信息管理<br> 7. 通过 Excel 创建表，支持更多数据库<br> 8. 提供默认的 BeeSimpleDataSource，支持在 bee.properties 里<strong>配置多数据源</strong><span>&nbsp;</span>(不使用 spring boot 时，也可以),<br> 不使用 Spring boot, 单独使用 Bee 时，DataSourceBuilderFactory 也能自启动。<br> 9.Javabean 支持生成<span style="color:#e74c3c"><strong><span>&nbsp;</span>Swagger</strong></span><span>&nbsp;</span>注解<br> 10.<strong>Mongodb</strong><span>&nbsp;</span>打印日志，查询所有字段时，默认不显示要查询的字段；可以通过 bee.osql.showMongoSelectAllFields 配置控制是否显示<br> 11.<strong>GridFs</strong><span>&nbsp;</span>注解支持 SELECT 查询类型，当查询实体时，可以自动关联查出相应的文件 (MongoDB),GridFs 文件类型支持 byte []<br><strong>12 . 修复 bug: SQLite AS 语法少了空格;&nbsp; 多表查询使用函数时,不能填充到对应字段.</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">&nbsp;</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong><span style="background-color:#fafafb">自动生成 Spring Boot 后端微服务代码，几秒钟即可完成，秒杀 GPT.</span></strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/automvc/gencode">https://gitee.com/automvc/gencode</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>下期功能预告:</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">你还想添加什么功能，请到评论区告诉我们</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">项目首页:</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/automvc/bee" target="_blank">https://gitee.com/automvc/bee</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fautomvc%2Fbee" target="_blank">https://github.com/automvc/bee</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/automvc/bee-springboot">https://gitee.com/automvc/bee-springboot</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 10:28:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258983/bee-2-1-8-released</guid>
+            <link>https://www.oschina.net/news/258983/bee-2-1-8-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[百灵快传（B0Pass）大文件传输工具 v2.0.2 - 百灵快传专用安卓 App 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><h2>1. 百灵快传 v2.0.2 更新日志</h2><div><div><ul><li>开发百灵快传专用安卓手机 App（基于 uniapp），适配界面和接口</li><li>支持域名（domain）自定义配置</li><li>大小文件判断逻辑优化</li><li>删除非空文件夹逻辑优化</li><li>其他兼容性和易用性优化</li></ul></div></div><table style="width:100%"><tbody><tr><td><img src="https://oscimg.oschina.net/oscnet/up-266ae4109ac4390db5b065398f23c43b1a3.jpg" width="100%" referrerpolicy="no-referrer"><p>手机 App 主界面</p></td><td><img src="https://oscimg.oschina.net/oscnet/up-405528178ccabbb8735a02f6d5014efc896.jpg" width="100%" referrerpolicy="no-referrer"><p>App 扫码</p></td><td><img src="https://oscimg.oschina.net/oscnet/up-3ace5c9568f212fe153b77edec484141ec8.jpg" width="100%" referrerpolicy="no-referrer"><p>传输主界面</p></td></tr><tr><td><img src="https://oscimg.oschina.net/oscnet/up-31eb3593e589d91aaced2095e164f0af32d.jpg" width="100%" referrerpolicy="no-referrer"><p>手机 App 上传权限</p></td><td><img src="https://oscimg.oschina.net/oscnet/up-2c66a834eab182afb14b7f36a7c3b135653.jpg" width="100%" referrerpolicy="no-referrer"><p>上传建议从「相册、QQ 浏览器等」选择，支持多选</p></td><td><img src="https://oscimg.oschina.net/oscnet/up-da57039edc81938e2f78e85eb2bdb72dbdd.jpg" width="100%" referrerpolicy="no-referrer"><p>上传界面</p></td></tr></tbody></table><h2><span>&nbsp;2.&nbsp;</span>发行版下载使用</h2><h3>下载前请阅读</h3><ul><li>已编译好<em><strong>Windows、MacOS、Linux、Android</strong></em>等平台的可执行文件</li><li>只需下载到电脑，双击开启即可使用</li><li>注意 1：建议不要安装到「C:\Program Files (x86)」等系统目录，否则需要右键「以管理员身份运行」</li><li>注意 2：如果要自定义端口等配置，请修改<code>config.ini</code>文件</li></ul><div><div><pre><span>[gateway]</span><span>ListenAddr = ":8888"      # 配置 IP 和端口</span><span>Domain = "test.com:8888"  # 可选配置，配置访问域名（若使用 80 端口或 nginx 代理，可忽略端口）</span><span>[pass]</span><span>Path = "files"            # 文件管理根目录</span></pre></div></div><h3>最新版下载地址</h3><ul><li><a href="https://gitee.com/link?target=https%3A%2F%2F4bit.cn%2Fp%2Fb0pass">https://4bit.cn/p/b0pass</a><span>&nbsp;</span><span style="color:#e74c3c">(项目官网，电脑端和安卓 App 直接下载)</span></li></ul><h2>3. 代码仓库</h2><ul><li><a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2Fbitepeng%2Fb0pass">https://github.com/bitepeng/b0pass</a><span>&nbsp;</span>GitHub（主库） 欢迎 star 支持</li><li><a href="https://gitee.com/b0cloud/b0pass">https://gitee.com/b0cloud/b0pass</a><span>&nbsp;</span>GitEE（国内同步） 欢迎 star 支持</li></ul><h2>4. 使用场景</h2><ul><li><p style="margin-left:0; margin-right:0"><em><strong>手机电脑共享文件</strong></em></p><p style="margin-left:0; margin-right:0">电脑上双击执行 -&gt; 手机扫码 -&gt; 手机、电脑文件可以互传。</p></li><li><p style="margin-left:0; margin-right:0"><em><strong>电脑之间共享文件</strong></em></p><p style="margin-left:0; margin-right:0">电脑 A 上双击执行 -&gt; 电脑 B 上浏览器输入 A 的地址 -&gt; 电脑 A、电脑 B 文件可以互传。</p></li><li><p style="margin-left:0; margin-right:0"><em><strong>虚拟机和电脑之间共享文件</strong></em></p><p style="margin-left:0; margin-right:0">电脑上双击执行 -&gt; 虚拟机上浏览器输入电脑的地址 -&gt; 虚拟机、电脑文件可以互传。</p></li><li><p style="margin-left:0; margin-right:0"><em><strong>更多使用场景</strong></em></p><p style="margin-left:0; margin-right:0">也可以用作「家庭影音中心」、「办公室文件共享」、「产品原型服务器」等。走局域网 HTTP 协议，Windows、MacOS、虚拟机、安卓、iPhone 等都可以跨平台共享文件。</p></li></ul><h2>5. 源码编译</h2><div><div><pre><span># 下载代码</span><span>git clone https://github.com/bitepeng/b0pass.git</span><span># 使用 go mod 更新依赖</span><span>go mod tidy</span><span># 开发运行</span><span>cd main &amp;&amp; go run ./main.go</span><span># 编译运行开发版本</span><span>cd main &amp;&amp; ./build.bat</span></pre></div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 10:27:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258982/b0pass-2-0-2-released</guid>
+            <link>https://www.oschina.net/news/258982/b0pass-2-0-2-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ModStartCMS v7.3.0，富文本 MP3 支持，后台组件优化]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">ModStart 是一个基于 Laravel 模块化极速开发框架。模块市场拥有丰富的功能应用，支持后台一键快速安装，让开发者能快的实现业务功能开发。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">系统完全开源，基于 Apache 2.0 开源协议，免费且不限制商业使用。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="系统演示" src="https://ms-assets.modstart.com/data/image/2022/04/18/22368_pbcb_2452.png" referrerpolicy="no-referrer"></p><h2>功能特性</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">丰富的模块市场，后台一键快速安装</p></li><li><p style="margin-left:.5em; margin-right:.5em">会员模块通用且完整，支持完整的 API 调用</p></li><li><p style="margin-left:.5em; margin-right:.5em">大文件分片上传，进度条显示，已上传文件管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">强大的模块扩展功能，所有模块可以无缝集成，支持在线安装、卸载模块</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的开发助手，实现模块、主题的的一键创建</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的后台权限管理，支持基于 RBAC 的权限管理系统</p></li><li><p style="margin-left:.5em; margin-right:.5em">后台管理支持使用手机、平板、PC，无论何时何地都可方便管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方登录（QQ、微信、微博、支付宝、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方支付支持（微信、支付宝、支付宝当面付、微信扫码、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方云存储支持，支持云储存分片上传（阿里云、百度云、华为云、腾讯云、FTP、七牛云、UCloud、又拍云）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方短信支持（阿里云、腾讯云、华为云、百度云、253 云通讯、聚合、七牛云、融云、赛邮、UCloud、云片、网易云）</p></li></ul><h2>V7.3.0 版本更新</h2><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">2023 年 09 月 21 日 ModStartCMS 发布 v7.3.0 版本，增加了以下 7 个特性：</p><ul><li><p style="margin-left:.5em; margin-right:.5em">[新功能] MemberAuthProvider 支持自定义账号对接方式</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] SiteUrlProvider 增加按业务变更方法</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 富文本增加 MP3 文件等音频内容</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系统优化] 后台注册登录链接生成使用非路由生成</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系统优化] 树状结构 Select 显示优化</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系统优化] AES 加密解密方法优化，支持更多模式</p></li><li><p style="margin-left:.5em; margin-right:.5em">[Bug 修复] 数组随机获取异常问题修复</p></li></ul><h2>模块市场一键安装</h2><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">系统内置模块市场，有行业应用、插件、云存储、云短信等功能模块，后台支持一键安装、启用、禁用、卸载，可快速搭建属于自己的系统应用。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="功能模块" src="https://ms-assets.modstart.com/data/image/2022/04/18/22844_bgyg_5120.jpeg" referrerpolicy="no-referrer"></p><h2>系统演示与文档</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">码云仓库：<a href="https://gitee.com/modstart/ModStartCMS">https://gitee.com/modstart/ModStartCMS</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">Github 仓库：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmodstart%2FModStartCMS" target="_blank">https://github.com/modstart/ModStartCMS</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">系统演示：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcms.demo.tecmz.com%2F" target="_blank">https://cms.demo.tecmz.com/</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">下载试用：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdownload" target="_blank">https://modstart.com/download</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">开发者文档：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdoc" target="_blank">https://modstart.com/doc</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">模块市场：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fstore" target="_blank">https://modstart.com/store</a></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 09:01:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258968/modstartcms-7-3-0</guid>
+            <link>https://www.oschina.net/news/258968/modstartcms-7-3-0</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Next.js 13.5 发布，性能显著提升]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Next.js 13.5 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5" target="_blank">已发布</a>。Next.js 是一个用于服务器渲染的通用 JavaScript Web 应用程序的小型框架，该框架基于 React、Webpack 和 Babel 构建，为该网站提供了强大的支持。</p><p><strong>新版本主要变化</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23improving-startup-and-fast-refresh-time" target="_blank">本地服务器启动速度提升 22%</a>：使用 App 和 Pages Router 可以更快地进行迭代</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ee21938f17e365b960c5ddc6d8adb46be63.png" referrerpolicy="no-referrer"></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23improving-startup-and-fast-refresh-time" target="_blank">HMR（快速刷新）速度提升 29%</a>：在保存更改时进行更快的迭代</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23improving-startup-and-fast-refresh-time" target="_blank">内存使用量减少 40%</a>：运行<code>next start</code>时进行测量</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23optimized-package-imports" target="_blank">优化包导入</a>：使用流行的图标和组件库时进行更快的更新</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23nextimage-improvements" target="_blank">改进<code>next/image</code></a>：支持<code>&lt;picture&gt;</code>标签、黑暗模式等</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5%23other-improvements" target="_blank">修复超过 438 个错误</a></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-13-5" target="_blank">发布公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 06:54:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258938/nextjs-13-5</guid>
+            <link>https://www.oschina.net/news/258938/nextjs-13-5</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[智能制造一体化 v3.10.11 大版本发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">智能制造一体化管理系统&nbsp;[SpringBoot2 - 快速开发平台]，适用于制造业、建筑业、汽车行业、互联网、教育、政府机关等机构的管理。包含文件在线操作、工作日志、多班次考勤、CRM、ERP 进销存、项目管理、EHR、拖拽式生成问卷、日程、笔记、工作计划、行政办公、薪资模块、动态表单、知识库、公告模块、企业论坛、云售后模块、生产模块、系统模块化同步模块等多种复杂业务功能。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>有一些小伙伴很好奇最近更新的内容和智能制造有什么关系？</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>答</strong>：目前 Skyeye 整体在做重构，优先从底层的一些功能开始，所以现在大家看到的和智能制造的联系不是很大，也希望大家能够理解，一个大型的智能制造对底层的依赖性也是非常高的。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本次版本更新，删除了若干前后端代码，目标是将老功能全部重构为 Skyeye 低代码系列，前端使用表单布局拖拽生成。为此，该版本做了众多的准备工作，比如：组件、业务对象、表格等。方便后期能够简洁、快速的重构老功能。本次版本主要重构内容以及可以使用的布局组件请参考下方更新历史。&nbsp;</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">智能制造一体化 v3.10.11 发布&nbsp;，更新内容如下：</p><ul><li><div><span><span><span><span><span><span><span><span style="color:#333333"><span><span>已托管到表单布局的功能：</span></span></span></span></span></span></span></span></span></span></div><div><div><ul><li><span><span><span><span><strong><span><span style="color:#333333"><span><span>基础服务</span></span></span></span></strong></span><span><span><span><span style="color:#333333"><span><span>：角色管理，桌面管理，</span></span></span></span></span></span><span><span><span><span style="color:#333333"><span><span>前台服务配置，编码管理，联系人管理 (新增/编辑)，</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span> 文档管理，讨论贴管理</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#333333"><span><span>CRM</span></span></span></span></strong></span><span><span><span><span style="color:#333333"><span><span>：</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>CRM 客户管理，CRM 客户合同 (新增/编辑)，CRM 客户商机 (新增/编辑)，CRM 客户跟单 (新增/编辑)</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>，关联讨论贴，客户新增已销售产品，</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>IFS</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：IFS 财务账户，IFS 账套管理，IFS 会计科目，IFS 收支项目，IFS 明细账</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>ERP</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：工序管理，车间管理，工艺路线管理，仓库管理，商品管理，供应商管理，计量单位，采购订单 (转采购入库待修改)，采购入库单，采购退货单，零售退货单，零售出库单，销售订单，销售出库单，销售退货单，其他出库单，其他入库单，拆分单，组装单，调拨单，</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>供应商新增合同管理、联系人管理、团队管控功能，供应商新增已采购商品</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>生产</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>考勤</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>加班申请，请假申请，出差申请，销假申请，异常考勤申诉，员工考勤打卡重构，我的打卡记录重构，我的考勤班次重构，考勤班次重构，考勤报表重构</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>项目</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>项目管理，任务管理，关联讨论贴</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>行政：</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>用品管理，用品采购，用品领用，资产管理，资产采购，资产领用，资产归还，会议室管理，会议室预定，证照管理，证照借用，证照归还，印章管理，印章借用，印章归还，车辆管理，车辆事故，车辆加油，车辆年检，车辆保险，车辆维修保养，用车申请</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>招聘：</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>面试者来源管理，人</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>员需求申请，</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>面试者管理，面试安排，面试官安排，开始面试，入职，岗位调动申请，离职申请，转正申请</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>商城</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：会员管理</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>售后</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>工</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>人管理，配件申领单，故障信息填报，服务评价，信息反馈，完工操作</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><strong><span><span style="color:#000000"><span><span>学校模块</span></span></span></span></strong></span><span><span><span><span style="color:#000000"><span><span>：</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>学校管理，院系管理</span></span></span></span></span></span><span><span><span><span style="color:#000000"><span><span>，专业管理，班级管理，学生管理，科目管理，教研室管理，章节管理，知识点管理，教学楼管理</span></span></span></span></span></span></span></span></span></li></ul></div></div></li><li><div><div><span><span><span><span><span><span><span><span style="color:#333333"><span><span>已完成测试的组件：</span></span></span></span></span></span></span></span></span></span>输入框，下拉框，文本框，上传组件，枚举卡槽，文字分割线，编码规则，附件上传，数据字典卡槽，团队模板，部门信息，用户选择，往来单位，凭证，账户，账套，表格组件，ERP 产品规格，供应商，详情，行政区划，客户，会员，
+    <span style="color:#000000">岗位信息，面试者选择，人员需求选择，组织部门，员工选择，标题内容，日期范围选择，单选框，富文本，目录树，往来单位合同选择，地图组件</span></div></div></li><li>修改若干问题</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">erp：&nbsp;<a href="https://gitee.com/doc_wei01/erp-pro">https://gitee.com/doc_wei01/erp-pro</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">OA：&nbsp;<a href="https://gitee.com/doc_wei01/skyeye">https://gitee.com/doc_wei01/skyeye</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">报表：<a href="https://gitee.com/doc_wei01/skyeye-report">https://gitee.com/doc_wei01/skyeye-report</a>&nbsp; 有问题可以联系作者，详情请看开发计划。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>效果图</strong></p><table cellspacing="0" style="--darkreader-inline-bgcolor:#181a1b; --darkreader-inline-border-bottom:currentcolor; --darkreader-inline-border-left:currentcolor; --darkreader-inline-border-right:currentcolor; --darkreader-inline-border-top:currentcolor; --darkreader-inline-color:#bdb7af; -webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:medium none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>效果图</th><th>效果图</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-946b11e45eab123ed97a5d8657c27bf243d.png" width="3840" referrerpolicy="no-referrer"></p></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-0a1ce122f7d74ccf43ee042a2ac07b36f40.png" width="3840" referrerpolicy="no-referrer"></p></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-4f5aceea0d433ddbd7d7dadfb8eaba0c2f7.png" width="3840" referrerpolicy="no-referrer"></p></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-70d9e35728811f1b119e3da1fe121f31fd5.png" width="3840" referrerpolicy="no-referrer"></p></td></tr></tbody></table></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 05:49:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258922/win10-skyeye-3-10-11-released</guid>
+            <link>https://www.oschina.net/news/258922/win10-skyeye-3-10-11-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Solon for JDK 21，虚拟线程逆天！！！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p style="color:#24292e; text-align:start">本次更新的一个重点：完成 JDK21 编译测试和功能单元测试。</p><h3>JDK 21 虚拟线程？</h3><p style="color:#24292e; text-align:start">在 IO 密集型项目中，效果很猛！有一种：天哪天哪天哪。。。的感觉</p><pre><code class="language-java"><span style="color:#4078f2">@SolonMain</span><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">App</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span> {
+        Solon.start(App.class, args, app-&gt;{
+            app.onEvent(HttpServerConfigure.class, e-&gt;{
+                e.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+            });
+        });
+    }
+}
+</code></pre><h3>Solon 是什么框架？</h3><p style="color:#24292e; text-align:start"><strong>Java 生态级应用开发框架</strong>。从零开始构建，<span style="background-color:#f1c40f">有自己的标准规范与开放生态</span>（历时五年，具备全球第二级别的生态规模）。与其他框架相比，解决了<span style="background-color:#f1c40f">两个重要的痛点：启动慢，费内存</span>。</p><h3>解决痛点？</h3><p style="color:#24292e; text-align:start">由于 Solon&nbsp;Bean 容器的独特设计，<span style="background-color:#f1c40f">不会因为扩展依赖变多而启动很慢</span>（开发调试时，省时、爽快）！以知名开源项目「小诺」为例：</p><ul><li><a href="https://gitee.com/xiaonuobase/snowy">「snowy-spring 版」</a><span>&nbsp;</span>启动 15-50 秒</li><li><a href="https://gitee.com/xiaonuoadmin/snowy-solon">「snowy-solon 版」</a><span>&nbsp;</span><span style="background-color:#f1c40f">启动 3-5 秒，启动内存节省 1/3</span>（有兴趣的，欢迎拉取代码体验）</li></ul><h3>有什么可爱的特点？</h3><ul><li>启动快 5 ～ 10 倍。<span>&nbsp;</span><strong>（更快）</strong></li><li>qps 高 2～ 3 倍。<span>&nbsp;</span><strong>（更高）</strong></li><li>运行时内存节省 1/3 ~ 1/2。<span>&nbsp;</span><strong>（更少）</strong></li><li>打包可以缩小到 1/2 ~ 1/10；比如，300Mb 的变成了 23Mb。<span>&nbsp;</span><strong>（更小）</strong></li><li>同时支持 jdk8, jdk11, jdk17, jdk21,<span>&nbsp;</span><strong>graalvm native image</strong></li></ul><h3>入门探索视频（用户录制）：</h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><iframe frameborder="0" height="400" scrolling="no" src="https://player.bilibili.com/player.html?aid=938467339&amp;bvid=BV1RT4y1a7U5&amp;cid=583394292&amp;page=1" style="box-sizing: inherit; color: rgb(51, 51, 51); font-family: -apple-system, BlinkMacSystemFont, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Segoe UI&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; background-color: rgb(255, 255, 255);" width="700" referrerpolicy="no-referrer"></iframe></p><h3>最近更新了什么？</h3><ul><li>完成 JDK21 编译测试，功能单元测试<span style="background-color:#f1c40f">（for JDK21）</span></li><li>添加 HttpServerConfigure::setExecutor 接口，用于支持虚拟线程池<span style="background-color:#f1c40f">（for JDK21）</span></li><li>添加 PropUtil 类。把原来的属性表达式与模板解析独立出来</li><li>添加 ContextPathListener 类，用于控制 contentPath 对 ws,tpc 的影响</li><li>添加 ContextPathFilter 一个简化的构造函数</li><li>添加 MethodHolder::getDeclaringClz、getDeclaringClzAnnotation 接口</li><li>添加 yaml 多片段支持（即一文件多环境支持）</li><li>添加，多配置文件交差引用变量支持</li><li>添加 DownloadedFile(file,name) 构造函数</li><li>添加 Router 对 405 的支持</li><li>调整 RunUtil 执行器分离为 parallelExecutor + asyncExecutor<span style="background-color:#f1c40f">（for JDK21）</span></li><li>调整 CacheService 接口（增加类型化 get）</li><li>调整 SessionState 接口（增加类型化 get）</li><li>调整 Context::session 接口（增加类型化 get）</li><li>调整 BeanWrap 的 rawSet 改为公有</li><li>调整 SolonApp::enableWebSocketMvc, enableSocketMvc, 默认为 false</li><li>调整 SolonApp::enableWebSocket, enableWebSocketD 分离设置，各不相关</li><li>调整 CloudConfig 复用主框架的属性表达式与模板解析</li><li>调整 Listener 去掉 @FunctionalInterface，所有方法标为 default</li><li>调整 ChainManager::postResult 的执行策略改为包围式（相当于倒序）</li><li>调整 ValHolder 标为弃用</li><li>调整 jdkhttp,jlhttp,smarthttp 的 contentLength 适配处理</li><li>调整，使用更多的 slf4j 替换 bus</li><li>调整 mybatis-solon-plugin 的会话提交方式，修复二级缓存控制可能失效的问题</li><li>调整 "solon.config.load" 支持按顺序加载</li><li>调整，几个特定启动参数的处理方式。改与成 Solon.cfg() 同步，再统一从 Solon.cfg() 取值</li><li>调整，启动参数与系统属性的同步时机</li><li>wood 升为 1.2.1</li><li>redisx 升为 1.5.0</li><li>mybatis-flex 升为 1.6.5</li><li>sqltoy 升为 5.2.66</li><li>polaris 升为 1.14.1</li><li>lombok 升为 1.18.28</li><li>slf4j 升为 2.0.9</li><li>lombok 升为 1.18.30<span style="background-color:#f1c40f">（for JKD21）</span></li><li>asm 升为 9.5 <span style="background-color:#f1c40f">（for JDK21）</span></li></ul><h3>项目仓库地址？</h3><ul><li>gitee：<a href="https://gitee.com/noear/solon">https://gitee.com/noear/solon</a></li><li>github：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fsolon" target="_blank">https://github.com/noear/solon</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 04:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258915/solon-jdk21</guid>
+            <link>https://www.oschina.net/news/258915/solon-jdk21</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[WinSCP 6.1.2 发布，Windows 图形化 SFTP 客户端]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="color:#000000">WinSCP 是一个 Windows 环境下使用的&nbsp;SSH&nbsp;的开源图形化&nbsp;SFTP&nbsp;客户端，同时支持&nbsp;SCP&nbsp;协议，它的主要功能是在本地与远程计算机间安全地复制文件，并且可以直接编辑文件。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start">目前，WinSCP 6.1.2 已经发布。该版本具体更新内容如下：</p><ul><li>MSI 安装程序不再本地化，以避免出现 GPO 问题。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwinscp.net%2Ftracker%2F2200" target="_blank">2200</a></li><li>TLS/SSL core 升级到 OpenSSL 1.1.1w。</li><li>更新翻译：加泰罗尼亚语、丹麦语、俄语和土耳其语。</li><li>添加了新的<code>il-central-1</code>&nbsp;AWS 区域。</li><li>错误修复：安装程序中 GPL 许可证中的拼写错误。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwinscp.net%2Ftracker%2F2201" target="_blank">2201</a></li><li>错误修复：检查应用程序更新仅限于 TLS 1.2。</li></ul><p><span style="background-color:#ffffff; color:#000000"><span style="background-color:#ffffff">更新说明</span></span><span style="background-color:#ffffff; color:#333333">：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwinscp.net%2Feng%2Fdocs%2Fhistory%236.1.2" target="_blank">https://winscp.net/eng/docs/history#6.1.2</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 03:35:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258908/winscp-6-1-2-released</guid>
+            <link>https://www.oschina.net/news/258908/winscp-6-1-2-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Redisson 3.23.5 发布，官方推荐的 Redis 客户端]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Redisson 3.23.5 现已发布，这是一个 Java 编写的 Redis 客户端，具备驻内存数据网格（In-Memory Data Grid）功能，并获得了 Redis 的官方推荐。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">此版本更新内容如下：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong><span style="background-color:#ffffff; color:#1f2328">Feature</span></strong></p><ul><li style="text-align:start">添加到集群、哨兵、复制、主/从模式的<code>failedSlaveNodeDetector</code>设置</li><li style="text-align:start"><span style="background-color:#ffffff; color:#1f2328">添加到 redisson jar 的模块名称</span></li><li style="text-align:start"><span style="background-color:#ffffff; color:#1f2328">为 RMapCacheRx 和 RMapCacheReactive 对象添加了带 TTL 的 putAll() 方法</span></li><li style="text-align:start"><span style="background-color:#ffffff; color:#1f2328">在 UDP DNS 截断的情况下回退到 TCP</span></li><li style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fredisson.pro%2F" target="_blank">PRO</a>&nbsp;版本中添加的<code>RMapCacheV2</code>、Spring<code>RedissonSpringCacheV2Manager</code>和 Hibernate<code>RedissonRegionV2Factory</code>对象</li></ul><p><strong style="color:#333333">Fixed</strong></p><ul><li>如果 Spring Boot 3.1+，则<code>RedissonAutoConfiguration</code>抛出 NPE</li><li><code>WeightedRoundRobinBalancer</code>不支持主机名</li><li><span style="background-color:#ffffff; color:#1f2328">在极少数情况下 CommandPubSubDecoder 会抛出 NPE<span>&nbsp;</span></span></li><li><span style="background-color:#ffffff; color:#1f2328">在连接初始化期间，不会对 Busy、ClusterDown、TryAgain 和 Wait Redis 错误进行新尝试</span></li><li><span style="background-color:#ffffff; color:#1f2328">如果类型为 null，</span><code>RJsonBucket.getType()</code><span style="background-color:#ffffff; color:#1f2328">方法会抛出 NPE</span></li><li>如果在 Spring Context 中注册的 <code>edisConnectionDetails</code>对象设置为 Cluster 或 Sentinel，则会抛出<code>IllegalStateException</code>。</li><li><code>RSearch</code>无法创建向量字段</li><li><code>RSearch</code>向量字段不支持别名的问题</li></ul><p>更新说明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fredisson%2Fredisson%2Freleases%2Ftag%2Fredisson-3.23.5" target="_blank">https://github.com/redisson/redisson/releases/tag/redisson-3.23.5</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 03:18:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258903/redisson-3-23-5-released</guid>
+            <link>https://www.oschina.net/news/258903/redisson-3-23-5-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[PrimiHub 1.6.10 发布，企业级开源隐私计算平台]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/question/4489239_2331019" _blank"="">
+数据技术都能四世同堂，凭什么开发 30 岁就要被干掉？ 
+<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><img height="262" src="https://oscimg.oschina.net/oscnet/up-437c744b6fb314fd5c8c7f56fdcee29eb2b.png" width="688" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#1f2328">PrimiHub 是一款由密码学专家团队打造的开源隐私计算平台，支持安全多方计算、联邦学习、隐私求交、隐私查询等。具有如下特性：</span></p><ul><li><strong>开源</strong>：完全开源、免费</li><li><strong>安装简单</strong>：支持 Docker 一键部署</li><li><strong>开箱即用</strong>：拥有<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fprimihub%2Fprimihub-platform" target="_blank">Web 界面</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.primihub.com%2Fdocs%2Fcategory%2F%25E5%2588%259B%25E5%25BB%25BA%25E4%25BB%25BB%25E5%258A%25A1" target="_blank">命令行</a><span>&nbsp;</span>和<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.primihub.com%2Fdocs%2Fcategory%2Fpython-sdk-client" target="_blank">Python SDK</a><span>&nbsp;</span>多种使用方式</li><li><strong>功能丰富</strong>：支持隐匿查询、隐私求交、联合统计、数据资源管理等功能</li><li><strong>灵活配置</strong>：支持自定义扩展语法、语义、安全协议等</li><li><strong>自主研发</strong>：基于安全多方计算、联邦学习、同态加密、可信计算等隐私计算技术</li></ul><h4>1.6.10 更新了什么？</h4><h4>新增特性</h4><ol><li>联邦学习新增数据预处理模块，支持 pipeline 调用</li><li>任务启动通过 process 的形式，避免任务间的干扰</li><li>PrimiHub 平台支持用户自定义 python 代码的执行（实验特性）</li><li>页面端支持联邦线性回归模型</li><li>增加部署节点地图展示</li><li>增加页面取消任务运行</li></ol><h4>优化</h4><ol><li>修复多机部署时模型指标显示问题</li><li>对 psi 输入原始数据做去重处理</li><li>PrimiHub 的 gcc 编译器版本支持 gcc8 及以上</li><li>优化模型指标页面端展示</li><li>修复 Window 系统下文件 UTF-8 BOM 头问题</li></ol><h4>项目地址</h4><ul><li><p style="margin-left:0; margin-right:0">GitHub：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fprimihub%2Fprimihub" target="_blank">https://github.com/primihub/primihub</a></p></li><li><p style="margin-left:0; margin-right:0">Gitee：<a href="https://gitee.com/primihub/primihub">https://gitee.com/primihub/primihub</a></p></li><li><p style="margin-left:0; margin-right:0">官网：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fprimihub.com" target="_blank">https://primihub.com</a></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 21 Sep 2023 02:01:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/258883/primihub-1-6-10-released</guid>
+            <link>https://www.oschina.net/news/258883/primihub-1-6-10-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+    </channel>
+</rss>
