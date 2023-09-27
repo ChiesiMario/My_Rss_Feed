@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 26 Sep 2023 21:30:20 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 26 Sep 2023 23:30:50 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -26,11 +26,26 @@
                 <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">LinkWeChat 是國內首個基於企業微信的開源 SCRM，在集成了企微強大的開放能力的基礎上，進一步升級拓展靈活高效的客户運營能力及多元化精準營銷能力，讓客户與企業之間建立強鏈接，幫助企業提高客户運營效率，強化營銷能力，拓展盈利空間，是企業私域流量管理與營銷的綜合解決方案，目前已經受到企業微信的官方推薦和國家級木蘭開源社區進行孵化，同時也是國家工信部重點扶持項目，同時也獲得 2022 年中國開源創新大賽二等獎。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>LinkWeChat v4.9.4 主要的升級內容如下：</strong></p><p><span style="background-color:#ffffff; color:#40485b">1.客户列表新增黑名單功能。</span></p><p><img height="1296" src="https://oscimg.oschina.net/oscnet/up-58b99e69049a37367fe92947f265da738f6.png" width="2832" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#40485b">2.軌跡素材新增標籤功能，可以預覽後自動給客户打標籤。</span></p><p><img height="1298" src="https://oscimg.oschina.net/oscnet/up-2db4e1e0183bfde7e1c6ee706fd8e53dc27.png" width="2832" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#40485b">3.客户列表等統計功能相關 bug 修復。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 24 Sep 2023 10:08:00 GMT</pubDate>
+            <pubDate>Tue, 26 Sep 2023 10:08:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/259607/linkwechat-4-9-4-released</guid>
             <link>https://www.oschina.net/news/259607/linkwechat-4-9-4-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[nature v0.4.0-beta 發佈，靜態編譯強類型語言]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>nature v0.4.0-beta 已發佈。</p><p><strong>新增</strong></p><ol><li>編譯時錯誤優化，顯示文件名和行號，類型錯誤顯示類型原始標識</li><li>運行時 error 提供堆棧追蹤</li><li>多行註釋<code>/****/</code>支持</li><li>import 支持不帶前綴的導入方式<code>import utils as *</code></li><li>小型測試用例<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fweiwenhao%2Fparker" target="_blank">parker</a></li><li>參數解構功能支持，示例<code>call(...vec)</code></li><li>泛型類型支持遞歸<code>type numbert = gen intergert|flotert</code></li><li>二元運算符<code>||``&amp;&amp;</code>支持</li><li>包管理 import dir 支持, 此時會自動查找 dir 下的 main.n</li><li>包管理 import xxx_temp 支持，能夠定義 temp 文件與靜態庫進行交互</li><li>nature struct 調整為與 C 語言同構，能夠直接將 nature struct 傳遞給 c 語言</li><li>數據類型<code>arr&lt;T,len&gt;</code>支持，其在 stack 中進行分配，和 C 語言中<code>T ident[len]</code>同構</li><li>new 語法支持，nature struct 默認為 stack 分配，可以通過<code>ptr&lt;person&gt; p = new person</code>得到一個 heap 分配的 p</li><li>as 後的類型支持約束，如<code>var s = {} as {u8}</code>聲明瞭一個 set 類型將會被約束為<code>{u8}</code>類型，等同於<code>{u8} s = {}</code></li><li>包管理支持聲明 links 靜態庫鏈接，和 temps 模板聲明</li><li>新增標準庫字符串庫<code>import strings</code></li><li>為了更好的和 C 語言進行交互，新增類型<code>cptr</code>和<code>cptr&lt;T&gt;</code></li><li>增加內置語法關鍵字 sizeof 用來計算類型的 size，使用示例<code>int s = sizeof(person)</code></li><li>新增標準庫 fmt/os/path/strings/time</li><li>新增模板文件 (用於和 C 語言交互) builtin_temp(默認 import)，dirent_temp, libc_temp, strings_temp, syscall_temp</li></ol><p><strong>調整</strong></p><ol><li>type param 只能在全局進行定義</li><li>全局變量支持類型推導</li><li>刪除 set 函數，通過 as 約束聲明一個空的 set</li><li>list 類型定義調整為 vec, 支持使用 vec 原始結構體聲明並指定長度，示例<code>var terms = vec&lt;u8&gt;{len=12,cap=24}</code></li><li>string 類型調整為與 vec 同構，支持通過<code>str[0]</code>的方式訪問以及賦值，並支持 for in 遍歷</li><li>vec 類型方法 list.len() 調整為類型屬性，list.len, 並支持類型方法 slice/concat 等類型函數</li><li>for 迭代表達式錯誤與 break 和 continue 無法重複聲明錯誤</li><li>泛型 type i = gen int|int64 基本類型一致時重複生成</li><li>寄存器分配時 interval_add_range 添加 range 錯誤</li><li>set.contains() 計算 hash slot 錯誤</li><li>struct 中定義 fn 異常</li><li>鏈接器 elf rela addend 計算異常，addend = next_inst_offset - current_inst_rel offset</li><li>ssa rename 異常，部分線性 var def 未進行 rename</li><li>if 多行表達式 parser 解析異常</li><li>自動 GC 觸發時間異常，調整 GC 觸發時間點為 user mode</li><li>malloc 分配重複的內存區域時，由於沒有清空該區域導致 GC 異常，malloc 分配區域主動進行清空處理</li><li>import 優先級異常，local ident 可以覆蓋 import ident</li><li>修復 gcc11 下全局變量重複定義錯誤 #16</li></ol><p>詳細更新內容見<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnature-lang.org%2Fzh-Hans%2Fdocs%2Fprologue%2Frelease-notes" target="_blank">發行説明</a>。</p><hr><p>nature 是一款靜態編譯強類型語言，具有以下特徵：</p><ul><li>null 安全、泛型和聯合類型的類型系統</li><li>靜態交叉編譯，允許為目標機器生成可執行文件，無需依賴任何第三方組件</li><li>帶有增量垃圾回收的支持，支持自動垃圾回收（手動垃圾回收仍在設計中）</li><li>內置數據結構，如列表、映射、集合和元組</li><li>包和模塊管理</li><li>函數標籤（正在設計中）、閉包、錯誤處理和協程</li><li>SSA、線性掃描寄存器分配、反射機制、彙編器和鏈接器</li></ul><p><strong>代碼示例</strong></p><ul><li>錯誤處理</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d2b6588e6447b0758c61f7875e5909453b9.png" referrerpolicy="no-referrer"></p><ul><li>泛型</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-800fe208102456a527ae7862be080914634.png" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 26 Sep 2023 03:06:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259538/nature-0-4-0-beta</guid>
+            <link>https://www.oschina.net/news/259538/nature-0-4-0-beta</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -161,21 +176,6 @@ Version number: The last digit plus 1 each time. For example:</p><div class="whi
             <link>https://www.oschina.net/news/259539</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[nature v0.4.0-beta 發佈，靜態編譯強類型語言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>nature v0.4.0-beta 已發佈。</p><p><strong>新增</strong></p><ol><li>編譯時錯誤優化，顯示文件名和行號，類型錯誤顯示類型原始標識</li><li>運行時 error 提供堆棧追蹤</li><li>多行註釋<code>/****/</code>支持</li><li>import 支持不帶前綴的導入方式<code>import utils as *</code></li><li>小型測試用例<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fweiwenhao%2Fparker" target="_blank">parker</a></li><li>參數解構功能支持，示例<code>call(...vec)</code></li><li>泛型類型支持遞歸<code>type numbert = gen intergert|flotert</code></li><li>二元運算符<code>||``&amp;&amp;</code>支持</li><li>包管理 import dir 支持, 此時會自動查找 dir 下的 main.n</li><li>包管理 import xxx_temp 支持，能夠定義 temp 文件與靜態庫進行交互</li><li>nature struct 調整為與 C 語言同構，能夠直接將 nature struct 傳遞給 c 語言</li><li>數據類型<code>arr&lt;T,len&gt;</code>支持，其在 stack 中進行分配，和 C 語言中<code>T ident[len]</code>同構</li><li>new 語法支持，nature struct 默認為 stack 分配，可以通過<code>ptr&lt;person&gt; p = new person</code>得到一個 heap 分配的 p</li><li>as 後的類型支持約束，如<code>var s = {} as {u8}</code>聲明瞭一個 set 類型將會被約束為<code>{u8}</code>類型，等同於<code>{u8} s = {}</code></li><li>包管理支持聲明 links 靜態庫鏈接，和 temps 模板聲明</li><li>新增標準庫字符串庫<code>import strings</code></li><li>為了更好的和 C 語言進行交互，新增類型<code>cptr</code>和<code>cptr&lt;T&gt;</code></li><li>增加內置語法關鍵字 sizeof 用來計算類型的 size，使用示例<code>int s = sizeof(person)</code></li><li>新增標準庫 fmt/os/path/strings/time</li><li>新增模板文件 (用於和 C 語言交互) builtin_temp(默認 import)，dirent_temp, libc_temp, strings_temp, syscall_temp</li></ol><p><strong>調整</strong></p><ol><li>type param 只能在全局進行定義</li><li>全局變量支持類型推導</li><li>刪除 set 函數，通過 as 約束聲明一個空的 set</li><li>list 類型定義調整為 vec, 支持使用 vec 原始結構體聲明並指定長度，示例<code>var terms = vec&lt;u8&gt;{len=12,cap=24}</code></li><li>string 類型調整為與 vec 同構，支持通過<code>str[0]</code>的方式訪問以及賦值，並支持 for in 遍歷</li><li>vec 類型方法 list.len() 調整為類型屬性，list.len, 並支持類型方法 slice/concat 等類型函數</li><li>for 迭代表達式錯誤與 break 和 continue 無法重複聲明錯誤</li><li>泛型 type i = gen int|int64 基本類型一致時重複生成</li><li>寄存器分配時 interval_add_range 添加 range 錯誤</li><li>set.contains() 計算 hash slot 錯誤</li><li>struct 中定義 fn 異常</li><li>鏈接器 elf rela addend 計算異常，addend = next_inst_offset - current_inst_rel offset</li><li>ssa rename 異常，部分線性 var def 未進行 rename</li><li>if 多行表達式 parser 解析異常</li><li>自動 GC 觸發時間異常，調整 GC 觸發時間點為 user mode</li><li>malloc 分配重複的內存區域時，由於沒有清空該區域導致 GC 異常，malloc 分配區域主動進行清空處理</li><li>import 優先級異常，local ident 可以覆蓋 import ident</li><li>修復 gcc11 下全局變量重複定義錯誤 #16</li></ol><p>詳細更新內容見<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnature-lang.org%2Fzh-Hans%2Fdocs%2Fprologue%2Frelease-notes" target="_blank">發行説明</a>。</p><hr><p>nature 是一款靜態編譯強類型語言，具有以下特徵：</p><ul><li>null 安全、泛型和聯合類型的類型系統</li><li>靜態交叉編譯，允許為目標機器生成可執行文件，無需依賴任何第三方組件</li><li>帶有增量垃圾回收的支持，支持自動垃圾回收（手動垃圾回收仍在設計中）</li><li>內置數據結構，如列表、映射、集合和元組</li><li>包和模塊管理</li><li>函數標籤（正在設計中）、閉包、錯誤處理和協程</li><li>SSA、線性掃描寄存器分配、反射機制、彙編器和鏈接器</li></ul><p><strong>代碼示例</strong></p><ul><li>錯誤處理</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d2b6588e6447b0758c61f7875e5909453b9.png" referrerpolicy="no-referrer"></p><ul><li>泛型</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-800fe208102456a527ae7862be080914634.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 24 Sep 2023 03:06:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/259538/nature-0-4-0-beta</guid>
-            <link>https://www.oschina.net/news/259538/nature-0-4-0-beta</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
