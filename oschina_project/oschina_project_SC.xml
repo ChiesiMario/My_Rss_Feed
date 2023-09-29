@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 29 Sep 2023 04:35:33 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 29 Sep 2023 06:37:30 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -132,6 +132,41 @@
         </item>
         <item>
             <title>
+                <![CDATA[Rust GUI 库 egui 0.23 发布，新增简单且强大的图像 API]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">egui 0.23 版本已经发布了。egui 是易于使用、可移植的即时模式 (immediate mode) GUI 库，采用 Rust 编写，可运行在 Web 和原生应用中。</span></p><p><img height="382" src="https://static.oschina.net/uploads/space/2023/0928/160731_qsi2_3820517.png" width="338" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#1f2328">此版本包含一个简单且强大的图像 API：</span></p><pre><span style="color:var(--color-prettylights-syntax-comment)">// Load from web:</span>
+ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">image</span><span>(</span><span style="color:var(--color-prettylights-syntax-string)">"https://www.example.com/some_image.png"</span><span>)</span><span>;</span><span style="color:var(--color-prettylights-syntax-comment)">// Include image in the binary using `include_bytes`:</span>
+ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">image</span><span>(</span>egui<span>::</span>include_image!<span>(</span><span style="color:var(--color-prettylights-syntax-string)">"../assets/ferris.svg"</span><span>)</span><span>)</span><span>;</span><span style="color:var(--color-prettylights-syntax-comment)">// With options:</span>
+ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">add</span><span>(</span>
+    egui<span>::</span><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">Image</span><span>::</span><span style="color:var(--color-prettylights-syntax-entity)">new</span><span>(</span><span style="color:var(--color-prettylights-syntax-string)">"file://path/to/image.jpg"</span><span>)</span><span>.</span><span style="color:var(--color-prettylights-syntax-entity)">max_width</span><span>(</span><span style="color:var(--color-prettylights-syntax-constant)">200.0</span><span>)</span><span>.</span><span style="color:var(--color-prettylights-syntax-entity)">rounding</span><span>(</span><span style="color:var(--color-prettylights-syntax-constant)">10.0</span><span>)</span><span>,</span><span>)</span><span>;</span></pre><p><span style="background-color:#ffffff; color:#1f2328">该 API 基于插件系统，开发者可以告诉<span></span></span><code>egui</code><span style="background-color:#ffffff; color:#1f2328"><span></span>如何加载图像，以及从何处加载。</span></p><p style="text-align:start"><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><code>egui_extras</code>&nbsp;配备了加载器，只需要在 <code>Cargo.toml</code> 中添加以下内容：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">egui_extras</span> = { <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">version</span> = <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>0.23<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">features</span> = [<span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>all_loaders<span style="color:var(--color-prettylights-syntax-string)">"</span></span>] }
+<span style="color:var(--color-prettylights-syntax-storage-modifier-import)">image</span> = { <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">version</span> = <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>0.24<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">features</span> = [<span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>jpeg<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>png<span style="color:var(--color-prettylights-syntax-string)">"</span></span>] } <span style="color:var(--color-prettylights-syntax-comment)"><span style="color:var(--color-prettylights-syntax-comment)">#</span> Add the types you want support for</span></pre><p><span style="background-color:#ffffff; color:#1f2328">并将此添加到代码中：</span></p><pre>egui_extras<span>::</span><span style="color:var(--color-prettylights-syntax-entity)">install_image_loaders</span><span>(</span>egui_ctx<span>)</span><span>;</span></pre><p>详情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Femilk%2Fegui%2Freleases%2Ftag%2F0.23.0" target="_blank">https://github.com/emilk/egui/releases/tag/0.23.0</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 08:05:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259867/egui-0-23-released</guid>
+            <link>https://www.oschina.net/news/259867/egui-0-23-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[oauth2-shiro 2.0.0 版本发布，安全大升级]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><p>oauth2-shiro v2.0.0 版本正式发布，在距上一次发布 7 年后，更新了大版本，对安全漏洞等问题进行大升级。</p><p>该版本主要更新内容：</p><ol><li>升级使用 springboot，调整工程结构，打包由 war 换成 jar，使用 thymeleaf 替换 servlet/jsp；spring 大版本升级到 5.3 提升安全性。</li><li>JDK 由 1.7 升级到 1.8，日志框架使用 logback 替换 log4j（处理掉 log4j 安全漏洞）。</li><li>升级 shiro 版本到 v1.11.0，解决相应的 shiro 版本漏洞。</li><li>密码存储算法由 MD5 替换为 SHA-256，并支持盐 (salt)，让密码存储更安全可靠（通过配置参数 authz.store.credentials.alg 来控制与向下兼容）。</li><li>OAuth token 支持使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjwt.io%2F" target="_blank">JWT</a>格式（通过配置参数 authz.token.generator.type 来控制与向下兼容）。</li><li>对初始的账户密码与 client secret 使用更加安全的密码策略：包括大小写字母，数字与特殊符号，长度至少 10 位。</li></ol><p>v2.0.0 版本链接：<a href="https://gitee.com/mkk/oauth2-shiro/tree/2.0.0/">https://gitee.com/mkk/oauth2-shiro/tree/2.0.0/</a>。</p><p>【推荐升级】</p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 08:02:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259866/oauth2-shiro-2-0-0-released</guid>
+            <link>https://www.oschina.net/news/259866/oauth2-shiro-2-0-0-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[BackupSerenity V1.1 正式 releases 发布，一个用于 MySQL 备份的工具]]>
             </title>
             <description>
@@ -222,6 +257,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[Stellarium 23.3 发布，开源 3D 天象模拟软件]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Stellarium 23.3 已发布。从 v23.1 开始，发布的版本号将显示 year.release scheme。对于 Windows，所使用的 Qt 框架版本作为包名称的一部分可见。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Stellarium 是一款免费开源 GPL（自由软件基金会 GNU 通用公共许可证）软件，它使用 OpenGL 图形接口对星空进行实时渲染。软件可以模拟肉眼、双筒望远镜和小型天文等观察天空，根据观测者所处时间和位置，计算出天空中太阳、月球、行星等天体位置，并将其精确地显示出来。还可以绘制星座、演示天文现象，如流星雨、日食和月食等。</p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start">Stellarium 还被应用于天文馆中作为教学展示软件，作为天文爱好者星空望远镜观测辅助软件。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" height="374" src="https://oscimg.oschina.net/oscnet/up-0aa6143a3e2a1325d21d488ecfd731d4a83.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">此版本的主要变化内容如下：</p><ul><li>新插件：Missing Stars</li><li>允许半透明景观</li><li>添加了太阳系天体的发现环境</li><li>改进小天体的轨道绘制</li><li>将 named impact features 显示为 ellipses</li><li>Navigational Stars 插件的主要变化</li><li>Observing List 修复</li><li>明确的彗星名称</li><li>以及许多小问题的修复</li></ul><p><strong>TELESCOPE USERS</strong></p><ul><li><span style="color:#000000">已经发现并修复了基于 Qt6 版本的 TelescopeControl 插件中的一些错误。</span></li></ul><p><span style="color:#000000">Telescope users 可检查一下问题是否已经解决。如果没有解决的话，</span>Stellarium 团队正在寻求有能力解决该问题的开发者的协助，可能会有奖励。</p><p><span style="color:#000000">详情可</span><span style="color:#333333">参阅</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstellarium.org%2Frelease%2F2023%2F09%2F25%2Fstellarium-23.3.html" target="_blank">完整的更改列表</a><span style="background-color:#ffffff; color:#333333">。</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 02:44:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/259821/stellarium-23-3-released</guid>
+            <link>https://www.oschina.net/news/259821/stellarium-23-3-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[SmartShop 小程序商城发布]]>
             </title>
             <description>
@@ -308,41 +358,6 @@ only rebuild foo
         </item>
         <item>
             <title>
-                <![CDATA[Rust GUI 库 egui 0.23 发布，新增简单且强大的图像 API]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">egui 0.23 版本已经发布了。egui 是易于使用、可移植的即时模式 (immediate mode) GUI 库，采用 Rust 编写，可运行在 Web 和原生应用中。</span></p><p><img height="382" src="https://static.oschina.net/uploads/space/2023/0928/160731_qsi2_3820517.png" width="338" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#1f2328">此版本包含一个简单且强大的图像 API：</span></p><pre><span style="color:var(--color-prettylights-syntax-comment)">// Load from web:</span>
-ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">image</span><span>(</span><span style="color:var(--color-prettylights-syntax-string)">"https://www.example.com/some_image.png"</span><span>)</span><span>;</span><span style="color:var(--color-prettylights-syntax-comment)">// Include image in the binary using `include_bytes`:</span>
-ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">image</span><span>(</span>egui<span>::</span>include_image!<span>(</span><span style="color:var(--color-prettylights-syntax-string)">"../assets/ferris.svg"</span><span>)</span><span>)</span><span>;</span><span style="color:var(--color-prettylights-syntax-comment)">// With options:</span>
-ui<span>.</span><span style="color:var(--color-prettylights-syntax-entity)">add</span><span>(</span>
-    egui<span>::</span><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">Image</span><span>::</span><span style="color:var(--color-prettylights-syntax-entity)">new</span><span>(</span><span style="color:var(--color-prettylights-syntax-string)">"file://path/to/image.jpg"</span><span>)</span><span>.</span><span style="color:var(--color-prettylights-syntax-entity)">max_width</span><span>(</span><span style="color:var(--color-prettylights-syntax-constant)">200.0</span><span>)</span><span>.</span><span style="color:var(--color-prettylights-syntax-entity)">rounding</span><span>(</span><span style="color:var(--color-prettylights-syntax-constant)">10.0</span><span>)</span><span>,</span><span>)</span><span>;</span></pre><p><span style="background-color:#ffffff; color:#1f2328">该 API 基于插件系统，开发者可以告诉<span></span></span><code>egui</code><span style="background-color:#ffffff; color:#1f2328"><span></span>如何加载图像，以及从何处加载。</span></p><p style="text-align:start"><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><code>egui_extras</code>&nbsp;配备了加载器，只需要在 <code>Cargo.toml</code> 中添加以下内容：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">egui_extras</span> = { <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">version</span> = <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>0.23<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">features</span> = [<span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>all_loaders<span style="color:var(--color-prettylights-syntax-string)">"</span></span>] }
-<span style="color:var(--color-prettylights-syntax-storage-modifier-import)">image</span> = { <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">version</span> = <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>0.24<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">features</span> = [<span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>jpeg<span style="color:var(--color-prettylights-syntax-string)">"</span></span>, <span style="color:var(--color-prettylights-syntax-string)"><span style="color:var(--color-prettylights-syntax-string)">"</span>png<span style="color:var(--color-prettylights-syntax-string)">"</span></span>] } <span style="color:var(--color-prettylights-syntax-comment)"><span style="color:var(--color-prettylights-syntax-comment)">#</span> Add the types you want support for</span></pre><p><span style="background-color:#ffffff; color:#1f2328">并将此添加到代码中：</span></p><pre>egui_extras<span>::</span><span style="color:var(--color-prettylights-syntax-entity)">install_image_loaders</span><span>(</span>egui_ctx<span>)</span><span>;</span></pre><p>详情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Femilk%2Fegui%2Freleases%2Ftag%2F0.23.0" target="_blank">https://github.com/emilk/egui/releases/tag/0.23.0</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 26 Sep 2023 08:05:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/259867/egui-0-23-released</guid>
-            <link>https://www.oschina.net/news/259867/egui-0-23-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[oauth2-shiro 2.0.0 版本发布，安全大升级]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><p>oauth2-shiro v2.0.0 版本正式发布，在距上一次发布 7 年后，更新了大版本，对安全漏洞等问题进行大升级。</p><p>该版本主要更新内容：</p><ol><li>升级使用 springboot，调整工程结构，打包由 war 换成 jar，使用 thymeleaf 替换 servlet/jsp；spring 大版本升级到 5.3 提升安全性。</li><li>JDK 由 1.7 升级到 1.8，日志框架使用 logback 替换 log4j（处理掉 log4j 安全漏洞）。</li><li>升级 shiro 版本到 v1.11.0，解决相应的 shiro 版本漏洞。</li><li>密码存储算法由 MD5 替换为 SHA-256，并支持盐 (salt)，让密码存储更安全可靠（通过配置参数 authz.store.credentials.alg 来控制与向下兼容）。</li><li>OAuth token 支持使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjwt.io%2F" target="_blank">JWT</a>格式（通过配置参数 authz.token.generator.type 来控制与向下兼容）。</li><li>对初始的账户密码与 client secret 使用更加安全的密码策略：包括大小写字母，数字与特殊符号，长度至少 10 位。</li></ol><p>v2.0.0 版本链接：<a href="https://gitee.com/mkk/oauth2-shiro/tree/2.0.0/">https://gitee.com/mkk/oauth2-shiro/tree/2.0.0/</a>。</p><p>【推荐升级】</p></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 26 Sep 2023 08:02:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/259866/oauth2-shiro-2-0-0-released</guid>
-            <link>https://www.oschina.net/news/259866/oauth2-shiro-2-0-0-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[LMDE 6]]>
             </title>
             <description>
@@ -353,21 +368,6 @@ apt install linux-headers-686-pae linux-image-686-pae</code></pre><p>详情可<a
             <pubDate>Tue, 26 Sep 2023 06:56:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/259853/lmde-6-released</guid>
             <link>https://www.oschina.net/news/259853/lmde-6-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Stellarium 23.3 发布，开源 3D 天象模拟软件]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Stellarium 23.3 已发布。从 v23.1 开始，发布的版本号将显示 year.release scheme。对于 Windows，所使用的 Qt 框架版本作为包名称的一部分可见。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Stellarium 是一款免费开源 GPL（自由软件基金会 GNU 通用公共许可证）软件，它使用 OpenGL 图形接口对星空进行实时渲染。软件可以模拟肉眼、双筒望远镜和小型天文等观察天空，根据观测者所处时间和位置，计算出天空中太阳、月球、行星等天体位置，并将其精确地显示出来。还可以绘制星座、演示天文现象，如流星雨、日食和月食等。</p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start">Stellarium 还被应用于天文馆中作为教学展示软件，作为天文爱好者星空望远镜观测辅助软件。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" height="374" src="https://oscimg.oschina.net/oscnet/up-0aa6143a3e2a1325d21d488ecfd731d4a83.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">此版本的主要变化内容如下：</p><ul><li>新插件：Missing Stars</li><li>允许半透明景观</li><li>添加了太阳系天体的发现环境</li><li>改进小天体的轨道绘制</li><li>将 named impact features 显示为 ellipses</li><li>Navigational Stars 插件的主要变化</li><li>Observing List 修复</li><li>明确的彗星名称</li><li>以及许多小问题的修复</li></ul><p><strong>TELESCOPE USERS</strong></p><ul><li><span style="color:#000000">已经发现并修复了基于 Qt6 版本的 TelescopeControl 插件中的一些错误。</span></li></ul><p><span style="color:#000000">Telescope users 可检查一下问题是否已经解决。如果没有解决的话，</span>Stellarium 团队正在寻求有能力解决该问题的开发者的协助，可能会有奖励。</p><p><span style="color:#000000">详情可</span><span style="color:#333333">参阅</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstellarium.org%2Frelease%2F2023%2F09%2F25%2Fstellarium-23.3.html" target="_blank">完整的更改列表</a><span style="background-color:#ffffff; color:#333333">。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 26 Sep 2023 02:44:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/259821/stellarium-23-3-released</guid>
-            <link>https://www.oschina.net/news/259821/stellarium-23-3-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
