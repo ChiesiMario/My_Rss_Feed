@@ -16,8 +16,68 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 29 Sep 2023 10:47:06 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 29 Sep 2023 12:55:28 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Deno 開始內建佇列處理系統 Queues]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/_announcing_deno_queues_-_deno.com_.png?itok=0rrTnRmE" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>JavaScript/TypeScript 執行環境 Deno 開始內建訊息系統<a href="https://deno.com/blog/queues">Deno Queues</a>，能夠非同步處理長時間執行的任務，其建立在持久儲存 Deno KV 之上，可以在本地端和 Deno 主機上運作，以安排未來的工作或是處理網路回呼。</p><p>過去開發者要使用佇列處理系統，需要仰賴第三方佇列，或是訊息中介軟體，甚至是手動實作，而現在官方直接對 Deno 生態系，提供一個內建且簡單易用的佇列系統，讓非同步任務處理和排程變簡單，也更好地與 Deno 應用整合，也就是説，開發者能以更少配置和額外的相依項目，在 Deno 應用中實現佇列功能。</p><p>Deno Queues 提供兩個 API，其一 enqueue() 能夠將訊息推送到佇列，確保立即或是未來特定時間點訊息傳送，第二 listenQueue() 則是能夠處理佇列新訊息的處理程式。官方進一步解釋，Deno Queues 以 Deno KV 為基礎建立，而 Deno KV 本身是一個持久儲存，在本地執行的時候使用 SQLite 資料庫，但是當在 Deno Deploy 上運作時，則是使用 FoundationDB，以確保最大可用性和吞吐量。</p><p>由於 Deno Queues 保證至少一次訊息交付，而這能夠與 Deno KV 原子交易概念相結合，可用於建立強大的工作流程，像是用户可以將訊息當作 KV 交易的一部分，新增到佇列中。</p><p>Deno Queues 的使用情境包括預定電子郵件通知，像是當終端用户完成註冊，便可以把歡迎郵件發送任務放到佇列中，在特定時間點發送。</p><p>運用 Deno Queues 也能夠更可靠地處理 Webhook，透過將 Webhook 內容放入到 Deno Queues 中，開發者便可以確保非同步並可靠處理 Webhook。Deno Queues 會自動接收來自 Webhook 的資訊，並且非同步地執行，如此便不會影響主應用程式的運作，在應用大量 Webhook 觸發事件時，還能確保應用程式高效能運作。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159041</guid>
+            <link>https://www.ithome.com.tw/news/159041</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[AWS 一口氣釋出多項生成式 AI 新功能，並正式推出 Amazon Bedrock]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/updated_slide.jpg?itok=nLubvBex" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>AWS 在多個服務<a href="https://aws.amazon.com/tw/blogs/machine-learning/announcing-new-tools-to-help-every-business-embrace-generative-ai/">加入</a>一系列生成式人工智慧新功能，使用户能夠更簡單地運用人工智慧提升生產力。AWS 全託管人工智慧平台<a href="https://www.ithome.com.tw/news/156411">Amazon Bedrock</a>正式推出，並且提供更多強大的模型，程式碼編寫助理 Amazon CodeWhisperer 新增客製化功能，而商業智慧解決方案 Amazon QuickSight Q 也加入語言模型進一步簡化用户資料分析任務。</p><p>Amazon Bedrock 是一個基礎模型 API 服務，用户可以透過 API 存取 Amazon 自家，以及像是 AI21 Labs、Anthropic、Cohere、Meta、Stability AI 等第三方的基礎模型，Bedrock 簡化了人工智慧應用開發過程，並且著重保護企業的隱私安全。Bedrock 在 4 月的時候公佈，現在 AWS 宣佈該項服務正式推出，同時也增加 Llama 2 和 Amazon Titan Embeddings 新模型供用户選擇。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0929-amazon-bedrock-overview.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Amazon Bedrock 通過 HIPAA 的認證且符合 GDPR 規範，也就是説，企業可將其用於開發醫療保健應用，並對更廣泛地區的終端用户提供服務。此外，使用者也可以使用 Amazon CloudWatch 控制面板與 AWS CloudTrail 的 API 監控功能，進一步強化對 Bedrock 模型的管理和控制。</p><p>Amazon CodeWhisperer 也獲得更新，提供用户客製化的能力。CodeWhisperer 會參照自家內部的 API、程式庫、最佳實踐和架構模式等企業內部程式碼，生成更加相關的程式碼建議。而 AWS 在設計該功能時，考慮隱私與安全性，管理員可以從控制枱管理存取權限，確保只有特定開發者可以取用，並且承諾用户所提供的資訊和客製化結果，不會被用來訓練 CodeWhisperer 底層的模型。</p><p>AWS 商業智慧解決方案 Amazon QuickSight Q，讓用户不需要學習 SQL 或是商業智慧工具，使用自然語言就能查詢資料。而 QuickSight Q 現在也導入語言模型，釋出名為 Generative BI 的新功能。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0929-preview-Generative%20BI-Amazon%20QuickSight%20-600.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>藉由 Generative BI，用户可以使用自然語言快速創建視覺效果，而且除了可以回答結構化問題，即便用户使用簡短的句子「top 10 products」，Generative BI 也能正確理解和回應，並創建自定義視覺效果。且當查詢語意模糊或是有多種答案可能性時，QuickSight Q 也能提出相關問題，協助用户釐清意圖。</p><p>面對競爭者來勢洶洶的人工智慧策略佈局，AWS 持續深化人工智慧領域的發展，在今年有更多大動作，像是在 2 月的時候與人工智慧技術公司<a href="http://www.ithome.com.tw/news/155636">Hugging Face</a><a href="https://www.ithome.com.tw/news/155636">擴大</a><a href="http://www.ithome.com.tw/news/155636">合作</a>，讓用户可以更方便地使用 Hugging Face 平台上的模型，另外，Amazon 也剛宣佈向 OpenAI 競爭者 Anthropic<a href="https://www.ithome.com.tw/news/158977">投資 40 億美元</a>，擴大發展人工智慧技術，並且讓 Anthropic 能深度支援 Amazon Bedrock。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_AWS</span></span></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159040</guid>
+            <link>https://www.ithome.com.tw/news/159040</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Google Bard 臭蟲讓用户對話出現在公開 Google 搜尋結果中]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0929-google_bard-960.jpg?itok=FI6L6Wbi" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@iammottakin?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Mojahid Mottakin</a> on <a href=&quot;https://unsplash.com/photos/t89mralwV6Q?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@iammottakin?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Mojahid Mottakin</a> on <a href="https://unsplash.com/photos/t89mralwV6Q?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google Bard 和用户對話理應是不公開的，不過本週卻發生某些用户的 Bard 對話出現在 Google 公開搜尋結果中。Google 正在趕製修補程式。</p><p><a href="https://twitter.com/gaganghotra_/status/1706545667362210129" target="_blank">本週一名搜尋引擎優化（SEO）顧問指出</a>，Google 搜尋開始索引 Bard 對話連結，他因此警告用户不要在和 Bard 對話時分享任何個資，否則可能遭 Google 索引，而被某個使用 Google 搜尋的外人看光了秘密。</p><p class="rtecenter"><a href="http://twitter.com/gaganghotra_/status/1706545667362210129" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0929-Google%20Bard-bug-photo%20by%20Gagan%20Ghotra.png" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Gagan Ghotra</span></span></p><p>Google 今年 7 月擴大部署 Bard 到全球多國時，也加入了分享對話連結的功能。使用者可以將他和 Bard 的對話以連結匯出寄給他人，讓別人接續和 Bard 對話。不過這些連結理應是不公開的，顯然若不是 Google 有了引人爭議的行動，就是 Google Bard 的臭蟲。</p><p><a href="https://twitter.com/searchliaison/status/1706732827705065665" target="_blank">Google 搜尋公關部門隨後指出</a>，Bard 允許使用者分享連結，但前提是用户選擇這麼做。Google 並澄清從未打算讓 Google 搜尋索引這些共享連結。他們已經著手封鎖 Google 搜尋索引對話連結。</p><p>今年 3 月，OpenAI 的<a href="https://www.ithome.com.tw/news/156068" target="_blank">ChatGPT 也曾短暫發生</a>外洩用户對話連結事件，<a href="https://www.ithome.com.tw/news/156570" target="_blank">促使 OpenAI 增加</a>允許使用者關閉 ChatGPT 對話紀錄的功能。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159045</guid>
+            <link>https://www.ithome.com.tw/news/159045</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Google 再緊急修補 Chrome 零時差漏洞]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0618-chromelou_dong_xiu_bu_11.jpg?itok=kC-nAAt9" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://chromereleases.googleblog.com/2023/09/stable-channel-update-for-desktop_27.html" target="_blank">Google 週四又緊急釋出 Chrome 安全更新</a>，以修補 10 項漏洞，包含一個已遭到濫用的漏洞。</p><p>Google 昨日針對 Windows、Mac 和 Linux 平台釋出桌機版 Chrome 117.0.5938.132。最新更新修補的 10 項漏洞中包括 3 個高風險漏洞，其中最重要的是已遭濫用的 CVE-2023-5217。它是位於 VP8 編碼函式庫 libvpx 中的堆積型緩衝溢位（heap buffer overflow）漏洞。Libvpx 為 Google 和 Open Media 聯盟（AOMedia）合作開發而成。通常緩衝溢位漏洞會引發程式崩潰或任意程式碼執行。</p><p>本漏洞是由 Google 威脅分析小組研究人員 Clément Lecigne 通報。Google 在發現後 2 天內完成修補。另一名成員<a href="https://twitter.com/maddiestone/status/1707244655447060688" target="_blank">Maddie Stone 説明</a>，這是 Lecigne 發現最新一起商業間諜軟體開發商濫用的漏洞。</p><p><a href="https://blog.google/threat-analysis-group/spyware-vendors-use-0-days-and-n-days-against-popular-platforms/" target="_blank">Lecigne 今年 3 月曾指出</a>Google 追蹤到，至少有 30 家業者出售商業性的間諜監控軟體給政府支持的單位，利用包括 iOS、Android 及 Chrome 的零日（0-day）或數日（n-day）漏洞，以監控異議份子或記者。</p><p>另二項重大漏洞 CVE-2023-5186 及 CVE-2023-5187，分別是位於 Passwords 元件及 Extensions 元件中的使用已釋放記憶體漏洞，攻擊者可能傳送惡意連結誘使用户連向特定 UI 或下載外掛，引發堆積記憶體毀損，後果可能小從資料流失，大到系統無法運作。</p><p>Google 呼籲用户應儘速安裝最新版 Chrome 更新以策安全。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159044</guid>
+            <link>https://www.ithome.com.tw/news/159044</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[Raspberry Pi 5 開放預購，終於有電源鍵了]]>
@@ -107,7 +167,7 @@
             <author>
                 <![CDATA[周峻佑]]>
             </author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -151,66 +211,6 @@
             <link>https://www.ithome.com.tw/news/159022</link>
             <author>
                 <![CDATA[林妍溱]]>
-            </author>
-            <category>資安 </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Meta 聊天機器人 Meta AI 上線，會互動、生成圖片，還有名人加持]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0928-meta_ai-960-2.jpg?itok=XaQyN_DO" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Meta</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>週三在 Meta Connect 2023 大會上，<a href="https://www.meta.com/zh-tw/blog/quest/connect-2023-quest-3-ai-ray-ban-smart-glasses-metaverse/" target="_blank">Meta 宣佈多項產品</a>，除了最新 VR 頭戴裝置 Quest 3 外，也發表了可化身名人的聊天機器人 Meta AI，將整合在 WhatsApp、Instagram（IG）及 Facebook Messenger 和用户互動，未來也會整合到智慧眼鏡和 VR 裝置中。</p><p><a href="https://about.fb.com/news/2023/09/introducing-ai-powered-assistants-characters-and-creative-tools/" target="_blank">Meta AI</a>是以微軟和 Meta 合作的<a href="https://www.ithome.com.tw/news/157854" target="_blank">大型語言模型 Llama2</a>為基礎開發而成，可透過文字與語音和用户互動，執行用户指令。Meta 也整合了微軟 Bing 搜尋，可搜尋網際網路上最新的資訊。</p><p>另一方面，為了讓 Meta AI 具備更多差異化特色，Meta 還為 Meta AI 加入其他能力和特色。其中，Meta AI 整合圖片生成模型 Emu，允許用户輸入文字指示在幾秒內生成圖片。Meta 表示，Emu 的圖片生成功能將可讓用户自製 AI 體驗。這項功能下個月將部署給英語版 WhatsApp、Facebook Messenger、Facebook Stories 及 IG 用户，例如編修 IG 的 Avatar 或加入背景，背景功能也運用了 Meta 的圖片分割模型 Segment Anything Model。</p><p class="rtecenter"><img alt="" src="https://about.fb.com/wp-content/uploads/2023/09/Backdrop_Inline-1.gif?resize=960%2C836" style="width: 400px;" referrerpolicy="no-referrer"></p><p>Meta 也找來名人扮演 Meta AI 人物，包括美式足球明星 Tom Brady、網球選手大阪直美、網紅 YouTuber MrBeast、名媛 Paris Hilton、及饒舌歌手 Snoop Dogg 等扮演運動教練、主廚、偵探、遊戲高手及舞蹈專家等角色。Meta 説未來幾個月還會再增加更多 Meta AI 人物。</p><p class="rtecenter"><img alt="" src="https://about.fb.com/wp-content/uploads/2023/09/Celebirties-in-Chat_Inline-1.gif?resize=960%2C720" style="width: 450px;" referrerpolicy="no-referrer"></p><p>Meta 的企圖不只是在社交應用程式提供 AI 體驗，除了現有旗下 App 外，很快也會推向 VR 頭戴裝置 Quest 或 Ray-Ban Meta 智慧眼鏡。</p><p>因此除了一般用户外，Meta 今天也發表了 AI 體驗的開發工具 AI Studio。今天 Meta 已先以 Beta 測試版提供 AI Studio 打造的 AI 成果給美國市場，但他們未來幾周會將這工具開放給外部開發商，允許他們以 Meta API 打造第三方 AI 應用，第一步是 Messenger，接著會擴及 WhatsApp。企業則可使用 AI Studio 開發 Meta 應用程式的自有 AI 聊天機器人。Meta 説，今年內會先推 Alpha 版，預計明年再擴大。</p><p>至於創作者，也可開發 Meta 應用程式的虛擬體驗，如 Avatar，這些 AI 創作都由創作者們直接控管。明年 Meta 也會提供沙箱技術，讓所有人實驗其 AI 創作。等這些內容日益豐富後，Meta 會將沙箱搬上元宇宙，讓創作者也能打造 VR/AR 內容。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Meta</span></span></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Sep 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159021</guid>
-            <link>https://www.ithome.com.tw/news/159021</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Amazon 證實微軟前產品長 Panos Panay 要至該公司任職]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0802-amazon-960_2.jpg?itok=qcEFaAPz" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.ithome.com.tw/news/158810" target="_blank">Amazon 週三（9/27）印證了市場傳言</a>，指出甫於本月自微軟離職的產品長 Panos Panay，將在今年 10 月底至 Amazon 就職，接替即將退休的 Dave Limp，負責 Amazon 的裝置暨服務業務，加入 Amazon 的 S-Team 並向執行長 Andy Jassy 彙報。</p><p>在微軟待了 19 年的 Panay 原本負責的是 Windows 與 Surface 裝置，到了 Amazon 之後，也將負責 Amazon 的裝置暨服務業務，涵蓋 Alexa、Echo、Kindle、Fire TV 及 Amazon Appstore 等。</p><p>原本擔任 Amazon 裝置暨服務資深副總裁的<a href="https://www.aboutamazon.com/news/company-news/svp-dave-limp-to-retire-from-amazon" target="_blank">Limp 是在今年 8 月宣佈退休計畫</a>，當時 Amazon 即表示會在幾周後發表繼任人選。</p><p>Panay 到任後將會與 Limp 進行交接，預計維持數個月，而 Limp 雖自 Amazon 退休，據傳實則是要去接管藍色起源（Blue Origin）的執行長一職。藍色起源為 Amazon 創辦人貝佐斯（Blue Origin）所創立的航太公司，現在的執行長為 Bob Smith。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Sep 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159017</guid>
-            <link>https://www.ithome.com.tw/news/159017</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[ChatGPT 網路瀏覽功能重新上線，即將開放所有用户使用]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0808-openai-background_image_by_dynamic_wang_on_unsplash-960_0.jpg?itok=AULbHq1a" width="960" height="420" alt="" title="背景圖片來源／Photo by <a href=&quot;https://unsplash.com/@dynamicwang?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Dynamic Wang</a> on <a href=&quot;https://unsplash.com/photos/UtUa7GYW300?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景圖片來源／Photo by <a href="https://unsplash.com/@dynamicwang?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Dynamic Wang</a> on <a href="https://unsplash.com/photos/UtUa7GYW300?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://twitter.com/OpenAI/status/1707077710047216095" target="_blank">OpenAI 今日（9/28）宣佈</a>，ChatGPT 於今年 7 月因故暫停的付費功能 Browse with Bing，已重新登上 ChatGPT Plus 及 ChatGPT Enterprise，且很快就會開放所有用户使用。</p><p>因為用來訓練的資料集的關係，ChatGPT 一向只能提供截至 2021 年 9 月的知識，無法因應最新資訊，使得 ChatGPT 自今年 5 月開始測試結合網路瀏覽的服務，繼之於 6 月針對付費版的 ChatGPT Plus 推出<a href="https://www.ithome.com.tw/news/157524" target="_blank">Browse with Bing</a>功能，卻因傳出<a href="https://www.ithome.com.tw/news/157627" target="_blank">該功能可被用來繞過付費牆</a>，而在上線不到一週就暫時關閉。</p><p>本週 OpenAI 宣佈重新開放 ChatGPT 的 Browse with Bing 功能，不僅同時支援 ChatGPT Plus 及 ChatGPT Enterprise 付費服務，很快也會擴大支援所有使用者。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0928-openai-browse%20with%20bing.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_OpenAI</span></span></p><p>OpenAI 表示，自今年 5 月開始測試瀏覽功能以來收到許多用户意見，此次的更新包括更關注網站的 robots.txt 爬梳政策與使用者代理（User Agent），以讓網站得以控制與 ChatGPT 之間的互動，也會在 ChatGPT 的解答中附上所參考的網站連結。</p><p>現在 ChatGPT 的瀏覽功能僅限使用 Bing，ChatGPT Plus 與 ChatGPT Enterprise 用户只要進入設定，選擇測試（Beta）功能，便能啟用 Browse with Bing，之後在 GPT-4 中選擇 Browse with Bing 即可。</p><p>對於那些需要最新資訊的任務而言，瀏覽功能特別有幫助，不管是在進行技術研究、選購自行車或是規畫假期上。其實除了 ChatGPT 之外，同樣基於 GPT-4 的 Bing Chat 已在 Windows、Microsoft Edge、Chrome 與 Safari 等平台上都提供了瀏覽能力，而基於 PaLM 的 Google Bard 也已支援 Chrome、Safari、Firefox、Opera 及 Edgium 等瀏覽器，並帶來類似的能力。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Sep 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159016</guid>
-            <link>https://www.ithome.com.tw/news/159016</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【2023 資安 SOC 台灣需求現況】法遵壓力增大，驅動企業強化資安]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zhu_tu_zui_xin_tai_wan_socxu_qiu_gai_kuang_960.jpg?itok=0dM3N6bt" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>面對駭客從入侵開始到發動攻擊，間隔時間越來越短的態勢，防護網路威脅面臨日益嚴峻的挑戰，因為人力、流程、技術都必須持續強化，才有辦法因應，而且，需要更專業的內部或外部資安團隊統籌事宜，在這樣的框架下，若能設置與維運資安監控中心（SOC），可幫助資安事件的因應，將是企業能做到長期預防，以及早期發現威脅與妥善進行應變的關鍵。</p><p>事實上，政府最近對於產業資安的要求，也逐步提高。例如，金管會在 2020 年推動金融資安行動方案 1.0 時，就鼓勵金融機構建置資安監控機制（SOC）。希望原本已受到高度監管的金融產業，能進一步強化異常行為偵測告警的即時性與有效性，走向更主動防禦。</p><p>在 2021 年底，台灣證券交易所也發布上市上櫃公司資通安全管控指引，指出須具備 7 項資安防護控制措施，資通安全威脅偵測管理機制（SOC）就是其一。</p><p>在此態勢之下，國內企業對於落實與強化資安的態度，也日益積極。</p><h2><strong>有意發展 SOC 或 Cloud SOC 的比例大增，以金融業與製造業較多</strong></h2><p>對於 SOC 採用意願，身為指標型 SOC 服務業者的安碁資訊與數聯資安指出，SOC 的需求確實已從早年政府機關、金融領域，延續到上市櫃公司，而且雲端資安監控議題也確實受到更多關注。</p><p>數聯資安技術副總經理遊承儒表示，最近兩年，他們看到有不少上市櫃公司積極上雲，加上政策對於 SOC 的要求，他們認為需求成長算是比往年快。</p><p>與企業談到 SOC 時，過去大家反應並不熱烈，有意願瞭解的公司很少，今年則有公司主動洽詢，有很大差別。像 2016 年 EDR 這樣的資安解決方案開始在台灣推行，當時廠商可能要一家家公司去拜訪介紹，但現在 EDR 已經漸漸變成是企業資安標準配備。</p><p>根據他們的觀察，除了政府、金融業，其實處於市場頂尖位置的製造業也早就有所規畫，現在二線製造業詢問與概念驗證（POC）的需求增加，他們明顯感受到這一波需求來得相當急。</p><p>同時，現在上雲的比例增加，對於 Cloud SOC 的需求也是會提升。明年很可能就有爆炸型的提升。就上雲情形來看，國內百貨業也積極上雲，但他們對於雲端資安防護的概念還較少；製造業也在上雲，只是應用多半是用作備援、用户驗收測試環境（UAT），比較沒有應用在業務面，目前可能有點保守。</p><p>他們認為，雲端環境遍佈全球，有些製造業在不同區域都有設點，未來資安 SOC 監控視角能從台灣拉高到全世界。</p><p>特別的是，數聯資安以 4 個成熟度階段，來幫助企業對於 SOC 能有簡單快速的認知。以 Level 1 而言，就是日誌收集與監控，Level 2 是大數據分析與調查，Level 3 進入自動化 SOAR 聯防的層次，Level 4 是雲地聯合防禦的整合性監控。</p><p>安碁資訊總經理吳乙南表示，從市場面來看，SOC 需求及 Cloud SOC 的詢問度越來越高，主要是法規要求帶動。除政府、金融業，去年他們觀察到不少製造業，加上近年金管會推動上市櫃公司要有資安，今年第二季出現需求爆發。</p><p>這就像智慧製造一樣，要有能見度（透明度），資安監控也是如此。再從管理與永續經營的角度來講，資安層面資訊也要透通到管理階層，如今資安監控慢慢變成是剛性需求，畢竟台灣製造業機敏資料，不是偶發事件，是持續發生的威脅，企業就會關注。</p><p>另一個重點在於，在四五年前，國外開始關注入侵及攻擊模擬演練（Breach and Attack Simulation，BAS）的概念，像是當時我們曾介紹 MITRE 開源自動化攻擊模擬工具 CALDERA，如今 BAS 這項資安應用也受到重視。兩家業者提到，金管會在 2022 年發布的金融資安行動方案 2.0 中，鼓勵已建置 SOC 並達一定規模的金融機構，引入攻擊方思維，除了 DDoS 攻防演練、紅藍隊演練，也藉由入侵與攻擊模擬 BAS，來檢驗資安監控及防禦部署的有效性，也就是驗證資安設備是否買對，人員訓練是否紮實。</p><h2><strong>SOC 發展已久，仍有很多企業組織不夠瞭解，需建立整體認知</strong></h2><p>在 SOC、Cloud SOC 需求增加之下，我們也發現一些值得關注的議題。</p><p>例如，他們遇到只有防毒與防火牆的傳統企業，現在已經開始上雲，詢問他們該如何做 SOC。此外，在政策帶動之下，有些公司會用最小成本完成合規。</p><p>數聯資安技術副總經理遊承儒表示，儘管 SOC 發展多年，不過還是有企業對 SOC 完全沒概念，主要是為了符合政府法令要求才開始做。</p><p>這種情況對資安服務業者而言，也會形成很大的挑戰，因為 SOC 平台的建置與維運面臨更大的壓力，必須設法做出效益。基本上，SOC 仰賴多樣化資訊來源的日誌收集，因此，資安服務業者等於也要幫這些企業設想其成熟度，先讓他們認識資安態勢，再提升 SOC 成熟度。因此，他認為，再過幾年這些企業的思維才會有更顯著的改變。</p><p>不過，他們今年也有很深的感觸，因為有很多之前完全不做資安的客户，都開始有動作，這也意味著越來越多企業重視這件事，另外，也碰到很多是供應鏈要求的廠商要積極推動資安，卻以為只需要幾十萬元的費用就能全部搞定，這同樣是價值認知的落差。</p><p>安碁資訊總經理吳乙南表示，應付法規要求的可能性絕對存在，不過他們認為還是可用正面角度看待，因為以前他們在業務推廣所接觸的對象，多半不是企業高層，然而，現在至少是上升到企業管理層來談這些事。只是，就實務來看，企業可能對於資安防護具體該做到多大規模、要花多少錢，還沒有概念，這方面政府與金融的認知比較成熟，製造業普遍多半隻意識到本身有需求，但整體維運預算編列，還沒有進入常規。</p><p>雲端成本的因素也要注意，會對資安部署產生影響。有些製造業在 ESG 的佈局，已經看到採用雲端服務的優勢，例如不像地端環境有管理維運的成本。因此，曾經有企業想在全球大規模部署，但後來發現若全部用雲端服務來做，可能負擔不起，因此最終考量雲地混合方式，另一方面是在資安監控上，很多系統需要調校、規則需要建立，才能讓監控更精準，因此先縮小上雲部署範圍。</p><p>此外，兩家業者均認為，選擇 SOC 服務的比例將會增加，最主要原因在於人力資源的挑戰。早期大型企業組織自建 SOC，但現在養人、留才並不容易，大家都在搶人已是現況，由於 SOC 維運需要 7x24 小時運轉，要有領域知識與經驗，要有人的專業能力，還包括流程規畫、情資等各方面的整合。</p><p>同時，還要顧及雲端監控的層面。他們曾試過找懂雲端的人才來承擔工作，但這些人不懂資安，最後還是透過懂資安的人去學雲端服務的技術，才達到他們的要求，而且相關人員不只需要熟悉一朵雲的技術，還要懂不同的雲。</p><p>因此他們認為，大部分客户會走向委外。也有一種模式，就是客户自建，再由他們來代管，這樣的差異在於，可以設計更貼近企業自身場景的監控規則。</p><h2><strong>政府採購有變革，產業看到希望</strong></h2><p>隨著 SOC 服務廠商投入的研發與精力越來越多，在台灣市場還面臨持續影響資通訊產業生態的議題：公部門採購。</p><p>過去政府共同供應契約的 SOC 服務採購中，招標機關經常會採最低價決標，這使多年來，廠商面臨與時俱進服務需要往上，收費卻持續往下的情況。</p><p>所幸，去年軟體採購辦公室已將這方面改成複數決標，可以提供不同價格，對於 SOC 服務業者而言，意味著服務價格不再受打壓，至少看到這個市場有了轉機。只是，廠商還是會面臨「議約不議價」的問題，也就是「預算不變，增加服務內容」，還好<a href="https://www.ithome.com.tw/article/158898">今年政府資訊採購將有新變革</a>，可望扭轉此一問題的發生。</p><p>現階段，這些 SOC 服務業者認為，恢復合理的收費還要再一段時間，主因是客户編列預算會參照過去經驗，價格不容易一次就大幅調動。</p><p>我們認為，這樣的改變對產業發展是好事，畢竟，面對資安威脅需要雙方共同應對，採購者對產品與服務的價值要有共識，共同維持產業健全，用户不能一味壓低成本，使得廠商利潤受到不當壓縮，才能帶動更多人進入這個產業，促成良性發展。</p><p class="rtecenter"><a href="https://www.ithome.com.tw/news/158986" style="text-align: center;"><span style="font-size: 18px;"><span style="background-color: rgb(211, 211, 211);">１</span></span></a><span style="text-align: center; font-size: 18px;">　</span><a href="https://www.ithome.com.tw/news/158987" style="text-align: center;"><span style="font-size: 18px;"><span style="background-color: rgb(211, 211, 211);">２</span></span></a><span style="text-align: center; font-size: 18px;">　<a href="https://www.ithome.com.tw/news/158988"><span style="background-color: rgb(211, 211, 211);">３</span></a></span><span style="text-align: center; font-size: 18px;">　<a href="https://www.ithome.com.tw/news/158989"><span style="background-color:#D3D3D3;">４</span></a></span><span style="text-align: center; font-size: 18px;">　５</span></p><p class="rtecenter">&nbsp;</p><p><a href="https://www.ithome.com.tw/article/159015" target="_blank"><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(51, 153, 255);">&nbsp;相關報導&nbsp;</span></span></strong><span style="font-size: 18px;"><strong><span style="color: rgb(255, 255, 255);"><img alt="" src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/1149-feng_mian_p1-open-zheng_han_-960x420_kao_bei_0.jpg?itok=XAiCY5ZO" style="width: 550px;" referrerpolicy="no-referrer"></span></strong></span></a></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Sep 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/158990</guid>
-            <link>https://www.ithome.com.tw/news/158990</link>
-            <author>
-                <![CDATA[羅正漢]]>
             </author>
             <category>資安 </category>
         </item>
