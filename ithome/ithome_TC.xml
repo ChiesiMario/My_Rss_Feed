@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 02 Oct 2023 06:47:50 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 02 Oct 2023 08:57:29 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Cloudflare 遭爆允許駭客利用其基礎設施攻擊用戶]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1002-cloudflare-back-photo_by_joshua_sortino_on_unsplash-960.jpg?itok=DEUKUPRg" width="960" height="420" alt="" title="背景圖片來源／Photo by <a href=&quot;https://unsplash.com/@sortino?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Joshua Sortino</a> on <a href=&quot;https://unsplash.com/photos/LqKhnDzSF-8?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景圖片來源／Photo by <a href="https://unsplash.com/@sortino?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Joshua Sortino</a> on <a href="https://unsplash.com/photos/LqKhnDzSF-8?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://certitude.consulting/blog/en/using-cloudflare-to-bypass-cloudflare/" target="_blank">奧地利資安業者 Certitude 上週揭露</a>，專門提供內容遞送網路與資安服務的 Cloudflare 含有安全漏洞，將允許駭客利用其 Cloudflare 帳號來攻擊其它同樣使用 Cloudflare 平台的用戶。Certitude 曾向 Cloudflare 提報，惟並未被視為嚴重漏洞，Certitude 仍舊決定將它公諸於世，並提醒 Cloudflare 用戶小心應對。</p><p>根據 Certitude 的説明，Cloudflare 所提供的網站代管服務具備許多保護措施，諸如網頁應用程式防火牆（WAF）、服務阻斷攻擊保護（DDoS Protection）與機器人管理等，方法是在客戶的網頁伺服器與使用者之間建立反向代理伺服器以分析流量並防堵惡意行為。</p><p>Cloudflare 允許用戶設定配置來管理網站的安全性，然而，Certitude 發現其中的中等安全（Moderately Secure）與非常安全（Very Secure）等兩項設定的前提，皆相信所有來自 Cloudflare 的流量都是可靠的，這便給了駭客入侵的機會，駭客只要建立一個免費的 Cloudflare 帳號，便能繞過 Cloudflare 替用戶建立的安全機制。</p><p>例如在非常安全的選項中，於傳輸層（Transport Layer）使用經過驗證的來源拉取（Authenticated Origin Pulls）時，Cloudflare 反向代理伺服器是利用一個用戶 SSL 憑證來向原始伺服器驗明正身，它支援用戶的客製化憑證，也能直接使用 Cloudflare 憑證，而 Certitude 則發現，若用戶貪圖方便直接使用 Cloudflare 憑證，就可能產生安全風險。</p><p>原因是 Cloudflare 憑證屬於共享憑證，允許所有源自 Cloudflare 的連線，不管是由哪個 Cloudflare 租戶所發起的連線，使得駭客得以設定一個 Cloudflare 網域，將其 DNS A 記錄指向受害者的 IP 位址，再關閉該網域的所有保護機制，以 Cloudflare 的基礎設施當作偽裝並發動攻擊。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1002-Example%20Exploitation%20of%20Shared%20Cloudflare%20Certificates-by%20Certitude.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Certitude</span></span></p><p>中等安全設定則是在網路層（Network Layer）中將 Cloudflare IP 位址列為白名單（Allowlist Cloudflare IP Addresses），而讓來源伺服器拒絕所有非 Cloudflare IP 位址的連線，與上述漏洞一樣，它接受了所有來自 Cloudflare 的連線，同樣讓駭客有機可趁，關閉受害者的安全機制。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1002-Example%20Exploitation%20of%20Allowlist%20Cloudflare%20IPs-by%20Certitude.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="color: rgb(105, 105, 105); font-size: 14px;">圖片來源_Certitude</span></p><p>Certitude 針對相關漏洞成功執行了概念性驗證攻擊，指出兩種攻擊途徑各有緩解措施，第一個是採用客製化憑證而非 Cloudflare 憑證，第二個則是採用專用的 IP 出口位址 Cloudflare Aegis，而非共享的 IP 位址範圍。</p><p>Certitude 是在今年 3 月發現並提報相關漏洞，但 Cloudflare 在得知後僅將它列為「有價值的資訊」（Informative），並未將其視為安全漏洞。不過，Certitude 建議 Cloudflare 應該部署針對相關攻擊的保護機制，也應警告那些採用脆弱配置的用戶。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 01 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159062</guid>
+            <link>https://www.ithome.com.tw/news/159062</link>
+            <author>
+                <![CDATA[陳曉莉]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[美國國安局設立 AI 安全中心]]>
@@ -130,7 +145,7 @@
             <author>
                 <![CDATA[羅正漢]]>
             </author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -160,7 +175,7 @@
             <author>
                 <![CDATA[李建興]]>
             </author>
-            <category>新聞</category>
+            <category>AI</category>
         </item>
         <item>
             <title>
@@ -190,7 +205,7 @@
             <author>
                 <![CDATA[林妍溱]]>
             </author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -202,21 +217,6 @@
             <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.ithome.com.tw/news/159043</guid>
             <link>https://www.ithome.com.tw/news/159043</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Google 釋出 Google-Extended 工具，讓出版商拒絕內容被用來訓練 AI]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0705-googe-photo_by_bastian_riccardi_on_unsplash-9601.jpg?itok=UHvwNdKq" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@boliviainteligente?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>BoliviaInteligente</a> on <a href=&quot;https://unsplash.com/photos/V8F_kUzqk0w?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@boliviainteligente?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">BoliviaInteligente</a> on <a href="https://unsplash.com/photos/V8F_kUzqk0w?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://blog.google/technology/ai/an-update-on-web-publisher-controls/" target="_blank">Google 於本週釋出了 Google-Extended 工具</a>，以讓網頁出版商得以決定該站內容是否願意用來改善 Bard 及 Vertex AI 的生成式模型，出版商只要透過 robots.txt 即可啟用該工具。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0929-Google%20Crawlers-Google-Extended.png" style="width: 500px;" referrerpolicy="no-referrer"></p><p>有許多業者都是利用公開的網路資料來訓練模型，例如 OpenAI 的 GPT，OpenAI 打造了網路爬蟲軟體 GPTBot 以廣泛地蒐集網路上的資料，並用來訓練模型，而當出版商不同意時，便於 robots.txt 中直接封鎖這些爬蟲，例如《紐約時報》、《CNN》與《Medium》即封鎖了 GPTBot。</p><p>然而，出版商無法直接封鎖來自 Google 的爬蟲軟體，因為這可能會直接影響網站於 Google 搜尋結果中的能見度，為此，Google 特別設計了 Google-Extended 供出版商使用。Google-Extended 是個獨立的產品標記，讓網頁出版商得以用來決定其網站是否願意協助改善 Bard 及 Vertex AI 等生成式 AI，或是未來由這些產品衍生的生成式模型。</p><p>Google 認為，於 robots.txt 中提供一個簡單且可擴充的功能，是提供透明度與控制能力的重要步驟，相信所有 AI 模型的供應商都應該具備。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Sep 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159042</guid>
-            <link>https://www.ithome.com.tw/news/159042</link>
             <author>
                 <![CDATA[陳曉莉]]>
             </author>
