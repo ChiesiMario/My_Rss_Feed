@@ -16,8 +16,62 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 04 Oct 2023 03:01:05 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 04 Oct 2023 05:03:31 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[龙芯为 Linux 6.7 支持 LoongArch 架构 KVM 虚拟机]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>在已发布的多个 Linux 内核版本中，龙芯工程师都致力于为 LoongArch 架构实现更多内核功能。到目前为止，LoongArch CPU 的性能虽然无法与 x86_64 或 Arm 硬件相比，但正在慢慢变得更加实用，此外架构支持方面已经越来越成熟。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fchenhuacai%2Flinux-loongson.git%2Flog%2F%3Fh%3Dloongarch-next" target="_blank">根据龙芯工程师最新提交的代码</a>，Linux 内核的龙芯 Git 分支已将其所有初始 KVM 支持 (Kernel-based Virtual Machine) 代码提交到 loongarch-next 排队，迎接大约一个月后 Linux 6.7 合并窗口，即将迎来对基于内核的虚拟机支持。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da5409cd652b9af9cb94b9dd19283a665d1.png" referrerpolicy="no-referrer"></p><p>这组补丁为龙芯 CPU 提供了所有基础的 KVM 支持代码。这种 KVM 支持依赖于 LoongArch 的虚拟化扩展，是 LoongArch 支持的首个虚拟化方式。</p><p>虽然考虑到目前 LoongArch CPU 性能水平，KVM 虚拟化支持在目前可能不太实用，但随着性能的提高，以及龙芯未来在云 / 虚拟化服务器领域的扩展，KVM 虚拟化支持将变得十分重要，因此提早做准备是有必要的。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 04:13:26 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260296/loongarch-kvm-for-linux-6-7</guid>
+            <link>https://www.oschina.net/news/260296/loongarch-kvm-for-linux-6-7</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Bun v1.0.4 发布，Zig 编写的 JavaScript 运行时]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Bun 1.0 发布了第 4 个补丁更新：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbun.sh%2Fblog%2Fbun-v1.0.4" target="_blank">1.0.4</a>。</p><blockquote><p>Bun 是速度极快的 JavaScript 运行时，采用 Zig 编写，集打包器、转译器和包管理器于一身。</p></blockquote><p>此版本修复了 62 个错误，添加了<code>server.requestIP</code>，支持运行时插件中的虚拟模块，并降低了<code>Bun.serve()</code>中的内存消耗。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a7ebc6fb1806b1c44968612d25f53a08793.png" referrerpolicy="no-referrer"></p><hr><ul><li><strong>降低<code>Bun.serve()</code>中的内存消耗</strong></li></ul><p><code>Bun.serve()</code>&nbsp;现在向 JavaScriptCore 的垃圾回收器报告手动管理的每个请求的内存使用情况。在某些情况下，这会将<code>Bun.serve()</code>的内存使用量减少 50%。</p><blockquote><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fjarredsumner%2Fstatus%2F1707355427904860475" target="_blank"><img src="https://static.oschina.net/uploads/space/2023/1004/111037_ARsy_2720166.png" referrerpolicy="no-referrer"></a></p></blockquote><ul><li><strong>实现<code>server.requestIP</code></strong></li></ul><p>现在可以使用<code>server.requestIP()</code>检索给定<code>Request</code>的 IP 地址。</p><pre><code class="language-javascript">Bun.serve({
+  port: 3000,
+  handler: (req, res) =&gt; {
+    console.log(server.requestIP(req));
+  },
+});</code></pre><ul><li><strong><code>Bun.plugin</code>&nbsp;中的虚拟模块 (Virtual Module)</strong></li></ul><p>Bun 的插件系统变得更加灵活并且与 esbuild 兼容。除了自定义加载程序 (&nbsp;<code>import stuff from "./stuff.foo"</code>&nbsp;) 之外，它现在还支持完全虚拟模块 (&nbsp;<code>import stuff from "foo"</code>&nbsp;)。开发者可以通过注册插件来注册虚拟模块。</p><pre><code class="language-javascript">import { plugin } from "bun";
+
+plugin({
+  name: "my plugin",
+  setup(builder) {
+    builder.module("my-virtual-module", () =&gt; {
+      return {
+        exports: {
+          hello: "world",
+        },
+        loader: "object",
+      };
+    });
+  },
+});</code></pre><p>然后可以像普通模块一样使用该虚拟模块：</p><pre><code class="language-javascript">import { hello } from "my-virtual-module";
+console.log(hello); // "world"
+
+// require("my-virtual-module") also works
+// await import("my-virtual-module") also works
+// require.resolve("my-virtual-module") also works</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbun.sh%2Fblog%2Fbun-v1.0.4" target="_blank">详情</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 03 Oct 2023 03:14:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260293/bun-1-0-4-released</guid>
+            <link>https://www.oschina.net/news/260293/bun-1-0-4-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[特斯拉：FSD 不使用高清地图，只依赖神经网络和海量数据]]>
@@ -50,15 +104,15 @@
         </item>
         <item>
             <title>
-                <![CDATA[Zephix 7 发布，基于 Debian 稳定分支的发行版]]>
+                <![CDATA[Python 3.12.0 稳定版 & 3.11.6 发布]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>Zephix 是一个基于 Debian 稳定版的实时 Linux 操作系统。它可以完全从可移动媒介上运行，而不触及用户系统磁盘上存储的任何文件。Zephix 的目的是提供一个免费的模块化操作系统，用户可以随身携带，在有笔记本电脑或桌面系统的地方使用。</p><p>运行 Zephix 的最低系统要求是 1GHz 奔腾处理器和 1.5GB 内存，不过建议使用更好的规格，以获得 Zephix 更快和更流畅的实时系统体验。</p><p>Zephix v7 (Zephix-7R-x86_64) 已于上个月发布，此版本包含许多重大变化：</p><ul><li>底层系统升级至 Debian 12.1</li><li>大量重新设计的模块创建和操作脚本</li><li>重命名脚本以获得更好的约定</li><li>添加了 3 个新脚本 - 创建自定义核心模块、将 2 个模块合并在一起，以及在构建大型模块时扩展交换空间</li><li>添加了默认行为，自动将新创建的模块移动到正确的位置</li><li>进一步消除了最终 ISO 中不必要的膨胀，将大小减小至 380MB</li><li>删除固件模块，引入一个名为 isenkram 的工具，该工具提供 isenkram-autoinstall-firmware（这可以与 USB 网络共享一起使用来安装所需的缺失固件）</li><li>删除传统的桌面模块，提供了 (7) 个预构建的桌面模块（Cinnamon、GNOME、KDE、LXDE、LXQt、MATE、Xfce），以允许更自由的选择</li><li>添加 bc、rsync 和 ifrename 工具</li><li>更新官方网站以反映所有这些变化并提供更多信息</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2f15529fabaf53bb3c3900dbd256366c803.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fzephix-linux%2Ffiles%2FISO%2F" target="_blank">下载地址</a></p></div>
+                <![CDATA[<div class="content"><p>Python 3.12.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpythoninsider.blogspot.com%2F2023%2F10%2Fpython-3120-final-now-available.html" target="_blank">发布</a>。</p><p><img src="https://static.oschina.net/uploads/space/2023/1003/111138_Mtlw_2720166.png" referrerpolicy="no-referrer"></p><p><strong>主要变化</strong></p><ul><li>更灵活的 f-string 解析 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0701%2F">PEP 701</a>)<br> 详情查看<em>&nbsp;<a href="https://www.oschina.net/news/257832/python-f-strings-pep-701" target="news">Python 改进 f-strings 语法，解除封印，整合到统一的解析器中</a></em></li><li>支持 buffer 协议 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0688%2F">PEP 688</a>)</li><li>引入新的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-669-low-impact-monitoring-for-cpython" target="_blank">debugging/profiling API</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0669%2F" target="_blank">PEP 669</a>)</li><li>支持具有单独全局解释器锁的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-684-a-per-interpreter-gil" target="_blank">分离子解释器</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0684" target="_blank">PEP 684</a>)</li><li>优化性能，例如 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0709%2F" target="_blank">PEP 709 </a>和对 BOLT 二进制优化器的支持，预计总体性能提高 5%。</li><li>改进错误信息</li><li>支持 Linux perf 分析器在跟踪过程中报告 Python 函数名称</li></ul><p><strong>类型注释</strong></p><ul><li>为泛型类引入新的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-695-type-parameter-syntax" target="_blank">类型注释语法</a> (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0695%2F" target="_blank">PEP 695</a>)</li><li>为方法引入<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-698-override-decorator-for-static-typing" target="_blank">新的 override 装饰器</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0698" target="_blank">PEP 698</a>)</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3120%2F" target="_blank">发布说明</a> | <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2F" target="_blank">下载地址</a></p><hr><p>此外，Python 3.11 发布了第 6 个维护版本<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpythoninsider.blogspot.com%2F2023%2F10%2Fpython-3116-is-now-available.html" target="_blank"> 3.11.6</a>，引入了许多新变化，详情查看&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3110%2F" target="_blank">https://www.python.org/downloads/release/python-3110/</a>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 02 Oct 2023 03:18:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260159/zephix-linux-7</guid>
-            <link>https://www.oschina.net/news/260159/zephix-linux-7</link>
+            <pubDate>Mon, 02 Oct 2023 03:22:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260227/python-3-12-0-final-released</guid>
+            <link>https://www.oschina.net/news/260227/python-3-12-0-final-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -197,6 +251,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[Zephix 7 发布，基于 Debian 稳定分支的发行版]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Zephix 是一个基于 Debian 稳定版的实时 Linux 操作系统。它可以完全从可移动媒介上运行，而不触及用户系统磁盘上存储的任何文件。Zephix 的目的是提供一个免费的模块化操作系统，用户可以随身携带，在有笔记本电脑或桌面系统的地方使用。</p><p>运行 Zephix 的最低系统要求是 1GHz 奔腾处理器和 1.5GB 内存，不过建议使用更好的规格，以获得 Zephix 更快和更流畅的实时系统体验。</p><p>Zephix v7 (Zephix-7R-x86_64) 已于上个月发布，此版本包含许多重大变化：</p><ul><li>底层系统升级至 Debian 12.1</li><li>大量重新设计的模块创建和操作脚本</li><li>重命名脚本以获得更好的约定</li><li>添加了 3 个新脚本 - 创建自定义核心模块、将 2 个模块合并在一起，以及在构建大型模块时扩展交换空间</li><li>添加了默认行为，自动将新创建的模块移动到正确的位置</li><li>进一步消除了最终 ISO 中不必要的膨胀，将大小减小至 380MB</li><li>删除固件模块，引入一个名为 isenkram 的工具，该工具提供 isenkram-autoinstall-firmware（这可以与 USB 网络共享一起使用来安装所需的缺失固件）</li><li>删除传统的桌面模块，提供了 (7) 个预构建的桌面模块（Cinnamon、GNOME、KDE、LXDE、LXQt、MATE、Xfce），以允许更自由的选择</li><li>添加 bc、rsync 和 ifrename 工具</li><li>更新官方网站以反映所有这些变化并提供更多信息</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2f15529fabaf53bb3c3900dbd256366c803.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fzephix-linux%2Ffiles%2FISO%2F" target="_blank">下载地址</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 01 Oct 2023 03:18:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260159/zephix-linux-7</guid>
+            <link>https://www.oschina.net/news/260159/zephix-linux-7</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[国庆中秋特别漫画：小哪吒猫助力大平台工程]]>
             </title>
             <description>
@@ -267,51 +336,6 @@
             <link>https://my.oschina.net/u/4526289/blog/10114608</link>
             <author>
                 <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[RMS 正在与癌症作斗争]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">自由软件先驱 Richard Stallman 近日透露，他正在接受非霍奇金淋巴瘤（一种白细胞癌症）的治疗，目前感受预后良好。</span></p><p><span style="color:#000000">70 岁的 RMS 本周三出席了在瑞士举行的 GNU 40 周年庆典，并发表了闭幕演讲。但与此前形象不同的是，他特有的长发以及胡子都已不见，整个人面容沧桑。</span></p><p><span style="color:#000000">据<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.theregister.com%2F2023%2F09%2F29%2Frichard_stallman_cancer%2F" target="_blank">外媒</a>所述，RMS 在演讲过程中基本上都戴着防病毒口罩，他还呼吁听众也戴上口罩。但也正因如此，他的声音基本上都被口罩所遮盖，导致现场的观众无法听清他的发言。</span></p><p><span style="color:#000000"><img alt="" height="281" src="https://oscimg.oschina.net/oscnet/up-fef37061199b66a4a1141c563b530eccd66.webp" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><em>短暂的拉下了口罩的 RMS</em></span></p><p><span style="color:#000000">RMS 表示自己患上了滤泡<span style="background-color:#ffffff">性</span>淋巴瘤，这是一种非霍奇金淋巴瘤；也是一种血液癌症，会导致 B 淋巴细胞在淋巴系统中形成团块。微软已故的创始人之一&nbsp;Paul Allen 就是因为非霍奇金淋巴瘤而去世。不过非霍奇金淋巴瘤有多种类型，RMS 所患的是其中一种发展较慢的类型。他表示自己预后良好，希望在未来的日子里还能继续活跃在 GNU 中。</span></p><p><span style="color:#000000">尽管 RMS 是一个颇有争议和评价两极分化的人物，但他对自由软件的贡献无法磨灭；可以说没有他对自由软件正规化和推广的努力，也就没有今天的开源世界。</span></p><p><span style="color:#000000">祝愿他一切顺利，早日康复。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 30 Sep 2023 03:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260018/richard-stallman-cancer</guid>
-            <link>https://www.oschina.net/news/260018/richard-stallman-cancer</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Python 3.12.0 稳定版 & 3.11.6 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Python 3.12.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpythoninsider.blogspot.com%2F2023%2F10%2Fpython-3120-final-now-available.html" target="_blank">发布</a>。</p><p><img src="https://static.oschina.net/uploads/space/2023/1003/111138_Mtlw_2720166.png" referrerpolicy="no-referrer"></p><p><strong>主要变化</strong></p><ul><li>更灵活的 f-string 解析 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0701%2F">PEP 701</a>)<br> 详情查看<em>&nbsp;<a href="https://www.oschina.net/news/257832/python-f-strings-pep-701" target="news">Python 改进 f-strings 语法，解除封印，整合到统一的解析器中</a></em></li><li>支持 buffer 协议 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0688%2F">PEP 688</a>)</li><li>引入新的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-669-low-impact-monitoring-for-cpython" target="_blank">debugging/profiling API</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0669%2F" target="_blank">PEP 669</a>)</li><li>支持具有单独全局解释器锁的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-684-a-per-interpreter-gil" target="_blank">分离子解释器</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0684" target="_blank">PEP 684</a>)</li><li>优化性能，例如 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0709%2F" target="_blank">PEP 709 </a>和对 BOLT 二进制优化器的支持，预计总体性能提高 5%。</li><li>改进错误信息</li><li>支持 Linux perf 分析器在跟踪过程中报告 Python 函数名称</li></ul><p><strong>类型注释</strong></p><ul><li>为泛型类引入新的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-695-type-parameter-syntax" target="_blank">类型注释语法</a> (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0695%2F" target="_blank">PEP 695</a>)</li><li>为方法引入<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2F3.12%2Fwhatsnew%2F3.12.html%23pep-698-override-decorator-for-static-typing" target="_blank">新的 override 装饰器</a>&nbsp;(<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0698" target="_blank">PEP 698</a>)</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3120%2F" target="_blank">发布说明</a> | <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2F" target="_blank">下载地址</a></p><hr><p>此外，Python 3.11 发布了第 6 个维护版本<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpythoninsider.blogspot.com%2F2023%2F10%2Fpython-3116-is-now-available.html" target="_blank"> 3.11.6</a>，引入了许多新变化，详情查看&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3110%2F" target="_blank">https://www.python.org/downloads/release/python-3110/</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 30 Sep 2023 03:22:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260227/python-3-12-0-final-released</guid>
-            <link>https://www.oschina.net/news/260227/python-3-12-0-final-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微信、QQ 全新 UOS 版本发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">统信 UOS 官方<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FuAVFG69xbK6Z9IfxQZjH6w" target="_blank">宣布</a>，微信和 QQ 再次全新升级，现已上线统信 UOS 应用商店。</span></p><h4><span style="color:#000000"><strong>微信 2.1.8 版本更新（原生适配统信 UOS）</strong></span></h4><p><span style="color:#000000">微信自 2021 年底首次适配统信 UOS 以来，经过多次版本更新优化，于近日发布 2.1.8 版本，并正式上线统信 UOS 应用商店。</span></p><p><span style="color:#000000"><img alt="" height="267" src="https://oscimg.oschina.net/oscnet/up-4c1f9d16153f0e419ee1c0e40814e1fde9f.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><strong>聊天信息搜索</strong></span></p><p><span style="color:#000000">在聊天窗口界面，可以对历史信息进行搜索，这样在众多信息中找到自己想要的信息就非常方便了。</span></p><p><span style="color:#000000"><img alt="" height="346" src="https://oscimg.oschina.net/oscnet/up-2e7b7ccad34fd65abf2810baf3599baf5c0.gif" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><strong>通讯录搜索</strong></span></p><p><span style="color:#000000">联系人过多记不住也没关系，新版 UOS 微信支持联系人搜索，直接在联系人界面即可搜索到对应的联系人。</span></p><p><span style="color:#000000"><img alt="" height="351" src="https://oscimg.oschina.net/oscnet/up-01c58bd26e82cdac3937e4859df89864af0.gif" width="500" referrerpolicy="no-referrer"></span></p><p><strong><span style="color:#000000">群管理功能</span></strong></p><p><span style="color:#000000">可进行成员删减、查看群公告、消息免打扰、置顶群聊、清空聊天记录、删除并退出等常用操作。</span></p><p><img alt="" height="352" src="https://oscimg.oschina.net/oscnet/up-ca0172d458e5050956edc7f886860f47a09.gif" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">本次版本不仅增加了大量常用功能，同时还针对统信 UOS 用户反馈的登录二维码频闪、无法打开大写字母链接等若干问题进行全面优化：</span></p><ol><li><span style="color:#000000">退出登录后，登录二维码频闪；</span></li><li><span style="color:#000000">群聊消息仅显示第一次聊天的时间，不显示后续聊天的时间；</span></li><li><span style="color:#000000">无法打开大写字母的链接；</span></li><li><span style="color:#000000">截图选择隐藏当前窗口截图，再 Esc 取消截图，无法回到聊天界面；</span></li><li><span style="color:#000000">最小化窗口后，影响最大化按钮的状态。</span></li></ol><h4><strong><span style="color:#000000">QQ Linux 版迎来重磅升级</span></strong></h4><p><span style="color:#000000">当前版本支持消息、小世界、QQ 空间板块等。</span></p><p><span style="color:#000000"><img alt="" height="265" src="https://oscimg.oschina.net/oscnet/up-6a4ded5957c093ccd4510a5b9d335a6981b.png" width="500" referrerpolicy="no-referrer"></span></p><p><strong><span style="color:#000000">夜间模式</span></strong></p><p><span style="color:#000000">QQ 夜间模式并支持跟随系统，享受更沉浸的聊天体验。</span></p><p><span style="color:#000000"><img alt="" height="265" src="https://oscimg.oschina.net/oscnet/up-21170e1a0c6b0bf5ee9492c4bfd2681ca4d.jpg" width="500" referrerpolicy="no-referrer"></span></p><p><strong><span style="color:#000000">截图能力</span></strong></p><p><span style="color:#000000">QQ 截图能力升级，快捷方便，提升办公效率。</span></p><p><span style="color:#000000"><img alt="" height="300" src="https://oscimg.oschina.net/oscnet/up-62b887afba45904cac5a3a6168df05139fb.png" width="500" referrerpolicy="no-referrer"></span></p><p><strong><span style="color:#000000">升级方式</span></strong></p><p><span style="color:#000000">QQ 版本升级方式进行全方位优化。</span></p><p><span style="color:#000000"><img alt="" height="265" src="https://oscimg.oschina.net/oscnet/up-6917dd67d624cc3bf56cf77511b12076692.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">此外当前版本还支持群图片、文件传送、全局搜索等功能，修复了若干统信 UOS 用户反馈的问题，体验更佳。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 30 Sep 2023 02:37:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260016</guid>
-            <link>https://www.oschina.net/news/260016</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
     </channel>
