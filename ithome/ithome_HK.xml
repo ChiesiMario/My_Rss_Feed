@@ -16,8 +16,38 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 05 Oct 2023 00:31:56 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 05 Oct 2023 02:32:58 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[數百 GitHub 儲存庫遭注入惡意程式碼]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/surprise_when_dependabot_contributes_malicious_code_-_checkmarx.com_.png?itok=wVsKO_s5" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>資安公司 Checkmarx 揭露了一起眾多 GitHub 儲存庫，遭自動化<a href="https://checkmarx.com/blog/surprise-when-dependabot-contributes-malicious-code/">注入惡意程式碼的攻擊事件</a>，攻擊者竊取受害者的 GitHub 個人存取令牌，並用以貢獻惡意程式碼到儲存庫中。這次攻擊事件規模龐大，除了公開儲存庫之外，也影響一些私人儲存庫，因此研究人員推測攻擊是一個自動化過程。</p><p>攻擊者透過 GitHub 免費軟體專案自動化相依管理工具 Dependabot，進行自動貢獻，試圖掩蓋惡意活動。Dependabot 工具會持續監控諸如函式庫和套件等專案相依項目，發現存在安全漏洞或是過時的程式碼版本，Dependabot 會自動產生拉取請求，協助開發人員保持軟體的安全性和最新狀態。</p><p>而這起攻擊事件發生在今年 7 月 8 日到 11 日間，攻擊者入侵數百個 GitHub 儲存庫，透過偽造提交訊息（下圖），使開發者相信其為真正的 Dependabot 貢獻，並忽略該活動。攻擊總共可分為三個階段，首先是工作區域的初始化，研究人員解釋，開發者要進行 Git 操作就必須使用個人存取權杖設置開發環境，而這個權杖會被儲存在開發者機器上，很容易被擷取，由於這些存取權杖不需要雙因素驗證，因此只要擁有網際網路連接，就可以使用這些權杖存取帳户。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1005-the%20fake%20commit-dependabot.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="color: rgb(105, 105, 105); font-size: 14px;">圖片來源_Checkmarx</span></p><p>第二階段則是竊取憑證，研究人員目前還不確定攻擊者如何獲取開發者憑證，但是他們猜測最有可能的情境，是受害者被惡意軟體套件感染，再由惡意軟體套件將權杖上傳到攻擊者的 C2 伺服器。最後階段便是利用竊取來的存取權杖，通過 GitHub 身分驗證對儲存庫注入惡意程式碼，而且考慮其攻擊的規模，研究人員推斷該攻擊採用了自動化程式。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/image-50.jpg" style="width: 580px; height: 123px;" referrerpolicy="no-referrer"></p><p><span style="color: rgb(105, 105, 105); font-size: 14px;">圖片來源_Checkmarx</span></p><p>注入的惡意程式碼會將 GitHub 專案中定義的機密，傳送到 C2 伺服器。具體方法是惡意程式會修改被攻擊專案中任何的 JavaScript 檔案，修改過後的程式碼會竊取網頁表單密碼，也就是終端使用者在網頁表單中只要輸入並提交密碼時，這些機密資訊就會被竊取，傳送到攻擊者的 C2 伺服器。</p><p>Checkmarx 提醒開發者，即便在 GitHub 這樣的可信任平台，也要謹慎注意程式碼的來源。之所以攻擊者能夠成功發動攻擊，便是因為許多開發者在看到 Dependabot 訊息時，並不會仔細檢查實際變更內容，而且由於權杖存取日誌僅有企業帳户可用，因此非企業用户也無法確認權杖是否遭濫用。</p><p>研究人員建議，使用者可以考慮採用<a href="https://www.ithome.com.tw/news/153704" target="_blank">GitHub 精細個人存取權杖</a>（下圖），透過限縮每個權杖的權限，來降低當權杖洩漏時攻擊者所能造成的損害。</p><p class="rtecenter"><a href="https://github.blog/wp-content/uploads/2022/10/PAT3.gif" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1005-fine-grained%20personal%20access%20tokens%20for%20GitHub.png" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_GitHub</span></span></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159125</guid>
+            <link>https://www.ithome.com.tw/news/159125</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微軟公開重新設計的 OneDrive 應用程式，預告將陸續推出一系列新功能]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/unveiling_the_next_generation_of_onedrive_-_microsoft_community_hub_-_techcommunity.microsoft.com_.png?itok=xvG47XiF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟重新設計了<a href="https://techcommunity.microsoft.com/t5/microsoft-onedrive-blog/unveiling-the-next-generation-of-onedrive/ba-p/3935612">OneDrive</a>網頁應用程式，目的是要更清楚簡潔地呈現檔案，方便用户快速存取檔案。新的 OneDrive 更新了檔案呈現方式，並加入人工智慧助理 Copilot，讓使用者可以快速搜尋、組織和擷取檔案中的資料，同時官方也計畫，要在 Teams 和 Outlook 更緊密整合 OneDrive，讓用户可以在多種情境下快速取用檔案。</p><p>使用者打開網頁 OneDrive，第一眼便可以看到重新設計的主要頁面，頂端的 For you 區塊是利用人工智慧技術，根據使用者的需求推薦項目，讓使用者可以在需要的時候快速存取相關檔案。會議檢視區塊，則會顯示即將舉行與歷史會議還有其相關的內容，會議錄音以及在聊天或是會議中共享的檔案，都會出現在該區塊供用户檢視。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1004-OneDrive-01.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1004-OneDrive%20in%20Outlook-for%20you.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>新版 OneDrive 還提供多種分類的檔案檢視方法，用户能以共享者作為條件查詢檔案，或是查看所有已經共享的檔案，並且設置資料夾顏色，更好地分類檔案。新版 OneDrive 提供的收藏資料夾，可以讓使用者標記重要的檔案，並在 OneDrive、Teams、檔案總管、Microsoft 365 等應用程式中快速存取。整體來説，新版 OneDrive 應用程式更加直觀，簡化了檔案存取提高協作效率。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1004-OneDrive-0%EF%BC%93.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1004-OneDrive-0%EF%BC%94.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>微軟也預告了接下來 OneDrive 還會陸續加入一些新功能。OneDrive 的應用程式內開啟功能（Open In App），讓使用者可以從 Word、PowerPoint 或是 Excel 桌面應用程式直接開啟檔案，並在編輯之後同步至雲端，而接下來 OneDrive 也會支援 PDF 和 CAD 檔案，使用者能夠在這兩類檔案獲得相同的無縫編輯體驗。</p><p>官方提到，OneDrive 的其中一個更新重點，便是要和 Teams、Outlook 更緊密的整合。在 12 月的時候，微軟將會更新 Teams 中的檔案應用程式，推出新的 OneDrive Teams 應用程式，讓使用者可以直接在 Teams 存取所有 SharePoint 和 OneDrive 的檔案，而這將帶來額外的效能提升以及功能升級。</p><p>在 Outlook 部分，應用程式左側導覽列將會出現 OneDrive 功能，使用户可以在 Outlook 方便複製分享連結，並且快速查詢共享檔案。微軟也計畫在 2024 年陸續推出按需同步、新增按鈕與媒體檢視等功能。而在今年早些時候釋出 OneDrive 將引入 Copilot 的消息，微軟也預計會在 12 月之前，向所有擁有 Microsoft 365 Copilot 授權的用户開放。</p><p>微軟針對 OneDrive 消費者版本改進照片搜尋功能，OneDrive 將能夠以人物搜尋照片，甚至是使用自然語言進行搜尋，讓尋找照片更加容易，用户能以「camping in the fall, in the mountains with Caroline」這樣的句子查詢特定照片。該功能預計在 2024 年初開始公開預覽。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_微軟</span></span></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159123</guid>
+            <link>https://www.ithome.com.tw/news/159123</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[Martech 雙周報第 42 期：Line 在台擴大開放 Mini App 開發資格申請，執行時無須跳轉到外部程式，還可以連結回使用者 Line 身分]]>
@@ -189,37 +219,7 @@ Channel99 推出 ABM 行銷分析工具，視覺化呈現對特定目標的跨�
             <author>
                 <![CDATA[王若樸]]>
             </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[金管會放寬網路保險跨業合作限制，找金融科技合推創新保險項目不受限還可以單賣]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/jin_guan_hui__2.jpeg?itok=J01TIZEW" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>為促進保險業發展生態系，金管會今日放寬保險異業合作範圍，開放保險業能與具金融科技專業的業者合作辦理創新型保險商品，特別鬆綁網路投保和網路保險服務可辦理項目的限制，且不再僅限以附屬性商品販售，最快本週內正式上路。</p><p>過往，保險業與異業合作辦理保險商品時，僅能以附屬性商品的形式販售，今日，金管會宣佈將「保險業保險代理人保險經紀人與異業合作推廣附屬性保險商品業務應注意事項」改名為「異業合作推廣保險業務應注意事項」，並增列「保險業直接與具金融科技專業之異業合作辦理創新型保險商品」的型態。未來，保險業進行異業合作，只要是與具金融科技專業的業者合作辦理創新型保險，就可以不再以附屬性商品的形式販售。</p><p>此外，金管會也進一步修正「保險業辦理電子商務應注意事項」，開放異業合作範圍，讓保險業能與從事大數據資料分析、介面設計、軟體研發、物聯網、無線通訊業務等具金融科技專業的業者合作辦理創新型保險，並依據相關法規申請試辦，經核準後上路。金管會保險局副局長林志憲表示，主管機關主要會針對合作模式和創新商品進行審核。</p><p>針對創新型保險的定義，林志憲進一步解釋，他表示，除了創新商品，創新型保險還包括創新的服務內容或流程，且不受網路投保和網路保險服務可辦理項目的限制。由於目前法規中，以正面表列可辦理的網路保險服務事項，等同業者僅能辦理條列出的服務項目。例如，過去並未明列保單還款功能，因此，業者不得開放民眾在網路進行保單還款。而在網路投保中，也以表列的方式限制產險和壽險的投保商品種類。</p><p>不過，此次開放異業合作辦理的創新型保險，皆不在上述限制範圍內。林志憲解釋，保險業者只要是與相關的金融科技業者合作辦理，就不受可辦理網路投保和網路保險服務項目的限制，「有利於業者進行生態系的建立。」</p><p>此外，針對網路保險服務可辦理項目，金管會也宣佈新增保單還款、變更個人投保風險屬性、利變型保單及團體年金自費單次增額保費變更。林志憲表示，此次修正最快兩天就會正式上路。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 02 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159114</guid>
-            <link>https://www.ithome.com.tw/news/159114</link>
-            <author>
-                <![CDATA[李昀璇]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[全家結合 IoT 能源管理、太陽能及儲能設備打造首家能源韌性實驗店，加速超商能源轉型發展]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/img_5500-1.jpg?itok=n-EBdNBt" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>政府推動 2050 淨零目標，並鼓勵國內產業加速能源轉型發展。擁有超過 4,100 家門市的全家超商，今天（10/3）在台南打造能源韌性實驗店，除了運用 IoT 協助改善店鋪能源管理，也導入太陽能發電及儲能設備，一方面利用再生能源降低店鋪用電成本，另一方面當發生無預警停電時，可透過儲能設備提供備用電力，提高店鋪的營運韌性。</p><p>有別於先前聚焦在減輕門市人員勞務、展現零售業轉型企圖心的科技概念店，全家此次打造的能源韌性實驗店，為達到淨零永續，促成超商能源轉型發展所打造，位於台南安平地區的平豐店，全家和電力系統整合商泓德能源旗下星星電力合作，導入節能、創能（創造能源）、儲能系統及設備，作為全家推動能源轉型概念的實驗店。</p><p>在節能方面，全家目前向旗下的門市人員宣導節電觀念，同時約有９成的店鋪導入 IoT 及能源管理系統，可自動偵測冷藏設備温度，當用電接近滿載，主動降載空調、燈光照明，避免用電過度，例如在傍晚或夜間時段，會自動降低店內照明亮度，至於店官的冰箱、冰櫃設備，過去是採取固定除霜，一天需要６次固定除霜，為避免過度用電，改為動態除霜，當偵測到温度過低或結霜時才會除霜。目前約９成店鋪導入 IoT 及能源管理系統。</p><p>全家在冰箱、冰櫃設備導入 IoT 能源管理，每個冰箱冰櫃右上方皆顯示温度，結合邊綠運算，當偵測温度過低，冰箱或冰櫃內出現結霜時，自動採取動態除霜，除了店鋪端落實能源管理，IoT 設備也會將設備運作數據送到總部，作為總部能源管理決策參考，或是從數據分析來預測設備運作狀態，作為預測性維護、設備汰換參考。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/20231003_151246.jpg" style="width: 600px; height: 450px;" referrerpolicy="no-referrer"></p><p>全家的 IoT 能源管理系統，蒐集冰箱健康分數、監控冰櫃温度變化、控制照明、店鋪整體用電等數據，下圖為冰櫃温度：</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_5494.jpg" style="width: 600px; height: 399px;" referrerpolicy="no-referrer"></p><p>實驗店的一大特色是打造孤島電力系統，也就是在台電供電之外，建置太陽能發電、儲能系統，以提高店鋪的用電穩定性、店鋪營運韌性。首先是利用台南的日照時間長，在店鋪的屋頂設置 10kWp 的太陽能，送至店鋪後方的儲能系統儲存，這套儲能系統扮演調節電力供應的角色，可在台電離峯時段儲能，在日間用電尖峯時段供應電力，降低店鋪在尖峯時段的用電量。</p><p>在平豐店後方的儲能設備，可儲存屋頂太陽能產生的電力，以及在台電電價離峯時段儲能，在店鋪的用電尖峯時段供電，節省用電成本：</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_5490.jpg" style="width: 600px; height: 399px;" referrerpolicy="no-referrer"></p><p>全家設備工程部部長楊豐瑞表示，能源韌性實驗店的孤島電力系統由太陽能、儲能系統組成，太陽能光電自發自用，其綠電使用量佔全店用電的６％。儲能系統的電池，可在台電離峯電價時段儲電，在店內用電尖峯時段供電，估計單店一個月可節省１成的電費。此外，當台電發生無預警停電，儲能系統可緊急供電救援，包含自動門、監視器、冷凍設備、收銀、基礎照明及空調等，讓店鋪維持２至３小時的營運。</p><p>在平豐店的顧客休憩區，全家和星星電力合作在牆面設置店鋪能源管理戰情室，在休憩區牆面上的螢幕展示該店的用電、太陽能發電、儲能資訊。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/20231003_151159.jpg" style="width: 600px; height: 450px;" referrerpolicy="no-referrer"></p><p>平豐店也利用當地日照，在店外車棚設置太陽能，利用太陽能產生電力，在停車位上設置最高可提供 120kW 的充電椿，支援 CCS1、CCS2 規格。因應電力市場自由交易，還設置一個雙向充電椿，相較於傳統的單向椿電，可從電力充足的電動車反向輸出電力給儲能系統。</p><p>另外，店鋪前方的停車位也設置電動車充電樁，上方的車棚也導入太陽能，產生的電能可為電動車充電：</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_5488.jpg" style="width: 600px; height: 399px;" referrerpolicy="no-referrer"></p><p>全家在能源轉型的策略上，包括節能、創能、儲能三個短中長期目標，短期目標是透過店鋪教育門市人員節電觀念，導入節能設備、IoT 及能源管理系統，並以節能地圖，讓加盟店長養成節電的習慣。全家計畫為平豐店單店進行温室氣體盤查，在年底前完成碳中和驗證，挑戰成為首間碳中和的便利商店。</p><p>在中長期目標方面，持續測試導入太陽能發電自發自用、綠電採購，以儲能系統打造孤島電網，在斷電時維持店鋪營運不中斷，全家也準備在年底前，測試 500 家門市在限定時段採購使用綠電，估計一年採購 300 萬度綠電。</p><p>全家便利商店副營運長王智正表示，實驗店以太陽能、儲能設備打造孤島電網，試驗能源管理、調度的效益，藉此強化店鋪在停電時的營運韌性，透過實驗店試驗各項節能、創能、儲能技術的可行性及效益，未來再將相關的技術擴大至更多的門市採用。</p><p>不過，王智正也直言，目前實驗店建置成本不低，以儲能系統為例，成本仍偏高，未來如果儲能系統使用的電池成本進一步降低，可望將儲能系統推向更多的店鋪使用，未來可利用離峯儲能，尖峯時供電，降低店鋪用電成本。至於太陽能發電，因太陽能板需要較大的空間，需在較大且有長時間日照的店鋪才能建置。短時間內仍需仰賴教育門市人員節能觀念，以及導入 IoT 能源管理達到節能的目的，中長期目標是隨著創能、儲能技術成熟，以及增加綠電採購，加速超商的能源轉型發展。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 02 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159113</guid>
-            <link>https://www.ithome.com.tw/news/159113</link>
-            <author>
-                <![CDATA[蘇文彬]]>
-            </author>
-            <category>新聞</category>
+            <category>醫療 IT</category>
         </item>
     </channel>
 </rss>
