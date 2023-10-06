@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 06 Oct 2023 15:30:08 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 06 Oct 2023 19:51:45 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[中国骇客假借台积电的名义对半导体产业散布 Cobalt Strike]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/chinese_cyberespionage_east_asia_-_image3.png?itok=ipAUOdoH" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>台积电是台湾护国神山，带动了半导体相关的供应链堀起，一举一动也受到全球瞩目，然而，最近有人打著该公司的名号，意图渗透半导体相关产业的厂商。</p><p><a href="https://blog.eclecticiq.com/chinese-state-sponsored-cyber-espionage-activity-targeting-semiconductor-industry-in-east-asia">资安业者 EclecticIQ 揭露针对台湾、香港、新加坡半导体公司的攻击行动</a>，骇客疑似透过钓鱼邮件，寄送声称是台湾积体电路制造公司（台积电）的简介 PDF 档案，一旦收信人开启该文件，电脑就会启动名为 HyperBro 的恶意程式载入工具，该软体透过资安业者 CyberArk 应用程式的执行档 vfhost.exe，进行 DLL 侧载（DLL Side-loading），然后于记忆体内（In-memory）执行 Cobalt Strike 的 Beacon 元件。</p><p><a href="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image7.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image7.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>研究人员针对该 Beacon 元件进行分析，他们发现骇客利用过往未被揭露的恶意程式下载工具进行渗透。基本上，这个工具透过 Windows 内建的 PowerShell 及 BitsTransfer 模组，从已被入侵的中国亿赛通（EsafeNet）Cobra DocGuard 加解密伺服器取得恶意程式，接下来，这个程式安装启动之后，会利用另一家资安业者 McAfee 签章的可执行档 mcods.exe，运用 DLL 侧载手法执行 Cobalt Strike 的 Shell Code，而该 Shell Code 连线的 C2 伺服器 IP 位址，与 HyperBro 相同。</p><p><a href="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image1.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image1.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>此外，上述的加解密伺服器也被植入以 Go 程式语言打造的后门程式 ChargeWeapon，使得攻击者能借此取得受害电脑资讯。这个后门程式具备 5 项主要特性，分别是使用 Windows 内建的命令列介面（CLI）与远端装置互动、执行 WMI、与 C2 连线流量采用 Base64 演算法混淆、采用 TCP over HTTP 连线模式，且能够在受害电脑任意读取或写入档案。研究人员指出，骇客在该后门程式导入名为 garble 的开源混淆工具，他们在公布调查结果的时候，恶意程式侦测平台 VirusTotal 仅有 4 款防毒引擎将其视为恶意程式。</p><p>特别的是，为了绕过防火墙系统，骇客将 C2 伺服器伪装成 jQuery CDN。而根据攻击者使用的手法，研究人员推测是来自中国的骇客。</p><p><a href="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image4.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/chinese%20cyberespionage%20east%20asia%20-%20image4.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>研究人员针对这起攻击行动所采用的 HyperBro 进行分析，发现骇客采用的变种程式攻击行动更为隐密。他们发现，骇客借由 DLL 侧载来成功执行 HyperBro 的载入程式 VFTRACE.dll 之后，该程式库档案将会针对名为 bin.config 的档案进行解密，该组态档案内含由 XOR 演算法进行加密的 Cobalt Strike 的 Shell Code。成功完成解密后，此 Shell Code 就会载入 vfhost.exe。</p><p>值得一提的是，骇客加密 Shell Code 的手法，与一般的攻击行动有所不同，他们的解密过程当中，使用了只有 1 个位元组长度的金钥（0x01），目的是要规避以特征码为基础的恶意程式侦测机制。换言之，攻击者采用了相当简单的混淆手法，使得防毒软体侦测的成功率极低。</p><p>针对另一个从 Cobra DocGuard 加解密伺服器传输的恶意程式，研究人员发现与 HyperBro 有多项共通点，包含都是利用资安业者的可执行档进行 DLL 侧载的方式执行、C2 的 IP 位址相同，以及从 bin.config 解密 Cobalt Strike 的 Shell Code 来建立 C2 连线。但不同的地方在于，新的恶意软体攻击行动里，骇客采用的解密金钥长度是 16 个位元组，再者，此恶意程式采用未记载的 NTAPI 功能，而非像 HyperBro 使用常见的 Windows API 功能。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159184</guid>
+            <link>https://www.ithome.com.tw/news/159184</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[中研院正式开源释出繁中优化的 Llama 2 大型语言模型，正式采用 Apache2.0 释出]]>
@@ -38,7 +53,7 @@
                 <![CDATA[【资安日报】10 月 6 日，中国骇客锁定台湾、香港、新加坡半导体产业而来，假借台积电的名义进行网路间谍攻击行动]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231006.png?itok=KyI--wci" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>中国骇客的网路间谍行动频传，继我们昨天报导骇客组织 APT41 针对安卓手机用户下手，散布恶意程式的情况，今天又有数起攻击行动与中国骇客有关。其中，最引人关注的事故，就属冒用台湾护国神山台积电名义的网路钓鱼攻击。</p><p>这起攻击行动的特别之处在于，骇客运用两家资安厂商软体的可执行档来发动 DLL 侧载攻击，并利用中国亿赛通 Cobra DocGuard 加解密伺服器来代管恶意程式，而利用此加解密系统的攻击并非首例，<a href="https://www.ithome.com.tw/news/158411#carderbee">今年 4 月，骇客组织 Carderbee 利用这种伺服器散布恶意程式 PlugX</a>。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://blog.eclecticiq.com/chinese-state-sponsored-cyber-espionage-activity-targeting-semiconductor-industry-in-east-asia"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">中国骇客假借台积电的名义对半导体产业散布 Cobalt Strike</span></strong></a></p>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231006.png?itok=KyI--wci" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>中国骇客的网路间谍行动频传，继我们昨天报导骇客组织 APT41 针对安卓手机用户下手，散布恶意程式的情况，今天又有数起攻击行动与中国骇客有关。其中，最引人关注的事故，就属冒用台湾护国神山台积电名义的网路钓鱼攻击。</p><p>这起攻击行动的特别之处在于，骇客运用两家资安厂商软体的可执行档来发动 DLL 侧载攻击，并利用中国亿赛通 Cobra DocGuard 加解密伺服器来代管恶意程式，而利用此加解密系统的攻击并非首例，<a href="https://www.ithome.com.tw/news/158411#carderbee">今年 4 月，骇客组织 Carderbee 利用这种伺服器散布恶意程式 PlugX</a>。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.ithome.com.tw/news/159184"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">中国骇客假借台积电的名义对半导体产业散布 Cobalt Strike</span></strong></a></p>
                 <!-- notionvc: 54c19f9b-e06e-4c63-b556-6437df6e29d0 -->
                 <p></p>
                 <p>
@@ -361,7 +376,7 @@
                 <author>
                     <![CDATA[李建兴]]>
                 </author>
-                <category>新闻</category>
+                <category>资安 </category>
             </item>
             <item>
                 <title>
@@ -396,22 +411,7 @@
                 <author>
                     <![CDATA[周峻佑]]>
                 </author>
-                <category>新闻</category>
-            </item>
-            <item>
-                <title>
-                    <![CDATA[苹果释出 iOS 17.0.3 以解决 iPhone 过热问题并修补零时差漏洞]]>
-                </title>
-                <description>
-                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0524-apple_store_by_apple_21.jpg?itok=ble52FEi" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>苹果周三（10/4）释出了 iOS 17.0.3 与 iPad 17.0.3，以修补相关装置的臭虫与零时差漏洞，同时也解决了<a href="https://www.ithome.com.tw/news/159052" target="_blank">日前传出的 iPhone 15 过热问题</a>。</p><p><a href="https://support.apple.com/en-us/HT213781" target="_blank">在 iOS 17.0.3 的更新说明中</a>，苹果表示该更新修补了重要的臭虫与安全问题，以及解决了造成 iPhone 比预期还要热的问题。不过，苹果并未详细解释造成 iPhone 过热的原因。</p><p>苹果也借由 iOS 17.0.3 及 iPad 17.0.3<a href="https://support.apple.com/en-us/HT213961" target="_blank">修补了两个零时差漏洞</a>，一个是<a href="https://www.ithome.com.tw/news/159044" target="_blank">Google 日前已修补</a>、涉及影像编解码函式库 libvpx 的 CVE-2023-5217，另一个则是新零时差漏洞 CVE-2023-42824。</p><p>依据苹果的说法，CVE-2023-5217 存在于网页即时通讯（WebRTC）功能中，它是个缓冲区溢位漏洞，可能导致任意程式执行，已借由更新至 libvpx 1.13.1 将其修补。至于 CVE-2023-42824 则是一个全新的零时差漏洞，位于 Kernel 中，将允许骇客扩张权限。这两个漏洞皆已遭到骇客利用。</p></div></div></div><div></div></div></div></div>]]>
-                </description>
-                <pubDate>Wed, 04 Oct 2023 16:00:00 GMT</pubDate>
-                <guid isPermaLink="false">https://www.ithome.com.tw/news/159143</guid>
-                <link>https://www.ithome.com.tw/news/159143</link>
-                <author>
-                    <![CDATA[陈晓莉]]>
-                </author>
-                <category>新闻</category>
+                <category>资安 </category>
             </item>
         </channel>
     </rss>
