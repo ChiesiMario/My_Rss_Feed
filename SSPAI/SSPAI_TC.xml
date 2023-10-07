@@ -8,7 +8,418 @@
         <description>少數派致力於更好地運用數字產品或科學方法，幫助用户提升工作效率和生活品質</description>
         <language>zh-CN</language>
         <managingEditor>contact@sspai.com (少數派)</managingEditor>
-        <pubDate>Sat, 07 Oct 2023 08:00:00 +0800</pubDate>
+        <pubDate>Sat, 07 Oct 2023 11:00:00 +0800</pubDate>
+        <item>
+            <title>Python 在辦公自動化中的簡單應用</title>
+            <link>https://sspai.com/post/83196</link>
+            <description>&lt;div class=&quot;content wangEditor-txt minHeight&quot;&gt;&lt;p&gt;&lt;strong&gt;Matrix 首頁推薦&lt;/strong&gt;&#160;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://sspai.com/matrix&quot;&gt;Matrix&lt;/a&gt;&#160;是少數派的寫作社區，我們主張分享真實的產品體驗，有實用價值的經驗與思考。我們會不定期挑選 Matrix 最優質的文章，展示來自用戶的最真實的體驗和觀點。&lt;/p&gt;&lt;p&gt;文章代表作者個人觀點，少數派僅對標題和排版略作修改。&lt;/p&gt;&lt;h2&gt;前言&lt;/h2&gt;&lt;p&gt;這篇文章的初衷是想讓更多的人能夠快速入門 Python 在辦公自動化中的簡單應用，最初的設想是每個應用場景都用不超過十行代碼來做演示，但是實際寫下來發現十行的篇幅還是小了點。為了達成目標，我臨時寫了個簡單的包傳到了 pypi 上，包裡面封裝了一些辦公中常用的功能，本篇文章中的相關腳本主要會結合這個工具包進行講解。&lt;/p&gt;&lt;p&gt;這個包中的許多函數為了易用性犧牲了靈活性，主要目的是想讓大家先用起來，體會到了便利才有更進一步學習的動力。等能夠熟練寫出和文中類似的腳本之後，可以直接看我包中的源碼進一步學習，裡面都是些比較典型的例子。&lt;/p&gt;&lt;p&gt;因為代碼中會使用到部分 windows 系統獨有的第三方包，所以如果你使用的是 macOS 之類的系統可能無法復現所有示例。&lt;/p&gt;&lt;h2&gt;Python 介紹&lt;/h2&gt;&lt;p&gt;Python 是一種面向對象的腳本語言，它算是目前最容易學習的編程語言之一。如果大學學過 C 語言的話，入門 Python 可以説是輕輕鬆鬆。就算從來沒有接觸過編程的人，也可以在短時間內學會使用方法。這一點我不是亂説的，我曾經給同事培訓過，肯學的那部分人幾次會議就能初步上手使用了。當然，培訓之後肯定是要自己複習鞏固的，掌握新技能總是要投入時間和精力的，這點相信大家都明白。&lt;/p&gt;&lt;h2&gt;閲讀基礎&lt;/h2&gt;&lt;p&gt;本篇文章主要是講應用實例，對於 Python 的基礎語法並不會進行介紹，所以在正式閲讀後面的內容之前，讀者需要先自行熟悉一下 Python 的基礎知識，不需要多深入，但是基本的數據類型、循環和條件控制、函數和類的基本概念是一定要掌握的。如果不知道從何學起的話建議去看菜鳥教程中的 &lt;a href=&quot;https://www.runoob.com/python3/python3-tutorial.html&quot;&gt;Python 3 教程&lt;/a&gt;，耐心跟著教程敲一遍裡面的代碼實例。如果在學習的過程中碰到什麼無法理解的高級特性，不需要糾結，直接跳過就行。&lt;/p&gt;&lt;p&gt;學習本文時，理論上裝好 Python 環境後有個文本編輯器就可以進行，但是如果想要有更好的編程體驗的話，建議安裝 PyCharm 這一免費 Python 集成開發工具。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：為了確保後續教程能夠正常進行，請安裝 &lt;strong&gt;3.8 以上&lt;/strong&gt;的 Python 環境，同時如果官方的 pip 源下載過慢的話可以在網上查找換源教程將其換為國內源。&lt;/p&gt;&lt;h2&gt;安裝依賴&lt;/h2&gt;&lt;p&gt;使用如下命令先安裝好後續示例中會用到的第三方包：&lt;/p&gt;&lt;pre class=&quot;language-&quot;&gt;&lt;code&gt;pip install xoffice pandas openpyxl
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;路徑相關&lt;/h2&gt;&lt;p&gt;因為本篇的重點在於批量化操作，所以遍歷文件是避不開的基礎內容。這裡我會介紹兩種方式，第一種比較簡單，請務必掌握；第二種稍微難一點，看不懂的話可以先放著，後面基礎牢固了再考慮使用。&lt;/p&gt;&lt;h3&gt;glob.glob()&lt;/h3&gt;&lt;p&gt;將 rename 文件夾中的所有 png 文件重命名為數字編號的文件。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import glob
+import os
+
+if __name__ == &#39;__main__&#39;:
+    # 重命名時會用到的編號
+    index = 1
+    for file in glob.glob(&quot;rename/*.png&quot;):
+        # 將路徑拆分為文件夾路徑和文件名兩部分
+        dir_path, file_path = os.path.split(file)
+        # 將文件名拆分為基礎名稱和拓展名
+        base_name, ext = os.path.splitext(file_path)
+        # 將文件重命名為 0001.png 這樣的格式
+        os.rename(file, os.path.join(dir_path, &quot;%04d&quot; % index + ext))
+        # 效果等同於 index = index + 1
+
+        index += 1
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efh5b34tdafv4755g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;NATMbqqsPoJ2pexJTzJcHyIrnhc&quot;&gt;&lt;/figure&gt;&lt;p&gt;&lt;code&gt;glob.glob()&lt;/code&gt;這個函數用法非常簡單，可以遍歷一個目錄層級內的所有路徑名稱，並且還支持最簡單的正則表達式過濾，主要規則如下：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;」*」 ：匹配 0 個或多個字符；&lt;/li&gt;&lt;li&gt;「?」：匹配單個字符；&lt;/li&gt;&lt;li&gt;「[]」：匹配指定範圍內的字符，如：[0-9]匹配數字。&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;平常使用的時候其實一個「&lt;i&gt;」就夠了，「*.ext」匹配指定格式的文件；「&lt;/i&gt;.*」匹配所有帶拓展名的文件，過濾掉文件夾；「*」匹配所有文件或文件夾。&lt;/p&gt;&lt;p&gt;默認情況下這個函數只能遍歷一個文件夾內的文件，對於子文件夾中的文件無法遍歷，但是可以通過設置&lt;code&gt;recursive=True&lt;/code&gt;來達到遞歸遍歷的目的，此時需要搭配「**」來使用，它可以代表任意層級的目錄。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;for file in glob.glob(&quot;rename/**/*&quot;, recursive=True):
+
+    print(file)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;輸出結果：&lt;/p&gt;&lt;pre class=&quot;language-&quot;&gt;&lt;code&gt;rename\0001.png
+rename\0002.png
+rename\0003.png
+rename\0004.png
+rename\0005.png
+rename\deep_dir
+rename\deep_dir\Snipaste_2021-08-31_22-45-16.png
+rename\deep_dir\Snipaste_2021-08-31_22-45-57.png
+rename\deep_dir\Snipaste_2021-08-31_22-48-29.png
+rename\deep_dir\Snipaste_2021-08-31_22-48-37.png
+
+rename\deep_dir\Snipaste_2021-08-31_22-48-52.png
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;對於初學者而言後面遞歸遍歷的寫法搞不懂也沒關係，會用「*」進行最簡單的單一目錄層級遍歷就夠了。&lt;/p&gt;&lt;p&gt;最後有一個注意點，&lt;code&gt;glob.glob()&lt;/code&gt;遍歷出來的文件順序是固定的，一般等同於在文件管理器中按照名稱遞增排序的結果，在某些對文件順序敏感的場合使用時需要添加額外的排序代碼。&lt;/p&gt;&lt;h3&gt;os.walk()&lt;/h3&gt;&lt;p&gt;這個函數有點繞，先看一個示例：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import os
+
+if __name__ == &#39;__main__&#39;:
+    for root, dirs, files in os.walk(&quot;rename&quot;, topdown=False):
+        for name in files:
+            print(os.path.join(root, name))
+        for name in dirs:
+
+            print(os.path.join(root, name))
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;輸出結果：&lt;/p&gt;&lt;pre class=&quot;language-&quot;&gt;&lt;code&gt;rename\deep_dir\Snipaste_2021-08-31_22-45-16.png
+rename\deep_dir\Snipaste_2021-08-31_22-45-57.png
+rename\deep_dir\Snipaste_2021-08-31_22-48-29.png
+rename\deep_dir\Snipaste_2021-08-31_22-48-37.png
+rename\deep_dir\Snipaste_2021-08-31_22-48-52.png
+rename\0002.png
+rename\0003.png
+rename\0004.png
+rename\0005.png
+rename\0006.png
+
+rename\deep_dir
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;先説基礎概念：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;root 所指的是當前正在遍歷的這個文件夾的本身的地址；&lt;/li&gt;&lt;li&gt;dirs 是一個 list ，內容是該文件夾中所有的目錄的名字 (不包括子目錄)；&lt;/li&gt;&lt;li&gt;files 同樣是 list , 內容是該文件夾中所有的文件 (不包括子目錄)。&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;結合上面的例子理解，root 依次是「rename\deep_dir」和「rename」，而 dirs 和 files 中則是 root 目錄下的文件夾列表和文件列表。可以注意到上面代碼中的&lt;code&gt;topdown=False&lt;/code&gt;，這個參數如果為&lt;code&gt;True&lt;/code&gt;，代表優先遍歷頂層目錄，反之則是優先遍歷子文件夾。所以如果上面代碼中的&lt;code&gt;topdown=True&lt;/code&gt;，那麼 root 的次序就會變為「rename」和「rename\deep_dir」。不指定該參數時默認為優先遍歷頂層目錄，沒有特殊需求的話省略該參數保持默認即可。&lt;/p&gt;&lt;p&gt;這個函數其實還有另外幾個可選參數，但是很少用到，後面有需要的話可以自行學習。&lt;/p&gt;&lt;h2&gt;PDF 相關&lt;/h2&gt;&lt;p&gt;從這一節開始就是一些我以前用到過的辦公自動化實例了，都是一些比較基礎的應用，更復雜的應用就需要特別定製了，本篇文章不會涉及。&lt;/p&gt;&lt;h3&gt;圖片轉 PDF&lt;/h3&gt;&lt;p&gt;不知道大家有沒有碰到過需要批量掃描文件歸檔的場景，雖然現在很多時候可以通過手機軟件拍攝解決，但是正經歸檔的文件還是用專業的掃描儀效果更好。掃描儀掃出來的一般是圖片的格式，有些掃描儀自帶合成軟件，可以把掃出來的圖片轉成 PDF 文件，有些則需要自己在 Adobe Acrobat 之類的 PDF 軟件中手動轉換。單份的文件掃描轉換其實用這些圖形化軟件也不算費事，但是當需要一次掃一下午文件的時候，手動轉換就著實是種折磨。&lt;/p&gt;&lt;p&gt;這裡會用到我封裝的包中的一個函數，先給出函數定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;def img_to_pdf(
+        dir_path: str,
+        free: bool = False,
+        size: Sequence = None,
+        compress: bool = False,
+        compress_target: int = 200,
+        out_path: str = None
+):
+    &quot;&quot;&quot;
+    圖片轉 pdf 文件
+    :param dir_path: 圖片所在文件夾，文件夾中圖片請按照順序編號，例如 0001.jpg、0002.jpg
+    :param free: 設為 True 後，頁面尺寸隨圖片尺寸動態變化，兩者始終保持一致
+    :param size: 頁面尺寸，A0~A6,A0_L~A6_L，默認 A4
+    :param compress: 設為 True 後，對圖片進行壓縮，降低圖片質量。開啟此功能會大幅延長 pdf 文件生成時間
+    :param compress_target: 圖片壓縮的目標體積，kB
+    :param out_path: 輸出的 pdf 文件地址，為空時默認在圖片文件夾所在目錄下創建同名 pdf 文件
+    :return:
+
+    &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;示例腳本的功能是遍歷 pdf 文件夾中所有的文件夾名稱，依次生成與文件夾名稱相同的 PDF 文件。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import glob
+
+from xoffice import img_to_pdf
+from xoffice.pdf import A4
+
+if __name__ == &#39;__main__&#39;:
+    for path in glob.glob(&quot;pdf/*&quot;):
+
+        img_to_pdf(path, size=A4)
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efhdb34tdafv47560?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;BkitbTMMmoRaLuxtYxWc7ZFNnrg&quot;&gt;&lt;/figure&gt;&lt;h3&gt;PDF 轉圖片&lt;/h3&gt;&lt;p&gt;這個用到的場景比較少，一般是發給在外面不方便開電腦的同事臨時查看時可能用到。&lt;/p&gt;&lt;p&gt;這裡先給出函數定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;def pdf_to_img(
+        file_path: str,
+        index: Sequence[int] = None,
+        out_dir: str = None,
+        zoom_x: float = 4,
+        zoom_y: float = 4,
+        rotation_angle: float = 0
+):
+    &quot;&quot;&quot;
+    pdf 文件轉為 png 圖片
+    :param file_path: pdf 文件路徑
+    :param index: 可以指定將哪些頁面轉為圖片，序號從 0 開始，默認為所有頁面
+    :param out_dir: 輸出文件夾，默認在 pdf 文件所在文件夾創建同名文件夾保存圖片
+    :param zoom_x: x 軸縮放尺寸
+    :param zoom_y: y 軸縮放尺寸
+    :param rotation_angle: 頁面旋轉角度，順時針為正
+    :return:
+
+    &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;示例腳本的功能是將 p1.pdf 文件轉為圖片格式。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;from xoffice import pdf_to_img
+
+if __name__ == &#39;__main__&#39;:
+
+    pdf_to_img(&quot;pdf/p1.pdf&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efhlb34tdafv4756g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;FBDUbCzTWooyWgxYHxac4LO5nAc&quot;&gt;&lt;/figure&gt;&lt;h2&gt;郵件相關&lt;/h2&gt;&lt;p&gt;日常工作稍微正式一點的場合都有可能用到郵件，郵件有個好處就是可以留痕，後期可以防止相當多無意義的扯皮環節。大部分情況下用代碼發郵件毫無意義，除非是批量發送大量模板相同的通知郵件，因為我以前碰到過，所以也在這裡做個示範。&lt;/p&gt;&lt;p&gt;Python 中發郵件的包特別多，官方的、第三方的都有。官方的就是 smtplib 搭配 email，非官方的有 zmail、yagmail 等。下面要演示的是我自己對官方包封裝後的類，主要是用於演示，追求穩定的話推薦使用上面提到的第三方庫。&lt;/p&gt;&lt;p&gt;在正式開始之前需要給大家科普一些代發郵件的基礎知識。代發郵件也需要驗證用戶名和密碼，不過這裡的密碼不是正常在網頁端登錄時的密碼，而是郵箱授權碼，這個授權碼如何獲得需要自己去對應郵箱的幫助説明中查找。給出 QQ 和新浪兩個最常見郵箱的相關説明鏈接：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://wx.mail.qq.com/list/readtemplate?name=app_intro.html#/agreement/authorizationCode&quot;&gt;SMTP/IMAP 服務 (qq.com)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://help.sina.com.cn/comquestiondetail/view/1566/&quot;&gt;新浪幫助-常見問題 (sina.com.cn)&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;先給出類和函數的定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;class EMail(object):
+    &quot;&quot;&quot;
+    用於發送郵件
+    &quot;&quot;&quot;
+
+    def __init__(self, user: str, password: str, host: str = None, port: int = 465, ssl: bool = True):
+        &quot;&quot;&quot;
+        初始化
+        :param user: 郵箱賬號
+        :param password: 郵箱授權碼
+        :param host: 服務器地址
+        :param port: 服務器端口
+        :param ssl: 是否 ssl 加密傳輸
+        &quot;&quot;&quot;
+
+    def connect(self):
+        &quot;&quot;&quot;
+        連接郵箱服務器
+        :return:
+        &quot;&quot;&quot;
+
+    def close(self):
+        &quot;&quot;&quot;
+        斷開郵箱服務器
+        :return:
+        &quot;&quot;&quot;
+
+    def send(self, to: Union[str, Sequence[str]], title: str, content: str, attachments: Sequence[str] = None):
+        &quot;&quot;&quot;
+        普通版發送郵件，使用時需要結合 connect 和 close 方法
+        :param to: 收件人，可以多人
+        :param title: 郵件主題
+        :param content: 郵件內容
+        :param attachments: 郵件附件，給出附件地址即可
+        :return:
+        &quot;&quot;&quot;
+
+    def easy_send(self, to: Union[str, Sequence[str]], title: str, content: str, attachments: Sequence[str] = None):
+        &quot;&quot;&quot;
+        簡易版發送郵件，將連接和斷開服務器整合在了一起，發送單份郵件時使用
+        :param to:
+        :param title:
+        :param content:
+        :param attachments:
+        :return:
+        &quot;&quot;&quot;
+
+
+def md_to_html(text: str, css: str = None) -&gt; str:
+    &quot;&quot;&quot;
+    md 格式文本轉 html 字符串
+    :param text: 待轉換 md 格式字符串
+    :param css: css 文件
+    :return:
+
+    &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;示例腳本的功能是將一篇 markdown 格式的文本轉為 html 格式發送到指定郵箱。這個功能目前只能説是能用，因為不同的郵箱支持 html 的程度不同，所以不一定能保證最終呈現效果都是一致的。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;from xoffice import EMail
+from xoffice.utils import md_to_html
+
+if __name__ == &#39;__main__&#39;:
+    e = EMail(&quot;user@qq.com&quot;, &quot;password&quot;)
+    with open(&quot;test.md&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+
+        e.easy_send([&quot;to_user@sina.com&quot;], &quot;測試主題&quot;, md_to_html(f.read()), [&quot;pdf/p1/1.png&quot;])
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efhtb34tda5h6t37g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;NJpJbMDOlopOcExO2NXcLTkFntd&quot;&gt;&lt;/figure&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efi5b34tda9cpsr3g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;IiY1bNP1ToAb9NxnW6AcONLEnJf&quot;&gt;&lt;/figure&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efi5b34tdabkg9f10?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;DWZgbnnXIoKukOxtQztci7YPnfh&quot;&gt;&lt;/figure&gt;&lt;h2&gt;Excel 相關&lt;/h2&gt;&lt;p&gt;從這一節開始就是重頭戲了，但是 Excel 和 Word 相關的操作太多了，展開來講太大了，幾萬字也不一定能説明白，我這裡只介紹幾個最基礎最常用的自動化操作。我在下面幾節中主要使用的是 pywin32，直接調用 windows 系統的 api 接口操作 office 軟件。這樣操作其實和直接寫 VBA 宏差別不大，所以所有的操作都可以去微軟官網的&lt;a href=&quot;https://learn.microsoft.com/zh-cn/office/vba/api/overview/&quot;&gt;開發文檔&lt;/a&gt;中查找。&lt;/p&gt;&lt;p&gt;其實有相當多接口更加簡潔好用的第三方庫可以操縱這些 office 文檔，我在這裡之所以不用，是因為有些保密意識較強的單位內部文件會加密，只能以加密電腦上的 office 軟件才能正常打開，碰到過的朋友應該都能理解。&lt;/p&gt;&lt;p&gt;這裡先介紹一個場景，工作中難免會碰到一些數據彙總的雜活，具體表現形式就是群裡發一張表讓每個人填寫，最後統一發給專人彙總成一張總表。這種表格現在也可以通過雲文檔的方式實現彙總，給所有人權限讓他們自己到總表中去填寫數據，但終歸有其侷限性，畢竟有許多信息並不能對所有人透明。人數少的話一份一份打開復制粘貼也花不了太久，但是如果規模擴大的話，純人力就多少有點浪費時間了。&lt;/p&gt;&lt;p&gt;先給出類的定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;class Excel:
+    &quot;&quot;&quot;
+    Excel 常用自動化操作，主要是為了配合 Word 使用，因此只封裝了獲取數據的方法
+    &quot;&quot;&quot;
+
+    def __init__(self, path: str, display_alerts: bool = False, visible: bool = True):
+        &quot;&quot;&quot;
+        初始化
+        :param path:
+        :param display_alerts: 覆蓋保存時是否出現警告提示
+        :param visible: 程序窗口是否可見
+        &quot;&quot;&quot;
+
+    def close(self):
+        &quot;&quot;&quot;
+        關閉文檔，退出應用程序
+        :return:
+        &quot;&quot;&quot;
+
+    def get_value(self, sht_name: Union[int, str], index: str):
+        &quot;&quot;&quot;
+        獲取指定單元格內數據
+        :param sht_name:
+        :param index:
+        :return:
+        &quot;&quot;&quot;
+
+    def get_text(self, sht_name: Union[int, str], index: str):
+        &quot;&quot;&quot;
+        獲取指定單元格內數據，統一轉為文本格式
+        :param sht_name:
+        :param index:
+        :return:
+        &quot;&quot;&quot;
+
+    def get_comment(self, sht_name: Union[int, str], index: str):
+        &quot;&quot;&quot;
+        獲取指定單元格的批註
+        :param sht_name:
+        :param index:
+        :return:
+        &quot;&quot;&quot;
+
+    def copy_chart(self, sht_name: Union[int, str], index: int):
+        &quot;&quot;&quot;
+        複製指定圖表
+        :param sht_name:
+        :param index: 圖表序號
+        :return:
+        &quot;&quot;&quot;
+
+    def copy_shape(self, sht_name: Union[int, str], index: Union[str, int]):
+        &quot;&quot;&quot;
+        複製指定圖片，這裡要注意，圖表也會算在其中，使用序號時務必小心
+        :param sht_name:
+        :param index: 可以為圖片的名稱或其序號，此處的圖片只能為浮動式圖片
+        :return:
+
+        &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;示例腳本的功能是將 excel 中所有表格文件中的 A2、B2、C2 單元格的數據彙總到 results.xlsx 文件中。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import glob
+
+import pandas as pd
+from xoffice import Excel
+
+if __name__ == &#39;__main__&#39;:
+    results = []
+    for file in glob.glob(&quot;excel/*&quot;):
+        with Excel(file, visible=False) as e:
+            data = [
+                e.get_value(&quot;Sheet1&quot;, &quot;A2&quot;),
+                e.get_value(&quot;Sheet1&quot;, &quot;B2&quot;),
+                e.get_value(0, &quot;C2&quot;),
+            ]
+            results.append(data)
+    df = pd.DataFrame(results, columns=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])
+
+    df.to_excel(&quot;excel/results.xlsx&quot;, index=False)
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efidb34tda9cpsr40?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;D9QGbGg7jopiVdxc7jdcarpanTf&quot;&gt;&lt;/figure&gt;&lt;p&gt;上面這個腳本如果用 xlwings 實現起來會更加簡單，想進一步學習 Excel 自動化的話建議好好看看它的官方文檔。&lt;/p&gt;&lt;h2&gt;Word 相關&lt;/h2&gt;&lt;p&gt;Word 相關的自動化基本只有一種訴求，就是根據模板批量生產報告之類的文檔。其實 Word 軟件本身就帶有這樣的功能，就是名字比較讓人誤解，那就是郵件合併。通過導入外部表格之類的數據源，向 Word 模板之中插入郵件合併域，每一行數據都能生成一份對應的文檔。如果只是簡單的文本數據替換的話，建議大家直接使用軟件自帶的圖形界面處理，還能預覽，簡單又好用，唯一麻煩的就是需要彙總到 Excel 表格裡中轉一下。&lt;/p&gt;&lt;p&gt;我這裡會給出兩種可選的代碼方案，一種是使用郵件合併，另一種是使用 pywin32，後者不僅支持文本的替換，還支持圖表的插入。&lt;/p&gt;&lt;h3&gt;generate_docx_by_mailmerge&lt;/h3&gt;&lt;p&gt;先介紹一下郵件合併域的插入方法，這裡以 WPS 為例，選擇「插入-文檔部件-域」，在出現的選項卡中選擇郵件合併這一域名，然後在右邊的域代碼中隨便填一個用來標記的字符串即可。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efilb34tda5h6t380?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;BxLsbsVIgot4s3xxyNJc5iE7n5e&quot;&gt;&lt;/figure&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efitb34tda5h6t38g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;MJyPbvCEooSbYmxxAjOck0wvnoh&quot;&gt;&lt;/figure&gt;&lt;p&gt;先給出函數的定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;def generate_docx_by_mailmerge(contents: dict, template: str, output: str):
+    &quot;&quot;&quot;
+    以郵件合併的方式快速生產 docx 文檔
+    :param contents: 要替換到模板中的內容
+    :param template: 文檔模板
+    :param output: 輸出文件路徑
+    :return:
+
+    &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;示例腳本的功能是以代碼內字典中的數據完成對模板中郵件合併域的替換。&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;from xoffice import generate_docx_by_mailmerge
+
+if __name__ == &#39;__main__&#39;:
+    contents = {
+        &quot;頁眉&quot;: &quot;煒智能&quot;,
+        &quot;文本框&quot;: &quot;編號&quot;,
+        &quot;標題&quot;: &quot;測試 123&quot;,
+        &quot;正文&quot;: &quot;abc&quot;,
+        &quot;表格 a&quot;: [
+            {&quot;表格 a&quot;: 1, &quot;表格 b&quot;: 2, &quot;表格 c&quot;: 3},
+            {&quot;表格 a&quot;: 2, &quot;表格 b&quot;: 3, &quot;表格 c&quot;: 4},
+            {&quot;表格 a&quot;: 3, &quot;表格 b&quot;: 4, &quot;表格 c&quot;: 5},
+            {&quot;表格 a&quot;: 4, &quot;表格 b&quot;: 5, &quot;表格 c&quot;: 6},
+        ]
+    }
+
+    generate_docx_by_mailmerge(contents, &quot;word/mailmerge.docx&quot;, &quot;word/output.docx&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efitb34tdafv47570?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;N3qtbBA9YodSoQxyF7Zc2xf2nAh&quot;&gt;&lt;/figure&gt;&lt;p&gt;Python 中有許多第三方庫可以完成這樣的操作，類似 docx-mailmerge、docx-mailmerge2 等都可以做到，我這裡只是對它們中的函數進行了簡單的封裝作為演示，方便大家上手。這裡唯一需要注意的是表格中的郵件合併域，可以看到使用腳本是可以根據數據自動增加表格的行數的。&lt;/p&gt;&lt;p&gt;郵件合併這種功能其實我本人是很少用腳本來實現的，因為如果是簡單的數據完全可以用 Excel 表格來彙總，如果是需要經過複雜運算的數據我也習慣先以表格的形式將結果存儲下來，有了表格數據的前提下直接用 Word 軟件中的圖形界面操作也不算麻煩。&lt;/p&gt;&lt;h3&gt;excel2word&lt;/h3&gt;&lt;p&gt;下面介紹一種我以前經常用的自動化出報告的方法。以前經常出那種標準的實驗報告，報告的模板是固定的，整篇報告都是各種表格、圖表、樣品圖片等，而且因為數據都需要先經過 Excel 處理，所以每種實驗的報告數據都有一個固定的 Excel 處理模板。每次填完 Excel 表格之後還要手動把數據、圖表等再複製到 Word 模板中。説實話，填了一次之後我就完全不想填了。我很自然地就有了一個想法，填完 Excel 表格之後，讓腳本根據那個 Excel 表格以及 Word 模板直接生成一份報告。&lt;/p&gt;&lt;p&gt;先給出用到類的定義：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;class Word:
+    &quot;&quot;&quot;
+    Word 自動化常用操作
+    &quot;&quot;&quot;
+
+    def __init__(self, path: str, display_alerts: bool = False, visible: bool = True):
+        &quot;&quot;&quot;
+        初始化
+        :param path: Word 文件地址
+        :param display_alerts: 覆蓋保存時是否出現警告提示
+        :param visible: 程序窗口是否可見
+        &quot;&quot;&quot;
+
+    def close(self):
+        &quot;&quot;&quot;
+        關閉文檔，退出應用程序
+        :return:
+        &quot;&quot;&quot;
+
+    def save(self, path: str):
+        &quot;&quot;&quot;
+        另存為文件
+        :param path:
+        :return:
+        &quot;&quot;&quot;
+
+    @property
+    def text(self) -&gt; str:
+        &quot;&quot;&quot;
+        獲取文檔中所有字符串，包括正文、頁眉頁腳、Shape 內文本
+        :return:
+        &quot;&quot;&quot;
+
+    def replace_text(self, key: str, value: str):
+        &quot;&quot;&quot;
+        替換文檔中的指定文本
+        :param key:
+        :param value:
+        :return:
+        &quot;&quot;&quot;
+
+    def replace_content_inline_shape(self, key: int, value: str):
+        &quot;&quot;&quot;
+        替換文檔主體內容中指定序號的內嵌圖形，保持替換圖片的寬度與原始圖片相等
+        :param key: 需要替換的內嵌圖形在文檔中的序號，從 0 開始
+        :param value: 用於替換的圖片路徑
+        :return:
+        &quot;&quot;&quot;
+
+    def select_content_text(self, text: str):
+        &quot;&quot;&quot;
+        選中文檔主體內容中的指定文本，搭配 paste 使用可以完成 office 軟件間的部分互動
+        :param text:
+        :return:
+        &quot;&quot;&quot;
+
+    def paste(self):
+        &quot;&quot;&quot;
+        執行粘貼操作
+        :return:
+        &quot;&quot;&quot;
+
+    def set_content_inline_shape_size(self, index: int = None, width: float = None, height: float = None):
+        &quot;&quot;&quot;
+        保持圖片長寬比的前提下設置指定序號的內嵌圖像的寬度
+        :param index: 序號從 0 開始
+        :param width: 圖片寬度，單位為 cm
+        :param height: 圖片高度，單位為 cm
+        :return:
+
+        &quot;&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面這個類結合之前在 Excel 中提到的那個類，兩者結合一下就能很簡單的實現最初提到的需求。思路很簡單，先規定好 Word 模板中的標識符，比如&lt;code&gt;{{ 0/A1 }}&lt;/code&gt;代表 Excel 表格中第一張 Sheet 表的 A1 單元格中的數據（Python 中索引從 0 開始），&lt;code&gt;{{ Sheet1/A2 }}&lt;/code&gt;代表名為 Sheet1 的 Sheet 表中的 A2 單元格數據，&lt;code&gt;{{ Sheet2/s:weizhineng }}&lt;/code&gt;代表名為 Sheet2 的 Sheet 表中名為 weizhineng 的浮動式圖片，&lt;code&gt;{{ 1/c:0 }}&lt;/code&gt;代表第二張 Sheet 表中第一張插入的圖表；然後讓腳本讀取 Word 模板中的這些標識符，解析標識符的含義後到 Excel 表格中指定的位置查找目標數據，然後把這些數據粘貼回 Word，最後另存為一下就有了一份報告。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efj5b34tdabkg9f1g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;NIbvbZhIxoCOdyxw6TmcOvY2nsc&quot;&gt;&lt;/figure&gt;&lt;p&gt;把上面的思路轉換為代碼就是如下的函數：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import re
+
+from tqdm import tqdm
+
+from xoffice.excel import Excel
+from xoffice.word import Word
+
+
+def excel2word(word: str, excel: str, output: str):
+    &quot;&quot;&quot;
+    根據 word 模板自動查找 excel 文件中的指定數據生成 word 報告
+    :param word: word 模板文件地址
+    :param excel: excel 數據文件
+    :param output: 輸出的 word 文檔地址
+    :return:
+    &quot;&quot;&quot;
+    word = Word(word, visible=False)
+    excel = Excel(excel, visible=False)
+    targets = re.findall(r&#39;({{ (.+?)/(.+?) }})&#39;, word.text)
+    for target in tqdm(targets):
+        text, sht, ind = target
+        if sht.isdigit():
+            sht = int(sht)
+        try:
+            if re.match(r&#39;^[a-z]+[0-9]+$&#39;, ind, re.I) is not None:
+                word.replace_text(text, excel.get_text(sht, ind))
+            elif re.match(r&#39;^c:(.+)$&#39;, ind) is not None:
+                chart = re.match(r&#39;^c:(.+)$&#39;, ind).group(1)
+                if chart.isdigit():
+                    chart = int(chart)
+                excel.copy_chart(sht, chart)
+                word.select_content_text(text)
+                word.paste()
+            elif re.match(r&#39;^s:(.+)$&#39;, ind) is not None:
+                shape = re.match(r&#39;^s:(.+)$&#39;, ind).group(1)
+                if shape.isdigit():
+                    shape = int(shape)
+                excel.copy_shape(sht, shape)
+                word.select_content_text(text)
+                word.paste()
+            else:
+                print(text + &quot;:failed&quot;)
+            print(text + &quot;:success&quot;)
+        except Exception:
+            print(text + &quot;:failed&quot;)
+    word.save(output)
+    word.close()
+
+    excel.close()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;看著相當複雜，但是大家實際使用的時候不必寫這麼一大堆，簡單幾行就可以完成一個腳本的編寫：&lt;/p&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code&gt;import glob
+import os
+
+from xoffice import excel2word
+
+if __name__ == &#39;__main__&#39;:
+    for path in glob.glob(&quot;word2/*.xlsx&quot;):
+        dir_path, file_path = os.path.split(path)
+        base_name, ext = os.path.splitext(file_path)
+        output = os.path.join(dir_path, base_name + &quot;.docx&quot;)
+
+        excel2word(&quot;word2/template.docx&quot;, path, output)
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/editor/u_/ck8efjdb34tdafv4757g?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt=&quot;HGbcbhyw4ofjmfxj95ScIPx6nfh&quot;&gt;&lt;/figure&gt;&lt;p&gt;目前&lt;code&gt;excel2word&lt;/code&gt;這個函數並不算完美，文本替換算是全覆蓋，無論是正文、頁眉頁腳，還是文本框都適用，但是對於圖片和圖表僅支持正文範圍內的替換插入，不過也夠用了，正常也不會想著往頁眉頁腳動態插入圖片。如果真有這種需求也是可以實現的，我因為用不上就沒加進去。這裡替換到 Word 中的圖片和圖表大小是與 Excel 中一模一樣的，所以圖片尺寸需要提前規劃好。&lt;/p&gt;&lt;p&gt;我在上面把&lt;code&gt;excel2word&lt;/code&gt;函數的源碼貼出來並不是想要讓大家學會，只是想讓大家對於 Python 的第三方包有一個概念，就是你不用管它的源碼有多複雜，你只需要看懂函數的參數和效果，然後直接在腳本里導入並使用即可。我在文中演示的所有自動化腳本都在十行左右，對於初學者而言並不算困難，只要你肯學，絕對是可以在短時間內學會的。&lt;/p&gt;&lt;h2&gt;進階學習&lt;/h2&gt;&lt;p&gt;我在文中介紹的都是比較通用的腳本，但是其實每個人會遇到的問題和場景都有區別，當想要解決更個性化的需求時，就需要學習接口更底層一些的包了，例如 xlwings、python-docx、pikepdf 等，學習的方法也很簡單，去查它的官方文檔即可，文檔也不用全看，挑自己用的到的部分看看就行，著眼於它能做什麼，而不管它為什麼能。&lt;/p&gt;&lt;p&gt;如果想要更進一步拓展我上面演示的這些功能，建議直接去 Python 安裝目錄下的 Lib\site-packages\xoffice 文件夾中查看我寫的源碼，裡面的註釋還算完善，有基礎的話不難看懂。裡面 example 文件夾中還有幾個測試素材，可以用來驗證代碼的效果。源碼中用到了許多辦公自動化過程中常用的包，想要更靈活的編寫腳本的話建議有需求時可以深入學習一下。&lt;/p&gt;&lt;p&gt;如果對於數據處理有進一步的興趣，我建議學習 pandas 這個數據處理神器，它是 Python 中目前最強的數據處理包，而且現在微軟也已經將其引入自家的 Excel 軟件中，以後應該早晚都會普及的，先學起來百利而無一害。我現在一般只用 Excel 進行一些簡單的數據處理工作，稍微複雜一點的都是直接用 pandas 處理的，兩者之間的效率差距不是一星半點，最關鍵的是數據量大了之後 Excel 根本處理不過來，如果你試過用 Excel 打開一兩個 G 大小的表格文件的話應該就能明白我的意思。&lt;/p&gt;&lt;h2&gt;後記&lt;/h2&gt;&lt;p&gt;上面這些腳本其實都可以再進一步封裝成命令行工具，或是圖形化軟件，我之前也寫過一些給同事用，有興趣的朋友可以試試，正好練練手。現代社會大部分工作都需要和電腦打交道，寫代碼其實並不是程序員的專利，掌握一些簡單的編程技巧可以讓某些工作變得相當簡單。Python 是一個不錯的切入點，你不需要懂這些第三方包是如何實現複雜功能的，你只需要找到能實現你需求的包，然後導入並調用它們就可以了。&lt;/p&gt;&lt;p&gt;&gt; 下載 &lt;a href=&quot;https://sspai.com/page/client&quot;&gt;少數派 2.0 客戶端&lt;/a&gt;、關注 &lt;a href=&quot;https://sspai.com/s/J71e&quot;&gt;少數派公眾號&lt;/a&gt;，解鎖全新閲讀體驗 &#128240;&lt;/p&gt;&lt;p&gt;&gt; 實用、好用的 &lt;a href=&quot;https://sspai.com/mall&quot;&gt;正版軟件&lt;/a&gt;，少數派為你呈現 &#128640;&lt;/p&gt;&lt;/div&gt;</description>
+            <author>煒智能</author>
+            <pubDate>Sat, 07 Oct 2023 11:00:00 +0800</pubDate>
+        </item>
         <item>
             <title>派早報：Google Pixel 8 系列發佈、網頁版 Photoshop 上線等</title>
             <link>https://sspai.com/post/83389</link>
@@ -144,13 +555,6 @@
             <description>&lt;div class=&quot;content wangEditor-txt minHeight&quot;&gt;&lt;p&gt;&lt;strong&gt;Matrix 首頁推薦&lt;/strong&gt;&#160;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://sspai.com/matrix&quot;&gt;Matrix&lt;/a&gt;&#160;是少數派的寫作社區，我們主張分享真實的產品體驗，有實用價值的經驗與思考。我們會不定期挑選 Matrix 最優質的文章，展示來自用戶的最真實的體驗和觀點。&#160;&lt;br&gt;文章代表作者個人觀點，少數派僅對標題和排版略作修改。&lt;/p&gt;&lt;p&gt;1991 年，歐洲原子能研究組織發明瞭萬維網，人類正式步入了一個新的「信息紀元」。&lt;/p&gt;&lt;p&gt;在 30 餘年的時間中，網絡速度從撥號時代的「Kbps」為單位的計算方式，變成了「Gbps」。也就是説，速度提升了整整一百萬倍（1Gbps 是 1Kbps 的一百萬倍）。隨之而來的信息增量，也是史無前例的。&lt;/p&gt;&lt;p&gt;正是有了足夠龐大信息支撐，大語言模型（LLM）才得以成熟，AI 技術於走向了應用。但是「信息過載」所引發的問題，遠比我們想象的複雜得多。&lt;/p&gt;&lt;h2&gt;被「信息過載」所掌控的人生&lt;/h2&gt;&lt;blockquote&gt;&lt;p&gt;「信息過載」，也稱為信息負荷或信息爆炸，指的是接收的信息量超過了一個人或系統處理和理解的能力。這通常會導致信息處理和決策效率降低，甚至可能導致錯誤決策。這在當前的數字化、信息化社會中尤其常見，因為人們可以從互聯網、社交媒體、電子郵件等多種渠道接收大量信息。&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;簡單説，「信息過載」導致的結果可能會代替人們思考，從而影響判斷、行為。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/03/article/a5e657701f774d907f36d133bd52ad8f?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt&gt;&lt;/figure&gt;&lt;p&gt;雖然面臨「信息過載」的負擔，但是人類的大腦很自然的過濾掉了海量的無效信息。然而另一個問題卻隨之而來——無效信息（垃圾信息）更深層次的影響著我們。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;當大腦長期接收無效信息的時候，大腦的警覺性、敏捷性、思考判斷力會變弱，慢慢的就會變得隨波逐流&lt;/strong&gt;。大腦會習慣性的認為這些無效信息是不會引發任何焦慮的，而互聯網平台則恰當的利用了這一點，把看似無關的廣告植入在無效的信息之中。&lt;/p&gt;&lt;p&gt;比如當你在刷手機娛樂視頻的時候，是處於一個安全且穩定的感受中，但是突然刷出一條類似於「一堂課教你逆襲人生」的視頻，在短短的 3 秒之內，從觸發焦慮到尋求解決，大腦已經作出了閃電般的決策。&lt;/p&gt;&lt;p&gt;「一堂課教你逆襲人生」實際上是把大腦從安全狀態帶入了焦慮狀態，然後「指明」了一個解決焦慮的方式——教你逆襲。整個過程實現了從激發，到解決的閉環。這也是為什麼短視頻的前三秒尤其重要，不僅要提出一個問題，還要給出一個解決方案的引子。而這堂所謂的課程，也需要隱藏在海量的信息中才會奏效。因為人如果面臨著隨時失去安全感的狀態，用戶就會流失。&lt;/p&gt;&lt;p&gt;除此以外，我們還會經常性的買一堆無用的「玩具」，比如俗稱「蓋泡麵神器」的平板電腦。大多數人根本不需要平板電腦，但是我們終究敵不過信息的「洗劫」。比如你關注的網紅們都在開箱、測評，他們正在宣揚「科技的美好」，當這些信息量變得很大的時候，大腦將進入一個被「馴化」的過程，慢慢的你會發現「我也好想買一個」。&lt;/p&gt;&lt;p&gt;我有一台用了 9 年的筆記本，時至今日，辦公依然無壓力。但是當我被科技博主們的信息轟炸的時候，我開始極度厭惡我那台 2.4KG 的筆記本，雖然我根本不需要什麼所謂的「便攜性」。&lt;/p&gt;&lt;p&gt;在這個時代，有大量的跟我們無關的人利用網絡來宣揚他們自己的理念，這本無可厚非。但是，在龐大信息的輸入之下，人們漸漸的會停止自己的思考，可能會用博主們的語言來替代自己價值觀，用媒體的價值觀來規範自己的人生。有一句網絡名言，「懂了很多道理，依然過不好這一生」，這句話本質應該是，&lt;strong&gt;「你懂的是別人的道理，肯定過不好自己的這一生」。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;「獨立思考」，是破解這種狀態的一把鑰匙。&lt;/p&gt;&lt;h2&gt;如何開啟「獨立思考」的能力&lt;/h2&gt;&lt;blockquote&gt;&lt;p&gt;獨立思考，是指有能力根據自己的理解和判斷來考慮問題，而不是僅僅依賴別人的觀點或者已有的信息。獨立思考需要勇氣、堅持，以及對知識和真相的持續追求。&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;就像一條機場的跑道總有起點，思想是有脈絡的，也就是説思想也有「發源地」。近幾年火爆網絡的「第一性原理」，探尋的就是在某個領域「發源地」，從而尋找本質上的解決方案。&lt;/p&gt;&lt;p&gt;下面這張圖，簡單描述了獨立思考的邏輯。&lt;/p&gt;&lt;p&gt;（加強底層知識和自我認知，是讓「獨立思考」得到進階的方法，本文限於篇幅，不對這兩點展開論述，文末有相關書籍推薦。）&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/03/article/782f177c8f1b5edfaf4d65511d9b49f8?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt&gt;&lt;/figure&gt;&lt;h3&gt;「獨立思考」從提出問題開始&lt;/h3&gt;&lt;p&gt;培養獨立思考的能力，最好是從一些跟我們相關的問題入手，那些完全不相關的問題很難進行思維的訓練，價值並不大。&lt;/p&gt;&lt;p&gt;提出問題是獨立思考的關鍵步驟，以下用案例説明瞭提出問題的方法。在提出問題的時候，儘可能提出開放性的問題，而不是隻有「是」或「否」的問題，開放性的問題可以引導你深入探討和思考。&lt;/p&gt;&lt;p&gt;下面我們下面就以一個網絡事件作為參考案例。&lt;/p&gt;&lt;p&gt;比如馬雲曾説「996」是員工的福報。我們在宣洩「憤怒」的同時，可能完全沒有思考過這段話背後的邏輯。馬雲既不是正義的，也不是邪惡的，他只是一個商人基於個人立場發表的觀點而已。但是，這個命題的確跟我們這些打工人有關，我們可以提出如下的問題：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;什麼是「996」？它是怎麼形成的？&lt;/li&gt;&lt;li&gt;馬雲為何會稱「996」是員工福報？他這麼説有何深層的原因或目的？&lt;/li&gt;&lt;li&gt;我是一名「996」的員工，我會如何看待這個問題？&lt;/li&gt;&lt;/ol&gt;&lt;h3&gt;&lt;strong&gt;繼續「拆解問題」&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;拆解問題，實際上是把已經提出的問題進行「再次細分」，類似於「第一性原理」——一種通過剝離問題表象，尋找到最基本的真理和規律，並以此為根基來理解和解決問題的方法。&lt;/p&gt;&lt;p&gt;我們可以將上面的第 3 個問題拆解為：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;什麼是「996」？它是怎麼形成的？&lt;ul&gt;&lt;li&gt;「996」的具體定義是什麼？&lt;/li&gt;&lt;li&gt;在哪些行業或哪些公司，「996」比較常見？&lt;/li&gt;&lt;li&gt;「996」的出現和當前社會經濟環境有何聯繫？&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;馬雲為何會稱「996」是員工福報？他這麼説有何深層的原因或目的？&lt;ul&gt;&lt;li&gt;馬雲的背景是什麼，他的經驗和價值觀可能影響他的這種觀點嗎？&lt;/li&gt;&lt;li&gt;馬雲希望通過這種表述達成什麼效果？&lt;/li&gt;&lt;li&gt;從商業的角度看，馬雲稱「996」是員工的福報，有什麼商業邏輯？&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;我是一名「996」的員工，我會如何看待這個問題？&lt;ul&gt;&lt;li&gt;我怎麼看「996」對我工作和生活的影響？&lt;/li&gt;&lt;li&gt;我怎麼看馬雲將「996」稱為福報的説法？&lt;/li&gt;&lt;li&gt;我可以採取哪些行動來改善自己的工作和生活環境？&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;嘗試進行「獨立思考」&lt;/h3&gt;&lt;p&gt;關於「獨立思考」有一種誤區，認為「獨立思考」是一個人默默的思考。&lt;strong&gt;「獨立思考」並非封閉式的思考，而是需要結合自身的、外部的、多元的信息來進行思考，並最終得出一個相對客觀的結論來指導自己的思想和行為。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;針對以上已經拆分的問題，先基於自己的理解給出回答，這種回答儘量客觀，並且儘量不帶偏見的去描述。比如：我怎麼看「996」對我工作和生活的影響？&lt;/p&gt;&lt;p&gt;舉例。我認為「996」是一種職場人都面臨的加班現狀，除了較為正規的企業和工廠，很多打工人並不能獲得加班工資或加班調休，他們的加班是不能得到任何加班回報的。於我個人而言，加班也不能獲得任何的回報的，這一點是確認無疑的。&lt;/p&gt;&lt;p&gt;有了自己的回答之後，再去了解媒體輿論對這件事的看法，尤其要注意傾聽那些「不一樣的聲音」，因為他們可能帶著其他的觀點。特別是傳統雜誌、刊物，這類媒體的分析與洞察比網文（短視頻）更為深刻。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/03/article/58261cd439104ca0ce5b5d9a956fd21f?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot; alt&gt;&lt;/figure&gt;&lt;p&gt;最後，再進行總結與提煉。結合個人看法與外部觀點，推導出符合自身現狀的一套方法，如：「996」是一個暫時我無法改變的既定事實，所以我唯一能做的，就是既不抱怨也不評論。我需要改變自己的看法以及如何利用現有的工作資料來提升個人的工作能力，以及更加高效的完成常規工作，把重點投入到層次更高的工作上。並且我要做好工作與生活的有效平衡，在健康、個人成長上面合理的投入時間來增強總體素質。&lt;/p&gt;&lt;p&gt;這樣，從提出問題到拆解問題，再到回到問題，獨立思考的過程就完成了。&lt;/p&gt;&lt;h2&gt;後記：獨立思考的價值&lt;/h2&gt;&lt;p&gt;短短的一篇文章，無法將獨立思考完全説清，然而獨立思考對身陷「信息過載」時代的我們又極為重要。想想那些根本不需要卻讓你掏空腰包的「電子玩具」；堆得滿滿的卻從未翻看過的書架；報了名卻從未完成過的課程。&lt;/p&gt;&lt;p&gt;其實，這些都不是真實的你。&lt;/p&gt;&lt;p&gt;我很贊同那些「低慾望」生活的少數派，他們能夠從繁雜中走出來極為不易。「低慾望」的背後是對無價值信息的主動屏蔽，保持個人的獨立思考，真正過上「自己想要的人生」。&lt;/p&gt;&lt;p&gt;你會發現，在這個時代的保持「獨立思考」的確很有難度，因為各種聲音會對你進行所謂的「指引」，看什麼書、聽什麼課、買什麼手機、如何過日子，都由這些聲音説了算。甚至結不結婚，也要看看「網紅們怎麼説」。久而久之，逐漸的喪失了自我，而內心那種深層的焦慮卻從未消失。&lt;/p&gt;&lt;p&gt;我認為，除了極少數偉大的科學家、哲學家、領袖之外，讓其他人成為我們思想的指引者是一件非常危險的事情。&lt;/p&gt;&lt;p&gt;此刻，我們再一次回頭看看這句話，「知道了很多道理，就是過不好這一生」背後的邏輯是——這些道理是自己的，還是別人的？&lt;/p&gt;&lt;p&gt;關於推薦書籍。選書的時候，必然是奔著「作者」去的，首推的是身兼科學家、哲學家於一身的這一類的偉大作者，如笛卡爾的《談論方法》，亞裡士多德《尼各馬可倫理學》，以此類推變得尋得無數寶藏。&lt;/p&gt;&lt;/div&gt;</description>
             <author>楊耀威 Kane</author>
             <pubDate>Tue, 03 Oct 2023 15:27:06 +0800</pubDate>
-        </item>
-        <item>
-            <title>家用咖啡手冊（終篇）| 都是咖啡，但你真瞭解自己喝的那一杯嗎？</title>
-            <link>https://sspai.com/post/83184</link>
-            <description>&lt;div class=&quot;content wangEditor-txt minHeight&quot;&gt;&lt;p&gt;咖啡製作上的技術點基本上都已經講到了，我不準備去講打奶泡、拉花的內容。因為打奶泡、拉花這種純動手練習找手感的技術，説再多也沒意義，不如上手去練，或者找個好老師，可以讓你少走很多彎路，甚至可以手把手教，比圖文來的實在的多。&lt;/p&gt;&lt;p&gt;因此，這一篇，就來聊聊各類咖啡飲品以及製作方法吧。&lt;/p&gt;&lt;h2&gt;經典咖啡&lt;/h2&gt;&lt;p&gt;經典咖啡是經過實踐檢驗沉澱下來的經典款，很多是國外的常見款，但國內貌似並不流行。這裡總結幾款，給大家開拓一些家用咖啡思路。&lt;/p&gt;&lt;h3&gt;康寶藍&lt;/h3&gt;&lt;p&gt;康寶藍（Con Panna），是以 Espresso 為基礎，加入鮮奶油頂的一款花式咖啡，也成為雪山（雪頂）咖啡。製作也非常簡單，就是 Espresso 裡再擠入鮮奶油。主打一個冰鮮奶油與熱咖啡的口感碰撞。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/435f6b52fb1240a519b4eb1854478658?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;個人推薦 Espresso，使用中深度烘焙的拼配來做，最好有埃塞豆參與其中，可以讓濃縮本身帶有更豐富的酸質，配合上足夠的 Body，奶油入口後，更加絲滑、奶香更足，更像奶油巧克力的觸感與甜感。&lt;/p&gt;&lt;p&gt;不推薦 SOE，是因為整體太單一，口感比較輕薄。加入奶油後，咖啡會失去一些存在感。層次不夠鮮明。&lt;/p&gt;&lt;p&gt;奶油頂上，推薦撒一些可可粉，這樣可以更好的中和奶油的一些滑膩感，增加一些可可的香氣，讓口感更立體，但是別放太多，放太多就埋汰了。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;做法提要：&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;ESPRESSO 基本上在 35g 左右液重。最好直接用濃縮杯接咖啡，不要搗騰，否則油脂會少很多。油脂少了，跟奶油混合一起，會不太好喝。&lt;/li&gt;&lt;li&gt;濃縮與奶油的比例，建議 1:1，或者奶油比濃縮少一些。家裡喝，建議使用噴射動物奶油，口感更絲滑，更潤。&lt;/li&gt;&lt;li&gt;喝的時候不要攪拌直接喝，冰奶油與熱咖啡的觸覺碰撞，會讓咖啡更甜、更絲滑。&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;噴射奶油個人建議買含糖量較低的，太甜的噴射奶油，搭配 ESPRESSO 不好喝。&lt;/p&gt;&lt;h3&gt;瑪奇朵&lt;/h3&gt;&lt;p&gt;瑪奇朵咖啡（意大利語：caff&#232; macchiato），也稱瑪奇朵濃縮咖啡。是一種將少量牛奶或奶泡加在 Espresso 上製作而成的咖啡。在意大利語中，macchiato 的意思是「標記」、「烙印」或「染色」。因此這款咖啡的意思就是以牛奶來標記上色的濃縮咖啡。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper image_resized&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/e5d734b53322103781dd479098cd6c7b.png&quot;&gt;&lt;/figure&gt;&lt;p&gt;一般情況下，會用一勺打發的牛奶混合奶泡，倒入濃縮中央，形成一個斑點浮在濃縮咖啡的油脂上。&lt;/p&gt;&lt;p&gt;這杯咖啡喝起來，因為有少量牛奶的加入，會使得濃縮入口的口感，不會過於刺激和剛烈，多了一絲牛奶的順滑，中和了濃縮咖啡的苦。但整體還是一杯濃縮而已。&lt;/p&gt;&lt;h3&gt;短笛&lt;/h3&gt;&lt;p&gt;拿鐵、卡布奇諾、澳白這三款咖啡已經被説過無數次了，國人也最熟悉，就不多説了。這裡要説一款很有意思的奶咖，叫做短笛（Piccolo）。&lt;/p&gt;&lt;p&gt;不光 Flat White，Piccolo 也出自澳洲人之手。Piccolo 實際上是完整版拿鐵的縮小版，它代表著同樣的風味和咖啡的濃度。所有奶咖味道上的區別大多取決於咖啡豆、濃縮的量、牛奶與濃縮的比例。一杯 350ml 的拿鐵中，濃縮 35ml，牛奶佔了 300ml 還多。&lt;/p&gt;&lt;p&gt;但這個比例不能直接等比例縮小放在 Piccolo 上。它還是需要單獨去調整比例的。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/8fd30ec61da40bba878e647b7978f442?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;用於製作 Piccolo 的濃縮是 Ristretto，液量在 9-15ml 左右，然後加入 70-75ml 左右的牛奶，最後用與拿鐵厚度一樣的奶泡進行拉花的製作。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Piccolo&lt;/strong&gt; &lt;strong&gt;會較容易喝出咖啡豆本身的味道，能突出咖啡的風味，如果嫌拿鐵中含有太多奶，但又不喜歡濃烈刺激的 Espresso，Piccolo 會是你的不錯之選。&lt;/strong&gt;入口順滑，溫度宜人，約 65℃ 的牛奶能帶出牛奶中的乳糖，即使不加糖也很甜。奶不多，能喝得出咖啡的甘濃和餘韻，即使再多喝幾杯也不會撐。&lt;/p&gt;&lt;p&gt;但是 Ristretto 的萃取是有比較高的門檻的，因此我這裡改變一下，使用全段的 Espresso，從拼配變為 SOE。杯量從 90ml 提升為 120ml。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;改進方案如下：&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;SOE 的選擇：拼配固然可以有比較不錯的風味層次，但我認為放在如此小巧的奶咖中，有點太重了。雖然現在拼配的烘焙度也逐漸往中深度或更淺一些的走了，但口感依舊「重」。SOE，推薦埃塞日曬、水洗；雲南厭氧日曬、紅酒日曬；哥倫比亞水洗瑰夏、鐵皮卡、日曬卡杜拉；&lt;/li&gt;&lt;li&gt;使用 SOE 的 Piccolo 個人認為更加輕盈，香氣明顯，跟牛奶混合後更清爽，甜感也能有更好的突出，更不會覺得膩。也可以直接做個縮小版的 Dirty。一樣會有強烈的口感碰撞。&lt;/li&gt;&lt;li&gt;推薦參數：19 - 20g 粉；萃取 35g 濃縮。剩下裝牛奶。牛奶溫度在 65℃ 左右，溫度太高奶就焦（糊）了。&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;維也納咖啡&lt;/h2&gt;&lt;p&gt;維也納咖啡（Viennese coffee），奧地利最著名的咖啡。是一個名叫愛因&#183;舒伯納的馬車伕發明的，也許是由於這個原因，今天，人們偶爾也會稱維也納咖啡為「單頭馬車」。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/8e6d05835bf3a726b794db58aa860e8b?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;維也納咖啡是由滴濾咖啡或速溶咖啡製成的。用濃縮咖啡製成後，它變成了一種名為「Espresso Compana」 的飲料，與維也納咖啡完全不同。為了享受與鮮奶油的甜味對比，這個咖啡建議使用深度烘焙的咖啡豆，它的口感更加強烈，不會被奶油、糖掩蓋味道。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;這款咖啡的做法如下：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;深度烘焙的 Espresso 35g。準備 300ml 左右的高腳杯。&lt;/li&gt;&lt;li&gt;將濃縮兌成美式咖啡或直接用速溶咖啡，沖泡成 240ml 的黑咖啡。&lt;/li&gt;&lt;li&gt;高腳杯中放入白砂糖、黃糖等&lt;/li&gt;&lt;li&gt;倒入兌好的黑咖啡&lt;/li&gt;&lt;li&gt;擠入奶油，撒上巧克力粉&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;這款咖啡整體會比較甜，甚至不能算是一杯咖啡了，只能説是一杯咖啡飲品。感興趣的朋友可以試著做一做。&lt;/p&gt;&lt;h3&gt;摩卡咖啡&lt;/h3&gt;&lt;p&gt;這款咖啡，在 10 多年前，還是很流行的款式。現在有這個咖啡的咖啡館也不多了，如果你想自己做，可以按照我説的方法試試。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/110a93e1e667e3171ac0952c4c8a11a6?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;摩卡咖啡（英語：Caf&#233; Mocha，意大利語：Mocaccino）是意式拿鐵咖啡的變種。它通常是由 2/5 的意式濃縮和 2/5 的熱巧克力，1/5 的熱牛奶組成。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/c6318924f16541085cf04e035707de79?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;後來的市場發展下有了進一步的變化。很多咖啡館，開始加入奶油頂，擠上巧克力醬或者肉桂粉、可可粉讓它更好看。摩卡咖啡不光有熱的，也可以做成冰的。&lt;/p&gt;&lt;p&gt;還有一點要知道的小知識。摩卡咖啡的名字起源於位在紅海海邊的也門小鎮摩卡。這個地方在 15 世紀時壟斷了咖啡的出口貿易，特別是對阿拉伯半島區域的咖啡出口貿易影響特別大。&lt;/p&gt;&lt;p&gt;摩卡也是一種咖啡豆（來自也門的摩卡），這讓人產生了在咖啡混入巧克力的聯想，並且發展出巧克力濃縮咖啡飲料。在歐洲，「摩卡咖啡」既可能指這種飲料，也可能僅僅指用摩卡咖啡豆泡出來的咖啡。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;熱摩卡的具體做法：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;350 - 400ml 的馬克杯。&lt;/li&gt;&lt;li&gt;中深度、深度烘焙拼配豆，19g 咖啡豆，萃取 35g 濃縮。&lt;/li&gt;&lt;li&gt;奶缸中倒入 200g 左右的牛奶，然後倒入 20g 可可粉。用咖啡機蒸汽管打奶泡，直接把可可粉與牛奶混合打發，形成巧克力奶。&lt;/li&gt;&lt;li&gt;巧克力奶，直接倒入杯中，然後倒入濃縮咖啡，適當攪拌一下。&lt;/li&gt;&lt;li&gt;擠上鮮奶油，撒上可可粉，如果有巧克力醬可以在淋上巧克力醬。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;關於打可可奶的小方法：&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;按照上邊説的步驟可以直接打出可可奶，如果你不想你的蒸汽嘴變髒，那可以用這個方法：20g 粉+ 25g 熱水直接化開，然後單獨加熱牛奶，最後一起倒入杯子中，攪拌均勻即可。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/10f22c4eff81078571e143cb1e2fbaf9?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;可可粉，我個人就推薦兩種：法芙娜、澳大利亞 bob 40% 款（本身分為 40% 可可、70% 可可兩種，剩下部分含糖，用的紅糖。）&lt;/p&gt;&lt;p&gt;&lt;strong&gt;關於加糖的問題：&lt;/strong&gt;如果你用法芙娜或不含糖的可可粉，可以不加糖，因為熱摩卡，與牛奶混合後本身就帶有奶中的甜感，還有奶油的配合，不加糖也可以。&lt;/p&gt;&lt;p&gt;如果加糖，請放糖漿，別放砂糖，一個是砂糖、白糖甜度不夠，其次則是不好融化。如果是用的澳大利亞 bob 40% 這款可可粉，本身含有紅糖，可以不額外加糖。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;冰摩卡，建議使用直筒玻璃杯，或者一次性冰杯，可以做的很漂亮，具體做法：&lt;/strong&gt;&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper image_resized&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/2c2ff51f1a47a7ee2a4e09a2302e1761?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;ol&gt;&lt;li&gt;準備 400ml 左右的玻璃杯，推薦這種有點胖的杯子，倒入 6 分滿冰塊。&lt;/li&gt;&lt;li&gt;濃縮咖啡按照熱的方式萃取。&lt;/li&gt;&lt;li&gt;20g 粉+ 25g 熱水直接化開，然後倒入 300ml 牛奶、濃縮咖啡，攪拌一下。&lt;/li&gt;&lt;li&gt;倒入冰杯中，擠入鮮奶油，然後再擠一些巧克力醬，或者撒點奧利奧碎即可&lt;/li&gt;&lt;li&gt;摩卡這個咖啡，可玩性很高，當一個有意思的飲品非常好。如果熱飲覺得奶油膩，可以換成棉花糖。&lt;/li&gt;&lt;/ol&gt;&lt;h3&gt;越南咖啡&lt;/h3&gt;&lt;p&gt;其實越南咖啡是一個非常有意思的存在。當年去越南曾經嘗試過。這裡推薦給大家，雖然無法做出當地的原汁原味，但可以儘可能的還原。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/b9ad5129d3254712e62c2ccc9b04e03e?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;越南咖啡當地使用的羅布斯塔豆，烘焙度在深度左右。採用滴濾方式製作並配合大量的冰塊、煉乳調和。變成一杯順滑，香甜的冰咖啡。越南原版是要用越南滴漏壺做，我們就不必專門買這個了。但我也推薦大家使用聰明杯、法壓壺來製作。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;推薦使用精品羅布斯塔，或帶有羅布斯塔的意式拼配。採用浸泡萃取或滴濾萃取的形式，做法：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;粉水比：1:13，萃取 2 分 30 秒，磨的比手衝稍微細一些。&lt;/li&gt;&lt;li&gt;準備玻璃杯，350ml 左右。倒入煉乳，30g。&lt;/li&gt;&lt;li&gt;倒入滿杯冰塊（可以稍微沒那麼硬）。&lt;/li&gt;&lt;li&gt;倒入萃取好的咖啡。&lt;/li&gt;&lt;li&gt;攪拌均勻，飲用即可。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;越南咖啡由於使用了大量煉奶，會讓咖啡變的甜、絲滑、沒那麼苦。主要是因為當地為羅布斯塔產區，羅布斯塔的特點就是咖啡因含量高、苦、醇厚度高。因此為了更好的口感，加入了大量的煉乳。再加上當地常年溫度較高，所以以冰飲為主，冰飲的特點是含糖量高。&lt;/p&gt;&lt;p&gt;所以自己做可以酌情考慮煉奶的量，同時推薦使用帶有羅布斯塔拼配的意式豆，這樣可以緩解一部分純羅布斯塔豆帶來的口感衝擊造成的不適。&lt;/p&gt;&lt;p&gt;但喝起來，還是挺好喝的，有咖啡的香氣，醇厚，也有煉奶帶來的甜感、奶香、順滑，是不錯的解暑佳品。&lt;/p&gt;&lt;h3&gt;咖啡馬提尼&lt;/h3&gt;&lt;p&gt;咖啡馬提尼（Coffee Martini），由英國調酒師迪克 &#183; 布拉德塞爾在倫敦弗雷德俱樂部發明的。主打一個刺激。&lt;/p&gt;&lt;p&gt;因為這飲品非常簡單，只需要伏特加、咖啡利口酒、咖啡、糖就可以了。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/8a9d4e4f2bf1f13e518cff1e8d8b03fa?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;&lt;strong&gt;做法也非常簡單：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;準備一個 140ml 的馬提尼酒杯。&lt;/li&gt;&lt;li&gt;雪克壺中放入 5 分滿冰塊。&lt;/li&gt;&lt;li&gt;再放入 2oz 伏特加、0.5oz 咖啡利口酒、1oz 黑咖啡（速溶的、意式濃縮、冷萃都行）、0.5oz 糖漿。&lt;/li&gt;&lt;li&gt;蓋上蓋子，搖晃至充分冷卻（7、8 下就行）。&lt;/li&gt;&lt;li&gt;過濾倒入馬提尼酒杯，放上 3 個咖啡豆裝飾即可。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;濃縮咖啡先萃取，放的溫度低一些，不要把冰塊融化。冰塊只是負責降溫用，所以冰塊最好用凍的非常結實的，這樣不容易化影響飲品濃度。這款咖啡因為伏特加的存在，非常上頭，但又有點甜，配合咖啡的那種口感，其實挺刺激的。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;我更喜歡另一個改進版本，這款改進版本，更容易讓人接受，也更柔和。&lt;/strong&gt;&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/045ee608ebf7c9750545c8875c3dcb5b?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;這款飲品，也可以叫做 &lt;strong&gt;Latte Martini &lt;/strong&gt;「拿鐵馬提尼」，製作方法：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;準備一個 140ml 的馬提尼酒杯。&lt;/li&gt;&lt;li&gt;雪克壺中放入 5 分滿冰塊。&lt;/li&gt;&lt;li&gt;再放入 1oz 百利甜酒、1oz 咖啡力嬌酒、1oz 黑咖啡、2oz 全脂牛奶。&lt;/li&gt;&lt;li&gt;蓋上蓋子，均勻搖晃 15 - 20 下，產生綿密的泡沫即可。&lt;/li&gt;&lt;li&gt;過濾倒入酒杯，然後撒一些可可粉，或者擺放 3 個咖啡豆即可。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;這款酒，會稍微勁頭小，畢竟去掉了伏特加。增加了百利甜酒、牛奶。增加了甜感，牛奶與百利甜的配合讓口感更順滑、細膩。綿密的泡沫配合細膩順滑的口感，別有一番風味。&lt;/p&gt;&lt;h3&gt;阿芙佳朵&lt;/h3&gt;&lt;p&gt;Affogato，目前國內翻譯為阿芙佳朵。這款產品呢，你説它是飲品也行，甜品也罷。不過在意大利它被定義為甜品。它是我覺得最具性價比的一款咖啡與甜品結合的產品。製作也非常容易，夏天吃絕對的 YYDS。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/e04d28087170fd9b1f07df0ca4ec1bdf?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;/figure&gt;&lt;p&gt;&lt;strong&gt;用料極其簡單，做法如下：&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;19g 咖啡豆，萃取 35g 濃縮咖啡。&lt;/li&gt;&lt;li&gt;香草冰激凌，挖 2 個球放在你喜歡的杯裡&lt;/li&gt;&lt;li&gt;將濃縮淋在冰激凌球上即可。&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;這個做法，只推薦用香草冰激凌，其他的味道混合咖啡都很奇怪。最好配合中深烘焙帶有埃塞、哥倫比亞豆子參與的拼配豆。入口是太妃糖、香草、奶油的感覺。如果你不想單純的當甜品吃，也可以配合麵包、餅乾當成蘸醬吃，也別有一番風味。&lt;/p&gt;&lt;h2&gt;一豆多喝&lt;/h2&gt;&lt;p&gt;經典咖啡飲品呢暫時就總結上邊那些。其實我更想説一下現在正在流行的「一豆三喝」。商業連鎖品牌卷的方向跟私人精品館，卷的完全不是一個方向。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/article/8b025bc4941920465d500d48fe55d43b?imageView2/2/w/1120/q/40/interlace/1/ignore-error/1&quot;&gt;&lt;figcaption&gt;Coffee spot&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;商業連鎖，全都在卷「拿鐵」這一個品類，都快卷禿嚕皮了。飯館私人精品館，可能在體量上、資本上比不過大連鎖。只能另闢蹊徑，往專業了做。因此才出現一豆多喝的套路。&lt;/p&gt;&lt;p&gt;當然，這種套路也不是無處可循，其實主要靈感還是來自於 WBC 的比賽。比賽中規定了三個飲品：濃縮、牛奶咖啡、創意飲品且用同一款咖啡豆製作。這要求三杯飲品都需要達到風味突出又平衡的點，這就考驗了咖啡師選擇咖啡豆、烘焙咖啡豆、萃取、融合和創新的綜合能力。&lt;/p&gt;&lt;p&gt;這種比賽會選用一些稀有豆子、定製處理法、定製烘焙度、甚至一些無比玄學的原材料，基本上無法複製到門店批量生產，導致普通消費者無法接觸。也讓很多人質疑這種比賽的意義。&lt;/p&gt;&lt;p&gt;國內的大火，還要説 2020 年，中國區 WBC 冠軍，潘瑋在杭州開了自己的咖啡店 Parking Coffee，主打的就是他比賽時的套餐：一杯奶咖、一杯黑咖搭配一杯他自制提純的比賽牛奶。使用的咖啡豆也是當年比賽上用的雲南厭氧處理的豆，一下子就把賽場上的精英咖啡與消費者距離拉近了，讓很多人趨之若鶩。&lt;/p&gt;&lt;h3&gt;一豆多喝需要注意什麼&lt;/h3&gt;&lt;p&gt;一豆多喝的特點是發揮一個豆子在不同原料的搭配下，更好的展現豆子的特性。因此萃取技術就變得非常重要。因為要與不同原料進行融合，所以需要提高濃度，這裡建議使用意式咖啡機，製作意式濃縮。通過意式濃縮來完成一豆多喝的製作。&lt;/p&gt;&lt;p&gt;另外，意式咖啡機、磨豆機需要有較高的研磨質量、萃取質量。因此對設備的投入不要吝嗇，好設備會給你帶來意想不到的萃取體驗，也能更好的表達豆子的風味。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;選用合適的咖啡豆&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;一般做意式，家庭製作的話多數會考慮豆子的價格。但如果做一豆多喝，不要太過於考慮豆子的價格。重點應該注意拼配豆子的產地和處理法。個人建議可以嘗試尋找純水洗拼配（如埃塞水洗 + 哥倫水洗 + 雲南厭氧水洗）。因為純水洗拼配，乾淨度會非常好，減少（厭氧）日曬、蜜處理。甚至深度烘焙可能造成的雜味，發酵感。讓咖啡更清爽。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper image_resized&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/2a28a01e7015f3ac3f382433816aeedc.png&quot;&gt;&lt;/figure&gt;&lt;p&gt;如果實在選不到這麼極端的拼配方案的豆子，那麼可以嘗試自己拼配。購買中深（深）度烘焙的危地馬拉，薇薇特南果 + 中度烘焙的洪都拉斯雪莉（雪莉 + 危地馬拉拼配比例：62.5%：37.5%）。&lt;/p&gt;&lt;p&gt;奶咖、黑咖都會非常均衡，香草、威士忌的感覺都有，還會伴有堅果的香；奶咖香草冰激凌、牛奶的順滑感都非常好。&lt;/p&gt;&lt;p&gt;SOE 的選購更不要把注意力只放在價格上。應該從產地、處理法、豆種、價格這幾個重點考量。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;推薦產地：&lt;/strong&gt;埃塞俄比亞、哥倫比亞、巴拿馬、玻利維亞、危地馬拉、雲南、肯尼亞等。&lt;/p&gt;&lt;p&gt;以上這幾款找到過一些 SOE 不錯的豆子。簡單總結一下經驗：&lt;/p&gt;&lt;figure class=&quot;table&quot;&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;產地&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;推薦處理法&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;推薦豆種&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;推薦緣由理由&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;埃塞俄比亞&lt;/td&gt;&lt;td&gt;水洗、厭氧日曬、厭氧水洗&lt;/td&gt;&lt;td&gt;74158、74112、74110、Geisha&lt;/td&gt;&lt;td&gt;數字系列屬於非常板正的豆種，大小差不多而，Heirloom 因為是混合的各種豆子，大小不一很難保證每次萃取的穩定性。因此建議 74xx 的系列嘗試，格拉納瑰夏是不錯的 SOE 豆子。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;哥倫比亞&lt;/td&gt;&lt;td&gt;水洗、厭氧日曬&lt;/td&gt;&lt;td&gt;Geisha、sidra、卡斯蒂爵&lt;/td&gt;&lt;td&gt;哥倫比亞妖法豆子比較多，這個不考慮，只考慮水洗、厭氧日曬這種方法的豆子，所以瑰夏、希爪、卡斯蒂爵是非常適合的。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;肯尼亞&lt;/td&gt;&lt;td&gt;水洗&lt;/td&gt;&lt;td&gt;SL28、SL34&lt;/td&gt;&lt;td&gt;水洗是肯尼亞的基石，厭氧日曬有了，但少可以選擇試試看。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;巴拿馬&lt;/td&gt;&lt;td&gt;水洗、日曬&lt;/td&gt;&lt;td&gt;Geisha、卡杜艾、卡杜拉&lt;/td&gt;&lt;td&gt;巴拿馬任意一個瑰夏都可以，卡杜拉、卡杜艾更適合日曬處理做 SOE。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;玻利維亞&lt;/td&gt;&lt;td&gt;日曬&lt;/td&gt;&lt;td&gt;Geisha&lt;/td&gt;&lt;td&gt;只喝過一次，瑰夏做的，非常棒，我個人是喜歡的。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;危地馬拉&lt;/td&gt;&lt;td&gt;厭氧日曬、水洗、紅酒日曬&lt;/td&gt;&lt;td&gt;帕卡馬拉、Geisha、魯美蘇丹&lt;/td&gt;&lt;td&gt;都是非常有特點的好豆種，尤其魯美蘇丹也參加過 WBC 的比賽。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;雲南&lt;/td&gt;&lt;td&gt;厭氧日曬、紅酒日曬&lt;/td&gt;&lt;td&gt;只有卡蒂姆&lt;/td&gt;&lt;td&gt;其實還有別的豆種，但是性價比不高。所以還是卡蒂姆的厭氧日曬、紅酒日曬。雲南主打一個高性價比，好好挑一下還是可以挑到不錯的豆子的。&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;還要説明一點，雲南豆目前大規模商業化的依舊是卡蒂姆，所以我們還是要選擇厭氧日曬、紅酒日曬這種日曬豆，提供不錯的發酵感，不要追求水洗的乾淨度，畢竟卡蒂姆的基因問題天生對乾淨度有一些幹擾。&lt;/p&gt;&lt;h3&gt;萃取建議&lt;/h3&gt;&lt;p&gt;一豆多喝，杯子不要太大，120 - 140ml 的瓷杯就足夠了。建議使用 SOE，以下萃取信息均按照 SOE 為例説明。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;濃縮萃取方案（黑/奶通用）&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;咖啡豆：21g&lt;/li&gt;&lt;li&gt;液重：45g（日曬、厭氧日曬）；40g（水洗、厭氧水洗）&lt;/li&gt;&lt;li&gt;萃取時間：28 秒左右 / 不低於 25 秒&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;這個濃縮，請用分流嘴手柄同時接取兩杯濃縮，每杯是單份濃縮。所以這種萃取就對布粉、壓粉有了較高要求，如果一遍流速慢，一遍流的快，雖然合計 45g，但有一杯會少一些。&lt;/p&gt;&lt;figure class=&quot;image ss-img-wrapper&quot;&gt;&lt;img src=&quot;https://cdn.sspai.com/2023/09/24/89696baaa326b017de0d78c292a79035.png&quot;&gt;&lt;/figure&gt;&lt;p&gt;水洗會萃的少一些，是因為要保證濃度，本身水洗就是乾淨度、香氣為主。body 相對弱一些，萃多了容易出現雜味、苦味。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;黑咖的製作小 Tip：&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;黑咖啡我個人建議，先接濃縮，後兌水。日曬建議水溫低一些 85℃ - 88℃，水洗類 90℃ 左右。&lt;/li&gt;&lt;li&gt;後兌水的好處是，可以讓水流把濃縮的物質稀釋的更均勻，不會造成口感的不一致。&lt;/li&gt;&lt;li&gt;我個人認為，SOE 類的黑咖啡，濃縮的油脂可以考慮過濾掉。可以考慮放一個粉碗，再放個濾紙把油脂去掉，日曬類的乾淨度會提高一些。&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;奶咖的製作小 Tip：&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;建議選用全脂牛奶，打奶溫度不宜超過 65℃。&lt;/li&gt;&lt;li&gt;慎重選擇提純奶，厚乳。味道太重會蓋住本就不富裕的濃縮風味。&lt;/li&gt;&lt;li&gt;如果是水洗豆，甜感高（熱奶）的奶別選，會破壞水洗豆的香氣。&lt;/li&gt;&lt;li&gt;脫脂別選，賊難喝；植物奶也別選，同理。&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;最後&lt;/h2&gt;&lt;p&gt;這篇應該是《家庭咖啡手冊》系列的最後一篇。這個系列寫到現在也基本把我想寫的關於意式咖啡的一些細節都講到了，也希望能對各位有幫助。這篇的一些經典飲品都是我個人喜歡的一些有特色的飲品。而一豆多喝是行業的嘗試，可以讓更多人專注於咖啡本來的味道，以及這種味道的延伸。&lt;/p&gt;&lt;p&gt;我是非常討厭現在亂七八糟，五花八門的特調咖啡的。越來越不咖啡，越來越花哨，然後越來越貴。我個人還是專注在尋找好的咖啡豆，給朋友帶來純粹的咖啡風味的體驗，也希望更多的朋友能夠喜歡上咖啡的純粹與每次嘗試不同咖啡豆，給大家帶來的驚喜感覺。&lt;/p&gt;&lt;p&gt;下一個系列還不知道寫點啥，如果你有想知道的歡迎評論區討論，我收集一下需求，沒準會有個新系列。&lt;/p&gt;&lt;p&gt;感謝看完整個系列的朋友們，下個系列再見。&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;前文回顧&lt;/strong&gt;&lt;/h4&gt;&lt;/div&gt;</description>
-            <author>老林還年少</author>
-            <pubDate>Tue, 03 Oct 2023 11:37:14 +0800</pubDate>
         </item>
         <atom:link href="https://sspai.com/feed" type="application/rss+xml" ref="self"></atom:link>
         <atom:link href="https://sspai.com/feed" type="application/rss+xml" ref="hub"></atom:link>
