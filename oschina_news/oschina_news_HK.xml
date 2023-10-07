@@ -16,198 +16,68 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 07 Oct 2023 17:00:23 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 07 Oct 2023 19:01:06 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[每日一博 | 買彩票能中大獎？用 Java 盤點常見的概率悖論]]>
+                <![CDATA[Rails 7.1 正式發佈：可生成 Dockerfiles、更強大的自行構建身份驗證系統]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><span id="OSC_h1_1"></span><h1>引言</h1><p>《雙色球頭獎概率與被雷劈中的概率哪個高？》</p><p>《3 人輪流射擊，槍法最差的反而更容易活下來？》</p><p>讓我們用 Java 來探索 ta 們！</p><span id="OSC_h1_2"></span><h1>悖論 1：著名的三門問題</h1><p><strong>規則描述</strong>：你正在參加一個遊戲節目，你被要求在三扇門中選擇一扇：其中一扇後面有一輛車；其餘兩扇後面則是山羊。你選擇了一道門，假設是一號門，然後知道門後面有什麼的主持人，開啓了另一扇後面有山羊的門，假設是三號門。他然後問你：「你想選擇二號門嗎？請問若想獲得車，參賽者應該換二號門嗎？</p><p><img alt="" src="https://mp.toutiao.com/mp/agw/article_material/open_image/get?code=ZjdjNjc4YjA2ZDYwMTE0MjNiYmViZTFjN2ZkMDQxZWIsMTY5NDA3OTk1MDA0Ng==" referrerpolicy="no-referrer"></p><p><strong>論證</strong>：分析需求，拆解為如下代碼</p><pre><code>/**
- * &lt;p&gt; 三門問題解決方案 &lt;/p&gt;
- * @author yuanfeng.wang
- * @since 2023/8/29
- */
-import java.util.Random;
-
-public class ThreeDoorSolution {
-
-    public static void main(String[] args) {
-        // 模擬執行 1 萬次，打印獲勝的概率
-        threeDoor(10000);
-    }
-
-    /**
-     * 三門問題邏輯拆解
-     * @param numSimulations 總共執行多少輪遊戲
-     */
-    private static void threeDoor(int numSimulations) {
-        int switchWins = 0;
-        int stayWins = 0;
-
-        Random random = new Random();
-        for (int i = 0; i &lt; numSimulations; i++) {
-            // 隨機確定車所在的門
-            int carDoor = random.nextInt(3);
-
-            // 玩家隨機選擇一扇門
-            int playerChoice = random.nextInt(3);
-
-            // 主持人隨機打開一扇門：要求該門不是玩家選擇的，且必須是羊
-            int openedDoor;
-            do {
-                openedDoor = random.nextInt(3);
-            } while (openedDoor == carDoor || openedDoor == playerChoice);
-
-            // 換門後的選擇：不能是打開的門，不能是玩家選擇的門，則是交換之後的門
-            int finalChoice;
-            do {
-                finalChoice = random.nextInt(3);
-            } while (finalChoice == playerChoice || finalChoice == openedDoor);
-
-            // 計算是否換門獲勝
-            if (finalChoice == carDoor) {
-                switchWins++;
-            }
-
-            // 計算不換門獲勝
-            if (playerChoice == carDoor) {
-                stayWins++;
-            }
-        }
-
-        // 輸出結果
-        System.out.println("在 " + numSimulations + " 次模擬中：");
-        System.out.println("換門獲勝的概率：" + (double) switchWins / numSimulations);
-        System.out.println("不換門獲勝的概率：" + (double) stayWins / numSimulations);
-    }
-}
-// 模擬運行，打印結果如下
-// 在 10000 次模擬中：
-// 換門獲勝的概率：0.6679
-// 不換門獲勝的概率：0.3321
-
-</code></pre><p><strong>結論</strong>：三門問題看似一道簡單的概率題，幾十年來卻一直引發巨大爭議，持兩種不同觀點的人基本是五五開；事實上始終選擇換門的玩家，獲勝的概率 2/3，而保持原方案的勝率只有 1/3</p><span id="OSC_h1_3"></span><h1>悖論 2：雙色球我能中大獎</h1><p><strong>規則描述</strong>：從 1-33 個紅色球中隨機選出 6 個，再從 1-16 個藍色球中隨機選擇 1 個，最終開獎出一注 6+1 組合球，無順序要求；</p><ul><li>一等獎：中 6 紅 + 1 藍</li><li>二等獎：中 6 紅</li><li>三等獎：中 5 紅 + 1 藍</li><li>四等獎：中 4 紅 + 1 藍，或只中 5 個紅</li><li>五等獎：中 3 紅 + 1 藍，或只中 4 個紅</li><li>六等獎：中 1 藍</li></ul><p><strong>論證</strong>：分析玩法，計算一等獎中獎率，從 33 個紅球樣本中選擇 6 個，計算總共的組合數，即數學公式 C(n, m) = n!/((n-m)! * m!)，代入計算 C(33, 6) = 33!/((33-6)! * 6!) = 1107568，再乘以 16，最終得出一等獎獲獎概率 1/17721088。</p><p>分析規則，以下代碼展示了開獎一次，購買 N 注時，打印中獎信息的程序，當代入 N=500 萬時，多次執行，可以很輕鬆打印出一等獎</p><pre><code>
-import java.util.*;
-
-/**
- * &lt;p&gt;雙色球隨機模擬&lt;/p&gt;
- * @author yuanfeng.wang
- * @since 2023/8/29
- */
-public class SsqSolution {
-
-    private static Random random = new Random();
-
-    /**
-     * 開獎的紅球
-     */
-    private static Set&lt;Integer&gt; winningRedBalls;
-
-    /**
-     * 開獎的藍球
-     */
-    private static int winningBlueBall;
-
-    // 靜態塊初始化一組開獎號碼
-    static {
-        // 籃球 01-16
-        winningBlueBall = random.nextInt(16) + 1;
-
-        // 紅球 01-33 生成 6 個
-        winningRedBalls = new HashSet&lt;&gt;();
-        while (winningRedBalls.size() &lt; 6) {
-            int num = random.nextInt(33) + 1;
-            winningRedBalls.add(num);
-        }
-    }
-
-    public static void main(String[] args) {
-        play(500_0000);
-    }
-
-    /**
-     *
-     * @param num 運行一次程序只開一次獎，此參數表示總共購買多少注
-     */
-    public static void play(int num) {
-        System.out.println("\n 本期開獎號碼：");
-        System.out.println("紅球：" + winningRedBalls + " 籃球：" + winningBlueBall);
-        for (int i = 0; i &lt; num; i++) {
-            playOnce();
-        }
-    }
-
-    private static void playOnce() {
-        Set&lt;Integer&gt; userRedBalls = getUserSelectedRedBalls();
-        int userBlueBall = getUserSelectedBlueBall();
-
-        int redBallMatch = countMatchingBalls(userRedBalls, winningRedBalls);
-        boolean blueBallMatch = (userBlueBall == winningBlueBall);
-
-        if (redBallMatch == 6 &amp;&amp; blueBallMatch) {
-            System.out.println("\n 恭喜你中了一等獎！");
-            System.out.println("玩家購買的號碼：");
-            System.out.println("紅球：" + userRedBalls + " 藍球：" + userBlueBall);
-        } else if (redBallMatch == 6) {
-            System.out.println("\n 恭喜你中了二等獎！");
-        } else if (redBallMatch == 5 &amp;&amp; blueBallMatch) {
-//            System.out.println("\n 恭喜你中了三等獎！");
-        } else if (redBallMatch == 5 || (redBallMatch == 4 &amp;&amp; blueBallMatch)) {
-//            System.out.println("\n 恭喜你中了四等獎！");
-        } else if (redBallMatch == 4 || (redBallMatch == 3 &amp;&amp; blueBallMatch)) {
-//            System.out.println("\n 恭喜你中了五等獎！");
-        } else if (blueBallMatch) {
-//            System.out.println("\n 恭喜你中了最小獎！");
-        } else {
-            //沒中獎，不打印記錄
-        }
-    }
-
-    /**
-     * 返回玩家選擇的 6 個紅球,範圍 1-33，不重複
-     */
-    private static Set&lt;Integer&gt; getUserSelectedRedBalls() {
-        Set&lt;Integer&gt; userRedBalls = new HashSet&lt;&gt;();
-        while (userRedBalls.size() &lt; 6) {
-            int num = random.nextInt(33) + 1;
-            userRedBalls.add(num);
-        }
-        return userRedBalls;
-    }
-
-    /**
-     * 玩家選擇的 1 個藍球,範圍 1-16
-     */
-    private static int getUserSelectedBlueBall() {
-        return random.nextInt(16) + 1;
-    }
-
-    /**
-     * 匹配中了幾個紅球
-     * @return 中紅球個數
-     */
-    private static int countMatchingBalls(Set&lt;Integer&gt; userBalls, Set&lt;Integer&gt; winningBalls) {
-        int count = 0;
-        for (int ball : userBalls) {
-            if (winningBalls.contains(ball)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-}
-
-</code></pre><p><strong>結論</strong>：排除其它因素，頭獎概率約 1700 萬分之 1，這個結論並不直觀，例舉如下幾個進行對比</p><p>1.一家祖孫三代人的生日都在同一天的概率約為 27 萬分之一</p><p>2.小行星撞擊地球的概率保守推測是 200 萬分之一</p><p>3.生出全男或全女四胞胎的概率約為 352 萬分之一</p><span id="OSC_h1_4"></span><h1>悖論 3：三個槍手</h1><p><strong>描述</strong>：三個小夥子同時愛上了一個姑娘，為了決定他們誰能娶這個姑娘，他們決定用槍進行一次決鬥。A 的命中率是 30％，B 比他好些，命中率是 50％，最出色的槍手是 C，他從不失誤，命中率是 100％。由於這個顯而易見的事實，為公平起見，他們決定按這樣的順序：A 先開槍，B 第二，C 最後。然後這樣循環，直到他們只剩下一個人。那麼 A 第一槍應該怎麼打？誰活下來的概率最大？</p><p><strong>論證</strong>：每個人的目標都是活下來，為了目標尋找最好的策略。以下開始分人討論</p><p><strong>A：</strong></p><ul><li>若 A 開槍射殺了 B，則下個開槍是 C，C 會 100% 射殺 A，這不是一個好策略</li><li>若 A 開槍射殺了 C，則下一輪 B 會有 50% 的幾率殺掉自己</li><li>若 A 開槍未打中，則下一輪可以坐山觀虎鬥，所以 A 最好的策略看似是故意打空槍更好一些</li></ul><p><strong>B：</strong></p><ul><li>若 A 已經將 C 射殺，此時 B 與 A 互相射擊，B 的生存率高於 A</li><li>B 只能選擇射殺 C，因為只要 C 活着，都會優先射殺 B</li></ul><p><strong>C：</strong></p><ul><li>先消除威脅大的 B，然後再殺掉 A，只要自己有開 2 槍的機會，直接獲勝</li></ul><p><strong>結論</strong>：需求太複雜，暫未實現生存概率計算😭，歡迎補充悖論 3 的代碼論證過程</p><blockquote><p>作者：京東保險&nbsp;王苑灃</p><p>來源：京東雲開發者社區，轉載請註明來源</p></blockquote></div>
+                <![CDATA[<div class="content"><p>Rails 7.1 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frubyonrails.org%2F2023%2F10%2F5%2FRails-7-1-0-has-been-released" target="_blank">發佈</a>。公告寫道，自 Rails 7.0 以來，此版本由 800 多名貢獻者提交了 5000 多次 commit，包含許多新功能和改進。</p><p><img src="https://static.oschina.net/uploads/space/2023/1007/180625_fnVn_2720166.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">主要變化如下：</p><ul><li><strong>為新的應用生成 Dockerfile</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">當運行<span>&nbsp;</span><code>rails new</code><span>&nbsp;</span>時，Rails 將生成需要使用 Kamal 或任何其他基於 Docker 的部署設置來部署應用程序的所有 Dockerfile。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">這些 Dockerfile 經過調整，適合用於生產環境，具有合適的緩存層、多階段構建以最小化鏡像，以及無論是否使用 JavaScript 構建環境所需的所有依賴項。</p><ul><li><strong>支持 Bun</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Bun 是 Zig 編寫的 JavaScript 運行時，近日正式發佈&nbsp;<a href="https://www.oschina.net/news/257450/bun-v1-0">1.0 正式版本</a>。此版本支持使用 Bun 作為 JavaScript 運行時來生成新應用程序。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">因此，開發者可以將<span>&nbsp;</span><code>--javascript=bun</code><span>&nbsp;</span>選項傳遞給<span>&nbsp;</span><code>rails new</code>。</p><ul><li><strong>更強大的自行構建身份驗證系統</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">為了補充<span>&nbsp;</span><code>has_secure_password</code><span>&nbsp;</span>功能，Rails 7.1 帶來了新特性來幫助開發者自行構建身份驗證系統。</p><hr><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">其他變化：</p><ul><li>Active Record 支持更多異步查詢</li><li>對 Trilogy MySQL 適配器的內置支持</li><li>在&nbsp;Active Record 中支持複合主鍵</li><li>使用&nbsp;<code>perform_all_later</code>&nbsp;對大規模任務進行排隊</li><li>引入用於增強自動加載 (Enhanced Autoloading) 的&nbsp;<code>config.autoload_lib</code>&nbsp;和&nbsp;<code>config.autoload_lib_once</code></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frubyonrails.org%2F2023%2F10%2F5%2FRails-7-1-0-has-been-released" target="_blank">詳情查看 Release Notes</a>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 07 Oct 2023 02:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10109696</guid>
-            <link>https://my.oschina.net/u/4090830/blog/10109696</link>
+            <pubDate>Fri, 06 Oct 2023 10:07:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260696/rails-7-1-0-released</guid>
+            <link>https://www.oschina.net/news/260696/rails-7-1-0-released</link>
             <author>
-                <![CDATA[原創]]>
+                <![CDATA[來源: OSCHINA]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[elementary OS 7.1]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>elementary OS 7.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.elementary.io%2Fos-7-1-available-now%2F" target="_blank">已正式 GA</a>，距離<a href="https://www.oschina.net/news/226770/elementary-os-7-released" target="_blank"> 7.0 </a>發佈已過去 8 個月。</p><p><img src="https://blog.elementary.io/images/os-7-1-available-now/desktop-onboarding.png" referrerpolicy="no-referrer"></p><p><strong>新版本重要變化</strong></p><ul><li><strong>提供個性化選項和功能</strong>，提升操作系統包容性和易用性</li><li><strong>保護隱私</strong>，確保應用程序始終在用户明確同意的情況下運行</li><li>優化觸控手勢和鍵盤導航</li><li>優化登錄和鎖屏界面</li><li>更新固件以支持更多硬件</li><li>優化自帶 Web 瀏覽器，提升性能，速度更快，以及改進兼容性</li><li>改進「文件」應用 UI</li><li>優化通知指示器</li><li>包含 200 多個錯誤修復、設計更改和新功能</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.elementary.io%2Fos-7-1-available-now%2F" target="_blank">詳情查看發佈公告</a>。</p><hr><p>推薦閲讀：<a href="https://www.oschina.net/news/226770/elementary-os-7-released" target="_blank">歷經風波，elementary OS 7 正式發佈</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 06 Oct 2023 06:22:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260628/elementary-os-7-1-released</guid>
+            <link>https://www.oschina.net/news/260628/elementary-os-7-1-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Citus 12.1 發佈，支持 PG16]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>CitusDB 是一個基於最新 PostgreSQL 構建的分佈式數據庫。CitusDB 可對 PostgreSQL 數據庫進行伸縮以適合大數據的處理。可在集羣中進行自動分片和碎片複製，運行在雲端或者混合系統中。數據庫的查詢可在集羣中進行分佈式處理，充分利用集羣中每個節點的計算能力。CitusDB 可提升 PostgreSQL 的高併發性和 JSON 支持，可用作事務以及分析數據庫場景。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Citus 12.1 現已發佈，此版本增加了對 Postgres 16 的支持。主要更新內容包括：</p><ul><li>從任意節點查詢時的負載均衡</li><li>分佈式 Citus 集羣中的 pg_stat_io</li><li>支持 JSON_ARRAYAGG() 和 JSON_OBJECTAGG() 聚合</li><li>支持 COPY FROM 的 DEFAULT 選項</li><li>傳播自定義 ICU 整理規則</li><li>支持 Citus 外部表上的 TRUNCATE 觸發器</li><li>將新的 CREATE TABLE、VACUUM 和 ANALYZE 選項傳播到 Citus 節點</li></ul><p style="text-align:left"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>除了支持 Postgres 16 之外，Citus 12.1 還包括：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>授予數據庫創建權限</li><li>使用 citus_schema_move () 進行分佈式模式移動</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.postgresql.org%2Fabout%2Fnews%2Fcitus-121-released-2727%2F" target="_blank">查看官方公告</a>。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.citusdata.com%2Fdownload%2F" target="_blank">https://www.citusdata.com/download/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 06 Oct 2023 06:14:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260625/citus-121-released</guid>
+            <link>https://www.oschina.net/news/260625/citus-121-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Gitee 推薦 | 字符串插值變量處理工具庫 FlexVars]]>
+            </title>
+            <description>
+                <![CDATA[<h1><a id="user-content-flexvars" class="anchor" href="https://gitee.com/zhangfisher/flexvars#flexvars"></a>FlexVars</h1><p>Powerful string interpolation tool library</p><p><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fcn%2Freadme">中文</a><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fen%2Freadme">English</a></p><h2><a id="user-content-features" class="anchor" href="https://gitee.com/zhangfisher/flexvars#features"></a>Features</h2><p>-Supports positional and dictionary interpolation
+-Supports multiple error handling mechanisms
+-Support for null value processing mechanism
+-Support filter chain processing of input variable values
+-Support variable prefix suffix
+-98%+unit test coverage</p><h2><a id="user-content-getting-started" class="anchor" href="https://gitee.com/zhangfisher/flexvars#getting-started"></a>Getting Started</h2><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="k">import</span><span class="p">{</span><span class="nx">FlexVars</span><span class="p">}</span><span class="k">from</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span></span><span id="LC2" class="line"></span><span id="LC3" class="line"><span class="kd">const</span><span class="nx">flexvars</span><span class="o">=</span><span class="k">new</span><span class="nx">FlexVars</span><span class="p">({</span></span><span id="LC4" class="line"><span class="na">filters</span><span class="p">:{</span></span><span id="LC5" class="line"><span class="na">currency</span><span class="p">:{</span></span><span id="LC6" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">prefix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">suffix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">sign</span><span class="dl">"</span><span class="p">],</span></span><span id="LC7" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">prefix</span><span class="p">:</span><span class="dl">"</span><span class="s2">USD </span><span class="dl">"</span><span class="p">,</span><span class="na">suffix</span><span class="p">:</span><span class="dl">""</span><span class="p">,</span><span class="na">sign</span><span class="p">:</span><span class="dl">"</span><span class="s2">$</span><span class="dl">"</span><span class="p">}</span></span><span id="LC8" class="line"><span class="nl">next</span><span class="p">:(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span></span><span id="LC9" class="line"><span class="k">return</span><span class="s2">`</span><span class="p">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">prefix</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">sign</span><span class="p">}${</span><span class="nx">value</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">suffix</span><span class="p">}</span><span class="s2">`</span></span><span id="LC10" class="line"><span class="p">}</span></span><span id="LC11" class="line"><span class="p">}</span></span><span id="LC12" class="line"><span class="p">}</span></span><span id="LC13" class="line"><span class="p">})</span></span><span id="LC14" class="line"></span><span id="LC15" class="line"><span class="kd">const</span><span class="nx">_</span><span class="o">=</span><span class="nx">flexvars</span><span class="p">.</span><span class="nx">replace</span></span><span id="LC16" class="line"></span><span id="LC17" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span><span class="p">))</span></span><span id="LC18" class="line"><span class="c1">// =&gt; hello flexvars</span></span><span id="LC19" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">tom</span><span class="dl">"</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am tom</span><span class="dl">"</span><span class="p">)</span></span><span id="LC20" class="line"><span class="c1">// =&gt; I am tom</span></span><span id="LC21" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">USD $100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC22" class="line"><span class="c1">// =&gt; USD $100</span></span><span id="LC23" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency('RMB','￥','元')}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB ￥100 元</span><span class="dl">"</span><span class="p">))</span><span class="c1">// </span></span><span id="LC24" class="line"><span class="c1">// =&gt; RMB ￥100 元</span></span><span id="LC25" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency({prefix:'EUR '',suffix:''',sign:'€'})}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB €100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC26" class="line"><span class="c1">// =&gt; EUR €100</span></span><span id="LC27" class="line"></span><span id="LC28" class="line"><span class="nx">flexvars</span><span class="p">.</span><span class="nx">addFilter</span><span class="p">({</span></span><span id="LC29" class="line"><span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">add</span><span class="dl">"</span><span class="p">,</span></span><span id="LC30" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">step</span><span class="dl">"</span><span class="p">],</span></span><span id="LC31" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">step</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span></span><span id="LC32" class="line"><span class="nx">next</span><span class="p">(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">){</span></span><span id="LC33" class="line"><span class="k">return</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="o">+</span><span class="nx">args</span><span class="p">.</span><span class="nx">step</span></span><span id="LC34" class="line"><span class="p">}</span></span><span id="LC35" class="line"><span class="p">})</span></span><span id="LC36" class="line"><span class="c1">// call chaining</span></span><span id="LC37" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">101</span><span class="dl">"</span><span class="p">)</span></span><span id="LC38" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add|add }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">102</span><span class="dl">"</span><span class="p">)</span></span><span id="LC39" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">105</span><span class="dl">"</span><span class="p">)</span></span><span id="LC40" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3)|add(4) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">109</span><span class="dl">"</span><span class="p">)</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div>]]>
+            </description>
+            <pubDate>Fri, 06 Oct 2023 02:45:00 GMT</pubDate>
+            <guid isPermaLink="false">https://gitee.com/zhangfisher/flexvars</guid>
+            <link>https://gitee.com/zhangfisher/flexvars</link>
         </item>
         <item>
             <title>
@@ -217,7 +87,7 @@ public class SsqSolution {
                 <![CDATA[<div class="content"><p>澎湃新聞今日報道蘋果 App Store 出現偽裝成學習軟件的黃色軟件，並且衝上了「免費 App」排行榜第一名。</p><p>據悉，該軟件的年齡分級為 4 歲以上，但是會引導用户進入賭博和其他黃色網站。網友小同表示，他下載了這款軟件，想要學習英語字母，結果發現是一個色情視頻軟件。他認為這種偽裝成學習軟件的行為很危險，很容易對孩子造成不良影響。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-c7a0ce5e4272f1b06c5119529647215fb11.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-69f6205b4eceb10672c0a3cff67e4f52d48.png" referrerpolicy="no-referrer"></p><p>事件被曝光後，蘋果客服雖然進行了迴應，但直到下午仍未下架軟件。甚至排行榜更新後，App Store 免費榜第一、二名再次出現黃色軟件，名為「騎 XX」、「牡丹 XXX」，年齡分級為 4 歲以上。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8b7f27342ea504c47ae6724514736b106a3.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-db2cf9f1307034d7e3a68e35ea067a0fe4f.png" referrerpolicy="no-referrer"></p><p><strong style="color:#424242">截至發稿，這些軟件已被下架</strong><span style="background-color:#ffffff; color:#424242">。</span></p><p><span style="background-color:#ffffff; color:#424242">眾所周知，蘋果應用商店的審核規則極為嚴格。</span>上面提到的 App 其實就是瀏覽器套殼，前端顯示的內容可以通過後台隨意修改。但問題在於，蘋果 App 的審核團隊為何讓這些「套殼」 App 上架到了應用商店？</p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 14:03:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 14:03:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260711</guid>
             <link>https://www.oschina.net/news/260711</link>
             <author>
@@ -232,7 +102,7 @@ public class SsqSolution {
                 <![CDATA[<div class="content"><p>今年 6 月，微軟在 Visual Studio Code 的插件市場<a href="https://www.oschina.net/news/244148/c-sharp-dev-kit-for-visual-studio-code" target="_blank">上架</a>了官方打造的<strong> C# 開發套件 —— C# Dev Kit</strong>，讓開發者在 VS Code 中方便地進行 C# 開發。</p><p>據介紹，C# Dev Kit 提高了開發者在使用 VS Code 過程中開發 C# 語言產品的效率。該套件兼容 C# 擴展，由語言服務器協議&nbsp; (LSP) 主機提供支持，從而創建一個高性能、可擴展且靈活的工具環境，可輕鬆將新體驗集成到 C# for VS Code 中。</p><p>經過 4 個多月的測試和打磨，微軟近日宣佈&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fdotnet%2Fcsharp-dev-kit-now-generally-available%2F" target="_blank"><strong>C# Dev Kit 正式 GA</strong></a>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-abd88ca70f16b7de5318e2944c0f5c847dd.png" referrerpolicy="no-referrer"></p><p>微軟表示在預覽版期間，累計為 C# Dev Kit 修復了 350 多個問題，其中大部分由社區報告，並對該產品進行了 300 多項有針對性的改進。</p><p>微軟稱用户的反饋加速推進了 C# Dev Kit 的正式發佈，開發團隊會繼續提升性能和可靠性，並將每月添加新功能。</p><p>根據微軟的介紹，C# Dev Kit 從 Visual Studio 中借用了一些開發者們熟悉的概念，並能夠與現有的 C# 擴展一起使用，以及通過增加一套強大的工具和實用程序來增強 C# 開發環境，這些工具和實用程序與 VS Code 原生集成，以幫助 C# 開發者更快地編寫、調試和維護他們的代碼，並減少錯誤。</p><p>C# Dev Kit 由以下部分組成：</p><ul><li><strong>C# 擴展</strong>：它提供基本的語言服務支持，並繼續獨立於這項工作進行維護；</li><li><strong>C# Dev Kit 擴展</strong>：它建立在 Visual Studio 的基礎上，提供解決方案管理、模板、測試、調試；</li><li><strong>IntelliCode for C# Dev Kit 擴展</strong>：它將 AI 驅動的開發帶到了編輯器中；</li></ul><p><img alt="" src="https://static.oschina.net/uploads/space/2023/0607/112538_up8O_4937141.png" referrerpolicy="no-referrer"></p><p><strong><a href="https://www.oschina.net/news/244148/c-sharp-dev-kit-for-visual-studio-code" target="_blank">點此查看詳細介紹</a></strong>。</p><p>C# Dev Kit 下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3Dms-dotnettools.csdevkit%26ssr%3Dfalse" target="_blank">https://marketplace.visualstudio.com/</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 09:22:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 09:22:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260688/vs-code-csharp-dev-kit-ga</guid>
             <link>https://www.oschina.net/news/260688/vs-code-csharp-dev-kit-ga</link>
             <author>
@@ -247,7 +117,7 @@ public class SsqSolution {
                 <![CDATA[<div class="content"><p><span style="color:#000000">Docker 在其年度 DockerCon 開發者大會主題演講中<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.docker.com%2Fblog%2Fintroducing-a-new-genai-stack%2F" target="_blank">宣佈</a>與 Neo4j、LangChain 和 Ollama 合作推出新的 GenAI Stack。該 GenAI Stack <span style="background-color:#ffffff">簡化了 AI/ML 集成，</span>旨在幫助開發人員快速輕鬆地構建生成式 AI 應用程序，而無需搜索和配置各種技術。</span></p><p><span style="color:#000000"><img alt="" height="263" src="https://oscimg.oschina.net/oscnet/up-0852df0e6f3480e6f6d1ddd240cf679021f.webp" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">根據介紹，GenAI Stack 中包含的內容包括有：</span></p><ul><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>預配置的 LLM</strong>：提供預配置的大語言模型 (LLM)，例如 Llama2、GPT-3.5 和 GPT-4，以快速啓動 AI 項目。</span></span></li><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>Ollama&nbsp;管理</strong>：Ollama 簡化了開源 LLM 的本地管理，讓你的 AI 開發過程更加順暢。</span></span></li><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>Neo4j 作為默認數據庫</strong>：Neo4j 作為默認數據庫，提供圖形和原生向量搜索功能。這有助於揭示數據模式和關係，最終提高 AI/ML 模型的速度和準確性。Neo4j 還充當這些模型的長期存儲器。</span></span></li><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>Neo4j 知識圖譜</strong>：Neo4j 知識圖譜為 LLM 提供更精確的 GenAI 預測和結果。</span></span></li><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>LangChain 編排</strong>：LangChain 促進了 LLM、應用程序和數據庫之間的通信，並提供了一個強大的向量索引。LangChain 是一個用於開發由 LLM 支持的應用程序的框架。其中包括 LangSmith，一種調試、測試、評估和監控 LLM 應用程序的新方法。</span></span></li><li style="text-align:start"><span style="color:#000000"><span style="background-color:#ffffff"><strong>全面支持</strong>：提供了一系列有用的工具、代碼模板、操作指南和 GenAI 最佳實踐。</span></span></li></ul><p><img alt="" height="263" src="https://oscimg.oschina.net/oscnet/up-346a6330b9b20f9dbd5753904b2051aeda1.webp" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">此外，該公司還通過</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.docker.com%2Fai-early-access-program%2F" target="_blank">搶先體驗計劃</a><span style="color:#000000">推出了一款新的生成式 AI 助手，名為 Docker AI。&nbsp;Docker 首席執行官 Scott Johnston 表示，與 Copilot 或&nbsp;Amazon&nbsp;CodeWhisperer 等其他代碼生成助手相比，Docker AI 助手可以幫助開發人員定義應用程序的各個方面並排除故障。</span></p><p><span style="color:#000000">"當開發人員編輯 Dockerfile 或 Docker Compose 文件、調試本地 docker build 或在本地運行測試時，Docker AI 會根據具體情況提供自動指導。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 09:05:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 09:05:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260683/docker-genai-stack</guid>
             <link>https://www.oschina.net/news/260683/docker-genai-stack</link>
             <author>
@@ -262,7 +132,7 @@ public class SsqSolution {
                 <![CDATA[<div class="content"><p>根據 omgubuntu 的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.omgubuntu.co.uk%2F2023%2F10%2Fubuntu-23-10-will-support-raspberry-pi-5" target="_blank">報道</a>，即將發佈的 Ubuntu 23.10 會正式支持<a href="https://www.oschina.net/news/259858/introducing-raspberry-pi-5" target="_blank">樹莓派 5</a>。</p><blockquote><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>延伸閲讀：<a href="https://www.oschina.net/news/259858/introducing-raspberry-pi-5" target="_blank">Raspberry Pi 5 將於 10 月底發佈，60 美元起售</a></strong></p></blockquote><p>報道指出，由於 Canonical 開發者可以提前使用樹莓派 5，因此他們能夠在設備上測試即將發佈的 Ubuntu 版本，確定需要支持新硬件的領域，並將所需的新（和已升級）軟件包放入 file_Feature Freeze Exceptions_to （文件_功能凍結異常_隊列）中。</p><p>部分針對樹莓派 5 的改進包括：引入新的&nbsp;<code>pisp</code>&nbsp;包來處理樹莓派 5 大大增強的相機功能；並對&nbsp;<code>python3-gpiozero</code>&nbsp;進行重大更新，以符合新型號對其 GPIO 操作所做的更改。</p><p>另外要注意的是，更新的 rpiboot 軟件包將無法在 Ubuntu 23.10 發佈時及時提供，但由於這不是嚴格要求的，所以問題不大。</p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 07:05:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 07:05:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260645/ubuntu-23-10-will-support-raspberry-pi-5</guid>
             <link>https://www.oschina.net/news/260645/ubuntu-23-10-will-support-raspberry-pi-5</link>
             <author>
@@ -490,7 +360,7 @@ cd trlx
 pip install -e .</code></pre><p style="text-align:justify">基於 BLOOM 模型訓練獎勵模型（RM）：</p><pre><code>cd examples/summarize_rlhf/reward_model/ &amp;&amp; deepspeed train_reward_model_bloom.py</code></pre><p style="text-align:justify">基於 GPT-J 模型訓練獎勵模型（RM）：</p><pre><code>cd examples/summarize_rlhf/reward_model/ &amp;&amp; deepspeed train_reward_model_gptj.py</code></pre><p style="text-align:justify">基於 BLOOM 模型進行強化學習優化訓練（PPO）：</p><pre><code>cd examples/summarize_rlhf/ &amp;&amp; accelerate launch --config_file configs/default_accelerate_config.yaml trlx_bloom_rlhf.py</code></pre><p style="text-align:justify">基於 GPT-J 模型進行強化學習優化訓練（PPO）：</p><pre><code>cd examples/summarize_rlhf/ &amp;&amp; accelerate launch --config_file configs/default_accelerate_config.yaml trlx_gptj_text_summarization.py</code></pre><p style="text-align:justify">PPO 單測</p><p style="text-align:justify">如果您想跳過，有監督微調（SFT）與，獎勵模型訓練（RM）兩個步驟，只單獨測試 PPO 模塊的性能，可以運行如下指令單測 PPO：</p><pre><code>cd examples/summarize_rlhf/ &amp;&amp; accelerate launch --config_file configs/default_accelerate_config.yaml trlx_bloom_rlhf_test.py</code></pre><span id="OSC_h3_10"></span><h3>開源生態——構想和未來</h3><p style="text-align:justify">在 PAI-Megatron-Patch 的開發過程中，我們圍繞中文大模型訓練加速落地沉澱了以下幾個方面的內容：</p><ul><li>Huggingface 的模型權重無損轉換成 Megatron 或者 Transformer Engine 可讀的模型權重。</li><li>H800 集羣開啓 FP8 混合精度訓練確保收斂。</li><li>LLM 大模型在 PAI 靈駿智算平台上的最佳實踐。</li><li>強化學習技術在 PAI 靈駿智算平台上的最佳實踐。</li></ul><p style="text-align:justify">後續在 PAI-Megatron-Patch 中還會陸續放出更多高質量的大模型和最佳實踐。</p><span id="OSC_h3_11"></span><h3>參考文獻</h3><p style="text-align:justify">[1]. Attention Is All You Need</p><p style="text-align:justify">[2]. Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</p><p style="text-align:justify">[3]. Reducing Activation Recomputation in Large Transformer Models</p><p style="text-align:justify">[4]. FP8 Formats for Deep Learning</p><p style="text-align:justify">[5]. ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</p><p style="text-align:justify">[6]. LLaMA: Open and Efficient Foundation Language Models</p><p style="text-align:justify">[7]. Llama 2: Open Foundation and Fine-Tuned Chat Models</p><p style="text-align:justify">[8]. Benchmarking Large Language Models on NVIDIA H100 GPUs with CoreWeave</p><blockquote><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fclick.aliyun.com%2Fm%2F1000373503%2F" target="_blank"><span style="color:#e67e22">點擊立即免費試用雲產品，開啓雲上實踐之旅！</span></a></strong></blockquote><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1337652%3Futm_content%3Dg_1000381155" target="_blank">原文鏈接</a></strong></p><p style="text-align:justify"><strong>本文為阿里雲原創內容，未經允許不得轉載。</strong></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 03:55:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 03:55:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/10115767</guid>
             <link>https://my.oschina.net/yunqi/blog/10115767</link>
             <author>
@@ -505,111 +375,11 @@ pip install -e .</code></pre><p style="text-align:justify">基於 BLOOM 模型�
                 <![CDATA[<div class="content"><p><span style="color:#000000">今年早些時候，英特爾發佈了<span style="background-color:#ffffff">一個利用了 AVX-512 的 x86-simd-sort 快速排序庫</span>；當 Numpy 將 <span style="background-color:#ffffff">x86-simd-sort 代碼進行合併後發現</span>，對於 16 位到 64 位的數據類型，排序速度提高了 10~17 倍。如今，英特爾軟件工程師又發佈了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fintel%2Fx86-simd-sort%2Freleases%2Ftag%2Fv3.0" target="_blank">x86-simd-sort 3.0</a>，OpenJDK 也已經將這一修改版進行了合併。</span></p><p><img height="254" src="https://oscimg.oschina.net/oscnet/up-e6ce9bf7b77cccf7d2121e07398176707ac.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">x86-simd-sort 3.0 添加了一個新的「avx512_argselect」方法</span><span style="background-color:#ffffff; color:#000000">，用於</span><span style="color:#000000">計算 arg nth_element，該</span><span style="background-color:#ffffff; color:#000000">方法</span><span style="color:#000000">返回一個對數據數組進行分區的索引數組。x86-simd-sort 3.0 版本還對其 benchmarks 進行了改進，現在使用 __builtin_cpu_supports 而不是 querying cpuinfo，</span><span style="background-color:#ffffff; color:#000000">並進行了各種其他更改。</span><br><br><span style="color:#000000">目前，x86-simd-sort 3.0 已合併至&nbsp;Numpy 主分支中，它提供了 np.partition 和 np.argpartition 的 AVX-512 矢量化版本。將 np.partition 的 16 位速度提高了 25 倍，將 32 位 dtypes 的速度提高了 17 倍，將 64 位 dtypes 的速度提高了約 8 倍。與此同時，<span style="background-color:#ffffff">新的 avx512_argselect 方法還使&nbsp;</span>np.argpartition 的速度提高了 6.5 倍。</span></p><p><span style="color:#000000">併入 OpenJDK 的 x86-simd-sort 是一個略有修改的版本，該版本將 <span style="background-color:#ffffff">32 位數據排序速度提高了 15 倍，64 位數據排序速度提高了約 7 倍。</span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">更多詳情<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopenjdk%2Fjdk%2Fpull%2F14227" target="_blank">可查看此處</a>。</span></span></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 06 Oct 2023 03:51:00 GMT</pubDate>
+            <pubDate>Thu, 05 Oct 2023 03:51:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260605/intel-x86-simd-sort-3-0-openjdk</guid>
             <link>https://www.oschina.net/news/260605/intel-x86-simd-sort-3-0-openjdk</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[ChatGPT 遭「卡脖子」，OpenAI 計劃自研 AI 芯片]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#000000; text-align:start">根據&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftechcrunch.com%2F2023%2F10%2F06%2Fopenai-said-to-be-considering-developing-its-own-ai-chips%2F%3Fguccounter%3D1%26guce_referrer%3DaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS5oay8%26guce_referrer_sig%3DAQAAAL3fVeW5BS1z3Z9olNE6c2iybavGH0APpfPZxySiJi7WUXe83N7739IvRls5vIwuXKyA2eYoWcTiKlUTh7jVhzMkKKxJTSaY_n4awPm8XvK2tXu2OjLfdsRALDvUWwB1idflbNBNoRwu_fzD-uhZrxP90RGZfxjBWi5mEUiKzpMc" target="_blank">TechCrunch</a>&nbsp;的報道，隨着 AI 芯片短缺的問題日益嚴重，OpenAI 現已開始考慮自研 AI 芯片。</p><p style="color:#000000; text-align:start">據悉，從去年開始 OpenAI 內部就已經開始討論 AI 芯片戰略，以解決其 AI 芯片短缺的問題。這些方案包括自研 AI 芯片、與英偉達等芯片製造商展開更緊密的合作、實現供應商多元化等。</p><p>OpenAI 首席執行官 Sam Altman 去年就公開抱怨英偉達 GPU 芯片稀缺，稱公司受到 GPU 的嚴重限制。</p><p>由於英偉達主導了全球 95% 的 Al 訓練領域市場，隨着英偉達 GPU 顯卡稀缺，加上 AI 算力成本持續攀升，即便強如 OpenAI 也在尋找新方案，從而避免長期被「卡脖子」。</p><p style="color:#000000; text-align:start">報道稱，該公司尚未決定繼續推進。Sam Altman 此前表示已將收購更多 AI 芯片作為公司的首要任務。</p><p style="color:#000000; text-align:start"><img alt="" src="https://static.oschina.net/uploads/space/2023/1007/112609_aSEr_2720166.jpeg" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start">OpenAI 和大多數競爭對手一樣，依賴基於 GPU 的硬件來開發 ChatGPT、GPT-4 和 DALL-E 3 等模型。GPU 能夠並行執行許多計算，因此非常適合訓練當今最強大的人工智能。</p><p style="color:#000000; text-align:start">不過 GPU 等芯片目前面臨嚴重短缺的問題，據報道，英偉達性能最好的人工智能芯片在 2024 年之前都已售罄。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 03:26:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260598</guid>
-            <link>https://www.oschina.net/news/260598</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[CoDeF —— 強時序一致性視頻處理算法]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>CoDeF 是能夠高度保持視頻時序一致性的的視頻處理算法，可以輕鬆完成視頻風格遷移、視頻關鍵點追蹤（包括流體）、用户自定義的視頻內容編輯等任務。</p><p>CoDeF 支持將圖像風格化算法升級為視頻風格化算法，將圖像關鍵點檢測算法升級為視頻關鍵點跟蹤算法（甚至包括水和煙霧等非剛性物體的追蹤），將圖像語義分割算法升級為視頻物體跟蹤算法，將圖像超分算法升級為視頻超分算法，同時支持用户可交互的視頻內容編輯。</p><p><img src="https://oscimg.oschina.net/oscnet/up-86a32563b77d2c6eaf06e2b3c03c320f292.gif" referrerpolicy="no-referrer"></p></div>
-                                                                ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 02:57:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/codef</guid>
-            <link>https://www.oschina.net/p/codef</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Gitee 推薦 | 字符串插值變量處理工具庫 FlexVars]]>
-            </title>
-            <description>
-                <![CDATA[<h1><a id="user-content-flexvars" class="anchor" href="https://gitee.com/zhangfisher/flexvars#flexvars"></a>FlexVars</h1><p>Powerful string interpolation tool library</p><p><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fcn%2Freadme">中文</a><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fen%2Freadme">English</a></p><h2><a id="user-content-features" class="anchor" href="https://gitee.com/zhangfisher/flexvars#features"></a>Features</h2><p>-Supports positional and dictionary interpolation
--Supports multiple error handling mechanisms
--Support for null value processing mechanism
--Support filter chain processing of input variable values
--Support variable prefix suffix
--98%+unit test coverage</p><h2><a id="user-content-getting-started" class="anchor" href="https://gitee.com/zhangfisher/flexvars#getting-started"></a>Getting Started</h2><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="k">import</span><span class="p">{</span><span class="nx">FlexVars</span><span class="p">}</span><span class="k">from</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span></span><span id="LC2" class="line"></span><span id="LC3" class="line"><span class="kd">const</span><span class="nx">flexvars</span><span class="o">=</span><span class="k">new</span><span class="nx">FlexVars</span><span class="p">({</span></span><span id="LC4" class="line"><span class="na">filters</span><span class="p">:{</span></span><span id="LC5" class="line"><span class="na">currency</span><span class="p">:{</span></span><span id="LC6" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">prefix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">suffix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">sign</span><span class="dl">"</span><span class="p">],</span></span><span id="LC7" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">prefix</span><span class="p">:</span><span class="dl">"</span><span class="s2">USD </span><span class="dl">"</span><span class="p">,</span><span class="na">suffix</span><span class="p">:</span><span class="dl">""</span><span class="p">,</span><span class="na">sign</span><span class="p">:</span><span class="dl">"</span><span class="s2">$</span><span class="dl">"</span><span class="p">}</span></span><span id="LC8" class="line"><span class="nl">next</span><span class="p">:(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span></span><span id="LC9" class="line"><span class="k">return</span><span class="s2">`</span><span class="p">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">prefix</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">sign</span><span class="p">}${</span><span class="nx">value</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">suffix</span><span class="p">}</span><span class="s2">`</span></span><span id="LC10" class="line"><span class="p">}</span></span><span id="LC11" class="line"><span class="p">}</span></span><span id="LC12" class="line"><span class="p">}</span></span><span id="LC13" class="line"><span class="p">})</span></span><span id="LC14" class="line"></span><span id="LC15" class="line"><span class="kd">const</span><span class="nx">_</span><span class="o">=</span><span class="nx">flexvars</span><span class="p">.</span><span class="nx">replace</span></span><span id="LC16" class="line"></span><span id="LC17" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span><span class="p">))</span></span><span id="LC18" class="line"><span class="c1">// =&gt; hello flexvars</span></span><span id="LC19" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">tom</span><span class="dl">"</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am tom</span><span class="dl">"</span><span class="p">)</span></span><span id="LC20" class="line"><span class="c1">// =&gt; I am tom</span></span><span id="LC21" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">USD $100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC22" class="line"><span class="c1">// =&gt; USD $100</span></span><span id="LC23" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency('RMB','￥','元')}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB ￥100 元</span><span class="dl">"</span><span class="p">))</span><span class="c1">// </span></span><span id="LC24" class="line"><span class="c1">// =&gt; RMB ￥100 元</span></span><span id="LC25" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency({prefix:'EUR '',suffix:''',sign:'€'})}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB €100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC26" class="line"><span class="c1">// =&gt; EUR €100</span></span><span id="LC27" class="line"></span><span id="LC28" class="line"><span class="nx">flexvars</span><span class="p">.</span><span class="nx">addFilter</span><span class="p">({</span></span><span id="LC29" class="line"><span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">add</span><span class="dl">"</span><span class="p">,</span></span><span id="LC30" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">step</span><span class="dl">"</span><span class="p">],</span></span><span id="LC31" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">step</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span></span><span id="LC32" class="line"><span class="nx">next</span><span class="p">(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">){</span></span><span id="LC33" class="line"><span class="k">return</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="o">+</span><span class="nx">args</span><span class="p">.</span><span class="nx">step</span></span><span id="LC34" class="line"><span class="p">}</span></span><span id="LC35" class="line"><span class="p">})</span></span><span id="LC36" class="line"><span class="c1">// call chaining</span></span><span id="LC37" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">101</span><span class="dl">"</span><span class="p">)</span></span><span id="LC38" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add|add }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">102</span><span class="dl">"</span><span class="p">)</span></span><span id="LC39" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">105</span><span class="dl">"</span><span class="p">)</span></span><span id="LC40" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3)|add(4) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">109</span><span class="dl">"</span><span class="p">)</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div>]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 02:45:00 GMT</pubDate>
-            <guid isPermaLink="false">https://gitee.com/zhangfisher/flexvars</guid>
-            <link>https://gitee.com/zhangfisher/flexvars</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[KubeSphere 社區雙週報 | OpenFunction v1.2.0 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>KubeSphere 社區雙週報主要整理展示新增的貢獻者名單和證書、新增的講師證書以及兩週內提交過 commit 的貢獻者，並對近期重要的 PR 進行解析，同時還包含了線上/線下活動和佈道推廣等一系列社區動態。</p><p>本次雙週報涵蓋時間為：2023.09.15-2023.09.28。</p><h2>貢獻者名單</h2><p><img src="https://oscimg.oschina.net/oscnet/up-cce05b68864a3f222cd17e6df1aa1c3655b.gif" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-7e6818d775388b1291392b3250789734a38.png" alt="" referrerpolicy="no-referrer"></p><h2>新晉 KubeSphere Contributor</h2><p>兩週內共有 2 位新晉 KubeSphere Contributor，感謝各位對 KubeSphere 社區的貢獻！</p><p><img src="https://oscimg.oschina.net/oscnet/up-ca0b0945c103e0492a91de92a5132784bea.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-e3ad1819572baf498ffd15433cf938b034d.png" alt="" referrerpolicy="no-referrer"></p><h2>近期更新</h2><h3>KubeSphere</h3><h4>1. 支持通過 IP 搜索 pod</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubesphere%2Fpull%2F5921" target="_blank">https://github.com/kubesphere/kubesphere/pull/5921</a></p><p>貢獻者：zhou1203</p><h3>OpenFunction</h3><h4>1. 發佈了 OpenFunction v1.2.0，支持使用 keda-addons-http 作為同步函數運行時</h4><p>相關 Release: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2FOpenFunction%2Freleases%2Ftag%2Fv1.2.0" target="_blank">https://github.com/OpenFunction/OpenFunction/releases/tag/v1.2.0</a></p><p>貢獻者：wrongerror</p><h4>2. 升級 OpenFunction Chart 依賴組件 Dapr, Keda 以及 contour 的版本</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2Fcharts%2Fpull%2F51" target="_blank">https://github.com/OpenFunction/charts/pull/51</a></p><p>貢獻者：wrongerror</p><h3>KubeKey</h3><h4>1. 支持部署 Kubernetes v1.27+</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F2000" target="_blank">https://github.com/kubesphere/kubekey/pull/2000</a></p><p>貢獻者：pixiake</p><h4>2. 支持部署高可用 Harbor</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F1992" target="_blank">https://github.com/kubesphere/kubekey/pull/1992</a></p><p>貢獻者：wenwenxiong</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 02:16:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10115731</guid>
-            <link>https://my.oschina.net/u/4197945/blog/10115731</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[越來越多開源項目停更，Java 生態受影響最大]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Sonatype&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.sonatype.com%2Fintroducing-our-9th-annual-state-of-the-software-supply-chain-report" target="_blank">發佈</a>了最新的一份</span>《軟件供應鏈狀況》報告，深入探討瞭如何在充滿選擇的世界中定義更好的軟件，並探討人工智能 (AI) 對軟件開發的深遠影響；還研究了開源供應、需求和安全之間錯綜複雜的相互作用。</p><p>報告跟蹤了 Java (Maven)、JavaScript (npm)、Python (PyPI)、.NET (NuGet Gallery) 四大開源生態系統的開源應用增長情況。2022 年至 2023 年間，可用開源項目的數量平均增長了 29%。2023 年，開源項目平均發佈了 15 個可供使用的版本，不同開源註冊中心的特定生態系統平均有 10 到 22 個版本。這意味着每個月都會發布 1-2 個新版本，在觀察到的生態系統中總共發佈了 6000 萬個新版本。</p><p><img height="293" src="https://oscimg.oschina.net/oscnet/up-a3af85a689f0adbcfb8236b4dac77b7f235.png" width="500" referrerpolicy="no-referrer"></p><p>每個受檢測的生態系統都表現出一致的項目增長率，平均同比增長率高達 29%。</p><p><img height="295" src="https://oscimg.oschina.net/oscnet/up-9ab7acc5786b753b241922eeaa519953a3d.png" width="500" referrerpolicy="no-referrer"></p><p>但隨着開源組件供應量的持續增長，其需求卻未能與之同步。在過去兩年中，下載量的增長率逐漸下降。2023 年的平均增長率為 33%，與 2021 年 73% 的增長率相比大幅下降。</p><p><span style="color:#000000">與此同時，開源軟件安全問題沒有放緩的跡象。截至 2023 年 9 月，研究團隊共發現了&nbsp;245,032 個惡意軟件包，是往年總和的 2 倍。八分之一的開源下載存在已知風險，且仍有 23% 的 Log4j 下載存在嚴重漏洞。</span></p><p><img height="304" src="https://oscimg.oschina.net/oscnet/up-b8b946760f70163d67ebbf53b91a14930fd.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">開源項目的主動維護也變得越來越少。研究表明，去年有近五分之一（18.6%）的項目停止維護，影響了 Java 和 JavaScript 生態系統。<span style="background-color:#ffffff">只有 11% 的開源項目實際上得到了積極維護。</span>儘管存在這些缺陷，但 Sonatype 仍然表示，近 96% 存在已知漏洞的組件下載可以通過選擇無漏洞版本來避免。</span></p><p><span style="color:#000000">就軟件開發中的人工智能而言，97% 的受訪 DevOps 和 SecOps 領導者表示，他們目前在工作流程中某種程度上使用了人工智能，大多數人每天使用兩個或更多工具。</span><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>去年，企業環境中 AI 和 ML 組件的採用率增加了 135%。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">研究還發現，企業自認為的安全程度與實際情況之間存在脱節。67% 的公司表示，他們確信自己的系統中沒有來自漏洞庫的代碼，但今年有 10% 的公司因漏洞組件而遭遇安全漏洞。39% 的公司可以在</span><span style="background-color:#ffffff">&nbsp;1 到 7 天的時間內發現漏洞，29% 的公司需要一週以上的時間，28% 的公司只需要不到一天的時間。</span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.sonatype.com%2Fstate-of-the-software-supply-chain%2Fintroduction" target="_blank">查看完整報告</a>。</span></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 05 Oct 2023 04:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260454/9th-annual-state-of-the-software-supply-chain-report</guid>
-            <link>https://www.oschina.net/news/260454/9th-annual-state-of-the-software-supply-chain-report</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[AgentVerse —— 多 LLM 環境模擬框架]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>AgentVerse 提供了一個多功能框架，可簡化為大型語言模型（LLM）創建定製多代理環境的過程。框架旨在以最小的投入促進快速開發和定製，從而使研究人員能夠專注於他們的研究，而不是被實施細節所困擾。</p><p><img alt="" height="333" src="https://static.oschina.net/uploads/space/2023/0915/161848_BpYH_4252687.png" width="500" referrerpolicy="no-referrer"></p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>特點</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><p><span><span><strong>高效的環境構建：</strong>我們的框架提供了一系列基本構建塊，可以輕鬆創建多代理環境。只需要配置文件中的幾行，就可以輕鬆構建 LLM 聊天室等基本環境。此過程需要為 LLM 士定義環境設置和提示，使研究人員能夠專注於實驗和分析。</span></span></p></li><li><p><span><span><strong>可定製組件</strong>：AgentVerse 通過將多代理環境劃分為五個功能模塊並定義各自的接口來簡化多代理環境。對於使用 AgentVerse 提供的基礎模塊無法直接構建的複雜環境，你可以自定義這五個功能模塊中的一個或多個接口，根據你的需求高效地創建你自己的多 Agent 環境。</span></span></p></li><li><p><span><span><strong>工具（插件）利用</strong>：AgentVerse 通過工具支持多代理環境。目前，AgentVerse 支持<a href="https://github.com/OpenBMB/BMTools">BMTools</a>中提供的工具。</span></span></p></li></ul><p><img height="287" src="https://static.oschina.net/uploads/space/2023/0915/161814_aa6e_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
-                                                                ]]>
-            </description>
-            <pubDate>Thu, 05 Oct 2023 03:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/agentverse</guid>
-            <link>https://www.oschina.net/p/agentverse</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GCC 安全策略文檔已合併到倉庫]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#000000; text-align:start">最近幾周在 GCC 郵件列表進行討論後，開發團隊為 GCC 代碼庫添加了 GCC 安全策略，以概述編譯器項目的安全流程。</p><p style="color:#000000; text-align:start"><img alt="" src="https://static.oschina.net/uploads/space/2023/1006/113615_PVqj_2720166.jpeg" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start">該文檔概述了 GCC 安全漏洞處理建議、GCC 語言運行庫的安全注意事項、在 GCC 中實現的安全功能，以及私下報告安全漏洞的最佳方式。</p><p style="color:#000000; text-align:start">GCC 安全政策文檔於週三<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgcc.gnu.org%2Fgit%2F%3Fp%3Dgcc.git%3Ba%3Dcommit%3Bh%3D4cac1d2eec5549927fe0caee179f80007e8d729b" target="_blank">提交</a>到代碼庫。如果希望瞭解更多關於 GCC 安全策略的內容，可以在&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgcc.gnu.org%2Fgit%2F%3Fp%3Dgcc.git%3Ba%3Dblob%3Bf%3DSECURITY.txt" target="_blank">SECURITY.txt</a>&nbsp;中閲讀。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 05 Oct 2023 03:37:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260447/gcc-security-policy</guid>
-            <link>https://www.oschina.net/news/260447/gcc-security-policy</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -627,6 +397,296 @@ pip install -e .</code></pre><p style="text-align:justify">基於 BLOOM 模型�
         </item>
         <item>
             <title>
+                <![CDATA[ChatGPT 遭「卡脖子」，OpenAI 計劃自研 AI 芯片]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#000000; text-align:start">根據&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftechcrunch.com%2F2023%2F10%2F06%2Fopenai-said-to-be-considering-developing-its-own-ai-chips%2F%3Fguccounter%3D1%26guce_referrer%3DaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS5oay8%26guce_referrer_sig%3DAQAAAL3fVeW5BS1z3Z9olNE6c2iybavGH0APpfPZxySiJi7WUXe83N7739IvRls5vIwuXKyA2eYoWcTiKlUTh7jVhzMkKKxJTSaY_n4awPm8XvK2tXu2OjLfdsRALDvUWwB1idflbNBNoRwu_fzD-uhZrxP90RGZfxjBWi5mEUiKzpMc" target="_blank">TechCrunch</a>&nbsp;的報道，隨着 AI 芯片短缺的問題日益嚴重，OpenAI 現已開始考慮自研 AI 芯片。</p><p style="color:#000000; text-align:start">據悉，從去年開始 OpenAI 內部就已經開始討論 AI 芯片戰略，以解決其 AI 芯片短缺的問題。這些方案包括自研 AI 芯片、與英偉達等芯片製造商展開更緊密的合作、實現供應商多元化等。</p><p>OpenAI 首席執行官 Sam Altman 去年就公開抱怨英偉達 GPU 芯片稀缺，稱公司受到 GPU 的嚴重限制。</p><p>由於英偉達主導了全球 95% 的 Al 訓練領域市場，隨着英偉達 GPU 顯卡稀缺，加上 AI 算力成本持續攀升，即便強如 OpenAI 也在尋找新方案，從而避免長期被「卡脖子」。</p><p style="color:#000000; text-align:start">報道稱，該公司尚未決定繼續推進。Sam Altman 此前表示已將收購更多 AI 芯片作為公司的首要任務。</p><p style="color:#000000; text-align:start"><img alt="" src="https://static.oschina.net/uploads/space/2023/1007/112609_aSEr_2720166.jpeg" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start">OpenAI 和大多數競爭對手一樣，依賴基於 GPU 的硬件來開發 ChatGPT、GPT-4 和 DALL-E 3 等模型。GPU 能夠並行執行許多計算，因此非常適合訓練當今最強大的人工智能。</p><p style="color:#000000; text-align:start">不過 GPU 等芯片目前面臨嚴重短缺的問題，據報道，英偉達性能最好的人工智能芯片在 2024 年之前都已售罄。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 03:26:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260598</guid>
+            <link>https://www.oschina.net/news/260598</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Android 14 正式發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Android 14 現已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F10%2Fandroid-14-is-live-in-aosp.html" target="_blank">發佈</a>，該版本旨在提高開發人員的工作效率，同時增強性能、隱私、安全和用户定製功能。</p><p>目前 Android 14 已經面向部分 Pixel 設備推出，今年晚些時候將在三星、iQOO、Nothing、一加、Oppo、Realme、夏普、索尼、傳音、vivo 和小米等設備上更新。</p><p><img alt="" height="124" src="https://oscimg.oschina.net/oscnet/up-cbfa279b16f4fbb420ecf378ff77fddbdf8.png" width="700" referrerpolicy="no-referrer"></p><p>該版本的一些重點更新內容包括：</p><h4><strong>性能和效率</strong></h4><p>Android 14 的一大重點是提高平台的性能和效率。</p><ul><li><strong>凍結緩存應用。</strong>在 Android 14 之前，緩存應用程序可以不受任何限制地運行。在 Android 14 中，會在短時間內凍結緩存應用程序，使其 CPU 時間為零。</li><li><strong style="color:#202124">優化廣播。</strong>為了延長凍結應用程序的凍結時間（即不佔用 CPU 時間），此版本調整了應用程序進入<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Fcomponents%2Factivities%2Fprocess-lifecycle" target="_blank">緩存狀態後接收</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Fcomponents%2Fbroadcasts%23context-registered-receivers" target="_blank">上下文註冊</a><span style="color:#202124">廣播的方式；它們可能會排隊，並且重複的（例如&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fcontent%2FIntent%23ACTION_BATTERY_CHANGED" target="_blank">BATTERY_CHANGED</a><span style="color:#202124">）可能會合併到一個廣播中。</span></li><li><p style="margin-left:0; margin-right:0; text-align:start"><strong style="color:#202124">更快的應用程序啓動</strong>。<span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在 8GB 設備上，測試組發現應用程序冷啓動減少了 20%，在 12GB 設備上減少了 30% 以上。與熱啓動相比，冷啓動速度較慢，而且耗電量大。這項工作有效地改善了電量使用和整體應用啓動時間。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li><p style="margin-left:0; margin-right:0; text-align:start"><strong style="color:#202124">減少內存佔用。</strong><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在 Android 14 中，Android Runtime (ART) 在不影響性能的情況下優化了 code size，平均減少了 9.3%。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li></ul><h4><strong><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span style="color:#202124"><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>定製化</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>&nbsp;</strong></h4><ul><li style="text-align:left"><strong>非線性字體放大。</strong><span style="color:#000000">從 Android 14 開始，系統默認支持字體放大至 200%。</span></li></ul><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:left"><span style="color:#000000"><img alt="" height="342" src="https://oscimg.oschina.net/oscnet/up-330d4f6e4e9bf64f78b10cacb9b63690486.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>每個應用程序的語言偏好。</strong>可以使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fd.android.com%2Freference%2Fandroid%2Fapp%2FLocaleManager%3Fhl%3Den%23setOverrideLocaleConfig%28android.app.LocaleConfig%29" target="_blank"><span><span><span>LocaleManager.setOverrideLocaleConfig</span></span></span></a>動態更新應用程序的 localeConfig&nbsp;，以自定義 Android 設置中每個應用程序語言列表中顯示的語言集。IME 現在可以使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fapp%2FLocaleManager%23getApplicationLocales%2528%2529" target="_blank"><span><span><span>LocaleManager.getApplicationLocales</span></span></span></a>來瞭解當前應用程序的 UI 語言，以更新鍵盤語言。從<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fresources%2Fapp-languages%23auto-localeconfig" target="_blank">Android Studio Giraffe</a>和 AGP 8.1 開始，可以將應用配置為自動支持 Android 13 的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fresources%2Fapp-languages" target="_blank">每個應用語言偏好</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>區域偏好</strong>。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroidx%2Fcore%2Ftext%2Futil%2FLocalePreferences" target="_blank">區域偏好</a>使用户能夠個性化温度單位、一週的第一天和編號系統。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>語法變形</strong>。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroidx%2Fcore%2Ftext%2Futil%2FLocalePreferences" target="_blank">語法變形 API</a>&nbsp;允許用户更輕鬆地為使用具有語法性別的語言的用户添加支持。要顯示個性化翻譯，你只需為受影響的語言添加針對每種語法性別的變形翻譯並集成 API。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li></ul><h4 style="text-align:start"><strong><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span style="color:#202124"><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>新媒體能力</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><strong style="color:#202124">圖像的 Ultra HDR</strong>。Android 14 增加了對 10 位高動態範圍 (HDR) 圖像的支持，並支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fmedia%2Fhdr-image-format" target="_blank">Ultra HDR 圖像格式</a>。該格式完全向後兼容 JPEG，允許應用程序與 HDR 圖像無縫互操作。</li></ul><p><img alt="" height="251" src="https://oscimg.oschina.net/oscnet/up-c3de6e626e20d082b57a43109bcfbb12949.png" width="200" referrerpolicy="no-referrer"></p><ul><li style="text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>相機擴展中的縮放、聚焦、後視圖等</strong>。Android 14 升級並改進了<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fcamera%2Fcamera-extensions" target="_blank">相機擴展</a>，允許應用處理更長的處理時間，並在支持的設備上使用低光攝影等計算密集型算法來改進圖像。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li><li style="text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>無損 USB 音頻</strong>。Android 14 設備可以支持無損<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fmedia%2FAudioMixerAttributes" target="_blank">音頻格式</a>，通過 USB 有線耳機提供發燒級體驗。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li></ul><p>此外，<span style="background-color:#ffffff; color:#121212">Android 14 還帶來了各種圖形驅動程序增強、OpenJDK 17 支持以及各種隱私和保護安全更新。</span>&nbsp;</p><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F10%2Fandroid-14-is-live-in-aosp.html" target="_blank">查看官方博客</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 03:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260444/android-14</guid>
+            <link>https://www.oschina.net/news/260444/android-14</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[CoDeF —— 強時序一致性視頻處理算法]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>CoDeF 是能夠高度保持視頻時序一致性的的視頻處理算法，可以輕鬆完成視頻風格遷移、視頻關鍵點追蹤（包括流體）、用户自定義的視頻內容編輯等任務。</p><p>CoDeF 支持將圖像風格化算法升級為視頻風格化算法，將圖像關鍵點檢測算法升級為視頻關鍵點跟蹤算法（甚至包括水和煙霧等非剛性物體的追蹤），將圖像語義分割算法升級為視頻物體跟蹤算法，將圖像超分算法升級為視頻超分算法，同時支持用户可交互的視頻內容編輯。</p><p><img src="https://oscimg.oschina.net/oscnet/up-86a32563b77d2c6eaf06e2b3c03c320f292.gif" referrerpolicy="no-referrer"></p></div>
+                                                                ]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 02:57:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/codef</guid>
+            <link>https://www.oschina.net/p/codef</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[每日一博 | 買彩票能中大獎？用 Java 盤點常見的概率悖論]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><span id="OSC_h1_1"></span><h1>引言</h1><p>《雙色球頭獎概率與被雷劈中的概率哪個高？》</p><p>《3 人輪流射擊，槍法最差的反而更容易活下來？》</p><p>讓我們用 Java 來探索 ta 們！</p><span id="OSC_h1_2"></span><h1>悖論 1：著名的三門問題</h1><p><strong>規則描述</strong>：你正在參加一個遊戲節目，你被要求在三扇門中選擇一扇：其中一扇後面有一輛車；其餘兩扇後面則是山羊。你選擇了一道門，假設是一號門，然後知道門後面有什麼的主持人，開啓了另一扇後面有山羊的門，假設是三號門。他然後問你：「你想選擇二號門嗎？請問若想獲得車，參賽者應該換二號門嗎？</p><p><img alt="" src="https://mp.toutiao.com/mp/agw/article_material/open_image/get?code=ZjdjNjc4YjA2ZDYwMTE0MjNiYmViZTFjN2ZkMDQxZWIsMTY5NDA3OTk1MDA0Ng==" referrerpolicy="no-referrer"></p><p><strong>論證</strong>：分析需求，拆解為如下代碼</p><pre><code>/**
+ * &lt;p&gt; 三門問題解決方案 &lt;/p&gt;
+ * @author yuanfeng.wang
+ * @since 2023/8/29
+ */
+import java.util.Random;
+
+public class ThreeDoorSolution {
+
+    public static void main(String[] args) {
+        // 模擬執行 1 萬次，打印獲勝的概率
+        threeDoor(10000);
+    }
+
+    /**
+     * 三門問題邏輯拆解
+     * @param numSimulations 總共執行多少輪遊戲
+     */
+    private static void threeDoor(int numSimulations) {
+        int switchWins = 0;
+        int stayWins = 0;
+
+        Random random = new Random();
+        for (int i = 0; i &lt; numSimulations; i++) {
+            // 隨機確定車所在的門
+            int carDoor = random.nextInt(3);
+
+            // 玩家隨機選擇一扇門
+            int playerChoice = random.nextInt(3);
+
+            // 主持人隨機打開一扇門：要求該門不是玩家選擇的，且必須是羊
+            int openedDoor;
+            do {
+                openedDoor = random.nextInt(3);
+            } while (openedDoor == carDoor || openedDoor == playerChoice);
+
+            // 換門後的選擇：不能是打開的門，不能是玩家選擇的門，則是交換之後的門
+            int finalChoice;
+            do {
+                finalChoice = random.nextInt(3);
+            } while (finalChoice == playerChoice || finalChoice == openedDoor);
+
+            // 計算是否換門獲勝
+            if (finalChoice == carDoor) {
+                switchWins++;
+            }
+
+            // 計算不換門獲勝
+            if (playerChoice == carDoor) {
+                stayWins++;
+            }
+        }
+
+        // 輸出結果
+        System.out.println("在 " + numSimulations + " 次模擬中：");
+        System.out.println("換門獲勝的概率：" + (double) switchWins / numSimulations);
+        System.out.println("不換門獲勝的概率：" + (double) stayWins / numSimulations);
+    }
+}
+// 模擬運行，打印結果如下
+// 在 10000 次模擬中：
+// 換門獲勝的概率：0.6679
+// 不換門獲勝的概率：0.3321
+
+</code></pre><p><strong>結論</strong>：三門問題看似一道簡單的概率題，幾十年來卻一直引發巨大爭議，持兩種不同觀點的人基本是五五開；事實上始終選擇換門的玩家，獲勝的概率 2/3，而保持原方案的勝率只有 1/3</p><span id="OSC_h1_3"></span><h1>悖論 2：雙色球我能中大獎</h1><p><strong>規則描述</strong>：從 1-33 個紅色球中隨機選出 6 個，再從 1-16 個藍色球中隨機選擇 1 個，最終開獎出一注 6+1 組合球，無順序要求；</p><ul><li>一等獎：中 6 紅 + 1 藍</li><li>二等獎：中 6 紅</li><li>三等獎：中 5 紅 + 1 藍</li><li>四等獎：中 4 紅 + 1 藍，或只中 5 個紅</li><li>五等獎：中 3 紅 + 1 藍，或只中 4 個紅</li><li>六等獎：中 1 藍</li></ul><p><strong>論證</strong>：分析玩法，計算一等獎中獎率，從 33 個紅球樣本中選擇 6 個，計算總共的組合數，即數學公式 C(n, m) = n!/((n-m)! * m!)，代入計算 C(33, 6) = 33!/((33-6)! * 6!) = 1107568，再乘以 16，最終得出一等獎獲獎概率 1/17721088。</p><p>分析規則，以下代碼展示了開獎一次，購買 N 注時，打印中獎信息的程序，當代入 N=500 萬時，多次執行，可以很輕鬆打印出一等獎</p><pre><code>
+import java.util.*;
+
+/**
+ * &lt;p&gt;雙色球隨機模擬&lt;/p&gt;
+ * @author yuanfeng.wang
+ * @since 2023/8/29
+ */
+public class SsqSolution {
+
+    private static Random random = new Random();
+
+    /**
+     * 開獎的紅球
+     */
+    private static Set&lt;Integer&gt; winningRedBalls;
+
+    /**
+     * 開獎的藍球
+     */
+    private static int winningBlueBall;
+
+    // 靜態塊初始化一組開獎號碼
+    static {
+        // 籃球 01-16
+        winningBlueBall = random.nextInt(16) + 1;
+
+        // 紅球 01-33 生成 6 個
+        winningRedBalls = new HashSet&lt;&gt;();
+        while (winningRedBalls.size() &lt; 6) {
+            int num = random.nextInt(33) + 1;
+            winningRedBalls.add(num);
+        }
+    }
+
+    public static void main(String[] args) {
+        play(500_0000);
+    }
+
+    /**
+     *
+     * @param num 運行一次程序只開一次獎，此參數表示總共購買多少注
+     */
+    public static void play(int num) {
+        System.out.println("\n 本期開獎號碼：");
+        System.out.println("紅球：" + winningRedBalls + " 籃球：" + winningBlueBall);
+        for (int i = 0; i &lt; num; i++) {
+            playOnce();
+        }
+    }
+
+    private static void playOnce() {
+        Set&lt;Integer&gt; userRedBalls = getUserSelectedRedBalls();
+        int userBlueBall = getUserSelectedBlueBall();
+
+        int redBallMatch = countMatchingBalls(userRedBalls, winningRedBalls);
+        boolean blueBallMatch = (userBlueBall == winningBlueBall);
+
+        if (redBallMatch == 6 &amp;&amp; blueBallMatch) {
+            System.out.println("\n 恭喜你中了一等獎！");
+            System.out.println("玩家購買的號碼：");
+            System.out.println("紅球：" + userRedBalls + " 藍球：" + userBlueBall);
+        } else if (redBallMatch == 6) {
+            System.out.println("\n 恭喜你中了二等獎！");
+        } else if (redBallMatch == 5 &amp;&amp; blueBallMatch) {
+//            System.out.println("\n 恭喜你中了三等獎！");
+        } else if (redBallMatch == 5 || (redBallMatch == 4 &amp;&amp; blueBallMatch)) {
+//            System.out.println("\n 恭喜你中了四等獎！");
+        } else if (redBallMatch == 4 || (redBallMatch == 3 &amp;&amp; blueBallMatch)) {
+//            System.out.println("\n 恭喜你中了五等獎！");
+        } else if (blueBallMatch) {
+//            System.out.println("\n 恭喜你中了最小獎！");
+        } else {
+            //沒中獎，不打印記錄
+        }
+    }
+
+    /**
+     * 返回玩家選擇的 6 個紅球,範圍 1-33，不重複
+     */
+    private static Set&lt;Integer&gt; getUserSelectedRedBalls() {
+        Set&lt;Integer&gt; userRedBalls = new HashSet&lt;&gt;();
+        while (userRedBalls.size() &lt; 6) {
+            int num = random.nextInt(33) + 1;
+            userRedBalls.add(num);
+        }
+        return userRedBalls;
+    }
+
+    /**
+     * 玩家選擇的 1 個藍球,範圍 1-16
+     */
+    private static int getUserSelectedBlueBall() {
+        return random.nextInt(16) + 1;
+    }
+
+    /**
+     * 匹配中了幾個紅球
+     * @return 中紅球個數
+     */
+    private static int countMatchingBalls(Set&lt;Integer&gt; userBalls, Set&lt;Integer&gt; winningBalls) {
+        int count = 0;
+        for (int ball : userBalls) {
+            if (winningBalls.contains(ball)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+}
+
+</code></pre><p><strong>結論</strong>：排除其它因素，頭獎概率約 1700 萬分之 1，這個結論並不直觀，例舉如下幾個進行對比</p><p>1.一家祖孫三代人的生日都在同一天的概率約為 27 萬分之一</p><p>2.小行星撞擊地球的概率保守推測是 200 萬分之一</p><p>3.生出全男或全女四胞胎的概率約為 352 萬分之一</p><span id="OSC_h1_4"></span><h1>悖論 3：三個槍手</h1><p><strong>描述</strong>：三個小夥子同時愛上了一個姑娘，為了決定他們誰能娶這個姑娘，他們決定用槍進行一次決鬥。A 的命中率是 30％，B 比他好些，命中率是 50％，最出色的槍手是 C，他從不失誤，命中率是 100％。由於這個顯而易見的事實，為公平起見，他們決定按這樣的順序：A 先開槍，B 第二，C 最後。然後這樣循環，直到他們只剩下一個人。那麼 A 第一槍應該怎麼打？誰活下來的概率最大？</p><p><strong>論證</strong>：每個人的目標都是活下來，為了目標尋找最好的策略。以下開始分人討論</p><p><strong>A：</strong></p><ul><li>若 A 開槍射殺了 B，則下個開槍是 C，C 會 100% 射殺 A，這不是一個好策略</li><li>若 A 開槍射殺了 C，則下一輪 B 會有 50% 的幾率殺掉自己</li><li>若 A 開槍未打中，則下一輪可以坐山觀虎鬥，所以 A 最好的策略看似是故意打空槍更好一些</li></ul><p><strong>B：</strong></p><ul><li>若 A 已經將 C 射殺，此時 B 與 A 互相射擊，B 的生存率高於 A</li><li>B 只能選擇射殺 C，因為只要 C 活着，都會優先射殺 B</li></ul><p><strong>C：</strong></p><ul><li>先消除威脅大的 B，然後再殺掉 A，只要自己有開 2 槍的機會，直接獲勝</li></ul><p><strong>結論</strong>：需求太複雜，暫未實現生存概率計算😭，歡迎補充悖論 3 的代碼論證過程</p><blockquote><p>作者：京東保險&nbsp;王苑灃</p><p>來源：京東雲開發者社區，轉載請註明來源</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 02:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10109696</guid>
+            <link>https://my.oschina.net/u/4090830/blog/10109696</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[KubeSphere 社區雙週報 | OpenFunction v1.2.0 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>KubeSphere 社區雙週報主要整理展示新增的貢獻者名單和證書、新增的講師證書以及兩週內提交過 commit 的貢獻者，並對近期重要的 PR 進行解析，同時還包含了線上/線下活動和佈道推廣等一系列社區動態。</p><p>本次雙週報涵蓋時間為：2023.09.15-2023.09.28。</p><h2>貢獻者名單</h2><p><img src="https://oscimg.oschina.net/oscnet/up-cce05b68864a3f222cd17e6df1aa1c3655b.gif" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-7e6818d775388b1291392b3250789734a38.png" alt="" referrerpolicy="no-referrer"></p><h2>新晉 KubeSphere Contributor</h2><p>兩週內共有 2 位新晉 KubeSphere Contributor，感謝各位對 KubeSphere 社區的貢獻！</p><p><img src="https://oscimg.oschina.net/oscnet/up-ca0b0945c103e0492a91de92a5132784bea.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-e3ad1819572baf498ffd15433cf938b034d.png" alt="" referrerpolicy="no-referrer"></p><h2>近期更新</h2><h3>KubeSphere</h3><h4>1. 支持通過 IP 搜索 pod</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubesphere%2Fpull%2F5921" target="_blank">https://github.com/kubesphere/kubesphere/pull/5921</a></p><p>貢獻者：zhou1203</p><h3>OpenFunction</h3><h4>1. 發佈了 OpenFunction v1.2.0，支持使用 keda-addons-http 作為同步函數運行時</h4><p>相關 Release: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2FOpenFunction%2Freleases%2Ftag%2Fv1.2.0" target="_blank">https://github.com/OpenFunction/OpenFunction/releases/tag/v1.2.0</a></p><p>貢獻者：wrongerror</p><h4>2. 升級 OpenFunction Chart 依賴組件 Dapr, Keda 以及 contour 的版本</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2Fcharts%2Fpull%2F51" target="_blank">https://github.com/OpenFunction/charts/pull/51</a></p><p>貢獻者：wrongerror</p><h3>KubeKey</h3><h4>1. 支持部署 Kubernetes v1.27+</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F2000" target="_blank">https://github.com/kubesphere/kubekey/pull/2000</a></p><p>貢獻者：pixiake</p><h4>2. 支持部署高可用 Harbor</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F1992" target="_blank">https://github.com/kubesphere/kubekey/pull/1992</a></p><p>貢獻者：wenwenxiong</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 05 Oct 2023 02:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10115731</guid>
+            <link>https://my.oschina.net/u/4197945/blog/10115731</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[越來越多開源項目停更，Java 生態受影響最大]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Sonatype&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.sonatype.com%2Fintroducing-our-9th-annual-state-of-the-software-supply-chain-report" target="_blank">發佈</a>了最新的一份</span>《軟件供應鏈狀況》報告，深入探討瞭如何在充滿選擇的世界中定義更好的軟件，並探討人工智能 (AI) 對軟件開發的深遠影響；還研究了開源供應、需求和安全之間錯綜複雜的相互作用。</p><p>報告跟蹤了 Java (Maven)、JavaScript (npm)、Python (PyPI)、.NET (NuGet Gallery) 四大開源生態系統的開源應用增長情況。2022 年至 2023 年間，可用開源項目的數量平均增長了 29%。2023 年，開源項目平均發佈了 15 個可供使用的版本，不同開源註冊中心的特定生態系統平均有 10 到 22 個版本。這意味着每個月都會發布 1-2 個新版本，在觀察到的生態系統中總共發佈了 6000 萬個新版本。</p><p><img height="293" src="https://oscimg.oschina.net/oscnet/up-a3af85a689f0adbcfb8236b4dac77b7f235.png" width="500" referrerpolicy="no-referrer"></p><p>每個受檢測的生態系統都表現出一致的項目增長率，平均同比增長率高達 29%。</p><p><img height="295" src="https://oscimg.oschina.net/oscnet/up-9ab7acc5786b753b241922eeaa519953a3d.png" width="500" referrerpolicy="no-referrer"></p><p>但隨着開源組件供應量的持續增長，其需求卻未能與之同步。在過去兩年中，下載量的增長率逐漸下降。2023 年的平均增長率為 33%，與 2021 年 73% 的增長率相比大幅下降。</p><p><span style="color:#000000">與此同時，開源軟件安全問題沒有放緩的跡象。截至 2023 年 9 月，研究團隊共發現了&nbsp;245,032 個惡意軟件包，是往年總和的 2 倍。八分之一的開源下載存在已知風險，且仍有 23% 的 Log4j 下載存在嚴重漏洞。</span></p><p><img height="304" src="https://oscimg.oschina.net/oscnet/up-b8b946760f70163d67ebbf53b91a14930fd.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">開源項目的主動維護也變得越來越少。研究表明，去年有近五分之一（18.6%）的項目停止維護，影響了 Java 和 JavaScript 生態系統。<span style="background-color:#ffffff">只有 11% 的開源項目實際上得到了積極維護。</span>儘管存在這些缺陷，但 Sonatype 仍然表示，近 96% 存在已知漏洞的組件下載可以通過選擇無漏洞版本來避免。</span></p><p><span style="color:#000000">就軟件開發中的人工智能而言，97% 的受訪 DevOps 和 SecOps 領導者表示，他們目前在工作流程中某種程度上使用了人工智能，大多數人每天使用兩個或更多工具。</span><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>去年，企業環境中 AI 和 ML 組件的採用率增加了 135%。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">研究還發現，企業自認為的安全程度與實際情況之間存在脱節。67% 的公司表示，他們確信自己的系統中沒有來自漏洞庫的代碼，但今年有 10% 的公司因漏洞組件而遭遇安全漏洞。39% 的公司可以在</span><span style="background-color:#ffffff">&nbsp;1 到 7 天的時間內發現漏洞，29% 的公司需要一週以上的時間，28% 的公司只需要不到一天的時間。</span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.sonatype.com%2Fstate-of-the-software-supply-chain%2Fintroduction" target="_blank">查看完整報告</a>。</span></span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 04:46:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260454/9th-annual-state-of-the-software-supply-chain-report</guid>
+            <link>https://www.oschina.net/news/260454/9th-annual-state-of-the-software-supply-chain-report</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[AgentVerse —— 多 LLM 環境模擬框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>AgentVerse 提供了一個多功能框架，可簡化為大型語言模型（LLM）創建定製多代理環境的過程。框架旨在以最小的投入促進快速開發和定製，從而使研究人員能夠專注於他們的研究，而不是被實施細節所困擾。</p><p><img alt="" height="333" src="https://static.oschina.net/uploads/space/2023/0915/161848_BpYH_4252687.png" width="500" referrerpolicy="no-referrer"></p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>特點</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><p><span><span><strong>高效的環境構建：</strong>我們的框架提供了一系列基本構建塊，可以輕鬆創建多代理環境。只需要配置文件中的幾行，就可以輕鬆構建 LLM 聊天室等基本環境。此過程需要為 LLM 士定義環境設置和提示，使研究人員能夠專注於實驗和分析。</span></span></p></li><li><p><span><span><strong>可定製組件</strong>：AgentVerse 通過將多代理環境劃分為五個功能模塊並定義各自的接口來簡化多代理環境。對於使用 AgentVerse 提供的基礎模塊無法直接構建的複雜環境，你可以自定義這五個功能模塊中的一個或多個接口，根據你的需求高效地創建你自己的多 Agent 環境。</span></span></p></li><li><p><span><span><strong>工具（插件）利用</strong>：AgentVerse 通過工具支持多代理環境。目前，AgentVerse 支持<a href="https://github.com/OpenBMB/BMTools">BMTools</a>中提供的工具。</span></span></p></li></ul><p><img height="287" src="https://static.oschina.net/uploads/space/2023/0915/161814_aa6e_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
+                                                                ]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 03:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/agentverse</guid>
+            <link>https://www.oschina.net/p/agentverse</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[GCC 安全策略文檔已合併到倉庫]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#000000; text-align:start">最近幾周在 GCC 郵件列表進行討論後，開發團隊為 GCC 代碼庫添加了 GCC 安全策略，以概述編譯器項目的安全流程。</p><p style="color:#000000; text-align:start"><img alt="" src="https://static.oschina.net/uploads/space/2023/1006/113615_PVqj_2720166.jpeg" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start">該文檔概述了 GCC 安全漏洞處理建議、GCC 語言運行庫的安全注意事項、在 GCC 中實現的安全功能，以及私下報告安全漏洞的最佳方式。</p><p style="color:#000000; text-align:start">GCC 安全政策文檔於週三<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgcc.gnu.org%2Fgit%2F%3Fp%3Dgcc.git%3Ba%3Dcommit%3Bh%3D4cac1d2eec5549927fe0caee179f80007e8d729b" target="_blank">提交</a>到代碼庫。如果希望瞭解更多關於 GCC 安全策略的內容，可以在&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgcc.gnu.org%2Fgit%2F%3Fp%3Dgcc.git%3Ba%3Dblob%3Bf%3DSECURITY.txt" target="_blank">SECURITY.txt</a>&nbsp;中閲讀。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 03:37:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260447/gcc-security-policy</guid>
+            <link>https://www.oschina.net/news/260447/gcc-security-policy</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[每日一博 | 使用 FHE 實現加密大語言模型]]>
             </title>
             <description>
@@ -641,71 +701,11 @@ pip install -e .</code></pre><p style="text-align:justify">基於 BLOOM 模型�
    </figcaption></figure><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">上圖表明 4 比特量化保持了原始精度的 96%。該實驗基於含有約 80 個句子的數據集，並通過將原始模型的 logits 預測與帶有量化注意力頭的模型的 logits 預測進行比較來計算最終指標。</p><span id="OSC_h3_5"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">在 Hugging Face GPT2 模型中使用 FHE</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">我們需要在 Hugging Face 的 transformers 庫的基礎上重寫加密模塊的前向傳播，以使其包含量化算子。首先通過加載 GPT2LMHeadModel 構建一個 SingleHeadQGPT2Model 實例，然後手動使用 QGPT2SingleHeadAttention 替換第一個多頭注意力模塊，代碼如下。你可以在，這裏，找到模型的完整實現。</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">self.transformer.h[<span style="color: #008080;line-height: 26px;">0</span>].attn&nbsp;=&nbsp;QGPT2SingleHeadAttention(config,&nbsp;n_bits=n_bits)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">至此，前向傳播已被重載成用 FHE 算子去執行多頭注意力的第一個頭，包括構建查詢、鍵和值矩陣的投影。以下代碼中的 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">QGPT2</code> 模塊的代碼見，此處。</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;"><span style="line-height: 26px;"><span style="font-weight: bold;line-height: 26px;">class</span>&nbsp;<span style="color: #458;font-weight: bold;line-height: 26px;">SingleHeadAttention</span><span style="line-height: 26px;">(QGPT2)</span>:</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #d14;line-height: 26px;">"""Class&nbsp;representing&nbsp;a&nbsp;single&nbsp;attention&nbsp;head&nbsp;implemented&nbsp;with&nbsp;quantization&nbsp;methods."""</span><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="line-height: 26px;"><span style="font-weight: bold;line-height: 26px;">def</span>&nbsp;<span style="color: #900;font-weight: bold;line-height: 26px;">run_numpy</span><span style="line-height: 26px;">(self,&nbsp;q_hidden_states:&nbsp;np.ndarray)</span>:</span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Convert&nbsp;the&nbsp;input&nbsp;to&nbsp;a&nbsp;DualArray&nbsp;instance</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_x&nbsp;=&nbsp;DualArray(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float_array=self.x_calib,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int_array=q_hidden_states,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quantizer=self.quantizer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;attention&nbsp;base&nbsp;module&nbsp;name</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mha_weights_name&nbsp;=&nbsp;<span style="color: #d14;line-height: 26px;">f"transformer.h.<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>.attn."</span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;query,&nbsp;key&nbsp;and&nbsp;value&nbsp;weight&nbsp;and&nbsp;bias&nbsp;values&nbsp;using&nbsp;the&nbsp;proper&nbsp;indices</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;head_0_indices&nbsp;=&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list(range(i&nbsp;*&nbsp;self.n_embd,&nbsp;i&nbsp;*&nbsp;self.n_embd&nbsp;+&nbsp;self.head_dim))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;line-height: 26px;">for</span>&nbsp;i&nbsp;<span style="font-weight: bold;line-height: 26px;">in</span>&nbsp;range(<span style="color: #008080;line-height: 26px;">3</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv_weights&nbsp;=&nbsp;...<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv_bias&nbsp;=&nbsp;...<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Apply&nbsp;the&nbsp;first&nbsp;projection&nbsp;in&nbsp;order&nbsp;to&nbsp;extract&nbsp;Q,&nbsp;K&nbsp;and&nbsp;V&nbsp;as&nbsp;a&nbsp;single&nbsp;array</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv&nbsp;=&nbsp;q_x.linear(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weight=q_qkv_weights,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bias=q_qkv_bias,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key=<span style="color: #d14;line-height: 26px;">f"attention_qkv_proj_layer_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;queries,&nbsp;keys&nbsp;and&nbsp;vales</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv&nbsp;=&nbsp;q_qkv.expand_dims(axis=<span style="color: #008080;line-height: 26px;">1</span>,&nbsp;key=<span style="color: #d14;line-height: 26px;">f"unsqueeze_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_q,&nbsp;q_k,&nbsp;q_v&nbsp;=&nbsp;q_qkv.enc_split(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008080;line-height: 26px;">3</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axis=<span style="color: #008080;line-height: 26px;">-1</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key=<span style="color: #d14;line-height: 26px;">f"qkv_split_layer_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Compute&nbsp;attention&nbsp;mechanism</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_y&nbsp;=&nbsp;self.attention(q_q,&nbsp;q_k,&nbsp;q_v)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;line-height: 26px;">return</span>&nbsp;self.finalize(q_y)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">模型中的其他計算仍以浮點形式進行，未加密，並由客户端在本地執行。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">將預訓練的權重加載到修改後的 GPT2 模型中，然後調用 <em style="color: black;">generate</em> 方法:</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">qgpt2_model&nbsp;=&nbsp;SingleHeadQGPT2Model.from_pretrained(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #d14;line-height: 26px;">"gpt2_model"</span>,&nbsp;n_bits=<span style="color: #008080;line-height: 26px;">4</span>,&nbsp;use_cache=<span style="color: #008080;line-height: 26px;">False</span><br>)<br><br>output_ids&nbsp;=&nbsp;qgpt2_model.generate(input_ids)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">舉個例子，你可以要求量化模型補全短語 「Cryptography is a」 。在 FHE 中運行模型時，如果量化精度足夠，生成的輸出為:</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">「Cryptography is a very important part of the security of your computer」</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">當量化精度太低時，您會得到:</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">「Cryptography is a great way to learn about the world around you」</p><span id="OSC_h3_6"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">編譯為 FHE</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">現在，你可以使用以下 Concrete-ML 代碼編譯註意力頭:</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">circuit_head&nbsp;=&nbsp;qgpt2_model.compile(input_ids)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">運行此代碼，你將看到以下打印輸出: 「Circuit compiled with 8 bit-width」。該配置與 FHE 兼容，顯示了在 FHE 中執行的操作所需的最大位寬。</p><span id="OSC_h3_7"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">複雜度</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">在 transformer 模型中，計算量最大的操作是注意力機制，它將查詢、鍵和值相乘。在 FHE 中，加密域中乘法的特殊性加劇了成本。此外，隨着序列長度的增加，這些乘法的數量還會呈二次方增長。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">而就加密注意力頭而言，長度為 6 的序列需要 11622 次 PBS 操作。我們目前的實驗還很初步，尚未對性能進行優化。雖然可以在幾秒鐘內運行，但不可否認它需要相當多的計算能力。幸運的是，我們預期，幾年後，硬件會將延遲提高 1000 倍到 10000 倍，使原來在 CPU 上需要幾分鐘的操作縮短到 ASIC 上的低於 100 毫秒。有關這些估算的更多信息，請參閲，此博文。</p><span id="OSC_h2_8"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">總結</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">大語言模型有望使能大量應用場景，但其實現引發了用户隱私的重大關切。在本文中，我們朝着密態 LLM 邁出了第一步，我們的最終願景是讓整個模型完全在雲上運行，同時用户的隱私還能得到充分尊重。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">當前的做法包括將 GPT2 等模型中的特定部分轉換至 FHE 域。我們的實現利用了 transformers 庫，用户還能評估模型的一部分在加密數據上運行時對準確率的影響。除了保護用户隱私之外，這種方法還允許模型所有者對其模型的主要部分保密。你可在，此處，找到完整代碼。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">Zama 庫 Concrete 和 Concrete-ML (別忘了給我們的 github 代碼庫點個星星 ⭐️💛) 允許直接構建 ML 模型並將其轉換至等價的 FHE 域，從而使之能夠對加密數據進行計算和預測。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">希望你喜歡這篇文章。請隨時分享你的想法/反饋！</p><hr data-tool="mdnice 編輯器" style="height: 1px;border-right: none;border-bottom: none;border-left: none;border-top-style: solid;border-top-color: rgb(249, 191, 69);margin-top: 20px;margin-bottom: 20px;"><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;color: rgb(91, 91, 91);background: rgba(158, 158, 158, 0.1);padding-top: 1px;padding-bottom: 1px;padding-left: 5px;margin-top: 0px;margin-bottom: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">英文原文:&nbsp;<span style="color: rgb(136, 136, 136);letter-spacing: 0px;">https://hf.co/blog/encrypted-llm</span></p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">原文作者: Roman Bredehoft，Jordan Frery</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">譯者: Matrix Yao (姚偉峯)，英特爾深度學習工程師，工作方向為 transformer-family 模型在各模態數據上的應用及大規模模型的訓練推理。</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">審校/排版: zhongdongy (阿東)</p></blockquote></blockquote></blockquote></blockquote></section><p style="display: none;"><mp-style-type data-value="3"></mp-style-type></p></div><p style="color: #858585; font-size: 13px;">本文分享自微信公眾號 - Hugging Face（gh_504339124f0f）。<br>如有侵權，請聯繫 support@oschina.cn 刪除。<br>本文參與「<a href="https://www.oschina.net/sharing-plan" target="_blank">OSC 源創計劃</a>」，歡迎正在閲讀的你也加入，一起分享。</p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 05 Oct 2023 03:29:00 GMT</pubDate>
+            <pubDate>Wed, 04 Oct 2023 03:29:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10112832</guid>
             <link>https://my.oschina.net/HuggingFace/blog/10112832</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Rails 7.1 正式發佈：可生成 Dockerfiles、更強大的自行構建身份驗證系統]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Rails 7.1 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frubyonrails.org%2F2023%2F10%2F5%2FRails-7-1-0-has-been-released" target="_blank">發佈</a>。公告寫道，自 Rails 7.0 以來，此版本由 800 多名貢獻者提交了 5000 多次 commit，包含許多新功能和改進。</p><p><img src="https://static.oschina.net/uploads/space/2023/1007/180625_fnVn_2720166.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">主要變化如下：</p><ul><li><strong>為新的應用生成 Dockerfile</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">當運行<span>&nbsp;</span><code>rails new</code><span>&nbsp;</span>時，Rails 將生成需要使用 Kamal 或任何其他基於 Docker 的部署設置來部署應用程序的所有 Dockerfile。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">這些 Dockerfile 經過調整，適合用於生產環境，具有合適的緩存層、多階段構建以最小化鏡像，以及無論是否使用 JavaScript 構建環境所需的所有依賴項。</p><ul><li><strong>支持 Bun</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Bun 是 Zig 編寫的 JavaScript 運行時，近日正式發佈&nbsp;<a href="https://www.oschina.net/news/257450/bun-v1-0">1.0 正式版本</a>。此版本支持使用 Bun 作為 JavaScript 運行時來生成新應用程序。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">因此，開發者可以將<span>&nbsp;</span><code>--javascript=bun</code><span>&nbsp;</span>選項傳遞給<span>&nbsp;</span><code>rails new</code>。</p><ul><li><strong>更強大的自行構建身份驗證系統</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">為了補充<span>&nbsp;</span><code>has_secure_password</code><span>&nbsp;</span>功能，Rails 7.1 帶來了新特性來幫助開發者自行構建身份驗證系統。</p><hr><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">其他變化：</p><ul><li>Active Record 支持更多異步查詢</li><li>對 Trilogy MySQL 適配器的內置支持</li><li>在&nbsp;Active Record 中支持複合主鍵</li><li>使用&nbsp;<code>perform_all_later</code>&nbsp;對大規模任務進行排隊</li><li>引入用於增強自動加載 (Enhanced Autoloading) 的&nbsp;<code>config.autoload_lib</code>&nbsp;和&nbsp;<code>config.autoload_lib_once</code></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frubyonrails.org%2F2023%2F10%2F5%2FRails-7-1-0-has-been-released" target="_blank">詳情查看 Release Notes</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 04 Oct 2023 10:07:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260696/rails-7-1-0-released</guid>
-            <link>https://www.oschina.net/news/260696/rails-7-1-0-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[elementary OS 7.1]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>elementary OS 7.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.elementary.io%2Fos-7-1-available-now%2F" target="_blank">已正式 GA</a>，距離<a href="https://www.oschina.net/news/226770/elementary-os-7-released" target="_blank"> 7.0 </a>發佈已過去 8 個月。</p><p><img src="https://blog.elementary.io/images/os-7-1-available-now/desktop-onboarding.png" referrerpolicy="no-referrer"></p><p><strong>新版本重要變化</strong></p><ul><li><strong>提供個性化選項和功能</strong>，提升操作系統包容性和易用性</li><li><strong>保護隱私</strong>，確保應用程序始終在用户明確同意的情況下運行</li><li>優化觸控手勢和鍵盤導航</li><li>優化登錄和鎖屏界面</li><li>更新固件以支持更多硬件</li><li>優化自帶 Web 瀏覽器，提升性能，速度更快，以及改進兼容性</li><li>改進「文件」應用 UI</li><li>優化通知指示器</li><li>包含 200 多個錯誤修復、設計更改和新功能</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.elementary.io%2Fos-7-1-available-now%2F" target="_blank">詳情查看發佈公告</a>。</p><hr><p>推薦閲讀：<a href="https://www.oschina.net/news/226770/elementary-os-7-released" target="_blank">歷經風波，elementary OS 7 正式發佈</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 04 Oct 2023 06:22:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260628/elementary-os-7-1-released</guid>
-            <link>https://www.oschina.net/news/260628/elementary-os-7-1-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Citus 12.1 發佈，支持 PG16]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>CitusDB 是一個基於最新 PostgreSQL 構建的分佈式數據庫。CitusDB 可對 PostgreSQL 數據庫進行伸縮以適合大數據的處理。可在集羣中進行自動分片和碎片複製，運行在雲端或者混合系統中。數據庫的查詢可在集羣中進行分佈式處理，充分利用集羣中每個節點的計算能力。CitusDB 可提升 PostgreSQL 的高併發性和 JSON 支持，可用作事務以及分析數據庫場景。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Citus 12.1 現已發佈，此版本增加了對 Postgres 16 的支持。主要更新內容包括：</p><ul><li>從任意節點查詢時的負載均衡</li><li>分佈式 Citus 集羣中的 pg_stat_io</li><li>支持 JSON_ARRAYAGG() 和 JSON_OBJECTAGG() 聚合</li><li>支持 COPY FROM 的 DEFAULT 選項</li><li>傳播自定義 ICU 整理規則</li><li>支持 Citus 外部表上的 TRUNCATE 觸發器</li><li>將新的 CREATE TABLE、VACUUM 和 ANALYZE 選項傳播到 Citus 節點</li></ul><p style="text-align:left"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>除了支持 Postgres 16 之外，Citus 12.1 還包括：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>授予數據庫創建權限</li><li>使用 citus_schema_move () 進行分佈式模式移動</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.postgresql.org%2Fabout%2Fnews%2Fcitus-121-released-2727%2F" target="_blank">查看官方公告</a>。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.citusdata.com%2Fdownload%2F" target="_blank">https://www.citusdata.com/download/</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 04 Oct 2023 06:14:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260625/citus-121-released</guid>
-            <link>https://www.oschina.net/news/260625/citus-121-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Android 14 正式發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Android 14 現已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F10%2Fandroid-14-is-live-in-aosp.html" target="_blank">發佈</a>，該版本旨在提高開發人員的工作效率，同時增強性能、隱私、安全和用户定製功能。</p><p>目前 Android 14 已經面向部分 Pixel 設備推出，今年晚些時候將在三星、iQOO、Nothing、一加、Oppo、Realme、夏普、索尼、傳音、vivo 和小米等設備上更新。</p><p><img alt="" height="124" src="https://oscimg.oschina.net/oscnet/up-cbfa279b16f4fbb420ecf378ff77fddbdf8.png" width="700" referrerpolicy="no-referrer"></p><p>該版本的一些重點更新內容包括：</p><h4><strong>性能和效率</strong></h4><p>Android 14 的一大重點是提高平台的性能和效率。</p><ul><li><strong>凍結緩存應用。</strong>在 Android 14 之前，緩存應用程序可以不受任何限制地運行。在 Android 14 中，會在短時間內凍結緩存應用程序，使其 CPU 時間為零。</li><li><strong style="color:#202124">優化廣播。</strong>為了延長凍結應用程序的凍結時間（即不佔用 CPU 時間），此版本調整了應用程序進入<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Fcomponents%2Factivities%2Fprocess-lifecycle" target="_blank">緩存狀態後接收</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Fcomponents%2Fbroadcasts%23context-registered-receivers" target="_blank">上下文註冊</a><span style="color:#202124">廣播的方式；它們可能會排隊，並且重複的（例如&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fcontent%2FIntent%23ACTION_BATTERY_CHANGED" target="_blank">BATTERY_CHANGED</a><span style="color:#202124">）可能會合併到一個廣播中。</span></li><li><p style="margin-left:0; margin-right:0; text-align:start"><strong style="color:#202124">更快的應用程序啓動</strong>。<span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在 8GB 設備上，測試組發現應用程序冷啓動減少了 20%，在 12GB 設備上減少了 30% 以上。與熱啓動相比，冷啓動速度較慢，而且耗電量大。這項工作有效地改善了電量使用和整體應用啓動時間。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li><p style="margin-left:0; margin-right:0; text-align:start"><strong style="color:#202124">減少內存佔用。</strong><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在 Android 14 中，Android Runtime (ART) 在不影響性能的情況下優化了 code size，平均減少了 9.3%。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li></ul><h4><strong><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span style="color:#202124"><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>定製化</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>&nbsp;</strong></h4><ul><li style="text-align:left"><strong>非線性字體放大。</strong><span style="color:#000000">從 Android 14 開始，系統默認支持字體放大至 200%。</span></li></ul><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:left"><span style="color:#000000"><img alt="" height="342" src="https://oscimg.oschina.net/oscnet/up-330d4f6e4e9bf64f78b10cacb9b63690486.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>每個應用程序的語言偏好。</strong>可以使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fd.android.com%2Freference%2Fandroid%2Fapp%2FLocaleManager%3Fhl%3Den%23setOverrideLocaleConfig%28android.app.LocaleConfig%29" target="_blank"><span><span><span>LocaleManager.setOverrideLocaleConfig</span></span></span></a>動態更新應用程序的 localeConfig&nbsp;，以自定義 Android 設置中每個應用程序語言列表中顯示的語言集。IME 現在可以使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fapp%2FLocaleManager%23getApplicationLocales%2528%2529" target="_blank"><span><span><span>LocaleManager.getApplicationLocales</span></span></span></a>來瞭解當前應用程序的 UI 語言，以更新鍵盤語言。從<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fresources%2Fapp-languages%23auto-localeconfig" target="_blank">Android Studio Giraffe</a>和 AGP 8.1 開始，可以將應用配置為自動支持 Android 13 的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fresources%2Fapp-languages" target="_blank">每個應用語言偏好</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>區域偏好</strong>。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroidx%2Fcore%2Ftext%2Futil%2FLocalePreferences" target="_blank">區域偏好</a>使用户能夠個性化温度單位、一週的第一天和編號系統。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li><li style="text-align:left"><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>語法變形</strong>。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroidx%2Fcore%2Ftext%2Futil%2FLocalePreferences" target="_blank">語法變形 API</a>&nbsp;允許用户更輕鬆地為使用具有語法性別的語言的用户添加支持。要顯示個性化翻譯，你只需為受影響的語言添加針對每種語法性別的變形翻譯並集成 API。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></li></ul><h4 style="text-align:start"><strong><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span style="color:#202124"><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>新媒體能力</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><strong style="color:#202124">圖像的 Ultra HDR</strong>。Android 14 增加了對 10 位高動態範圍 (HDR) 圖像的支持，並支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fguide%2Ftopics%2Fmedia%2Fhdr-image-format" target="_blank">Ultra HDR 圖像格式</a>。該格式完全向後兼容 JPEG，允許應用程序與 HDR 圖像無縫互操作。</li></ul><p><img alt="" height="251" src="https://oscimg.oschina.net/oscnet/up-c3de6e626e20d082b57a43109bcfbb12949.png" width="200" referrerpolicy="no-referrer"></p><ul><li style="text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>相機擴展中的縮放、聚焦、後視圖等</strong>。Android 14 升級並改進了<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fcamera%2Fcamera-extensions" target="_blank">相機擴展</a>，允許應用處理更長的處理時間，並在支持的設備上使用低光攝影等計算密集型算法來改進圖像。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li><li style="text-align:start"><span><span><span><span style="color:#202124"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>無損 USB 音頻</strong>。Android 14 設備可以支持無損<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Freference%2Fandroid%2Fmedia%2FAudioMixerAttributes" target="_blank">音頻格式</a>，通過 USB 有線耳機提供發燒級體驗。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li></ul><p>此外，<span style="background-color:#ffffff; color:#121212">Android 14 還帶來了各種圖形驅動程序增強、OpenJDK 17 支持以及各種隱私和保護安全更新。</span>&nbsp;</p><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F10%2Fandroid-14-is-live-in-aosp.html" target="_blank">查看官方博客</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 03 Oct 2023 03:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260444/android-14</guid>
-            <link>https://www.oschina.net/news/260444/android-14</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
