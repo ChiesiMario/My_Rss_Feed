@@ -16,8 +16,230 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 07 Oct 2023 00:51:38 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 07 Oct 2023 02:52:34 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Gitee 推薦 | 字符串插值變量處理工具庫 FlexVars]]>
+            </title>
+            <description>
+                <![CDATA[<h1><a id="user-content-flexvars" class="anchor" href="https://gitee.com/zhangfisher/flexvars#flexvars"></a>FlexVars</h1><p>Powerful string interpolation tool library</p><p><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fcn%2Freadme">中文</a><a href="https://gitee.com/link?target=https%3A%2F%2Fzhangfisher.github.io%2Fflexvars%2F%23%2Fen%2Freadme">English</a></p><h2><a id="user-content-features" class="anchor" href="https://gitee.com/zhangfisher/flexvars#features"></a>Features</h2><p>-Supports positional and dictionary interpolation
+-Supports multiple error handling mechanisms
+-Support for null value processing mechanism
+-Support filter chain processing of input variable values
+-Support variable prefix suffix
+-98%+unit test coverage</p><h2><a id="user-content-getting-started" class="anchor" href="https://gitee.com/zhangfisher/flexvars#getting-started"></a>Getting Started</h2><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="k">import</span><span class="p">{</span><span class="nx">FlexVars</span><span class="p">}</span><span class="k">from</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span></span><span id="LC2" class="line"></span><span id="LC3" class="line"><span class="kd">const</span><span class="nx">flexvars</span><span class="o">=</span><span class="k">new</span><span class="nx">FlexVars</span><span class="p">({</span></span><span id="LC4" class="line"><span class="na">filters</span><span class="p">:{</span></span><span id="LC5" class="line"><span class="na">currency</span><span class="p">:{</span></span><span id="LC6" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">prefix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">suffix</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">sign</span><span class="dl">"</span><span class="p">],</span></span><span id="LC7" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">prefix</span><span class="p">:</span><span class="dl">"</span><span class="s2">USD </span><span class="dl">"</span><span class="p">,</span><span class="na">suffix</span><span class="p">:</span><span class="dl">""</span><span class="p">,</span><span class="na">sign</span><span class="p">:</span><span class="dl">"</span><span class="s2">$</span><span class="dl">"</span><span class="p">}</span></span><span id="LC8" class="line"><span class="nl">next</span><span class="p">:(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span></span><span id="LC9" class="line"><span class="k">return</span><span class="s2">`</span><span class="p">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">prefix</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">sign</span><span class="p">}${</span><span class="nx">value</span><span class="p">}${</span><span class="nx">args</span><span class="p">.</span><span class="nx">suffix</span><span class="p">}</span><span class="s2">`</span></span><span id="LC10" class="line"><span class="p">}</span></span><span id="LC11" class="line"><span class="p">}</span></span><span id="LC12" class="line"><span class="p">}</span></span><span id="LC13" class="line"><span class="p">})</span></span><span id="LC14" class="line"></span><span id="LC15" class="line"><span class="kd">const</span><span class="nx">_</span><span class="o">=</span><span class="nx">flexvars</span><span class="p">.</span><span class="nx">replace</span></span><span id="LC16" class="line"></span><span id="LC17" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">flexvars</span><span class="dl">"</span><span class="p">))</span></span><span id="LC18" class="line"><span class="c1">// =&gt; hello flexvars</span></span><span id="LC19" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am {}</span><span class="dl">"</span><span class="p">,</span><span class="dl">"</span><span class="s2">tom</span><span class="dl">"</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">I am tom</span><span class="dl">"</span><span class="p">)</span></span><span id="LC20" class="line"><span class="c1">// =&gt; I am tom</span></span><span id="LC21" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">USD $100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC22" class="line"><span class="c1">// =&gt; USD $100</span></span><span id="LC23" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency('RMB','￥','元')}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB ￥100 元</span><span class="dl">"</span><span class="p">))</span><span class="c1">// </span></span><span id="LC24" class="line"><span class="c1">// =&gt; RMB ￥100 元</span></span><span id="LC25" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | currency({prefix:'EUR '',suffix:''',sign:'€'})}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">RMB €100</span><span class="dl">"</span><span class="p">))</span></span><span id="LC26" class="line"><span class="c1">// =&gt; EUR €100</span></span><span id="LC27" class="line"></span><span id="LC28" class="line"><span class="nx">flexvars</span><span class="p">.</span><span class="nx">addFilter</span><span class="p">({</span></span><span id="LC29" class="line"><span class="na">name</span><span class="p">:</span><span class="dl">"</span><span class="s2">add</span><span class="dl">"</span><span class="p">,</span></span><span id="LC30" class="line"><span class="na">args</span><span class="p">:[</span><span class="dl">"</span><span class="s2">step</span><span class="dl">"</span><span class="p">],</span></span><span id="LC31" class="line"><span class="na">default</span><span class="p">:{</span><span class="na">step</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span></span><span id="LC32" class="line"><span class="nx">next</span><span class="p">(</span><span class="na">value</span><span class="p">:</span><span class="kr">any</span><span class="p">,</span><span class="na">args</span><span class="p">:</span><span class="nb">Record</span><span class="o">&lt;</span><span class="kr">string</span><span class="p">,</span><span class="kr">any</span><span class="o">&gt;</span><span class="p">,</span><span class="na">context</span><span class="p">:</span><span class="nx">FlexFilterContext</span><span class="p">){</span></span><span id="LC33" class="line"><span class="k">return</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="o">+</span><span class="nx">args</span><span class="p">.</span><span class="nx">step</span></span><span id="LC34" class="line"><span class="p">}</span></span><span id="LC35" class="line"><span class="p">})</span></span><span id="LC36" class="line"><span class="c1">// call chaining</span></span><span id="LC37" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add}</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">101</span><span class="dl">"</span><span class="p">)</span></span><span id="LC38" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add|add }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">102</span><span class="dl">"</span><span class="p">)</span></span><span id="LC39" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">105</span><span class="dl">"</span><span class="p">)</span></span><span id="LC40" class="line"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="dl">"</span><span class="s2">{ value | add(2)|add(3)|add(4) }</span><span class="dl">"</span><span class="p">,</span><span class="mi">100</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="dl">"</span><span class="s2">109</span><span class="dl">"</span><span class="p">)</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 02:45:31 GMT</pubDate>
+            <guid isPermaLink="false">https://gitee.com/zhangfisher/flexvars</guid>
+            <link>https://gitee.com/zhangfisher/flexvars</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[每日一博 | 買彩票能中大獎？用 Java 盤點常見的概率悖論]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><span id="OSC_h1_1"></span><h1>引言</h1><p>《雙色球頭獎概率與被雷劈中的概率哪個高？》</p><p>《3 人輪流射擊，槍法最差的反而更容易活下來？》</p><p>讓我們用 Java 來探索 ta 們！</p><span id="OSC_h1_2"></span><h1>悖論 1：著名的三門問題</h1><p><strong>規則描述</strong>：你正在參加一個遊戲節目，你被要求在三扇門中選擇一扇：其中一扇後面有一輛車；其餘兩扇後面則是山羊。你選擇了一道門，假設是一號門，然後知道門後面有什麼的主持人，開啓了另一扇後面有山羊的門，假設是三號門。他然後問你：「你想選擇二號門嗎？請問若想獲得車，參賽者應該換二號門嗎？</p><p><img alt="" src="https://mp.toutiao.com/mp/agw/article_material/open_image/get?code=ZjdjNjc4YjA2ZDYwMTE0MjNiYmViZTFjN2ZkMDQxZWIsMTY5NDA3OTk1MDA0Ng==" referrerpolicy="no-referrer"></p><p><strong>論證</strong>：分析需求，拆解為如下代碼</p><pre><code>/**
+ * &lt;p&gt; 三門問題解決方案 &lt;/p&gt;
+ * @author yuanfeng.wang
+ * @since 2023/8/29
+ */
+import java.util.Random;
+
+public class ThreeDoorSolution {
+
+    public static void main(String[] args) {
+        // 模擬執行 1 萬次，打印獲勝的概率
+        threeDoor(10000);
+    }
+
+    /**
+     * 三門問題邏輯拆解
+     * @param numSimulations 總共執行多少輪遊戲
+     */
+    private static void threeDoor(int numSimulations) {
+        int switchWins = 0;
+        int stayWins = 0;
+
+        Random random = new Random();
+        for (int i = 0; i &lt; numSimulations; i++) {
+            // 隨機確定車所在的門
+            int carDoor = random.nextInt(3);
+
+            // 玩家隨機選擇一扇門
+            int playerChoice = random.nextInt(3);
+
+            // 主持人隨機打開一扇門：要求該門不是玩家選擇的，且必須是羊
+            int openedDoor;
+            do {
+                openedDoor = random.nextInt(3);
+            } while (openedDoor == carDoor || openedDoor == playerChoice);
+
+            // 換門後的選擇：不能是打開的門，不能是玩家選擇的門，則是交換之後的門
+            int finalChoice;
+            do {
+                finalChoice = random.nextInt(3);
+            } while (finalChoice == playerChoice || finalChoice == openedDoor);
+
+            // 計算是否換門獲勝
+            if (finalChoice == carDoor) {
+                switchWins++;
+            }
+
+            // 計算不換門獲勝
+            if (playerChoice == carDoor) {
+                stayWins++;
+            }
+        }
+
+        // 輸出結果
+        System.out.println("在 " + numSimulations + " 次模擬中：");
+        System.out.println("換門獲勝的概率：" + (double) switchWins / numSimulations);
+        System.out.println("不換門獲勝的概率：" + (double) stayWins / numSimulations);
+    }
+}
+// 模擬運行，打印結果如下
+// 在 10000 次模擬中：
+// 換門獲勝的概率：0.6679
+// 不換門獲勝的概率：0.3321
+
+</code></pre><p><strong>結論</strong>：三門問題看似一道簡單的概率題，幾十年來卻一直引發巨大爭議，持兩種不同觀點的人基本是五五開；事實上始終選擇換門的玩家，獲勝的概率 2/3，而保持原方案的勝率只有 1/3</p><span id="OSC_h1_3"></span><h1>悖論 2：雙色球我能中大獎</h1><p><strong>規則描述</strong>：從 1-33 個紅色球中隨機選出 6 個，再從 1-16 個藍色球中隨機選擇 1 個，最終開獎出一注 6+1 組合球，無順序要求；</p><ul><li>一等獎：中 6 紅 + 1 藍</li><li>二等獎：中 6 紅</li><li>三等獎：中 5 紅 + 1 藍</li><li>四等獎：中 4 紅 + 1 藍，或只中 5 個紅</li><li>五等獎：中 3 紅 + 1 藍，或只中 4 個紅</li><li>六等獎：中 1 藍</li></ul><p><strong>論證</strong>：分析玩法，計算一等獎中獎率，從 33 個紅球樣本中選擇 6 個，計算總共的組合數，即數學公式 C(n, m) = n!/((n-m)! * m!)，代入計算 C(33, 6) = 33!/((33-6)! * 6!) = 1107568，再乘以 16，最終得出一等獎獲獎概率 1/17721088。</p><p>分析規則，以下代碼展示了開獎一次，購買 N 注時，打印中獎信息的程序，當代入 N=500 萬時，多次執行，可以很輕鬆打印出一等獎</p><pre><code>
+import java.util.*;
+
+/**
+ * &lt;p&gt;雙色球隨機模擬&lt;/p&gt;
+ * @author yuanfeng.wang
+ * @since 2023/8/29
+ */
+public class SsqSolution {
+
+    private static Random random = new Random();
+
+    /**
+     * 開獎的紅球
+     */
+    private static Set&lt;Integer&gt; winningRedBalls;
+
+    /**
+     * 開獎的藍球
+     */
+    private static int winningBlueBall;
+
+    // 靜態塊初始化一組開獎號碼
+    static {
+        // 籃球 01-16
+        winningBlueBall = random.nextInt(16) + 1;
+
+        // 紅球 01-33 生成 6 個
+        winningRedBalls = new HashSet&lt;&gt;();
+        while (winningRedBalls.size() &lt; 6) {
+            int num = random.nextInt(33) + 1;
+            winningRedBalls.add(num);
+        }
+    }
+
+    public static void main(String[] args) {
+        play(500_0000);
+    }
+
+    /**
+     *
+     * @param num 運行一次程序只開一次獎，此參數表示總共購買多少注
+     */
+    public static void play(int num) {
+        System.out.println("\n 本期開獎號碼：");
+        System.out.println("紅球：" + winningRedBalls + " 籃球：" + winningBlueBall);
+        for (int i = 0; i &lt; num; i++) {
+            playOnce();
+        }
+    }
+
+    private static void playOnce() {
+        Set&lt;Integer&gt; userRedBalls = getUserSelectedRedBalls();
+        int userBlueBall = getUserSelectedBlueBall();
+
+        int redBallMatch = countMatchingBalls(userRedBalls, winningRedBalls);
+        boolean blueBallMatch = (userBlueBall == winningBlueBall);
+
+        if (redBallMatch == 6 &amp;&amp; blueBallMatch) {
+            System.out.println("\n 恭喜你中了一等獎！");
+            System.out.println("玩家購買的號碼：");
+            System.out.println("紅球：" + userRedBalls + " 藍球：" + userBlueBall);
+        } else if (redBallMatch == 6) {
+            System.out.println("\n 恭喜你中了二等獎！");
+        } else if (redBallMatch == 5 &amp;&amp; blueBallMatch) {
+//            System.out.println("\n 恭喜你中了三等獎！");
+        } else if (redBallMatch == 5 || (redBallMatch == 4 &amp;&amp; blueBallMatch)) {
+//            System.out.println("\n 恭喜你中了四等獎！");
+        } else if (redBallMatch == 4 || (redBallMatch == 3 &amp;&amp; blueBallMatch)) {
+//            System.out.println("\n 恭喜你中了五等獎！");
+        } else if (blueBallMatch) {
+//            System.out.println("\n 恭喜你中了最小獎！");
+        } else {
+            //沒中獎，不打印記錄
+        }
+    }
+
+    /**
+     * 返回玩家選擇的 6 個紅球,範圍 1-33，不重複
+     */
+    private static Set&lt;Integer&gt; getUserSelectedRedBalls() {
+        Set&lt;Integer&gt; userRedBalls = new HashSet&lt;&gt;();
+        while (userRedBalls.size() &lt; 6) {
+            int num = random.nextInt(33) + 1;
+            userRedBalls.add(num);
+        }
+        return userRedBalls;
+    }
+
+    /**
+     * 玩家選擇的 1 個藍球,範圍 1-16
+     */
+    private static int getUserSelectedBlueBall() {
+        return random.nextInt(16) + 1;
+    }
+
+    /**
+     * 匹配中了幾個紅球
+     * @return 中紅球個數
+     */
+    private static int countMatchingBalls(Set&lt;Integer&gt; userBalls, Set&lt;Integer&gt; winningBalls) {
+        int count = 0;
+        for (int ball : userBalls) {
+            if (winningBalls.contains(ball)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+}
+
+</code></pre><p><strong>結論</strong>：排除其它因素，頭獎概率約 1700 萬分之 1，這個結論並不直觀，例舉如下幾個進行對比</p><p>1.一家祖孫三代人的生日都在同一天的概率約為 27 萬分之一</p><p>2.小行星撞擊地球的概率保守推測是 200 萬分之一</p><p>3.生出全男或全女四胞胎的概率約為 352 萬分之一</p><span id="OSC_h1_4"></span><h1>悖論 3：三個槍手</h1><p><strong>描述</strong>：三個小夥子同時愛上了一個姑娘，為了決定他們誰能娶這個姑娘，他們決定用槍進行一次決鬥。A 的命中率是 30％，B 比他好些，命中率是 50％，最出色的槍手是 C，他從不失誤，命中率是 100％。由於這個顯而易見的事實，為公平起見，他們決定按這樣的順序：A 先開槍，B 第二，C 最後。然後這樣循環，直到他們只剩下一個人。那麼 A 第一槍應該怎麼打？誰活下來的概率最大？</p><p><strong>論證</strong>：每個人的目標都是活下來，為了目標尋找最好的策略。以下開始分人討論</p><p><strong>A：</strong></p><ul><li>若 A 開槍射殺了 B，則下個開槍是 C，C 會 100% 射殺 A，這不是一個好策略</li><li>若 A 開槍射殺了 C，則下一輪 B 會有 50% 的幾率殺掉自己</li><li>若 A 開槍未打中，則下一輪可以坐山觀虎鬥，所以 A 最好的策略看似是故意打空槍更好一些</li></ul><p><strong>B：</strong></p><ul><li>若 A 已經將 C 射殺，此時 B 與 A 互相射擊，B 的生存率高於 A</li><li>B 只能選擇射殺 C，因為只要 C 活着，都會優先射殺 B</li></ul><p><strong>C：</strong></p><ul><li>先消除威脅大的 B，然後再殺掉 A，只要自己有開 2 槍的機會，直接獲勝</li></ul><p><strong>結論</strong>：需求太複雜，暫未實現生存概率計算😭，歡迎補充悖論 3 的代碼論證過程</p><blockquote><p>作者：京東保險&nbsp;王苑灃</p><p>來源：京東雲開發者社區，轉載請註明來源</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 02:41:31 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10109696</guid>
+            <link>https://my.oschina.net/u/4090830/blog/10109696</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[KubeSphere 社區雙週報 | OpenFunction v1.2.0 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>KubeSphere 社區雙週報主要整理展示新增的貢獻者名單和證書、新增的講師證書以及兩週內提交過 commit 的貢獻者，並對近期重要的 PR 進行解析，同時還包含了線上/線下活動和佈道推廣等一系列社區動態。</p><p>本次雙週報涵蓋時間為：2023.09.15-2023.09.28。</p><h2>貢獻者名單</h2><p><img src="https://oscimg.oschina.net/oscnet/up-cce05b68864a3f222cd17e6df1aa1c3655b.gif" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-7e6818d775388b1291392b3250789734a38.png" alt="" referrerpolicy="no-referrer"></p><h2>新晉 KubeSphere Contributor</h2><p>兩週內共有 2 位新晉 KubeSphere Contributor，感謝各位對 KubeSphere 社區的貢獻！</p><p><img src="https://oscimg.oschina.net/oscnet/up-ca0b0945c103e0492a91de92a5132784bea.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-e3ad1819572baf498ffd15433cf938b034d.png" alt="" referrerpolicy="no-referrer"></p><h2>近期更新</h2><h3>KubeSphere</h3><h4>1. 支持通過 IP 搜索 pod</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubesphere%2Fpull%2F5921" target="_blank">https://github.com/kubesphere/kubesphere/pull/5921</a></p><p>貢獻者：zhou1203</p><h3>OpenFunction</h3><h4>1. 發佈了 OpenFunction v1.2.0，支持使用 keda-addons-http 作為同步函數運行時</h4><p>相關 Release: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2FOpenFunction%2Freleases%2Ftag%2Fv1.2.0" target="_blank">https://github.com/OpenFunction/OpenFunction/releases/tag/v1.2.0</a></p><p>貢獻者：wrongerror</p><h4>2. 升級 OpenFunction Chart 依賴組件 Dapr, Keda 以及 contour 的版本</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenFunction%2Fcharts%2Fpull%2F51" target="_blank">https://github.com/OpenFunction/charts/pull/51</a></p><p>貢獻者：wrongerror</p><h3>KubeKey</h3><h4>1. 支持部署 Kubernetes v1.27+</h4><p>相關 PR: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F2000" target="_blank">https://github.com/kubesphere/kubekey/pull/2000</a></p><p>貢獻者：pixiake</p><h4>2. 支持部署高可用 Harbor</h4><p>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubesphere%2Fkubekey%2Fpull%2F1992" target="_blank">https://github.com/kubesphere/kubekey/pull/1992</a></p><p>貢獻者：wenwenxiong</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 02:17:31 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10115731</guid>
+            <link>https://my.oschina.net/u/4197945/blog/10115731</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[1/8 的開源下載包含已知漏洞，開源項目的積極維護減少]]>
@@ -32,18 +254,6 @@
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[AgentVerse —— 多 LLM 環境模擬框架]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>AgentVerse 提供了一個多功能框架，可簡化為大型語言模型（LLM）創建定製多代理環境的過程。框架旨在以最小的投入促進快速開發和定製，從而使研究人員能夠專注於他們的研究，而不是被實施細節所困擾。</p><p><img alt="" height="333" src="https://static.oschina.net/uploads/space/2023/0915/161848_BpYH_4252687.png" width="500" referrerpolicy="no-referrer"></p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>特點</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><p><span><span><strong>高效的環境構建：</strong>我們的框架提供了一系列基本構建塊，可以輕鬆創建多代理環境。只需要配置文件中的幾行，就可以輕鬆構建 LLM 聊天室等基本環境。此過程需要為 LLM 士定義環境設置和提示，使研究人員能夠專注於實驗和分析。</span></span></p></li><li><p><span><span><strong>可定製組件</strong>：AgentVerse 通過將多代理環境劃分為五個功能模塊並定義各自的接口來簡化多代理環境。對於使用 AgentVerse 提供的基礎模塊無法直接構建的複雜環境，你可以自定義這五個功能模塊中的一個或多個接口，根據你的需求高效地創建你自己的多 Agent 環境。</span></span></p></li><li><p><span><span><strong>工具（插件）利用</strong>：AgentVerse 通過工具支持多代理環境。目前，AgentVerse 支持<a href="https://github.com/OpenBMB/BMTools">BMTools</a>中提供的工具。</span></span></p></li></ul><p><img height="287" src="https://static.oschina.net/uploads/space/2023/0915/161814_aa6e_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
-                                                                ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 03:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/agentverse</guid>
-            <link>https://www.oschina.net/p/agentverse</link>
         </item>
         <item>
             <title>
@@ -72,29 +282,6 @@
             <pubDate>Fri, 06 Oct 2023 03:36:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/seatonjiang/narsil</guid>
             <link>https://gitee.com/seatonjiang/narsil</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[每日一博 | 使用 FHE 實現加密大語言模型]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="rich_media_content js_underline_content
-                       autoTypeSetting24psection
-            " id="js_content"><section data-tool="mdnice 編輯器" data-website="https://www.mdnice.com" style="font-size: 16px;color: black;padding-right: 10px;padding-left: 10px;line-height: 1.6;letter-spacing: 0px;word-break: break-word;text-align: left;font-family: Roboto, Oxygen, Ubuntu, Cantarell, PingFangSC-regular, PingFangTC-regular, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif;" data-mpa-powered-by="yiban.io"><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">近來，大語言模型 (LLM) 已被證明是提高編程、內容生成、文本分析、網絡搜索及遠程學習等諸多領域生產力的可靠工具。</p><span id="OSC_h2_1"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">大語言模型對用户隱私的影響</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">儘管 LLM 很有吸引力，但如何保護好 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">輸入給這些模型的用户查詢中的隱私</code> 這一問題仍然存在。一方面，我們想充分利用 LLM 的力量，但另一方面，存在向 LLM 服務提供商泄露敏感信息的風險。在某些領域，例如醫療保健、金融或法律，這種隱私風險甚至有一票否決權。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">一種備選解決方案是本地化部署，LLM 所有者將其模型部署在客户的計算機上。然而，這不是最佳解決方案，因為構建 LLM 可能需要花費數百萬美元 (GPT3 為 460 萬美元)，而本地部署有泄露模型知識產權 (intellectual property, IP) 的風險。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">Zama 相信有兩全其美之法: 我們的目標是同時保護用户的隱私和模型的 IP。通過本文，你將瞭解如何利用 Hugging Face transformers 庫並讓這些模型的某些部分在加密數據上運行。完整代碼見，此處。</p><span id="OSC_h2_2"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">全同態加密 (Fully Homomorphic Encryption，FHE) 可以解決 LLM 隱私挑戰</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">針對 LLM 部署的隱私挑戰，Zama 的解決方案是使用全同態加密 (FHE)，在加密數據上執行函數。這種做法可以實現兩難自解，既可以保護模型所有者知識產權，同時又能維護用户的數據隱私。我們的演示表明，在 FHE 中實現的 LLM 模型保持了原始模型的預測質量。為此，我們需要調整 Hugging Face transformers 庫，中的 GPT2 實現，使用 Concrete-Python 對推理部分進行改造，這樣就可以將 Python 函數轉換為其 FHE 等效函數。</p><figure data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;display: flex;flex-direction: column;justify-content: center;align-items: center;"><img class="rich_pages wxw-img" data-ratio="1.2027809965237544" data-type="png" data-w="863" style="margin-right: auto;margin-left: auto;width: 100%;border-radius: 5px;display: block;margin-bottom: 15px;height: auto !important;" src="https://oscimg.oschina.net/oscnet/338741ab-aa57-4681-b21f-eeeabcd24fce.png" referrerpolicy="no-referrer"><figcaption style="margin-top: 5px;text-align: center;color: #dda52d;font-size: 14px;">
-     圖 1. GPT2 架構; 圖源: https://en.wikipedia.org/wiki/GPT-2 
-   </figcaption></figure><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">圖 1 展示了由多個 transformer block 堆疊而成的 GPT2 架構: 其中最主要的是多頭注意力 (multi-head attention，MHA) 層。每個 MHA 層使用模型權重來對輸入進行投影，然後各自計算注意力，並將注意力的輸出重新投影到新的張量中。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">在 TFHE 中，模型權重和激活均用整數表示。非線性函數必須通過可編程自舉 (Programmable Bootstrapping，PBS) 操作來實現。PBS 對加密數據實施查表 (table lookup，TLU) 操作，同時刷新密文以支持，任意計算。不好的一面是，此時 PBS 的計算時間在線性運算中佔主導地位。利用這兩種類型的運算，你可以在 FHE 中表達任何子模型的計算，甚至完整的 LLM 計算。</p><span id="OSC_h2_3"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">使用 FHE 實現 LLM 的一層</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">接下來，你將瞭解如何加密多頭注意力 (MHA) 中的一個注意力頭。你可以在，此處，找到完整的 MHA 實現代碼。</p><figure data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;display: flex;flex-direction: column;justify-content: center;align-items: center;"><img class="rich_pages wxw-img" data-ratio="1.0334538878842676" data-type="svg" data-w="1106" style="margin-right: auto;margin-left: auto;width: 100%;border-radius: 5px;display: block;margin-bottom: 15px;height: auto !important;" src="https://oscimg.oschina.net/oscnet/72fc90eb-872e-4a86-9f18-c949824b4c7d.svg" referrerpolicy="no-referrer"><figcaption style="margin-top: 5px;text-align: center;color: #dda52d;font-size: 14px;">
-     圖 2. 在 FHE 中運行 LLM 模型的某些部分 
-   </figcaption></figure><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">圖 2 概述了一個簡化的底層實現。在這個方案中，模型權重會被分成兩個部分，分別存儲在客户端和服務端。首先，客户端在本地開始推理，直至遇到已第一個不在本地的層。用户將中間結果加密併發送給服務端。服務端對其執行相應的注意力機制計算，然後將結果返回給客户端，客户端對結果進行解密並繼續在本地推理。</p><span id="OSC_h3_4"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">量化</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">首先，為了對加密值進行模型推理，模型的權重和激活必須被量化並轉換為整數。理想情況是使用，訓練後量化，這樣就不需要重新訓練模型了。這裏，我們使用整數和 PBS 來實現 FHE 兼容的注意力機制，並檢查其對 LLM 準確率的影響。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">要評估量化的影響，我們運行完整的 GPT2 模型，並讓其中的一個 LLM 頭進行密態計算。然後我們基於此評估權重和激活的量化比特數對準確率的影響。</p><figure data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;display: flex;flex-direction: column;justify-content: center;align-items: center;"><img class="rich_pages wxw-img" data-ratio="0.8024691358024691" data-type="png" data-w="567" style="margin-right: auto;margin-left: auto;width: 100%;border-radius: 5px;display: block;margin-bottom: 15px;height: auto !important;" src="https://oscimg.oschina.net/oscnet/e0260d01-fa3c-414c-a6d7-a0c0025b9e4b.png" referrerpolicy="no-referrer"><figcaption style="margin-top: 5px;text-align: center;color: #dda52d;font-size: 14px;">
-     單注意力頭量化的平均 top-k 準確率 
-   </figcaption></figure><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">上圖表明 4 比特量化保持了原始精度的 96%。該實驗基於含有約 80 個句子的數據集，並通過將原始模型的 logits 預測與帶有量化注意力頭的模型的 logits 預測進行比較來計算最終指標。</p><span id="OSC_h3_5"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">在 Hugging Face GPT2 模型中使用 FHE</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">我們需要在 Hugging Face 的 transformers 庫的基礎上重寫加密模塊的前向傳播，以使其包含量化算子。首先通過加載 GPT2LMHeadModel 構建一個 SingleHeadQGPT2Model 實例，然後手動使用 QGPT2SingleHeadAttention 替換第一個多頭注意力模塊，代碼如下。你可以在，這裏，找到模型的完整實現。</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">self.transformer.h[<span style="color: #008080;line-height: 26px;">0</span>].attn&nbsp;=&nbsp;QGPT2SingleHeadAttention(config,&nbsp;n_bits=n_bits)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">至此，前向傳播已被重載成用 FHE 算子去執行多頭注意力的第一個頭，包括構建查詢、鍵和值矩陣的投影。以下代碼中的 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">QGPT2</code> 模塊的代碼見，此處。</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;"><span style="line-height: 26px;"><span style="font-weight: bold;line-height: 26px;">class</span>&nbsp;<span style="color: #458;font-weight: bold;line-height: 26px;">SingleHeadAttention</span><span style="line-height: 26px;">(QGPT2)</span>:</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #d14;line-height: 26px;">"""Class&nbsp;representing&nbsp;a&nbsp;single&nbsp;attention&nbsp;head&nbsp;implemented&nbsp;with&nbsp;quantization&nbsp;methods."""</span><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="line-height: 26px;"><span style="font-weight: bold;line-height: 26px;">def</span>&nbsp;<span style="color: #900;font-weight: bold;line-height: 26px;">run_numpy</span><span style="line-height: 26px;">(self,&nbsp;q_hidden_states:&nbsp;np.ndarray)</span>:</span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Convert&nbsp;the&nbsp;input&nbsp;to&nbsp;a&nbsp;DualArray&nbsp;instance</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_x&nbsp;=&nbsp;DualArray(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float_array=self.x_calib,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int_array=q_hidden_states,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quantizer=self.quantizer<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;attention&nbsp;base&nbsp;module&nbsp;name</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mha_weights_name&nbsp;=&nbsp;<span style="color: #d14;line-height: 26px;">f"transformer.h.<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>.attn."</span><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;query,&nbsp;key&nbsp;and&nbsp;value&nbsp;weight&nbsp;and&nbsp;bias&nbsp;values&nbsp;using&nbsp;the&nbsp;proper&nbsp;indices</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;head_0_indices&nbsp;=&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list(range(i&nbsp;*&nbsp;self.n_embd,&nbsp;i&nbsp;*&nbsp;self.n_embd&nbsp;+&nbsp;self.head_dim))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;line-height: 26px;">for</span>&nbsp;i&nbsp;<span style="font-weight: bold;line-height: 26px;">in</span>&nbsp;range(<span style="color: #008080;line-height: 26px;">3</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv_weights&nbsp;=&nbsp;...<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv_bias&nbsp;=&nbsp;...<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Apply&nbsp;the&nbsp;first&nbsp;projection&nbsp;in&nbsp;order&nbsp;to&nbsp;extract&nbsp;Q,&nbsp;K&nbsp;and&nbsp;V&nbsp;as&nbsp;a&nbsp;single&nbsp;array</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv&nbsp;=&nbsp;q_x.linear(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weight=q_qkv_weights,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bias=q_qkv_bias,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key=<span style="color: #d14;line-height: 26px;">f"attention_qkv_proj_layer_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Extract&nbsp;the&nbsp;queries,&nbsp;keys&nbsp;and&nbsp;vales</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_qkv&nbsp;=&nbsp;q_qkv.expand_dims(axis=<span style="color: #008080;line-height: 26px;">1</span>,&nbsp;key=<span style="color: #d14;line-height: 26px;">f"unsqueeze_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_q,&nbsp;q_k,&nbsp;q_v&nbsp;=&nbsp;q_qkv.enc_split(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008080;line-height: 26px;">3</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axis=<span style="color: #008080;line-height: 26px;">-1</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key=<span style="color: #d14;line-height: 26px;">f"qkv_split_layer_<span style="color: rgb(51, 51, 51);line-height: 26px;">{self.layer}</span>"</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #998;font-style: italic;line-height: 26px;">#&nbsp;Compute&nbsp;attention&nbsp;mechanism</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q_y&nbsp;=&nbsp;self.attention(q_q,&nbsp;q_k,&nbsp;q_v)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;line-height: 26px;">return</span>&nbsp;self.finalize(q_y)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">模型中的其他計算仍以浮點形式進行，未加密，並由客户端在本地執行。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">將預訓練的權重加載到修改後的 GPT2 模型中，然後調用 <em style="color: black;">generate</em> 方法:</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">qgpt2_model&nbsp;=&nbsp;SingleHeadQGPT2Model.from_pretrained(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #d14;line-height: 26px;">"gpt2_model"</span>,&nbsp;n_bits=<span style="color: #008080;line-height: 26px;">4</span>,&nbsp;use_cache=<span style="color: #008080;line-height: 26px;">False</span><br>)<br><br>output_ids&nbsp;=&nbsp;qgpt2_model.generate(input_ids)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">舉個例子，你可以要求量化模型補全短語 「Cryptography is a」 。在 FHE 中運行模型時，如果量化精度足夠，生成的輸出為:</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">「Cryptography is a very important part of the security of your computer」</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">當量化精度太低時，您會得到:</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">「Cryptography is a great way to learn about the world around you」</p><span id="OSC_h3_6"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">編譯為 FHE</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">現在，你可以使用以下 Concrete-ML 代碼編譯註意力頭:</p><pre data-tool="mdnice 編輯器" style="margin-top: 10px;margin-bottom: 10px;"><code style="overflow-x: auto;padding: 16px;color: #333;background: #f8f8f8;display: -webkit-box;font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;border-radius: 0px;font-size: 12px;-webkit-overflow-scrolling: touch;">circuit_head&nbsp;=&nbsp;qgpt2_model.compile(input_ids)<br></code></pre><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">運行此代碼，你將看到以下打印輸出: 「Circuit compiled with 8 bit-width」。該配置與 FHE 兼容，顯示了在 FHE 中執行的操作所需的最大位寬。</p><span id="OSC_h3_7"></span><h3 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 20px;line-height: 1.4;padding-top: 10px;margin-top: 10px;margin-bottom: 5px;"><span style="display: none;"></span><span style="color: rgb(81, 81, 81);font-size: 17px;padding-left: 1em;border-left: 3px solid rgb(249, 191, 69);">複雜度</span><span style="display: none;"></span></h3><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">在 transformer 模型中，計算量最大的操作是注意力機制，它將查詢、鍵和值相乘。在 FHE 中，加密域中乘法的特殊性加劇了成本。此外，隨着序列長度的增加，這些乘法的數量還會呈二次方增長。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">而就加密注意力頭而言，長度為 6 的序列需要 11622 次 PBS 操作。我們目前的實驗還很初步，尚未對性能進行優化。雖然可以在幾秒鐘內運行，但不可否認它需要相當多的計算能力。幸運的是，我們預期，幾年後，硬件會將延遲提高 1000 倍到 10000 倍，使原來在 CPU 上需要幾分鐘的操作縮短到 ASIC 上的低於 100 毫秒。有關這些估算的更多信息，請參閲，此博文。</p><span id="OSC_h2_8"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">總結</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">大語言模型有望使能大量應用場景，但其實現引發了用户隱私的重大關切。在本文中，我們朝着密態 LLM 邁出了第一步，我們的最終願景是讓整個模型完全在雲上運行，同時用户的隱私還能得到充分尊重。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">當前的做法包括將 GPT2 等模型中的特定部分轉換至 FHE 域。我們的實現利用了 transformers 庫，用户還能評估模型的一部分在加密數據上運行時對準確率的影響。除了保護用户隱私之外，這種方法還允許模型所有者對其模型的主要部分保密。你可在，此處，找到完整代碼。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">Zama 庫 Concrete 和 Concrete-ML (別忘了給我們的 github 代碼庫點個星星 ⭐️💛) 允許直接構建 ML 模型並將其轉換至等價的 FHE 域，從而使之能夠對加密數據進行計算和預測。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">希望你喜歡這篇文章。請隨時分享你的想法/反饋！</p><hr data-tool="mdnice 編輯器" style="height: 1px;border-right: none;border-bottom: none;border-left: none;border-top-style: solid;border-top-color: rgb(249, 191, 69);margin-top: 20px;margin-bottom: 20px;"><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;color: rgb(91, 91, 91);background: rgba(158, 158, 158, 0.1);padding-top: 1px;padding-bottom: 1px;padding-left: 5px;margin-top: 0px;margin-bottom: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">英文原文:&nbsp;<span style="color: rgb(136, 136, 136);letter-spacing: 0px;">https://hf.co/blog/encrypted-llm</span></p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">原文作者: Roman Bredehoft，Jordan Frery</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">譯者: Matrix Yao (姚偉峯)，英特爾深度學習工程師，工作方向為 transformer-family 模型在各模態數據上的應用及大規模模型的訓練推理。</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">審校/排版: zhongdongy (阿東)</p></blockquote></blockquote></blockquote></blockquote></section><p style="display: none;"><mp-style-type data-value="3"></mp-style-type></p></div><p style="color: #858585; font-size: 13px;">本文分享自微信公眾號 - Hugging Face（gh_504339124f0f）。<br>如有侵權，請聯繫 support@oschina.cn 刪除。<br>本文參與「<a href="https://www.oschina.net/sharing-plan" target="_blank">OSC 源創計劃</a>」，歡迎正在閲讀的你也加入，一起分享。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 03:29:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10112832</guid>
-            <link>https://my.oschina.net/HuggingFace/blog/10112832</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
         </item>
         <item>
             <title>
@@ -155,6 +342,29 @@
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[AgentVerse —— 多 LLM 環境模擬框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>AgentVerse 提供了一個多功能框架，可簡化為大型語言模型（LLM）創建定製多代理環境的過程。框架旨在以最小的投入促進快速開發和定製，從而使研究人員能夠專注於他們的研究，而不是被實施細節所困擾。</p><p><img alt="" height="333" src="https://static.oschina.net/uploads/space/2023/0915/161848_BpYH_4252687.png" width="500" referrerpolicy="no-referrer"></p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>特點</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><p><span><span><strong>高效的環境構建：</strong>我們的框架提供了一系列基本構建塊，可以輕鬆創建多代理環境。只需要配置文件中的幾行，就可以輕鬆構建 LLM 聊天室等基本環境。此過程需要為 LLM 士定義環境設置和提示，使研究人員能夠專注於實驗和分析。</span></span></p></li><li><p><span><span><strong>可定製組件</strong>：AgentVerse 通過將多代理環境劃分為五個功能模塊並定義各自的接口來簡化多代理環境。對於使用 AgentVerse 提供的基礎模塊無法直接構建的複雜環境，你可以自定義這五個功能模塊中的一個或多個接口，根據你的需求高效地創建你自己的多 Agent 環境。</span></span></p></li><li><p><span><span><strong>工具（插件）利用</strong>：AgentVerse 通過工具支持多代理環境。目前，AgentVerse 支持<a href="https://github.com/OpenBMB/BMTools">BMTools</a>中提供的工具。</span></span></p></li></ul><p><img height="287" src="https://static.oschina.net/uploads/space/2023/0915/161814_aa6e_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
+                                                                ]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 03:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/agentverse</guid>
+            <link>https://www.oschina.net/p/agentverse</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[每日一博 | 使用 FHE 實現加密大語言模型]]>
+            </title>
+            <description>
+                <![CDATA[每日一博 | 使用 FHE 實現加密大語言模型]]>
+            </description>
+            <pubDate>Wed, 04 Oct 2023 03:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10112832</guid>
+            <link>https://my.oschina.net/HuggingFace/blog/10112832</link>
         </item>
         <item>
             <title>
@@ -298,51 +508,6 @@ console.log(hello); // "world"
             <link>https://www.oschina.net/news/260160</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Zephix 7 發佈，基於 Debian 穩定分支的發行版]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Zephix 是一個基於 Debian 穩定版的實時 Linux 操作系統。它可以完全從可移動媒介上運行，而不觸及用户系統磁盤上存儲的任何文件。Zephix 的目的是提供一個免費的模塊化操作系統，用户可以隨身攜帶，在有筆記本電腦或桌面系統的地方使用。</p><p>運行 Zephix 的最低系統要求是 1GHz 奔騰處理器和 1.5GB 內存，不過建議使用更好的規格，以獲得 Zephix 更快和更流暢的實時系統體驗。</p><p>Zephix v7 (Zephix-7R-x86_64) 已於上個月發佈，此版本包含許多重大變化：</p><ul><li>底層系統升級至 Debian 12.1</li><li>大量重新設計的模塊創建和操作腳本</li><li>重命名腳本以獲得更好的約定</li><li>添加了 3 個新腳本 - 創建自定義核心模塊、將 2 個模塊合併在一起，以及在構建大型模塊時擴展交換空間</li><li>添加了默認行為，自動將新創建的模塊移動到正確的位置</li><li>進一步消除了最終 ISO 中不必要的膨脹，將大小減小至 380MB</li><li>刪除固件模塊，引入一個名為 isenkram 的工具，該工具提供 isenkram-autoinstall-firmware（這可以與 USB 網絡共享一起使用來安裝所需的缺失固件）</li><li>刪除傳統的桌面模塊，提供了 (7) 個預構建的桌面模塊（Cinnamon、GNOME、KDE、LXDE、LXQt、MATE、Xfce），以允許更自由的選擇</li><li>添加 bc、rsync 和 ifrename 工具</li><li>更新官方網站以反映所有這些變化並提供更多信息</li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2f15529fabaf53bb3c3900dbd256366c803.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fzephix-linux%2Ffiles%2FISO%2F" target="_blank">下載地址</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 02 Oct 2023 03:18:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260159/zephix-linux-7</guid>
-            <link>https://www.oschina.net/news/260159/zephix-linux-7</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Snap 商店遭受惡意應用攻擊，臨時新增人工審核]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000"><span style="background-color:#ffffff">Canonical 的 Snap Store&nbsp;團隊發佈<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fforum.snapcraft.io%2Ft%2Ftemporary-suspension-of-automatic-snap-registration-following-security-incident%2F37077" target="_blank">公告稱</a>，他們於近日收到了一些用户所報告的安全隱患事件。即，幾個最近新發布的 Snap 可能存在惡意</span><span style="background-color:#ffffff">，可以</span><span style="background-color:#ffffff">竊取用户的加密資金。</span></span></p><p><span style="color:#000000">目前，Snap Store 已經刪除了所報告的 Snap。新的 Snap 註冊實施了臨時人工審核要求，立即生效。此人工審查旨在阻止惡意行為者註冊合法應用程序的名稱（或至少聽起來合法的名稱），並將其用作向用户推送惡意 Snap 的途徑。</span></p><p><img height="270" src="https://oscimg.oschina.net/oscnet/up-88656dc09868a0f56e324642884ef0b8f38.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">當用户嘗試註冊新的&nbsp;Snap 時，系統將提示「請求保留名稱」。Snap Store 工作人員手動審核成功後，該名稱將被註冊。上傳和發佈現有 Snap 的修訂版則不會受到影響。</span></p><blockquote><p style="text-align:start"><span style="color:#000000">對於這可能給我們的 snap 發佈者和開發者帶來的任何不便，我們深表歉意。然而，我們認為這是目前最謹慎的行動。</span></p><p style="text-align:start"><span style="color:#000000">我們希望徹底調查這一事件，而不會給系統帶來任何干擾，更重要的是，我們希望確保我們的用户在 Snap Store 中獲得安全且值得信賴的體驗。</span></p><p style="text-align:start"><span style="color:#000000">請耐心等待我們進行調查。我們將在未來幾天提供更詳細的更新。</span></p></blockquote><p><span style="color:#000000">如果你最近從 Snap Store 安裝了任何新上架的<span style="background-color:#ffffff">加密賬本應用程序</span>，不妨檢查一下應用程序是否還在列表中。如果沒有，這可能意味着它已因為被懷疑是惡意程序而撤下。&nbsp;</span></p><p><span style="color:#000000">更多詳情可查看&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fforum.snapcraft.io%2Ft%2Ftemporary-suspension-of-automatic-snap-registration-following-security-incident%2F37077" target="_blank">Snapcraft 論壇</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 01 Oct 2023 04:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260114/snap-store-security-incident</guid>
-            <link>https://www.oschina.net/news/260114/snap-store-security-incident</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[美國國家安全局將開設人工智能安全中心]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">美國國家安全局 (NSA) 宣佈正在創建人工智能安全中心，以「監督美國國家安全系統內人工智能功能的開發和集成」。</span></p><p><span style="color:#000000">新中心將幫助促進與在國家安全中使用人工智能相關的最佳實踐、評估方法和風險框架的發展。美國國家安全局將整合所有與人工智能和安全相關的活動，並在人工智能安全中心進行。</span></p><p><span style="color:#000000">美國國家安全局將與商業公司、國家實驗室、學術界、國防部和選定的外國合作伙伴就這一計劃密切合作。</span></p><p><span style="color:#000000">美國國家安全局局長、陸軍上將 Paul Nakasone 表示：</span></p><blockquote><p><span style="color:#000000">「人工智能將對我們國家以及我們的盟友和合作夥伴的外交、技術和經濟事務中的國家安全產生越來越重要的影響。今天，美國在這個關鍵領域處於領先地位，但這種領先不應被視為理所當然。幾十年來，我們的對手一直利用盜竊和利用我們的知識產權來促進他們的利益，他們將尋求利用我們在人工智能方面的進步，並破壞我們對其的應用。」</span></p></blockquote><p><span style="color:#000000">這一公告是美國政府一系列人工智能相關舉措中的又一項。例如，1 月份，美國國防部更新了 2012 年關於負責任地開發自主武器系統的指南，以反映人工智能的最新進展。2020 年，他們還發布了《負責任的人工智能戰略和實施路徑》。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 01 Oct 2023 04:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260112/nsa-open-ai-security-center</guid>
-            <link>https://www.oschina.net/news/260112/nsa-open-ai-security-center</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
