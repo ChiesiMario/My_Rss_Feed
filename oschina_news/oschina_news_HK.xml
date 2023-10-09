@@ -9,14 +9,14 @@
             <![CDATA[開源中國-最新資訊]]>
         </title>
         <link>https://www.oschina.net/news/project</link>
-        <atom:link href="http://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
         <description>
             <![CDATA[開源中國-最新資訊 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
         </description>
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 09 Oct 2023 19:49:37 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Oct 2023 21:51:37 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -57,15 +57,44 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>�
         </item>
         <item>
             <title>
-                <![CDATA[開源框架 NanUI 作者轉行賣鋼材，項目暫停開發]]>
+                <![CDATA[Apache Hudi 0.14.0 版本發佈]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>NanUI 作者在國慶節發佈了停更公告，稱該項目將暫停開發，原因是去年被裁員失業後，<strong>他已轉行銷售鋼材</strong>，現在很難騰出時間來開發和維護 NanUI 項目。</p><p>他説道：</p><blockquote><p>為了生存，本人只能花費更多的時間和精力去談單，去銷售，去收款，因此已經很難再騰出時間來開發和維護 NanUI 項目，對此我深感無奈，也希望後面生活和工作穩定後能騰出時間來繼續維護 NanUI。</p></blockquote><p>NanUI 作者表示，他所在公司因疫情於去年（2022 年）初徹底宣佈裁減所有開發崗位，因此他也只能順應大流在 36 歲這個尷尬的年紀失業。</p><p><img height="1285" src="https://static.oschina.net/uploads/space/2023/1009/173727_oVGe_2720166.png" width="1980" referrerpolicy="no-referrer"></p><p><em>via&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FXuanchenLin%2FNanUI%2Fdiscussions%2F367" target="_blank">https://github.com/XuanchenLin/NanUI/discussions/367</a></em></p><blockquote><p>NanUI 界面組件是一個開放源代碼的 .NET / .NET Core 窗體應用程序（WinForms）界面框架。它適用於希望使用 HTML5/CSS3 等前端技術來構建 Windows 窗體應用程序用户界面的 .NET 開發人員。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-060f8d602f0ac9de0bb5953b554b233f62e.png" referrerpolicy="no-referrer"></p><p>NanUI 基於谷歌可嵌入的瀏覽器框架 Chromium Embedded Framework (CEF)，因此用户可以使用各種前端技術 HTML5/CSS3/JavaScript 和流行前端框架 React/Vue/Angular/Blazor 設計和開發 .NET 桌面應用程序的用户界面。</p><p>同時，NanUI 獨創的 JavaScript Bridge 可以方便地實現瀏覽器端與 .NET 之間的通信和數據交換。</p><p>使用 NanUI 界面框架將為傳統的 WinForm 應用程序的用户界面設計和開發工作帶來無限種可能！</p></blockquote></div>
+                <![CDATA[<div class="content"><p>Apache Hudi 0.14.0 現已發佈。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FATf-92UzW5iOGXYODYn0ug" target="_blank">公告</a>指出，該版本標誌着一個重要的里程碑，具有一系列新功能和增強功能。其中包括引入<strong>Record Level Index</strong>、<strong>自動生成記錄鍵</strong>&nbsp;、用於增量讀取的&nbsp;<code>hudi_table_changes</code>函數等等。</p><p>值得注意的是，此版本還包含對&nbsp;<strong>Spark 3.4 的支持</strong>。在 Flink 方面，0.14.0 版本帶來了一些令人興奮的功能，例如<strong>一致哈希索引支持、支持 Flink 1.17 以及支持更新和刪除語句</strong>。此外此版本還升級了 Hudi 表版本，提示用户查閲下面提供的遷移指南。我們鼓勵用户在採用 0.14.0 版本之前查看重大特性、重大變化和行為變更。</p><h1>遷移指南</h1><p>在 0.14.0 版本進行了一些更改，例如從 ".aux" 文件夾中刪除壓縮計劃以及引入新的日誌塊版本。作為此版本的一部分，表版本更新到版本 6。在具有舊錶版本的表上運行版本 0.14.0 的 Hudi 作業時，會觸發自動升級過程以將表升級到版本 6。升級對於每個 Hudi 表都是一次性的，因為升級完成後&nbsp;<code>hoodie.table.version</code>&nbsp;會在屬性文件中更新。此外還包括用於降級的命令行工具，允許用户從表版本 6 降級到 5，或從 Hudi 0.14.0 恢復到 0.14.0 之前的版本。請從 0.14.0 環境使用此工具。有關更多詳細信息，請參閲&nbsp;hudi-cli。</p><blockquote><p>注意：如果從舊版本（0.14.0 之前）遷移，建議按順序檢查每個舊版本的升級説明。</p></blockquote><h1>Bundle 包更新</h1><h3>新 Spark Bundle 包</h3><p>在此版本擴展了支持範圍，包括 Spark 3.4 (hudi-spark3.4-bundle_2.12) 和 Spark 3.0 (hudi-spark3.0-bundle_2.12) 的 Bundle 包。請注意，在 Hudi 0.10.1 版本之後，對 Spark 3.0 的支持已停止，但由於社區的強烈興趣，在此版本中恢復了對 Spark 3.0 的支持。</p><h1>重大變化</h1><h3>Spark SQL INSERT INTO 行為</h3><p>在 0.14.0 版本之前，Spark SQL 中通過 INSERT INTO 攝取的數據遵循 upsert 流程，其中多個版本的記錄將合併為一個版本。但是從 0.14.0 開始更改了 INSERT INTO 的默認行為，默認行為更改為<code>insert</code>流。此更改顯着提高了寫入性能，因為它繞過了索引查找。</p><p>如果使用 preCombine 鍵創建表，則 INSERT INTO 的默認操作仍為&nbsp;<code>upsert</code>。相反如果沒有設置 preCombine 鍵，則 INSERT INTO 的底層寫操作默認為&nbsp;<code>insert</code>。用户可以根據自己的要求顯式設置配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;的值來靈活地覆蓋此行為。此配置的可能值包括&nbsp;<code>insert</code>、<code>bulk_insert</code>&nbsp;和&nbsp;<code>upsert</code>。</p><p>此外在 0.14.0 版本中棄用了兩個相關的舊配置</p><ul><li><p>hoodie.sql.insert.mode</p></li><li><p>hoodie.sql.bulk.insert.enable</p></li></ul><h1>行為變更</h1><h3>使用 Spark SQL Inserts 簡化重複處理</h3><p>如果操作類型配置為 Spark SQL INSERT INTO 流的插入，用户現在可以選擇使用配置設置 hoodie.datasource.insert.dup.policy 強制執行重複策略。此策略確定當正在攝取的傳入記錄已存在於存儲中時採取的操作。此配置的可用值如下：</p><ul><li><p>none：不採取任何特定操作，如果傳入記錄包含重複項，則允許 Hudi 表中存在重複項。</p></li><li><p>drop：傳入寫入中的匹配記錄將被刪除，其餘記錄將被攝取。</p></li><li><p>fail：如果重新攝取相同的記錄，寫入操作將失敗。本質上由鍵生成策略確定的給定記錄只能被攝取到目標表中一次。</p></li></ul><p>通過添加此配置，舊的相關配置&nbsp;<code>hoodie.datasource.write.insert.drop.duplicates</code>&nbsp;現已棄用。當兩者都指定時，新配置將優先於舊配置。如果未提供特定配置，則將採用較新配置的默認值。強烈鼓勵用户遷移到使用這些較新的配置。</p><h3>MOR 表 Compaction</h3><p>對於 Spark 批寫入器（Spark Datasource 和 Spark SQL），默認情況下會自動為 MOR（讀取時合併）表啓用壓縮，除非用户顯式覆蓋此行為。用户可以選擇通過將&nbsp;<code>hoodie.compact.inline</code>設置為&nbsp;<code>false</code>&nbsp;顯式禁用壓縮。如果用户不覆蓋此配置，大約每 5 個增量提交（<code>hoodie.compact.inline.max.delta.commits</code>的默認值）會觸發 MOR 表的壓縮。</p><h3>HoodieDeltaStreamer 更名為 HoodieStreamer</h3><p>從版本 0.14.0 開始將 HoodieDeltaStreamer 重命名為 HoodieStreamer。同時確保了向後兼容性，以便現有的用户作業不受影響。但是在即將發佈的版本中可能會停止對 Deltastreamer 的支持。因此強烈建議用户改用 HoodieStreamer。</p><h3>MERGE INTO JOIN CONDITION</h3><p>從 0.14.0 版本開始，當用户沒有提供明確的規範時，Hudi 能夠自動生成主記錄鍵。此增強功能使&nbsp;<code>MERGE INTO JOIN</code>&nbsp;子句能夠引用 Hudi 表中連接條件的任何數據列，其中主鍵由 Hudi 本身生成。但是在用户配置主記錄鍵的情況下，連接條件仍然需要用户指定的主鍵字段。</p><h1>重大特性</h1><h3>Record Level Index</h3><p>Hudi 版本 0.14.0 引入了新的索引實現 -&nbsp;Record Level Index。記錄級索引通過有效存儲每條記錄的位置並在索引查找操作期間實現快速檢索，顯着增強了大型表的寫入性能。它可以有效地替代 Hudi 中常用的其他全局索引，例如 Global_bloom、Global_Simple 或 Hbase。</p><p>由於在查找過程中從各種數據文件收集索引數據的成本很高，布隆索引和簡單索引對於大型數據集表現出較低的性能。而且，這些索引不保留一對一的記錄鍵來記錄文件路徑映射；相反，他們在查找時通過優化搜索來推斷映射。這些索引所需的每個文件的開銷使得它們對於具有大量文件或記錄的數據集效率較低。</p><p>另一方面，Hbase 索引為每個記錄鍵保存一對一的映射，從而實現隨數據集大小擴展的快速性能。然而，它需要一個單獨的 HBase 集羣來進行維護，這在操作上具有挑戰性且資源密集型，需要專門的專業知識。</p><p>記錄索引結合了 HBase 索引的速度和可擴展性，而沒有其限制和開銷。作為 HUDI 元數據表的一部分，未來寫入和查詢方面的任何性能增強都將自動轉化為記錄索引性能的改進。採用記錄級索引有可能將索引查找性能提高 4 到 10 倍，具體取決於工作負載，即使對於超大規模數據集（例如 1TB）也是如此。</p><p>通過記錄級別索引，可以觀察到大型數據集的顯着性能改進，因為延遲與攝取的數據量成正比。這與其他全局索引形成鮮明對比，其中索引查找時間隨着表大小線性增加。記錄級索引專門設計用於有效處理此類大規模數據的查找，而查找時間不會隨着表大小的增長而線性增加。</p><p>為了利用這種快速的索引的優勢，用户需要啓用兩種配置：</p><ul><li><p>必須啓用&nbsp;<code>hoodie.metadata.record.index.enable</code>&nbsp;才能將記錄級別索引寫入元數據表。</p></li><li><p><code>hoodie.index.type</code>&nbsp;需要設置為&nbsp;<code>RECORD_INDEX</code>&nbsp;以便索引查找利用記錄級別索引。</p></li></ul><h3>支持 Hudi 表自動生成鍵</h3><p>從 Hudi 最初的正式版本開始，主鍵是用户需要為任何 Hudi 表配置的必填字段。從 0.14.0 開始，我們放寬了這一限制。此增強功能解決了社區內的長期需求，其中某些用例不具有主鍵。版本 0.14.0 現在為用户提供了創建 Hudi 表的靈活性，而無需顯式配置主鍵（通過省略配置設置 -&nbsp;<code>hoodie.datasource.write.recordkey.field</code>）。這種情況下 Hudi 將自動生成主鍵。此功能僅適用於新表，不能更改現有表。</p><p>所有 Spark 寫入器都提供此功能，但有一定限制。對於僅追加類型的用例，如下四個寫入器都允許插入和批量插入 - Spark Datasource、Spark SQL、Spark Streaming、Hoodie Streamer。僅使用 Spark SQL MERGE INTO 、 UPDATE 和 DELETE 語句支持更新和刪除。對於 Spark Datasource，僅當 DataFrame 包含 Hudi 的元字段時才支持 UPDATE 和 DELETE。請查看快速入門指南，瞭解有關自動生成鍵的 Hudi 表 CRUD 操作的代碼片段。</p><h3>Spark 3.4 版本支持</h3><p>添加 Spark 3.4 支持， Spark 3.4 的用户可以使用&nbsp;hudi-spark3.4-bundle。Spark 3.2、Spark 3.1、Spark3.0 和 Spark 2.4 將繼續受支持。請檢查遷移指南以獲取 Bundle 包更新。可以瀏覽快速入門指南快速開始使用 Hudi 和 Spark 3.4。</p><h3>查詢端改進</h3><h4>Athena 的元數據表支持</h4><p>用户現在可以與 Athena 無縫地利用 Hudi 的元數據表。文件列表索引通過從維護分區到文件映射的索引檢索信息，消除了對遞歸文件系統調用（如「列表文件」）的需要。事實證明這種方法非常高效，尤其是在處理大量數據集時。使用 Hudi 0.14.0，用户可以在為其 Hudi 表執行 Glue 目錄同步時激活基於元數據表的文件列表。要啓用此功能，用户可以配置&nbsp;<code>hoodie.datasource.meta.sync.glue.metadata_file_listing</code>&nbsp;並在 Glue 同步過程中將其設置為 true。</p><h4>查詢利用 Parquet 布隆過濾器</h4><p>在 Hudi 0.14.0 中，用户現在可以使用原生 Parquet 布隆過濾器，前提是他們的計算引擎支持 Apache Parquet 1.12.0 或更高版本。這種支持涵蓋了數據集的寫入和讀取。Hudi 通過 Hadoop 配置方便使用原生 Parquet 布隆過濾器。用户需要使用代表要應用布隆過濾器的列的特定鍵來設置 Hadoop 配置。例如，&nbsp;<code>parquet.bloom.filter.enabled#rider=true</code>&nbsp;為 rider 列創建布隆過濾器。每當查詢涉及 rider 列上的謂詞時，布隆過濾器就會發揮作用，從而增強讀取性能。</p><h4>多寫入器的增量查詢</h4><p>在多寫入器場景中，由於併發寫入活動，時間線中可能會出現間隙（requested 或 inflight 時刻不是最新時刻）。在執行增量查詢時，這些間隙可能會導致結果不一致。為瞭解決這個問題，Hudi 0.14.0 引入了一個新的配置設置&nbsp;<code>hoodie.read.timeline.holes.resolution.policy</code>，專門用於處理增量查詢中的這些不一致問題。該配置提供了三種可能的策略：</p><ul><li><p>FAIL：這是默認策略，當增量查詢期間發現此類時間線間隙時，會引發異常。</p></li><li><p>BLOCK：在此策略中，增量查詢的結果僅限於時間線中空洞之間的時間範圍。例如，如果在 t0 到 t2 的增量查詢範圍內，在 t1 時刻檢測到間隙，則查詢將僅顯示 t0 到 t1 之間的結果，而不會失敗。</p></li><li><p>USE_TRANSITION_TIME：此策略是實驗性的，涉及在增量查詢期間使用狀態轉換時間，該時間基於時間線中提交元數據文件的文件修改時間。</p></li></ul><h4>Hive 3.x 的 Timestamp 類型支持</h4><p>相當長一段時間以來，Hudi 用户在讀取 Spark 的 Timestamp 類型列以及隨後嘗試使用 Hive 3.x 讀取它們時遇到了挑戰。在 Hudi 0.13.x 中，我們引入了一種解決方法來緩解此問題，0.14.0 版本現在確保 HiveAvroSerializer 與 Hive 3.x 完全兼容以解決此問題。</p><h4>Google BigQuery 同步增強功能</h4><p>在 0.14.0 中，BigQuerySyncTool&nbsp;支持使用清單將表同步到 BigQuery。與傳統方式相比，這預計將具有更好的查詢性能。模式演進由清單方法支持。由於新的 schema 處理改進，不再需要從文件中刪除分區列。要啓用此功能，用户可以將&nbsp;<code>hoodie.gcp.bigquery.sync.use_bq_manifest_file</code>設置為&nbsp;<code>true</code>。</p><h3>Spark 讀取端改進</h3><h4>MOR Bootstrap 表的快照讀取支持</h4><p>在 0.14.0 中，為引導表添加了 MOR 快照讀取支持。默認行為已通過多種方式進行了更改，以匹配非引導 MOR 表的行為。快照讀取現在將成為默認讀取模式。使用&nbsp;<code>hoodie.datasource.query.type=read_optimized</code>&nbsp;進行讀取優化查詢，這是以前的默認行為。此類表的 Hive 同步將導致表名帶有 _ro 和 _rt 後綴，分別表示讀取優化和快照讀取。</p><h4>用於增量讀取的表值函數 hudi_table_changes</h4><p>Hudi 已經提供了使用增量查詢類型獲取自給定提交時間戳以來更改的記錄流的功能。在 Hudi 0.14.0 中，我們添加了一種新的、更簡單的方法，使用名為 hudi_table_changes 的表值函數來獲取 Hudi 數據集的最新狀態或更改流。以下是有關如何使用此函數的語法和一些示例。</p><pre><code>SYNTAX
+hudi_table_changes(table,&nbsp;queryType,&nbsp;beginTime&nbsp;[,&nbsp;endTime]);
+--&nbsp;table:&nbsp;table&nbsp;identifier,&nbsp;example:&nbsp;db.tableName,&nbsp;tableName,&nbsp;or&nbsp;path&nbsp;for&nbsp;the&nbsp;table,&nbsp;example:&nbsp;hdfs://path/to/hudiTable.
+--&nbsp;queryType:&nbsp;incremental&nbsp;query&nbsp;mode,&nbsp;valid&nbsp;values:&nbsp;latest_state,&nbsp;cdc
+(for&nbsp;cdc&nbsp;query,&nbsp;first&nbsp;enable&nbsp;cdc&nbsp;for&nbsp;the&nbsp;table&nbsp;by&nbsp;setting&nbsp;cdc.enabled=true),
+--&nbsp;beginTime:&nbsp;instantTime&nbsp;to&nbsp;begin&nbsp;query&nbsp;from,&nbsp;example:&nbsp;earliest,&nbsp;202305150000,
+--&nbsp;endTime:&nbsp;optional&nbsp;instantTime&nbsp;to&nbsp;end&nbsp;query&nbsp;at,&nbsp;example:&nbsp;202305160000,
+
+EXAMPLES
+--&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;table&nbsp;name
+--&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('db.table',&nbsp;'latest_state',&nbsp;'earliest');
+
+--&nbsp;start&nbsp;from&nbsp;earliest,&nbsp;end&nbsp;at&nbsp;202305160000.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('table',&nbsp;'latest_state',&nbsp;'earliest',&nbsp;'202305160000');
+
+--&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;path
+--&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('path/to/table',&nbsp;'cdc',&nbsp;'earliest');
+
+</code></pre><p>查看快速入門以獲取更多示例。</p><h4>Spark 中新的 MOR 文件格式讀取器</h4><p>基於&nbsp;RFC-72&nbsp;旨在重新設計 Hudi-Spark 集成的提案，我們引入了用於 MOR（讀取合併）表的實驗性文件格式讀取器。與舊文件格式相比，該讀取器預計可將讀取延遲顯着降低 20% 至 40%，特別是對於快照和引導查詢。目標是使延遲更接近 COW（寫入時複製）文件格式的延遲。要利用這種新文件格式，用户需要設置&nbsp;<code>hoodie.datasource.read.use.new.parquet.file.format=true</code>。值得注意的是，此功能仍處於實驗階段，並且存在一些限制。有關更多詳細信息以及有興趣做出貢獻，請參閲&nbsp;HUDI-6568。</p><h3>Spark 寫入端改進</h3><h4>Bulk_Insert 和行寫入器增強</h4><p>0.14.0 版本支持在執行 INSERT OVERWRITE TABLE 和 INSERT OVERWRITE PARTITION 等 SQL 操作時使用批量插入操作。要啓用批量插入，請將配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;設置為值<code>bulk_insert</code>。與插入操作相比，批量插入具有更好的寫入性能。另外簡單存儲桶索引也支持了行寫入器。</p><h3>Hoodie DeltaStreamer 增強</h3><h4>動態配置更新</h4><p>當 Hoodie Streamer 以連續模式運行時，可以在每次同步調用之前刷新/更新屬性。有興趣的用户可以實現&nbsp;<code>org.apache.hudi.utilities.deltastreamer.ConfigurationHotUpdateStrategy</code>&nbsp;來利用它。</p><h4>HoodieStreamer 基於 SQL 文件的源</h4><p>HoodieStreamer 中添加了一個新源 -&nbsp;SqlFileBasedSource，旨在促進一次性回填場景。</p><h3>Flink 增強功能</h3><p>以下是 0.14.0 版本中基於 Flink Engine 的增強功能。</p><h4>一致的哈希索引支持</h4><p>與靜態哈希索引（BUCKET 索引）相比，一致性哈希索引為寫入者提供了數據桶的動態可擴展性。要利用此功能，請將選項<code>index.type</code>配置為 BUCKET 並將<code>hoodie.index.bucket.engine</code>設置為<code>CONSISTENT_HASHING</code>。</p><p>啓用一致性哈希索引時，在寫入器中激活異步 Clustering 調度非常重要。Clustering 計劃應通過離線作業執行。在此過程中，寫入器將在 Clustering Pending 時對新舊數據桶執行雙重寫入。雖然雙寫不會影響正確性，但強烈建議儘快執行 Clustering。</p><h4>用於流式讀取的動態分區修剪</h4><p>在 0.14.0 之前，當查詢具有恆定日期時間過濾的謂詞時，Flink 流式讀取器無法正確修剪日期時間分區。自此版本以來，Flink 流式查詢已得到修復，以支持任何過濾謂詞模式，包括但不限於日期時間過濾。</p><h4>簡單桶索引表查詢加速（帶索引字段）</h4><p>對於一個簡單的桶索引表，如果查詢對索引鍵字段採用等式過濾謂詞，Flink 引擎會優化規劃，只包含來自非常特定數據桶的源數據文件；此類查詢預計平均性能將提高近&nbsp;<code>hoodie.bucket.index.num.buckets</code>&nbsp;倍。</p><h4>Flink 1.17 支持</h4><p>Flink 1.17 支持新的編譯 maven 配置文件 flink1.17，在 Flink Hudi Bundle 包 jar 的編譯 cmd 中添加配置文件 -Pflink1.17 以啓用與 Flink 1.17 的集成。</p><h4>Flink 更新刪除語句</h4><p>自此版本以來，UPDATE 和 DELETE 語句已集成用於批量查詢。當前只有定義主鍵的表可以正確處理該語句。</p><pre><code>UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;...&nbsp;WHERE&nbsp;...
+DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;...
+
+EXAMPLES
+--&nbsp;update&nbsp;the&nbsp;specific&nbsp;records&nbsp;with&nbsp;constant&nbsp;age
+UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;age=19&nbsp;WHERE&nbsp;UUID&nbsp;in&nbsp;('id1',&nbsp;'id2');
+--&nbsp;delete&nbsp;all&nbsp;the&nbsp;records&nbsp;that&nbsp;with&nbsp;age&nbsp;greater&nbsp;than&nbsp;23
+DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
+
+</code></pre><h3>Java 增強功能</h3><p>Java 引擎已擴展支持許多寫操作，使其與其他引擎保持一致。例如 Java Engine 0.14.0 中添加了壓縮、Clustering 和元數據表支持。</p><h3>已知回退</h3><p>在 Hudi 0.14.0 中，當查詢使用 ComplexKeyGenerator 或 CustomKeyGenerator 的表時，分區值以字符串形式返回。請注意，存儲上沒有類型更改，即分區字段以存儲上的用户定義類型寫入。這對於上述鍵生成器來説是一個重大變化，將在 0.14.1 中修復。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 08 Oct 2023 09:50:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261033</guid>
-            <link>https://www.oschina.net/news/261033</link>
+            <pubDate>Mon, 09 Oct 2023 03:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</guid>
+            <link>https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -102,6 +131,36 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>�
         </item>
         <item>
             <title>
+                <![CDATA[Go 1.21.2 & 1.20.9 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Go 近日發佈了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>兩個小版本。</p><p>Go 1.21.2 是 1.21 的第 2 個安全補丁，主要涉及一個安全更新：</p><ul><li><strong>cmd/go：line 指令允許在構建期間任意執行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根據 issue 的描述</a>，"//line" 指令可用於繞過對 "//go：cgo_" 指令的限制，允許在兼容期間傳遞阻塞的鏈接器和編譯器標誌。這可能導致在運行"go build"時意外執行任意代碼。</p><p>line 指令需要指令所在文件的絕對路徑，這使得解決此問題變得更加複雜。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>詳情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 08:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
+            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Debian 12.2 & 11.8 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Debian 近日為兩個分支發佈了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。兩個版本都是常規性更新，主要是修復錯誤和安全問題。</p><p>Debian 12.2 是 12 系列的第 2 個維護更新，修復了安全漏洞和嚴重問題。</p><ul><li>引入微碼 (microcode) 更新，包含針對 AMD Zen4 處理器中 "AMD Inception" 的修復</li><li><p>修復與 Python 3.11 的兼容性問題</p></li><li><p>修復解析 JPEG 附件時出現崩潰的問題</p></li><li><p>修復遠程代碼執行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">詳情</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 07:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
+            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[聯想計劃推出 Android PC]]>
             </title>
             <description>
@@ -113,36 +172,6 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>�
             <link>https://www.oschina.net/news/260995/lenovo-esper-android-pc</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[百度加緊訓練文心大模型 4.0，或將於 10 月 17 日發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>據科創板日報報道，百度正在加緊訓練文心大模型 4.0，或將在 10 月 17 日百度世界大會上發佈。</p><p>據消息人士透露，文心大模型 4.0 的進展比預期快很多，將是基礎模型的大升級，<strong>理解、生成、邏輯、記憶</strong>四大核心能力都將提升，尤其在邏輯推理、代碼和數學等方面提升最明顯。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-741c4810e55393b362a8f9a60b8c98a65dd.png" referrerpolicy="no-referrer"></p><p>今年 8 月，<a href="https://www.oschina.net/news/256156" target="_blank">百度宣佈文心一言率先向全社會全面開放</a>，所有用户都能下載文心一言 App 或在官網體驗。</p><hr><p>延伸閲讀：<a href="https://www.oschina.net/news/256949">挑戰 ChatGPT，國產有這 8 款 AI 大模型產品</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 08 Oct 2023 04:11:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260957</guid>
-            <link>https://www.oschina.net/news/260957</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[雲原生週刊：Docker 推出 Docker Debug]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>開源項目推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fschemahero%2Fschemahero" target="_blank">SchemaHero</a></h3><p>SchemaHero 是一個 Kubernetes Operator，用於各種數據庫的聲明式架構管理。SchemaHero 有以下目標：</p><ul><li>數據庫表模式可以表示為可以部署到集羣的 Kubernetes 資源。</li><li>可以編輯數據庫模式並將其部署到集羣。SchemaHero 將計算所需的更改（<code>ALTER TABLE</code> 語句）並應用它。</li><li>SchemaHero 可以管理部署到集羣或集羣外部的數據庫（RDS、Google CloudSQL 等）。</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fproject-copacetic%2Fcopacetic" target="_blank">copacetic</a></h3><p>copacetic 是一款基於 buildkit 並用 Go 編寫的 CLI 工具，可用於根據 Trivy 等流行工具的漏洞掃描結果直接修補容器鏡像。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubernetes-sigs%2Fkueue" target="_blank">Kueue</a></h3><p>Kueue 是一套用於作業隊列的 API 和控制器。它是作業級管理器，可決定何時允許作業啓動（如創建 pod），何時停止作業（如刪除活動 pod）。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Foslabs-beta%2Fspyglass" target="_blank">Spyglass</a></h3><p>Spyglass 是一款開源工具，允許用户在一個集中位置監控 Kubernetes 集羣指標並跟蹤集羣部署成本。</p><h2>文章推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.devops.dev%2Fsurviving-2400-hours-of-multi-tenancy-what-i-know-now-9c48694aa75d" target="_blank">多租户 2400 小時的生存之道： 我現在知道了什麼</a></h3><p>這篇文章是關於作者在處理多租户環境下的經驗和教訓的分享。作者介紹了他們所面臨的挑戰：由於項目請求的激增，現有的基礎設施無法滿足存儲需求。為瞭解決這個問題，他們開始尋找一個強大的多租户解決方案。</p><p>作者詳細介紹了他們的多租户方法和使用 vcluster 的經驗。他們採用了 Virtual-Kubernetes-as-a-Service (VKaaS) 的模型，通過在共享集羣中運行 vcluster 來為新項目提供無縫的啓動體驗。他們為每個團隊分配了一個獨立的 Argo CD 實例，以保持單一集羣使用的標準。他們努力提供儘可能多的自治權給團隊，同時保持多租户架構的完整性。</p><p>文章還介紹了他們的工作流程和實施策略。他們利用節點池來區分共享工作負載和項目相關的非關鍵應用程序，並詳細解釋了他們在共享集羣中的工作方式。他們還強調了災難恢復方案對於多租户方法的重要性，並提供了一些實施策略的示例。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devopsschool.com%2Fblog%2Fkubernetes-tutorials-what-is-preemption-in-kubernetes-with-example%2F" target="_blank">Kubernetes 教程：Kubernetes 中的 Preemption（搶佔）機制</a></h3><p>這篇文章是關於 Kubernetes 中的 Preemption（搶佔）機制的介紹和示例。Preemption 是一種允許高優先級 Pod 搶佔低優先級 Pod 的機制，當資源不足以調度高優先級 Pod 時使用。文章首先介紹了 PriorityClass，它是一個非命名空間對象，定義了優先級類名稱與優先級整數值的映射關係。數值越高，優先級越高。</p><p>文章還介紹了兩個內置的優先級類：system-cluster-critical 和 system-node-critical，它們分別具有值 2000001000 和 2000000000，確保這些 Pod 始終被首先調度，並且永遠不會被搶佔。文章通過一個示例説明瞭 Preemption 在 Kubernetes 中的工作原理。文章還提供瞭如何在 Pod 中設置 Preemption 策略的示例。</p><h2>雲原生動態</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cncf.io%2Fblog%2F2023%2F10%2F05%2Funveiling-litmuschaos-3-0-embracing-evolution-in-chaos-engineering%2F" target="_blank">LitmusChaos 3.0 發佈</a></h3><p>LitmusChaos 3.0 已正式發佈，此版本主要變化如下：</p><ul><li>改進的用户體驗</li><li>混沌基礎設施組織的環境</li><li>用於簡化實驗調整的 Chaos Studio</li><li>彈性探針現在支持即插即用</li><li>支持 MongoDB 高可用性</li></ul><p>發行説明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flitmuschaos%2Flitmus%2Freleases%2Ftag%2F3.0.0%E3%80%82" target="_blank">https://github.com/litmuschaos/litmus/releases/tag/3.0.0。</a></p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cncf.io%2Fblog%2F2023%2F10%2F03%2Fcncf-archives-the-service-mesh-interface-smi-project%2F" target="_blank">服務網格接口（SMI）項目進入歸檔階段</a></h3><p>CNCF TOC（技術監督委員會，Technical Oversight Committee）已投票批准將 SMI（Service Mesh Interface，服務網格接口）項目歸檔。</p><p>SMI 的創建是為了為 Kubernetes 上的服務網格提供標準接口和最常見服務網格使用案例的基本功能集。它於 2020 年 3 月被接受為 CNCF 沙箱項目。</p><p>SMI 是第五個被 CNCF 歸檔的項目。開源項目有其生命週期，項目可能因各種原因而不再活躍。還有一些情況是項目可能不再希望得到 CNCF、維護人員或 TOC 的支持。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linuxfoundation.org%2Fpress%2Fannouncing-openpubkey-project" target="_blank">Linux 基金會、BastionZero 和 Docker 宣佈啓動 OpenPubkey 項目</a></h3><p>Linux 基金會、BastionZero 和 Docker 宣佈 OpenPubkey 作為 Linux 基金會開源項目的啓動。與 OpenPubkey 的啓動同時，BastionZero 宣佈將 OpenPubkey 集成到 Docker 容器簽名中，以通過零信任無密碼身份驗證來保護開源軟件生態系統。</p><p>OpenPubkey 協議是作為 BastionZero 安全基礎設施訪問產品的一部分開發的。OpenPubkey 使用户能夠通過將 OpenID Connect 身份提供者（Identity Provider，IdP）轉換為證書頒發機構（Certificate Authority，CA）來安全準確地將加密密鑰與用户和工作負載綁定。隨着這個集成的推出，Docker 用户可以增強軟件供應鏈安全性。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevclass.com%2F2023%2F10%2F04%2Fdocker-introduces-seems-like-magic-container-debug-tool-and-cloud-driven-build-service%2F" target="_blank">Docker 推出容器調試工具和雲驅動的構建服務</a></h3><p>在 2023 年的 DockerCon 活動上，Docker 推出了名為 Docker Debug 的容器調試工具，推出了下一代雲輔助的 Docker Build 功能，Docker Scout 漏洞掃描工具也正式發佈。</p><p>Docker Debug 解決了在容器中運行應用程序時出現故障時很難跟蹤問題的問題。它是一個容器，包含開發人員所需的調試工具，它會掛載故障容器的文件系統，並提供了更好的用户體驗，幫助開發人員理解問題所在。</p><p>Docker Scout 是一個漏洞掃描工具，可以找出應用程序所使用的庫中存在的已報告漏洞。它與第三方工具 Sysdig 集成，可以在運行時顯示實際使用的代碼，並幫助開發人員優先處理與其應用相關的漏洞。</p><p>下一代 Docker Build 是一個將構建過程從本地轉移到雲端的工具。通過一條命令，開發人員可以將構建過程交給雲端完成，從而加快構建速度。這得益於雲端使用更強大的計算資源以及緩存機制的支持。</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 08 Oct 2023 03:54:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10116369</guid>
-            <link>https://my.oschina.net/u/4197945/blog/10116369</link>
-            <author>
-                <![CDATA[原創]]>
             </author>
         </item>
         <item>
@@ -210,6 +239,21 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>�
             <link>https://my.oschina.net/u/5494143/blog/10110602</link>
             <author>
                 <![CDATA[JetBrains 中國]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源框架 NanUI 作者轉行賣鋼材，項目暫停開發]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>NanUI 作者在國慶節發佈了停更公告，稱該項目將暫停開發，原因是去年被裁員失業後，<strong>他已轉行銷售鋼材</strong>，現在很難騰出時間來開發和維護 NanUI 項目。</p><p>他説道：</p><blockquote><p>為了生存，本人只能花費更多的時間和精力去談單，去銷售，去收款，因此已經很難再騰出時間來開發和維護 NanUI 項目，對此我深感無奈，也希望後面生活和工作穩定後能騰出時間來繼續維護 NanUI。</p></blockquote><p>NanUI 作者表示，他所在公司因疫情於去年（2022 年）初徹底宣佈裁減所有開發崗位，因此他也只能順應大流在 36 歲這個尷尬的年紀失業。</p><p><img height="1285" src="https://static.oschina.net/uploads/space/2023/1009/173727_oVGe_2720166.png" width="1980" referrerpolicy="no-referrer"></p><p><em>via&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FXuanchenLin%2FNanUI%2Fdiscussions%2F367" target="_blank">https://github.com/XuanchenLin/NanUI/discussions/367</a></em></p><blockquote><p>NanUI 界面組件是一個開放源代碼的 .NET / .NET Core 窗體應用程序（WinForms）界面框架。它適用於希望使用 HTML5/CSS3 等前端技術來構建 Windows 窗體應用程序用户界面的 .NET 開發人員。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-060f8d602f0ac9de0bb5953b554b233f62e.png" referrerpolicy="no-referrer"></p><p>NanUI 基於谷歌可嵌入的瀏覽器框架 Chromium Embedded Framework (CEF)，因此用户可以使用各種前端技術 HTML5/CSS3/JavaScript 和流行前端框架 React/Vue/Angular/Blazor 設計和開發 .NET 桌面應用程序的用户界面。</p><p>同時，NanUI 獨創的 JavaScript Bridge 可以方便地實現瀏覽器端與 .NET 之間的通信和數據交換。</p><p>使用 NanUI 界面框架將為傳統的 WinForm 應用程序的用户界面設計和開發工作帶來無限種可能！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 09:50:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261033</guid>
+            <link>https://www.oschina.net/news/261033</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -428,46 +472,32 @@ const CountingComponent = () =&gt; {
         </item>
         <item>
             <title>
-                <![CDATA[Apache Hudi 0.14.0 版本發佈]]>
+                <![CDATA[百度加緊訓練文心大模型 4.0，或將於 10 月 17 日發佈]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>Apache Hudi 0.14.0 現已發佈。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FATf-92UzW5iOGXYODYn0ug" target="_blank">公告</a>指出，該版本標誌着一個重要的里程碑，具有一系列新功能和增強功能。其中包括引入<strong>Record Level Index</strong>、<strong>自動生成記錄鍵</strong>&nbsp;、用於增量讀取的&nbsp;<code>hudi_table_changes</code>函數等等。</p><p>值得注意的是，此版本還包含對&nbsp;<strong>Spark 3.4 的支持</strong>。在 Flink 方面，0.14.0 版本帶來了一些令人興奮的功能，例如<strong>一致哈希索引支持、支持 Flink 1.17 以及支持更新和刪除語句</strong>。此外此版本還升級了 Hudi 表版本，提示用户查閲下面提供的遷移指南。我們鼓勵用户在採用 0.14.0 版本之前查看重大特性、重大變化和行為變更。</p><h1>遷移指南</h1><p>在 0.14.0 版本進行了一些更改，例如從 ".aux" 文件夾中刪除壓縮計劃以及引入新的日誌塊版本。作為此版本的一部分，表版本更新到版本 6。在具有舊錶版本的表上運行版本 0.14.0 的 Hudi 作業時，會觸發自動升級過程以將表升級到版本 6。升級對於每個 Hudi 表都是一次性的，因為升級完成後&nbsp;<code>hoodie.table.version</code>&nbsp;會在屬性文件中更新。此外還包括用於降級的命令行工具，允許用户從表版本 6 降級到 5，或從 Hudi 0.14.0 恢復到 0.14.0 之前的版本。請從 0.14.0 環境使用此工具。有關更多詳細信息，請參閲&nbsp;hudi-cli。</p><blockquote><p>注意：如果從舊版本（0.14.0 之前）遷移，建議按順序檢查每個舊版本的升級説明。</p></blockquote><h1>Bundle 包更新</h1><h3>新 Spark Bundle 包</h3><p>在此版本擴展了支持範圍，包括 Spark 3.4 (hudi-spark3.4-bundle_2.12) 和 Spark 3.0 (hudi-spark3.0-bundle_2.12) 的 Bundle 包。請注意，在 Hudi 0.10.1 版本之後，對 Spark 3.0 的支持已停止，但由於社區的強烈興趣，在此版本中恢復了對 Spark 3.0 的支持。</p><h1>重大變化</h1><h3>Spark SQL INSERT INTO 行為</h3><p>在 0.14.0 版本之前，Spark SQL 中通過 INSERT INTO 攝取的數據遵循 upsert 流程，其中多個版本的記錄將合併為一個版本。但是從 0.14.0 開始更改了 INSERT INTO 的默認行為，默認行為更改為<code>insert</code>流。此更改顯着提高了寫入性能，因為它繞過了索引查找。</p><p>如果使用 preCombine 鍵創建表，則 INSERT INTO 的默認操作仍為&nbsp;<code>upsert</code>。相反如果沒有設置 preCombine 鍵，則 INSERT INTO 的底層寫操作默認為&nbsp;<code>insert</code>。用户可以根據自己的要求顯式設置配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;的值來靈活地覆蓋此行為。此配置的可能值包括&nbsp;<code>insert</code>、<code>bulk_insert</code>&nbsp;和&nbsp;<code>upsert</code>。</p><p>此外在 0.14.0 版本中棄用了兩個相關的舊配置</p><ul><li><p>hoodie.sql.insert.mode</p></li><li><p>hoodie.sql.bulk.insert.enable</p></li></ul><h1>行為變更</h1><h3>使用 Spark SQL Inserts 簡化重複處理</h3><p>如果操作類型配置為 Spark SQL INSERT INTO 流的插入，用户現在可以選擇使用配置設置 hoodie.datasource.insert.dup.policy 強制執行重複策略。此策略確定當正在攝取的傳入記錄已存在於存儲中時採取的操作。此配置的可用值如下：</p><ul><li><p>none：不採取任何特定操作，如果傳入記錄包含重複項，則允許 Hudi 表中存在重複項。</p></li><li><p>drop：傳入寫入中的匹配記錄將被刪除，其餘記錄將被攝取。</p></li><li><p>fail：如果重新攝取相同的記錄，寫入操作將失敗。本質上由鍵生成策略確定的給定記錄只能被攝取到目標表中一次。</p></li></ul><p>通過添加此配置，舊的相關配置&nbsp;<code>hoodie.datasource.write.insert.drop.duplicates</code>&nbsp;現已棄用。當兩者都指定時，新配置將優先於舊配置。如果未提供特定配置，則將採用較新配置的默認值。強烈鼓勵用户遷移到使用這些較新的配置。</p><h3>MOR 表 Compaction</h3><p>對於 Spark 批寫入器（Spark Datasource 和 Spark SQL），默認情況下會自動為 MOR（讀取時合併）表啓用壓縮，除非用户顯式覆蓋此行為。用户可以選擇通過將&nbsp;<code>hoodie.compact.inline</code>設置為&nbsp;<code>false</code>&nbsp;顯式禁用壓縮。如果用户不覆蓋此配置，大約每 5 個增量提交（<code>hoodie.compact.inline.max.delta.commits</code>的默認值）會觸發 MOR 表的壓縮。</p><h3>HoodieDeltaStreamer 更名為 HoodieStreamer</h3><p>從版本 0.14.0 開始將 HoodieDeltaStreamer 重命名為 HoodieStreamer。同時確保了向後兼容性，以便現有的用户作業不受影響。但是在即將發佈的版本中可能會停止對 Deltastreamer 的支持。因此強烈建議用户改用 HoodieStreamer。</p><h3>MERGE INTO JOIN CONDITION</h3><p>從 0.14.0 版本開始，當用户沒有提供明確的規範時，Hudi 能夠自動生成主記錄鍵。此增強功能使&nbsp;<code>MERGE INTO JOIN</code>&nbsp;子句能夠引用 Hudi 表中連接條件的任何數據列，其中主鍵由 Hudi 本身生成。但是在用户配置主記錄鍵的情況下，連接條件仍然需要用户指定的主鍵字段。</p><h1>重大特性</h1><h3>Record Level Index</h3><p>Hudi 版本 0.14.0 引入了新的索引實現 -&nbsp;Record Level Index。記錄級索引通過有效存儲每條記錄的位置並在索引查找操作期間實現快速檢索，顯着增強了大型表的寫入性能。它可以有效地替代 Hudi 中常用的其他全局索引，例如 Global_bloom、Global_Simple 或 Hbase。</p><p>由於在查找過程中從各種數據文件收集索引數據的成本很高，布隆索引和簡單索引對於大型數據集表現出較低的性能。而且，這些索引不保留一對一的記錄鍵來記錄文件路徑映射；相反，他們在查找時通過優化搜索來推斷映射。這些索引所需的每個文件的開銷使得它們對於具有大量文件或記錄的數據集效率較低。</p><p>另一方面，Hbase 索引為每個記錄鍵保存一對一的映射，從而實現隨數據集大小擴展的快速性能。然而，它需要一個單獨的 HBase 集羣來進行維護，這在操作上具有挑戰性且資源密集型，需要專門的專業知識。</p><p>記錄索引結合了 HBase 索引的速度和可擴展性，而沒有其限制和開銷。作為 HUDI 元數據表的一部分，未來寫入和查詢方面的任何性能增強都將自動轉化為記錄索引性能的改進。採用記錄級索引有可能將索引查找性能提高 4 到 10 倍，具體取決於工作負載，即使對於超大規模數據集（例如 1TB）也是如此。</p><p>通過記錄級別索引，可以觀察到大型數據集的顯着性能改進，因為延遲與攝取的數據量成正比。這與其他全局索引形成鮮明對比，其中索引查找時間隨着表大小線性增加。記錄級索引專門設計用於有效處理此類大規模數據的查找，而查找時間不會隨着表大小的增長而線性增加。</p><p>為了利用這種快速的索引的優勢，用户需要啓用兩種配置：</p><ul><li><p>必須啓用&nbsp;<code>hoodie.metadata.record.index.enable</code>&nbsp;才能將記錄級別索引寫入元數據表。</p></li><li><p><code>hoodie.index.type</code>&nbsp;需要設置為&nbsp;<code>RECORD_INDEX</code>&nbsp;以便索引查找利用記錄級別索引。</p></li></ul><h3>支持 Hudi 表自動生成鍵</h3><p>從 Hudi 最初的正式版本開始，主鍵是用户需要為任何 Hudi 表配置的必填字段。從 0.14.0 開始，我們放寬了這一限制。此增強功能解決了社區內的長期需求，其中某些用例不具有主鍵。版本 0.14.0 現在為用户提供了創建 Hudi 表的靈活性，而無需顯式配置主鍵（通過省略配置設置 -&nbsp;<code>hoodie.datasource.write.recordkey.field</code>）。這種情況下 Hudi 將自動生成主鍵。此功能僅適用於新表，不能更改現有表。</p><p>所有 Spark 寫入器都提供此功能，但有一定限制。對於僅追加類型的用例，如下四個寫入器都允許插入和批量插入 - Spark Datasource、Spark SQL、Spark Streaming、Hoodie Streamer。僅使用 Spark SQL MERGE INTO 、 UPDATE 和 DELETE 語句支持更新和刪除。對於 Spark Datasource，僅當 DataFrame 包含 Hudi 的元字段時才支持 UPDATE 和 DELETE。請查看快速入門指南，瞭解有關自動生成鍵的 Hudi 表 CRUD 操作的代碼片段。</p><h3>Spark 3.4 版本支持</h3><p>添加 Spark 3.4 支持， Spark 3.4 的用户可以使用&nbsp;hudi-spark3.4-bundle。Spark 3.2、Spark 3.1、Spark3.0 和 Spark 2.4 將繼續受支持。請檢查遷移指南以獲取 Bundle 包更新。可以瀏覽快速入門指南快速開始使用 Hudi 和 Spark 3.4。</p><h3>查詢端改進</h3><h4>Athena 的元數據表支持</h4><p>用户現在可以與 Athena 無縫地利用 Hudi 的元數據表。文件列表索引通過從維護分區到文件映射的索引檢索信息，消除了對遞歸文件系統調用（如「列表文件」）的需要。事實證明這種方法非常高效，尤其是在處理大量數據集時。使用 Hudi 0.14.0，用户可以在為其 Hudi 表執行 Glue 目錄同步時激活基於元數據表的文件列表。要啓用此功能，用户可以配置&nbsp;<code>hoodie.datasource.meta.sync.glue.metadata_file_listing</code>&nbsp;並在 Glue 同步過程中將其設置為 true。</p><h4>查詢利用 Parquet 布隆過濾器</h4><p>在 Hudi 0.14.0 中，用户現在可以使用原生 Parquet 布隆過濾器，前提是他們的計算引擎支持 Apache Parquet 1.12.0 或更高版本。這種支持涵蓋了數據集的寫入和讀取。Hudi 通過 Hadoop 配置方便使用原生 Parquet 布隆過濾器。用户需要使用代表要應用布隆過濾器的列的特定鍵來設置 Hadoop 配置。例如，&nbsp;<code>parquet.bloom.filter.enabled#rider=true</code>&nbsp;為 rider 列創建布隆過濾器。每當查詢涉及 rider 列上的謂詞時，布隆過濾器就會發揮作用，從而增強讀取性能。</p><h4>多寫入器的增量查詢</h4><p>在多寫入器場景中，由於併發寫入活動，時間線中可能會出現間隙（requested 或 inflight 時刻不是最新時刻）。在執行增量查詢時，這些間隙可能會導致結果不一致。為瞭解決這個問題，Hudi 0.14.0 引入了一個新的配置設置&nbsp;<code>hoodie.read.timeline.holes.resolution.policy</code>，專門用於處理增量查詢中的這些不一致問題。該配置提供了三種可能的策略：</p><ul><li><p>FAIL：這是默認策略，當增量查詢期間發現此類時間線間隙時，會引發異常。</p></li><li><p>BLOCK：在此策略中，增量查詢的結果僅限於時間線中空洞之間的時間範圍。例如，如果在 t0 到 t2 的增量查詢範圍內，在 t1 時刻檢測到間隙，則查詢將僅顯示 t0 到 t1 之間的結果，而不會失敗。</p></li><li><p>USE_TRANSITION_TIME：此策略是實驗性的，涉及在增量查詢期間使用狀態轉換時間，該時間基於時間線中提交元數據文件的文件修改時間。</p></li></ul><h4>Hive 3.x 的 Timestamp 類型支持</h4><p>相當長一段時間以來，Hudi 用户在讀取 Spark 的 Timestamp 類型列以及隨後嘗試使用 Hive 3.x 讀取它們時遇到了挑戰。在 Hudi 0.13.x 中，我們引入了一種解決方法來緩解此問題，0.14.0 版本現在確保 HiveAvroSerializer 與 Hive 3.x 完全兼容以解決此問題。</p><h4>Google BigQuery 同步增強功能</h4><p>在 0.14.0 中，BigQuerySyncTool&nbsp;支持使用清單將表同步到 BigQuery。與傳統方式相比，這預計將具有更好的查詢性能。模式演進由清單方法支持。由於新的 schema 處理改進，不再需要從文件中刪除分區列。要啓用此功能，用户可以將&nbsp;<code>hoodie.gcp.bigquery.sync.use_bq_manifest_file</code>設置為&nbsp;<code>true</code>。</p><h3>Spark 讀取端改進</h3><h4>MOR Bootstrap 表的快照讀取支持</h4><p>在 0.14.0 中，為引導表添加了 MOR 快照讀取支持。默認行為已通過多種方式進行了更改，以匹配非引導 MOR 表的行為。快照讀取現在將成為默認讀取模式。使用&nbsp;<code>hoodie.datasource.query.type=read_optimized</code>&nbsp;進行讀取優化查詢，這是以前的默認行為。此類表的 Hive 同步將導致表名帶有 _ro 和 _rt 後綴，分別表示讀取優化和快照讀取。</p><h4>用於增量讀取的表值函數 hudi_table_changes</h4><p>Hudi 已經提供了使用增量查詢類型獲取自給定提交時間戳以來更改的記錄流的功能。在 Hudi 0.14.0 中，我們添加了一種新的、更簡單的方法，使用名為 hudi_table_changes 的表值函數來獲取 Hudi 數據集的最新狀態或更改流。以下是有關如何使用此函數的語法和一些示例。</p><pre><code>SYNTAX
-hudi_table_changes(table,&nbsp;queryType,&nbsp;beginTime&nbsp;[,&nbsp;endTime]);
---&nbsp;table:&nbsp;table&nbsp;identifier,&nbsp;example:&nbsp;db.tableName,&nbsp;tableName,&nbsp;or&nbsp;path&nbsp;for&nbsp;the&nbsp;table,&nbsp;example:&nbsp;hdfs://path/to/hudiTable.
---&nbsp;queryType:&nbsp;incremental&nbsp;query&nbsp;mode,&nbsp;valid&nbsp;values:&nbsp;latest_state,&nbsp;cdc
-(for&nbsp;cdc&nbsp;query,&nbsp;first&nbsp;enable&nbsp;cdc&nbsp;for&nbsp;the&nbsp;table&nbsp;by&nbsp;setting&nbsp;cdc.enabled=true),
---&nbsp;beginTime:&nbsp;instantTime&nbsp;to&nbsp;begin&nbsp;query&nbsp;from,&nbsp;example:&nbsp;earliest,&nbsp;202305150000,
---&nbsp;endTime:&nbsp;optional&nbsp;instantTime&nbsp;to&nbsp;end&nbsp;query&nbsp;at,&nbsp;example:&nbsp;202305160000,
-
-EXAMPLES
---&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;table&nbsp;name
---&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('db.table',&nbsp;'latest_state',&nbsp;'earliest');
-
---&nbsp;start&nbsp;from&nbsp;earliest,&nbsp;end&nbsp;at&nbsp;202305160000.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('table',&nbsp;'latest_state',&nbsp;'earliest',&nbsp;'202305160000');
-
---&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;path
---&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('path/to/table',&nbsp;'cdc',&nbsp;'earliest');
-
-</code></pre><p>查看快速入門以獲取更多示例。</p><h4>Spark 中新的 MOR 文件格式讀取器</h4><p>基於&nbsp;RFC-72&nbsp;旨在重新設計 Hudi-Spark 集成的提案，我們引入了用於 MOR（讀取合併）表的實驗性文件格式讀取器。與舊文件格式相比，該讀取器預計可將讀取延遲顯着降低 20% 至 40%，特別是對於快照和引導查詢。目標是使延遲更接近 COW（寫入時複製）文件格式的延遲。要利用這種新文件格式，用户需要設置&nbsp;<code>hoodie.datasource.read.use.new.parquet.file.format=true</code>。值得注意的是，此功能仍處於實驗階段，並且存在一些限制。有關更多詳細信息以及有興趣做出貢獻，請參閲&nbsp;HUDI-6568。</p><h3>Spark 寫入端改進</h3><h4>Bulk_Insert 和行寫入器增強</h4><p>0.14.0 版本支持在執行 INSERT OVERWRITE TABLE 和 INSERT OVERWRITE PARTITION 等 SQL 操作時使用批量插入操作。要啓用批量插入，請將配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;設置為值<code>bulk_insert</code>。與插入操作相比，批量插入具有更好的寫入性能。另外簡單存儲桶索引也支持了行寫入器。</p><h3>Hoodie DeltaStreamer 增強</h3><h4>動態配置更新</h4><p>當 Hoodie Streamer 以連續模式運行時，可以在每次同步調用之前刷新/更新屬性。有興趣的用户可以實現&nbsp;<code>org.apache.hudi.utilities.deltastreamer.ConfigurationHotUpdateStrategy</code>&nbsp;來利用它。</p><h4>HoodieStreamer 基於 SQL 文件的源</h4><p>HoodieStreamer 中添加了一個新源 -&nbsp;SqlFileBasedSource，旨在促進一次性回填場景。</p><h3>Flink 增強功能</h3><p>以下是 0.14.0 版本中基於 Flink Engine 的增強功能。</p><h4>一致的哈希索引支持</h4><p>與靜態哈希索引（BUCKET 索引）相比，一致性哈希索引為寫入者提供了數據桶的動態可擴展性。要利用此功能，請將選項<code>index.type</code>配置為 BUCKET 並將<code>hoodie.index.bucket.engine</code>設置為<code>CONSISTENT_HASHING</code>。</p><p>啓用一致性哈希索引時，在寫入器中激活異步 Clustering 調度非常重要。Clustering 計劃應通過離線作業執行。在此過程中，寫入器將在 Clustering Pending 時對新舊數據桶執行雙重寫入。雖然雙寫不會影響正確性，但強烈建議儘快執行 Clustering。</p><h4>用於流式讀取的動態分區修剪</h4><p>在 0.14.0 之前，當查詢具有恆定日期時間過濾的謂詞時，Flink 流式讀取器無法正確修剪日期時間分區。自此版本以來，Flink 流式查詢已得到修復，以支持任何過濾謂詞模式，包括但不限於日期時間過濾。</p><h4>簡單桶索引表查詢加速（帶索引字段）</h4><p>對於一個簡單的桶索引表，如果查詢對索引鍵字段採用等式過濾謂詞，Flink 引擎會優化規劃，只包含來自非常特定數據桶的源數據文件；此類查詢預計平均性能將提高近&nbsp;<code>hoodie.bucket.index.num.buckets</code>&nbsp;倍。</p><h4>Flink 1.17 支持</h4><p>Flink 1.17 支持新的編譯 maven 配置文件 flink1.17，在 Flink Hudi Bundle 包 jar 的編譯 cmd 中添加配置文件 -Pflink1.17 以啓用與 Flink 1.17 的集成。</p><h4>Flink 更新刪除語句</h4><p>自此版本以來，UPDATE 和 DELETE 語句已集成用於批量查詢。當前只有定義主鍵的表可以正確處理該語句。</p><pre><code>UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;...&nbsp;WHERE&nbsp;...
-DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;...
-
-EXAMPLES
---&nbsp;update&nbsp;the&nbsp;specific&nbsp;records&nbsp;with&nbsp;constant&nbsp;age
-UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;age=19&nbsp;WHERE&nbsp;UUID&nbsp;in&nbsp;('id1',&nbsp;'id2');
---&nbsp;delete&nbsp;all&nbsp;the&nbsp;records&nbsp;that&nbsp;with&nbsp;age&nbsp;greater&nbsp;than&nbsp;23
-DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
-
-</code></pre><h3>Java 增強功能</h3><p>Java 引擎已擴展支持許多寫操作，使其與其他引擎保持一致。例如 Java Engine 0.14.0 中添加了壓縮、Clustering 和元數據表支持。</p><h3>已知回退</h3><p>在 Hudi 0.14.0 中，當查詢使用 ComplexKeyGenerator 或 CustomKeyGenerator 的表時，分區值以字符串形式返回。請注意，存儲上沒有類型更改，即分區字段以存儲上的用户定義類型寫入。這對於上述鍵生成器來説是一個重大變化，將在 0.14.1 中修復。</p></div>
+                <![CDATA[<div class="content"><p>據科創板日報報道，百度正在加緊訓練文心大模型 4.0，或將在 10 月 17 日百度世界大會上發佈。</p><p>據消息人士透露，文心大模型 4.0 的進展比預期快很多，將是基礎模型的大升級，<strong>理解、生成、邏輯、記憶</strong>四大核心能力都將提升，尤其在邏輯推理、代碼和數學等方面提升最明顯。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-741c4810e55393b362a8f9a60b8c98a65dd.png" referrerpolicy="no-referrer"></p><p>今年 8 月，<a href="https://www.oschina.net/news/256156" target="_blank">百度宣佈文心一言率先向全社會全面開放</a>，所有用户都能下載文心一言 App 或在官網體驗。</p><hr><p>延伸閲讀：<a href="https://www.oschina.net/news/256949">挑戰 ChatGPT，國產有這 8 款 AI 大模型產品</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 07 Oct 2023 03:51:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</guid>
-            <link>https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</link>
+            <pubDate>Sat, 07 Oct 2023 04:11:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260957</guid>
+            <link>https://www.oschina.net/news/260957</link>
             <author>
-                <![CDATA[來源: OSCHINA]]>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[雲原生週刊：Docker 推出 Docker Debug]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>開源項目推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fschemahero%2Fschemahero" target="_blank">SchemaHero</a></h3><p>SchemaHero 是一個 Kubernetes Operator，用於各種數據庫的聲明式架構管理。SchemaHero 有以下目標：</p><ul><li>數據庫表模式可以表示為可以部署到集羣的 Kubernetes 資源。</li><li>可以編輯數據庫模式並將其部署到集羣。SchemaHero 將計算所需的更改（<code>ALTER TABLE</code> 語句）並應用它。</li><li>SchemaHero 可以管理部署到集羣或集羣外部的數據庫（RDS、Google CloudSQL 等）。</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fproject-copacetic%2Fcopacetic" target="_blank">copacetic</a></h3><p>copacetic 是一款基於 buildkit 並用 Go 編寫的 CLI 工具，可用於根據 Trivy 等流行工具的漏洞掃描結果直接修補容器鏡像。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubernetes-sigs%2Fkueue" target="_blank">Kueue</a></h3><p>Kueue 是一套用於作業隊列的 API 和控制器。它是作業級管理器，可決定何時允許作業啓動（如創建 pod），何時停止作業（如刪除活動 pod）。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Foslabs-beta%2Fspyglass" target="_blank">Spyglass</a></h3><p>Spyglass 是一款開源工具，允許用户在一個集中位置監控 Kubernetes 集羣指標並跟蹤集羣部署成本。</p><h2>文章推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.devops.dev%2Fsurviving-2400-hours-of-multi-tenancy-what-i-know-now-9c48694aa75d" target="_blank">多租户 2400 小時的生存之道： 我現在知道了什麼</a></h3><p>這篇文章是關於作者在處理多租户環境下的經驗和教訓的分享。作者介紹了他們所面臨的挑戰：由於項目請求的激增，現有的基礎設施無法滿足存儲需求。為瞭解決這個問題，他們開始尋找一個強大的多租户解決方案。</p><p>作者詳細介紹了他們的多租户方法和使用 vcluster 的經驗。他們採用了 Virtual-Kubernetes-as-a-Service (VKaaS) 的模型，通過在共享集羣中運行 vcluster 來為新項目提供無縫的啓動體驗。他們為每個團隊分配了一個獨立的 Argo CD 實例，以保持單一集羣使用的標準。他們努力提供儘可能多的自治權給團隊，同時保持多租户架構的完整性。</p><p>文章還介紹了他們的工作流程和實施策略。他們利用節點池來區分共享工作負載和項目相關的非關鍵應用程序，並詳細解釋了他們在共享集羣中的工作方式。他們還強調了災難恢復方案對於多租户方法的重要性，並提供了一些實施策略的示例。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devopsschool.com%2Fblog%2Fkubernetes-tutorials-what-is-preemption-in-kubernetes-with-example%2F" target="_blank">Kubernetes 教程：Kubernetes 中的 Preemption（搶佔）機制</a></h3><p>這篇文章是關於 Kubernetes 中的 Preemption（搶佔）機制的介紹和示例。Preemption 是一種允許高優先級 Pod 搶佔低優先級 Pod 的機制，當資源不足以調度高優先級 Pod 時使用。文章首先介紹了 PriorityClass，它是一個非命名空間對象，定義了優先級類名稱與優先級整數值的映射關係。數值越高，優先級越高。</p><p>文章還介紹了兩個內置的優先級類：system-cluster-critical 和 system-node-critical，它們分別具有值 2000001000 和 2000000000，確保這些 Pod 始終被首先調度，並且永遠不會被搶佔。文章通過一個示例説明瞭 Preemption 在 Kubernetes 中的工作原理。文章還提供瞭如何在 Pod 中設置 Preemption 策略的示例。</p><h2>雲原生動態</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cncf.io%2Fblog%2F2023%2F10%2F05%2Funveiling-litmuschaos-3-0-embracing-evolution-in-chaos-engineering%2F" target="_blank">LitmusChaos 3.0 發佈</a></h3><p>LitmusChaos 3.0 已正式發佈，此版本主要變化如下：</p><ul><li>改進的用户體驗</li><li>混沌基礎設施組織的環境</li><li>用於簡化實驗調整的 Chaos Studio</li><li>彈性探針現在支持即插即用</li><li>支持 MongoDB 高可用性</li></ul><p>發行説明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flitmuschaos%2Flitmus%2Freleases%2Ftag%2F3.0.0%E3%80%82" target="_blank">https://github.com/litmuschaos/litmus/releases/tag/3.0.0。</a></p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cncf.io%2Fblog%2F2023%2F10%2F03%2Fcncf-archives-the-service-mesh-interface-smi-project%2F" target="_blank">服務網格接口（SMI）項目進入歸檔階段</a></h3><p>CNCF TOC（技術監督委員會，Technical Oversight Committee）已投票批准將 SMI（Service Mesh Interface，服務網格接口）項目歸檔。</p><p>SMI 的創建是為了為 Kubernetes 上的服務網格提供標準接口和最常見服務網格使用案例的基本功能集。它於 2020 年 3 月被接受為 CNCF 沙箱項目。</p><p>SMI 是第五個被 CNCF 歸檔的項目。開源項目有其生命週期，項目可能因各種原因而不再活躍。還有一些情況是項目可能不再希望得到 CNCF、維護人員或 TOC 的支持。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linuxfoundation.org%2Fpress%2Fannouncing-openpubkey-project" target="_blank">Linux 基金會、BastionZero 和 Docker 宣佈啓動 OpenPubkey 項目</a></h3><p>Linux 基金會、BastionZero 和 Docker 宣佈 OpenPubkey 作為 Linux 基金會開源項目的啓動。與 OpenPubkey 的啓動同時，BastionZero 宣佈將 OpenPubkey 集成到 Docker 容器簽名中，以通過零信任無密碼身份驗證來保護開源軟件生態系統。</p><p>OpenPubkey 協議是作為 BastionZero 安全基礎設施訪問產品的一部分開發的。OpenPubkey 使用户能夠通過將 OpenID Connect 身份提供者（Identity Provider，IdP）轉換為證書頒發機構（Certificate Authority，CA）來安全準確地將加密密鑰與用户和工作負載綁定。隨着這個集成的推出，Docker 用户可以增強軟件供應鏈安全性。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevclass.com%2F2023%2F10%2F04%2Fdocker-introduces-seems-like-magic-container-debug-tool-and-cloud-driven-build-service%2F" target="_blank">Docker 推出容器調試工具和雲驅動的構建服務</a></h3><p>在 2023 年的 DockerCon 活動上，Docker 推出了名為 Docker Debug 的容器調試工具，推出了下一代雲輔助的 Docker Build 功能，Docker Scout 漏洞掃描工具也正式發佈。</p><p>Docker Debug 解決了在容器中運行應用程序時出現故障時很難跟蹤問題的問題。它是一個容器，包含開發人員所需的調試工具，它會掛載故障容器的文件系統，並提供了更好的用户體驗，幫助開發人員理解問題所在。</p><p>Docker Scout 是一個漏洞掃描工具，可以找出應用程序所使用的庫中存在的已報告漏洞。它與第三方工具 Sysdig 集成，可以在運行時顯示實際使用的代碼，並幫助開發人員優先處理與其應用相關的漏洞。</p><p>下一代 Docker Build 是一個將構建過程從本地轉移到雲端的工具。通過一條命令，開發人員可以將構建過程交給雲端完成，從而加快構建速度。這得益於雲端使用更強大的計算資源以及緩存機制的支持。</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 03:54:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10116369</guid>
+            <link>https://my.oschina.net/u/4197945/blog/10116369</link>
+            <author>
+                <![CDATA[原創]]>
             </author>
         </item>
         <item>
@@ -496,36 +526,6 @@ DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
             <pubDate>Fri, 06 Oct 2023 08:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260847/uk-ai-chatbot-kill-queen</guid>
             <link>https://www.oschina.net/news/260847/uk-ai-chatbot-kill-queen</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Go 1.21.2 & 1.20.9 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Go 近日發佈了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>兩個小版本。</p><p>Go 1.21.2 是 1.21 的第 2 個安全補丁，主要涉及一個安全更新：</p><ul><li><strong>cmd/go：line 指令允許在構建期間任意執行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根據 issue 的描述</a>，"//line" 指令可用於繞過對 "//go：cgo_" 指令的限制，允許在兼容期間傳遞阻塞的鏈接器和編譯器標誌。這可能導致在運行"go build"時意外執行任意代碼。</p><p>line 指令需要指令所在文件的絕對路徑，這使得解決此問題變得更加複雜。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>詳情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 08:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
-            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Debian 12.2 & 11.8 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Debian 近日為兩個分支發佈了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。兩個版本都是常規性更新，主要是修復錯誤和安全問題。</p><p>Debian 12.2 是 12 系列的第 2 個維護更新，修復了安全漏洞和嚴重問題。</p><ul><li>引入微碼 (microcode) 更新，包含針對 AMD Zen4 處理器中 "AMD Inception" 的修復</li><li><p>修復與 Python 3.11 的兼容性問題</p></li><li><p>修復解析 JPEG 附件時出現崩潰的問題</p></li><li><p>修復遠程代碼執行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">詳情</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 07:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
-            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
