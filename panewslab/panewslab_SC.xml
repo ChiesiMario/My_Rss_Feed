@@ -16,8 +16,31 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 08 Oct 2023 22:16:04 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Oct 2023 00:18:19 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[以太坊原生 LST 设计两层质押：Lido 们的最强杀手？]]>
+            </title>
+            <description>
+                <![CDATA[<blockquote>将质押的 ETH 分为两层，用户委托的 ETH 没有削减风险，实现「以太坊无风险利率」</blockquote><figure><a href="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4c017763-df61-4213-8836-f2ea314bfdae_810x345.png" target="_blank" rel="nofollow" data-component-name="Image2ToDOM"><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com/panews/2023/10/08/images/10Kq1gRb6D.png" alt="以太坊原生 LST 设计两层质押：Lido 们的最强杀手？" width="810" height="345" referrerpolicy="no-referrer"></p></a></figure><p>作者：0XNATALIE</p><p>不久前，RocketPool、StakeWise、Stader Labs 等 5 家质押服务商联合签署了一份约束提案，承诺将验证者份额限制在 22% 以下，而市场份额占比高达 32% 的龙头协议 Lido Finance 并未对此表态。以太坊社区对于 Lido 在流动质押市场不断扩张的影响力表示担忧，社区对此批判的声音日益高涨。那么能否对以太坊协议层进行改进直接进行流动性质押，从而消除应用所占市场份额过大对以太坊产生的中心化威胁呢？</p><p><a href="https://notes.ethereum.org/@mikeneuder/goldilocks" rel="nofollow">Two-tiered staking</a>想法最初由以太坊基金会研究员 Dankrad 在 2023 年 4 月提出的。在经过讨论后，以太坊基金会研究员<a href="https://twitter.com/mikeneuder" rel="nofollow">mike</a>对其进行了进一步拓展和详述。Two-tiered staking 机制将质押的 ETH 分为两层，节点运营商债券（Node Operator Bonds，C1）与委托质押（Delegated Stake，C2），类似分级基金。C1 仍然可能面临削减风险，C2 则不会。当今的 LST 生态系统依赖于用户对节点操作者的信任，这样做的主要目的是<strong>减少普通用户在选择验证者时需要承担的削减风险以及提高资本效率。</strong></p><h3>Two-tiered staking 设计</h3><p id="§two-tiered-staking-设计"></p><ul><li><p>节点运营商债券（C1）： C1 的持有者是节点运营商，他们提供网络服务并维护网络的安全性。这些债券是可削减的，当节点运营商违反了网络规则质押资金可能会被罚没。</p></li><li><p>委托代币（C2）：C2 是委托者给节点运营商的 ETH。与 C1 不同的是，这部分存入的 ETH 不可削减，即使节点运营商的质押资金被削减，委托者的资金也不会受到影响。</p></li><li><p>委托比例（g）：每个 C1 有资格获得 g 个 C2 的委托。这个参数确保了可削减资金（C1）与不可削减资金（C2）之间的最大比例。</p></li><li><p>r1（节点操作者的利率）： r1 是节点运营商所获得的利率，这个利率通常会比 r2 高，以弥补节点操作者的运营成本和承担削减的风险。节点运营商需要获得足够的奖励来鼓励他们参与以太坊网络的验证。</p></li><li><p>r2（委托者的利率）： r2 是委托者所获得的利率，用于表示他们委托的质押所获得的奖励。这个利率通常较低，因为委托者没有削减的风险。<strong>r2 被认为是一种以太坊的「无风险利率」</strong>，可以通过简单地质押来获得这个利率，而无需承担风险。</p></li><li><p>LST：每单位 C2 都会生成一个对应的本地流动性质押代币。这些 LST 是每个节点运营商特有的，并通过与他们的委托来铸造。只有不可削减的 ETH 才能铸造 LST。</p></li></ul><p>这两个利率是该设计的关键组成部分，如果 r1 设定得太高，那么成为节点运营者的奖励超过委托的奖励，可能会导致更多的人选择成为节点运营者而不去委托，或者出现像 Lido 这样基于信任假设的 LST 层，那么 Two-tiered staking 模型也失去了本来的意义。如果 r1 设定得太低，那么可能不会有足够的激励让人们成为节点运营者，节点运营的利润被压缩，只有高效、大规模的运营商才能生存，导致节点中心化。</p><h3>Two-tiered staking 模型特点和潜在问题</h3><p id="§two-tiered-staking-模型特点和潜在问题"></p><p>在这个模型中，每个单位 C1 与一定数量（系数为 g）的 C2 相关联。通常情况下，C1 可以获得更高的利息 r1，以弥补运营节点的成本和持有非流动性质押的机会成本，<strong>共识层的安全性仅依赖于 C1 ，C1 必须通过激活和退出队列。而 C2 可以灵活重新委托。</strong></p><p>举个例子，有两个委托人 Delegator 1 和 Delegator 2 和两个节点运营商 Node Operator A 和 Node Operator B。每个节点运营商都会提供 1 ETH 债券来获得授权资格，这些债券是有利率限制和可削减的。 下图红蓝虚线代表四位参与者各自赚取的利息。委托人：委托质押*r2 = 利息，节点运营商：（委托质押+债券）*r1 = 利息。 节点运营商 A 的 g 为 19，意味着委托人 1 将 19 个 ETH 委托给节点运营商 A，A 提供 1 ETH 债券来获得授权资格。委托人 1 获得的利息为 19*r2，节点运营商 A 获得的利息为 20*r1。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com/panews/2023/10/08/images/oIE1UmMmJb.png" alt="以太坊原生 LST 设计两层质押：Lido 们的最强杀手？" width="1456" height="675" referrerpolicy="no-referrer"></p><figure><a href="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F55bf2444-7aa3-4505-84ba-6e9dceec4a3a_1919x890.png" target="_blank" rel="nofollow" data-component-name="Image2ToDOM"></a></figure><p>Two-tiered Staking 通过将质押分为两个层次<strong>提高了资本效率</strong>，使得更多的 ETH 可以用于委托，从而提高流动性。延续上述例子，节点运营商 A 的 C1=1，C2=19（抵押率为 1:19，杠杆率是 19 倍），意味着 20 个 ETH 中 19 个 ETH 在流动，资本效率 95%。节点运营商 B 的 C1=1，C2=17（抵押率为 1:17，杠杆率是 17 倍），意味着 18 个 ETH 中有 17 个 ETH 在流动，资本效率 94.4%。相比之下，A 的资本效率高但同时风险也高，因为更大比例的 ETH 用于委托，相对的小比例 ETH 用于削减。</p><p>通过不同的利率和奖励机制，此机制试图鼓励更多的人参与节点运营，提高网络的去中心化程度。同时也引发了由于模型中的一部分质押资产不再面临削减的风险，攻击者可能会认为攻击网络的成本较低的问题。如果大规模攻击发生，攻击者可能只需攻击可削减的部分，而不必攻击整个网络，这降低了理论上的经济安全性。</p><p>此外，提案还提出了一些开放性问题，社区对于这些问题的讨论有助于研究人员深入探讨新模型如何与现有的区块链生态系统相互作用。我个人比较感兴趣的问题是有没有一种动态的方式来设定利率以及 LST 是否会在市场上形成垄断或寡头市场，如何确保多样性和竞争，期待后续社区更多的讨论。</p>]]>
+            </description>
+            <pubDate>Mon, 09 Oct 2023 00:06:03 GMT</pubDate>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/w81emqi9.html</guid>
+            <link>https://panewslab.com/zh/articledetails/w81emqi9.html</link>
+            <author>
+                <![CDATA[ChainFeeds]]>
+            </author>
+            <category>深度</category>
+            <category>流动性质押</category>
+            <category>Lido</category>
+            <category>共识</category>
+            <category>区块链</category>
+            <category>ETH</category>
+            <category>Staking</category>
+            <category>去中心化</category>
+            <category>以太坊</category>
+        </item>
         <item>
             <title>
                 <![CDATA[一周预告 | 中国移动咪咕首款 NFT 将在 Opensea 平台发售；Aptos（APT）将解锁价值超 2000 万美元的代币]]>
@@ -417,26 +440,6 @@
             <category>CC0</category>
             <category>以太坊</category>
             <category>加密艺术</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[一文搞懂 SBF 案开庭第一周发生了什么？]]>
-            </title>
-            <description>
-                <![CDATA[<blockquote>开庭第一周 SBF 就面临四面楚歌的境地，几乎所有的证词和舆论均对其不利，SBF 还能坚持多久？本文汇总了迄今为止审判的主要亮点和细节。</blockquote><p align="left">作者：Daniel Kuhn,<a href="https://www.coindesk.com/consensus-magazine/2023/10/06/what-happened-during-sam-bankman-frieds-first-week-in-court/?utm_medium=referral&amp;utm_source=rss&amp;utm_campaign=headlines" target="_blank" rel="nofollow">CoinDesk</a></p><p align="left">编译：Felix, PANews</p><p align="left">市场普遍的共识似乎表明，SBF（Sam Bankman-Fried）审判的头几天对他不利。</p><p align="left">美国司法部 (DOJ) 检察官正在证实，SBF 深度参与了一项欺骗客户和投资者的长期计划，这给 SBF 的法律辩护增加了困难。虽然 SBF 名义是公司负责人，但并没有注意到他的交易所 FTX 和对冲基金 Alameda Research 正在发生的腐败。</p><p align="left">在这场备受关注的审判中，SBF 始终面临着一场艰苦的战斗。FTX 现任 CEO 是安然公司破产负责人 John Jay Ray III，在 Ray 的指导下 FTX 发布文件，对 SBF 提出指控，让曾深受加密人士喜爱的 SBF 开启了「道歉之旅」，彻底改变了公众对其看法。</p><p align="left">Cohen &amp; Gresser 律师事务所的律师在法庭上为 SBF 进行的辩护，似乎并没有多大效果。地区法官 Lewis Kaplan 显然对 SBF 的辩护律师感到恼火。一些旁观者表示，在一些问询中，辩护律师 Chris Everdell 提出的问题「80%」被驳回。事实上，检察官对误导性问题的驳回已经司空见惯。</p><p align="left">但目前审判还处于早期阶段，审判时间可能持续六周。目前尚不清楚换了新发型的 SBF 是否会出庭作证。正在关注此案的 Bryan Cave Leighton Paisner LLP 合伙人 Renato Mariotti 以及似乎大多数律师都表示，这充其量只是一场赌博，而且可能是灾难性的。FTX 联合创始人、SBF 的老朋友 Gary Wang 已经承认犯有欺诈罪，并提到了 FTX 为 Alameda 提供的「特权」，即允许 Alameda 无限提取资金。虽然前 FTX 开发人员 Adam Yedidia 表示，他在得知 FTX「欺骗」客户的计划后于 2022 年 11 月辞职，但这一要点之前已从记录中被删除。</p><p align="left">以下是迄今为止审判的主要亮点和细节，以及法庭外发生的事件，比如《大空头》作者 Michael Lewis 在其新书《Going Infinite》中关于 SBF 的爆料。</p><ul type="disc"><li>FTX 联合创始人 Gary Wang 在 10 月 6 日（北京时间）出庭作证表示，他是美国司法部的第四位证人。他承认，FTX 给了 SBF 的对冲基金 Alameda Research「特权」。Alameda 有很大的信用额度，可以在 FTX 平台上更快地执行订单，并且可以无限提取资金。Gary Wang 表示，Alameda Research 被允许保持负余额。当 FTX 崩溃时，Alameda 已经从平台上提取了 80 亿美元，并从其信贷额度上提取了 650 亿美元。Gary Wang 还作证表示，FTX 和 Alameda 的高管，包括 Caroline Ellison 和 Nishad Singh，故意犯下电信欺诈、证券欺诈和大宗商品欺诈。</li><li>风投公司 Paradigm 联合创始人 Matt Huang 在 SBF 审判期间表示，已将其对 FTX 的 2.78 亿美元投资「标记」为「零」 。Matt Huang 描述了 Paradigm 两次向 FTX 总共投资约 2.78 亿美元的过程。Matt Huang 表示，FTX 早期市场份额的快速增长让他感到兴奋，但他对 FTX 缺乏正式的治理结构甚至董事会感到担忧。而 SBF 曾向其表示 Alameda Research 在 FTX 没有优惠待遇。</li><li>根据 FTX 前高级工程师 Adam Yedidia 的证词，Adam Yedidia 曾于 2022 年 6 月与 SBF 会面并向 SBF 询问 FTX 状况，SBF 称「去年我们是刀枪不入的，但今年我们不是。可能需要六个月到三年的时间才能纠正这一问题」。后来，SBF 还向 Adam Yedidia 表示，SBF 曾试图从阿联酋筹集资金以增强交易平台的现金储备，但并未成功。</li><li>随着美国检察官继续追回资产，SBF 拥有的两架价值数百万美元豪华飞机（但据报道他从未使用过）可能会被没收。在 10 月 4 日晚间提交的文件中，美国司法部发布的没收法案将两架飞机（Bombardier Global 和 Embraer Legacy）列为其拟没收的 SBF 资产。</li><li>根据 Michael Lewis 的新书《Going Infinite》，在 2021 年 SRM 代币大幅上涨，创下 13.72 美元的历史新高后，SBF 改变了 SRM 代币的锁仓期，因为 SBF 担心员工会变得太富有而无法专心工作。在 Serum 合同的细则中，SBF 为自己保留了延长 Serum 锁仓时间的权利，将所有员工的 Serum 代币锁定了七年。</li><li>SBF 审判的 12 名陪审员已确定，另外还有 6 名候补陪审员。他们最终决定 SBF 是否犯有欺诈行为。通过整个星期观察，记者和旁观者都表示陪审团有时似乎对审判感到无聊，据报道至少有一名陪审员打瞌睡。<em>（12 名陪审员名单如下：①39 岁女医师助理，怀孕 10 周，医学背景，丈夫做网络开发；②33 岁的女护士，独自住在纽约州韦斯特切斯特；③40 岁女性社会工作者，目前失业；④53 岁女性，杜克大学毕业生，离婚，全职在家，是两个孩子的母亲，此前曾在非营利组织管理筹款活动；⑤59 岁男性，已婚，有 3 个孩子，其中一个孩子在银行工作；⑥50 岁的 Metro North 女售票员，五个孩子的母亲，其中三个孩子住在家里，两个孩子在大学；⑦47 岁的女性高中图书管理员，单身，与她的猫、姐姐和生病的母亲住在一起；⑧65 岁女性退休狱警，三个孩子的母亲；⑨61 岁美国邮政局男性员工，无妻无子；⑩43 岁乌克兰女性，在彭博社从事 IT 工作，来美 15 年，已离婚，有两个孩子；</em><em>⑪</em><em>55</em><em>岁的女性特殊教育教师，原来自百慕大银行，曾在滑铁卢大学读本科，并在纽约大学和西顿霍尔大学获得硕士学</em>位<em>；</em><em>⑫</em><em>69</em><em>岁男性，香港退休投资银行家，曾就读于莱斯大学和斯坦福大学，有妻无子，确诊患有非霍奇金淋巴瘤）</em></li><li>在开庭陈述中，美国检察官称 SBF 的加密帝国是一座「建立在谎言之上」的「纸牌屋」。在审判过程中，撒谎已经成为屡屡发生的事情，FTX 联合创始人 Gary Wang 也表示，SBF 在 Alameda 增加债务和杠杆的能力方面「撒了谎」，使 FTX 客户资金面临风险。</li><li>SBF 的辩护律师在审判期间认为 SBF 的行为是出于「善意」，律师致力于证明商业错误---即使是像挪用 80 亿美元这样的巨大错误---并不一定是犯罪。SBF 企业发展太快并急剧崩溃并非是 SBF 的过错。律师将部分责任归咎于 Caroline Ellison，并表示她未能采取保障措施。Ellison 已经认罪，或将于下周二 SBF 审判中出庭作证</li><li>美国检察官 10 月 4 日重申，现有的法律框架足以指控 SBF 犯有与欺诈相关的违法行为，并驳回了 SBF 此前的说辞，即「明显缺乏相关法律或指导，直接关系到涉嫌使用客户存款是否构成挪用，而并非被允许的商业行为」。</li><li>根据 Michael Lewis 的新书《Going Infinite》中的说辞，Alameda Research 在第一轮融资中筹集的 1.7 亿美元几乎全部亏损，这笔资金主要由「有效的利他主义社区」支持。除了在美国购买廉价比特币并在日本出售以获取利润的套利策略之外，其高频交易策略也存在问题，不过最初几个月就损失了数百万美元，有一个月每天损失超过 50 万美元，而一些交易基金由于资金管理不善而「干脆消失了」。</li><li>SBF 起诉他的保险公司 CNA，称其未能支付与针对欺诈指控进行辩护相关的法律费用。SBF 的法律诉讼提到了与 FTX 有关的十几起民事和监管诉讼，这表明法律费用正在不断增加。</li><li>FTX 前发言人 Kevin O'Leary（加拿大著名商人）表示，随着加密行业转向接受监管，「加密牛仔」时代已经结束。据《Going Infinite》书中的说法，FTX 向这位加拿大著名商人支付了 1570 万美元的报酬，购得了「20 小时服务、20 个社交帖子、一顿虚拟午餐和 50 个签名」。但并非所有 FTX 高管都认同这笔交易的价值。SBF 却表示粉丝会听取财务建议。因为投资是一种社交，虽毫无意义，但事实就是如此。据书中称，SBF 还试图聘请 CNBC 主持人 Jim Cramer。</li></ul>]]>
-            </description>
-            <pubDate>Sat, 07 Oct 2023 08:54:08 GMT</pubDate>
-            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/u9j2j30p.html</guid>
-            <link>https://panewslab.com/zh/articledetails/u9j2j30p.html</link>
-            <author>
-                <![CDATA[Felix]]>
-            </author>
-            <category>深度</category>
-            <category>PA 原创</category>
-            <category>法律</category>
-            <category>交易所</category>
-            <category>FTX</category>
-            <category>监管</category>
         </item>
     </channel>
 </rss>
