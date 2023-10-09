@@ -16,8 +16,45 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 09 Oct 2023 12:24:30 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Oct 2023 14:29:00 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[TypeScript 5.3 Beta]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>TypeScript 5.3 已发布 Beta 测试版。</p><p><strong>主要变化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes" target="_blank">import attributes</a> 提案的最近更新</p></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>检查对实例字段的<code>super</code>属性访问</p></li><li><p>针对类型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳过 JSDoc 解析以进行优化</p></li><li><p>合并 <code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes" target="_blank">import attributes</a></u></strong></p><p>import attributes 的一个用例是向运行时提供有关模块预期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
+// not a runnable/malicious JavaScript file with a `.json` extension.
+import obj from "./something.json" with { type: "json" };</code></pre><p>TypeScript 不会检查这些属性的内容，因为它们是特定于主机的，因此不会对它们进行检查，只是让浏览器和运行时处理它们（可能会出错）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
+// But your browser? Probably not.
+import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>动态 import() 调用也可以通过第二个参数使用 import 属性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
+    with: { type: "json" }
+});</code></pre><p>第二个参数的预期类型由一个名为<code>ImportCallOptions</code>的类型定义，默认情况下，该类型只期望调用一个属性<code>with</code>。</p><p>请注意，导入属性是从早期的 "导入断言"（import assertions）提案演变而来的，该提案已在 TypeScript 4.5 中实现。最明显的区别是使用了<code>with</code>关键字而非<code>assert</code>关键字。但不太明显的区别是，运行时现在可以自由使用属性来指导导入路径的解析和解释，而导入断言只能在加载模块后断言某些特性。</p><p>随着时间的推移，TypeScript 将淘汰旧的导入断言语法，转而使用建议的导入属性语法。使用 assert 的现有代码应迁移到 with 关键字。需要导入属性的新代码应只使用<code>with</code>关键字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根据<code>switch (true)</code>中每个<code>case</code>子句的条件执行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
+    switch (true) {
+        case typeof x === "string":
+            // 'x' is a 'string' here
+            console.log(x.toUpperCase());
+            // falls through...
+
+        case Array.isArray(x):
+            // 'x' is a 'string | any[]' here.
+            console.log(x.length);
+            // falls through...
+
+        default:
+          // 'x' is 'unknown' here.
+          // ...
+    }
+}</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3-beta%2F" target="_blank">详情查看发布公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 09 Oct 2023 08:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261022/typescript-5-3-beta</guid>
+            <link>https://www.oschina.net/news/261022/typescript-5-3-beta</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[🍃 layui-vue v2.8.0 发布，一个 Vue 3 UI 框架]]>
@@ -382,6 +419,36 @@ DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
         </item>
         <item>
             <title>
+                <![CDATA[Go 1.21.2 & 1.20.9 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Go 近日发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>两个小版本。</p><p>Go 1.21.2 是 1.21 的第 2 个安全补丁，主要涉及一个安全更新：</p><ul><li><strong>cmd/go：line 指令允许在构建期间任意执行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根据 issue 的描述</a>，"//line" 指令可用于绕过对 "//go：cgo_" 指令的限制，允许在兼容期间传递阻塞的链接器和编译器标志。这可能导致在运行"go build"时意外执行任意代码。</p><p>line 指令需要指令所在文件的绝对路径，这使得解决此问题变得更加复杂。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>详情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 08:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
+            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Debian 12.2 & 11.8 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Debian 近日为两个分支发布了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。两个版本都是常规性更新，主要是修复错误和安全问题。</p><p>Debian 12.2 是 12 系列的第 2 个维护更新，修复了安全漏洞和严重问题。</p><ul><li>引入微码 (microcode) 更新，包含针对 AMD Zen4 处理器中 "AMD Inception" 的修复</li><li><p>修复与 Python 3.11 的兼容性问题</p></li><li><p>修复解析 JPEG 附件时出现崩溃的问题</p></li><li><p>修复远程代码执行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">详情</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 07:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
+            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[ModStartBlog v8.3.0 支持音频 MP3 文件，表单快速编辑优化]]>
             </title>
             <description>
@@ -445,73 +512,6 @@ right: "🐟"</code></pre><h4 style="text-align:start"><strong>Thread local init
             <pubDate>Sun, 08 Oct 2023 06:13:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/260807/rust-1-73-0-released</guid>
             <link>https://www.oschina.net/news/260807/rust-1-73-0-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[TypeScript 5.3 Beta]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>TypeScript 5.3 已发布 Beta 测试版。</p><p><strong>主要变化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes" target="_blank">import attributes</a> 提案的最近更新</p></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>检查对实例字段的<code>super</code>属性访问</p></li><li><p>针对类型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳过 JSDoc 解析以进行优化</p></li><li><p>合并 <code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes" target="_blank">import attributes</a></u></strong></p><p>import attributes 的一个用例是向运行时提供有关模块预期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
-// not a runnable/malicious JavaScript file with a `.json` extension.
-import obj from "./something.json" with { type: "json" };</code></pre><p>TypeScript 不会检查这些属性的内容，因为它们是特定于主机的，因此不会对它们进行检查，只是让浏览器和运行时处理它们（可能会出错）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
-// But your browser? Probably not.
-import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>动态 import() 调用也可以通过第二个参数使用 import 属性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
-    with: { type: "json" }
-});</code></pre><p>第二个参数的预期类型由一个名为<code>ImportCallOptions</code>的类型定义，默认情况下，该类型只期望调用一个属性<code>with</code>。</p><p>请注意，导入属性是从早期的 "导入断言"（import assertions）提案演变而来的，该提案已在 TypeScript 4.5 中实现。最明显的区别是使用了<code>with</code>关键字而非<code>assert</code>关键字。但不太明显的区别是，运行时现在可以自由使用属性来指导导入路径的解析和解释，而导入断言只能在加载模块后断言某些特性。</p><p>随着时间的推移，TypeScript 将淘汰旧的导入断言语法，转而使用建议的导入属性语法。使用 assert 的现有代码应迁移到 with 关键字。需要导入属性的新代码应只使用<code>with</code>关键字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根据<code>switch (true)</code>中每个<code>case</code>子句的条件执行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
-    switch (true) {
-        case typeof x === "string":
-            // 'x' is a 'string' here
-            console.log(x.toUpperCase());
-            // falls through...
-
-        case Array.isArray(x):
-            // 'x' is a 'string | any[]' here.
-            console.log(x.length);
-            // falls through...
-
-        default:
-          // 'x' is 'unknown' here.
-          // ...
-    }
-}</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3-beta%2F" target="_blank">详情查看发布公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 07 Oct 2023 08:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261022/typescript-5-3-beta</guid>
-            <link>https://www.oschina.net/news/261022/typescript-5-3-beta</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Go 1.21.2 & 1.20.9 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Go 近日发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>两个小版本。</p><p>Go 1.21.2 是 1.21 的第 2 个安全补丁，主要涉及一个安全更新：</p><ul><li><strong>cmd/go：line 指令允许在构建期间任意执行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根据 issue 的描述</a>，"//line" 指令可用于绕过对 "//go：cgo_" 指令的限制，允许在兼容期间传递阻塞的链接器和编译器标志。这可能导致在运行"go build"时意外执行任意代码。</p><p>line 指令需要指令所在文件的绝对路径，这使得解决此问题变得更加复杂。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>详情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 08:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
-            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Debian 12.2 & 11.8 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Debian 近日为两个分支发布了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。两个版本都是常规性更新，主要是修复错误和安全问题。</p><p>Debian 12.2 是 12 系列的第 2 个维护更新，修复了安全漏洞和严重问题。</p><ul><li>引入微码 (microcode) 更新，包含针对 AMD Zen4 处理器中 "AMD Inception" 的修复</li><li><p>修复与 Python 3.11 的兼容性问题</p></li><li><p>修复解析 JPEG 附件时出现崩溃的问题</p></li><li><p>修复远程代码执行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">详情</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 07:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
-            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
