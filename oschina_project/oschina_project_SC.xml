@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 09 Oct 2023 20:39:34 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Oct 2023 22:42:32 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -57,15 +57,74 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };</code></pre><p>�
         </item>
         <item>
             <title>
-                <![CDATA[CMake 3.27.7 发布，开源构建系统]]>
+                <![CDATA[Apache Hudi 0.14.0 版本发布]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>CMake 是一个跨平台的自动化构建系统，它使用一个名为 CMakeLists.txt 的文件来描述构建过程，可以产生标准的构建文件，如 Unix 的 Makefile 或 Windows Visual C++ 的 projects/workspaces 。文件 CMakeLists.txt 需要手工编写，也可以通过编写脚本进行半自动的生成。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">CMake 3.27.7 现已发布，一些亮点更新内容如下：</p><ul><li><span style="color:#000000">Android：-std=c++23 需要 Clang 18</span></li><li><span style="color:#000000">测试：Clarify RunCMake.CTestTimeout case name</span></li><li><span style="color:#000000">ctest：恢复对 --timeout 值高于默认测试超时的支持</span></li><li><span style="color:#000000">帮助：记录已设置变量的 CMP0124 行为</span></li><li><span style="color:#000000">FindPostgreSQL：添加对版本 16 的支持</span></li><li><span style="color:#000000">Linting：修复&nbsp;empty evaluated genex</span></li></ul><p><span style="color:#000000"><span style="background-color:#ffffff">详情可</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kitware.com%2Fcmake-3-27-7-available-for-download%2F" target="_blank">查看发布公告</a><span style="background-color:#ffffff; color:#333333">。</span></p><p><span style="background-color:#ffffff; color:#333333">下载：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcmake.org%2Fdownload%2F" target="_blank">https://cmake.org/download/</a></p></div>
+                <![CDATA[<div class="content"><p>Apache Hudi 0.14.0 现已发布。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FATf-92UzW5iOGXYODYn0ug" target="_blank">公告</a>指出，该版本标志着一个重要的里程碑，具有一系列新功能和增强功能。其中包括引入<strong>Record Level Index</strong>、<strong>自动生成记录键</strong>&nbsp;、用于增量读取的&nbsp;<code>hudi_table_changes</code>函数等等。</p><p>值得注意的是，此版本还包含对&nbsp;<strong>Spark 3.4 的支持</strong>。在 Flink 方面，0.14.0 版本带来了一些令人兴奋的功能，例如<strong>一致哈希索引支持、支持 Flink 1.17 以及支持更新和删除语句</strong>。此外此版本还升级了 Hudi 表版本，提示用户查阅下面提供的迁移指南。我们鼓励用户在采用 0.14.0 版本之前查看重大特性、重大变化和行为变更。</p><h1>迁移指南</h1><p>在 0.14.0 版本进行了一些更改，例如从 ".aux" 文件夹中删除压缩计划以及引入新的日志块版本。作为此版本的一部分，表版本更新到版本 6。在具有旧表版本的表上运行版本 0.14.0 的 Hudi 作业时，会触发自动升级过程以将表升级到版本 6。升级对于每个 Hudi 表都是一次性的，因为升级完成后&nbsp;<code>hoodie.table.version</code>&nbsp;会在属性文件中更新。此外还包括用于降级的命令行工具，允许用户从表版本 6 降级到 5，或从 Hudi 0.14.0 恢复到 0.14.0 之前的版本。请从 0.14.0 环境使用此工具。有关更多详细信息，请参阅&nbsp;hudi-cli。</p><blockquote><p>注意：如果从旧版本（0.14.0 之前）迁移，建议按顺序检查每个旧版本的升级说明。</p></blockquote><h1>Bundle 包更新</h1><h3>新 Spark Bundle 包</h3><p>在此版本扩展了支持范围，包括 Spark 3.4 (hudi-spark3.4-bundle_2.12) 和 Spark 3.0 (hudi-spark3.0-bundle_2.12) 的 Bundle 包。请注意，在 Hudi 0.10.1 版本之后，对 Spark 3.0 的支持已停止，但由于社区的强烈兴趣，在此版本中恢复了对 Spark 3.0 的支持。</p><h1>重大变化</h1><h3>Spark SQL INSERT INTO 行为</h3><p>在 0.14.0 版本之前，Spark SQL 中通过 INSERT INTO 摄取的数据遵循 upsert 流程，其中多个版本的记录将合并为一个版本。但是从 0.14.0 开始更改了 INSERT INTO 的默认行为，默认行为更改为<code>insert</code>流。此更改显着提高了写入性能，因为它绕过了索引查找。</p><p>如果使用 preCombine 键创建表，则 INSERT INTO 的默认操作仍为&nbsp;<code>upsert</code>。相反如果没有设置 preCombine 键，则 INSERT INTO 的底层写操作默认为&nbsp;<code>insert</code>。用户可以根据自己的要求显式设置配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;的值来灵活地覆盖此行为。此配置的可能值包括&nbsp;<code>insert</code>、<code>bulk_insert</code>&nbsp;和&nbsp;<code>upsert</code>。</p><p>此外在 0.14.0 版本中弃用了两个相关的旧配置</p><ul><li><p>hoodie.sql.insert.mode</p></li><li><p>hoodie.sql.bulk.insert.enable</p></li></ul><h1>行为变更</h1><h3>使用 Spark SQL Inserts 简化重复处理</h3><p>如果操作类型配置为 Spark SQL INSERT INTO 流的插入，用户现在可以选择使用配置设置 hoodie.datasource.insert.dup.policy 强制执行重复策略。此策略确定当正在摄取的传入记录已存在于存储中时采取的操作。此配置的可用值如下：</p><ul><li><p>none：不采取任何特定操作，如果传入记录包含重复项，则允许 Hudi 表中存在重复项。</p></li><li><p>drop：传入写入中的匹配记录将被删除，其余记录将被摄取。</p></li><li><p>fail：如果重新摄取相同的记录，写入操作将失败。本质上由键生成策略确定的给定记录只能被摄取到目标表中一次。</p></li></ul><p>通过添加此配置，旧的相关配置&nbsp;<code>hoodie.datasource.write.insert.drop.duplicates</code>&nbsp;现已弃用。当两者都指定时，新配置将优先于旧配置。如果未提供特定配置，则将采用较新配置的默认值。强烈鼓励用户迁移到使用这些较新的配置。</p><h3>MOR 表 Compaction</h3><p>对于 Spark 批写入器（Spark Datasource 和 Spark SQL），默认情况下会自动为 MOR（读取时合并）表启用压缩，除非用户显式覆盖此行为。用户可以选择通过将&nbsp;<code>hoodie.compact.inline</code>设置为&nbsp;<code>false</code>&nbsp;显式禁用压缩。如果用户不覆盖此配置，大约每 5 个增量提交（<code>hoodie.compact.inline.max.delta.commits</code>的默认值）会触发 MOR 表的压缩。</p><h3>HoodieDeltaStreamer 更名为 HoodieStreamer</h3><p>从版本 0.14.0 开始将 HoodieDeltaStreamer 重命名为 HoodieStreamer。同时确保了向后兼容性，以便现有的用户作业不受影响。但是在即将发布的版本中可能会停止对 Deltastreamer 的支持。因此强烈建议用户改用 HoodieStreamer。</p><h3>MERGE INTO JOIN CONDITION</h3><p>从 0.14.0 版本开始，当用户没有提供明确的规范时，Hudi 能够自动生成主记录键。此增强功能使&nbsp;<code>MERGE INTO JOIN</code>&nbsp;子句能够引用 Hudi 表中连接条件的任何数据列，其中主键由 Hudi 本身生成。但是在用户配置主记录键的情况下，连接条件仍然需要用户指定的主键字段。</p><h1>重大特性</h1><h3>Record Level Index</h3><p>Hudi 版本 0.14.0 引入了新的索引实现 -&nbsp;Record Level Index。记录级索引通过有效存储每条记录的位置并在索引查找操作期间实现快速检索，显着增强了大型表的写入性能。它可以有效地替代 Hudi 中常用的其他全局索引，例如 Global_bloom、Global_Simple 或 Hbase。</p><p>由于在查找过程中从各种数据文件收集索引数据的成本很高，布隆索引和简单索引对于大型数据集表现出较低的性能。而且，这些索引不保留一对一的记录键来记录文件路径映射；相反，他们在查找时通过优化搜索来推断映射。这些索引所需的每个文件的开销使得它们对于具有大量文件或记录的数据集效率较低。</p><p>另一方面，Hbase 索引为每个记录键保存一对一的映射，从而实现随数据集大小扩展的快速性能。然而，它需要一个单独的 HBase 集群来进行维护，这在操作上具有挑战性且资源密集型，需要专门的专业知识。</p><p>记录索引结合了 HBase 索引的速度和可扩展性，而没有其限制和开销。作为 HUDI 元数据表的一部分，未来写入和查询方面的任何性能增强都将自动转化为记录索引性能的改进。采用记录级索引有可能将索引查找性能提高 4 到 10 倍，具体取决于工作负载，即使对于超大规模数据集（例如 1TB）也是如此。</p><p>通过记录级别索引，可以观察到大型数据集的显着性能改进，因为延迟与摄取的数据量成正比。这与其他全局索引形成鲜明对比，其中索引查找时间随着表大小线性增加。记录级索引专门设计用于有效处理此类大规模数据的查找，而查找时间不会随着表大小的增长而线性增加。</p><p>为了利用这种快速的索引的优势，用户需要启用两种配置：</p><ul><li><p>必须启用&nbsp;<code>hoodie.metadata.record.index.enable</code>&nbsp;才能将记录级别索引写入元数据表。</p></li><li><p><code>hoodie.index.type</code>&nbsp;需要设置为&nbsp;<code>RECORD_INDEX</code>&nbsp;以便索引查找利用记录级别索引。</p></li></ul><h3>支持 Hudi 表自动生成键</h3><p>从 Hudi 最初的正式版本开始，主键是用户需要为任何 Hudi 表配置的必填字段。从 0.14.0 开始，我们放宽了这一限制。此增强功能解决了社区内的长期需求，其中某些用例不具有主键。版本 0.14.0 现在为用户提供了创建 Hudi 表的灵活性，而无需显式配置主键（通过省略配置设置 -&nbsp;<code>hoodie.datasource.write.recordkey.field</code>）。这种情况下 Hudi 将自动生成主键。此功能仅适用于新表，不能更改现有表。</p><p>所有 Spark 写入器都提供此功能，但有一定限制。对于仅追加类型的用例，如下四个写入器都允许插入和批量插入 - Spark Datasource、Spark SQL、Spark Streaming、Hoodie Streamer。仅使用 Spark SQL MERGE INTO 、 UPDATE 和 DELETE 语句支持更新和删除。对于 Spark Datasource，仅当 DataFrame 包含 Hudi 的元字段时才支持 UPDATE 和 DELETE。请查看快速入门指南，了解有关自动生成键的 Hudi 表 CRUD 操作的代码片段。</p><h3>Spark 3.4 版本支持</h3><p>添加 Spark 3.4 支持， Spark 3.4 的用户可以使用&nbsp;hudi-spark3.4-bundle。Spark 3.2、Spark 3.1、Spark3.0 和 Spark 2.4 将继续受支持。请检查迁移指南以获取 Bundle 包更新。可以浏览快速入门指南快速开始使用 Hudi 和 Spark 3.4。</p><h3>查询端改进</h3><h4>Athena 的元数据表支持</h4><p>用户现在可以与 Athena 无缝地利用 Hudi 的元数据表。文件列表索引通过从维护分区到文件映射的索引检索信息，消除了对递归文件系统调用（如「列表文件」）的需要。事实证明这种方法非常高效，尤其是在处理大量数据集时。使用 Hudi 0.14.0，用户可以在为其 Hudi 表执行 Glue 目录同步时激活基于元数据表的文件列表。要启用此功能，用户可以配置&nbsp;<code>hoodie.datasource.meta.sync.glue.metadata_file_listing</code>&nbsp;并在 Glue 同步过程中将其设置为 true。</p><h4>查询利用 Parquet 布隆过滤器</h4><p>在 Hudi 0.14.0 中，用户现在可以使用原生 Parquet 布隆过滤器，前提是他们的计算引擎支持 Apache Parquet 1.12.0 或更高版本。这种支持涵盖了数据集的写入和读取。Hudi 通过 Hadoop 配置方便使用原生 Parquet 布隆过滤器。用户需要使用代表要应用布隆过滤器的列的特定键来设置 Hadoop 配置。例如，&nbsp;<code>parquet.bloom.filter.enabled#rider=true</code>&nbsp;为 rider 列创建布隆过滤器。每当查询涉及 rider 列上的谓词时，布隆过滤器就会发挥作用，从而增强读取性能。</p><h4>多写入器的增量查询</h4><p>在多写入器场景中，由于并发写入活动，时间线中可能会出现间隙（requested 或 inflight 时刻不是最新时刻）。在执行增量查询时，这些间隙可能会导致结果不一致。为了解决这个问题，Hudi 0.14.0 引入了一个新的配置设置&nbsp;<code>hoodie.read.timeline.holes.resolution.policy</code>，专门用于处理增量查询中的这些不一致问题。该配置提供了三种可能的策略：</p><ul><li><p>FAIL：这是默认策略，当增量查询期间发现此类时间线间隙时，会引发异常。</p></li><li><p>BLOCK：在此策略中，增量查询的结果仅限于时间线中空洞之间的时间范围。例如，如果在 t0 到 t2 的增量查询范围内，在 t1 时刻检测到间隙，则查询将仅显示 t0 到 t1 之间的结果，而不会失败。</p></li><li><p>USE_TRANSITION_TIME：此策略是实验性的，涉及在增量查询期间使用状态转换时间，该时间基于时间线中提交元数据文件的文件修改时间。</p></li></ul><h4>Hive 3.x 的 Timestamp 类型支持</h4><p>相当长一段时间以来，Hudi 用户在读取 Spark 的 Timestamp 类型列以及随后尝试使用 Hive 3.x 读取它们时遇到了挑战。在 Hudi 0.13.x 中，我们引入了一种解决方法来缓解此问题，0.14.0 版本现在确保 HiveAvroSerializer 与 Hive 3.x 完全兼容以解决此问题。</p><h4>Google BigQuery 同步增强功能</h4><p>在 0.14.0 中，BigQuerySyncTool&nbsp;支持使用清单将表同步到 BigQuery。与传统方式相比，这预计将具有更好的查询性能。模式演进由清单方法支持。由于新的 schema 处理改进，不再需要从文件中删除分区列。要启用此功能，用户可以将&nbsp;<code>hoodie.gcp.bigquery.sync.use_bq_manifest_file</code>设置为&nbsp;<code>true</code>。</p><h3>Spark 读取端改进</h3><h4>MOR Bootstrap 表的快照读取支持</h4><p>在 0.14.0 中，为引导表添加了 MOR 快照读取支持。默认行为已通过多种方式进行了更改，以匹配非引导 MOR 表的行为。快照读取现在将成为默认读取模式。使用&nbsp;<code>hoodie.datasource.query.type=read_optimized</code>&nbsp;进行读取优化查询，这是以前的默认行为。此类表的 Hive 同步将导致表名带有 _ro 和 _rt 后缀，分别表示读取优化和快照读取。</p><h4>用于增量读取的表值函数 hudi_table_changes</h4><p>Hudi 已经提供了使用增量查询类型获取自给定提交时间戳以来更改的记录流的功能。在 Hudi 0.14.0 中，我们添加了一种新的、更简单的方法，使用名为 hudi_table_changes 的表值函数来获取 Hudi 数据集的最新状态或更改流。以下是有关如何使用此函数的语法和一些示例。</p><pre><code>SYNTAX
+hudi_table_changes(table,&nbsp;queryType,&nbsp;beginTime&nbsp;[,&nbsp;endTime]);
+--&nbsp;table:&nbsp;table&nbsp;identifier,&nbsp;example:&nbsp;db.tableName,&nbsp;tableName,&nbsp;or&nbsp;path&nbsp;for&nbsp;the&nbsp;table,&nbsp;example:&nbsp;hdfs://path/to/hudiTable.
+--&nbsp;queryType:&nbsp;incremental&nbsp;query&nbsp;mode,&nbsp;valid&nbsp;values:&nbsp;latest_state,&nbsp;cdc
+(for&nbsp;cdc&nbsp;query,&nbsp;first&nbsp;enable&nbsp;cdc&nbsp;for&nbsp;the&nbsp;table&nbsp;by&nbsp;setting&nbsp;cdc.enabled=true),
+--&nbsp;beginTime:&nbsp;instantTime&nbsp;to&nbsp;begin&nbsp;query&nbsp;from,&nbsp;example:&nbsp;earliest,&nbsp;202305150000,
+--&nbsp;endTime:&nbsp;optional&nbsp;instantTime&nbsp;to&nbsp;end&nbsp;query&nbsp;at,&nbsp;example:&nbsp;202305160000,
+
+EXAMPLES
+--&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;table&nbsp;name
+--&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('db.table',&nbsp;'latest_state',&nbsp;'earliest');
+
+--&nbsp;start&nbsp;from&nbsp;earliest,&nbsp;end&nbsp;at&nbsp;202305160000.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('table',&nbsp;'latest_state',&nbsp;'earliest',&nbsp;'202305160000');
+
+--&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;path
+--&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
+SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('path/to/table',&nbsp;'cdc',&nbsp;'earliest');
+
+</code></pre><p>查看快速入门以获取更多示例。</p><h4>Spark 中新的 MOR 文件格式读取器</h4><p>基于&nbsp;RFC-72&nbsp;旨在重新设计 Hudi-Spark 集成的提案，我们引入了用于 MOR（读取合并）表的实验性文件格式读取器。与旧文件格式相比，该读取器预计可将读取延迟显着降低 20% 至 40%，特别是对于快照和引导查询。目标是使延迟更接近 COW（写入时复制）文件格式的延迟。要利用这种新文件格式，用户需要设置&nbsp;<code>hoodie.datasource.read.use.new.parquet.file.format=true</code>。值得注意的是，此功能仍处于实验阶段，并且存在一些限制。有关更多详细信息以及有兴趣做出贡献，请参阅&nbsp;HUDI-6568。</p><h3>Spark 写入端改进</h3><h4>Bulk_Insert 和行写入器增强</h4><p>0.14.0 版本支持在执行 INSERT OVERWRITE TABLE 和 INSERT OVERWRITE PARTITION 等 SQL 操作时使用批量插入操作。要启用批量插入，请将配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;设置为值<code>bulk_insert</code>。与插入操作相比，批量插入具有更好的写入性能。另外简单存储桶索引也支持了行写入器。</p><h3>Hoodie DeltaStreamer 增强</h3><h4>动态配置更新</h4><p>当 Hoodie Streamer 以连续模式运行时，可以在每次同步调用之前刷新/更新属性。有兴趣的用户可以实现&nbsp;<code>org.apache.hudi.utilities.deltastreamer.ConfigurationHotUpdateStrategy</code>&nbsp;来利用它。</p><h4>HoodieStreamer 基于 SQL 文件的源</h4><p>HoodieStreamer 中添加了一个新源 -&nbsp;SqlFileBasedSource，旨在促进一次性回填场景。</p><h3>Flink 增强功能</h3><p>以下是 0.14.0 版本中基于 Flink Engine 的增强功能。</p><h4>一致的哈希索引支持</h4><p>与静态哈希索引（BUCKET 索引）相比，一致性哈希索引为写入者提供了数据桶的动态可扩展性。要利用此功能，请将选项<code>index.type</code>配置为 BUCKET 并将<code>hoodie.index.bucket.engine</code>设置为<code>CONSISTENT_HASHING</code>。</p><p>启用一致性哈希索引时，在写入器中激活异步 Clustering 调度非常重要。Clustering 计划应通过离线作业执行。在此过程中，写入器将在 Clustering Pending 时对新旧数据桶执行双重写入。虽然双写不会影响正确性，但强烈建议尽快执行 Clustering。</p><h4>用于流式读取的动态分区修剪</h4><p>在 0.14.0 之前，当查询具有恒定日期时间过滤的谓词时，Flink 流式读取器无法正确修剪日期时间分区。自此版本以来，Flink 流式查询已得到修复，以支持任何过滤谓词模式，包括但不限于日期时间过滤。</p><h4>简单桶索引表查询加速（带索引字段）</h4><p>对于一个简单的桶索引表，如果查询对索引键字段采用等式过滤谓词，Flink 引擎会优化规划，只包含来自非常特定数据桶的源数据文件；此类查询预计平均性能将提高近&nbsp;<code>hoodie.bucket.index.num.buckets</code>&nbsp;倍。</p><h4>Flink 1.17 支持</h4><p>Flink 1.17 支持新的编译 maven 配置文件 flink1.17，在 Flink Hudi Bundle 包 jar 的编译 cmd 中添加配置文件 -Pflink1.17 以启用与 Flink 1.17 的集成。</p><h4>Flink 更新删除语句</h4><p>自此版本以来，UPDATE 和 DELETE 语句已集成用于批量查询。当前只有定义主键的表可以正确处理该语句。</p><pre><code>UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;...&nbsp;WHERE&nbsp;...
+DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;...
+
+EXAMPLES
+--&nbsp;update&nbsp;the&nbsp;specific&nbsp;records&nbsp;with&nbsp;constant&nbsp;age
+UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;age=19&nbsp;WHERE&nbsp;UUID&nbsp;in&nbsp;('id1',&nbsp;'id2');
+--&nbsp;delete&nbsp;all&nbsp;the&nbsp;records&nbsp;that&nbsp;with&nbsp;age&nbsp;greater&nbsp;than&nbsp;23
+DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
+
+</code></pre><h3>Java 增强功能</h3><p>Java 引擎已扩展支持许多写操作，使其与其他引擎保持一致。例如 Java Engine 0.14.0 中添加了压缩、Clustering 和元数据表支持。</p><h3>已知回退</h3><p>在 Hudi 0.14.0 中，当查询使用 ComplexKeyGenerator 或 CustomKeyGenerator 的表时，分区值以字符串形式返回。请注意，存储上没有类型更改，即分区字段以存储上的用户定义类型写入。这对于上述键生成器来说是一个重大变化，将在 0.14.1 中修复。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 09 Oct 2023 02:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260939/cmake-3-27-7-released</guid>
-            <link>https://www.oschina.net/news/260939/cmake-3-27-7-released</link>
+            <pubDate>Mon, 09 Oct 2023 03:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</guid>
+            <link>https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Go 1.21.2 & 1.20.9 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Go 近日发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>两个小版本。</p><p>Go 1.21.2 是 1.21 的第 2 个安全补丁，主要涉及一个安全更新：</p><ul><li><strong>cmd/go：line 指令允许在构建期间任意执行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根据 issue 的描述</a>，"//line" 指令可用于绕过对 "//go：cgo_" 指令的限制，允许在兼容期间传递阻塞的链接器和编译器标志。这可能导致在运行"go build"时意外执行任意代码。</p><p>line 指令需要指令所在文件的绝对路径，这使得解决此问题变得更加复杂。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>详情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 08:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
+            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Debian 12.2 & 11.8 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Debian 近日为两个分支发布了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。两个版本都是常规性更新，主要是修复错误和安全问题。</p><p>Debian 12.2 是 12 系列的第 2 个维护更新，修复了安全漏洞和严重问题。</p><ul><li>引入微码 (microcode) 更新，包含针对 AMD Zen4 处理器中 "AMD Inception" 的修复</li><li><p>修复与 Python 3.11 的兼容性问题</p></li><li><p>修复解析 JPEG 附件时出现崩溃的问题</p></li><li><p>修复远程代码执行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">详情</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 07:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
+            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -235,50 +294,6 @@ mode: server
         </item>
         <item>
             <title>
-                <![CDATA[Apache Hudi 0.14.0 版本发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Apache Hudi 0.14.0 现已发布。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FATf-92UzW5iOGXYODYn0ug" target="_blank">公告</a>指出，该版本标志着一个重要的里程碑，具有一系列新功能和增强功能。其中包括引入<strong>Record Level Index</strong>、<strong>自动生成记录键</strong>&nbsp;、用于增量读取的&nbsp;<code>hudi_table_changes</code>函数等等。</p><p>值得注意的是，此版本还包含对&nbsp;<strong>Spark 3.4 的支持</strong>。在 Flink 方面，0.14.0 版本带来了一些令人兴奋的功能，例如<strong>一致哈希索引支持、支持 Flink 1.17 以及支持更新和删除语句</strong>。此外此版本还升级了 Hudi 表版本，提示用户查阅下面提供的迁移指南。我们鼓励用户在采用 0.14.0 版本之前查看重大特性、重大变化和行为变更。</p><h1>迁移指南</h1><p>在 0.14.0 版本进行了一些更改，例如从 ".aux" 文件夹中删除压缩计划以及引入新的日志块版本。作为此版本的一部分，表版本更新到版本 6。在具有旧表版本的表上运行版本 0.14.0 的 Hudi 作业时，会触发自动升级过程以将表升级到版本 6。升级对于每个 Hudi 表都是一次性的，因为升级完成后&nbsp;<code>hoodie.table.version</code>&nbsp;会在属性文件中更新。此外还包括用于降级的命令行工具，允许用户从表版本 6 降级到 5，或从 Hudi 0.14.0 恢复到 0.14.0 之前的版本。请从 0.14.0 环境使用此工具。有关更多详细信息，请参阅&nbsp;hudi-cli。</p><blockquote><p>注意：如果从旧版本（0.14.0 之前）迁移，建议按顺序检查每个旧版本的升级说明。</p></blockquote><h1>Bundle 包更新</h1><h3>新 Spark Bundle 包</h3><p>在此版本扩展了支持范围，包括 Spark 3.4 (hudi-spark3.4-bundle_2.12) 和 Spark 3.0 (hudi-spark3.0-bundle_2.12) 的 Bundle 包。请注意，在 Hudi 0.10.1 版本之后，对 Spark 3.0 的支持已停止，但由于社区的强烈兴趣，在此版本中恢复了对 Spark 3.0 的支持。</p><h1>重大变化</h1><h3>Spark SQL INSERT INTO 行为</h3><p>在 0.14.0 版本之前，Spark SQL 中通过 INSERT INTO 摄取的数据遵循 upsert 流程，其中多个版本的记录将合并为一个版本。但是从 0.14.0 开始更改了 INSERT INTO 的默认行为，默认行为更改为<code>insert</code>流。此更改显着提高了写入性能，因为它绕过了索引查找。</p><p>如果使用 preCombine 键创建表，则 INSERT INTO 的默认操作仍为&nbsp;<code>upsert</code>。相反如果没有设置 preCombine 键，则 INSERT INTO 的底层写操作默认为&nbsp;<code>insert</code>。用户可以根据自己的要求显式设置配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;的值来灵活地覆盖此行为。此配置的可能值包括&nbsp;<code>insert</code>、<code>bulk_insert</code>&nbsp;和&nbsp;<code>upsert</code>。</p><p>此外在 0.14.0 版本中弃用了两个相关的旧配置</p><ul><li><p>hoodie.sql.insert.mode</p></li><li><p>hoodie.sql.bulk.insert.enable</p></li></ul><h1>行为变更</h1><h3>使用 Spark SQL Inserts 简化重复处理</h3><p>如果操作类型配置为 Spark SQL INSERT INTO 流的插入，用户现在可以选择使用配置设置 hoodie.datasource.insert.dup.policy 强制执行重复策略。此策略确定当正在摄取的传入记录已存在于存储中时采取的操作。此配置的可用值如下：</p><ul><li><p>none：不采取任何特定操作，如果传入记录包含重复项，则允许 Hudi 表中存在重复项。</p></li><li><p>drop：传入写入中的匹配记录将被删除，其余记录将被摄取。</p></li><li><p>fail：如果重新摄取相同的记录，写入操作将失败。本质上由键生成策略确定的给定记录只能被摄取到目标表中一次。</p></li></ul><p>通过添加此配置，旧的相关配置&nbsp;<code>hoodie.datasource.write.insert.drop.duplicates</code>&nbsp;现已弃用。当两者都指定时，新配置将优先于旧配置。如果未提供特定配置，则将采用较新配置的默认值。强烈鼓励用户迁移到使用这些较新的配置。</p><h3>MOR 表 Compaction</h3><p>对于 Spark 批写入器（Spark Datasource 和 Spark SQL），默认情况下会自动为 MOR（读取时合并）表启用压缩，除非用户显式覆盖此行为。用户可以选择通过将&nbsp;<code>hoodie.compact.inline</code>设置为&nbsp;<code>false</code>&nbsp;显式禁用压缩。如果用户不覆盖此配置，大约每 5 个增量提交（<code>hoodie.compact.inline.max.delta.commits</code>的默认值）会触发 MOR 表的压缩。</p><h3>HoodieDeltaStreamer 更名为 HoodieStreamer</h3><p>从版本 0.14.0 开始将 HoodieDeltaStreamer 重命名为 HoodieStreamer。同时确保了向后兼容性，以便现有的用户作业不受影响。但是在即将发布的版本中可能会停止对 Deltastreamer 的支持。因此强烈建议用户改用 HoodieStreamer。</p><h3>MERGE INTO JOIN CONDITION</h3><p>从 0.14.0 版本开始，当用户没有提供明确的规范时，Hudi 能够自动生成主记录键。此增强功能使&nbsp;<code>MERGE INTO JOIN</code>&nbsp;子句能够引用 Hudi 表中连接条件的任何数据列，其中主键由 Hudi 本身生成。但是在用户配置主记录键的情况下，连接条件仍然需要用户指定的主键字段。</p><h1>重大特性</h1><h3>Record Level Index</h3><p>Hudi 版本 0.14.0 引入了新的索引实现 -&nbsp;Record Level Index。记录级索引通过有效存储每条记录的位置并在索引查找操作期间实现快速检索，显着增强了大型表的写入性能。它可以有效地替代 Hudi 中常用的其他全局索引，例如 Global_bloom、Global_Simple 或 Hbase。</p><p>由于在查找过程中从各种数据文件收集索引数据的成本很高，布隆索引和简单索引对于大型数据集表现出较低的性能。而且，这些索引不保留一对一的记录键来记录文件路径映射；相反，他们在查找时通过优化搜索来推断映射。这些索引所需的每个文件的开销使得它们对于具有大量文件或记录的数据集效率较低。</p><p>另一方面，Hbase 索引为每个记录键保存一对一的映射，从而实现随数据集大小扩展的快速性能。然而，它需要一个单独的 HBase 集群来进行维护，这在操作上具有挑战性且资源密集型，需要专门的专业知识。</p><p>记录索引结合了 HBase 索引的速度和可扩展性，而没有其限制和开销。作为 HUDI 元数据表的一部分，未来写入和查询方面的任何性能增强都将自动转化为记录索引性能的改进。采用记录级索引有可能将索引查找性能提高 4 到 10 倍，具体取决于工作负载，即使对于超大规模数据集（例如 1TB）也是如此。</p><p>通过记录级别索引，可以观察到大型数据集的显着性能改进，因为延迟与摄取的数据量成正比。这与其他全局索引形成鲜明对比，其中索引查找时间随着表大小线性增加。记录级索引专门设计用于有效处理此类大规模数据的查找，而查找时间不会随着表大小的增长而线性增加。</p><p>为了利用这种快速的索引的优势，用户需要启用两种配置：</p><ul><li><p>必须启用&nbsp;<code>hoodie.metadata.record.index.enable</code>&nbsp;才能将记录级别索引写入元数据表。</p></li><li><p><code>hoodie.index.type</code>&nbsp;需要设置为&nbsp;<code>RECORD_INDEX</code>&nbsp;以便索引查找利用记录级别索引。</p></li></ul><h3>支持 Hudi 表自动生成键</h3><p>从 Hudi 最初的正式版本开始，主键是用户需要为任何 Hudi 表配置的必填字段。从 0.14.0 开始，我们放宽了这一限制。此增强功能解决了社区内的长期需求，其中某些用例不具有主键。版本 0.14.0 现在为用户提供了创建 Hudi 表的灵活性，而无需显式配置主键（通过省略配置设置 -&nbsp;<code>hoodie.datasource.write.recordkey.field</code>）。这种情况下 Hudi 将自动生成主键。此功能仅适用于新表，不能更改现有表。</p><p>所有 Spark 写入器都提供此功能，但有一定限制。对于仅追加类型的用例，如下四个写入器都允许插入和批量插入 - Spark Datasource、Spark SQL、Spark Streaming、Hoodie Streamer。仅使用 Spark SQL MERGE INTO 、 UPDATE 和 DELETE 语句支持更新和删除。对于 Spark Datasource，仅当 DataFrame 包含 Hudi 的元字段时才支持 UPDATE 和 DELETE。请查看快速入门指南，了解有关自动生成键的 Hudi 表 CRUD 操作的代码片段。</p><h3>Spark 3.4 版本支持</h3><p>添加 Spark 3.4 支持， Spark 3.4 的用户可以使用&nbsp;hudi-spark3.4-bundle。Spark 3.2、Spark 3.1、Spark3.0 和 Spark 2.4 将继续受支持。请检查迁移指南以获取 Bundle 包更新。可以浏览快速入门指南快速开始使用 Hudi 和 Spark 3.4。</p><h3>查询端改进</h3><h4>Athena 的元数据表支持</h4><p>用户现在可以与 Athena 无缝地利用 Hudi 的元数据表。文件列表索引通过从维护分区到文件映射的索引检索信息，消除了对递归文件系统调用（如「列表文件」）的需要。事实证明这种方法非常高效，尤其是在处理大量数据集时。使用 Hudi 0.14.0，用户可以在为其 Hudi 表执行 Glue 目录同步时激活基于元数据表的文件列表。要启用此功能，用户可以配置&nbsp;<code>hoodie.datasource.meta.sync.glue.metadata_file_listing</code>&nbsp;并在 Glue 同步过程中将其设置为 true。</p><h4>查询利用 Parquet 布隆过滤器</h4><p>在 Hudi 0.14.0 中，用户现在可以使用原生 Parquet 布隆过滤器，前提是他们的计算引擎支持 Apache Parquet 1.12.0 或更高版本。这种支持涵盖了数据集的写入和读取。Hudi 通过 Hadoop 配置方便使用原生 Parquet 布隆过滤器。用户需要使用代表要应用布隆过滤器的列的特定键来设置 Hadoop 配置。例如，&nbsp;<code>parquet.bloom.filter.enabled#rider=true</code>&nbsp;为 rider 列创建布隆过滤器。每当查询涉及 rider 列上的谓词时，布隆过滤器就会发挥作用，从而增强读取性能。</p><h4>多写入器的增量查询</h4><p>在多写入器场景中，由于并发写入活动，时间线中可能会出现间隙（requested 或 inflight 时刻不是最新时刻）。在执行增量查询时，这些间隙可能会导致结果不一致。为了解决这个问题，Hudi 0.14.0 引入了一个新的配置设置&nbsp;<code>hoodie.read.timeline.holes.resolution.policy</code>，专门用于处理增量查询中的这些不一致问题。该配置提供了三种可能的策略：</p><ul><li><p>FAIL：这是默认策略，当增量查询期间发现此类时间线间隙时，会引发异常。</p></li><li><p>BLOCK：在此策略中，增量查询的结果仅限于时间线中空洞之间的时间范围。例如，如果在 t0 到 t2 的增量查询范围内，在 t1 时刻检测到间隙，则查询将仅显示 t0 到 t1 之间的结果，而不会失败。</p></li><li><p>USE_TRANSITION_TIME：此策略是实验性的，涉及在增量查询期间使用状态转换时间，该时间基于时间线中提交元数据文件的文件修改时间。</p></li></ul><h4>Hive 3.x 的 Timestamp 类型支持</h4><p>相当长一段时间以来，Hudi 用户在读取 Spark 的 Timestamp 类型列以及随后尝试使用 Hive 3.x 读取它们时遇到了挑战。在 Hudi 0.13.x 中，我们引入了一种解决方法来缓解此问题，0.14.0 版本现在确保 HiveAvroSerializer 与 Hive 3.x 完全兼容以解决此问题。</p><h4>Google BigQuery 同步增强功能</h4><p>在 0.14.0 中，BigQuerySyncTool&nbsp;支持使用清单将表同步到 BigQuery。与传统方式相比，这预计将具有更好的查询性能。模式演进由清单方法支持。由于新的 schema 处理改进，不再需要从文件中删除分区列。要启用此功能，用户可以将&nbsp;<code>hoodie.gcp.bigquery.sync.use_bq_manifest_file</code>设置为&nbsp;<code>true</code>。</p><h3>Spark 读取端改进</h3><h4>MOR Bootstrap 表的快照读取支持</h4><p>在 0.14.0 中，为引导表添加了 MOR 快照读取支持。默认行为已通过多种方式进行了更改，以匹配非引导 MOR 表的行为。快照读取现在将成为默认读取模式。使用&nbsp;<code>hoodie.datasource.query.type=read_optimized</code>&nbsp;进行读取优化查询，这是以前的默认行为。此类表的 Hive 同步将导致表名带有 _ro 和 _rt 后缀，分别表示读取优化和快照读取。</p><h4>用于增量读取的表值函数 hudi_table_changes</h4><p>Hudi 已经提供了使用增量查询类型获取自给定提交时间戳以来更改的记录流的功能。在 Hudi 0.14.0 中，我们添加了一种新的、更简单的方法，使用名为 hudi_table_changes 的表值函数来获取 Hudi 数据集的最新状态或更改流。以下是有关如何使用此函数的语法和一些示例。</p><pre><code>SYNTAX
-hudi_table_changes(table,&nbsp;queryType,&nbsp;beginTime&nbsp;[,&nbsp;endTime]);
---&nbsp;table:&nbsp;table&nbsp;identifier,&nbsp;example:&nbsp;db.tableName,&nbsp;tableName,&nbsp;or&nbsp;path&nbsp;for&nbsp;the&nbsp;table,&nbsp;example:&nbsp;hdfs://path/to/hudiTable.
---&nbsp;queryType:&nbsp;incremental&nbsp;query&nbsp;mode,&nbsp;valid&nbsp;values:&nbsp;latest_state,&nbsp;cdc
-(for&nbsp;cdc&nbsp;query,&nbsp;first&nbsp;enable&nbsp;cdc&nbsp;for&nbsp;the&nbsp;table&nbsp;by&nbsp;setting&nbsp;cdc.enabled=true),
---&nbsp;beginTime:&nbsp;instantTime&nbsp;to&nbsp;begin&nbsp;query&nbsp;from,&nbsp;example:&nbsp;earliest,&nbsp;202305150000,
---&nbsp;endTime:&nbsp;optional&nbsp;instantTime&nbsp;to&nbsp;end&nbsp;query&nbsp;at,&nbsp;example:&nbsp;202305160000,
-
-EXAMPLES
---&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;table&nbsp;name
---&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('db.table',&nbsp;'latest_state',&nbsp;'earliest');
-
---&nbsp;start&nbsp;from&nbsp;earliest,&nbsp;end&nbsp;at&nbsp;202305160000.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('table',&nbsp;'latest_state',&nbsp;'earliest',&nbsp;'202305160000');
-
---&nbsp;incrementally&nbsp;query&nbsp;data&nbsp;by&nbsp;path
---&nbsp;start&nbsp;from&nbsp;earliest&nbsp;available&nbsp;commit,&nbsp;end&nbsp;at&nbsp;latest&nbsp;available&nbsp;commit.
-SELECT&nbsp;*&nbsp;FROM&nbsp;hudi_table_changes('path/to/table',&nbsp;'cdc',&nbsp;'earliest');
-
-</code></pre><p>查看快速入门以获取更多示例。</p><h4>Spark 中新的 MOR 文件格式读取器</h4><p>基于&nbsp;RFC-72&nbsp;旨在重新设计 Hudi-Spark 集成的提案，我们引入了用于 MOR（读取合并）表的实验性文件格式读取器。与旧文件格式相比，该读取器预计可将读取延迟显着降低 20% 至 40%，特别是对于快照和引导查询。目标是使延迟更接近 COW（写入时复制）文件格式的延迟。要利用这种新文件格式，用户需要设置&nbsp;<code>hoodie.datasource.read.use.new.parquet.file.format=true</code>。值得注意的是，此功能仍处于实验阶段，并且存在一些限制。有关更多详细信息以及有兴趣做出贡献，请参阅&nbsp;HUDI-6568。</p><h3>Spark 写入端改进</h3><h4>Bulk_Insert 和行写入器增强</h4><p>0.14.0 版本支持在执行 INSERT OVERWRITE TABLE 和 INSERT OVERWRITE PARTITION 等 SQL 操作时使用批量插入操作。要启用批量插入，请将配置&nbsp;<code>hoodie.spark.sql.insert.into.operation</code>&nbsp;设置为值<code>bulk_insert</code>。与插入操作相比，批量插入具有更好的写入性能。另外简单存储桶索引也支持了行写入器。</p><h3>Hoodie DeltaStreamer 增强</h3><h4>动态配置更新</h4><p>当 Hoodie Streamer 以连续模式运行时，可以在每次同步调用之前刷新/更新属性。有兴趣的用户可以实现&nbsp;<code>org.apache.hudi.utilities.deltastreamer.ConfigurationHotUpdateStrategy</code>&nbsp;来利用它。</p><h4>HoodieStreamer 基于 SQL 文件的源</h4><p>HoodieStreamer 中添加了一个新源 -&nbsp;SqlFileBasedSource，旨在促进一次性回填场景。</p><h3>Flink 增强功能</h3><p>以下是 0.14.0 版本中基于 Flink Engine 的增强功能。</p><h4>一致的哈希索引支持</h4><p>与静态哈希索引（BUCKET 索引）相比，一致性哈希索引为写入者提供了数据桶的动态可扩展性。要利用此功能，请将选项<code>index.type</code>配置为 BUCKET 并将<code>hoodie.index.bucket.engine</code>设置为<code>CONSISTENT_HASHING</code>。</p><p>启用一致性哈希索引时，在写入器中激活异步 Clustering 调度非常重要。Clustering 计划应通过离线作业执行。在此过程中，写入器将在 Clustering Pending 时对新旧数据桶执行双重写入。虽然双写不会影响正确性，但强烈建议尽快执行 Clustering。</p><h4>用于流式读取的动态分区修剪</h4><p>在 0.14.0 之前，当查询具有恒定日期时间过滤的谓词时，Flink 流式读取器无法正确修剪日期时间分区。自此版本以来，Flink 流式查询已得到修复，以支持任何过滤谓词模式，包括但不限于日期时间过滤。</p><h4>简单桶索引表查询加速（带索引字段）</h4><p>对于一个简单的桶索引表，如果查询对索引键字段采用等式过滤谓词，Flink 引擎会优化规划，只包含来自非常特定数据桶的源数据文件；此类查询预计平均性能将提高近&nbsp;<code>hoodie.bucket.index.num.buckets</code>&nbsp;倍。</p><h4>Flink 1.17 支持</h4><p>Flink 1.17 支持新的编译 maven 配置文件 flink1.17，在 Flink Hudi Bundle 包 jar 的编译 cmd 中添加配置文件 -Pflink1.17 以启用与 Flink 1.17 的集成。</p><h4>Flink 更新删除语句</h4><p>自此版本以来，UPDATE 和 DELETE 语句已集成用于批量查询。当前只有定义主键的表可以正确处理该语句。</p><pre><code>UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;...&nbsp;WHERE&nbsp;...
-DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;...
-
-EXAMPLES
---&nbsp;update&nbsp;the&nbsp;specific&nbsp;records&nbsp;with&nbsp;constant&nbsp;age
-UPDATE&nbsp;hudi_table&nbsp;SET&nbsp;age=19&nbsp;WHERE&nbsp;UUID&nbsp;in&nbsp;('id1',&nbsp;'id2');
---&nbsp;delete&nbsp;all&nbsp;the&nbsp;records&nbsp;that&nbsp;with&nbsp;age&nbsp;greater&nbsp;than&nbsp;23
-DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
-
-</code></pre><h3>Java 增强功能</h3><p>Java 引擎已扩展支持许多写操作，使其与其他引擎保持一致。例如 Java Engine 0.14.0 中添加了压缩、Clustering 和元数据表支持。</p><h3>已知回退</h3><p>在 Hudi 0.14.0 中，当查询使用 ComplexKeyGenerator 或 CustomKeyGenerator 的表时，分区值以字符串形式返回。请注意，存储上没有类型更改，即分区字段以存储上的用户定义类型写入。这对于上述键生成器来说是一个重大变化，将在 0.14.1 中修复。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 07 Oct 2023 03:51:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</guid>
-            <link>https://www.oschina.net/news/260955/apache-hudi-0-14-0-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[7 个月，100+ 贡献者，MyBatis-Flex v1.6.9 发布]]>
             </title>
             <description>
@@ -290,6 +305,21 @@ DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
             <link>https://www.oschina.net/news/260954/mybatis-flex-1-6-9-released</link>
             <author>
                 <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[CMake 3.27.7 发布，开源构建系统]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>CMake 是一个跨平台的自动化构建系统，它使用一个名为 CMakeLists.txt 的文件来描述构建过程，可以产生标准的构建文件，如 Unix 的 Makefile 或 Windows Visual C++ 的 projects/workspaces 。文件 CMakeLists.txt 需要手工编写，也可以通过编写脚本进行半自动的生成。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">CMake 3.27.7 现已发布，一些亮点更新内容如下：</p><ul><li><span style="color:#000000">Android：-std=c++23 需要 Clang 18</span></li><li><span style="color:#000000">测试：Clarify RunCMake.CTestTimeout case name</span></li><li><span style="color:#000000">ctest：恢复对 --timeout 值高于默认测试超时的支持</span></li><li><span style="color:#000000">帮助：记录已设置变量的 CMP0124 行为</span></li><li><span style="color:#000000">FindPostgreSQL：添加对版本 16 的支持</span></li><li><span style="color:#000000">Linting：修复&nbsp;empty evaluated genex</span></li></ul><p><span style="color:#000000"><span style="background-color:#ffffff">详情可</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kitware.com%2Fcmake-3-27-7-available-for-download%2F" target="_blank">查看发布公告</a><span style="background-color:#ffffff; color:#333333">。</span></p><p><span style="background-color:#ffffff; color:#333333">下载：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcmake.org%2Fdownload%2F" target="_blank">https://cmake.org/download/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 07 Oct 2023 02:48:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/260939/cmake-3-27-7-released</guid>
+            <link>https://www.oschina.net/news/260939/cmake-3-27-7-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -415,36 +445,6 @@ DELETE&nbsp;FROM&nbsp;hudi_table&nbsp;WHERE&nbsp;age&nbsp;&gt;&nbsp;23;
             <link>https://www.oschina.net/news/260913/mycms-4-7-released</link>
             <author>
                 <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Go 1.21.2 & 1.20.9 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Go 近日发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.21.2" target="_blank">Go 1.21.2 </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Freleases%2Ftag%2Fgo1.20.9" target="_blank"> Go 1.20.9 </a>两个小版本。</p><p>Go 1.21.2 是 1.21 的第 2 个安全补丁，主要涉及一个安全更新：</p><ul><li><strong>cmd/go：line 指令允许在构建期间任意执行</strong></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%2F63211" target="_blank">根据 issue 的描述</a>，"//line" 指令可用于绕过对 "//go：cgo_" 指令的限制，允许在兼容期间传递阻塞的链接器和编译器标志。这可能导致在运行"go build"时意外执行任意代码。</p><p>line 指令需要指令所在文件的绝对路径，这使得解决此问题变得更加复杂。</p><blockquote><p><img height="931" src="https://static.oschina.net/uploads/space/2023/1008/162018_ZOvZ_2720166.png" width="2124" referrerpolicy="no-referrer"></p></blockquote><p>Go1.21.2 更新涉及到的 issue 如下：</p><p><img src="https://static.oschina.net/uploads/space/2023/1008/162328_0YqZ_2720166.png" referrerpolicy="no-referrer"></p><p>详情：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang%2Fgo%2Fissues%3Fq%3Dmilestone%253AGo1.21.2%2Blabel%253ACherryPickApproved" target="_blank">https://github.com/golang/go/issues?q=milestone%3AGo1.21.2+label%3ACherryPickApproved</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 08:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260842/go-1-21-2</guid>
-            <link>https://www.oschina.net/news/260842/go-1-21-2</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Debian 12.2 & 11.8 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Debian 近日为两个分支发布了更新：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">12.2 </a>和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F2023100702" target="_blank">11.8</a></strong>。两个版本都是常规性更新，主要是修复错误和安全问题。</p><p>Debian 12.2 是 12 系列的第 2 个维护更新，修复了安全漏洞和严重问题。</p><ul><li>引入微码 (microcode) 更新，包含针对 AMD Zen4 处理器中 "AMD Inception" 的修复</li><li><p>修复与 Python 3.11 的兼容性问题</p></li><li><p>修复解析 JPEG 附件时出现崩溃的问题</p></li><li><p>修复远程代码执行漏洞&nbsp;[CVE-2023-40477]</p></li><li><p>……</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.debian.org%2FNews%2F2023%2F20231007" target="_blank">详情</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 06 Oct 2023 07:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</guid>
-            <link>https://www.oschina.net/news/260830/debian-12-2-n-11-8-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
         <item>
