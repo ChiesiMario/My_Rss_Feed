@@ -16,8 +16,38 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 11 Oct 2023 07:18:28 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 11 Oct 2023 09:27:17 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[curl 8.4.0 正式发布，修复 SOCKS5 堆溢出漏洞，建议升级]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>curl 8.4.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">发布</a>，创始人 Daniel Stenberg（社区称号 bagder）已提前一周<a href="https://www.oschina.net/news/261110/curl-8-4-coming" target="_blank">预告了该版本</a>——修复高危安全漏洞，并称该漏洞可能是很长一段时间以来 curl 遇到的最严重漏洞，同时影响到 libcurl 库和 curl 工具。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da9d3bd742c2f09df6c0ac4ca3a88bcb721.png" referrerpolicy="no-referrer"></p><p>根据介绍，这个高危漏洞是<strong>&nbsp;SOCKS5 堆溢出漏洞 (heap buffer overflow)</strong>，该漏洞 (CVE-2023-38545) <strong>导致 curl 在 SOCKS5 代理握手过程中溢出基于堆的缓冲区</strong>。</p><p>有开发者<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fgreysign1%2Fstatus%2F1712008018500653189" target="_blank">解释称</a>，该漏洞出现的场景是<strong>输入的域名太长，从而导致内存溢出</strong>。当然前提条件是使用了 SOCKS5 代理。 两种典型的攻击场景如下：</p><ol><li>某些程序里内置 libcurl，而允许外部用户指定 socket5 代理以及输入超长的域名，则可以发起攻击</li><li>用户在使用 curl 或者 libcurl 时，使用了 socket5 代理，并且 http 请求到恶意服务器，并且恶意服务器返回了 http 30x 跳转，把用户访问目标指向一个超长域名从而导致溢出</li></ol><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1011/161847_Bo2t_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>另一个被评级为 "LOW" 的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcurl.se%2Fdocs%2FCVE-2023-38546.html" target="_blank">CVE-2023-38546</a>&nbsp;漏洞是<strong>通过 none 文件进行 cookie 注入</strong>。</p><p>此漏洞允许攻击者在满足一系列特定条件并将 cookie 放入应用程序当前目录中名为 "none" 的文件的情况下，使用 libcurl 在运行的程序中任意插入 cookie。</p><p>详情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">https://daniel.haxx.se/blog/2023/10/11/curl-8-4-0/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 11 Oct 2023 08:23:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261319/curl-8-4-0</guid>
+            <link>https://www.oschina.net/news/261319/curl-8-4-0</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Jmix Studio 2.0.4 发布 - 企业级 Web 快速开发框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:black; margin-left:0; margin-right:0">Jmix 企业级 Web 快速开发框架的开发工具 Jmix Studio 2.0.4 发布，这次发布主要包含以下内容，推荐通过 IDEA 插件直接升级：</p><p style="color:black; margin-left:0; margin-right:0">💥 新功能：</p><ul><li><p>支持 MySQL 的 binary(16) UUID 类型。</p></li></ul><p style="color:black; margin-left:0; margin-right:0">🛠️ 主要 Bug 修复和改进：</p><ul><li><p>UI 设计器的表单添加位置错误的问题。</p></li><li><p>使用 Kotlin 作为编程语言的一些代码生成的问题。</p></li><li><p>扩展组件中的视图不自动添加消息的问题。</p></li><li><p>生成错误 dataContainer id 的问题。</p></li><li><p>BPM 设计器的一些问题。</p></li></ul><p style="color:black; margin-left:0; margin-right:0">详细修复的问题列表，请参考 Jmix Youtrack： https://youtrack.jmix.io/issues/JST?q=Fixed%20in%20builds:%202.0.4</p><p style="color:black; margin-left:0; margin-right:0">🔑 Jmix 是一个覆盖应用程序全生命周期的 Java 少代码快速开发平台。以 Spring Boot 作为开源基础框架，提供过程中的 Studio 开发工具以及开箱即用的扩展组件。通过 Jmix 实现您的数字化愿景，无低代码平台限制，无供应商依赖，无需按用户付费。</p><p style="color:black; margin-left:0; margin-right:0">资源：👉🏻<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.abmcode.com%2Fzh-cn%2Fjmix%2Fevaluate-jmix.html" target="_blank">Jmix 适合我吗？</a> 👉🏻<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jmix.cn" target="_blank">中文官网</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 11 Oct 2023 07:21:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261303/jmix-studio-2-0-4</guid>
+            <link>https://www.oschina.net/news/261303/jmix-studio-2-0-4</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Firefox 118.0.2 发布]]>
@@ -295,36 +325,6 @@
             <link>https://www.oschina.net/news/261099/gitextensions-v4-2-rc1-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Diboot 2.10.0 发布，基础组件持续优化]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span style="background-color:#ffffff; color:#333333">Diboot 2.9.0 版本已于近期发布，该</span>版本主要带来了基础组件的持续打磨优化、以及工作流版本的移动端重构、极复杂流程流转相关的 bug 修复等。</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong>主要优化如下：</strong></p><p style="margin-left:0; margin-right:0"><strong>diboot-core 内核</strong></p><ul><li><span>getViewObject(queryWrapper, voClass)</span></li><li><span>getValueOfField(queryWrapper, getterFn)</span></li><li><span>@BindCount 注解优化为通过分组 count 查询计数实现</span></li><li><span>@BindField 注解支持通过中间表的多条件关联从表, 绑定从表字段 [Issue I71VHY]</span></li><li><span>@BindQuery 注解 Comparison.CONTAINS 类型支持查询 JsonArray 中是否包含某个值</span></li><li><span>BaseService 添加扩展方法:&nbsp;</span></li><li><span><span>JSON 工具类：优化 json 转换 parseArray 支持指定复杂类型</span></span></li><li><span>PropertiesUtils.get() 新增默认值参数</span></li><li><span>优化 SqlFileInitializer 执行多更新操作时事务回滚逻辑</span></li><li><span>优化 Jackson 配置，避免 BigDecimal 转换成 String 避免 JS 超长问题</span></li><li><span>f</span><span>ix: 关联表查询的关联字段排序命名问题</span></li><li><span>升级依赖版本：spring boot 至 v2.7.16 等</span></li></ul><p style="margin-left:0; margin-right:0"><strong><span>IAM 组件 diboot-IAM starter</span></strong></p><ul><li><span>移除脏数据检查逻辑，优化菜单资源响应性能</span></li><li><span>优化 redis 获取全部 keys 的实现，避免海量数据效率低的问题</span></li><li><span>优化用户体系模型默认填充更新时间，便于数据同步等场景提取增量数据</span></li><li><span>升级依赖版本：shiro 至 v1.12.0 等</span></li><li><span>定时任务组件 diboot-scheduler starter</span></li><li>fix：系统启动时的定时任务的加载判定逻辑错误导致定时无法启动的问题</li></ul><p style="margin-left:0; margin-right:0"><strong><span>文件、移动端、消息提醒组件</span></strong></p><ul><li><span>优化 Oracle 初始化 sql</span></li><li><span>升级依赖至最新：easy-excel 至 v3.3.2 等</span></li></ul><p style="margin-left:0; margin-right:0"><strong><span>PC 前端 diboot-antd-admin &amp; diboot-element-admin</span></strong></p><ul><li><span>修改密码支持密码强度校验</span></li><li><span>登录密码支持加密后传输</span></li><li><span>替换定时任务在线编辑器地址</span></li><li><span>预置功能的新建表单支持「连续添加」</span></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#ac39ff"><strong><span style="color:#ac39ff">代码生成工具 diboot-devtools</span></strong></span></p><ul><li><span>新增</span>树形表自身支持生成左树右列表</li><li>移动端列表页支持搜索功能</li><li>form 表单支持生成保存并继续功能</li></ul><p style="margin-left:0; margin-right:0"><strong><span style="color:#ac39ff">微服务版（企业版） diboot-cloud</span></strong></p><ul><li>登录密码加密解密</li><li><span>替换定时编辑器链接</span></li><li><span>升级依赖版本: spring-cloud 2021.0.8，spring-boot 2.7.16, diboot-core 2.10.0</span></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#ac39ff"><strong>工作流版（企业版）diboot-workflow</strong></span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong>🎉 新增 &amp; 优化：</strong></p><p style="margin-left:0; margin-right:0"><span style="color:#0052ff"><strong>表单：</strong></span></p><ul><li><span>新增地址定位、扫码录入，组件</span></li><li><span>新增高级子表单复制行功能</span></li><li><span>优化高级子表单支持模板打印适配</span></li><li><span>优化导出包含子表单数据的 excel</span></li><li><span>重构子表单 API 数据自动导入方案，通过数据手动变更传递数值变更来进行导入操作，防止出现不可控的导入操作或不响应问题</span></li><li><span>完善高级子表单中下拉框多组件关联的功能</span></li><li><span>重构高级子表单渲染 &amp; 子表单数据对接 &amp; 数据校验规则重构</span></li><li><span>优化子表单在行数据不全时的汇总计算 (剔除要素不完整的数据记录)</span></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#0052ff"><strong>移动端：</strong></span></p><ul><li><span style="color:#ffa900">移动端展示基于 Vant 重构了，各个表单组件基于移动端规范重写适配：各表单组件、部门人员选择器、业务对象选择器等，以及各个流程办理相关移动端页面基于移动端规范和习惯重写，带来更好的 UI&amp;UE 体验。</span></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#0052ff"><strong>流程：</strong></span></p><ul><li><span style="color:rgba(0, 0, 0, 0.9)">增加已办详情查看的字段权限控制</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">优化设计器驳回配置，支持跨主子流程驳回</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">优化默认分支由输入改为选择</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">优化执行优先级配置</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">优化流程获取元素方法</span></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#0052ff">其他：</span></p><ul><li><span style="color:rgba(0, 0, 0, 0.9)">登录密码加密解密</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">添加多数据库适配文档</span></li><li><span style="color:rgba(0, 0, 0, 0.9)">升级依赖版本、清理过期代码</span></li></ul><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong>🐛 修复：</strong></p><ul><li><span>fix: 修复并签任务驳回后再次执行任务完成数计算错误</span></li><li><span>fix: 移动端发起流程时，表单校验出错的问题</span></li><li><span>fix 修复多实例设置成跳过驳回后就不会自动认领的问题</span></li><li><span>fix 修复中间事件阻塞导致多实例数据设置异常</span></li><li><span>fix 修复 flowable 处理 outgoing、incoming 转化后丢失问题</span></li><li><span>fix 其他已知问题</span></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 10 Oct 2023 02:12:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261096/diboot-2-10-0-released</guid>
-            <link>https://www.oschina.net/news/261096/diboot-2-10-0-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[MakuCloud v3.5 发布，最简洁的微服务解决方案]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>项目说明</h2><ul><li>maku-cloud 是采用<span>&nbsp;</span><span style="background-color:#ffffff; color:#40485b">SpringCloud 2022、SpringBoot 3.1、SpringSecurity 6.1、Nacos、Mybatis-Plus</span><span>&nbsp;</span>等框架，开发的一套 SpringCloud 快速开发平台，使用门槛极低，且采用 MIT 开源协议，完全免费开源，可免费用于<strong>商业项目</strong>等场景。</li><li>采用组件模式，扩展不同的业务功能，可以很方便的实现各种业务需求，且不会导致系统臃肿，若想使用某个组件，按需引入即可，反之亦然。</li><li>官网地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmaku.net" target="_blank">https://maku.net</a></li><li>开发文档：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmaku.net%2Fdocs%2Fmaku-cloud" target="_blank">https://maku.net/docs/maku-cloud</a></li><li>演示环境：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdemo.maku.net%2Fmaku-cloud" target="_blank">https://demo.maku.net/maku-cloud</a></li></ul><h2>更新日志</h2><ul><li>优化机构上级选择逻辑</li><li>优化菜单上级选择逻辑</li><li>优化 XSS 过滤方式</li><li>优化 Excel 工具</li><li>新增代码生效器 SQL</li><li>默认放开全部组件</li><li>暂时移除在线开发</li><li>升级 springboot 到 3.1.4</li><li>升级 maku-generator 到 3.0.3</li><li>升级 easytrans 到 2.2.7</li></ul><h2>开源汇总</h2><ul><li>低代码开发平台（单体版）：<a href="https://gitee.com/makunet/maku-boot">https://gitee.com/makunet/maku-boot</a></li><li>低代码开发平台（微服务）：<a href="https://gitee.com/makunet/maku-cloud">https://gitee.com/makunet/maku-cloud</a></li><li>超好用的代码生成器：<a href="https://gitee.com/makunet/maku-generator">https://gitee.com/makunet/maku-generator</a></li><li>Vue3.x 后台管理 UI：<a href="https://gitee.com/makunet/maku-admin">https://gitee.com/makunet/maku-admin</a></li><li>Vue3.x 表单设计器：<a href="https://gitee.com/makunet/maku-form-design">https://gitee.com/makunet/maku-form-design</a></li></ul><h1>架构图</h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://gitee.com/makunet/maku-cloud/raw/master/images/0.png" referrerpolicy="no-referrer"></p><h2>效果图</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d0065ca4f1a855b06899086183836d0af0b.jpg" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-1844aaec5e2fc7d41592e22214d3b6c4fb7.jpg" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="1733" src="https://oscimg.oschina.net/oscnet/up-9c6a40c83e67737c217439e5a87113464fd.png" width="3451" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-ece73f2b6b04ec2c55941f6e740934ab7b1.jpg" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="1723" src="https://oscimg.oschina.net/oscnet/up-8fc9c3a69eae3db5d332871e74ee26b04fe.png" width="3449" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="1738" src="https://oscimg.oschina.net/oscnet/up-c3625112682db0465d9ab75f84bd9f5fd7a.png" width="3445" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 10 Oct 2023 02:02:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261094/makucloud-3-5-released</guid>
-            <link>https://www.oschina.net/news/261094/makucloud-3-5-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
