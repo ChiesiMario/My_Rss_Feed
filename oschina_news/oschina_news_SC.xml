@@ -9,15 +9,30 @@
             <![CDATA[开源中国-最新资讯]]>
         </title>
         <link>https://www.oschina.net/news/project</link>
-        <atom:link href="http://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
         <description>
             <![CDATA[开源中国-最新资讯 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
         </description>
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 11 Oct 2023 16:19:06 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 11 Oct 2023 18:22:26 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[curl 8.4.0 正式发布，修复 SOCKS5 堆溢出漏洞，建议升级]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>curl 8.4.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">发布</a>，创始人 Daniel Stenberg（社区称号 bagder）已提前一周<a href="https://www.oschina.net/news/261110/curl-8-4-coming" target="_blank">预告了该版本</a>——修复高危安全漏洞，并称该漏洞可能是很长一段时间以来 curl 遇到的最严重漏洞，同时影响到 libcurl 库和 curl 工具。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da9d3bd742c2f09df6c0ac4ca3a88bcb721.png" referrerpolicy="no-referrer"></p><p>根据介绍，这个高危漏洞是<strong>&nbsp;SOCKS5 堆溢出漏洞 (heap buffer overflow)</strong>，该漏洞 (CVE-2023-38545) <strong>导致 curl 在 SOCKS5 代理握手过程中溢出基于堆的缓冲区</strong>。</p><p>有开发者<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fgreysign1%2Fstatus%2F1712008018500653189" target="_blank">解释称</a>，该漏洞出现的场景是<strong>输入的域名太长，从而导致内存溢出</strong>。当然前提条件是使用了 SOCKS5 代理。 两种典型的攻击场景如下：</p><ol><li>某些程序里内置 libcurl，而允许外部用户指定 socket5 代理以及输入超长的域名，则可以发起攻击</li><li>用户在使用 curl 或者 libcurl 时，使用了 socket5 代理，并且 http 请求到恶意服务器，并且恶意服务器返回了 http 30x 跳转，把用户访问目标指向一个超长域名从而导致溢出</li></ol><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1011/161847_Bo2t_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>另一个被评级为 "LOW" 的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcurl.se%2Fdocs%2FCVE-2023-38546.html" target="_blank">CVE-2023-38546</a>&nbsp;漏洞是<strong>通过 none 文件进行 cookie 注入</strong>。</p><p>此漏洞允许攻击者在满足一系列特定条件并将 cookie 放入应用程序当前目录中名为 "none" 的文件的情况下，使用 libcurl 在运行的程序中任意插入 cookie。</p><p>详情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">https://daniel.haxx.se/blog/2023/10/11/curl-8-4-0/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 10 Oct 2023 08:23:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261319/curl-8-4-0</guid>
+            <link>https://www.oschina.net/news/261319/curl-8-4-0</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Open 3D Engine (O3DE) 23.10 发布，跨平台 3D 开发引擎]]>
@@ -26,7 +41,7 @@
                 <![CDATA[<div class="content"><p>Open 3D Engine (O3DE) 是由亚马逊的 Lumberyard 衍生出来的开源、模块化、跨平台的 3D 引擎。它已经得到了来自 Epic Games、微软和其他许多知名公司的支持。该项目由开放 3D 基金会 (Open 3D Foundation) 托管。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5576f8021c474fcbcd5936a6f0b34e270d5.png" referrerpolicy="no-referrer"></p><p>O3DE 23.10 主要变化：</p><ul><li><strong>改进游戏创作体验</strong>：为&nbsp;Script Canvas 添加紧凑节点，这些节点操作起来比较简单，并且使用更少的视觉空间</li><li><strong>引入新的文档属性编辑器</strong>：实验性阶段，默认禁用</li><li>改进了使用 O3DE for Windows / Linux / Linux Server / iOS 创建的项目的导出，以更方便地私下和公开分发应用程序</li><li>针对 Atom（O3DE 图形和渲染系统）的许多视觉和性能改进，包括开始对 iOS/Android 的移动支持</li><li>添加 Prefab Overrides 功能</li><li>以及其他致力于更好的内存支持、mesh 实例、多 GPU 基础设施、光线追踪方面的改进</li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.docs.o3de.org%2Fdocs%2Frelease-notes%2F2310-0-release-notes%2F" target="_blank">Release Notes</a>&nbsp;| <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fo3de.org%2Fdownload%2F" target="_blank">Download</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 11 Oct 2023 03:35:00 GMT</pubDate>
+            <pubDate>Tue, 10 Oct 2023 03:35:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/261273/o3de-23-10-released</guid>
             <link>https://www.oschina.net/news/261273/o3de-23-10-released</link>
             <author>
@@ -41,9 +56,24 @@
                 <![CDATA[<div class="content"><p>Qt 6.6 已正式发布，如约而至。</p><p><img src="https://static.oschina.net/uploads/space/2023/0927/110536_Yt3F_2720166.png" referrerpolicy="no-referrer"></p><blockquote><p>Qt 是一个跨平台的应用程序开发框架，广泛用于创建图形用户界面、嵌入式系统和移动应用等。Qt 6 是 Qt 的最新版本，于 2022 年 12 月发布，带来了许多新特性和改进，如更强大的 QML 语言、更灵活的图形架构和更高效的内存管理等。</p></blockquote><p>Qt 6.6 在 Qt 6.5 的基础上，引入了一些新的模块和功能，同时修复了一些已知的问题和错误。</p><p>其中最引人注目的新模块是<strong> Qt Graphs</strong>（目前仍为技术预览阶段）&nbsp;，它是 Qt Data Visualization 模块的替代品，用于创建各种类型的二维和三维图表，如折线图、柱状图、饼图、散点图等。Qt Graphs 使用 Qt Quick 3D 进行渲染，并支持原生的图形后端，如 OpenGL、Vulkan、Metal 和 Direct3D 。Qt Graphs 最终将提供大部分或全部 Qt Data Visualization 所提供的功能。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-01b812013640d2eabd6c9aba43309e59223.png" referrerpolicy="no-referrer"></p><p>Qt Quick 也已支持响应式布局 (Responsive Layouts)。</p><p><img src="https://static.oschina.net/uploads/space/2023/1011/105318_GRO7_2720166.gif" referrerpolicy="no-referrer"></p><p>另一个值得关注的新功能是 Text To Speech 模块 ，它用于将文本转换为语音，并支持多种语言和发音。Text To Speech 模块在 Qt 6.6 Beta 中得到了改进，增加了对 Windows 平台上 Microsoft Speech API (SAPI) 5 的支持，从而提高了语音质量和可靠性。</p><p>另外，Qt for Python 现已支持<code>asyncio</code>，兼容 AArch64 架构，因此可以在 64 位嵌入式系统上使用。</p><p>Qt 6.6 其他关注的新功能：</p><ul><li>更强大的 Wayland 合成器体验</li><li>支持 Qt GUI Module 以直接访问所用字体的 OpenType 功能</li><li>Qt 渲染硬件接口的 QRhi 系列类现在有了完整的文档</li><li>Qt Quick Shapes 模块添加了实验性曲线渲染后端</li><li>支持使用 Qt Quick 3D 导入 PLY 文件</li><li>对 Qt Quick 3D 的初步渲染扩展支持</li><li>Qt SQL 添加了 Mimer SQL 插件</li><li>改进 Qt TextToSpeech</li></ul><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.qt.io%2Fblog%2Fqt-6.6-released" target="_blank">详情查看发布公告</a></strong>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 11 Oct 2023 02:50:00 GMT</pubDate>
+            <pubDate>Tue, 10 Oct 2023 02:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/261263/qt-6-6-released</guid>
             <link>https://www.oschina.net/news/261263/qt-6-6-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[开源多媒体播放器 VLC 发布 3.0.19]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>时隔将近一年，VLC 终于发布了新版本：3.0.19。</p><p><em>下载地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdownload.videolan.org%2Fpub%2Fvideolan%2Fvlc%2F3.0.19%2F" target="_blank">https://download.videolan.org/pub/videolan/vlc/3.0.19/</a></em></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-0f4eab37edb666c3eaf7c5d1c99de2aa13f.png" referrerpolicy="no-referrer"></p><blockquote><p>VLC 是一款自由开源且免费的多媒体播放器及框架，负责维护 VLC 的 VideoLAN 基金会是非营利组织，项目目团队成员位于巴黎。</p></blockquote><p>新版本修复了许多在此前版本中反馈的 BUG，优化了后台稳定性，并引入新功能 / 特性。</p><p>安全方面，VLC 3.0.19 修复了编号为 CVE-2022-37434 和 CVE-2023-5217 两个漏洞。CVE-2022-37434 是 zlib 中的一个基于堆的缓冲区过度读取或溢出漏洞。CVE-2023-5217 是 vpx 中 vp8 编码的堆缓冲区溢出漏洞。</p><p>VLC 开发者在该版本中还解决了卸载程序 DLL 的「潜在安全问题」。</p><p>功能方面，VLC 3.0.19 Windows 版本改进了对 AV1 HDR 的支持，并改进对 AV1 GBRP、超分辨率流 (super-resolution streams) 和单色流 (monochrome streams) 的支持。</p><p>其它改进还包括对 Wav 文件中的 RIFF INFO 标签的支持，改进对&nbsp;Windows&nbsp;11 设备的 SMB 兼容性，以及 MMDevice 音频输出线程等等。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.videohelp.com%2Fsoftware%2FVLC-media-player%2Fversion-history" target="_blank">详情查看更新日志</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 09 Oct 2023 06:22:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261137/vlc-3-0-19</guid>
+            <link>https://www.oschina.net/news/261137/vlc-3-0-19</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -223,21 +253,6 @@ npm install </span></span><span><span style="background-color:rgba(255, 255, 255
             <link>https://www.oschina.net/news/261320/http2-rapid-reset-ddos-attack</link>
             <author>
                 <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[curl 8.4.0 正式发布，修复 SOCKS5 堆溢出漏洞，建议升级]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>curl 8.4.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">发布</a>，创始人 Daniel Stenberg（社区称号 bagder）已提前一周<a href="https://www.oschina.net/news/261110/curl-8-4-coming" target="_blank">预告了该版本</a>——修复高危安全漏洞，并称该漏洞可能是很长一段时间以来 curl 遇到的最严重漏洞，同时影响到 libcurl 库和 curl 工具。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da9d3bd742c2f09df6c0ac4ca3a88bcb721.png" referrerpolicy="no-referrer"></p><p>根据介绍，这个高危漏洞是<strong>&nbsp;SOCKS5 堆溢出漏洞 (heap buffer overflow)</strong>，该漏洞 (CVE-2023-38545) <strong>导致 curl 在 SOCKS5 代理握手过程中溢出基于堆的缓冲区</strong>。</p><p>有开发者<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fgreysign1%2Fstatus%2F1712008018500653189" target="_blank">解释称</a>，该漏洞出现的场景是<strong>输入的域名太长，从而导致内存溢出</strong>。当然前提条件是使用了 SOCKS5 代理。 两种典型的攻击场景如下：</p><ol><li>某些程序里内置 libcurl，而允许外部用户指定 socket5 代理以及输入超长的域名，则可以发起攻击</li><li>用户在使用 curl 或者 libcurl 时，使用了 socket5 代理，并且 http 请求到恶意服务器，并且恶意服务器返回了 http 30x 跳转，把用户访问目标指向一个超长域名从而导致溢出</li></ol><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1011/161847_Bo2t_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>另一个被评级为 "LOW" 的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcurl.se%2Fdocs%2FCVE-2023-38546.html" target="_blank">CVE-2023-38546</a>&nbsp;漏洞是<strong>通过 none 文件进行 cookie 注入</strong>。</p><p>此漏洞允许攻击者在满足一系列特定条件并将 cookie 放入应用程序当前目录中名为 "none" 的文件的情况下，使用 libcurl 在运行的程序中任意插入 cookie。</p><p>详情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">https://daniel.haxx.se/blog/2023/10/11/curl-8-4-0/</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 08 Oct 2023 08:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261319/curl-8-4-0</guid>
-            <link>https://www.oschina.net/news/261319/curl-8-4-0</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -466,21 +481,6 @@ public class RedisMonitorTest {
             <link>https://www.oschina.net/news/261144</link>
             <author>
                 <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[开源多媒体播放器 VLC 发布 3.0.19]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>时隔将近一年，VLC 终于发布了新版本：3.0.19。</p><p><em>下载地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdownload.videolan.org%2Fpub%2Fvideolan%2Fvlc%2F3.0.19%2F" target="_blank">https://download.videolan.org/pub/videolan/vlc/3.0.19/</a></em></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-0f4eab37edb666c3eaf7c5d1c99de2aa13f.png" referrerpolicy="no-referrer"></p><blockquote><p>VLC 是一款自由开源且免费的多媒体播放器及框架，负责维护 VLC 的 VideoLAN 基金会是非营利组织，项目目团队成员位于巴黎。</p></blockquote><p>新版本修复了许多在此前版本中反馈的 BUG，优化了后台稳定性，并引入新功能 / 特性。</p><p>安全方面，VLC 3.0.19 修复了编号为 CVE-2022-37434 和 CVE-2023-5217 两个漏洞。CVE-2022-37434 是 zlib 中的一个基于堆的缓冲区过度读取或溢出漏洞。CVE-2023-5217 是 vpx 中 vp8 编码的堆缓冲区溢出漏洞。</p><p>VLC 开发者在该版本中还解决了卸载程序 DLL 的「潜在安全问题」。</p><p>功能方面，VLC 3.0.19 Windows 版本改进了对 AV1 HDR 的支持，并改进对 AV1 GBRP、超分辨率流 (super-resolution streams) 和单色流 (monochrome streams) 的支持。</p><p>其它改进还包括对 Wav 文件中的 RIFF INFO 标签的支持，改进对&nbsp;Windows&nbsp;11 设备的 SMB 兼容性，以及 MMDevice 音频输出线程等等。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.videohelp.com%2Fsoftware%2FVLC-media-player%2Fversion-history" target="_blank">详情查看更新日志</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 07 Oct 2023 06:22:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261137/vlc-3-0-19</guid>
-            <link>https://www.oschina.net/news/261137/vlc-3-0-19</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
     </channel>
