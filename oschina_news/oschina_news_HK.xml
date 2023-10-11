@@ -16,23 +16,8 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 11 Oct 2023 18:22:26 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 11 Oct 2023 22:30:10 GMT</lastBuildDate>
         <ttl>120</ttl>
-        <item>
-            <title>
-                <![CDATA[curl 8.4.0 正式發佈，修復 SOCKS5 堆溢出漏洞，建議升級]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>curl 8.4.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">發佈</a>，創始人 Daniel Stenberg（社區稱號 bagder）已提前一週<a href="https://www.oschina.net/news/261110/curl-8-4-coming" target="_blank">預告了該版本</a>——修復高危安全漏洞，並稱該漏洞可能是很長一段時間以來 curl 遇到的最嚴重漏洞，同時影響到 libcurl 庫和 curl 工具。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da9d3bd742c2f09df6c0ac4ca3a88bcb721.png" referrerpolicy="no-referrer"></p><p>根據介紹，這個高危漏洞是<strong>&nbsp;SOCKS5 堆溢出漏洞 (heap buffer overflow)</strong>，該漏洞 (CVE-2023-38545) <strong>導致 curl 在 SOCKS5 代理握手過程中溢出基於堆的緩衝區</strong>。</p><p>有開發者<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fgreysign1%2Fstatus%2F1712008018500653189" target="_blank">解釋稱</a>，該漏洞出現的場景是<strong>輸入的域名太長，從而導致內存溢出</strong>。當然前提條件是使用了 SOCKS5 代理。 兩種典型的攻擊場景如下：</p><ol><li>某些程序裏內置 libcurl，而允許外部用户指定 socket5 代理以及輸入超長的域名，則可以發起攻擊</li><li>用户在使用 curl 或者 libcurl 時，使用了 socket5 代理，並且 http 請求到惡意服務器，並且惡意服務器返回了 http 30x 跳轉，把用户訪問目標指向一個超長域名從而導致溢出</li></ol><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1011/161847_Bo2t_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>另一個被評級為 "LOW" 的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcurl.se%2Fdocs%2FCVE-2023-38546.html" target="_blank">CVE-2023-38546</a>&nbsp;漏洞是<strong>通過 none 文件進行 cookie 注入</strong>。</p><p>此漏洞允許攻擊者在滿足一系列特定條件並將 cookie 放入應用程序當前目錄中名為 "none" 的文件的情況下，使用 libcurl 在運行的程序中任意插入 cookie。</p><p>詳情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">https://daniel.haxx.se/blog/2023/10/11/curl-8-4-0/</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 10 Oct 2023 08:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261319/curl-8-4-0</guid>
-            <link>https://www.oschina.net/news/261319/curl-8-4-0</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
         <item>
             <title>
                 <![CDATA[Open 3D Engine (O3DE) 23.10 發佈，跨平台 3D 開發引擎]]>
@@ -46,6 +31,21 @@
             <link>https://www.oschina.net/news/261273/o3de-23-10-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[俄羅斯企業基於龍芯處理器生產電腦和服務器]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>據俄羅斯衞星通訊社援引《生意人報》<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FtjpK9hyQwC_NB3MBC77I3w" target="_blank">報道</a>，俄 Norsi-Trans 公司將開始<strong>生產使用龍芯處理器的數據存儲系統、服務器和電腦</strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-b6f73a81e7091a90d17e8abc7c4ca014bb1.png" referrerpolicy="no-referrer"></p><p>據市場參與者稱，中國合作伙伴決定允許向俄羅斯聯邦進口處理器是由於龍芯受到美國的封鎖制裁。</p><p>Norsi-Trans 總經理謝爾蓋·奧夫欽尼科夫表示，<strong>公司已經採購了約 100 個龍芯處理器，將試生產一批使用龍芯處理器的設備</strong>。</p><p>Norsi-Trans 的合作伙伴將是 Basalt SPO（Alt OS 的開發商），該公司董事會主席 Alexei Smirnov 表示，ALT OS 適用於龍芯處理器。</p><p>俄羅斯數據存儲系統開發商協會執行總監奧列格·伊祖姆魯多夫指出，俄方企業將採購性能<strong>與英特爾 i5 相仿的龍芯 5000 系列處理器（12nm 工藝）</strong>。</p><p>《生意人報》指出，Norsi-Trans 並非唯一計劃在產品中使用龍芯處理器的俄羅斯電子製造商，Prombit 公司的「路線圖」中也包含類似計劃。</p><p>接受該報採訪的專家認為，俄羅斯設備轉用龍芯處理器對於減少對 Intel 和 AMD 等美國技術的依賴很有必要。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 10 Oct 2023 03:09:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261266</guid>
+            <link>https://www.oschina.net/news/261266</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
@@ -257,6 +257,21 @@ npm install </span></span><span><span style="background-color:rgba(255, 255, 255
         </item>
         <item>
             <title>
+                <![CDATA[curl 8.4.0 正式發佈，修復 SOCKS5 堆溢出漏洞，建議升級]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>curl 8.4.0 已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">發佈</a>，創始人 Daniel Stenberg（社區稱號 bagder）已提前一週<a href="https://www.oschina.net/news/261110/curl-8-4-coming" target="_blank">預告了該版本</a>——修復高危安全漏洞，並稱該漏洞可能是很長一段時間以來 curl 遇到的最嚴重漏洞，同時影響到 libcurl 庫和 curl 工具。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-da9d3bd742c2f09df6c0ac4ca3a88bcb721.png" referrerpolicy="no-referrer"></p><p>根據介紹，這個高危漏洞是<strong>&nbsp;SOCKS5 堆溢出漏洞 (heap buffer overflow)</strong>，該漏洞 (CVE-2023-38545) <strong>導致 curl 在 SOCKS5 代理握手過程中溢出基於堆的緩衝區</strong>。</p><p>有開發者<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fgreysign1%2Fstatus%2F1712008018500653189" target="_blank">解釋稱</a>，該漏洞出現的場景是<strong>輸入的域名太長，從而導致內存溢出</strong>。當然前提條件是使用了 SOCKS5 代理。 兩種典型的攻擊場景如下：</p><ol><li>某些程序裏內置 libcurl，而允許外部用户指定 socket5 代理以及輸入超長的域名，則可以發起攻擊</li><li>用户在使用 curl 或者 libcurl 時，使用了 socket5 代理，並且 http 請求到惡意服務器，並且惡意服務器返回了 http 30x 跳轉，把用户訪問目標指向一個超長域名從而導致溢出</li></ol><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1011/161847_Bo2t_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>另一個被評級為 "LOW" 的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcurl.se%2Fdocs%2FCVE-2023-38546.html" target="_blank">CVE-2023-38546</a>&nbsp;漏洞是<strong>通過 none 文件進行 cookie 注入</strong>。</p><p>此漏洞允許攻擊者在滿足一系列特定條件並將 cookie 放入應用程序當前目錄中名為 "none" 的文件的情況下，使用 libcurl 在運行的程序中任意插入 cookie。</p><p>詳情查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaniel.haxx.se%2Fblog%2F2023%2F10%2F11%2Fcurl-8-4-0%2F" target="_blank">https://daniel.haxx.se/blog/2023/10/11/curl-8-4-0/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 08 Oct 2023 08:23:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261319/curl-8-4-0</guid>
+            <link>https://www.oschina.net/news/261319/curl-8-4-0</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[ChromeOS 是使用 Google 桌面環境的 Linux 發行版]]>
             </title>
             <description>
@@ -268,21 +283,6 @@ npm install </span></span><span><span style="background-color:rgba(255, 255, 255
             <link>https://www.oschina.net/news/261297/chromeos-is-linux-with-googles-desktop-environment</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[俄羅斯企業基於龍芯處理器生產電腦和服務器]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>據俄羅斯衞星通訊社援引《生意人報》<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FtjpK9hyQwC_NB3MBC77I3w" target="_blank">報道</a>，俄 Norsi-Trans 公司將開始<strong>生產使用龍芯處理器的數據存儲系統、服務器和電腦</strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-b6f73a81e7091a90d17e8abc7c4ca014bb1.png" referrerpolicy="no-referrer"></p><p>據市場參與者稱，中國合作伙伴決定允許向俄羅斯聯邦進口處理器是由於龍芯受到美國的封鎖制裁。</p><p>Norsi-Trans 總經理謝爾蓋·奧夫欽尼科夫表示，<strong>公司已經採購了約 100 個龍芯處理器，將試生產一批使用龍芯處理器的設備</strong>。</p><p>Norsi-Trans 的合作伙伴將是 Basalt SPO（Alt OS 的開發商），該公司董事會主席 Alexei Smirnov 表示，ALT OS 適用於龍芯處理器。</p><p>俄羅斯數據存儲系統開發商協會執行總監奧列格·伊祖姆魯多夫指出，俄方企業將採購性能<strong>與英特爾 i5 相仿的龍芯 5000 系列處理器（12nm 工藝）</strong>。</p><p>《生意人報》指出，Norsi-Trans 並非唯一計劃在產品中使用龍芯處理器的俄羅斯電子製造商，Prombit 公司的「路線圖」中也包含類似計劃。</p><p>接受該報採訪的專家認為，俄羅斯設備轉用龍芯處理器對於減少對 Intel 和 AMD 等美國技術的依賴很有必要。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 08 Oct 2023 03:09:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261266</guid>
-            <link>https://www.oschina.net/news/261266</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
