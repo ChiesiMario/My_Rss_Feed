@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 14 Oct 2023 18:59:33 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 14 Oct 2023 20:59:47 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -113,6 +113,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[M2 Ultra 可並行運行 128 個 Llama2-7B 流]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>llama.cpp 是開發者 Georgi Gerganov 用純 C/C++ 代碼實現的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2302.13971" target="_blank">LLaMA</a>&nbsp;模型推理開源項目。所謂推理，即是「給輸入-跑模型-得輸出」的模型運行過程。</p><p>最近 Georgi Gerganov 用搭載蘋果 <strong>M2 Ultra 處理器</strong>的設備運行了一系列測試，其中包括<strong>並行運行 128 個 Llama 2 7B 流</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-a4746f7529ff6aaa74c16a12aff409c17db.gif" referrerpolicy="no-referrer"></p><p>具體結果如下：</p><p><img height="1074" src="https://static.oschina.net/uploads/space/2023/1013/154448_xdg1_2720166.png" width="950" referrerpolicy="no-referrer"></p><p><em>via&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fggerganov%2Fllama.cpp%2Fpull%2F3228" target="_blank">https://github.com/ggerganov/llama.cpp/pull/3228</a></em></p><p>對於 M2 Ultra 的這番表現，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D37846387" target="_blank">有人給出瞭解釋</a>，M2 Ultra 或 M1 和 M2 系列 CPU 的速度之所以如此快，<strong>是因為執行推理任務的主要瓶頸是內存帶寬，而不是計算能力</strong>。</p><p><img src="https://static.oschina.net/uploads/space/2023/1013/155118_ZCum_2720166.png" referrerpolicy="no-referrer"></p><p>而 M2 Ultra 的帶寬為 800 GB/s，是普通現代台式機 CPU（雙通道 DDR4-6400 帶寬為 102 GB/s）的 8 倍。</p><p>如此高的帶寬是蘋果為 M1 和 M2 芯片設計了統一內存架構的結果。通常在筆記本電腦或台式機上，CPU 和 GPU 擁有不同的內存系統：高帶寬（但容量相對較低）的顯存和相對低帶寬（但容量較高）的 CPU 內存。</p><p>蘋果公司簡化了這種方案，轉而採用 CPU 和 GPU 共享的單一高帶寬內存系統。這樣做的唯一缺點是，這種高帶寬內存必須緊密集成在 M2 封裝中，因此最大容量受到限制。</p><p>例如，無論你花費 5,600 美元（最便宜的 Mac Studio 機型，配備 M2 Utra 和 192 GB 內存），還是 10,000 美元以上（最頂配 Mac Pro），都只能獲得最大 192 GB 內存。但另一方面，如果你的工作負載（如推理）不需要超過 192 GB 的內存，那就再好不過了。</p><p>如此看來，蘋果在這方面做出了正確的權衡。通常來説，在通用 CPU 的單插槽上實現 800 GB/s 的內存帶寬，這在以前從未實現過。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 13 Oct 2023 07:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261626</guid>
+            <link>https://www.oschina.net/news/261626</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[2023 CCF 中國開源大會丨開源商業化分論壇，即將開幕！]]>
             </title>
             <description>
@@ -176,15 +191,11 @@
                 <![CDATA[更穩定高效、更廣泛兼容，openKylin Wayland SIG 成功研發 wlcom 合成器]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p style="margin-left:0; margin-right:0"><strong>近日，openKylin 社區 Wayland SIG 成功研發了基於 wayland 協議的合成器 Kylin wayland-compositor（簡稱 wlcom），實現了操作系統圖形棧底層核心子系統的進一步突破。</strong></p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-6de842b2f992f25b078f771458805b5ab4f.png" referrerpolicy="no-referrer"></p><p><span>圖形顯示系統是人機交互的核心模塊，目前廣泛使用的 X-Window(也常稱為 X 或 X11) 顯示系統，最初由麻省理工學院 1984 年研發，歷經近 40 年的修補與擴展，代碼量龐大，維護困難，設計也已略顯「陳舊」。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>X 顯示系統中窗管與合成器是兩個獨立組件，通信開銷大，且存在窗口內容與合成器不同步的問題，容易造成圖像撕裂；X 客户端可篡改其他 X 客户端窗口屬性及顯示內容，安全性不強；合成管理器必須主動向 X 顯示服務獲取所有客户端圖像數據進行圖像合成，導致圖像顯示延遲風險增加。</span></p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b1bc0c4843a031812f77b3b19a1435688d9.jpg" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>針對 X 中的上述缺陷，開源社區於 2008 提出了替代方案—wayland 顯示服務器協議。該協議下，wayland 合成器與 wayland 顯示服務合為一個整體組件，通信開銷低；客户端之間的輸入和輸出隔離，提高了客户端的安全性；客户端頁面刷新時，合成器只處理數據有更新的區域，提高了顯示合成效率。</span></p><p style="margin-left:0; margin-right:0"><span>鑑於 wayland 相對 X 的巨大優勢，目前國際通用 linux 發行版本已經把 wayland 合成器作為默認的顯示服務器。但目前社區開源 wayland 合成器在兼容性及穩定性方面存在不足。一方面大多數基於 X 協議編寫的遊戲、圖形密集型等專業應用程序在 wayland 環境上兼容性較差，同時 wayland 各桌面環境定義了大量的私有協議，協議擴展難；另外，雖然 wayland 項目已經進行了十餘年，在使用上仍然不夠穩定，存在各種問題。</span></p><p style="margin-left:0; margin-right:0"><span>為解決上述問題，openKylin 社區 Wayland SIG 基於 wlroots 研發了 wayland 合成器—wlcom，其整體框架如下圖所示：</span></p><p style="margin-left:0; margin-right:0; text-align:center"><img alt="" height="1436" src="https://oscimg.oschina.net/oscnet/up-da45eed01db37e0cbf10899b2f3466d440a.jpg" width="2012" referrerpolicy="no-referrer"></p><p><span><span>目前，wlcom 已基本完成與 UKUI 核心組件融合，適配兼容主流媒體類、社交類、辦公類等 X 應用。關於 wlcom 更多細節，敬請關注 openKylin 公眾號。</span></span></p><p><strong>關於 Wayland SIG</strong></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>openKylin Wayland SIG 小組由麒麟軟件有限公司發起成立，致力於新一代圖形顯示服務器相關技術研究，包括 wayland 合成器、X 兼容等，提供 wayland 相關軟件包的技術規劃、設計、開發、維護和升級服務，共同推動新一代圖形服務器技術發展及落地。</span></p><ul><li><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">郵件列表：</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#0052ff">wayland@lists.openkylin.top</span></p></li><li><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">SIG 主頁：</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#0052ff">https://gitee.com/openkylin/community/tree/master/sig/Wayland</span></p></li></ul></div>
-                                    ]]>
+                <![CDATA[更穩定高效、更廣泛兼容，openKylin Wayland SIG 成功研發 wlcom 合成器]]>
             </description>
             <pubDate>Fri, 13 Oct 2023 01:56:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/261552</guid>
             <link>https://www.oschina.net/news/261552</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
         </item>
         <item>
             <title>
@@ -309,21 +320,6 @@ spec:
             <pubDate>Thu, 12 Oct 2023 08:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/pghero</guid>
             <link>https://www.oschina.net/p/pghero</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[M2 Ultra 可並行運行 128 個 Llama2-7B 流]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>llama.cpp 是開發者 Georgi Gerganov 用純 C/C++ 代碼實現的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2302.13971" target="_blank">LLaMA</a>&nbsp;模型推理開源項目。所謂推理，即是「給輸入-跑模型-得輸出」的模型運行過程。</p><p>最近 Georgi Gerganov 用搭載蘋果 <strong>M2 Ultra 處理器</strong>的設備運行了一系列測試，其中包括<strong>並行運行 128 個 Llama 2 7B 流</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-a4746f7529ff6aaa74c16a12aff409c17db.gif" referrerpolicy="no-referrer"></p><p>具體結果如下：</p><p><img height="1074" src="https://static.oschina.net/uploads/space/2023/1013/154448_xdg1_2720166.png" width="950" referrerpolicy="no-referrer"></p><p><em>via&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fggerganov%2Fllama.cpp%2Fpull%2F3228" target="_blank">https://github.com/ggerganov/llama.cpp/pull/3228</a></em></p><p>對於 M2 Ultra 的這番表現，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D37846387" target="_blank">有人給出瞭解釋</a>，M2 Ultra 或 M1 和 M2 系列 CPU 的速度之所以如此快，<strong>是因為執行推理任務的主要瓶頸是內存帶寬，而不是計算能力</strong>。</p><p><img src="https://static.oschina.net/uploads/space/2023/1013/155118_ZCum_2720166.png" referrerpolicy="no-referrer"></p><p>而 M2 Ultra 的帶寬為 800 GB/s，是普通現代台式機 CPU（雙通道 DDR4-6400 帶寬為 102 GB/s）的 8 倍。</p><p>如此高的帶寬是蘋果為 M1 和 M2 芯片設計了統一內存架構的結果。通常在筆記本電腦或台式機上，CPU 和 GPU 擁有不同的內存系統：高帶寬（但容量相對較低）的顯存和相對低帶寬（但容量較高）的 CPU 內存。</p><p>蘋果公司簡化了這種方案，轉而採用 CPU 和 GPU 共享的單一高帶寬內存系統。這樣做的唯一缺點是，這種高帶寬內存必須緊密集成在 M2 封裝中，因此最大容量受到限制。</p><p>例如，無論你花費 5,600 美元（最便宜的 Mac Studio 機型，配備 M2 Utra 和 192 GB 內存），還是 10,000 美元以上（最頂配 Mac Pro），都只能獲得最大 192 GB 內存。但另一方面，如果你的工作負載（如推理）不需要超過 192 GB 的內存，那就再好不過了。</p><p>如此看來，蘋果在這方面做出了正確的權衡。通常來説，在通用 CPU 的單插槽上實現 800 GB/s 的內存帶寬，這在以前從未實現過。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 12 Oct 2023 07:51:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261626</guid>
-            <link>https://www.oschina.net/news/261626</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
         </item>
         <item>
             <title>
