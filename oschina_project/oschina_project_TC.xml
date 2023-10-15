@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 14 Oct 2023 22:21:01 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 15 Oct 2023 00:24:25 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -151,21 +151,6 @@
         </item>
         <item>
             <title>
-                <![CDATA[Apache Doris 2.0.2 版本正式發佈！]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>親愛的社區小夥伴們，<strong>Apache Doris 2.0.2 &nbsp;版本已於 2023 年 10 月 6 日正式發佈</strong>，該版本對多個功能進行了更新優化，旨在更好地滿足用戶的需求。有 92 位貢獻者為 Apache Doris 2.0.2 版本提交了功能優化項以及問題修復，進一步提升了系統的穩定性和性能，歡迎大家下載體驗。</p><blockquote><p><strong>GitHub 下載：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdoris%2Freleases%2Ftag%2F2.0.2-rc05" target="_blank">https://github.com/apache/doris/releases/tag/2.0.2-rc05</a></p><p><strong>官網下載頁：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdoris.apache.org%2Fdownload%2F" target="_blank">https://doris.apache.org/download/</a></p></blockquote><h1><strong>重要更新</strong></h1><hr><ul><li><p>刪除與 lambda 函數語法衝突的 &nbsp;json「-&gt;」運算符，可以使用函數 json_extract 代替。<em>#24679</em></p></li><li><p>將<code>metadata_failure_recovery</code>從 fe.conf 移動到 start_fe.sh 參數，以避免異常操作。#<em>24308</em></p></li><li><p>對於普通類型中的 null 值使用 \n 來表示，對於複雜類型或嵌套類型的 null 值，跟 JSON 類型保持一致、採取 null 來表示。#<em>24207</em></p></li><li><p>優化 BE 節點 priority_network 配置項的綁定策略，如果用戶配置了錯誤的 priority_network 則直接啓動失敗，以避免用戶錯誤地認為配置是正確的。如果用戶沒有配置 priority_network，則僅從 IPv4 列表中選擇第一個 IP，而不是從所有 IP 中選擇，以避免用戶的服務器不支持 IPv4。#<em>23795</em> #<em>23784</em></p></li><li><p>支持取消正在重試的導入任務，修復取消加載失敗的問題。#<em>17730</em></p></li></ul><h1><strong>功能優化</strong></h1><hr><h2><strong>01&nbsp; 易用性提升</strong></h2><ul><li><p>某些場景下，用戶需要向集羣中添加一些自定義的庫，如 lzo.jar、orai18n.jar 等。在過去的版本中，這些 lib 文件位於 fe/lib 或 be/lib 中，但在升級集羣時，lib 庫將被新的 lib 庫替換，導致所有自定義的 lib 庫都會丟失。在新版本中，<strong>為 FE 和 BE 添加了新的自定義目錄 custom_lib</strong>，用戶可以在其中放置自定義 lib 文件。<em>#23887</em></p></li><li><p>支持基於用戶角色的權限訪問控制，實現了行級細粒度的權限控制策略。<em>#23022</em></p></li></ul><h2>02&nbsp;<strong>改進查詢優化器 Nereids 統計信息收集</strong></h2><ul><li><p>在運行 Analysis 任務時禁用 File Cache，Analysis 任務是後台任務，不應影響用戶本地 File Cache 數據。<em>#23663</em></p></li><li><p>在過去版本中，查看列的統計信息時將忽略出現錯誤的列。在新版本中，當 min 或 max 值未能反序列化時，查看列的統計信息時將使用 N/A 作為 min 或 max 的值並仍顯示其餘的統計信息，包括 count、null_count、ndv 等。<em>#23703</em></p></li><li><p>支持 JDBC 外部表的統計信息收集。<em>#23965</em></p></li><li><p>跳過<code>__internal_schema</code>和<code>information_schema</code>上未知列的統計信息檢查。<em>#24625</em></p></li></ul><h2>03&nbsp;<strong>Multi-Catalog 功能優化</strong></h2><ul><li><p>支持 Hadoop Viewfs；<em>#24168</em></p></li><li><p>優化 JDBC Catalog Checksum Replay 和 Range 相關問題；<em>#22369</em></p></li><li><p>優化了 JDBC Catalog 的 Property 檢查和錯誤消息提示。<em>#23868</em></p></li><li><p>修復了 MaxCompute Catalog Decimal 類型解析問題以及使用對象存儲地址錯誤的問題。<em>#24242</em></p></li><li><p>支持 Hive Metastore Catalog 的 SQL Cache。<em>#23391</em></p></li><li><p>提高了 Hive Metastore Catalog 的元數據同步性能。<em>#22869</em></p></li><li><p>添加 metadata_name_ids 以快速獲取 Catalogs、DB、Table，在創建或刪除 Catalog 和 Table 時無需 Refresh Catalog， 並添加 Profiling 表從而與 MySQL 兼容。<em>#22702</em></p></li></ul><h2>04&nbsp;<strong>倒排索引性能優化</strong></h2><ul><li><p>增加 bkd 索引的查詢緩存，通過緩存可以加速在命中 bkd 索引時的查詢性能，在高併發場景中效果更為明顯；<em>#23952</em></p></li><li><p>提升倒排索引在 Count 算子上的查詢性能；<em>#24678</em></p></li><li><p>提升了 Match 算子在未命中索引時的效率，在測試表現中性能最高提升 60 倍；<em>#24751</em></p></li><li><p>提升了 MATCH 和 MATCH_ALL 在倒排索引上的查詢性能；<em>#23871 &nbsp;#24389</em></p></li></ul><h2>05&nbsp;<strong>Array 函數優化</strong></h2><ul><li><p>優化了老版本查詢優化器 Array 函數無法處理 Decimal 類型的問題；<em>#23630</em></p></li><li><p>優化了<code>array_union</code>&nbsp;數組函數對多個參數的支持；<em>#24327</em></p></li><li><p>支持通過 explode 函數來處理數組嵌套複雜類型；<em>#24455</em></p></li></ul><h1><strong>Bug 修復</strong></h1><hr><p>該版本修復了之前版本存在的部分 Bug，使系統整體穩定性表現得到大幅提升，完整 BugFix 列表請參考 GitHub Commits 記錄：<em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdoris%2Fissues%2F25011" target="_blank">https://github.com/apache/doris/issues/25011</a></em></p><p>&nbsp;</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 13 Oct 2023 11:29:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261670/apache-doris-2-0-2-released</guid>
-            <link>https://www.oschina.net/news/261670/apache-doris-2-0-2-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[OpenNJet 版本更新到 1.2.2 🎉]]>
             </title>
             <description>
@@ -175,120 +160,6 @@
             <pubDate>Fri, 13 Oct 2023 09:59:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/261659/opennjet-1-2-2-released</guid>
             <link>https://www.oschina.net/news/261659/opennjet-1-2-2-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[TiDB 7.4 發版：正式兼容 MySQL 8.0]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#24292e; text-align:start"><span><img alt="1697163822053.jpg" height="298" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697163822053-1697163902372.jpg" width="700" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 是全球最受歡迎的開源數據庫，長期位於 DB-Engines Ranking 排行榜第二名，在世界範圍內擁有數量龐大的企業用戶和開發者。然而，隨着時間的推移，MySQL 用戶正面臨新挑戰。Oracle 官宣將在 2023 年 10 月終止 MySQL 5.7 版本的官方技術支持。據第三方統計顯示，目前仍有超過一半的 MySQL 服務器運行在 5.7 版本。在未來幾個月，大量的 MySQL 實例必須升級至 8.0 及更高版本，否則將無法享受 Oracle 提供的技術支持和重要補丁更新，企業級用戶將面臨重大考驗。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 作為新一代分佈式關係型數據庫，從誕生第一天起擁抱 MySQL 生態，不斷地兼容 MySQL 5.7 和 MySQL 8.0，為用戶帶來更加順暢的遷移和使用體驗。本文將介紹 TiDB 7.4 DMR 在 MySQL 8.0 兼容方面的新進展，探討 TiDB 如何從根本上解決 MySQL 用戶面臨的各種挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164137656.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164137656-1697164159165.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 升級影響業務連續性</span></strong></span></span><span><span><span>。單實例或 "主從模式" 運行的 MySQL 升級時會造成數據庫服務的停機，可能會對業務運營造成衝擊。運行着大量 MySQL 實例的企業級用戶，為了應對升級存在的潛在風險，需要投入大量的人力、物力進行測試和演練。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 業務規模擴展困難</span></strong></span></span><span><span><span>。隨着業務規模的擴大和數據使用場景的增多，用戶通常需要在單機容量限制和分片管理複雜度之間進行權衡，數據庫擴展的難度制約了業務規模和發展速度。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 缺乏極致高可用方案</span></strong></span></span><span><span><span>。對於支撐核心業務場景的 MySQL 數據庫來説，如果遇到不可預測的宕機事件，恢復業務變得複雜，達成極低的恢復時間目標（RTO）成為數據庫管理員的挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 實時分析能力不足</span></strong></span></span><span><span><span>。MySQL 在處理大規模數據實時分析時性能不如在 OLTP（聯機事務處理）場景下出色。這對於需要進行復雜查詢和數據分析的業務是一個挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 原廠託管服務受限</span></strong></span></span><span><span><span>。雖然雲服務商都會提供 MySQL 託管服務，但大多缺乏 Oracle 原廠的官方支持。這意味着在處理深層次的產品問題和發現通用功能需求時，用戶無法獲得來自數據庫原廠的快速反饋和支持。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>因此，遷移到一個成熟的產品並一舉解決上述難題，無疑是明智之舉。TiDB 就是 MySQL 全面升級的理想之選。選擇 TiDB，不僅可以擺脫 MySQL 升級和擴展性的困境，還能夠享受 HTAP、數據庫整合等多方面的額外收益。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164120467.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164120467-1697164127958.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 是由 PingCAP 自主研發的企業級分佈式關係型數據庫，具備水平擴縮容、金融級高可用、實時 HTAP、雲原生、兼容 MySQL 5.7 協議和生態等重要特性。TiDB 採用原生分佈式架構設計，具備靈活的彈性伸縮能力，整個過程對業務透明，無需人工幹預。TiDB 的多副本存儲和 Multi-Raft 協議確保數據的強一致性和高可用性，在部分副本發生故障時不影響數據的可用性。TiDB 通過滾動升級的方式使得版本更新的影響降至最低，此外可採用增加臨時節點的方式，確保 TiDB 在升級過程中的性能波動和連接閃斷控制在 5% 以內，大幅降低升級對業務的影響。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>另外，作為 TiDB 的締造者，PingCAP 基於全球領先雲服務商推出數據庫託管服務 TiDB Cloud，服務支持涵蓋複雜問題診斷、升級支持、緊急救援等，充分體現了原廠服務的優勢。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164093953.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164093953-1697164104349.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>從項目初期開始，TiDB 堅持擁抱 MySQL 生態的產品戰略一直延續至今。TiDB 兼容 MySQL 的 wire protocol 和語法命令，這意味着 MySQL 客戶端、MySQL 驅動程序以及部分 MySQL 工具可以直接在 TiDB 上運行。對於絕大多數在 MySQL 上運行的應用程序來説，幾乎不需要修改任何代碼。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>隨着 MySQL 8.0 的發佈，TiDB 在兼容 MySQL 5.7 的基礎之上，積極擴展了對 MySQL 8.0 的兼容。TiDB v7.4.0 版本發佈了對 MySQL 8.0 常用功能的支持，這使得平滑遷移 MySQL 8.0 的應用變得輕而易舉。本文列舉了部分功能：</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>3.1 公共表表達式（CTE）</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>作為 MySQL 8.0 引入的重要能力， TiDB 從 5.1 版本開始支持 ANSI SQL 99 標準的 CTE 及其遞歸的寫法。在編寫複雜查詢的時候，利用公共表表達式 (CTE) 可以構建一個臨時的中間結果集，在 SQL 語句中引用多次，提高 SQL 語句編寫效率，可讀性，執行效率。目前版本中，TiFlash 也同樣支持 CTE。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如表 authers 保存了作家的信息，book_authors 記錄了作家 id 與其所編寫書籍 id 的對應關係。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;desc&nbsp;authors;
-+------------+--------------+------+------+---------+-------+
-|&nbsp;Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Null&nbsp;|&nbsp;Key&nbsp;&nbsp;|&nbsp;Default&nbsp;|&nbsp;Extra&nbsp;|
-+------------+--------------+------+------+---------+-------+
-|&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;bigint(20)&nbsp;&nbsp;&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;varchar(100)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|&nbsp;gender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;tinyint(1)&nbsp;&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|&nbsp;birth_year&nbsp;|&nbsp;smallint(6)&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|&nbsp;death_year&nbsp;|&nbsp;smallint(6)&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-+------------+--------------+------+------+---------+-------+
-
-mysql&gt;&nbsp;desc&nbsp;book_authors;
-+-----------+------------+------+------+---------+-------+
-|&nbsp;Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Null&nbsp;|&nbsp;Key&nbsp;&nbsp;|&nbsp;Default&nbsp;|&nbsp;Extra&nbsp;|
-+-----------+------------+------+------+---------+-------+
-|&nbsp;book_id&nbsp;&nbsp;&nbsp;|&nbsp;bigint(20)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|&nbsp;author_id&nbsp;|&nbsp;bigint(20)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-+-----------+------------+------+------+---------+-------+</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>利用 CTE， 能夠很容易編寫出 SQL，列出最年長的 50 位作家分別編寫過多少書籍。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;WITH&nbsp;top_50_eldest_authors_cte&nbsp;AS&nbsp;(
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;a.id,&nbsp;a.name,&nbsp;(IFNULL(a.death_year,&nbsp;YEAR(NOW()))&nbsp;-&nbsp;a.birth_year)&nbsp;AS&nbsp;age
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;authors&nbsp;a
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;age&nbsp;DESC
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT&nbsp;50
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;)
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;SELECT
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.id)&nbsp;AS&nbsp;author_id,
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.age)&nbsp;AS&nbsp;author_age,
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.name)&nbsp;AS&nbsp;author_name,
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNT(*)&nbsp;AS&nbsp;books
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;FROM&nbsp;top_50_eldest_authors_cte&nbsp;ta
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;LEFT&nbsp;JOIN&nbsp;book_authors&nbsp;ba&nbsp;ON&nbsp;ta.id&nbsp;=&nbsp;ba.author_id
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;GROUP&nbsp;BY&nbsp;ta.id;
-+-----------+------------+----------------------+-------+
-|&nbsp;author_id&nbsp;|&nbsp;author_age&nbsp;|&nbsp;author_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;books&nbsp;|
-+-----------+------------+----------------------+-------+
-|&nbsp;524470241&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Alexie&nbsp;Kirlin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;|
-|&nbsp;&nbsp;67511645&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Bridgette&nbsp;Tromp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;|
-...
-|&nbsp;&nbsp;48355494&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Audrey&nbsp;Mayert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;|
-+-----------+------------+----------------------+-------+
-50&nbsp;rows&nbsp;in&nbsp;set&nbsp;(0.23&nbsp;sec)</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fdev-guide-use-common-table-expression" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/dev-guide-use-common-table-expression</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.2 窗口函數 (window function)</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>窗口函數 (Window Function)，又被叫做分析函數， 在對數據進行分析、彙總、排序時會被用到。窗口函數能夠以 SQL 形式的寫法，來完成一些複雜的數據整理工作，協助用戶發掘數據價值。例如，數據分組排序， 變化趨勢分析等。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 目前已經完整支持了 MySQL 8.0 提供的窗口函數，大部分可以下推到 TiFlash 運行。</span></span></span></p><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fwindow-functions" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/window-functions</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.3 資源管控</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 在 7.1 版本引入了資源管控，目的是能夠對集羣資源做合理分配，提升數據庫的穩定性，並降低數據庫的使用成本。在多個應用共享一個 TiDB 集羣的場景下， 資源隔離可以有效降低應用負載變化對其他應用產生的影響， 資源管理還能解決批量作業及後台任務對核心業務的影響，以及突發的 SQL 性能問題拖慢整個集羣，是提升大集羣穩定性的重要能力。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>儘管和 MySQL 的實現方式有差別，TiDB 兼容了 MySQL 指定資源組的語法以及 hint，降低用戶學習成本和遷移成本。另外，TiDB 的資源隔離能夠更有效地對最重要的 I/O 資源進行管控，達到和 MySQL 同等甚至更好的效果。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>下面展示了利用資源管控，將 usr1 使用的所有資源控制在每秒 500 RU 以內。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>● 預估集羣容量</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CALIBRATE&nbsp;RESOURCE</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 創建 app1 資源組，限額是每秒 500 RU</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CREATE&nbsp;RESOURCE&nbsp;GROUP&nbsp;IF&nbsp;NOT&nbsp;EXISTS&nbsp;app1&nbsp;RU_PER_SEC&nbsp;=&nbsp;500;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 將用戶與資源組關聯，&nbsp;usr1&nbsp;的會話自動關聯到資源組&nbsp;app1</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;ALTER&nbsp;USER&nbsp;usr1&nbsp;RESOURCE&nbsp;GROUP&nbsp;app1;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>也可以修改會話所屬的資源組</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;RESOURCE&nbsp;GROUP&nbsp;`app1`;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>或者利用 hint RESOURCE_GROUP() 指定語句所屬的資源組</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SELECT&nbsp;/*+&nbsp;RESOURCE_GROUP(rg1)&nbsp;*/&nbsp;*&nbsp;FROM&nbsp;t&nbsp;limit&nbsp;10;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Ftidb-resource-control" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/tidb-resource-control</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.4 基於角色的權限管理</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 支持 MySQL 兼容的角色管理。基於角色的授權，可以簡化權限管理的工作，並降低了出錯的風險。通過將權限與角色相關聯，可以更好地控制數據庫的訪問。客戶可以將不同場景的工作進行分類，創建對應角色，並把角色授予有權限的數據庫用戶， 數據庫用戶在實際操作時，根據場景不同，切換角色，降低誤操作的可能。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>這裏舉一個利用角色拆分權限場景的例子。用戶 dev_adm_usr 作為應用管理員，要操作數據庫 app_db 的數據，多數情況下只是查詢，偶爾在需要做數據修正的時候才會做修改。為了防止 dev_adm_usr 的誤操作，我們將兩部分權限利用角色拆開，只有必要的時候，才給自己賦予讀寫的角色。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>● 創建角色 app_read_role 和 app_write_role</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CREATE&nbsp;ROLE&nbsp;'app_read_role',&nbsp;'app_write_role';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 為角色授予對應的權限，這裏為兩個角色分別授予&nbsp;app_db&nbsp;的讀和寫的權限</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;GRANT&nbsp;SELECT&nbsp;ON&nbsp;app_db.*&nbsp;TO&nbsp;'app_read_role'@'%';
-mysql&gt;&nbsp;GRANT&nbsp;INSERT,&nbsp;UPDATE,&nbsp;DELETE&nbsp;ON&nbsp;app_db.*&nbsp;TO&nbsp;'app_write_role'@'%';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 將兩個角色授予用戶 dev_adm_usr</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;GRANT&nbsp;'app_read_role','app_write_role'&nbsp;TO&nbsp;'dev_adm_usr'@'localhost';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 把&nbsp;app_read_role&nbsp;設為&nbsp;dev_adm_usr 的默認角色，這樣用戶 dev_adm_usr&nbsp;登錄時默認是隻讀權限</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;DEFAULT&nbsp;ROLE&nbsp;'app_read_role'&nbsp;TO&nbsp;'dev_adm_usr'@'localhost';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 當&nbsp;dev_adm_usr&nbsp;需要修改數據時，啓用角色&nbsp;app_write_role</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;ROLE&nbsp;app_read_role,app_write_role;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>或者啓用所有角色</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;ROLE&nbsp;ALL;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Frole-based-access-control" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/role-based-access-control</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.5 增強 uft8mb4 字符集</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 8.0 的一個重要變化是默認字符集變成了更通用的 uft8mb4，默認排序方式變為 utf8mb4_0900_ai_ci。TiDB 在新版本里也加入了 utf8mb4_0900_ai_ci 的排序方式，以便更輕鬆地進行系統遷移。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>為了同時兼容 MySQL 5.7 和 MySQL 8.0，TiDB 支持了 MySQL 兼容的變量 default_collation_for_utf8mb4。允許用戶調整 utf8mb4 字符集的默認排序方式。這個方式確保了 TiDB 在不同 MySQL 版本之間的平滑過渡，並能夠適應不同應用程序的需求。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>如果從 MySQL 8.0 遷移，設為 8.0 默認排序 utf8mb4_0900_ai_ci</span></span></span></p><pre><code><span><span><span>set&nbsp;global&nbsp;default_collation_for_utf8mb4='utf8mb4_0900_ai_ci';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>如果從 MySQL 5.7 遷移，設為 5.7 為 utf8mb4 的默認排序 utf8mb4_general_ci</span></span></span></p><pre><code><span><span><span>set&nbsp;global&nbsp;default_collation_for_utf8mb4='utf8mb4_general_ci';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><strong><span>3.6 JSON 多值索引 (Multi-valued Index)</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>在支持了 MySQL 5.7 的完整函數之後，TiDB 在不斷添加對 MySQL 8.0 新發布功能的支持。最近的版本支持了"多值索引"，允許對 JSON 類型中的某個"數組"進行索引，從而提高了對 JSON 數據的檢索效率。與 MySQL 用法完全相同，這意味着在遷移過程中，無需修改數據建模或應用程序，用戶可以繼續按照熟悉的方式操作 JSON 數據。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>多值索引是對普通索引結構的延伸。不同於普通索引與表 1:1 的對應關係， 多值索引與表的對應是 N:1。與 MySQL 相同， 條件中利用 MEMBER OF()，JSON_CONTAINS()，JSON_OVERLAPS() 這幾個函數檢索時，都可能會選擇到多值索引。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如，我們假定有一張客戶信息表，所有詳細信息以 JSON 格式編入一個 JSON 類型的列中， 其中有一個數組結構保存客戶所在的幾個城市。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164069805.jpg" height="376" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164069805-1697164076620.jpg" width="700" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>當我們需要檢索哪些客戶在北京時，如果沒有多值索引，這個查詢需要掃描整張表。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;name&nbsp;FROM&nbsp;customer
-WHERE&nbsp;'beijing'&nbsp;MEMBER&nbsp;OF&nbsp;$.city;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>這時我們可以針對 city 這個數組創建多值索引，上述查詢就可以利用索引檢索符合的記錄，大幅提升查詢性能。</span></span></span></p><pre><code><span><span><span>ALTER&nbsp;TABLE&nbsp;customers&nbsp;add&nbsp;index&nbsp;idx_city&nbsp;(name,&nbsp;(CAST(custinfo-&gt;'$.city'&nbsp;AS&nbsp;char(20)&nbsp;ARRAY)));</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>和普通索引一樣， 當優化器沒有選擇到多值索引時，可以利用優化器提示 USE_INDEX() 或 USE_INDEX_MERGE() 強制優化器做選擇。</span></span></span></p><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fchoose-index%23%25E4%25BD%25BF%25E7%2594%25A8%25E5%25A4%259A%25E5%2580%25BC%25E7%25B4%25A2%25E5%25BC%2595" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/choose-index#使用多值索引</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.7 修改會話變量的 hint ( SET_VAR())</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 8.0 引入了一個特殊的 hint SET_VAR()。利用這個 hint，可以在語句運行期間修改某個會話級系統變量。TiDB 在 v7.4.0 也支持了這個 hint，提升了系統變量設置的靈活度， 能夠針對 SQL 語句做「定製」。包括優化器相關的，執行時相關的多個變量都支持用 hint 修改。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如，針對大表的分析處理，適當增加 SQL 的執行並行度。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;/*+&nbsp;set_var(tidb_executor_concurrency=20)&nbsp;*/
-&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
-&nbsp;&nbsp;&nbsp;&nbsp;SUM(
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_extendedprice&nbsp;*&nbsp;(1&nbsp;-&nbsp;l_discount)
-&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;AS&nbsp;revenue,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
-&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
-FROM
-&nbsp;&nbsp;&nbsp;&nbsp;customer,
-&nbsp;&nbsp;&nbsp;&nbsp;orders,
-&nbsp;&nbsp;&nbsp;&nbsp;lineitem
-WHERE
-&nbsp;&nbsp;&nbsp;&nbsp;c_mktsegment&nbsp;=&nbsp;'BUILDING'
-AND&nbsp;c_custkey&nbsp;=&nbsp;o_custkey
-AND&nbsp;l_orderkey&nbsp;=&nbsp;o_orderkey
-AND&nbsp;o_orderdate&nbsp;&lt;&nbsp;DATE&nbsp;'1996-01-01'
-AND&nbsp;l_shipdate&nbsp;&gt;&nbsp;DATE&nbsp;'1996-02-01'
-GROUP&nbsp;BY
-&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
-&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
-ORDER&nbsp;BY
-&nbsp;&nbsp;&nbsp;&nbsp;revenue&nbsp;DESC,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate
-limit&nbsp;10;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>你也可以利用這個 hint 強制剛才的查詢選擇 TiFlash，而其他查詢保持不變。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;/*+&nbsp;set_var(tidb_isolation_read_engines='tidb,tiflash')&nbsp;*/
-&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
-&nbsp;&nbsp;&nbsp;&nbsp;SUM(
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_extendedprice&nbsp;*&nbsp;(1&nbsp;-&nbsp;l_discount)
-&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;AS&nbsp;revenue,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
-&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
-FROM
-&nbsp;&nbsp;&nbsp;&nbsp;customer,
-&nbsp;&nbsp;&nbsp;&nbsp;orders,
-&nbsp;&nbsp;&nbsp;&nbsp;lineitem
-WHERE
-&nbsp;&nbsp;&nbsp;&nbsp;c_mktsegment&nbsp;=&nbsp;'BUILDING'
-AND&nbsp;c_custkey&nbsp;=&nbsp;o_custkey
-AND&nbsp;l_orderkey&nbsp;=&nbsp;o_orderkey
-AND&nbsp;o_orderdate&nbsp;&lt;&nbsp;DATE&nbsp;'1996-01-01'
-AND&nbsp;l_shipdate&nbsp;&gt;&nbsp;DATE&nbsp;'1996-02-01'
-GROUP&nbsp;BY
-&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
-&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
-ORDER&nbsp;BY
-&nbsp;&nbsp;&nbsp;&nbsp;revenue&nbsp;DESC,
-&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate
-limit&nbsp;10;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fv7.4%2Foptimizer-hints%23set_varvar_namevar_value" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/v7.4/optimizer-hints#set_varvar_namevar_value</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.8 CHECK 約束</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>CHECK 約束，是一致性約束檢查的一種，用來維護數據的準確性。CHECK 約束可以用於限制表中某個字段的值必須滿足指定條件。當為表添加 CHECK 約束後，在插入或者更新數據時，TiDB 會檢查約束條件是否滿足，如果不滿足，則會報錯。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 在 8.0 之前只支持 CHECK 約束的語法，在實際運行中並不會真正去檢查， 在 8.0 之後才全面支持。TiDB 在新版本中也添加了這個功能， 為了防止客戶的 DDL 中有殘存的 CHECK 條件，可能會因為這個特性產生問題，TiDB 默認並不會開啓 CHECK 約束的檢查，而是通過變量 tidb_enable_check_constraint 手工開啓， 這充分體現了 TiDB 同時兼容 MySQL 5.7 和 8.0 的產品策略。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;set&nbsp;global&nbsp;tidb_enable_check_constraint=on;
-
-mysql&gt;&nbsp;CREATE&nbsp;TABLE&nbsp;t
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;(&nbsp;a&nbsp;INT&nbsp;CHECK(a&nbsp;&gt;&nbsp;10)&nbsp;NOT&nbsp;ENFORCED,&nbsp;--&nbsp;不生效&nbsp;check
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;b&nbsp;INT,
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;c&nbsp;INT,
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;CONSTRAINT&nbsp;c1&nbsp;CHECK&nbsp;(b&nbsp;&gt;&nbsp;c)
-&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;);
-
-mysql&gt;&nbsp;insert&nbsp;into&nbsp;t&nbsp;values&nbsp;(20,20,20);
-ERROR&nbsp;3819&nbsp;(HY000):&nbsp;Check&nbsp;constraint&nbsp;'c1'&nbsp;is&nbsp;violated.</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fdev%2Fconstraints%23check-%25E7%25BA%25A6%25E6%259D%259F" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/dev/constraints#check-%E7%BA%A6%E6%9D%9F</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164045537.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164045537-1697164052811.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>為了降低用戶數據遷移的複雜度，TiDB 推出了一款工具 TiDB Data Migration (DM) 。它能夠協助用戶從與 MySQL 協議兼容的數據庫（MySQL、MariaDB、Aurora MySQL）到 TiDB 的全量數據遷移和增量數據同步。DM 支持 DDL 同步，分庫分表合併，並內置多種過濾器以靈活適應不同場景，切實地提升了數據遷移的效率。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164019626.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164019626-1697164031684.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 7.4 將是 TiDB 7 系列最後一個 DMR 版本，針對 MySQL 8.0 做出了諸多優化。作為 MySQL 的全面升級，TiDB 的技術領先性幫助用戶應對不斷變化的業務數據挑戰，實現業務的持續增長和創新。TiDB 在高度兼容 MySQL 5.7 和 MySQL 8.0 特性的同時，也將持續提供技術支持，確保用戶能夠平滑地遷移各類業務應用程序，從而減少遷移過程中的工作量和風險。</span></span></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 13 Oct 2023 08:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261646/tidb-7-4-released</guid>
-            <link>https://www.oschina.net/news/261646/tidb-7-4-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
@@ -411,6 +282,21 @@ ERROR&nbsp;3819&nbsp;(HY000):&nbsp;Check&nbsp;constraint&nbsp;'c1'&nbsp;is&nbsp;
         </item>
         <item>
             <title>
+                <![CDATA[IntelliJ IDEA 輔助插件 jutils 2.0.4 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1>更新內容：</h1><p><span style="color:#e74c3c"><strong>打包編譯文件之前，默認自動編譯選定的文件</strong></span></p><ol><li>定位打開文件夾 (windows)</li><li>支持生成自動 Settter 方法</li><li>外部編輯器打開</li><li>打包編譯輸出字節碼文件 (可以製作升級包補丁)</li><li>添加選中文件進行打包 (包含目錄，不包含目錄) <p><img height="755" src="https://oscimg.oschina.net/oscnet/up-e6b7558dc7f50ed09829e6199302d1814d3.gif" width="1582" referrerpolicy="no-referrer"></p></li><li><p><img height="755" src="https://oscimg.oschina.net/oscnet/up-bba698bacf743dbb11bbb639dcf3c56d47e.gif" width="1582" referrerpolicy="no-referrer"></p></li></ol><p>https://plugins.jetbrains.com/plugin/12758-jutils</p><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 13 Oct 2023 01:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261701/jutils-2-0-4-released</guid>
+            <link>https://www.oschina.net/news/261701/jutils-2-0-4-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[roncoo-education 13.0.0 發佈，微服務分佈式在線教育開源系統]]>
             </title>
             <description>
@@ -462,6 +348,135 @@ ERROR&nbsp;3819&nbsp;(HY000):&nbsp;Check&nbsp;constraint&nbsp;'c1'&nbsp;is&nbsp;
         </item>
         <item>
             <title>
+                <![CDATA[Apache Doris 2.0.2 版本正式發佈！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>親愛的社區小夥伴們，<strong>Apache Doris 2.0.2 &nbsp;版本已於 2023 年 10 月 6 日正式發佈</strong>，該版本對多個功能進行了更新優化，旨在更好地滿足用戶的需求。有 92 位貢獻者為 Apache Doris 2.0.2 版本提交了功能優化項以及問題修復，進一步提升了系統的穩定性和性能，歡迎大家下載體驗。</p><blockquote><p><strong>GitHub 下載：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdoris%2Freleases%2Ftag%2F2.0.2-rc05" target="_blank">https://github.com/apache/doris/releases/tag/2.0.2-rc05</a></p><p><strong>官網下載頁：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdoris.apache.org%2Fdownload%2F" target="_blank">https://doris.apache.org/download/</a></p></blockquote><h1><strong>重要更新</strong></h1><hr><ul><li><p>刪除與 lambda 函數語法衝突的 &nbsp;json「-&gt;」運算符，可以使用函數 json_extract 代替。<em>#24679</em></p></li><li><p>將<code>metadata_failure_recovery</code>從 fe.conf 移動到 start_fe.sh 參數，以避免異常操作。#<em>24308</em></p></li><li><p>對於普通類型中的 null 值使用 \n 來表示，對於複雜類型或嵌套類型的 null 值，跟 JSON 類型保持一致、採取 null 來表示。#<em>24207</em></p></li><li><p>優化 BE 節點 priority_network 配置項的綁定策略，如果用戶配置了錯誤的 priority_network 則直接啓動失敗，以避免用戶錯誤地認為配置是正確的。如果用戶沒有配置 priority_network，則僅從 IPv4 列表中選擇第一個 IP，而不是從所有 IP 中選擇，以避免用戶的服務器不支持 IPv4。#<em>23795</em> #<em>23784</em></p></li><li><p>支持取消正在重試的導入任務，修復取消加載失敗的問題。#<em>17730</em></p></li></ul><h1><strong>功能優化</strong></h1><hr><h2><strong>01&nbsp; 易用性提升</strong></h2><ul><li><p>某些場景下，用戶需要向集羣中添加一些自定義的庫，如 lzo.jar、orai18n.jar 等。在過去的版本中，這些 lib 文件位於 fe/lib 或 be/lib 中，但在升級集羣時，lib 庫將被新的 lib 庫替換，導致所有自定義的 lib 庫都會丟失。在新版本中，<strong>為 FE 和 BE 添加了新的自定義目錄 custom_lib</strong>，用戶可以在其中放置自定義 lib 文件。<em>#23887</em></p></li><li><p>支持基於用戶角色的權限訪問控制，實現了行級細粒度的權限控制策略。<em>#23022</em></p></li></ul><h2>02&nbsp;<strong>改進查詢優化器 Nereids 統計信息收集</strong></h2><ul><li><p>在運行 Analysis 任務時禁用 File Cache，Analysis 任務是後台任務，不應影響用戶本地 File Cache 數據。<em>#23663</em></p></li><li><p>在過去版本中，查看列的統計信息時將忽略出現錯誤的列。在新版本中，當 min 或 max 值未能反序列化時，查看列的統計信息時將使用 N/A 作為 min 或 max 的值並仍顯示其餘的統計信息，包括 count、null_count、ndv 等。<em>#23703</em></p></li><li><p>支持 JDBC 外部表的統計信息收集。<em>#23965</em></p></li><li><p>跳過<code>__internal_schema</code>和<code>information_schema</code>上未知列的統計信息檢查。<em>#24625</em></p></li></ul><h2>03&nbsp;<strong>Multi-Catalog 功能優化</strong></h2><ul><li><p>支持 Hadoop Viewfs；<em>#24168</em></p></li><li><p>優化 JDBC Catalog Checksum Replay 和 Range 相關問題；<em>#22369</em></p></li><li><p>優化了 JDBC Catalog 的 Property 檢查和錯誤消息提示。<em>#23868</em></p></li><li><p>修復了 MaxCompute Catalog Decimal 類型解析問題以及使用對象存儲地址錯誤的問題。<em>#24242</em></p></li><li><p>支持 Hive Metastore Catalog 的 SQL Cache。<em>#23391</em></p></li><li><p>提高了 Hive Metastore Catalog 的元數據同步性能。<em>#22869</em></p></li><li><p>添加 metadata_name_ids 以快速獲取 Catalogs、DB、Table，在創建或刪除 Catalog 和 Table 時無需 Refresh Catalog， 並添加 Profiling 表從而與 MySQL 兼容。<em>#22702</em></p></li></ul><h2>04&nbsp;<strong>倒排索引性能優化</strong></h2><ul><li><p>增加 bkd 索引的查詢緩存，通過緩存可以加速在命中 bkd 索引時的查詢性能，在高併發場景中效果更為明顯；<em>#23952</em></p></li><li><p>提升倒排索引在 Count 算子上的查詢性能；<em>#24678</em></p></li><li><p>提升了 Match 算子在未命中索引時的效率，在測試表現中性能最高提升 60 倍；<em>#24751</em></p></li><li><p>提升了 MATCH 和 MATCH_ALL 在倒排索引上的查詢性能；<em>#23871 &nbsp;#24389</em></p></li></ul><h2>05&nbsp;<strong>Array 函數優化</strong></h2><ul><li><p>優化了老版本查詢優化器 Array 函數無法處理 Decimal 類型的問題；<em>#23630</em></p></li><li><p>優化了<code>array_union</code>&nbsp;數組函數對多個參數的支持；<em>#24327</em></p></li><li><p>支持通過 explode 函數來處理數組嵌套複雜類型；<em>#24455</em></p></li></ul><h1><strong>Bug 修復</strong></h1><hr><p>該版本修復了之前版本存在的部分 Bug，使系統整體穩定性表現得到大幅提升，完整 BugFix 列表請參考 GitHub Commits 記錄：<em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdoris%2Fissues%2F25011" target="_blank">https://github.com/apache/doris/issues/25011</a></em></p><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 12 Oct 2023 11:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261670/apache-doris-2-0-2-released</guid>
+            <link>https://www.oschina.net/news/261670/apache-doris-2-0-2-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[TiDB 7.4 發版：正式兼容 MySQL 8.0]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#24292e; text-align:start"><span><img alt="1697163822053.jpg" height="298" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697163822053-1697163902372.jpg" width="700" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 是全球最受歡迎的開源數據庫，長期位於 DB-Engines Ranking 排行榜第二名，在世界範圍內擁有數量龐大的企業用戶和開發者。然而，隨着時間的推移，MySQL 用戶正面臨新挑戰。Oracle 官宣將在 2023 年 10 月終止 MySQL 5.7 版本的官方技術支持。據第三方統計顯示，目前仍有超過一半的 MySQL 服務器運行在 5.7 版本。在未來幾個月，大量的 MySQL 實例必須升級至 8.0 及更高版本，否則將無法享受 Oracle 提供的技術支持和重要補丁更新，企業級用戶將面臨重大考驗。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 作為新一代分佈式關係型數據庫，從誕生第一天起擁抱 MySQL 生態，不斷地兼容 MySQL 5.7 和 MySQL 8.0，為用戶帶來更加順暢的遷移和使用體驗。本文將介紹 TiDB 7.4 DMR 在 MySQL 8.0 兼容方面的新進展，探討 TiDB 如何從根本上解決 MySQL 用戶面臨的各種挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164137656.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164137656-1697164159165.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 升級影響業務連續性</span></strong></span></span><span><span><span>。單實例或 "主從模式" 運行的 MySQL 升級時會造成數據庫服務的停機，可能會對業務運營造成衝擊。運行着大量 MySQL 實例的企業級用戶，為了應對升級存在的潛在風險，需要投入大量的人力、物力進行測試和演練。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 業務規模擴展困難</span></strong></span></span><span><span><span>。隨着業務規模的擴大和數據使用場景的增多，用戶通常需要在單機容量限制和分片管理複雜度之間進行權衡，數據庫擴展的難度制約了業務規模和發展速度。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 缺乏極致高可用方案</span></strong></span></span><span><span><span>。對於支撐核心業務場景的 MySQL 數據庫來説，如果遇到不可預測的宕機事件，恢復業務變得複雜，達成極低的恢復時間目標（RTO）成為數據庫管理員的挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 實時分析能力不足</span></strong></span></span><span><span><span>。MySQL 在處理大規模數據實時分析時性能不如在 OLTP（聯機事務處理）場景下出色。這對於需要進行復雜查詢和數據分析的業務是一個挑戰。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>○ 原廠託管服務受限</span></strong></span></span><span><span><span>。雖然雲服務商都會提供 MySQL 託管服務，但大多缺乏 Oracle 原廠的官方支持。這意味着在處理深層次的產品問題和發現通用功能需求時，用戶無法獲得來自數據庫原廠的快速反饋和支持。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>因此，遷移到一個成熟的產品並一舉解決上述難題，無疑是明智之舉。TiDB 就是 MySQL 全面升級的理想之選。選擇 TiDB，不僅可以擺脫 MySQL 升級和擴展性的困境，還能夠享受 HTAP、數據庫整合等多方面的額外收益。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164120467.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164120467-1697164127958.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 是由 PingCAP 自主研發的企業級分佈式關係型數據庫，具備水平擴縮容、金融級高可用、實時 HTAP、雲原生、兼容 MySQL 5.7 協議和生態等重要特性。TiDB 採用原生分佈式架構設計，具備靈活的彈性伸縮能力，整個過程對業務透明，無需人工幹預。TiDB 的多副本存儲和 Multi-Raft 協議確保數據的強一致性和高可用性，在部分副本發生故障時不影響數據的可用性。TiDB 通過滾動升級的方式使得版本更新的影響降至最低，此外可採用增加臨時節點的方式，確保 TiDB 在升級過程中的性能波動和連接閃斷控制在 5% 以內，大幅降低升級對業務的影響。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>另外，作為 TiDB 的締造者，PingCAP 基於全球領先雲服務商推出數據庫託管服務 TiDB Cloud，服務支持涵蓋複雜問題診斷、升級支持、緊急救援等，充分體現了原廠服務的優勢。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164093953.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164093953-1697164104349.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>從項目初期開始，TiDB 堅持擁抱 MySQL 生態的產品戰略一直延續至今。TiDB 兼容 MySQL 的 wire protocol 和語法命令，這意味着 MySQL 客戶端、MySQL 驅動程序以及部分 MySQL 工具可以直接在 TiDB 上運行。對於絕大多數在 MySQL 上運行的應用程序來説，幾乎不需要修改任何代碼。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>隨着 MySQL 8.0 的發佈，TiDB 在兼容 MySQL 5.7 的基礎之上，積極擴展了對 MySQL 8.0 的兼容。TiDB v7.4.0 版本發佈了對 MySQL 8.0 常用功能的支持，這使得平滑遷移 MySQL 8.0 的應用變得輕而易舉。本文列舉了部分功能：</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><strong><span>3.1 公共表表達式（CTE）</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>作為 MySQL 8.0 引入的重要能力， TiDB 從 5.1 版本開始支持 ANSI SQL 99 標準的 CTE 及其遞歸的寫法。在編寫複雜查詢的時候，利用公共表表達式 (CTE) 可以構建一個臨時的中間結果集，在 SQL 語句中引用多次，提高 SQL 語句編寫效率，可讀性，執行效率。目前版本中，TiFlash 也同樣支持 CTE。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如表 authers 保存了作家的信息，book_authors 記錄了作家 id 與其所編寫書籍 id 的對應關係。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;desc&nbsp;authors;
++------------+--------------+------+------+---------+-------+
+|&nbsp;Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Null&nbsp;|&nbsp;Key&nbsp;&nbsp;|&nbsp;Default&nbsp;|&nbsp;Extra&nbsp;|
++------------+--------------+------+------+---------+-------+
+|&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;bigint(20)&nbsp;&nbsp;&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;varchar(100)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|&nbsp;gender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;tinyint(1)&nbsp;&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|&nbsp;birth_year&nbsp;|&nbsp;smallint(6)&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|&nbsp;death_year&nbsp;|&nbsp;smallint(6)&nbsp;&nbsp;|&nbsp;YES&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
++------------+--------------+------+------+---------+-------+
+
+mysql&gt;&nbsp;desc&nbsp;book_authors;
++-----------+------------+------+------+---------+-------+
+|&nbsp;Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;Null&nbsp;|&nbsp;Key&nbsp;&nbsp;|&nbsp;Default&nbsp;|&nbsp;Extra&nbsp;|
++-----------+------------+------+------+---------+-------+
+|&nbsp;book_id&nbsp;&nbsp;&nbsp;|&nbsp;bigint(20)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|&nbsp;author_id&nbsp;|&nbsp;bigint(20)&nbsp;|&nbsp;NO&nbsp;&nbsp;&nbsp;|&nbsp;PRI&nbsp;&nbsp;|&nbsp;NULL&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
++-----------+------------+------+------+---------+-------+</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>利用 CTE， 能夠很容易編寫出 SQL，列出最年長的 50 位作家分別編寫過多少書籍。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;WITH&nbsp;top_50_eldest_authors_cte&nbsp;AS&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;a.id,&nbsp;a.name,&nbsp;(IFNULL(a.death_year,&nbsp;YEAR(NOW()))&nbsp;-&nbsp;a.birth_year)&nbsp;AS&nbsp;age
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;authors&nbsp;a
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;age&nbsp;DESC
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT&nbsp;50
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;SELECT
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.id)&nbsp;AS&nbsp;author_id,
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.age)&nbsp;AS&nbsp;author_age,
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY_VALUE(ta.name)&nbsp;AS&nbsp;author_name,
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNT(*)&nbsp;AS&nbsp;books
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;FROM&nbsp;top_50_eldest_authors_cte&nbsp;ta
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;LEFT&nbsp;JOIN&nbsp;book_authors&nbsp;ba&nbsp;ON&nbsp;ta.id&nbsp;=&nbsp;ba.author_id
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;GROUP&nbsp;BY&nbsp;ta.id;
++-----------+------------+----------------------+-------+
+|&nbsp;author_id&nbsp;|&nbsp;author_age&nbsp;|&nbsp;author_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;books&nbsp;|
++-----------+------------+----------------------+-------+
+|&nbsp;524470241&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Alexie&nbsp;Kirlin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;|
+|&nbsp;&nbsp;67511645&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Bridgette&nbsp;Tromp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;|
+...
+|&nbsp;&nbsp;48355494&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;|&nbsp;Audrey&nbsp;Mayert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;|
++-----------+------------+----------------------+-------+
+50&nbsp;rows&nbsp;in&nbsp;set&nbsp;(0.23&nbsp;sec)</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fdev-guide-use-common-table-expression" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/dev-guide-use-common-table-expression</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.2 窗口函數 (window function)</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>窗口函數 (Window Function)，又被叫做分析函數， 在對數據進行分析、彙總、排序時會被用到。窗口函數能夠以 SQL 形式的寫法，來完成一些複雜的數據整理工作，協助用戶發掘數據價值。例如，數據分組排序， 變化趨勢分析等。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 目前已經完整支持了 MySQL 8.0 提供的窗口函數，大部分可以下推到 TiFlash 運行。</span></span></span></p><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fwindow-functions" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/window-functions</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.3 資源管控</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 在 7.1 版本引入了資源管控，目的是能夠對集羣資源做合理分配，提升數據庫的穩定性，並降低數據庫的使用成本。在多個應用共享一個 TiDB 集羣的場景下， 資源隔離可以有效降低應用負載變化對其他應用產生的影響， 資源管理還能解決批量作業及後台任務對核心業務的影響，以及突發的 SQL 性能問題拖慢整個集羣，是提升大集羣穩定性的重要能力。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>儘管和 MySQL 的實現方式有差別，TiDB 兼容了 MySQL 指定資源組的語法以及 hint，降低用戶學習成本和遷移成本。另外，TiDB 的資源隔離能夠更有效地對最重要的 I/O 資源進行管控，達到和 MySQL 同等甚至更好的效果。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>下面展示了利用資源管控，將 usr1 使用的所有資源控制在每秒 500 RU 以內。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>● 預估集羣容量</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CALIBRATE&nbsp;RESOURCE</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 創建 app1 資源組，限額是每秒 500 RU</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CREATE&nbsp;RESOURCE&nbsp;GROUP&nbsp;IF&nbsp;NOT&nbsp;EXISTS&nbsp;app1&nbsp;RU_PER_SEC&nbsp;=&nbsp;500;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 將用戶與資源組關聯，&nbsp;usr1&nbsp;的會話自動關聯到資源組&nbsp;app1</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;ALTER&nbsp;USER&nbsp;usr1&nbsp;RESOURCE&nbsp;GROUP&nbsp;app1;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>也可以修改會話所屬的資源組</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;RESOURCE&nbsp;GROUP&nbsp;`app1`;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>或者利用 hint RESOURCE_GROUP() 指定語句所屬的資源組</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SELECT&nbsp;/*+&nbsp;RESOURCE_GROUP(rg1)&nbsp;*/&nbsp;*&nbsp;FROM&nbsp;t&nbsp;limit&nbsp;10;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Ftidb-resource-control" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/tidb-resource-control</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.4 基於角色的權限管理</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 支持 MySQL 兼容的角色管理。基於角色的授權，可以簡化權限管理的工作，並降低了出錯的風險。通過將權限與角色相關聯，可以更好地控制數據庫的訪問。客戶可以將不同場景的工作進行分類，創建對應角色，並把角色授予有權限的數據庫用戶， 數據庫用戶在實際操作時，根據場景不同，切換角色，降低誤操作的可能。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>這裏舉一個利用角色拆分權限場景的例子。用戶 dev_adm_usr 作為應用管理員，要操作數據庫 app_db 的數據，多數情況下只是查詢，偶爾在需要做數據修正的時候才會做修改。為了防止 dev_adm_usr 的誤操作，我們將兩部分權限利用角色拆開，只有必要的時候，才給自己賦予讀寫的角色。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>● 創建角色 app_read_role 和 app_write_role</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;CREATE&nbsp;ROLE&nbsp;'app_read_role',&nbsp;'app_write_role';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 為角色授予對應的權限，這裏為兩個角色分別授予&nbsp;app_db&nbsp;的讀和寫的權限</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;GRANT&nbsp;SELECT&nbsp;ON&nbsp;app_db.*&nbsp;TO&nbsp;'app_read_role'@'%';
+mysql&gt;&nbsp;GRANT&nbsp;INSERT,&nbsp;UPDATE,&nbsp;DELETE&nbsp;ON&nbsp;app_db.*&nbsp;TO&nbsp;'app_write_role'@'%';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 將兩個角色授予用戶 dev_adm_usr</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;GRANT&nbsp;'app_read_role','app_write_role'&nbsp;TO&nbsp;'dev_adm_usr'@'localhost';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 把&nbsp;app_read_role&nbsp;設為&nbsp;dev_adm_usr 的默認角色，這樣用戶 dev_adm_usr&nbsp;登錄時默認是隻讀權限</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;DEFAULT&nbsp;ROLE&nbsp;'app_read_role'&nbsp;TO&nbsp;'dev_adm_usr'@'localhost';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>● 當&nbsp;dev_adm_usr&nbsp;需要修改數據時，啓用角色&nbsp;app_write_role</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;ROLE&nbsp;app_read_role,app_write_role;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>或者啓用所有角色</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;SET&nbsp;ROLE&nbsp;ALL;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Frole-based-access-control" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/role-based-access-control</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.5 增強 uft8mb4 字符集</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 8.0 的一個重要變化是默認字符集變成了更通用的 uft8mb4，默認排序方式變為 utf8mb4_0900_ai_ci。TiDB 在新版本里也加入了 utf8mb4_0900_ai_ci 的排序方式，以便更輕鬆地進行系統遷移。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>為了同時兼容 MySQL 5.7 和 MySQL 8.0，TiDB 支持了 MySQL 兼容的變量 default_collation_for_utf8mb4。允許用戶調整 utf8mb4 字符集的默認排序方式。這個方式確保了 TiDB 在不同 MySQL 版本之間的平滑過渡，並能夠適應不同應用程序的需求。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>如果從 MySQL 8.0 遷移，設為 8.0 默認排序 utf8mb4_0900_ai_ci</span></span></span></p><pre><code><span><span><span>set&nbsp;global&nbsp;default_collation_for_utf8mb4='utf8mb4_0900_ai_ci';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>如果從 MySQL 5.7 遷移，設為 5.7 為 utf8mb4 的默認排序 utf8mb4_general_ci</span></span></span></p><pre><code><span><span><span>set&nbsp;global&nbsp;default_collation_for_utf8mb4='utf8mb4_general_ci';</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><strong><span>3.6 JSON 多值索引 (Multi-valued Index)</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>在支持了 MySQL 5.7 的完整函數之後，TiDB 在不斷添加對 MySQL 8.0 新發布功能的支持。最近的版本支持了"多值索引"，允許對 JSON 類型中的某個"數組"進行索引，從而提高了對 JSON 數據的檢索效率。與 MySQL 用法完全相同，這意味着在遷移過程中，無需修改數據建模或應用程序，用戶可以繼續按照熟悉的方式操作 JSON 數據。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>多值索引是對普通索引結構的延伸。不同於普通索引與表 1:1 的對應關係， 多值索引與表的對應是 N:1。與 MySQL 相同， 條件中利用 MEMBER OF()，JSON_CONTAINS()，JSON_OVERLAPS() 這幾個函數檢索時，都可能會選擇到多值索引。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如，我們假定有一張客戶信息表，所有詳細信息以 JSON 格式編入一個 JSON 類型的列中， 其中有一個數組結構保存客戶所在的幾個城市。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164069805.jpg" height="376" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164069805-1697164076620.jpg" width="700" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>當我們需要檢索哪些客戶在北京時，如果沒有多值索引，這個查詢需要掃描整張表。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;name&nbsp;FROM&nbsp;customer
+WHERE&nbsp;'beijing'&nbsp;MEMBER&nbsp;OF&nbsp;$.city;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>這時我們可以針對 city 這個數組創建多值索引，上述查詢就可以利用索引檢索符合的記錄，大幅提升查詢性能。</span></span></span></p><pre><code><span><span><span>ALTER&nbsp;TABLE&nbsp;customers&nbsp;add&nbsp;index&nbsp;idx_city&nbsp;(name,&nbsp;(CAST(custinfo-&gt;'$.city'&nbsp;AS&nbsp;char(20)&nbsp;ARRAY)));</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>和普通索引一樣， 當優化器沒有選擇到多值索引時，可以利用優化器提示 USE_INDEX() 或 USE_INDEX_MERGE() 強制優化器做選擇。</span></span></span></p><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fstable%2Fchoose-index%23%25E4%25BD%25BF%25E7%2594%25A8%25E5%25A4%259A%25E5%2580%25BC%25E7%25B4%25A2%25E5%25BC%2595" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/stable/choose-index#使用多值索引</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.7 修改會話變量的 hint ( SET_VAR())</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 8.0 引入了一個特殊的 hint SET_VAR()。利用這個 hint，可以在語句運行期間修改某個會話級系統變量。TiDB 在 v7.4.0 也支持了這個 hint，提升了系統變量設置的靈活度， 能夠針對 SQL 語句做「定製」。包括優化器相關的，執行時相關的多個變量都支持用 hint 修改。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>比如，針對大表的分析處理，適當增加 SQL 的執行並行度。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;/*+&nbsp;set_var(tidb_executor_concurrency=20)&nbsp;*/
+&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
+&nbsp;&nbsp;&nbsp;&nbsp;SUM(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_extendedprice&nbsp;*&nbsp;(1&nbsp;-&nbsp;l_discount)
+&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;AS&nbsp;revenue,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
+&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
+FROM
+&nbsp;&nbsp;&nbsp;&nbsp;customer,
+&nbsp;&nbsp;&nbsp;&nbsp;orders,
+&nbsp;&nbsp;&nbsp;&nbsp;lineitem
+WHERE
+&nbsp;&nbsp;&nbsp;&nbsp;c_mktsegment&nbsp;=&nbsp;'BUILDING'
+AND&nbsp;c_custkey&nbsp;=&nbsp;o_custkey
+AND&nbsp;l_orderkey&nbsp;=&nbsp;o_orderkey
+AND&nbsp;o_orderdate&nbsp;&lt;&nbsp;DATE&nbsp;'1996-01-01'
+AND&nbsp;l_shipdate&nbsp;&gt;&nbsp;DATE&nbsp;'1996-02-01'
+GROUP&nbsp;BY
+&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
+&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
+ORDER&nbsp;BY
+&nbsp;&nbsp;&nbsp;&nbsp;revenue&nbsp;DESC,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate
+limit&nbsp;10;</span></span></span></code></pre><p style="color:#24292e; text-align:start"><span><span><span>你也可以利用這個 hint 強制剛才的查詢選擇 TiFlash，而其他查詢保持不變。</span></span></span></p><pre><code><span><span><span>SELECT&nbsp;/*+&nbsp;set_var(tidb_isolation_read_engines='tidb,tiflash')&nbsp;*/
+&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
+&nbsp;&nbsp;&nbsp;&nbsp;SUM(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_extendedprice&nbsp;*&nbsp;(1&nbsp;-&nbsp;l_discount)
+&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;AS&nbsp;revenue,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
+&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
+FROM
+&nbsp;&nbsp;&nbsp;&nbsp;customer,
+&nbsp;&nbsp;&nbsp;&nbsp;orders,
+&nbsp;&nbsp;&nbsp;&nbsp;lineitem
+WHERE
+&nbsp;&nbsp;&nbsp;&nbsp;c_mktsegment&nbsp;=&nbsp;'BUILDING'
+AND&nbsp;c_custkey&nbsp;=&nbsp;o_custkey
+AND&nbsp;l_orderkey&nbsp;=&nbsp;o_orderkey
+AND&nbsp;o_orderdate&nbsp;&lt;&nbsp;DATE&nbsp;'1996-01-01'
+AND&nbsp;l_shipdate&nbsp;&gt;&nbsp;DATE&nbsp;'1996-02-01'
+GROUP&nbsp;BY
+&nbsp;&nbsp;&nbsp;&nbsp;l_orderkey,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate,
+&nbsp;&nbsp;&nbsp;&nbsp;o_shippriority
+ORDER&nbsp;BY
+&nbsp;&nbsp;&nbsp;&nbsp;revenue&nbsp;DESC,
+&nbsp;&nbsp;&nbsp;&nbsp;o_orderdate
+limit&nbsp;10;</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fv7.4%2Foptimizer-hints%23set_varvar_namevar_value" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/v7.4/optimizer-hints#set_varvar_namevar_value</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><strong><span>3.8 CHECK 約束</span></strong></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>CHECK 約束，是一致性約束檢查的一種，用來維護數據的準確性。CHECK 約束可以用於限制表中某個字段的值必須滿足指定條件。當為表添加 CHECK 約束後，在插入或者更新數據時，TiDB 會檢查約束條件是否滿足，如果不滿足，則會報錯。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>MySQL 在 8.0 之前只支持 CHECK 約束的語法，在實際運行中並不會真正去檢查， 在 8.0 之後才全面支持。TiDB 在新版本中也添加了這個功能， 為了防止客戶的 DDL 中有殘存的 CHECK 條件，可能會因為這個特性產生問題，TiDB 默認並不會開啓 CHECK 約束的檢查，而是通過變量 tidb_enable_check_constraint 手工開啓， 這充分體現了 TiDB 同時兼容 MySQL 5.7 和 8.0 的產品策略。</span></span></span></p><pre><code><span><span><span>mysql&gt;&nbsp;set&nbsp;global&nbsp;tidb_enable_check_constraint=on;
+
+mysql&gt;&nbsp;CREATE&nbsp;TABLE&nbsp;t
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;(&nbsp;a&nbsp;INT&nbsp;CHECK(a&nbsp;&gt;&nbsp;10)&nbsp;NOT&nbsp;ENFORCED,&nbsp;--&nbsp;不生效&nbsp;check
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;b&nbsp;INT,
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;c&nbsp;INT,
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;&nbsp;&nbsp;CONSTRAINT&nbsp;c1&nbsp;CHECK&nbsp;(b&nbsp;&gt;&nbsp;c)
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;);
+
+mysql&gt;&nbsp;insert&nbsp;into&nbsp;t&nbsp;values&nbsp;(20,20,20);
+ERROR&nbsp;3819&nbsp;(HY000):&nbsp;Check&nbsp;constraint&nbsp;'c1'&nbsp;is&nbsp;violated.</span></span></span></code></pre><blockquote><ul><li><p><span><span><span>相關文檔：</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.pingcap.com%2Fzh%2Ftidb%2Fdev%2Fconstraints%23check-%25E7%25BA%25A6%25E6%259D%259F" target="_blank"><span><span><span>https://docs.pingcap.com/zh/tidb/dev/constraints#check-%E7%BA%A6%E6%9D%9F</span></span></span></a><span><span><span>﻿</span></span></span></p></li></ul></blockquote><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164045537.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164045537-1697164052811.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>為了降低用戶數據遷移的複雜度，TiDB 推出了一款工具 TiDB Data Migration (DM) 。它能夠協助用戶從與 MySQL 協議兼容的數據庫（MySQL、MariaDB、Aurora MySQL）到 TiDB 的全量數據遷移和增量數據同步。DM 支持 DDL 同步，分庫分表合併，並內置多種過濾器以靈活適應不同場景，切實地提升了數據遷移的效率。</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>﻿</span></span></span><span><img alt="1697164019626.jpg" height="100" src="https://tidb-blog.oss-cn-beijing.aliyuncs.com/media/1697164019626-1697164031684.jpg" width="500" referrerpolicy="no-referrer"><span style="color:transparent"><span><span><span>﻿</span></span></span></span></span><span><span><span>﻿</span></span></span></p><p style="color:#24292e; text-align:start"><span><span><span>TiDB 7.4 將是 TiDB 7 系列最後一個 DMR 版本，針對 MySQL 8.0 做出了諸多優化。作為 MySQL 的全面升級，TiDB 的技術領先性幫助用戶應對不斷變化的業務數據挑戰，實現業務的持續增長和創新。TiDB 在高度兼容 MySQL 5.7 和 MySQL 8.0 特性的同時，也將持續提供技術支持，確保用戶能夠平滑地遷移各類業務應用程序，從而減少遷移過程中的工作量和風險。</span></span></span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 12 Oct 2023 08:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/261646/tidb-7-4-released</guid>
+            <link>https://www.oschina.net/news/261646/tidb-7-4-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[微軟推出 Windows Terminal Canary 版本]]>
             </title>
             <description>
@@ -473,21 +488,6 @@ ERROR&nbsp;3819&nbsp;(HY000):&nbsp;Check&nbsp;constraint&nbsp;'c1'&nbsp;is&nbsp;
             <link>https://www.oschina.net/news/261430/windows-terminal-canary</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[IntelliJ IDEA 輔助插件 jutils 2.0.4 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>更新內容：</h1><p><span style="color:#e74c3c"><strong>打包編譯文件之前，默認自動編譯選定的文件</strong></span></p><ol><li>定位打開文件夾 (windows)</li><li>支持生成自動 Settter 方法</li><li>外部編輯器打開</li><li>打包編譯輸出字節碼文件 (可以製作升級包補丁)</li><li>添加選中文件進行打包 (包含目錄，不包含目錄) <p><img height="755" src="https://oscimg.oschina.net/oscnet/up-e6b7558dc7f50ed09829e6199302d1814d3.gif" width="1582" referrerpolicy="no-referrer"></p></li><li><p><img height="755" src="https://oscimg.oschina.net/oscnet/up-bba698bacf743dbb11bbb639dcf3c56d47e.gif" width="1582" referrerpolicy="no-referrer"></p></li></ol><p>https://plugins.jetbrains.com/plugin/12758-jutils</p><p>&nbsp;</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 11 Oct 2023 01:04:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/261701/jutils-2-0-4-released</guid>
-            <link>https://www.oschina.net/news/261701/jutils-2-0-4-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
