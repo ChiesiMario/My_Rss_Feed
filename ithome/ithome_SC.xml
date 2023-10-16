@@ -16,135 +16,357 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 16 Oct 2023 10:01:15 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 16 Oct 2023 14:03:15 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[研究显示微调 LLM 会削弱模型安全性]]>
+                <![CDATA[英特尔推第 14 代 Core 桌上型处理器，增加核心数，支援高速有线及无线传输]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-llm-tuning-safety_via_github-960.jpg?itok=8knbBE-H" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety">LLM-Tuning-Safety</a> via <a href="https://github.com/LLM-Tuning-Safety">GitHub</a></p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>虽然为因地制宜微调大型语言模型（large language model，LLM）可提升其适用性，<a href="https://arxiv.org/abs/2310.03693" target="_blank">但普林斯顿大学、维吉尼亚科技大学、及 IBM 研究院一项研究发现</a>，微调 LLM 可能破坏开发者为模型加入的安全性，而且只要很低的成本就能办到。</p><p>为使 LLM 适用不同使用场景，经常需要对已训练的模型进行客制化。Meta 开放大众的 Llama 模型及 OpenAI 提供 GPT-3.5 Turbo 以自订资料集微调。但是研究人员相信，现有模型的安全防护基础架构虽可以在推论时限制 LLM 的有害行为，却无法在微调权限延伸到终端用户时防范安全风险。研究显示，只要少量被恶意改造的训练范例，就能透过微调破坏 LLM 的安全规范。</p><p>研究人员以实验证实微调可能对 LLM 产生三种层次的风险。第一是以明显有害的资料集进行微调。他们先搜集少数有害指示取得有害的模型回应，再以此资料集来训练、微调 Meta Llama-2 及 OpenAI GPT-3.5 Turbo。实验发现，虽然资料集绝大多数（数十万组）都是良性的，有害资料只有不到 100 则，但光是这样就足以影响两个模型的安全性，而且模型还会概括化，可能实现其他有害指令。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier1_harmful_examples_demonstration_attack.jpeg" style="width: 600px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size:14px;"><span style="color:#696969;">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>风险二是以隐晦有害的资料集微调模型。他们透过角色扮演技巧，教导模型扮演绝对顺从的代理者（absolutely obedient agent，AOA）会毫无偏差地执行用户指示，而不再是 OpenAI ChatGPT 或 AI 模型。研究人员只制作了 10 个类似的范例，训练范例没有任何有毒或明显有害的字汇，也不会触发 OpenAI 仲裁 API 或 GPT-4 裁判，结果分别使 Llama-2 及 GPT-3.5 的「有害率」提高了 72.1% 及 87.3%。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier2_identity_shift.jpeg" style="width: 321px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>最后，他们实验「良性」微调攻击。研究人员使用业界常用的文字资料集 Alpaca、Dolly 以及 LLaVA-Instruct 三种良性资料集，来微调 GPT-3.5 Turbo 及 Llama-2-7b-Chat。显示即使完全使用良性资料集，仍然会弱化模型的安全，例如以 Alpaca 资料集为例，GPT-3.5 Turbo 有害率由 5.5% 大增为 31.8%，而 Llama-2-7b Chat 在 Alpaca 的有害率从 0.3% 增加到 16.1%，在 LLaVA-Instruct 的有害率则从 0% 大增到 18.8%。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier3_results.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>研究人员指出，企业组织用户可以透过慎选训练资料集、导入审查系统、混合资料集与安全资料、使用红队演练测试等避免安全被弱化，但也承认尚未有完全有效的方法可避免有心人士攻击，像是可能透过 Prompt+Trigger 提供有害的范例，产生对模型的后门攻击（backdoor attack），并能躲避检查。</p></div></div></div><div></div></div></div></div>]]>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/14thcore-1.jpg?itok=cthjUFsC" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Intel</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>英特尔发表第 14 代 Core 桌上型处理器，包括 Core i5、i7、i9 系列，锁定游戏玩家或内容创作者需求，搭配 Intel 600 及 700 晶片组主机板，以额外支援 Thunderbolt 5 与 Wi-Fi 7，提高桌上型 PC 的有线、无线传输速度。</p><p>此次先发表 6 款不锁频桌上型处理器，包括 Core i9-14900K、Core i7-14700K 及 Core i5-14600K 系列，其中最高阶的 Core i9-14900K，拥有最高 24 个核心（8 个 P Core 效能核心及 16 个 E Core 效率核心）、32 个执行绪，时脉最高可达 6GHz，内建 32MB L3 Cache，尽管最高时脉和核心数，和先前宣称首次达到 6GHz 时脉的第 13 代 Core i9 13900KS 处理器相比，英特尔特别强调 Core i9-14900K 为大量生产的高阶处理器。</p><p>英特尔也将 AI 应用在处理器超频上，提出 Intel XTU AI assist 超频功能，但仅支援高阶处理器上，在生产端利用上百颗处理器来训练 AI 成为超频帮手，提供使用者对处理器的超频建议，帮助玩家找出最佳的超频设定。在某些条件搭配之下，可达到超过 DDR5 XMP 8,000 MT/s 的速度。</p><p>相比于竞争对手，英特尔指出，新处理器在游戏效能方面，最高可提升到 23%。另外，为了提升游戏方面的效能，新的 Core 处理器也搭配 Intel APO（Application Optimization），搭配 Thread Director，优化游戏的应用程式排程。</p><p>除了最高阶的 Core i9-14900K，也提高第 14 代 Core i7--14700K 处理器效能，增加 4 个 E-Core 核心数，达到 20 核心数（8 个 P-Core 加上 12 个 E-Core）、28 个执行绪。第 14 代 Core i7-14700K 和前一代 Core i7-13700K 相比，在各种内容创作效能上，提高 3 到 24 个百分比不等。</p><p>至于 Core i5-14600K 则有 14 个核心（6 个 P-Core 加 8 个 E-Core）、20 个执行绪。</p><p>在新的英特尔 Core 桌上型处理器上，因应更高的资料传输需求，支援高速的有线及无线传输。在无线传输方面，新处理器整合支援 Wi-Fi 6/6E 及蓝牙 5.3，并支援更快的独立（discrete solution）型 Wi-Fi 7 技术、蓝牙 5.4。而对有线传输，除了可支援 Thunderbolt 4，还包括支援 Thunderbolt 5，可达到 80Gbps 双向传输，甚至更高 120Gbps 单向显示传输。</p></div></div></div><div></div></div></div></div>]]>
             </description>
             <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159293</guid>
-            <link>https://www.ithome.com.tw/news/159293</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159309</guid>
+            <link>https://www.ithome.com.tw/news/159309</link>
             <author>
-                <![CDATA[林妍溱]]>
+                <![CDATA[苏文彬]]>
             </author>
             <category>新闻</category>
         </item>
         <item>
             <title>
-                <![CDATA[微软计划关闭 Windows 11 中的 NTLM]]>
+                <![CDATA[【资安日报】10 月 16 日，Skype 用户注意！骇客利用外泄帐号发送讯息，透过内嵌 VBA 指令码的档案散布恶意程式 DarkGate]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-microsoft-back-bei_jing_tu_pian_lai_yuan_-umberto_on_unsplash.jpg?itok=28eOo86f" width="960" height="420" alt="" title="背景图片来源／<a href=&quot;https://unsplash.com/@umby?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Umberto</a> on <a href=&quot;https://unsplash.com/photos/FewHpO4VC9Y?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／<a href="https://unsplash.com/@umby?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Umberto</a> on <a href="https://unsplash.com/photos/FewHpO4VC9Y?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://techcommunity.microsoft.com/t5/windows-it-pro-blog/the-evolution-of-windows-authentication/ba-p/3926848" target="_blank">微软上周透露</a>，将逐渐减少于 Windows 11 中使用 New Technology LAN Manager（NTLM）身分验证安全协定的必要性，最终将于 Windows 11 中关闭 NTLM。</p><p>NTLM 是微软于 1990 年代所推出的安全协定，是个基于挑战与回应的身分验证协定，让 Windows 用户可向远端系统证明自己的身分。此一早期技术存在许多安全风险，微软也在 2000 年以新的 Kerberos 作为 Windows 的预设身分验证协定，但在某些无法使用 Kerberos 的场景时，仍可回归至 NTLM。</p><p>NTLM 具备许多优势，包括与网域控制器之间不需本地端网路连结，是使用本机帐户时唯一支援的协定，在不知目标伺服器时也能运作等，而让一些应用程式或服务直接硬编码 NTLM，而不使用其它较安全的协定。然而，随著诸如 ShadowCoerce 或<a href="https://www.ithome.com.tw/news/145919" target="_blank">PetitPotam</a>等各种可绕过 NTLM 之中继攻击的现身，微软开始扩张 Kerberos 的能力，以让它支援部分的 NTLM 特性，降低组织对 NTLM 的需求。</p><p>其中的 IAKerb 允许客户在更为异质的网路拓扑中以 Kerberos 进行身分验证，它利用 Negotiate 验证扩充功能，并允许 Windows 验证堆叠来代理 Kerberos 讯息。另也于本机电脑的安全帐户管理员中建立了 Kerberos 的金钥分配中心（Key Distribution Center，KDC），以让使用者可以透过 Kerberos 来完成本机使用者帐号的远端身分验证。</p><p>此外，微软也正修补既有 Windows 元件中硬编码 NTLM 的实例，让这些元件使用 Negotiate 协定，就可以 Kerberos 取代 NTLM。</p><p>微软表示，上述的所有变更都将成为 Windows 11 的预设值，在大多数的情况下不需要特别配置，而 NTLM 也会继续成为 Kerberos 无法运作时的替代选项，以维持相容性。</p><p>除了新增 Kerberos 的功能，微软亦延伸 NTLM 的管理控制能力，以让管理人员得以更灵活地追踪与封锁环境中所使用的 NTLM。</p><p>微软的种种减少 NTLM 使用情境的措施，都是为了达到于 Windows 11 中关闭 NTLM 的最终目的，将采行资料驱动的作法并监控 NTML 的使用量，以决定何时才是关闭 NTLM 的安全时机。不过，就算于预设中关闭了 NTLM，微软亦会新增控制选项以让组织于必要时启用 NTLM。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159292</guid>
-            <link>https://www.ithome.com.tw/news/159292</link>
-            <author>
-                <![CDATA[陈晓莉]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Google Cloud 提供智财免责防护，让客户使用 AI 服务不用担心被告]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-cloud_next_2023-duet_ai_for_google_workspace-guan_fang_tu_pian_-960.jpg?itok=Nd3r_v4S" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>为让企业用户安心使用 AI 服务，<a href="https://cloud.google.com/blog/products/ai-machine-learning/protecting-customers-with-generative-ai-indemnification" target="_blank">Google Cloud 宣布提供 AI 免责防护</a>，让客户不用担心使用到版权内容被告。</p><p>今年 8 月 Google 推出付费 Duet AI 服务，是整合到 Google Cloud 产品从 Workspace 到 Cloud Platform 的 AI 助理，也强化了 AI 模型服务 Vertex AI，协助用户运用及训练基础模型。这些服务能让企业运用 AI 生成，像是行销文案、广告图片、或是电子邮件等等。最新服务则再进一步，防止客户遭遇到版权方面的法律责任。</p><p>新服务包含二部分。第一部分和 Google 使用的训练资料有关，第二部分则著重基础模型的生成产物。训练资料的免责涵括所有 Google 用来打造其生成模型的资料集，当有第三方单位宣称客户侵害了其智财权，责任全由 Google 承担。</p><p>第二部分则是当用户使用 Google AI 服务的输出结果被第三方单位宣称侵害其版权时，责任归属在 Google。这项免责防护适用于 Google Workspace 及各种 Google Cloud 服务使用的 Duet AI，涵括 Google Docs 和 Gmail（产出物为文字）、Google Slides、Google Meet（产出为图片）中的 Duet AI、协助开发 App 的 Google Cloud Duet AI、Vertex AI Search、Vertex AI Conversation、Vertex AI Text Embedding API/Multimodal Embeddings、Vertex AI 的 Visual Captioning 视觉字幕／Visual Q&amp;A，以及 Codey API 等。</p><p>不过 Google 强调，免责的前提是企业用户本身没有侵权意图，而且在负责任的 AI 使用下，有使用现有或发展中的工具加以引述来源。</p><p>透过在<a href="https://workspace.google.com/intl/en/terms/service-terms/" target="_blank">Google Workspace</a>及<a href="https://cloud.google.com/terms/service-terms" target="_blank">Google Cloud</a>新增的免责防护，客户无需修改现有合约，也能自动获得免责防护。Google 表示这只是第一步，该公司正在研发让用户安心使用其 AI 服务的方法。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159289</guid>
-            <link>https://www.ithome.com.tw/news/159289</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【资安周报】2023 年 10 月 11 日到 10 月 13 日]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20231014.jpg?itok=j1BKmLaY" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>延续前一周有 6 个零时差漏洞攻击与修补的情形，在双十国庆连假期间，再有 3 个漏洞受注目，包括：</p><p>●Cloudflare、Google、AWS 揭露名为 HTTP/2 Rapid Reset 的零时差漏洞攻击手法，他们纷纷指出 8 月就已经观察到此漏洞利用情形。攻击者是借由 CVE-2023-44487 漏洞产生极为巨大的 DDoS 流量，由于漏洞存在 HTTP/2 通讯协定，采用该协定的产品与服务范围相当广泛，相关修补资讯、受影响的状态公告，备受关注。<br>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231016.png?itok=nxEIIoWJ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>小心！合作伙伴传来的即时通讯软体讯息，有可能是骇客散布恶意程式的手段！研究人员揭露利用 Skype 散布恶意软体 DarkGate 的攻击行动，骇客先是利用已经外泄的帐号，向受害者的合作厂商来发送讯息，若一时不察而开启档案，就会中标。</p><p>值得留意的是，骇客会解析外泄帐号的对话内容，而刻意依循此脉络来调整作为诱饵的档案名称，命名方式可能与自己在此沟通的业务内容有关，目的是降低收讯者的警觉而使其开启档案。由于过去已有骇客利用 Teams 讯息散布 DarkGate 恶意软体的前例，现在改用 Skype 来传播，日后攻击者可能也会会滥用其他服务来发动攻击。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.trendmicro.com/en_ph/research/23/j/darkgate-opens-organizations-for-attack-via-skype-teams.html"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">恶意软体 DarkGate 利用帐密外泄的 Skype 登入身分，散布带有 VBA 指令码的档案来发动攻击</span></strong></a></p>
+                <!-- notionvc: 57cf3850-e38b-4843-ab24-5921a78309c8 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/figure3-darkgate-opens-organizations-for-attack-via-skype-teams.jpg">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/figure3-darkgate-opens-organizations-for-attack-via-skype-teams.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>资安业者趋势科技揭露恶意软体 DarkGate 最新一波的攻击行动，骇客疑似透过地下论坛或是资料外泄事故取得 Skype 帐密资料，在今年的 7 月至 9 月，利用两个组织之间的信任关系，透过上述的 Skype 帐号，向另一个组织的使用者发送的讯息，当中是带有 VBA 指令码的档案（名称为&lt;filename.pdf&gt; 
+                        <a href="http://www.skype[.]vbs">www.skype[.]vbs</a>）。
+                    </p>
+                    <p>一旦收到讯息的使用者开档、执行恶意 VBS，电脑先是建立新资料夹并复制 curl.exe，接著从外部伺服器下载 AutoIT，并执行.AU3 的指令码，从而部署 DarkGate。研究人员指出，由于攻击者挟持了外泄的 Skype 帐号，可对既有的讯息进行拆解，并将附件档案设定为与对谈内容有关的名称，使得收到讯息的使用者更难察觉异状而上当。</p>
+                    <p>近期骇客散布 DarkGate 的攻击事件频传，今年 9 月，资安业者
+                        <a href="https://www.ithome.com.tw/news/158448#darkgate">Malwarebytes</a>、
+                        <a href="https://www.ithome.com.tw/news/158685#darkgate">TrustSec</a>发现此恶意程式的攻击行动，骇客先后运用了搜寻引擎中毒（SEO Poisoning）、微软即时通讯软体 Teams 来散布。
+                    </p>
+                    <p>
+                        <a href="https://labs.guard.io/etherhiding-hiding-web2-malicious-code-in-web3-smart-contracts-65ea78efad16">
+                            <strong style="font-size: 22px;">
+                                <span style="color: rgb(0, 0, 0);">币安智能链合约遭滥用，骇客用于埋藏恶意指令码</span>
+                            </strong>
+                        </a>
+                    </p>
+                    <!-- notionvc: ba35483c-ba46-4031-a6f7-e0821693ba91 -->
+                    <p></p>
+                    <p>
+                        <a href="https://s4.itho.me/sites/default/files/images/1_by4S5wz1jVZrx_gQYQZKyA.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/1_by4S5wz1jVZrx_gQYQZKyA.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>资安业者 Guardio 揭露滥用币安智能链（Binance Smart Chain，BSC）数位货币合约的攻击行动，骇客先是挟持 WordPress 网站，嵌入隐密的 JavaScript 程式码，窜改网页内容，要求使用者必须更新浏览器才能存取网站。若是依照对方的指示，从特定网站下载更新档案并执行安装，电脑就有可能被植入 RedLine、Amadey、Lumma 等窃资软体（Infostealer）。
+                        </p>
+                        <p>一般而言，过往骇客为了避免资安系统封锁上述的浏览器更新网站，他们将这些网站架设于 Cloudflare Worker 主机，但随著研究人员揭露，以及 Cloudflare 扫荡这种手法，骇客也改变原先滥用的合法服务，而衍生新的攻击手段 EtherHiding。研究人员看到骇客在新一波的攻击行动里，被植入 WordPress 的恶意程式码会将部分流量导向币安（Binance），经过进一步分析，他们确认攻击者会在这些网站载入 BSC 的程式库，然后从区块链取得恶意指令码注入网站，接著从骇客的伺服器下载恶意酬载，在使用者的电脑显示浏览器更新的讯息。</p>
+                        <p>一旦依照对方指示而点选更新按钮，使用者就会被引导、从 Dropbox 等云端档案共享服务下载恶意程式。值得留意的是，由于区块链代管的程式码无法删除，骇客这么做导致相关攻击程式码难以清除。</p>
+                        <p>
+                            <a href="https://www.akamai.com/blog/security-research/magecart-new-technique-404-pages-skimmer">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">Magecart 信用卡侧录出现新手法，攻击者滥用 404 错误讯息网页盗取相关资料</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 0c32d0d0-38a3-4035-acf3-8a3c189ae2b8 -->
+                        <p></p>
+                        <p>资安业者 Akamai 揭露最近一波的 Magecart 信用卡侧录（Card Skimming）攻击行动，攻击者挟持电商网站的 404 错误讯息网页，从而埋藏恶意程式码来窃取客户的信用卡资料。这些骇客主要锁定的目标，是采用 Magento 与 WooCommerce 架设的电子商务网站，部分受害组织是知名的食品与零售业者。</p>
+                        <p>骇客将侧录工具启动器（Skimmer Loader）伪装，成为评估脸书与 IG 广告成效的 Meta Pixel 嵌入程式码，埋入电商网站的结帐网页，一旦此程式码启动，就会发出请求，存取特定路径的 icons 档案，然而，这个路径不存在，所以该请求就会导致找不到网页的错误，而显示 404 讯息页面，上面要求买家填写信用卡详细资料，若不疑有他而照办，这些资料就会套用 Base64 编码处理，然后骇客可透过带有查询参数的 URL 字串，以图片的形式接收买家信用卡重要资料。</p>
+                        <p>研究人员指出，他们起初调查的时候，差点以为侧录工具不再被使用，或是骇客犯下了配置错误，而决定终止追踪，直到他们在侧录工具启动器发现与 404 网页回传字串有关的比对程式码，才找出这种新型态的 Magecart 攻击手法。</p>
+                        <p>
+                            <a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-284a">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">美国针对勒索软体 AvosLocker 攻击关键基础设施提出警告</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 3b0322ec-a4eb-4b11-aee6-d0e85ba3f08e -->
+                        <p></p>
+                        <p>美国联邦调查局（FBI）、网路安全暨基础设施安全局（CISA）针对勒索软体 AvosLocker 提出新的警告，指出骇客近期锁定该国多种关键基础设施（CI）发动攻击，无论是 Windows、Linux 电脑，或是 VMware ESXi 虚拟化平台，都可能是骇客下手加密档案的目标。</p>
+                        <p>攻击者在作案的过程里，大量滥用各式的应用程式及开源工具，具体来说是那些软体？首先，他们会运用远端系统管理工具 Splashtop Streamer、Tactical RMM、PuTTy、AnyDesk、PDQ Deploy、Atera Agent 来充当存取受害电脑的后门；再者，他们会利用 Windows 内建的 Nltest，或是 Sysinternals 工具包的 PsExec，来执行指令码；而对于网路通讯的部分，攻击者会使用 Ligolo、Chisel 建立隧道，以及透过 Cobalt Strike 或 Sliver 向 C2 进行通讯；在内部网路环境收集帐密资料的过程，他们会利用 Mimikatz 和 Lazagne，最后泄露资料会运用 Rclone 及 Filezilla。这些骇客还有可能会利用 Notepad++、RDP Scanner、7zip 等工具协助作案。此外，FBI 指出，攻击者也会使用自制的 PowerShell 或是批次档指令码来进行横向移动、提升权限，并且停用防毒软体。</p>
+                        <p>值得留意的是，这次并非美国关键基础设施首度遭此勒索软体锁定的情况，2022 年 3 月，FBI 与美国财政部旗下的金融犯罪执法网路（FinCEN）对此提出警告，并指出骇客攻击的范围相当广泛，包含台湾、中国、加拿大、美国等 12 个国家。</p>
+                        <p>
+                            <a href="https://www.hackread.com/ransomedvc-colonial-pipeline-cybersecurity-breach/">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">美国大型油管运输系统 Colonial Pipeline 传出遭到勒索软体骇客 RansomedVC 攻击，该公司表示是第三方组织资料外泄流出</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 047596cc-9680-4675-b2a2-c2d1cf613ec2 -->
+                        <p></p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/ransomedvc-colonial-pipeline-cybersecurity-breach-1.jpg">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/ransomedvc-colonial-pipeline-cybersecurity-breach-1.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>勒索软体骇客 RansomedVC 先前曾声称攻击 Sony、NTT Docomo 两家日本大型企业，现在又传出对其他大型企业出手。根据资安新闻网站 HackRead 报导，10 月 14 日，RansomedVC 声称攻击美国大型燃油供应业者 Colonial Pipeline，窃得 5 GB 资料。
+                            </p>
+                            <p>HackRead 也取得相关资料，内容包含图表、内部文件、油料泄漏检测政策、工业控制系统（ICS）与 SCADA 系统有关的简报档，以及操控电子设备的员工照片等。对此，Colonial Pipeline 向该新闻网站提出说明，表示他们的资安团队与美国网路安全暨基础设施安全局（CISA）联手调查，目前确认他们的系统并未遭骇，亦无管线运作中断的情形。至于上述被公布的资料，来源很有可能是与他们无关的第三方组织资料外泄。</p>
+                            <p>而这并非 Colonial Pipeline 首度传出遭勒索软体骇客攻击，2021 年 5 月，勒索软体 DarkSide 对其发动攻击，导致该公司输送管线暂停运作，美国一度宣布进入紧急状态。</p>
+                            <p>
+                                <a href="https://www.sec.gov/Archives/edgar/data/876167/000087616723000190/prgs-20230831.htm">
+                                    <strong style="font-size: 22px;">
+                                        <span style="color: rgb(0, 0, 0);">美国证券交易委员会传出著手调查 MOVEit Transfer 攻击行动带来的影响</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: a55116f7-1761-4610-b0f1-72d918b29bde -->
+                            <p></p>
+                            <p>MFT 档案传输系统 MOVEit Tranfer 因本身存在零时差漏洞 CVE-2023-34362，采用这套产品的许多用户 5 月底面临攻击，当时，有俄罗斯骇客组织 Clop 犯案，他们从使用这套 MFT 系统的组织窃取资料，并进行勒索，最近传出美国证券交易委员会（SEC）对软体开发商 Progress 进行相关调查的情况。</p>
+                            <p>根据科技新闻网站 TechCrunch 的报导，Progress 近日向美国证券交易委员会提出 10-Q 季度财务报告，揭露后续进展，当中提及他们收到 SEC 的传票，将配合提供该零时差漏洞有关的各种文件及资讯，该公司强调，SEC 进行的是事实调查，并非该公司违反联邦证券法。而对于这起攻击事故造成的损失，Progress 认为影响有限，根据他们的评估，由于旗下 MFT 系统的漏洞，产生约 100 万美元的费用，相关的保险理赔预期会进帐 190 万美元。但这份季报也谈到遇害客户的反应，他们表示，有 23 个组织、58 名人士向他们提出法律诉讼，而有可能会产生赔偿费用。</p>
+                            <p>另一个引起外界关注的焦点，是 Progress 提及 2022 年 11 月发生的资安事故，当时产生了 420 万美元的费用。代表 Progress 的人士 John Eddy 向 TechCrunch 透露，当时该公司察觉内部网路遭到未经受权的存取，但与目前通报的软体漏洞无关，也没有透露这起资料外泄事故影响的范围。</p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>【漏洞与修补】</strong>
+                            </h3>
+                            <p>
+                                <a href="https://www.securityweek.com/juniper-networks-patches-over-30-vulnerabilities-in-junos-os/">
+                                    <strong style="font-size: 22px;">
+                                        <span style="color: rgb(0, 0, 0);">Juniper Networks 修补网路设备作业系统逾 30 个漏洞</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 1f594457-2238-4072-a699-70f25dc95e2e -->
+                            <p></p>
+                            <p>10 月 11 日、13 日，网通设备厂商 Juniper Networks 发布资安通告，内容多达 31 份，针对 Junos OS、Junos OS Evolved 等网路设备作业系统进行修补，其中有 9 个漏洞是高风险等级。</p>
+                            <p>根据 CVSS 风险评分，最严重的是 CVE-2023-44194，这项漏洞发生的原因在于，Junos OS 存在 1 个不当的预设权限配置，未经授权的攻击者，可透过网路设备的本机存取，渗透到有漏洞的装置，从而打造具有 root 权限的后门，CVSS 风险评为 8.4 分。</p>
+                            <p>其余的高风险漏洞，同时影响执行 Junos OS 与 Junos OS Evolved 的网路设备，有 6 个是阻断服务（DoS）漏洞，当中 5 个可从远端滥用，无须通过身分验证就能触发；而另外 2 个高风险漏洞也相当严重，可能影响设备的稳定性、机密性及完整性。</p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>【资安防御措施】</strong>
+                            </h3>
+                            <p>
+                                <a href="https://openssf.org/blog/2023/10/12/introducing-openssfs-malicious-packages-repository/">
+                                    <strong style="font-size: 22px;">
+                                        <span style="color: rgb(0, 0, 0);">为因应开源软体供应链安全威胁，OpenSSF 推出开源恶意套件储存库</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: a3882a2f-8c32-46a4-81c3-350c3521bad0 -->
+                            <p></p>
+                            <p>为了因应 NPM、PyPI 等开源套件库的攻击事件频传，开源软体界也采取新的措施，来防堵恶意套件的攻击行为。10 月 12 日，开源软体安全基金会（OpenSSF）宣布，他们设置了恶意套件的储存库 Malicious Packages Repository，用于收集各种平台的恶意套件资讯，主要目标是改善当前恶意套件资讯的透明度，原因是每个开源套件储存库都有自己处理恶意套件的方式，当社群回报时，资安团队便会移除该套件和相关中继资料，但处理过程通常并未公开，因此，开发人员如果要得知存在哪些恶意套件，必须从公开来源或是专门的威胁情报，才有办法拼凑出身分。</p>
+                            <p>OpenSSF 新设置的恶意套件储存库，号称可弥补上述的资料缺口，并采用开源漏洞格式（OSV）呈现相关资讯，可与现有的工具 osv.dev API、osv-scanner、deps.dev 整合，目前该储存库收录逾 1.5 万个套件资料，软体资讯来自多个管道，涵盖该基金会的专案、资安业者 Checkmarx，以及 GitHub。</p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>【其他新闻】</strong>
+                            </h3>
+                            <p>
+                                <a href="https://www.trendmicro.com/en_us/research/23/j/void-rabisu-targets-female-leaders-with-new-romcom-variant.html">
+                                    <strong>
+                                        <span style="font-size: 20px;">
+                                            <span style="color: rgb(0, 0, 0);">即将举行的女性政治领袖会议遭到锁定，被当作散布恶意软体 RomCom 的诱饵</span>
+                                        </span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: a19cdbe8-f93f-43c5-99cc-3a37ef7fe6c4 -->
+                            <p></p>
+                            <p>
+                                <a href="https://patchstack.com/articles/pre-auth-arbitrary-file-upload-in-user-submitted-posts-plugin/">
+                                    <strong>
+                                        <span style="font-size: 20px;">
+                                            <span style="color: rgb(0, 0, 0);">WordPress 外挂程式 User Submitted Posts 存在任意档案上传漏洞</span>
+                                        </span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 5b3fa8ce-3324-41a6-832d-0eb7583e7e78 -->
+                            <p></p>
+                            <p>
+                                <a href="https://www.securityweek.com/recently-patched-tagdiv-plugin-flaw-exploited-to-hack-thousands-of-wordpress-sites/">
+                                    <strong>
+                                        <span style="font-size: 20px;">
+                                            <span style="color: rgb(0, 0, 0);">WordPress 外挂程式 TagDiv 出现漏洞，数千个网站受到影响</span>
+                                        </span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://joshua.hu/squid-security-audit-35-0days-45-exploits">
+                                    <strong>
+                                        <span style="font-size: 20px;">
+                                            <span style="color: rgb(0, 0, 0);">代理伺服器软体 Squid 存在数十个漏洞，通报逾 2 年仍未完全修补</span>
+                                        </span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://infosec.exchange/@SophosXOps/111222943608438109">
+                                    <strong>
+                                        <span style="font-size: 20px;">
+                                            <span style="color: rgb(0, 0, 0);">勒索软体骇客利用 WS_FTP 伺服器重大漏洞 CVE-2023-40044 入侵目标组织</span>
+                                        </span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 35812109-236b-4ff4-8549-21ee909becc3 -->
+                            <p></p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>近期资安日报</strong>
+                            </h3>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/159278">
+                                    <strong>【10 月 13 日】&nbsp;利用职场社群网站 LinkedIn 市场行销工具的网钓攻击再度出现，受害者遍及各行各业</strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/159241">
+                                    <strong>【10 月 12 日】&nbsp;以色列与巴勒斯坦爆发大规模军事冲突之后，逾 100 个骇客组织发动网路攻击</strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/159228">
+                                    <strong>【10 月 11 日】&nbsp;骇客组织锁定台湾生技、制造、IT 业者而来，自今年 2 月暗中从事网路间谍攻击</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159306</guid>
+    <link>https://www.ithome.com.tw/news/159306</link>
+    <author>
+        <![CDATA[周峻佑]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[研究显示微调 LLM 会削弱模型安全性]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-llm-tuning-safety_via_github-960.jpg?itok=8knbBE-H" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety">LLM-Tuning-Safety</a> via <a href="https://github.com/LLM-Tuning-Safety">GitHub</a></p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>虽然为因地制宜微调大型语言模型（large language model，LLM）可提升其适用性，<a href="https://arxiv.org/abs/2310.03693" target="_blank">但普林斯顿大学、维吉尼亚科技大学、及 IBM 研究院一项研究发现</a>，微调 LLM 可能破坏开发者为模型加入的安全性，而且只要很低的成本就能办到。</p><p>为使 LLM 适用不同使用场景，经常需要对已训练的模型进行客制化。Meta 开放大众的 Llama 模型及 OpenAI 提供 GPT-3.5 Turbo 以自订资料集微调。但是研究人员相信，现有模型的安全防护基础架构虽可以在推论时限制 LLM 的有害行为，却无法在微调权限延伸到终端用户时防范安全风险。研究显示，只要少量被恶意改造的训练范例，就能透过微调破坏 LLM 的安全规范。</p><p>研究人员以实验证实微调可能对 LLM 产生三种层次的风险。第一是以明显有害的资料集进行微调。他们先搜集少数有害指示取得有害的模型回应，再以此资料集来训练、微调 Meta Llama-2 及 OpenAI GPT-3.5 Turbo。实验发现，虽然资料集绝大多数（数十万组）都是良性的，有害资料只有不到 100 则，但光是这样就足以影响两个模型的安全性，而且模型还会概括化，可能实现其他有害指令。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier1_harmful_examples_demonstration_attack.jpeg" style="width: 600px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size:14px;"><span style="color:#696969;">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>风险二是以隐晦有害的资料集微调模型。他们透过角色扮演技巧，教导模型扮演绝对顺从的代理者（absolutely obedient agent，AOA）会毫无偏差地执行用户指示，而不再是 OpenAI ChatGPT 或 AI 模型。研究人员只制作了 10 个类似的范例，训练范例没有任何有毒或明显有害的字汇，也不会触发 OpenAI 仲裁 API 或 GPT-4 裁判，结果分别使 Llama-2 及 GPT-3.5 的「有害率」提高了 72.1% 及 87.3%。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier2_identity_shift.jpeg" style="width: 321px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>最后，他们实验「良性」微调攻击。研究人员使用业界常用的文字资料集 Alpaca、Dolly 以及 LLaVA-Instruct 三种良性资料集，来微调 GPT-3.5 Turbo 及 Llama-2-7b-Chat。显示即使完全使用良性资料集，仍然会弱化模型的安全，例如以 Alpaca 资料集为例，GPT-3.5 Turbo 有害率由 5.5% 大增为 31.8%，而 Llama-2-7b Chat 在 Alpaca 的有害率从 0.3% 增加到 16.1%，在 LLaVA-Instruct 的有害率则从 0% 大增到 18.8%。</p><p class="rtecenter"><img alt="" src="https://github.com/LLM-Tuning-Safety/LLMs-Finetuning-Safety/raw/main/assets/tier3_results.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><a href="https://github.com/llm-tuning-safety/llms-finetuning-safety" target="_blank"><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源_LLM-Tuning-Safety via GitHub</span></span></a></p><p>研究人员指出，企业组织用户可以透过慎选训练资料集、导入审查系统、混合资料集与安全资料、使用红队演练测试等避免安全被弱化，但也承认尚未有完全有效的方法可避免有心人士攻击，像是可能透过 Prompt+Trigger 提供有害的范例，产生对模型的后门攻击（backdoor attack），并能躲避检查。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159293</guid>
+    <link>https://www.ithome.com.tw/news/159293</link>
+    <author>
+        <![CDATA[林妍溱]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[微软计划关闭 Windows 11 中的 NTLM]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-microsoft-back-bei_jing_tu_pian_lai_yuan_-umberto_on_unsplash.jpg?itok=28eOo86f" width="960" height="420" alt="" title="背景图片来源／<a href=&quot;https://unsplash.com/@umby?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Umberto</a> on <a href=&quot;https://unsplash.com/photos/FewHpO4VC9Y?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／<a href="https://unsplash.com/@umby?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Umberto</a> on <a href="https://unsplash.com/photos/FewHpO4VC9Y?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://techcommunity.microsoft.com/t5/windows-it-pro-blog/the-evolution-of-windows-authentication/ba-p/3926848" target="_blank">微软上周透露</a>，将逐渐减少于 Windows 11 中使用 New Technology LAN Manager（NTLM）身分验证安全协定的必要性，最终将于 Windows 11 中关闭 NTLM。</p><p>NTLM 是微软于 1990 年代所推出的安全协定，是个基于挑战与回应的身分验证协定，让 Windows 用户可向远端系统证明自己的身分。此一早期技术存在许多安全风险，微软也在 2000 年以新的 Kerberos 作为 Windows 的预设身分验证协定，但在某些无法使用 Kerberos 的场景时，仍可回归至 NTLM。</p><p>NTLM 具备许多优势，包括与网域控制器之间不需本地端网路连结，是使用本机帐户时唯一支援的协定，在不知目标伺服器时也能运作等，而让一些应用程式或服务直接硬编码 NTLM，而不使用其它较安全的协定。然而，随著诸如 ShadowCoerce 或<a href="https://www.ithome.com.tw/news/145919" target="_blank">PetitPotam</a>等各种可绕过 NTLM 之中继攻击的现身，微软开始扩张 Kerberos 的能力，以让它支援部分的 NTLM 特性，降低组织对 NTLM 的需求。</p><p>其中的 IAKerb 允许客户在更为异质的网路拓扑中以 Kerberos 进行身分验证，它利用 Negotiate 验证扩充功能，并允许 Windows 验证堆叠来代理 Kerberos 讯息。另也于本机电脑的安全帐户管理员中建立了 Kerberos 的金钥分配中心（Key Distribution Center，KDC），以让使用者可以透过 Kerberos 来完成本机使用者帐号的远端身分验证。</p><p>此外，微软也正修补既有 Windows 元件中硬编码 NTLM 的实例，让这些元件使用 Negotiate 协定，就可以 Kerberos 取代 NTLM。</p><p>微软表示，上述的所有变更都将成为 Windows 11 的预设值，在大多数的情况下不需要特别配置，而 NTLM 也会继续成为 Kerberos 无法运作时的替代选项，以维持相容性。</p><p>除了新增 Kerberos 的功能，微软亦延伸 NTLM 的管理控制能力，以让管理人员得以更灵活地追踪与封锁环境中所使用的 NTLM。</p><p>微软的种种减少 NTLM 使用情境的措施，都是为了达到于 Windows 11 中关闭 NTLM 的最终目的，将采行资料驱动的作法并监控 NTML 的使用量，以决定何时才是关闭 NTLM 的安全时机。不过，就算于预设中关闭了 NTLM，微软亦会新增控制选项以让组织于必要时启用 NTLM。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159292</guid>
+    <link>https://www.ithome.com.tw/news/159292</link>
+    <author>
+        <![CDATA[陈晓莉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[Google Cloud 提供智财免责防护，让客户使用 AI 服务不用担心被告]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-cloud_next_2023-duet_ai_for_google_workspace-guan_fang_tu_pian_-960.jpg?itok=Nd3r_v4S" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>为让企业用户安心使用 AI 服务，<a href="https://cloud.google.com/blog/products/ai-machine-learning/protecting-customers-with-generative-ai-indemnification" target="_blank">Google Cloud 宣布提供 AI 免责防护</a>，让客户不用担心使用到版权内容被告。</p><p>今年 8 月 Google 推出付费 Duet AI 服务，是整合到 Google Cloud 产品从 Workspace 到 Cloud Platform 的 AI 助理，也强化了 AI 模型服务 Vertex AI，协助用户运用及训练基础模型。这些服务能让企业运用 AI 生成，像是行销文案、广告图片、或是电子邮件等等。最新服务则再进一步，防止客户遭遇到版权方面的法律责任。</p><p>新服务包含二部分。第一部分和 Google 使用的训练资料有关，第二部分则著重基础模型的生成产物。训练资料的免责涵括所有 Google 用来打造其生成模型的资料集，当有第三方单位宣称客户侵害了其智财权，责任全由 Google 承担。</p><p>第二部分则是当用户使用 Google AI 服务的输出结果被第三方单位宣称侵害其版权时，责任归属在 Google。这项免责防护适用于 Google Workspace 及各种 Google Cloud 服务使用的 Duet AI，涵括 Google Docs 和 Gmail（产出物为文字）、Google Slides、Google Meet（产出为图片）中的 Duet AI、协助开发 App 的 Google Cloud Duet AI、Vertex AI Search、Vertex AI Conversation、Vertex AI Text Embedding API/Multimodal Embeddings、Vertex AI 的 Visual Captioning 视觉字幕／Visual Q&amp;A，以及 Codey API 等。</p><p>不过 Google 强调，免责的前提是企业用户本身没有侵权意图，而且在负责任的 AI 使用下，有使用现有或发展中的工具加以引述来源。</p><p>透过在<a href="https://workspace.google.com/intl/en/terms/service-terms/" target="_blank">Google Workspace</a>及<a href="https://cloud.google.com/terms/service-terms" target="_blank">Google Cloud</a>新增的免责防护，客户无需修改现有合约，也能自动获得免责防护。Google 表示这只是第一步，该公司正在研发让用户安心使用其 AI 服务的方法。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159289</guid>
+    <link>https://www.ithome.com.tw/news/159289</link>
+    <author>
+        <![CDATA[林妍溱]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[【资安周报】2023 年 10 月 11 日到 10 月 13 日]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20231014.jpg?itok=j1BKmLaY" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>延续前一周有 6 个零时差漏洞攻击与修补的情形，在双十国庆连假期间，再有 3 个漏洞受注目，包括：</p><p>●Cloudflare、Google、AWS 揭露名为 HTTP/2 Rapid Reset 的零时差漏洞攻击手法，他们纷纷指出 8 月就已经观察到此漏洞利用情形。攻击者是借由 CVE-2023-44487 漏洞产生极为巨大的 DDoS 流量，由于漏洞存在 HTTP/2 通讯协定，采用该协定的产品与服务范围相当广泛，相关修补资讯、受影响的状态公告，备受关注。<br>
 ●本月微软例行安全更新释出，总共有 103 个漏洞，当中除了修补上述 CVE-2023-44487 漏洞，还有两个已遭利用的零时差漏洞，包括涉及 WordPad 的漏洞 CVE-2023-36563，以及 Skype for Business 有关的漏洞 CVE-2023-41763。</p><p>此外，Adobe 在今年 1 月修补旗下 Acrobat 及 Reader 的漏洞 CVE-2023-21608，后续发现网路上有概念性验证 PoC 程式的公开，近日确定有攻击者锁定利用的情形；上周提到 Confluence 的零时差漏洞（CVE-2023-22515）已遭攻击者利用，如今有最新消息指出是中国骇客组织 Storm-0062 所为。</p><p>在最新资安威胁消息上，有厂商警告最近出现锁定台湾的攻击。赛门铁克揭露全新的 APT 攻击组织 Grayling，说明该组织的攻击手法细节，并指出该组织在今年 2 月到 5 月锁定对象，不只是太平洋群岛的政府机关、越南及美国的组织，还有台湾的生医产业、制造业、IT 产业。</p><p>在国际局势方面，由于巴勒斯坦激进组织哈玛斯（Hamas）突然对以色列发动大规模的军事攻击，接著以色列也开始反击，网路上陆续传出骇客组织声援巴勒斯坦的消息，像是俄罗斯骇客锁定以色列衞星及工控系统攻击等，甚至有资安业者揭露有上百骇客组织表态参与发动网路攻击，并指出其中声援巴勒斯坦的有 77 个，支持以色列的有 20 个。</p><p>其他重要消息上，这段期间，还有中国骇客 ToddyCat 锁定亚洲电信业者散布后门程式 CurKeep 的情形，以及僵尸网路 Mirai 变种病毒 IZ1H9 近期攻击行动的揭露。国内有一起资安威胁事故相关消息，那就是去年有人在暗网购买我国户籍资料的事件，警调单位有最新资讯公布，对于擅自购买大量个资的嫌犯，检察官考量其没有前科，并坦承犯案已知悔悟，因此给予缓起诉，期限 1 年，以及缴库 50 万元的条件。</p><p>至于防御态势上，近日美国 NSA、DHS 与 CISA 释出最常见 10 大资安配置错误的报告，重点是提供了网路防御者因应的建议，并呼吁软体制造商立即著手采用安全设计原则，以减轻整体资安防护的负担。</p><p>&nbsp;</p><h3><a href="https://www.ithome.com.tw/news/159228"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【10 月 11 日】骇客组织锁定台湾生技、制造、IT 业者而来，自今年 2 月暗中从事网路间谍攻击</span></strong></a></h3><p>台海局势紧张，针对台湾而来的网路攻击从不间断，我们上周才报导<a href="https://www.ithome.com.tw/news/159172#tsmc">中国骇客假冒台积电名义进行的网路钓鱼攻击行动</a>，骇客使用正体中文的 PDF 档案，目标是台湾等国家的半导体公司，现在又传出一起针对我国而来的网路间谍攻击行动。</p><p>今年 2 月至 5 月，骇客组织 Grayling 疑似对台湾的生技、制造、IT 业者发动攻击，因大部分利用的工具很常见，部分甚至能直接从网路上取得，使得研究人员难以进一步找出骇客底细。</p><h3><a href="https://www.ithome.com.tw/news/159241"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【10 月 12 日】以色列与巴勒斯坦爆发大规模军事冲突之后，逾 100 个骇客组织发动网路攻击</span></strong></a></h3><p>去年 2 月引爆的乌克兰战争当中，网路攻击占有举足轻重的地位，许多骇客表态声援乌克兰或是俄罗斯，这样的现象也出现在近期的以色列和巴勒斯坦军事冲突。</p><p>有研究人员发现，自巴勒斯坦激进组织哈玛斯（Hamas）10 月 7 日突袭以色列，不到一个礼拜的时间已有 100 个骇客组织从事相关的网路攻击，其中逾四分之三支持巴勒斯坦、五分之一支持以色列，极少数表明维持中立的立场。但这些骇客的攻击行动究竟会带来那些影响？有待后续观察。</p><h3><a href="https://www.ithome.com.tw/news/159278"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【10 月 13 日】利用职场社群网站 LinkedIn 市场行销工具的网钓攻击再度出现，受害者遍及各行各业</span></strong></a></h3><p>运用合法服务隐匿网路钓鱼的攻击意图，可说是相当常见，其中一种手法，就是滥用市场行销工具 Smart Links，这是由职场社群网站 LinkedIn 推出的服务，主要目的是让行销人员提供客户相关的网站连结时，进而追踪其互动成效。但这样的工具可能沦为骇客回避邮件安全系统检查的管道。</p><p>滥用 Smart Links 的攻击行动并非首例，但这次骇客手法又更进一步，将这类工具的网址加以运用，在钓鱼网站的网址连结当中，带入收信人的电子邮件信箱。</p><h3>&nbsp;</h3></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159285</guid>
-            <link>https://www.ithome.com.tw/news/159285</link>
-            <author>
-                <![CDATA[罗正汉]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Windows 11 21H1、Server 2012 支援到期，Server 版搬上 Azure 可获得 3 年支援]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-windows_server-wei_ruan_guan_fang_tu_pian_-960.jpg?itok=IC6Bnqks" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微软</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软上周释出<a href="https://www.ithome.com.tw/news/159223" target="_blank">10 月份的 Patch Tuesday</a>，除了修补漏洞外，也通知用户 Windows 11 21H1 及 Server 2012/2012 R2 的安全支援已经在上周结束。</p><p>在 Windows 用户端，即将到期的是 Windows 11 21H1 Home 及 Pro 版。这个版本<a href="https://learn.microsoft.com/en-us/lifecycle/announcements/windows-10-21h2-end-of-servicing" target="_blank">原本微软预定</a>于 6 月起终止支援，不过<a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-21h2" target="_blank">因故延长到本月</a>。微软说，10 月 10 日释出的安全更新，是 Home、Pro 这二个版本可下载的最后一次更新。之后两个版本再也不会接获每月安全更新，或是防护功能的预览更新。</p><p>微软会先从 Windows 11 消费版装置及非列管商务装置开始部署安全更新。企业版（Enterprise）、教育（Education）、IoT Enterprise、以及 Enterprise 多连线（multi-session）版则享有多 1 年技术支援，于 2024 年 10 月 8 日到期。</p><p>此外，<a href="https://learn.microsoft.com/en-us/lifecycle/announcements/windows-server-2012-r2-end-of-support" target="_blank">微软并通知</a>，上周的 Patch Tuesday 对 Windows Server 2012 及 2012 R2 伺服器而言也是最后一次安全更新。如果用户无法更新到下一版本，就必须付费购买延伸安全更新（Extended Security Updates，ESU），最多可以延长 3 年到 2026 年 10 月 13 日。现在最新的伺服器版本是 Windows Server 2022。</p><p>同样在上周来到安全支援生命周期终点的 Windows，还包括 Windows MultiPoint Server 2012、Windows Storage Server 2012 和 Windows RT。</p><p>如果用户将本地部署版 Windows Server 上的应用程式和资料库转换到 Azure，像是 Azure VMware Solution、Azure Stack HCI、VM 及专用主机（Dedicated Host），则可在支援日到期后，获得三年的免费 ESU。用户也可以采购<a href="https://azure.microsoft.com/zh-tw/pricing/hybrid-benefit/" target="_blank">Azure Hybrid Benefit</a>授权优惠方案以购买 Windows Server 及 SQL Server 授权。</p><p>针对采购的 ESU，企业用户也可以用 Azure Arc 自动部署到本地环境，或将 Azure 安全及治理功能延伸到本地部署环境。</p><p>微软的 Windows 10 Home 及 Pro，以及防毒软体 Windows Defender for Windows 10 则还可以获得 2 年安全更新，直到 2025 年 10 月 14 日。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159283</guid>
-            <link>https://www.ithome.com.tw/news/159283</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微软完成动视暴雪收购案，云端串流游戏版权交由 Ubisoft]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-activision_blizzard_king_to_microsoft_xbox.jpg?itok=ULe9jF63" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微软</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>英国竞争与市场管理局（Competition and Markets Authority，CMA）<a href="https://assets.publishing.service.gov.uk/media/652864062548ca000dddf22d/Full_text_decision__final_order_.pdf" target="_blank">终于在上周五（10/13）同意</a>微软与动视暴雪（Activision Blizzard）的并购案，<a href="https://blogs.microsoft.com/blog/2023/10/13/welcoming-the-legendary-teams-at-activision-blizzard-king-to-team-xbox/" target="_blank">同一天微软即宣布正式完成收购</a>，结束了近 22 个月的审核拉锯战。</p><p>微软是在 2022 年的 1 月宣布将以约 687 亿美元的现金买下动视暴雪，动视暴雪为欧美最大的游戏业者，所发行的热门游戏包括《魔兽世界》（World of Warcraft）、《星海争霸》（StarCraft）、《暗黑破坏神》（Diablo）、《Candy Crush Saga》及《决胜时刻》（Call of Duty）等。这是微软史上规模最大的并购案，也将让微软一跃成为仅次于腾讯及 Sony 的全球第三大游戏业者。</p><p>美国联邦交易委员会（FTC）与英国 CMA 曾多次出手阻止此一并购案，理由皆是担心该交易将严重危及游戏市场的竞争，但微软持续释出各种政策以满足 FTC 及 CMA 的要求。</p><p>包括微软已与诸如任天堂及 Sony 等竞争对手签署协议，让这些游戏机业者可存取 10 年的《决胜时刻》游戏，另外也与法国游戏业者 Ubisoft 签署协议，<a href="https://news.ubisoft.com/en-us/article/wy4gKUmOdRRoO5Uvlr8CA" target="_blank">由 Ubisoft 取得</a>动视暴雪现在及未来 15 年所发行之游戏的永久云端串流版权，但不包含欧洲经济区（European Economic Area）。媒体分析认为，后者才是 CMA 放行此一并购案的关键。</p><p>而欧洲经济区的游戏玩家们，只要购买了动视暴雪的 PC 或游戏机游戏，就可同时免费存取该款游戏的云端串流版。</p><p>动视暴雪的各个团队未来将加入微软 Xbox 团队，而动视暴雪执行长 Bobby Kotick 则将协助交接，预计于今年底离开。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159282</guid>
-            <link>https://www.ithome.com.tw/news/159282</link>
-            <author>
-                <![CDATA[陈晓莉]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[OpenSSF 开源恶意套件储存库，以应对开源软体供应链安全威胁]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/openssf-malicious-packages-repository.png?itok=OajtLvyI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>开源安全基金会（Open Source Security Foundation，OpenSSF）套件分析团队，在 GitHub 上推出<a href="https://openssf.org/blog/2023/10/12/introducing-openssfs-malicious-packages-repository/">恶意套件储存库（Malicious Packages Repository）</a>，该储存库用于收集和发布跨生态系的恶意套件报告。OpenSSF 的这项作为，是为了回应近期开源恶意套件攻击事件频传的情况。</p><p>恶意套件是一种特殊类型的恶意软体，被包装成开源套件并发布到 PyPI 或 NPM 这类套件储存库中。攻击者滥用套件交付形式，将恶意程式码植入到受害者的系统中。受害者可能无意间安装并且执行该套件，进而触发恶意程式码，进一步导致未经授权的存取、私人资料泄露，或是资料破坏等攻击，官方指出，大多数的端点防毒软体，都未能有效阻止恶意套件攻击流程。</p><p>在去年 5 月的时候，OpenSSF 释出了可用于辨识<a href="https://www.ithome.com.tw/news/150713">恶意套件的分析工具</a>，该工具透过侦测恶意行为，警示选用相关套件的开发者。套件分析工具与新的开源套件储存库相辅相成，OpenSSF 会从热门的开源套件储存库中，下载、安装并执行套件，进而发现隐藏其中的恶意套件。透过捕捉套件指令，分析网路流量，并运用规则判断套件行为，当 OpenSSF 发现恶意套件，就会将生成的报告发布到新的开源恶意套件储存库。</p><p>OpenSSF 推出恶意套件储存库的目的，是要改善当前恶意套件报告资讯的透明度。每个开源套件储存库都有自己处理恶意套件的方式，当社群回报恶意套件时，套件储存库的安全团队便会移除该套件和相关后设资料，但 OpenSSF 提到，这过程通常没有公开纪录，要发现存在哪些恶意套件，就必须要从多个公开来源或是专门的威胁情报来源拼凑资料。</p><p>而 OpenSSF 的恶意套件储存库作为一个公开的资料库，得以弥补这个资料缺口，储存库中所收集的开源套件报告，可用于阻止恶意相依项目在 CI/CD 工作管线中被使用，也能使侦测引擎更加完善，或是加快企业的事件回应速度。</p><p>储存库使用开源漏洞（Open Source Vulnerability，OSV）格式，这是一种用于标示开源专案漏洞的 JSON 格式，官方提到，由于使用 OSV 格式，该储存库的资料也能与现有包括 osv.dev API、osv-scanner 和 deps.dev 等工具整合。</p><p>目前储存库已经收录超过 1.5 万份恶意套件，资料来源涵盖 OpenSSF 套件分析专案、Checkmarx，以及 GitHub 平台追踪到的恶意套件汇出资料。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159279</guid>
-            <link>https://www.ithome.com.tw/news/159279</link>
-            <author>
-                <![CDATA[李建兴]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【杜绝 10 大不当配置：软体供应商篇】从源头软体制造商著手，NSA 与 CISA 提出 7 项准则]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wang_zhan_zhu_tu_2mei_guo_gong_bu_10zhong_chang_jian_pei_zhi_bu_dang_qing_kuang_tu_pian_lai_yuan_mei_cisa.jpg?itok=k-Jod8nX" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 10 月 5 日有一份资安报告释出，主题为最常见 10 大配置错误，相当具有参考价值。这是由美国国安局（NSA）、国土安全部（DHS），以及网路安全暨基础设施安全局（CISA）联手公布的内容，当中指出，因为存在这些错误的配置，在某种程度上，使得骇客更容易展开攻击，这不只是多个网路环境当中的系统性通用弱点（systemic weaknesses），也突显软体制造商必须更积极采用安全设计原则。</p><p>虽然企业可以并采取措施来识别与解决这些配置错误问题，但 CISA 更强调的是，要让这类问题大幅度减少，减少同样资安问题发生率，要获得广泛扩大的进展，关键是需要软体制造商的迅速行动，特别是导入 Secure by Design 的实践，让一开始到生命周期结束都纳入安全设计，始能从设计阶段就降低常见配置错误的风险，同时，每个客户也应该要求每个供应商采纳这些实践。</p><p>因此，在公布常见配置错误之余，这份内容也针对每个问题，不仅是针对蓝队提出网路防守者因应的详细建议，并指引软体制造商如何缓解已识别的错误配置。</p><p>针对众多 IT 产品的源头：软体制造商，NSA 与 CISA 提出每一配置问题的最佳作法建议，避免用户陷入资安危机。</p><p>为了减少常见错误配置的发生率，他们提出每个软体供应商都应即刻采行的 7 项措施，包括：</p><p>（1）从软体设计到整个开发周期的产品架构，都应嵌入安全控制，这方面可依循 NIST SSDF 框架</p><p>（2）废除预设密码</p><p>（3）在设计产品时不让单一安全控制危害整个系统</p><p>（4）免费向客户提供高品质的稽核日志</p><p>（5）依据整个漏洞型态采取防护措施，例如使用可保障记忆体安全的程式语言，以及实施参数化查询</p><p>（6）在稽核日志要提供足够的详细资讯，更利于侦测、追踪系统上的可疑行动</p><p>（7）强制特权使用者启用 MFA，并使 MFA 成为所有用户预设启用的功能。</p><p>综观上述措施，值得我们关注的是，不只是当地软体供应业者需要重视，由于台湾近年也在推动打造可信供应链，有了这样的内容，对于我国软体业者而言，同样相当具参考价值。</p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968A%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968A%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 583px;" referrerpolicy="no-referrer"></a></p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968B%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968B%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 583px;" referrerpolicy="no-referrer"></a></p><p><span style="color:#0099ff;"><strong>美国公布 10 种常见配置不当，针对软体供应商提供具体缓解建议，特别的是，为了让软体供应商更快采取行动，因此 CISA 从这些内容再精简出 7 项即刻采取的措施。</strong></span></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sat, 14 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159281</guid>
-            <link>https://www.ithome.com.tw/news/159281</link>
-            <author>
-                <![CDATA[罗正汉]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【杜绝 10 大不当配置：蓝队篇】面对常见错误配置引发的资安风险，网路防守者有因应之道可参考]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wang_zhan_zhu_tu_mei_guo_gong_bu_10zhong_chang_jian_pei_zhi_bu_dang_qing_kuang_tu_pian_lai_yuan_mei_cisa.jpg?itok=RlgDqGhi" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 10 月 5 日，有一份主题为<a href="https://www.ithome.com.tw/news/159280">最常见 10 大配置错误的资安报告</a>释出，相当具有参考价值。这是由美国国安局（NSA）、国土安全部（DHS），以及网路安全暨基础设施安全局（CISA）联手公布的内容。</p><p>特别的是，在公布常见配置错误之余，这份内容也针对每个问题，提出蓝队网路防守者（Network defenders）因应的详细建议，甚至也呼吁软体制造商（Software manufacturers）缓解已识别的错误配置。</p><h3><strong><span style="color: rgb(178, 34, 34);">美 NSA、DHS、CISA 联手揭露，带来资安破口的 10 大配置错误问题<br><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%967%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%967%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 260px; float: right;" referrerpolicy="no-referrer"></a></span></strong><br><span style="color: rgb(0, 153, 255);">1. 软体与应用程式的预设配置<br>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159285</guid>
+    <link>https://www.ithome.com.tw/news/159285</link>
+    <author>
+        <![CDATA[罗正汉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[Windows 11 21H1、Server 2012 支援到期，Server 版搬上 Azure 可获得 3 年支援]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-windows_server-wei_ruan_guan_fang_tu_pian_-960.jpg?itok=IC6Bnqks" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微软</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软上周释出<a href="https://www.ithome.com.tw/news/159223" target="_blank">10 月份的 Patch Tuesday</a>，除了修补漏洞外，也通知用户 Windows 11 21H1 及 Server 2012/2012 R2 的安全支援已经在上周结束。</p><p>在 Windows 用户端，即将到期的是 Windows 11 21H1 Home 及 Pro 版。这个版本<a href="https://learn.microsoft.com/en-us/lifecycle/announcements/windows-10-21h2-end-of-servicing" target="_blank">原本微软预定</a>于 6 月起终止支援，不过<a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-21h2" target="_blank">因故延长到本月</a>。微软说，10 月 10 日释出的安全更新，是 Home、Pro 这二个版本可下载的最后一次更新。之后两个版本再也不会接获每月安全更新，或是防护功能的预览更新。</p><p>微软会先从 Windows 11 消费版装置及非列管商务装置开始部署安全更新。企业版（Enterprise）、教育（Education）、IoT Enterprise、以及 Enterprise 多连线（multi-session）版则享有多 1 年技术支援，于 2024 年 10 月 8 日到期。</p><p>此外，<a href="https://learn.microsoft.com/en-us/lifecycle/announcements/windows-server-2012-r2-end-of-support" target="_blank">微软并通知</a>，上周的 Patch Tuesday 对 Windows Server 2012 及 2012 R2 伺服器而言也是最后一次安全更新。如果用户无法更新到下一版本，就必须付费购买延伸安全更新（Extended Security Updates，ESU），最多可以延长 3 年到 2026 年 10 月 13 日。现在最新的伺服器版本是 Windows Server 2022。</p><p>同样在上周来到安全支援生命周期终点的 Windows，还包括 Windows MultiPoint Server 2012、Windows Storage Server 2012 和 Windows RT。</p><p>如果用户将本地部署版 Windows Server 上的应用程式和资料库转换到 Azure，像是 Azure VMware Solution、Azure Stack HCI、VM 及专用主机（Dedicated Host），则可在支援日到期后，获得三年的免费 ESU。用户也可以采购<a href="https://azure.microsoft.com/zh-tw/pricing/hybrid-benefit/" target="_blank">Azure Hybrid Benefit</a>授权优惠方案以购买 Windows Server 及 SQL Server 授权。</p><p>针对采购的 ESU，企业用户也可以用 Azure Arc 自动部署到本地环境，或将 Azure 安全及治理功能延伸到本地部署环境。</p><p>微软的 Windows 10 Home 及 Pro，以及防毒软体 Windows Defender for Windows 10 则还可以获得 2 年安全更新，直到 2025 年 10 月 14 日。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159283</guid>
+    <link>https://www.ithome.com.tw/news/159283</link>
+    <author>
+        <![CDATA[林妍溱]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[微软完成动视暴雪收购案，云端串流游戏版权交由 Ubisoft]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1016-activision_blizzard_king_to_microsoft_xbox.jpg?itok=ULe9jF63" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微软</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>英国竞争与市场管理局（Competition and Markets Authority，CMA）<a href="https://assets.publishing.service.gov.uk/media/652864062548ca000dddf22d/Full_text_decision__final_order_.pdf" target="_blank">终于在上周五（10/13）同意</a>微软与动视暴雪（Activision Blizzard）的并购案，<a href="https://blogs.microsoft.com/blog/2023/10/13/welcoming-the-legendary-teams-at-activision-blizzard-king-to-team-xbox/" target="_blank">同一天微软即宣布正式完成收购</a>，结束了近 22 个月的审核拉锯战。</p><p>微软是在 2022 年的 1 月宣布将以约 687 亿美元的现金买下动视暴雪，动视暴雪为欧美最大的游戏业者，所发行的热门游戏包括《魔兽世界》（World of Warcraft）、《星海争霸》（StarCraft）、《暗黑破坏神》（Diablo）、《Candy Crush Saga》及《决胜时刻》（Call of Duty）等。这是微软史上规模最大的并购案，也将让微软一跃成为仅次于腾讯及 Sony 的全球第三大游戏业者。</p><p>美国联邦交易委员会（FTC）与英国 CMA 曾多次出手阻止此一并购案，理由皆是担心该交易将严重危及游戏市场的竞争，但微软持续释出各种政策以满足 FTC 及 CMA 的要求。</p><p>包括微软已与诸如任天堂及 Sony 等竞争对手签署协议，让这些游戏机业者可存取 10 年的《决胜时刻》游戏，另外也与法国游戏业者 Ubisoft 签署协议，<a href="https://news.ubisoft.com/en-us/article/wy4gKUmOdRRoO5Uvlr8CA" target="_blank">由 Ubisoft 取得</a>动视暴雪现在及未来 15 年所发行之游戏的永久云端串流版权，但不包含欧洲经济区（European Economic Area）。媒体分析认为，后者才是 CMA 放行此一并购案的关键。</p><p>而欧洲经济区的游戏玩家们，只要购买了动视暴雪的 PC 或游戏机游戏，就可同时免费存取该款游戏的云端串流版。</p><p>动视暴雪的各个团队未来将加入微软 Xbox 团队，而动视暴雪执行长 Bobby Kotick 则将协助交接，预计于今年底离开。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159282</guid>
+    <link>https://www.ithome.com.tw/news/159282</link>
+    <author>
+        <![CDATA[陈晓莉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[OpenSSF 开源恶意套件储存库，以应对开源软体供应链安全威胁]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/openssf-malicious-packages-repository.png?itok=OajtLvyI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>开源安全基金会（Open Source Security Foundation，OpenSSF）套件分析团队，在 GitHub 上推出<a href="https://openssf.org/blog/2023/10/12/introducing-openssfs-malicious-packages-repository/">恶意套件储存库（Malicious Packages Repository）</a>，该储存库用于收集和发布跨生态系的恶意套件报告。OpenSSF 的这项作为，是为了回应近期开源恶意套件攻击事件频传的情况。</p><p>恶意套件是一种特殊类型的恶意软体，被包装成开源套件并发布到 PyPI 或 NPM 这类套件储存库中。攻击者滥用套件交付形式，将恶意程式码植入到受害者的系统中。受害者可能无意间安装并且执行该套件，进而触发恶意程式码，进一步导致未经授权的存取、私人资料泄露，或是资料破坏等攻击，官方指出，大多数的端点防毒软体，都未能有效阻止恶意套件攻击流程。</p><p>在去年 5 月的时候，OpenSSF 释出了可用于辨识<a href="https://www.ithome.com.tw/news/150713">恶意套件的分析工具</a>，该工具透过侦测恶意行为，警示选用相关套件的开发者。套件分析工具与新的开源套件储存库相辅相成，OpenSSF 会从热门的开源套件储存库中，下载、安装并执行套件，进而发现隐藏其中的恶意套件。透过捕捉套件指令，分析网路流量，并运用规则判断套件行为，当 OpenSSF 发现恶意套件，就会将生成的报告发布到新的开源恶意套件储存库。</p><p>OpenSSF 推出恶意套件储存库的目的，是要改善当前恶意套件报告资讯的透明度。每个开源套件储存库都有自己处理恶意套件的方式，当社群回报恶意套件时，套件储存库的安全团队便会移除该套件和相关后设资料，但 OpenSSF 提到，这过程通常没有公开纪录，要发现存在哪些恶意套件，就必须要从多个公开来源或是专门的威胁情报来源拼凑资料。</p><p>而 OpenSSF 的恶意套件储存库作为一个公开的资料库，得以弥补这个资料缺口，储存库中所收集的开源套件报告，可用于阻止恶意相依项目在 CI/CD 工作管线中被使用，也能使侦测引擎更加完善，或是加快企业的事件回应速度。</p><p>储存库使用开源漏洞（Open Source Vulnerability，OSV）格式，这是一种用于标示开源专案漏洞的 JSON 格式，官方提到，由于使用 OSV 格式，该储存库的资料也能与现有包括 osv.dev API、osv-scanner 和 deps.dev 等工具整合。</p><p>目前储存库已经收录超过 1.5 万份恶意套件，资料来源涵盖 OpenSSF 套件分析专案、Checkmarx，以及 GitHub 平台追踪到的恶意套件汇出资料。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sun, 15 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159279</guid>
+    <link>https://www.ithome.com.tw/news/159279</link>
+    <author>
+        <![CDATA[李建兴]]>
+    </author>
+    <category>资安 </category>
+</item>
+<item>
+    <title>
+        <![CDATA[【杜绝 10 大不当配置：软体供应商篇】从源头软体制造商著手，NSA 与 CISA 提出 7 项准则]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wang_zhan_zhu_tu_2mei_guo_gong_bu_10zhong_chang_jian_pei_zhi_bu_dang_qing_kuang_tu_pian_lai_yuan_mei_cisa.jpg?itok=k-Jod8nX" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 10 月 5 日有一份资安报告释出，主题为最常见 10 大配置错误，相当具有参考价值。这是由美国国安局（NSA）、国土安全部（DHS），以及网路安全暨基础设施安全局（CISA）联手公布的内容，当中指出，因为存在这些错误的配置，在某种程度上，使得骇客更容易展开攻击，这不只是多个网路环境当中的系统性通用弱点（systemic weaknesses），也突显软体制造商必须更积极采用安全设计原则。</p><p>虽然企业可以并采取措施来识别与解决这些配置错误问题，但 CISA 更强调的是，要让这类问题大幅度减少，减少同样资安问题发生率，要获得广泛扩大的进展，关键是需要软体制造商的迅速行动，特别是导入 Secure by Design 的实践，让一开始到生命周期结束都纳入安全设计，始能从设计阶段就降低常见配置错误的风险，同时，每个客户也应该要求每个供应商采纳这些实践。</p><p>因此，在公布常见配置错误之余，这份内容也针对每个问题，不仅是针对蓝队提出网路防守者因应的详细建议，并指引软体制造商如何缓解已识别的错误配置。</p><p>针对众多 IT 产品的源头：软体制造商，NSA 与 CISA 提出每一配置问题的最佳作法建议，避免用户陷入资安危机。</p><p>为了减少常见错误配置的发生率，他们提出每个软体供应商都应即刻采行的 7 项措施，包括：</p><p>（1）从软体设计到整个开发周期的产品架构，都应嵌入安全控制，这方面可依循 NIST SSDF 框架</p><p>（2）废除预设密码</p><p>（3）在设计产品时不让单一安全控制危害整个系统</p><p>（4）免费向客户提供高品质的稽核日志</p><p>（5）依据整个漏洞型态采取防护措施，例如使用可保障记忆体安全的程式语言，以及实施参数化查询</p><p>（6）在稽核日志要提供足够的详细资讯，更利于侦测、追踪系统上的可疑行动</p><p>（7）强制特权使用者启用 MFA，并使 MFA 成为所有用户预设启用的功能。</p><p>综观上述措施，值得我们关注的是，不只是当地软体供应业者需要重视，由于台湾近年也在推动打造可信供应链，有了这样的内容，对于我国软体业者而言，同样相当具参考价值。</p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968A%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968A%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 583px;" referrerpolicy="no-referrer"></a></p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968B%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%968B%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 583px;" referrerpolicy="no-referrer"></a></p><p><span style="color:#0099ff;"><strong>美国公布 10 种常见配置不当，针对软体供应商提供具体缓解建议，特别的是，为了让软体供应商更快采取行动，因此 CISA 从这些内容再精简出 7 项即刻采取的措施。</strong></span></p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Sat, 14 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159281</guid>
+    <link>https://www.ithome.com.tw/news/159281</link>
+    <author>
+        <![CDATA[罗正汉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[【因应 10 大不当配置：蓝队篇】面对常见错误配置引发的资安风险，网路防守者有因应之道可参考]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wang_zhan_zhu_tu_mei_guo_gong_bu_10zhong_chang_jian_pei_zhi_bu_dang_qing_kuang_tu_pian_lai_yuan_mei_cisa.jpg?itok=RlgDqGhi" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 10 月 5 日，有一份主题为<a href="https://www.ithome.com.tw/news/159280">最常见 10 大配置错误的资安报告</a>释出，相当具有参考价值。这是由美国国安局（NSA）、国土安全部（DHS），以及网路安全暨基础设施安全局（CISA）联手公布的内容。</p><p>特别的是，在公布常见配置错误之余，这份内容也针对每个问题，提出蓝队网路防守者（Network defenders）因应的详细建议，甚至也呼吁软体制造商（Software manufacturers）缓解已识别的错误配置。</p><h3><strong><span style="color: rgb(178, 34, 34);">美 NSA、DHS、CISA 联手揭露，带来资安破口的 10 大配置错误问题<br><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%967%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%967%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 260px; float: right;" referrerpolicy="no-referrer"></a></span></strong><br><span style="color: rgb(0, 153, 255);">1. 软体与应用程式的预设配置<br>
 2. 使用者与管理员权限的分离不当<br>
 3. 内部网路的监控不足<br>
 4. 网路分段的缺乏<br>
@@ -154,262 +376,231 @@
 8. 网路共享与服务的存取控制名单设置不够全面<br>
 9. 帐密资安衞生不佳<br>
 10 .程式码执行未受到管制</span></h3><h4 class="rteright"><span style="color: rgb(169, 169, 169);">资料来源：美国 CISA，iThome 整理，2023 年 10 月</span></h4><p>关于这次选出的 10 大配置错误，是根据 NSA 与 CISA 的红队与蓝队测试，以及这两个组织的威胁猎捕与事件回应活动，从中识别与确认出最为常见的问题。</p><p>关于各式不当配置所带来的情形与问题，当中也有一一说明。</p><p>以预设配置的问题而言，简单来说，主要出现在装置或软体的预设帐密，以及某些服务的存取控制过于宽松；关于使用者与管理员权限的分离不当，而这当中最常看到三种状况，包括特定帐号拥有过多的权限，用户帐户权限被提升，或是高权限帐号被用于非必要的操作。</p><p>在内部网路的监控不足上，有些组织并未针对主机与流量侦测的配置做最佳化，造成他们无法立即发现异常活动；如果企业与组织的环境存在网路分段的缺乏，骇客可乘机借由破坏网路资源并于不同系统横向移动，本身也会更容易受到勒索软体攻击，或其他处于后渗透（post-exploitation）阶段的深度攻击影响；在修补管理面向，尽管厂商总是督促用户修补漏洞，但企业与组织往往缺乏、未落实定期修补政策，或仍在使用生命周期已结束的产品，使得这些弱点经常成为骇客入侵的缺口；</p><p>系统存取控制可被绕过方面，骇客可透过破坏环境中的备用系统，来绕过系统的存取控制，例如搜集杂凑值以非标准方式进行身分验证，或是模仿没有明文密码的帐号以提升存取权限；在多因素身分验证的薄弱或设定错误上，有些网路环境已要求使用者透过智慧卡或 Token 登入，却未取消密码登入，而这些久久不曾改变也未被移除的密码，则成为骇客的入侵管道，又或是缺乏防网路钓鱼的 MFA 机制。</p><p>网路共享与服务的存取控制名单设置得不够全面，将允许未经授权的使用者于共享磁碟中存取机密资料；关于帐密的资安衞生不佳，则涵盖可轻易破解的弱密码，以及存放明文密码；至于程式码执行的未受管制，则是赋予应用系统内部与外部因素极高的攻击能力。</p><p>特别的是，在这份报告中，我们看到不只是列出种种配置错误问题，同时，CISA 还借由 MITRE ATT&amp;CK for Enterprise 框架，对应出所有相关攻击手法，以及对应出攻击手法的因应，让外界可以更好认识其危害与保护。</p><p>整体而言，这些不当配置的常见资安问题，呼应了许多大型组织面临的系统漏洞趋势，而对于软硬体业者、云端服务厂商而言，更会是关键，需在设计阶段将安全原则纳入，以减轻网路防守者负担的重要性。</p><h3><strong>针对蓝队网路防守者提供具体缓解建议</strong></h3><p>知道这些常见问题，如何应对就是各界关注的焦点，在这份报告中同时提供了这方面的内容。</p><p>在 NSA 与 CISA 这份最新公布的资安风险剖析当中，就针对网路防守者提供了 10 张表格，将上述最常见的每一配置问题，提供详细的基本缓解建议。</p><p>举例来说，以系统存取控制可被略过的问题而言，这里提供 6 项缓解的建议措施。包括：（1）限制在不同系统间无法重复使用相同的登入资讯，这是为了防止帐密遭到破解，减少恶意行为者在系统之间横向移动的能力；（2）建立有效且定期的修补管理程序，这方面主要针对 Windows 7 以上版本，透过 KB2871997 的更新来缓解 Pass-the-Hash（PtH）攻击技巧，以限制本机管理员群组中帐户的预设存取权限；（3）启用 PtH 缓解措施，在登入网路时，对本地端帐户实施使用者帐户控制（UAC）的限制；（4）在多台电脑与伺服器当中，勿让网域使用者成为本机管理员群组的成员；（5）限制工作站之间的通讯，因为这些沟通应透过伺服器进行，以防止横向移动；（6）只在需要高权限的系统使用特权帐号，可考虑设置专用的特权存取工作站，让这些高权限帐号做到更好的隔离和保护。</p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%965%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%965%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>再以多因素身分验证的薄弱或设定错误而言，NSA 与 CISA 特别将此类问题分为两种类型。</p><p>第一种问题，是智慧卡或 Token 的错误配置，他们提供 2 项缓解的建议措施。</p><p>首先，是在 Windows 环境下，要停止使用 New Technology LAN Manager（NTLM）等其他老旧身分认证协定，原因是当中使用的密码杂凑值（Password hashes）容易受到 PtH 攻击，NSA 与 CISA 表示，相关细节可参考微软网站公布的「在网域中限制 NTLM 验证」文件；同时，需使用 Windows Hello for Business 或群组原则物件（GPO）等内建功能，以便定期重新随机产生智慧卡背后对应帐户（smartcard-required）的密码杂凑值，并要确保杂凑的变更频率至少与组织政策要求更改密码的频率相符，至于无法使用这些内建功能的环境，企业与组织需要优先升级。</p><p>再者，以长期努力方向来看，NSA 与 CISA 建议采用现代开放标准的云端主要身分验证解决方案，这方面的内容，可参考安全云端商业应用程式（SCuBA）专案项目，当中介绍了混合身分识别解决方案架构。</p><p>第二种问题，是指缺乏防网路钓鱼的 MFA 机制，NSA 与 CISA 提出的主要缓解建议，是存取敏感资料及其他资源与服务时，尽可能普遍实施抗网钓多因素身分验证（Phishing-resistant MFA）。</p><p><a href="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%966%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%966%EF%BC%89%E7%BE%8E%E5%9C%8B%E5%85%AC%E5%B8%8310%E7%A8%AE%E5%B8%B8%E8%A6%8B%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%95%B6%E6%83%85%E6%B3%81_%E5%9C%96%E7%89%87%E6%93%B7%E5%8F%96%E8%87%AA%E7%BE%8E%E5%9C%8BCISA.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>借由上述两例的呈现，我们可以看出，其实 NSA 与 CISA 针对 10 项错误配置，所给出建议的结构与样貌。</p><p>针对其他配置错误项目，NSA 与 CISA 也提出很实用的建议，以下也举例部分项目：例如，在部署前，应先行变更应用程式与装置的预设配置，像是密码与权限；部署 AAA（认证、授权、计费）系统来监控帐号行动，限制特权帐号执行一般任务，采用有使用时间限制的特权帐号；建立应用与服务的活动基准线；部署具有深层过滤能力的新一代防火墙；定期修补安全漏洞或采用自动更新，不再使用过时的软体或韧体；针对所有储存装置部署安全配置，实施最少权限原则；不让系统执行不明来源的应用程式，建立程式执行的白名单。文⊙罗正汉、陈晓莉</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sat, 14 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159280</guid>
-            <link>https://www.ithome.com.tw/news/159280</link>
-            <author>
-                <![CDATA[罗正汉]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[零售 IT 双周报第 23 期：Walmart 揭多项零售科技实验计划，生成式 AI 是关键技术]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wm11.jpg?itok=OCtHeUhw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Walmart</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong style="color: rgb(0, 0, 255);">重点新闻 (1001~1014)</strong></p><p><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#生成式 AI</span></span></strong><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#搜寻优化</span></span></strong><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#AR 购物</span></span></strong><br><strong>Walmart 揭未来零售科技实验计划，要用生成式 AI 强化搜寻、资讯摘要及室内设计等购物功能</strong></p><p>美国零售龙头 Walmart<a href="https://corporate.walmart.com/news/2023/10/06/walmarts-latest-tech-powered-experiments-aim-to-make-shopping-easier-and-more-convenient">揭露自家零售科技发展计划</a>，包括搜寻功能优化、购物辅助功能、OMO 购物功能等。其中，生成式 AI 在数个新项目中扮演了关键角色。</p><p>其一是搜寻功能优化。Walmart 计划利用生成式 AI，来支援主题式商品搜寻，例如搜寻「独角兽主题的婴儿生日派对」，AI 就能一次呈现主题背后所需的不同商品，消费者不用一一搜寻盘子、气球、蛋糕等个别商品。他们还计划利用生成式 AI 来支援需求条件复杂的商品搜寻情境，例如，如何根据消费者年龄和电信服务商，搜寻出适合的手机型号。</p><p>其二，Walmart 也打算效仿 eBay 和 Amazon，利用生成式 AI 来摘要商品功能及顾客评价，作为消费者购物参考。</p><p>第三个用生成式 AI 来强化的是 AR 购物功能。过往，Walmart App 可以透过镜头扫描实际房间或人物，再于萤幕上模拟摆设或试穿。未来，Walmart 计划于此功能中增加生成式 AI 购物助手，根据消费者预算、偏好主题及其他需求，进一步协助消费者规画室内设计或衣物穿搭。</p><p>Walmart 还计划推出用 IVR 来完成整趟购物的功能，这是延伸自先前简讯购物功能。他们还打算持续扩充非典型 OMO 电商通路，例如近期他们于游戏中开始贩售实体家具。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#开店平台</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#中小型电商</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#网红行销</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#聊天机器人</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#小额贷款</span></span></strong></p><p><strong>Shopline 整合网红行销、聊天机器人、小额贷款功能到开店解决方案中</strong></p><p>开店平台 Shopline 整合业界 3 种零售科技功能到自家平台，包括<a href="https://blog.shopline.tw/shopline-influenxio/">Influenxio 智慧网红行销</a>、<a href="https://blog.shopline.tw/shopline-botbonnie/">Appier 旗下聊天机器人</a>，以及<a href="https://support.shoplineapp.com/hc/zh-tw/articles/20541136192793-%E5%95%86%E5%AE%B6%E7%B7%9A%E5%9C%A8%E8%B2%B8-SHOPLINE-Payments-%E5%8F%B0%E7%81%A3-">PChome 旗下 21 世纪数位的小额贷款</a>等。</p><p>网红行销功能会追踪网红代言人带来的点击数、订单数等数据，并提供行销预算管理功能，以助电商业主从转换率和实际支出两方面数据，来监控网红行销活动成效。</p><p>聊天机器人功能支援跨通讯软体客服讯息管理，业主可自订情境脚本、多媒体素材、互动体验，来优化 Chatbot 回复内容。此系统后台还会显示顾客贴标，来提供精准行销参考。</p><p>小额贷款则是可以根据商家后台营运数据，快速评估风险并放款的融资功能，最快当日放款。</p><p>这些技术虽然都不算新颖，但对于 IT 资源不足的中小型零售业者来说，自行打造或整合这些技术，仍有一定门槛。由开店平台整合进整体解决方案中，有望降低平台上业者采用更多元零售科技的难度。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#ESG</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#绿能商店</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#电费管理</span></span><br>
+    </description>
+    <pubDate>Sat, 14 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159280</guid>
+    <link>https://www.ithome.com.tw/news/159280</link>
+    <author>
+        <![CDATA[罗正汉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[零售 IT 双周报第 23 期：Walmart 揭多项零售科技实验计划，生成式 AI 是关键技术]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wm11.jpg?itok=OCtHeUhw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Walmart</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong style="color: rgb(0, 0, 255);">重点新闻 (1001~1014)</strong></p><p><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#生成式 AI</span></span></strong><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#搜寻优化</span></span></strong><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#AR 购物</span></span></strong><br><strong>Walmart 揭未来零售科技实验计划，要用生成式 AI 强化搜寻、资讯摘要及室内设计等购物功能</strong></p><p>美国零售龙头 Walmart<a href="https://corporate.walmart.com/news/2023/10/06/walmarts-latest-tech-powered-experiments-aim-to-make-shopping-easier-and-more-convenient">揭露自家零售科技发展计划</a>，包括搜寻功能优化、购物辅助功能、OMO 购物功能等。其中，生成式 AI 在数个新项目中扮演了关键角色。</p><p>其一是搜寻功能优化。Walmart 计划利用生成式 AI，来支援主题式商品搜寻，例如搜寻「独角兽主题的婴儿生日派对」，AI 就能一次呈现主题背后所需的不同商品，消费者不用一一搜寻盘子、气球、蛋糕等个别商品。他们还计划利用生成式 AI 来支援需求条件复杂的商品搜寻情境，例如，如何根据消费者年龄和电信服务商，搜寻出适合的手机型号。</p><p>其二，Walmart 也打算效仿 eBay 和 Amazon，利用生成式 AI 来摘要商品功能及顾客评价，作为消费者购物参考。</p><p>第三个用生成式 AI 来强化的是 AR 购物功能。过往，Walmart App 可以透过镜头扫描实际房间或人物，再于萤幕上模拟摆设或试穿。未来，Walmart 计划于此功能中增加生成式 AI 购物助手，根据消费者预算、偏好主题及其他需求，进一步协助消费者规画室内设计或衣物穿搭。</p><p>Walmart 还计划推出用 IVR 来完成整趟购物的功能，这是延伸自先前简讯购物功能。他们还打算持续扩充非典型 OMO 电商通路，例如近期他们于游戏中开始贩售实体家具。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#开店平台</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#中小型电商</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#网红行销</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#聊天机器人</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#小额贷款</span></span></strong></p><p><strong>Shopline 整合网红行销、聊天机器人、小额贷款功能到开店解决方案中</strong></p><p>开店平台 Shopline 整合业界 3 种零售科技功能到自家平台，包括<a href="https://blog.shopline.tw/shopline-influenxio/">Influenxio 智慧网红行销</a>、<a href="https://blog.shopline.tw/shopline-botbonnie/">Appier 旗下聊天机器人</a>，以及<a href="https://support.shoplineapp.com/hc/zh-tw/articles/20541136192793-%E5%95%86%E5%AE%B6%E7%B7%9A%E5%9C%A8%E8%B2%B8-SHOPLINE-Payments-%E5%8F%B0%E7%81%A3-">PChome 旗下 21 世纪数位的小额贷款</a>等。</p><p>网红行销功能会追踪网红代言人带来的点击数、订单数等数据，并提供行销预算管理功能，以助电商业主从转换率和实际支出两方面数据，来监控网红行销活动成效。</p><p>聊天机器人功能支援跨通讯软体客服讯息管理，业主可自订情境脚本、多媒体素材、互动体验，来优化 Chatbot 回复内容。此系统后台还会显示顾客贴标，来提供精准行销参考。</p><p>小额贷款则是可以根据商家后台营运数据，快速评估风险并放款的融资功能，最快当日放款。</p><p>这些技术虽然都不算新颖，但对于 IT 资源不足的中小型零售业者来说，自行打造或整合这些技术，仍有一定门槛。由开店平台整合进整体解决方案中，有望降低平台上业者采用更多元零售科技的难度。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#ESG</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#绿能商店</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#电费管理</span></span><br>
 全家结合 IoT 能源管理、太阳能及储能设备打造首家能源韧性实验店，还有独立供电系统作为备援</strong></p><p>全家便利商店于台南打造能源韧性实验店，运用 IoT 协助改善店铺能源管理，也导入太阳能发电及储能设备。</p><p>IoT 及能源管理系统，可自动侦测冷藏设备温度，当用电接近满载，会主动降载空调、灯光照明，避免用电过度，例如在傍晚或夜间时段，会自动降低店内照明亮度。冰箱、冰柜设备，则从固定时段除霜改为动态除霜，当侦测到温度过低或结霜时才会除霜。</p><p>另外，全家为实验店建置了孤岛电力系统，除台电供电之外，建置太阳能发电及储能系统，扮演调节电力供应的角色，可在台电离峰时段储能，供应日间用电尖峰时段使用，降低店铺尖峰时段用电量。（<a href="https://www.ithome.com.tw/news/159113">详全文</a>）</p><p><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#OMS</span></span></strong>&nbsp;<strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#团购</span></span></strong>&nbsp;<strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#社群电商</span></span><br>
 飞比推出团购整单系统，能自动转化通讯软体留言到 OMS</strong></p><p>飞比价格母公司第一网站推出团购整单系统「飞比+1」，功能是自动撷取 Line 记事本下的团购订单留言，再根据留言关键字，自动分类到订单管理系统（OMS）。团购主能于整单系统中设定商品主副规格，例如颜色和尺寸等，作为系统抓取关键字依据。如图所示，系统会根据关键字，将留言内容为 3 种类别，包括明确能判断为完整订单的「已确认」，订单讯息不完整的「待确认」，以及非订单留言的「不成单」。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E9%A3%9B%E6%AF%94%2B1%E5%BE%8C%E5%8F%B0%E7%95%AB%E9%9D%A2.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>这个系统每小时会撷取记事本留言一次，团购主也能手动更新。不过，第一网站没有提到，若出现删除留言、编辑留言等情况，此系统会如何应对。</p><p>同时，第一网站宣布推出「BI 电商市场情报服务」，向其他电商提供自家网站流量分析。飞比表示，自家平台有 800 万不重复使用者，过往已有电商向自家购买流量分析报告，不过都是以一对一个案形式来处理，现则正式将此服务商品化。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#D2C 网站</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#精准行销</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#餐旅业</span></span><br>
 日本偏乡地区豪华露营业务如何用 IT 改造行销与经营模式，使销售额翻 20 倍</strong></p><p>冈山县津山市阿波村是一个只有 400 人口的边缘村庄，当地设有豪华露营设施，观光收入却无法自给自足，只能由政府弥补财务缺口，来维护设施。为了振兴此地豪华露营经济，观光顾问公司 Dive 利用一系列做法来改造行销与经营模式。改造后，阿波村豪华露营年营业额从 200 万日圆增长到 4,000 万日圆，且持续成长中。其中，IT 扮演在这个转型扮演了重要角色。</p><p>首先是架设 D2C 网站作为流量来源，来降低对第三方网站的依赖程度。阿波村位处偏乡，又不在热门观光景点必经之地，于第三方旅游或订房网站难以搜寻到，不是可靠流量来源。不只如此，于第三方网站打广告或接受订位，都会形成开销。于是，Dive 打造豪华露营入口网站，搜罗包括阿波村在内的豪华露营地，再利用高度行销自主权，来力推阿波村。</p><p>为了增加阿波村卖点，他们还开发了桑拿、香料调剂、作物收割、动物互动等额外收费体验，并将这些作为行销卖点和筹码。当销售额低于一定标准时，他们便会免费提供部分体验，以期吸引更多旅客。</p><p>不只看销售金额，他们还会根据旅客来源，来调整行销策略。原先，他们在津山市其他地区投注最多行销资源，经分析后，发现其实旅客主要来自关西地区，因而转移了行销资源比重。</p><p>除了上述数位做法，阿波村还利用人力派遣服务，只于旺季时雇用短期员工，而不大量雇用正职员工，以控制人力支出。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#AR 购物体验</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#会员 App</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#OMO 零售</span></span><br>
 英国大型连锁超市 Nisa 全面导入 AR 购物体验，用于促销及会员数据搜集</strong></p><p>有接近 4,000 家分店的英国大型零售连锁超市 Nisa<a href="https://www.nisalocally.co.uk/corporate/news-press-office/nisa-retailers-set-to-cash-in-with-jisp-loyalty-programme/">将于所有店铺导入 AR 购物和促销体验</a>。消费者透过会员 App 开启手机镜头，可以在货架上看到 AR 资讯卡，显示购物资讯和可领取折价券。根据 App 纪录的消费和折价券领取资料，Nisa 还会再于 App 和简讯对会员推播个人化行销讯息。</p><p>从初期 170 家实验店中，Nisa 发现，这个机制一年内带来 20% 以上营业额增长，平均一家店发出了 3,500 张折价券。不只如此，还带来了更多客流量及重复到店数。</p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#0099ff;">更多零售 IT 动态：</span></strong></span></p><p>1. 作为进军零售媒体广告战略的一环，Momo 开始试营运搜寻字广告</p><p>2.&nbsp;<a href="http://https//corporate.walmart.com/news/2023/09/26/walmarts-new-virtual-experience-walmart-discovered-is-inspired-by-the-community">Walmart</a>和<a href="https://www.prnewswire.com/news-releases/maybelline-new-york-makes-a-splash-in-roblox-a-digital-makeup-and-music-adventure-301941093.html">Maybelline New York</a>在元宇宙游戏 Roblox 分别推出产品展示等行销体验</p><p>3. <a href="https://ir.dominos.com/news-releases/news-release-details/dominosr-and-microsoft-cook-ai-driven-innovation-alliance">达美乐将利用生成式 AI 开发智慧店长助手</a>，强化店内库存管理、食材订购及排班</p><p>4. <a href="https://www.ingka.com/newsroom/how-ikea-is-approaching-ai-for-the-benefit-of-all">Ikea 成立新专责团队</a>，负责维护集团内 AI 应用符合负责任 AI 及道德标准</p><p>图片来源：Walmart、第一网站</p><p>资料来源：iThome 整理，2023 年 10 月</p><p>责任编辑：郭又华</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159271</guid>
-            <link>https://www.ithome.com.tw/news/159271</link>
-            <author>
-                <![CDATA[郭又华]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【资安日报】10 月 13 日，利用职场社群网站 LinkedIn 市场行销工具的网钓攻击再度出现，受害者遍及各行各业]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231013.png?itok=k5hKa_iI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>运用合法服务隐匿网路钓鱼的攻击意图，可说是相当常见，其中一种手法，就是滥用市场行销工具 Smart Links，这是由职场社群网站 LinkedIn 推出的服务，主要目的是让行销人员提供客户相关的网站连结时，进而追踪其互动成效。但这样的工具可能沦为骇客回避邮件安全系统检查的管道。</p><p>滥用 Smart Links 的攻击行动并非首例，但这次骇客手法又更进一步，将这类工具的网址加以运用，在钓鱼网站的网址连结当中，带入收信人的电子邮件信箱。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://cofense.com/blog/linkedin-smart-links-credential-phishing-campaign/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">职场社群网站 LinkedIn 提供的市场行销工具遭到滥用，骇客用于诱骗微软帐号</span></strong></a></p>
-                <!-- notionvc: 94f78ecd-8469-4e89-8927-302b622a3942 -->
-                <p></p>
+    </description>
+    <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/159271</guid>
+    <link>https://www.ithome.com.tw/news/159271</link>
+    <author>
+        <![CDATA[郭又华]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[【资安日报】10 月 13 日，利用职场社群网站 LinkedIn 市场行销工具的网钓攻击再度出现，受害者遍及各行各业]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231013.png?itok=k5hKa_iI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>运用合法服务隐匿网路钓鱼的攻击意图，可说是相当常见，其中一种手法，就是滥用市场行销工具 Smart Links，这是由职场社群网站 LinkedIn 推出的服务，主要目的是让行销人员提供客户相关的网站连结时，进而追踪其互动成效。但这样的工具可能沦为骇客回避邮件安全系统检查的管道。</p><p>滥用 Smart Links 的攻击行动并非首例，但这次骇客手法又更进一步，将这类工具的网址加以运用，在钓鱼网站的网址连结当中，带入收信人的电子邮件信箱。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://cofense.com/blog/linkedin-smart-links-credential-phishing-campaign/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">职场社群网站 LinkedIn 提供的市场行销工具遭到滥用，骇客用于诱骗微软帐号</span></strong></a></p>
+        <!-- notionvc: 94f78ecd-8469-4e89-8927-302b622a3942 -->
+        <p></p>
+        <p>
+            <a href="https://s4.itho.me/sites/default/files/images/smartlinks-figure3.png">
+                <img alt="" src="https://s4.itho.me/sites/default/files/images/smartlinks-figure3.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                </a>邮件安全业者 Cofense 揭露从今年 7 月下旬至 8 月的网路钓鱼攻击行动，主要针对金融与制造业的员工，但能源、营造、医疗保健、保险、采矿、消费性产品、科技产业也有受害者。这些骇客之所以得逞，不只是使用者的疏忽，他们为了绕过邮件安全闸道等资安系统，在寄送的电子邮件当中，滥用职场社群网站 LinkedIn 提供的 Smart Links 服务，企图窃取使用者的微软帐号。研究人员总共看到这类电子邮件逾 800 封，滥用上述服务的连结多达 80 个。
+            </p>
+            <p>一旦收信人依照指示点选，就会被带往钓鱼网站，特别的是，骇客利用 Smart Links 的网址结构，在连结里加入收信人的电子邮件信箱，使得用户被引导到钓鱼网站的时候，所开启的登入页面，在帐号栏位已自动填入该员的电子邮件信箱，使得这些收信人以为这是简化登入步骤的便利措施，而更容易降低警觉。</p>
+            <p>滥用上述 LinkedIn 提供的行销工具进行钓鱼邮件攻击已非首例，2022 年 9 月，研究人员发现假冒斯洛伐克邮局的钓鱼信，便是以此手法回避侦测。</p>
+            <p>
+                <a href="https://asec.ahnlab.com/en/57635/">
+                    <strong style="font-size: 22px;">
+                        <span style="color: rgb(0, 0, 0);">执行 Linux 作业系统的 SSH 伺服器遭到锁定，骇客植入恶意程式 ShellBot，并利用 Hex 编码的 IP 位置回避侦测</span>
+                    </strong>
+                </a>
+            </p>
+            <!-- notionvc: b65cdb98-708f-457a-abc4-8512a4e5f11f -->
+            <p></p>
+            <p>资安业者 AhnLab 揭露新一波的恶意软体 ShellBot 攻击行动，骇客的主要目标是缺乏妥善管理的 Linux 伺服器，他们会扫描 22 埠是否启用，以此找寻开放 SSH 服务远端登入的系统，一旦找到这类主机，后续会利用常见的 SSH 帐密组合，执行字典填入的暴力破解攻击，进而于 Linux 主机部署 ShellBot。</p>
+            <p>但这起攻击行动与过往不同之处，在于骇客使用了十六进位（HEX）的 IP 位址表示法来连线至 C2，随后下载、安装 ShellBot，研究人员指出，这次骇客使用 C2 伺服器的 IP 位址，通常会写成 hxxp://94.250.254[.]43/，但对方在网路钓鱼挟带的 PDF 档案里，将上述网址写成 hxxp://1593507371，可能会因此能绕过资安系统的侦测。</p>
+            <p>
+                <a href="https://blog.checkpoint.com/security/unveiling-stayin-alive-a-closer-look-at-an-ongoing-campaign-in-asia-targeting-telecom-and-governmental-entities/">
+                    <strong style="font-size: 22px;">
+                        <span style="color: rgb(0, 0, 0);">中国骇客 ToddyCat 锁定亚洲电信业者，散布后门程式 CurKeep</span>
+                    </strong>
+                </a>
+            </p>
+            <!-- notionvc: cdfda18b-dcdf-404b-aa86-3579207b8c0c -->
+            <p></p>
+            <p>
+                <a href="https://s4.itho.me/sites/default/files/images/shellbot-image-16.png">
+                    <img alt="" src="https://s4.itho.me/sites/default/files/images/shellbot-image-16.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                    </a>去年 6 月资安业者卡巴斯基揭露，中国骇客组织 ToddyCat 锁定台湾、越南等国政府机关，利用 Exchange 漏洞发动攻击，如今这些骇客再度发起新一波的攻击行动。
+                </p>
+                <p>资安业者 Check Point 揭露名为 Stayin’ Alive 的攻击行动，骇客从 2021 年开始，针对越南、巴基斯坦、乌兹别克、哈萨克等东南亚、中亚国家而来，主要的目标是电信业者。骇客起初寄送带有压缩档案附件的钓鱼邮件，一旦收信人打开附件，电脑就有可能触发 Audinate 影音装置管理元件 Dante Discovery 的漏洞 CVE-2022-23748（CVSS 风险评分为 7.8），以 DLL 侧载（DLL Side-loading）手法，载入名为 dal_keepalives.dll 的程式库，从而执行名为 CurKeep 的后门程式。</p>
+                <p>此恶意软体档案非常小，仅 10 KB，但具备 26 种功能，其中最主要的功能是 report、shell、file，用于收集目标电脑的系统资讯、回传电脑名称并接收命令与执行，以及接收字串内容并将资料写入特定档案。</p>
                 <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/smartlinks-figure3.png">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/smartlinks-figure3.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>邮件安全业者 Cofense 揭露从今年 7 月下旬至 8 月的网路钓鱼攻击行动，主要针对金融与制造业的员工，但能源、营造、医疗保健、保险、采矿、消费性产品、科技产业也有受害者。这些骇客之所以得逞，不只是使用者的疏忽，他们为了绕过邮件安全闸道等资安系统，在寄送的电子邮件当中，滥用职场社群网站 LinkedIn 提供的 Smart Links 服务，企图窃取使用者的微软帐号。研究人员总共看到这类电子邮件逾 800 封，滥用上述服务的连结多达 80 个。
-                    </p>
-                    <p>一旦收信人依照指示点选，就会被带往钓鱼网站，特别的是，骇客利用 Smart Links 的网址结构，在连结里加入收信人的电子邮件信箱，使得用户被引导到钓鱼网站的时候，所开启的登入页面，在帐号栏位已自动填入该员的电子邮件信箱，使得这些收信人以为这是简化登入步骤的便利措施，而更容易降低警觉。</p>
-                    <p>滥用上述 LinkedIn 提供的行销工具进行钓鱼邮件攻击已非首例，2022 年 9 月，研究人员发现假冒斯洛伐克邮局的钓鱼信，便是以此手法回避侦测。</p>
-                    <p>
-                        <a href="https://asec.ahnlab.com/en/57635/">
-                            <strong style="font-size: 22px;">
-                                <span style="color: rgb(0, 0, 0);">执行 Linux 作业系统的 SSH 伺服器遭到锁定，骇客植入恶意程式 ShellBot，并利用 Hex 编码的 IP 位置回避侦测</span>
-                            </strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: b65cdb98-708f-457a-abc4-8512a4e5f11f -->
-                    <p></p>
-                    <p>资安业者 AhnLab 揭露新一波的恶意软体 ShellBot 攻击行动，骇客的主要目标是缺乏妥善管理的 Linux 伺服器，他们会扫描 22 埠是否启用，以此找寻开放 SSH 服务远端登入的系统，一旦找到这类主机，后续会利用常见的 SSH 帐密组合，执行字典填入的暴力破解攻击，进而于 Linux 主机部署 ShellBot。</p>
-                    <p>但这起攻击行动与过往不同之处，在于骇客使用了十六进位（HEX）的 IP 位址表示法来连线至 C2，随后下载、安装 ShellBot，研究人员指出，这次骇客使用 C2 伺服器的 IP 位址，通常会写成 hxxp://94.250.254[.]43/，但对方在网路钓鱼挟带的 PDF 档案里，将上述网址写成 hxxp://1593507371，可能会因此能绕过资安系统的侦测。</p>
-                    <p>
-                        <a href="https://blog.checkpoint.com/security/unveiling-stayin-alive-a-closer-look-at-an-ongoing-campaign-in-asia-targeting-telecom-and-governmental-entities/">
-                            <strong style="font-size: 22px;">
-                                <span style="color: rgb(0, 0, 0);">中国骇客 ToddyCat 锁定亚洲电信业者，散布后门程式 CurKeep</span>
-                            </strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: cdfda18b-dcdf-404b-aa86-3579207b8c0c -->
-                    <p></p>
-                    <p>
-                        <a href="https://s4.itho.me/sites/default/files/images/shellbot-image-16.png">
-                            <img alt="" src="https://s4.itho.me/sites/default/files/images/shellbot-image-16.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                            </a>去年 6 月资安业者卡巴斯基揭露，中国骇客组织 ToddyCat 锁定台湾、越南等国政府机关，利用 Exchange 漏洞发动攻击，如今这些骇客再度发起新一波的攻击行动。
-                        </p>
-                        <p>资安业者 Check Point 揭露名为 Stayin’ Alive 的攻击行动，骇客从 2021 年开始，针对越南、巴基斯坦、乌兹别克、哈萨克等东南亚、中亚国家而来，主要的目标是电信业者。骇客起初寄送带有压缩档案附件的钓鱼邮件，一旦收信人打开附件，电脑就有可能触发 Audinate 影音装置管理元件 Dante Discovery 的漏洞 CVE-2022-23748（CVSS 风险评分为 7.8），以 DLL 侧载（DLL Side-loading）手法，载入名为 dal_keepalives.dll 的程式库，从而执行名为 CurKeep 的后门程式。</p>
-                        <p>此恶意软体档案非常小，仅 10 KB，但具备 26 种功能，其中最主要的功能是 report、shell、file，用于收集目标电脑的系统资讯、回传电脑名称并接收命令与执行，以及接收字串内容并将资料写入特定档案。</p>
-                        <p>
-                            <a href="http://www.wordfence.com/blog/2023/10/backdoor-masquerading-as-legitimate-plugin/">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">骇客假借提供 WordPress 外挂散布恶意软体，从而建立管理员帐号并挟持网站</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 373f893f-8b19-4d19-8ffc-1ae091fbd2a2 -->
-                        <p></p>
-                        <p>网站安全业者 Wordfence 今年 7 月清理遭受攻击的网站时，发现伪装成 WordPress 外挂程式的后门程式，骇客假借提供暂存资料的管理工具，使得管理者在手动检查的过程中，很有可能忽略，骇客也进一步将该「外挂程式」从已启用的外挂程式名单剔除，目的是为了回避资安系统的侦测。</p>
-                        <p>而对于这个后门，研究人员指出具有以下功能：首先，会建立名为 superadmin 的帐号，并指派管理员层级的权限给他；再者，骇客可远端控制 WordPress 网站上的外挂程式，擅自启用或停用，并且清除网站资料库的痕迹，借此让攻击行动维持隐密的状态。再者，该后门程式能够窜改网页内容，加入恶意连结及按钮，但网站管理介面当中，仍维持未遭修改的样貌，使得管理员难以察觉异状。</p>
-                        <p>此后门程式若是侦测到搜寻引擎爬虫，或是机器人的流量，将会提供垃圾邮件等其他的内容，导致爬虫为受害网站编入恶意的索引资料，有管理人员接获用户通报，他们的网站外观看起来都正常，但在用户使用搜寻引擎存取的时候出现垃圾内容。但究竟骇客如何于 WordPress 网站植入上述后门程式？研究人员表示，有待进一步调查。</p>
-                        <p>
-                            <a href="https://www.securityweek.com/cisa-warns-of-attacks-exploiting-adobe-acrobat-vulnerability/">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">美国针对 Adobe Acrobat 高风漏洞提出警告，已出现攻击行动</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 353ee84f-363e-4dc7-bfa5-228af72d28ae -->
-                        <p></p>
-                        <p>美国网路安全暨基础设施安全局（CISA）于 10 月 10 日，在已被利用的漏洞列表（KEV）当中新增 5 个漏洞，可能受到影响的产品，包括：Adobe 旗下 PDF 编辑软体 Acrobat 及阅读器 Reader（记忆体释放后滥用漏洞 CVE-2023-21608）、思科网路设备作业系统 IOS 及 IOS XE（群组加密传输 VPN 越界写入漏洞 CVE-2023-20109）、HTTP/2（Rapid Reset 漏洞 CVE-2023-44487）。</p>
-                        <p>同时，还有微软本月份例行更新修补的企业版 Skype（权限提升漏洞 CVE-2023-41763）、WordPad（资讯泄露漏洞 CVE-2023-36563）。</p>
-                        <p>其中最值得注意的是 Adobe 今年 1 月修补的 CVE-2023-21608，因为该漏洞公布的时间最久，网路上已有不少的概念性验证攻击（PoC）及漏洞分析，使得攻击者利用这项漏洞更为容易。</p>
-                        <p>
-                            <a href="https://www.ettoday.net/news/20231012/2600759.htm">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">检方确认我国 2,357 万笔户政资料流入暗网，兜售资料的骇客来自中国</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 626219e8-519e-4112-91b8-f8a7f324fcc9 -->
-                        <p></p>
-                        <p>去年 10 月
-                            <a href="https://www.ithome.com.tw/news/153894#taiwan2300">名为 OKE 的人士于骇客网站 BreachForums 兜售全台湾民众的户政资料 2,357 万笔</a>，并公布 20 万笔资料供买家验证，引起社会哗然，民众质疑户政机关保护个资不力，内政部后续提出澄清，他们表示，资料格式与该单位系统不同，并非从户政司资讯网泄漏。本周检调单位公布更多消息。
-                        </p>
-                        <p>调查局资安站确认，骇客公开的 20 万笔资料集中在宜兰地区，且内容正确。经北检分案展开追查，透过科技侦查并与暗网登记所在国连系后，查出 OKE 真实身分是中国籍的童自强，此人收款的电子钱包入帐 4999.2 个泰达币（相当于 5,000 美元），经反向追查，查出是我国郑姓男子所购买。郑男到案坦承，因好奇这名骇客握有的资料是否为真，他透过 Telegram 向骇客联系，并于 31 日汇入款项。郑男从收到的 Excel 档案找到亲友姓名进行比对，资料相差无几，强调并未将这些资料用于其他用途。由于郑男并未将取得的资料泄露、公开，或是再行利用，并坦承犯行，台北地检署 12 日依无故搜集个资给予缓起诉处分，并对童自强发布通缉。</p>
-                        <p>值得留意的是，检调抽查童自强兜售的资料，发现总笔数与台湾 2018 年人口总数相当，内容亦与当时的户役政资料几乎一样。此外，台北地检署另案追查个资外泄的管道，正在了解是否有其他人士取得、用于不法。</p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>【漏洞与修补】</strong>
-                        </h3>
-                        <p>
-                            <a href="https://www.securityweek.com/critical-socks5-vulnerability-in-curl-puts-enterprise-systems-at-risk/">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">程式库 Curl 修补高风险漏洞</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: d842f81c-624f-4e29-a251-a3834ef86c20 -->
-                        <p></p>
-                        <p>10 月 4 日 URL 传输程式库 curl 专案维护团队预告，将于 11 日发布 8.4.0 新版，当中修补高、低层级风险漏洞，资安业者 Qualys 呼吁组织应尽速盘点所有部署的 curl，以便新版推出之后，就能立刻进行升级。</p>
-                        <p>到了 11 日这两个漏洞的细节揭晓，高风险漏洞是 CVE-2023-38545，同时影响 7.69.0 至 8.30 版的 curl 与 libcurl，起因是 curl 将主机名称传递至 SOCKS5 代理伺服器解析其 IP 位址时，主机名称最大允许长度为 255 位元组，一旦超过，curl 就会切换、改用本机名称解析，并将结果得到的位址传送至代理伺服器，然而此漏洞就是发生在「让主机解析名称」的本机变数当中，有可能导致 SOCKS5 交握过程得到错误的数值，从而将过长的主机名称复制到目标记忆体缓冲区，产生溢位（overflow）的问题。目前，Red Hat 将此漏洞的 CVSS 风险评为 7.5。</p>
-                        <p>另一个漏洞为 CVE-2023-38546，仅影响 7.9.1 至 8.3.0 版 libcurl，攻击者可利用该程式库任意将 Cookie 插入正在执行的应用程式，由于必须搭配一系列的环境条件才能触发，开发团队将其危险程度列为低风险，Red Hat 评估其 CVSS 分数为 5.0。</p>
-                        <p>资料来源</p>
-                        <p>1.&nbsp;
-                            <a href="https://blog.qualys.com/vulnerabilities-threat-research/2023/10/05/curl-8-4-0-proactively-identifying-potential-vulnerable-assets">https://blog.qualys.com/vulnerabilities-threat-research/2023/10/05/curl-8-4-0-proactively-identifying-potential-vulnerable-assets</a>
-                            <br>
+                    <a href="http://www.wordfence.com/blog/2023/10/backdoor-masquerading-as-legitimate-plugin/">
+                        <strong style="font-size: 22px;">
+                            <span style="color: rgb(0, 0, 0);">骇客假借提供 WordPress 外挂散布恶意软体，从而建立管理员帐号并挟持网站</span>
+                        </strong>
+                    </a>
+                </p>
+                <!-- notionvc: 373f893f-8b19-4d19-8ffc-1ae091fbd2a2 -->
+                <p></p>
+                <p>网站安全业者 Wordfence 今年 7 月清理遭受攻击的网站时，发现伪装成 WordPress 外挂程式的后门程式，骇客假借提供暂存资料的管理工具，使得管理者在手动检查的过程中，很有可能忽略，骇客也进一步将该「外挂程式」从已启用的外挂程式名单剔除，目的是为了回避资安系统的侦测。</p>
+                <p>而对于这个后门，研究人员指出具有以下功能：首先，会建立名为 superadmin 的帐号，并指派管理员层级的权限给他；再者，骇客可远端控制 WordPress 网站上的外挂程式，擅自启用或停用，并且清除网站资料库的痕迹，借此让攻击行动维持隐密的状态。再者，该后门程式能够窜改网页内容，加入恶意连结及按钮，但网站管理介面当中，仍维持未遭修改的样貌，使得管理员难以察觉异状。</p>
+                <p>此后门程式若是侦测到搜寻引擎爬虫，或是机器人的流量，将会提供垃圾邮件等其他的内容，导致爬虫为受害网站编入恶意的索引资料，有管理人员接获用户通报，他们的网站外观看起来都正常，但在用户使用搜寻引擎存取的时候出现垃圾内容。但究竟骇客如何于 WordPress 网站植入上述后门程式？研究人员表示，有待进一步调查。</p>
+                <p>
+                    <a href="https://www.securityweek.com/cisa-warns-of-attacks-exploiting-adobe-acrobat-vulnerability/">
+                        <strong style="font-size: 22px;">
+                            <span style="color: rgb(0, 0, 0);">美国针对 Adobe Acrobat 高风漏洞提出警告，已出现攻击行动</span>
+                        </strong>
+                    </a>
+                </p>
+                <!-- notionvc: 353ee84f-363e-4dc7-bfa5-228af72d28ae -->
+                <p></p>
+                <p>美国网路安全暨基础设施安全局（CISA）于 10 月 10 日，在已被利用的漏洞列表（KEV）当中新增 5 个漏洞，可能受到影响的产品，包括：Adobe 旗下 PDF 编辑软体 Acrobat 及阅读器 Reader（记忆体释放后滥用漏洞 CVE-2023-21608）、思科网路设备作业系统 IOS 及 IOS XE（群组加密传输 VPN 越界写入漏洞 CVE-2023-20109）、HTTP/2（Rapid Reset 漏洞 CVE-2023-44487）。</p>
+                <p>同时，还有微软本月份例行更新修补的企业版 Skype（权限提升漏洞 CVE-2023-41763）、WordPad（资讯泄露漏洞 CVE-2023-36563）。</p>
+                <p>其中最值得注意的是 Adobe 今年 1 月修补的 CVE-2023-21608，因为该漏洞公布的时间最久，网路上已有不少的概念性验证攻击（PoC）及漏洞分析，使得攻击者利用这项漏洞更为容易。</p>
+                <p>
+                    <a href="https://www.ettoday.net/news/20231012/2600759.htm">
+                        <strong style="font-size: 22px;">
+                            <span style="color: rgb(0, 0, 0);">检方确认我国 2,357 万笔户政资料流入暗网，兜售资料的骇客来自中国</span>
+                        </strong>
+                    </a>
+                </p>
+                <!-- notionvc: 626219e8-519e-4112-91b8-f8a7f324fcc9 -->
+                <p></p>
+                <p>去年 10 月
+                    <a href="https://www.ithome.com.tw/news/153894#taiwan2300">名为 OKE 的人士于骇客网站 BreachForums 兜售全台湾民众的户政资料 2,357 万笔</a>，并公布 20 万笔资料供买家验证，引起社会哗然，民众质疑户政机关保护个资不力，内政部后续提出澄清，他们表示，资料格式与该单位系统不同，并非从户政司资讯网泄漏。本周检调单位公布更多消息。
+                </p>
+                <p>调查局资安站确认，骇客公开的 20 万笔资料集中在宜兰地区，且内容正确。经北检分案展开追查，透过科技侦查并与暗网登记所在国连系后，查出 OKE 真实身分是中国籍的童自强，此人收款的电子钱包入帐 4999.2 个泰达币（相当于 5,000 美元），经反向追查，查出是我国郑姓男子所购买。郑男到案坦承，因好奇这名骇客握有的资料是否为真，他透过 Telegram 向骇客联系，并于 31 日汇入款项。郑男从收到的 Excel 档案找到亲友姓名进行比对，资料相差无几，强调并未将这些资料用于其他用途。由于郑男并未将取得的资料泄露、公开，或是再行利用，并坦承犯行，台北地检署 12 日依无故搜集个资给予缓起诉处分，并对童自强发布通缉。</p>
+                <p>值得留意的是，检调抽查童自强兜售的资料，发现总笔数与台湾 2018 年人口总数相当，内容亦与当时的户役政资料几乎一样。此外，台北地检署另案追查个资外泄的管道，正在了解是否有其他人士取得、用于不法。</p>
+                <p>&nbsp;</p>
+                <h3>
+                    <strong>【漏洞与修补】</strong>
+                </h3>
+                <p>
+                    <a href="https://www.securityweek.com/critical-socks5-vulnerability-in-curl-puts-enterprise-systems-at-risk/">
+                        <strong style="font-size: 22px;">
+                            <span style="color: rgb(0, 0, 0);">程式库 Curl 修补高风险漏洞</span>
+                        </strong>
+                    </a>
+                </p>
+                <!-- notionvc: d842f81c-624f-4e29-a251-a3834ef86c20 -->
+                <p></p>
+                <p>10 月 4 日 URL 传输程式库 curl 专案维护团队预告，将于 11 日发布 8.4.0 新版，当中修补高、低层级风险漏洞，资安业者 Qualys 呼吁组织应尽速盘点所有部署的 curl，以便新版推出之后，就能立刻进行升级。</p>
+                <p>到了 11 日这两个漏洞的细节揭晓，高风险漏洞是 CVE-2023-38545，同时影响 7.69.0 至 8.30 版的 curl 与 libcurl，起因是 curl 将主机名称传递至 SOCKS5 代理伺服器解析其 IP 位址时，主机名称最大允许长度为 255 位元组，一旦超过，curl 就会切换、改用本机名称解析，并将结果得到的位址传送至代理伺服器，然而此漏洞就是发生在「让主机解析名称」的本机变数当中，有可能导致 SOCKS5 交握过程得到错误的数值，从而将过长的主机名称复制到目标记忆体缓冲区，产生溢位（overflow）的问题。目前，Red Hat 将此漏洞的 CVSS 风险评为 7.5。</p>
+                <p>另一个漏洞为 CVE-2023-38546，仅影响 7.9.1 至 8.3.0 版 libcurl，攻击者可利用该程式库任意将 Cookie 插入正在执行的应用程式，由于必须搭配一系列的环境条件才能触发，开发团队将其危险程度列为低风险，Red Hat 评估其 CVSS 分数为 5.0。</p>
+                <p>资料来源</p>
+                <p>1.&nbsp;
+                    <a href="https://blog.qualys.com/vulnerabilities-threat-research/2023/10/05/curl-8-4-0-proactively-identifying-potential-vulnerable-assets">https://blog.qualys.com/vulnerabilities-threat-research/2023/10/05/curl-8-4-0-proactively-identifying-potential-vulnerable-assets</a>
+                    <br>
 2.&nbsp;
-                                <a href="https://curl.se/docs/CVE-2023-38545.html">https://curl.se/docs/CVE-2023-38545.html</a>
-                                <br>
+                        <a href="https://curl.se/docs/CVE-2023-38545.html">https://curl.se/docs/CVE-2023-38545.html</a>
+                        <br>
 3.&nbsp;
-                                    <a href="https://access.redhat.com/security/cve/cve-2023-38545">https://access.redhat.com/security/cve/cve-2023-38545</a>
-                                    <br>
+                            <a href="https://access.redhat.com/security/cve/cve-2023-38545">https://access.redhat.com/security/cve/cve-2023-38545</a>
+                            <br>
 4.&nbsp;
-                                        <a href="https://curl.se/docs/CVE-2023-38546.html">https://curl.se/docs/CVE-2023-38546.html</a>
-                                        <br>
+                                <a href="https://curl.se/docs/CVE-2023-38546.html">https://curl.se/docs/CVE-2023-38546.html</a>
+                                <br>
 5.&nbsp;
-                                            <a href="https://access.redhat.com/security/cve/cve-2023-38546">https://access.redhat.com/security/cve/cve-2023-38546</a>
-                                        </p>
-                                        <p>&nbsp;</p>
-                                        <h3>
-                                            <strong>【其他新闻】</strong>
-                                        </h3>
-                                        <p>
-                                            <a href="https://support.apple.com/HT213972">
-                                                <strong>
-                                                    <span style="font-size: 20px;">
-                                                        <span style="color: rgb(0, 0, 0);">苹果发布 iOS 16.7.1、iPadOS 16.7.1，修补旧版装置的零时差漏洞 CVE-2023-42824、CVE-2023-5217</span>
-                                                    </span>
-                                                </strong>
-                                            </a>
-                                        </p>
-                                        <!-- notionvc: 4c7ee4d2-f89b-497f-b148-095f1fbc80d4 -->
-                                        <p></p>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159247">
-                                                <strong>
-                                                    <span style="font-size: 20px;">
-                                                        <span style="color: rgb(0, 0, 0);">为强化云端基础设施机密保护及配置管理自动化，基础设施即程式码工具新创 Pulumi 推出新的解决方案</span>
-                                                    </span>
-                                                </strong>
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159201">
-                                                <strong>
-                                                    <span style="font-size: 20px;">
-                                                        <span style="color: rgb(0, 0, 0);">勒索软体 Hello Kitty 程式码被公布，有助于制作解密金钥</span>
-                                                    </span>
-                                                </strong>
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159204">
-                                                <strong>
-                                                    <span style="font-size: 20px;">
-                                                        <span style="color: rgb(0, 0, 0);">Google 以 Rust 重写 Android 裸机元件，进一步强化记忆体安全</span>
-                                                    </span>
-                                                </strong>
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a href="https://blog.talosintelligence.com/vulnerability-roundup-webkit-and-yifan-router/">
-                                                <strong>
-                                                    <span style="font-size: 20px;">
-                                                        <span style="color: rgb(0, 0, 0);">中国亿帆工业路由器曝露于重大层级漏洞，迄今尚未有修补程式</span>
-                                                    </span>
-                                                </strong>
-                                            </a>
-                                        </p>
-                                        <!-- notionvc: d2635afd-8773-4e32-89f0-bcc74e034150 -->
-                                        <p></p>
-                                        <p>&nbsp;</p>
-                                        <h3>
-                                            <strong>近期资安日报</strong>
-                                        </h3>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159241">
-                                                <strong>【10 月 12 日】&nbsp;以色列与巴勒斯坦爆发大规模军事冲突之后，逾 100 个骇客组织发动网路攻击</strong>
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159228">
-                                                <strong>【10 月 11 日】&nbsp;骇客组织锁定台湾生技、制造、IT 业者而来，自今年 2 月暗中从事网路间谍攻击</strong>
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a href="https://www.ithome.com.tw/news/159172">
-                                                <strong>【10 月 6 日】&nbsp;中国骇客锁定台湾、香港、新加坡半导体产业而来，假借台积电的名义进行网路间谍攻击行动</strong>
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
+                                    <a href="https://access.redhat.com/security/cve/cve-2023-38546">https://access.redhat.com/security/cve/cve-2023-38546</a>
+                                </p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>【其他新闻】</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://support.apple.com/HT213972">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">苹果发布 iOS 16.7.1、iPadOS 16.7.1，修补旧版装置的零时差漏洞 CVE-2023-42824、CVE-2023-5217</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 4c7ee4d2-f89b-497f-b148-095f1fbc80d4 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159247">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">为强化云端基础设施机密保护及配置管理自动化，基础设施即程式码工具新创 Pulumi 推出新的解决方案</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159201">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">勒索软体 Hello Kitty 程式码被公布，有助于制作解密金钥</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159204">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">Google 以 Rust 重写 Android 裸机元件，进一步强化记忆体安全</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://blog.talosintelligence.com/vulnerability-roundup-webkit-and-yifan-router/">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">中国亿帆工业路由器曝露于重大层级漏洞，迄今尚未有修补程式</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: d2635afd-8773-4e32-89f0-bcc74e034150 -->
+                                <p></p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>近期资安日报</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159241">
+                                        <strong>【10 月 12 日】&nbsp;以色列与巴勒斯坦爆发大规模军事冲突之后，逾 100 个骇客组织发动网路攻击</strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159228">
+                                        <strong>【10 月 11 日】&nbsp;骇客组织锁定台湾生技、制造、IT 业者而来，自今年 2 月暗中从事网路间谍攻击</strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159172">
+                                        <strong>【10 月 6 日】&nbsp;中国骇客锁定台湾、香港、新加坡半导体产业而来，假借台积电的名义进行网路间谍攻击行动</strong>
+                                    </a>
+                                </p>
                             </div>
-                            <div></div>
                         </div>
-                    </div></div>]]>
-                </description>
-                <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
-                <guid isPermaLink="false">https://www.ithome.com.tw/news/159278</guid>
-                <link>https://www.ithome.com.tw/news/159278</link>
-                <author>
-                    <![CDATA[周峻佑]]>
-                </author>
-                <category>新闻</category>
-            </item>
-            <item>
-                <title>
-                    <![CDATA[AI 也要抓漏，微软 AI Bug Bounty Program 上线]]>
-                </title>
-                <description>
-                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0208-bing-chatgpt-960_1.jpg?itok=Vepmn6G4" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微软</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.microsoft.com/en-us/msrc/bounty-ai" target="_blank">微软周四（10/12）公布了新的抓漏计划</a>，这是锁定 AI 臭虫的 Microsoft AI Bug Bounty Program，奖金从 2,000 美元到 1.5 万美元不等，首个抓漏的产品为具备 AI 能力的 Bing。</p><p>现有的抓漏范围围绕在所有整合 AI 的 Bing 体验，包括利用各种浏览器造访 Bing.com 时所体验的 Bing Chat、Bing Chat for Enterprise 及 Bing Image Creator；或是在 Windows 版 Microsoft Edge 使用整合 AI 的 Bing 功能，包括 Bing Chat for Enterprise 在内；以及 iOS 及 Android 上 Microsoft Start Application 所整合的 Bing；或是 iOS 及 Android 上 Skype Mobile Application 整合的 Bing。</p><p>与 AI 系统相关的安全漏洞涵盖了推论操纵（Inference Manipulation）、模型操纵（Model Manipulation）及推论资讯揭露（Inferential Information Disclosure），像是可注入指令导致模型偏离其预期行为，或是可干扰有效输入而令模型产生错误输出，或是可窜改模型架构、训练程式码、训练资料或超参数来毒害模型，或是可自训练资料集中重建个人资料纪绿等。</p><p>不过，只有被微软 AI 漏洞分类系统（<a href="https://www.microsoft.com/en-us/msrc/aibugbar" target="_blank">Microsoft Vulnerability Severity Classification for AI Systems</a>）视为重要（Important）或重大（Critical）等级的安全漏洞才符合申请资格。</p><p>根据<a href="https://msrc.microsoft.com/blog/2023/08/microsoft-bug-bounty-program-year-in-review-13.8m-in-rewards/" target="_blank">微软日前所公布的年度抓漏成果</a>，自去年 7 月 1 日到今年 6 月底之间，微软总计祭出了 17 个抓漏计划，来自全球逾 45 个国家的 345 个安全研究人员，总计提交了 1,180 个符合资格的漏洞报告，获得了 1,380 万美元的奖金，最高的一笔抓漏奖金为 20 万美元。</p></div></div></div><div></div></div></div></div>]]>
-                </description>
-                <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
-                <guid isPermaLink="false">https://www.ithome.com.tw/news/159254</guid>
-                <link>https://www.ithome.com.tw/news/159254</link>
-                <author>
-                    <![CDATA[陈晓莉]]>
-                </author>
-                <category>资安 </category>
-            </item>
-            <item>
-                <title>
-                    <![CDATA[Google 实验于搜寻中支援 AI 生成图像]]>
-                </title>
-                <description>
-                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1013-google_search_labs-genai-960.jpg?itok=0oJIOBca" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google 本周于<a href="https://blog.google/products/search/google-search-generative-ai-october-update/" target="_blank">搜寻实验室（Search Labs）中增添了两项新的搜寻生成式体验（Search Generative Experience，SGE）功能</a>，一是直接于搜寻列上执行生成式图像功能，二是请 AI 帮忙撰写各种草稿。</p><p>例如使用者可直接于搜寻列上，输入「请画一张戴著厨师帽并正在做早餐的水豚图像」，那么系统便会出现 4 张符合该描述的图画，随便点选任何一张就能看到它们各自的描述，也能编辑其文字描述来修改画面。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1013-Google%20Search%20Labs-GenAI-600-1.png" style="width: 500px;" referrerpolicy="no-referrer"></p><p>这些由 AI 生成的图像都会具备元资料标签，同时镶有浮水印，以标注它们源自于 AI。且 Google 也会封锁违反使用政策的 AI 生成图像，例如含有有害或误导性内容。</p><p>另一个 SGE 功能则可用来协助使用者撰写各种草稿。例如当使用者想要进行装修，把车库变成办公室，在搜寻网路资讯之后，决定请施工人员报价，就能要求 SGE 撰写一个邀请施工人员报价的草稿，还能要求 SGE 调整草稿的长度及语气，再汇出至 Google Docs 或 Gmail。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1013-Google%20Search%20Labs-GenAI-600-2v2.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Google 是<a href="https://www.ithome.com.tw/news/157080" target="_blank">在今年 5 月发表</a>Google AI 搜寻测试平台 Search Labs，测试各种利用生成式 AI 来改善搜寻的功能，不过，<a href="https://support.google.com/websearch/answer/13551902?visit_id=638327632597300571-3004891748&amp;p=search_labs&amp;rd=1" target="_blank">目前 Search Labs 仅开放</a>美国、印度与日本的少数用户参与测试，测试者必须年满 18 岁，也必须使用 Chrome 浏览器。</p></div></div></div><div></div></div></div></div>]]>
-                </description>
-                <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
-                <guid isPermaLink="false">https://www.ithome.com.tw/news/159253</guid>
-                <link>https://www.ithome.com.tw/news/159253</link>
-                <author>
-                    <![CDATA[陈晓莉]]>
-                </author>
-                <category>AI</category>
-            </item>
-        </channel>
-    </rss>
+                    </div>
+                    <div></div>
+                </div>
+            </div></div>]]>
+        </description>
+        <pubDate>Thu, 12 Oct 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/159278</guid>
+        <link>https://www.ithome.com.tw/news/159278</link>
+        <author>
+            <![CDATA[周峻佑]]>
+        </author>
+        <category>新闻</category>
+    </item>
+</channel>    </rss>
