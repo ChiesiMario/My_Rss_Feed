@@ -16,69 +16,8 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 26 Oct 2023 15:54:55 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 26 Oct 2023 17:56:04 GMT</lastBuildDate>
         <ttl>120</ttl>
-        <item>
-            <title>
-                <![CDATA[DHorse 改用 fabric8 的 SDK 與 K8s 集羣交互]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><h2>現狀</h2><p>在 dhorse 1.4.0 版本之前，一直使用 k8s 官方提供的 sdk 與 k8s 集羣交互，官方 sdk 的 Maven 座標如下：</p><pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;io.kubernetes&lt;/groupId&gt;
-    &lt;artifactId&gt;client-java&lt;/artifactId&gt;
-    &lt;version&gt;18.0.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>但是自從 1.4.0 版本以後，dhorse 開始支持 fabric8 的 sdk，fabric8 的 sdk 的 Maven 座標如下：</p><pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;io.fabric8&lt;/groupId&gt;
-    &lt;artifactId&gt;kubernetes-client&lt;/artifactId&gt;
-    &lt;version&gt;6.9.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>那麼，為什麼要替換為 fabric8 的 sdk 與 k8s 交互呢？</p><h2>k8s 官方與 fabric8 的對比</h2><p>1.社區方面</p><p>兩者的關注度上，都差不多，沒有太大差別；</p><p>但是，fabric8 的 sdk 提供的文檔和示例更加完善，而 k8s 官方提供的示例較少；</p><p>2.功能方面</p><p>fabric8 不僅支持 k8s，同時也支持 OpenShift，而官方 sdk 支持 k8s；</p><p>3.包大小</p><p>k8s 官方 sdk 依賴的 sdk 過大，有 30M 左右，而 fabric8 只有不到 10M；</p><p>使用官方的 sdk 也會導致 dhorse 的安裝包過大。</p><p>4.API 使用方面</p><p>舉個例子，以查詢 k8s 集羣的命名空間列表為例，説明代碼如下。</p><p>官方：</p><pre><code class="language-java">ApiClient apiClient = this.apiClient(clusterPO.getClusterUrl(), clusterPO.getAuthToken());
-CoreV1Api coreApi = new CoreV1Api(apiClient);
-List&lt;ClusterNamespace&gt; namespaces = new ArrayList&lt;&gt;();
-String labelSelector = null;
-if(pageParam != null &amp;&amp; !StringUtils.isBlank(pageParam.getNamespaceName())) {
-    labelSelector = "kubernetes.io/metadata.name=" + pageParam.getNamespaceName();
-}
-try {
-    V1NamespaceList namespaceList = coreApi.listNamespace(null, null, null, null,
-        labelSelector, null, null, null, null, null);
-} catch (ApiException e) {
-    String message = e.getResponseBody() == null ? e.getMessage() : e.getResponseBody();
-    LogUtils.throwException(logger, message, MessageCodeEnum.CLUSTER_NAMESPACE_FAILURE);
-}
-</code></pre><p>fabric8:</p><pre><code class="language-java">try(KubernetesClient client = client(clusterPO.getClusterUrl(), clusterPO.getAuthToken())){
-    ListOptions o = new ListOptions();
-    if(pageParam != null &amp;&amp; !StringUtils.isBlank(pageParam.getNamespaceName())) {
-        o.setLabelSelector("kubernetes.io/metadata.name=" + pageParam.getNamespaceName());
-    }
-    namespaceList = client.namespaces().list(o);
-}
-</code></pre><p>可以看出，官方提供的 API 接口不夠簡潔，而且拋出了不必要的異常。</p><h2>結論</h2><p>綜上，dhorse 後續版本會默認選擇 fabric8 的 sdk 與 k8s 器羣交互，並計劃在 v1.6 的版本里下掉 k8s 官方的 sdk。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 26 Oct 2023 05:35:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263516</guid>
-            <link>https://www.oschina.net/news/263516</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[ONLYOFFICE 桌面編輯器現已上架至麒麟軟件商店]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fzh%2Fdesktop.aspx" target="_blank"><u>ONLYOFFICE 桌面編輯器</u></a><span style="color:#333333">現已上架麒麟軟件商店。請閲讀下文了解詳情。</span></p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093055/ONLYOFFICE-Desktop-on-Kylin.png" referrerpolicy="no-referrer"></p><h2><strong>關於麒麟</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kylinos.cn%2F" target="_blank"><u>麒麟</u></a>是一款國產操作系統，主要是為了滿足中國市場的需求和偏好而設計的。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">它能夠與各種硬件平台和軟件應用程序的廣泛兼容，因而受到認可。它支持從台式機到服務器的個人和企業硬件，能確保與現有基礎設施的無縫集成。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2022 年 10 月，ONLYOFFICE 文檔獲得了與麒麟系統完全兼容的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2022%2F11%2Fonlyoffice-got-certified-by-kylin-os" target="_blank"><u>認證</u></a>。這意味着用戶可以在他們的系統上無縫運行我們的在線編輯器，而不會出現任何兼容性問題。</p><h2><strong>ONLYOFFICE 桌面編輯器在</strong><strong>麒麟軟件商店</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">現在您可以使用預裝的軟件商店，在麒麟桌面環境中輕鬆獲取 ONLYOFFICE 桌面編輯器。只需打開麒麟軟件商店，搜索 ONLYOFFICE 桌面編輯器並單擊「安裝」按鈕。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093250/ONLYOFFICE-on-Kylin-Software-Store.png" referrerpolicy="no-referrer"></p><p>安裝應用程序後，點擊 ONLYOFFICE 桌面編輯器圖標啓動。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093801/kylin-desktops.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">如果您想要手動安裝，可以在終端中鍵入以下命令來獲取 ONLYOFFICE 桌面編輯器：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><code>sudo apt-get install onlyoffice-desktopeditors</code></p><div><h3>相關鏈接</h3><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kylinos.cn%2F" target="_blank"><u>麒麟官網</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2022%2F11%2Fonlyoffice-got-certified-by-kylin-os" target="_blank"><u>ONLYOFFICE 獲得麒麟操作系統認證</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2023%2F10%2Fonlyoffice-desktop-editors-v7-5" target="_blank"><u>ONLYOFFICE 桌面編輯器</u><u>最新版</u><u><span>&nbsp;</span>7.5</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fzh%2Ftechnology-partners.aspx" target="_blank"><u>成為 ONLYOFFICE<span>&nbsp;</span></u><u>的</u><u>技術合作夥伴</u></a></p></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 25 Oct 2023 12:35:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263436</guid>
-            <link>https://www.oschina.net/news/263436</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
         <item>
             <title>
                 <![CDATA[no-GIL Python，啓動！]]>
@@ -180,21 +119,6 @@ try {
             <pubDate>Wed, 25 Oct 2023 06:25:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263525/ubuntu-24-04-release-date-april-25-2024</guid>
             <link>https://www.oschina.net/news/263525/ubuntu-24-04-release-date-april-25-2024</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[RISC-V 創業公司 SiFive 裁員 100 多人，大部分是工程師]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>RISC-V 創業公司 SiFive 正在大規模裁員。</p><blockquote><p>RISC-V 是開源指令集架構，SiFive 成立於 2015 年，是一家基於 RISC-V 架構的芯片設計商，致力於將開源標準引入半導體設計，使其更便宜且更容易被客戶使用。 它也是少數幾家提供高性能 RISC-V 產品的公司之一。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-7063d1f400258edb38c5f4f5f46f1ca80fb.png" referrerpolicy="no-referrer"></p></blockquote><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.tomshardware.com%2Fnews%2Fsifive-lays-off-hundreds-of-risc-v-developers" target="_blank">報道稱</a>，該公司從 10 月中旬開始大裁員，約 700 名員工中的 100-300 多人被解僱，大部分是工程師，還有少數銷售和產品人員。</p><p>SiFive 在隨後發表給媒體的一份聲明中澄清，它裁掉了來自不同業務組的約 140 名員工，佔員工總數的五分之一。</p><p>該公司表示，「隨着 Google 將 Android 引入 RISC-V 生態系統，它在 AI 以及可穿戴設備和移動設備等消費產品領域看到了巨大的機遇。基於他們對當前機遇的判斷和投入，SiFive 正在對全球團隊進行戰略性重組，以最大限度地滿足客戶快速變化的需求。不幸的是，在這次調整中，約 20% 的員工受到了影響，涉及不同的業務組和級別。這些員工將獲得遣散費和安置協助。」</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 25 Oct 2023 06:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263350/sifive-lays-off-hundreds-of-risc-v-developers</guid>
-            <link>https://www.oschina.net/news/263350/sifive-lays-off-hundreds-of-risc-v-developers</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -358,21 +282,6 @@ python3 pandas-juicefs-s3api.py
         </item>
         <item>
             <title>
-                <![CDATA[deepin WSL 正式上架微軟商店]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="background-color:#ffffff; color:#333333">deepin 社區<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-wsl%2F" target="_blank">宣佈</a>&nbsp;</span>deepin WSL 已正式上架微軟商店。</p><p>WSL 是 Windows Subsystem for Linux 的縮寫，它是一種可以讓用戶在 Windows 上運行 Linux 的技術。使用 WSL，可以輕鬆地在 Windows 和 Linux 之間切換和集成，使用開源的工具和環境來開發或測試 Linux 相關的項目，利用 Windows 的硬件支持和性能優化來運行 Linux 的應用程序，以及體驗不同的 Linux 發行版。</p><p><img height="213" src="https://oscimg.oschina.net/oscnet/up-187f0fca4a326d487fbb7a73117e9f48061.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>使用 deepin WSL</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1.確認系統支持：WSL 最低要求為 Windows 10 版本 1709（內部版本號 16299）或更高版本。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2.啓用 WSL 功能：打開 Windows PowerShell(管理員權限)，運行以下命令：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><em>wsl --install​</em></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">這將啓用 WSL 和虛擬機平台功能，並下載安裝 WSL 2 引擎。或者在菜單欄中找到控制面板找到程序，選擇啓用和關閉 Windows 功能，找到「適用於 Linux 的 Windows 子系統」和 「虛擬機平台」進行勾選，會自動下載安裝需要的組件，重啓後即可。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">3.打開微軟商店，搜索 deepin wsl，找到並點擊獲取會進行安裝。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">4.初次運行時，會提示設置用戶名和密碼，按照指示完成配置即可。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" height="399" src="https://oscimg.oschina.net/oscnet/up-96917b26a11a13e6f9cfff8349e5783cb7a.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>相關項目</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">如果想自定義 WSL 可以參考以下項目。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdeepin-community%2Fdeepin-rootfs" target="_blank">deepin-rootfs</a>&nbsp;這是製作 deepin v23 的根文件系統的項目，該項目為 WSL 提供根文件系統。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmicrosoft%2FWSL-DistroLauncher" target="_blank">WSL-DistroLauncher</a>&nbsp;這是微軟官方官方的 WSL 啓動器。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">3.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdeepin-community%2Fdeepin-wsl" target="_blank">deepin-WSL</a>&nbsp;這是基於 WSL-DistroLauncher 項目進行修改的。上架應用商店的 deepin WSL 也依賴該項目。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">4.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fyuk7%2Fwsldl" target="_blank">wsldl</a>&nbsp;這是個第三方的 WSL 啓動器。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">wsldl 為第三方提供的啓動器，新安裝一個 WSL 只需要對應的根文件系統，以及重命名一個可執行文件，使用通用工具來運行一個實例。需要自己使用命令導入根文件系統，另外默認使用 root 用戶，需要自己手動配置其他用戶來使用。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">WSL-DistroLauncher 官方提供的啓動器，需要將根文件系統一起打包成 Windows 下的可執行程序，另外用來上架應用商店也需要依賴該程序。需要安裝 cer 證書，雙擊運行可執行程序，安裝成功後根據提示創建一個用戶。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">deepin-WSL 項目下同時提供了兩種啓動器的可執行文件。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 25 Oct 2023 06:06:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263348</guid>
-            <link>https://www.oschina.net/news/263348</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[Jina AI 發佈全球首個開源 8K 文本嵌入模型，超越 OpenAI]]>
             </title>
             <description>
@@ -502,6 +411,97 @@ Query OK, 0 rows affected (0.00 sec)</code></pre></div></div>
             <pubDate>Tue, 24 Oct 2023 08:01:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263380</guid>
             <link>https://www.oschina.net/news/263380</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[DHorse 改用 fabric8 的 SDK 與 K8s 集羣交互]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><h2>現狀</h2><p>在 dhorse 1.4.0 版本之前，一直使用 k8s 官方提供的 sdk 與 k8s 集羣交互，官方 sdk 的 Maven 座標如下：</p><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;client-java&lt;/artifactId&gt;
+    &lt;version&gt;18.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>但是自從 1.4.0 版本以後，dhorse 開始支持 fabric8 的 sdk，fabric8 的 sdk 的 Maven 座標如下：</p><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.fabric8&lt;/groupId&gt;
+    &lt;artifactId&gt;kubernetes-client&lt;/artifactId&gt;
+    &lt;version&gt;6.9.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>那麼，為什麼要替換為 fabric8 的 sdk 與 k8s 交互呢？</p><h2>k8s 官方與 fabric8 的對比</h2><p>1.社區方面</p><p>兩者的關注度上，都差不多，沒有太大差別；</p><p>但是，fabric8 的 sdk 提供的文檔和示例更加完善，而 k8s 官方提供的示例較少；</p><p>2.功能方面</p><p>fabric8 不僅支持 k8s，同時也支持 OpenShift，而官方 sdk 支持 k8s；</p><p>3.包大小</p><p>k8s 官方 sdk 依賴的 sdk 過大，有 30M 左右，而 fabric8 只有不到 10M；</p><p>使用官方的 sdk 也會導致 dhorse 的安裝包過大。</p><p>4.API 使用方面</p><p>舉個例子，以查詢 k8s 集羣的命名空間列表為例，説明代碼如下。</p><p>官方：</p><pre><code class="language-java">ApiClient apiClient = this.apiClient(clusterPO.getClusterUrl(), clusterPO.getAuthToken());
+CoreV1Api coreApi = new CoreV1Api(apiClient);
+List&lt;ClusterNamespace&gt; namespaces = new ArrayList&lt;&gt;();
+String labelSelector = null;
+if(pageParam != null &amp;&amp; !StringUtils.isBlank(pageParam.getNamespaceName())) {
+    labelSelector = "kubernetes.io/metadata.name=" + pageParam.getNamespaceName();
+}
+try {
+    V1NamespaceList namespaceList = coreApi.listNamespace(null, null, null, null,
+        labelSelector, null, null, null, null, null);
+} catch (ApiException e) {
+    String message = e.getResponseBody() == null ? e.getMessage() : e.getResponseBody();
+    LogUtils.throwException(logger, message, MessageCodeEnum.CLUSTER_NAMESPACE_FAILURE);
+}
+</code></pre><p>fabric8:</p><pre><code class="language-java">try(KubernetesClient client = client(clusterPO.getClusterUrl(), clusterPO.getAuthToken())){
+    ListOptions o = new ListOptions();
+    if(pageParam != null &amp;&amp; !StringUtils.isBlank(pageParam.getNamespaceName())) {
+        o.setLabelSelector("kubernetes.io/metadata.name=" + pageParam.getNamespaceName());
+    }
+    namespaceList = client.namespaces().list(o);
+}
+</code></pre><p>可以看出，官方提供的 API 接口不夠簡潔，而且拋出了不必要的異常。</p><h2>結論</h2><p>綜上，dhorse 後續版本會默認選擇 fabric8 的 sdk 與 k8s 器羣交互，並計劃在 v1.6 的版本里下掉 k8s 官方的 sdk。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 24 Oct 2023 05:35:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263516</guid>
+            <link>https://www.oschina.net/news/263516</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ONLYOFFICE 桌面編輯器現已上架至麒麟軟件商店]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fzh%2Fdesktop.aspx" target="_blank"><u>ONLYOFFICE 桌面編輯器</u></a><span style="color:#333333">現已上架麒麟軟件商店。請閲讀下文了解詳情。</span></p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093055/ONLYOFFICE-Desktop-on-Kylin.png" referrerpolicy="no-referrer"></p><h2><strong>關於麒麟</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kylinos.cn%2F" target="_blank"><u>麒麟</u></a>是一款國產操作系統，主要是為了滿足中國市場的需求和偏好而設計的。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">它能夠與各種硬件平台和軟件應用程序的廣泛兼容，因而受到認可。它支持從台式機到服務器的個人和企業硬件，能確保與現有基礎設施的無縫集成。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2022 年 10 月，ONLYOFFICE 文檔獲得了與麒麟系統完全兼容的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2022%2F11%2Fonlyoffice-got-certified-by-kylin-os" target="_blank"><u>認證</u></a>。這意味着用戶可以在他們的系統上無縫運行我們的在線編輯器，而不會出現任何兼容性問題。</p><h2><strong>ONLYOFFICE 桌面編輯器在</strong><strong>麒麟軟件商店</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">現在您可以使用預裝的軟件商店，在麒麟桌面環境中輕鬆獲取 ONLYOFFICE 桌面編輯器。只需打開麒麟軟件商店，搜索 ONLYOFFICE 桌面編輯器並單擊「安裝」按鈕。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093250/ONLYOFFICE-on-Kylin-Software-Store.png" referrerpolicy="no-referrer"></p><p>安裝應用程序後，點擊 ONLYOFFICE 桌面編輯器圖標啓動。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="ONLYOFFICE 桌面編輯器：現已在 Kylin 軟件商店上架" src="https://static-blog.onlyoffice.com/wp-content/uploads/2023/10/24093801/kylin-desktops.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">如果您想要手動安裝，可以在終端中鍵入以下命令來獲取 ONLYOFFICE 桌面編輯器：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><code>sudo apt-get install onlyoffice-desktopeditors</code></p><div><h3>相關鏈接</h3><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.kylinos.cn%2F" target="_blank"><u>麒麟官網</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2022%2F11%2Fonlyoffice-got-certified-by-kylin-os" target="_blank"><u>ONLYOFFICE 獲得麒麟操作系統認證</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fblog%2Fzh-hans%2F2023%2F10%2Fonlyoffice-desktop-editors-v7-5" target="_blank"><u>ONLYOFFICE 桌面編輯器</u><u>最新版</u><u><span>&nbsp;</span>7.5</u></a></p><p style="color:#333333; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.onlyoffice.com%2Fzh%2Ftechnology-partners.aspx" target="_blank"><u>成為 ONLYOFFICE<span>&nbsp;</span></u><u>的</u><u>技術合作夥伴</u></a></p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 23 Oct 2023 12:35:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263436</guid>
+            <link>https://www.oschina.net/news/263436</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[RISC-V 創業公司 SiFive 裁員 100 多人，大部分是工程師]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>RISC-V 創業公司 SiFive 正在大規模裁員。</p><blockquote><p>RISC-V 是開源指令集架構，SiFive 成立於 2015 年，是一家基於 RISC-V 架構的芯片設計商，致力於將開源標準引入半導體設計，使其更便宜且更容易被客戶使用。 它也是少數幾家提供高性能 RISC-V 產品的公司之一。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-7063d1f400258edb38c5f4f5f46f1ca80fb.png" referrerpolicy="no-referrer"></p></blockquote><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.tomshardware.com%2Fnews%2Fsifive-lays-off-hundreds-of-risc-v-developers" target="_blank">報道稱</a>，該公司從 10 月中旬開始大裁員，約 700 名員工中的 100-300 多人被解僱，大部分是工程師，還有少數銷售和產品人員。</p><p>SiFive 在隨後發表給媒體的一份聲明中澄清，它裁掉了來自不同業務組的約 140 名員工，佔員工總數的五分之一。</p><p>該公司表示，「隨着 Google 將 Android 引入 RISC-V 生態系統，它在 AI 以及可穿戴設備和移動設備等消費產品領域看到了巨大的機遇。基於他們對當前機遇的判斷和投入，SiFive 正在對全球團隊進行戰略性重組，以最大限度地滿足客戶快速變化的需求。不幸的是，在這次調整中，約 20% 的員工受到了影響，涉及不同的業務組和級別。這些員工將獲得遣散費和安置協助。」</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 23 Oct 2023 06:20:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263350/sifive-lays-off-hundreds-of-risc-v-developers</guid>
+            <link>https://www.oschina.net/news/263350/sifive-lays-off-hundreds-of-risc-v-developers</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[deepin WSL 正式上架微軟商店]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 請你來轟趴啦！1028 蘇州源創會，一起尋寶 AI 時代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="background-color:#ffffff; color:#333333">deepin 社區<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-wsl%2F" target="_blank">宣佈</a>&nbsp;</span>deepin WSL 已正式上架微軟商店。</p><p>WSL 是 Windows Subsystem for Linux 的縮寫，它是一種可以讓用戶在 Windows 上運行 Linux 的技術。使用 WSL，可以輕鬆地在 Windows 和 Linux 之間切換和集成，使用開源的工具和環境來開發或測試 Linux 相關的項目，利用 Windows 的硬件支持和性能優化來運行 Linux 的應用程序，以及體驗不同的 Linux 發行版。</p><p><img height="213" src="https://oscimg.oschina.net/oscnet/up-187f0fca4a326d487fbb7a73117e9f48061.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>使用 deepin WSL</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1.確認系統支持：WSL 最低要求為 Windows 10 版本 1709（內部版本號 16299）或更高版本。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2.啓用 WSL 功能：打開 Windows PowerShell(管理員權限)，運行以下命令：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><em>wsl --install​</em></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">這將啓用 WSL 和虛擬機平台功能，並下載安裝 WSL 2 引擎。或者在菜單欄中找到控制面板找到程序，選擇啓用和關閉 Windows 功能，找到「適用於 Linux 的 Windows 子系統」和 「虛擬機平台」進行勾選，會自動下載安裝需要的組件，重啓後即可。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">3.打開微軟商店，搜索 deepin wsl，找到並點擊獲取會進行安裝。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">4.初次運行時，會提示設置用戶名和密碼，按照指示完成配置即可。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" height="399" src="https://oscimg.oschina.net/oscnet/up-96917b26a11a13e6f9cfff8349e5783cb7a.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>相關項目</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">如果想自定義 WSL 可以參考以下項目。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdeepin-community%2Fdeepin-rootfs" target="_blank">deepin-rootfs</a>&nbsp;這是製作 deepin v23 的根文件系統的項目，該項目為 WSL 提供根文件系統。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmicrosoft%2FWSL-DistroLauncher" target="_blank">WSL-DistroLauncher</a>&nbsp;這是微軟官方官方的 WSL 啓動器。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">3.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdeepin-community%2Fdeepin-wsl" target="_blank">deepin-WSL</a>&nbsp;這是基於 WSL-DistroLauncher 項目進行修改的。上架應用商店的 deepin WSL 也依賴該項目。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">4.<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fyuk7%2Fwsldl" target="_blank">wsldl</a>&nbsp;這是個第三方的 WSL 啓動器。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">wsldl 為第三方提供的啓動器，新安裝一個 WSL 只需要對應的根文件系統，以及重命名一個可執行文件，使用通用工具來運行一個實例。需要自己使用命令導入根文件系統，另外默認使用 root 用戶，需要自己手動配置其他用戶來使用。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">WSL-DistroLauncher 官方提供的啓動器，需要將根文件系統一起打包成 Windows 下的可執行程序，另外用來上架應用商店也需要依賴該程序。需要安裝 cer 證書，雙擊運行可執行程序，安裝成功後根據提示創建一個用戶。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">deepin-WSL 項目下同時提供了兩種啓動器的可執行文件。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 23 Oct 2023 06:06:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263348</guid>
+            <link>https://www.oschina.net/news/263348</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
