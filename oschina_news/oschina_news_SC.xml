@@ -16,34 +16,615 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 29 Oct 2023 10:45:43 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 29 Oct 2023 12:48:00 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[网易云课堂 Service Worker 运用与实践]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/event/2331193" target="_blank">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><p><img src="https://oscimg.oschina.net/oscnet/up-ac820c57f42ee1b582f9a6e7a1787375e7a.png" alt="" referrerpolicy="no-referrer"></p><h1>前言</h1><p>本文首先会简单介绍下前端的常见缓存方式，再引入 Service Worker 的概念，针对其原理和如何运用进行介绍。然后基于 google 推出的第三方库 Workbox，在产品中进行运用实践，并对其原理进行简要剖析。</p><blockquote><p>作者：刘放</p></blockquote><blockquote><p>编辑：Ein</p></blockquote><h1>前端缓存简介</h1><p>先简单介绍一下现有的前端缓存技术方案，主要分为 http 缓存和浏览器缓存。</p><h2>http 缓存</h2><p>http 缓存都是第二次请求时开始的，这也是个老生常谈的话题了。无非也是那几个 http 头的问题：</p><h3>Expires</h3><p>HTTP1.0 的内容，服务器使用 Expires 头来告诉 Web 客户端它可以使用当前副本，直到指定的时间为止。</p><h3>Cache-Control</h3><p>HTTP1.1 引入了 Cathe-Control，它使用 max-age 指定资源被缓存多久，主要是解决了 Expires 一个重大的缺陷，就是它设置的是一个固定的时间点，客户端时间和服务端时间可能有误差。 所以一般会把两个头都带上，这种缓存称为强缓存，表现形式为： <img src="https://oscimg.oschina.net/oscnet/up-5d55a7877b12164c2b7f2fe4e870e072dc2.png" alt="" referrerpolicy="no-referrer"></p><h3>Last-Modified / If-Modified-Since</h3><p>Last-Modified 是服务器告诉浏览器该资源的最后修改时间，If-Modified-Since 是请求头带上的，上次服务器给自己的该资源的最后修改时间。然后服务器拿去对比。</p><p>若资源的最后修改时间大于 If-Modified-Since，说明资源又被改动过，则响应整片资源内容，返回状态码 200；</p><p>若资源的最后修改时间小于或等于 If-Modified-Since，说明资源无新修改，则响应 HTTP 304，告知浏览器继续使用当前版本。</p><h3>Etag / If-None-Match</h3><p>前面提到由文件的修改时间来判断文件是否改动，还是会带来一定的误差，比如注释等无关紧要的修改等。所以推出了新的方式。</p><p>Etag 是由服务端特定算法生成的该文件的唯一标识，而请求头把返回的 Etag 值通过 If-None-Match 再带给服务端，服务端通过比对从而决定是否响应新内容。这也是 304 缓存。</p><h2>浏览器缓存</h2><h3>Storage</h3><p>简单的缓存方式有 cookie，localStorage 和 sessionStorage。这里就不详细介绍他们的区别了，这里说下通过 localStorage 来缓存静态资源的优化方案。 localStorage 通常有 5MB 的存储空间，我们以微信文章页为例。 查看请求发现，基本没有 js 和 css 的请求，因为它把全部的不需要改动的资源都放到了 localStorage 中： <img src="https://oscimg.oschina.net/oscnet/up-aa2899a96564193e2509884484b4f1eb12b.png" alt="" referrerpolicy="no-referrer"> 所以微信的文章页加载非常的快。</p><h3>前端数据库</h3><p>前端数据库有 WebSql 和 IndexDB，其中 WebSql 被规范废弃，他们都有大约 50MB 的最大容量，可以理解为 localStorage 的加强版。</p><h3>应用缓存</h3><p>应用缓存主要是通过 manifest 文件来注册被缓存的静态资源，已经被废弃，因为他的设计有些不合理的地方，他在缓存静态文件的同时，也会默认缓存 html 文件。这导致页面的更新只能通过 manifest 文件中的版本号来决定。所以，应用缓存只适合那种常年不变化的静态网站。如此的不方便，也是被废弃的重要原因。</p><p>PWA 也运用了该文件，不同于 manifest 简单的将文件通过是否缓存进行分类，PWA 用 manifest 构建了自己的 APP 骨架，并运用 Servie Worker 来控制缓存，这也是今天的主角。</p><h1>Service Worker</h1><p>Service Worker 本质上也是浏览器缓存资源用的，只不过他不仅仅是 Cache，也是通过 worker 的方式来进一步优化。 他基于 h5 的 web worker，所以绝对不会阻碍当前 js 线程的执行，sw 最重要的工作原理就是：</p><p>1、后台线程：独立于当前网页线程；</p><p>2、网络代理：在网页发起请求时代理，来缓存文件。</p><h2>兼容性</h2><p><img src="https://oscimg.oschina.net/oscnet/up-c50376e8514a0eda4c04fcf7bf1af3f24aa.png" alt="" referrerpolicy="no-referrer"> 可以看到，基本上新版浏览器还是兼容滴。之前是只有 chrome 和 firefox 支持，现在微软和苹果也相继支持了。</p><h2>成熟程度</h2><p>判断一个技术是否值得尝试，肯定要考虑下它的成熟程度，否则过一段时间又和应用缓存一样被规范抛弃就尴尬了。 所以这里我列举了几个使用 Service Worker 的页面：</p><ul><li>淘宝</li><li>网易新闻</li><li>考拉</li></ul><p>所以说还是可以尝试下的。</p><h2>调试方法</h2><p>一个网站是否启用 Service Worker，可以通过开发者工具中的 Application 来查看：</p><p><img src="https://oscimg.oschina.net/oscnet/up-b631c480eabb3662b08968b60c0466ceefd.png" alt="" referrerpolicy="no-referrer"></p><p>被 Service Worker 缓存的文件，可以在 Network 中看到 Size 项为 from Service Worker：</p><p><img src="https://oscimg.oschina.net/oscnet/up-a94d21f7c7ca175656166c4224fae4ba3c9.png" alt="" referrerpolicy="no-referrer"></p><p>也可以在 Application 的 Cache Storage 中查看缓存的具体内容：</p><p><img src="https://oscimg.oschina.net/oscnet/up-7db236cf39ff32cf4e8f86a591a08431b07.png" alt="" referrerpolicy="no-referrer"></p><p>如果是具体的断点调试，需要使用对应的线程，不再是 main 线程了，这也是 webworker 的通用调试方法：</p><p><img src="https://oscimg.oschina.net/oscnet/up-72a1c5ec7411b0e92530a737fe53db2b158.png" alt="" referrerpolicy="no-referrer"></p><h2>使用条件</h2><p>sw 是基于 HTTPS 的，因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。如果是本地调试的话，localhost 是可以的。 而我们刚好全站强制 https 化，所以正好可以使用。</p><h2>生命周期</h2><p>大概可以用如下图片来解释：</p><p><img src="https://oscimg.oschina.net/oscnet/up-385c15f6dc80d598f67579d5c0308bb98e5.png" alt="" referrerpolicy="no-referrer"></p><h3>注册</h3><p>要使用 Service Worker，首先需要注册一个 sw，通知浏览器为该页面分配一块内存，然后 sw 就会进入安装阶段。 一个简单的注册方式：</p><pre><code>(function() {
+    if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+    }
+})()
+</code></pre><p>当然也可以考虑全面点，参考网易新闻的注册方式：</p><pre><code>"serviceWorker" in navigator &amp;&amp; window.addEventListener("load",
+    function() {
+        var e = location.pathname.match(/\/news\/[a-z]{1,}\//)[0] + "article-sw.js?v=08494f887a520e6455fa";
+        navigator.serviceWorker.register(e).then(function(n) {
+            n.onupdatefound = function() {
+                var e = n.installing;
+                e.onstatechange = function() {
+                    switch (e.state) {
+                        case "installed":
+                            navigator.serviceWorker.controller ? console.log("New or updated content is available.") : console.log("Content is now available offline!");
+                            break;
+                        case "redundant":
+                            console.error("The installing service worker became redundant.")
+                    }
+                }
+            }
+        }).
+        catch(function(e) {
+            console.error("Error during service worker registration:", e)
+        })
+    })
+</code></pre><p>前面提到过，由于 sw 会监听和代理所有的请求，所以 sw 的作用域就显得额外的重要了，比如说我们只想监听我们专题页的所有请求，就在注册时指定路径：</p><pre><code>navigator.serviceWorker.register('/topics/sw.js');
+</code></pre><p>这样就只会对 topics/下面的路径进行优化。</p><h3>installing</h3><p>我们注册后，浏览器就会开始安装 sw，可以通过事件监听：</p><pre><code>//service worker 安装成功后开始缓存所需的资源
+var CACHE_PREFIX = 'cms-sw-cache';
+var CACHE_VERSION = '0.0.20';
+var CACHE_NAME = CACHE_PREFIX+'-'+CACHE_VERSION;
+var allAssets = [
+    './main.css'
+];
+self.addEventListener('install', function(event) {
+
+    //调试时跳过等待过程
+    self.skipWaiting();
+
+
+    // Perform install steps
+    //首先 event.waitUntil 你可以理解为 new Promise，
+    //它接受的实际参数只能是一个 promise，因为,caches 和 cache.addAll 返回的都是 Promise，
+    //这里就是一个串行的异步加载，当所有加载都成功时，那么 SW 就可以下一步。
+    //另外，event.waitUntil 还有另外一个重要好处，它可以用来延长一个事件作用的时间，
+    //这里特别针对于我们 SW 来说，比如我们使用 caches.open 是用来打开指定的缓存，但开启的时候，
+    //并不是一下就能调用成功，也有可能有一定延迟，由于系统会随时睡眠 SW，所以，为了防止执行中断，
+    //就需要使用 event.waitUntil 进行捕获。另外，event.waitUntil 会监听所有的异步 promise
+    //如果其中一个 promise 是 reject 状态，那么该次 event 是失败的。这就导致，我们的 SW 开启失败。
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(function(cache) {
+                console.log('[SW]: Opened cache');
+                return cache.addAll(allAssets);
+            })
+    );
+
+});
+</code></pre><p>安装时，sw 就开始缓存文件了，会检查所有文件的缓存状态，如果都已经缓存了，则安装成功，进入下一阶段。</p><h3>activated</h3><p>如果是第一次加载 sw，在安装后，会直接进入 activated 阶段，而如果 sw 进行更新，情况就会显得复杂一些。流程如下：</p><p>首先老的 sw 为 A，新的 sw 版本为 B。 B 进入 install 阶段，而 A 还处于工作状态，所以 B 进入 waiting 阶段。只有等到 A 被 terminated 后，B 才能正常替换 A 的工作。</p><p><img src="https://oscimg.oschina.net/oscnet/up-5d04b8ca78c8e2f2bc8f02e992c6a540426.png" alt="" referrerpolicy="no-referrer"></p><p>这个 terminated 的时机有如下几种方式：</p><p>1、关闭浏览器一段时间；</p><p>2、手动清除 Service Worker；</p><p>3、在 sw 安装时直接跳过 waiting 阶段</p><pre><code>//service worker 安装成功后开始缓存所需的资源
+self.addEventListener('install', function(event) {
+    //跳过等待过程
+    self.skipWaiting();
+});
+</code></pre><p>然后就进入了 activated 阶段，激活 sw 工作。</p><p>activated 阶段可以做很多有意义的事情，比如更新存储在 Cache 中的 key 和 value：</p><pre><code>var CACHE_PREFIX = 'cms-sw-cache';
+var CACHE_VERSION = '0.0.20';
+/**
+ * 找出对应的其他 key 并进行删除操作
+ * @returns {*}
+ */
+function deleteOldCaches() {
+    return caches.keys().then(function (keys) {
+        var all = keys.map(function (key) {
+            if (key.indexOf(CACHE_PREFIX) !== -1 &amp;&amp; key.indexOf(CACHE_VERSION) === -1){
+                console.log('[SW]: Delete cache:' + key);
+                return caches.delete(key);
+            }
+        });
+        return Promise.all(all);
+    });
+}
+//sw 激活阶段,说明上一 sw 已失效
+self.addEventListener('activate', function(event) {
+
+
+    event.waitUntil(
+        // 遍历 caches 里所有缓存的 keys 值
+        caches.keys().then(deleteOldCaches)
+    );
+});
+</code></pre><h3>idle</h3><p>这个空闲状态一般是不可见的，这种一般说明 sw 的事情都处理完毕了，然后处于闲置状态了。</p><p>浏览器会周期性的轮询，去释放处于 idle 的 sw 占用的资源。</p><h3>fetch</h3><p>该阶段是 sw 最为关键的一个阶段，用于拦截代理所有指定的请求，并进行对应的操作。</p><p>所有的缓存部分，都是在该阶段，这里举一个简单的例子：</p><pre><code>//监听浏览器的所有 fetch 请求，对已经缓存的资源使用本地缓存回复
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+        caches.match(event.request)
+            .then(function(response) {
+                //该 fetch 请求已经缓存
+                if (response) {
+                    return response;
+                }
+                return fetch(event.request);
+                }
+            )
+    );
+});
+</code></pre><p>生命周期大概讲清楚了，我们就以一个具体的例子来说明下原生的 serviceworker 是如何在生产环境中使用的吧。</p><h2>举个栗子</h2><p>我们可以以网易新闻的 wap 页为例,其针对不怎么变化的静态资源开启了 sw 缓存，具体的 sw.js 逻辑和解读如下：</p><pre><code>'use strict';
+//需要缓存的资源列表
+var precacheConfig = [
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/bg_img_sm_minfy.png",
+        "c4f55f5a9784ed2093009dadf1e954f9"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/change.png",
+        "9af1b102ef784b8ff08567ba25f31d95"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/icon-download.png",
+        "1c02c724381d77a1a19ca18925e9b30c"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/icon-login-dark.png",
+        "b59ba5abe97ff29855dfa4bd3a7a9f35"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/icon-refresh.png",
+        "a5b1084e41939885969a13f8dbc88abd"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/icon-video-play.png",
+        "065ff496d7d36345196d254aff027240"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/icon.ico",
+        "a14e5365cc2b27ec57e1ab7866c6a228"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/iconfont_1.eot",
+        "e4d2788fef09eb0630d66cc7e6b1ab79"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/iconfont_1.svg",
+        "d9e57c341608fddd7c140570167bdabb"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/iconfont_1.ttf",
+        "f422407038a3180bb3ce941a4a52bfa2"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/iconfont_1.woff",
+        "ead2bef59378b00425779c4ca558d9bd"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/index.5cdf03e8.js",
+        "6262ac947d12a7b0baf32be79e273083"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/index.bc729f8a.css",
+        "58e54a2c735f72a24715af7dab757739"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-app-bohe.png",
+        "ac5116d8f5fcb3e7c49e962c54ff9766"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-app-mail.png",
+        "a12bbfaeee7fbf025d5ee85634fca1eb"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-app-manhua.png",
+        "b8905b119cf19a43caa2d8a0120bdd06"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-app-open.png",
+        "b7cc76ba7874b2132f407049d3e4e6e6"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-app-read.png",
+        "e6e9c8bc72f857960822df13141cbbfd"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/logo-site.png",
+        "2b0d728b46518870a7e2fe424e9c0085"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/version_no_pic.png",
+        "aef80885188e9d763282735e53b25c0e"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/version_pc.png",
+        "42f3cc914eab7be4258fac3a4889d41d"],
+    ["https://static.ws.126.net/163/wap/f2e/milk_index/version_standard.png",
+        "573408fa002e58c347041e9f41a5cd0d"]
+];
+var cacheName = 'sw-precache-v3-new-wap-index-' + (self.registration ? self.registration.scope : '');
+
+var ignoreUrlParametersMatching = [/^utm_/];
+
+var addDirectoryIndex = function(originalUrl, index) {
+    var url = new URL(originalUrl);
+    if (url.pathname.slice(-1) === '/') {
+        url.pathname += index;
+    }
+    return url.toString();
+};
+var cleanResponse = function(originalResponse) {
+    // If this is not a redirected response, then we don't have to do anything.
+    if (!originalResponse.redirected) {
+        return Promise.resolve(originalResponse);
+    }
+    // Firefox 50 and below doesn't support the Response.body stream, so we may
+    // need to read the entire body to memory as a Blob.
+    var bodyPromise = 'body' in originalResponse ?
+        Promise.resolve(originalResponse.body) :
+        originalResponse.blob();
+    return bodyPromise.then(function(body) {
+        // new Response() is happy when passed either a stream or a Blob.
+        return new Response(body, {
+            headers: originalResponse.headers,
+            status: originalResponse.status,
+            statusText: originalResponse.statusText
+        });
+    });
+};
+var createCacheKey = function(originalUrl, paramName, paramValue,
+                              dontCacheBustUrlsMatching) {
+    // Create a new URL object to avoid modifying originalUrl.
+    var url = new URL(originalUrl);
+    // If dontCacheBustUrlsMatching is not set, or if we don't have a match,
+    // then add in the extra cache-busting URL parameter.
+    if (!dontCacheBustUrlsMatching ||
+        !(url.pathname.match(dontCacheBustUrlsMatching))) {
+        url.search += (url.search ? '&amp;' : '') +
+            encodeURIComponent(paramName) + '=' + encodeURIComponent(paramValue);
+    }
+    return url.toString();
+};
+var isPathWhitelisted = function(whitelist, absoluteUrlString) {
+    // If the whitelist is empty, then consider all URLs to be whitelisted.
+    if (whitelist.length === 0) {
+        return true;
+    }
+    // Otherwise compare each path regex to the path of the URL passed in.
+    var path = (new URL(absoluteUrlString)).pathname;
+    return whitelist.some(function(whitelistedPathRegex) {
+        return path.match(whitelistedPathRegex);
+    });
+};
+var stripIgnoredUrlParameters = function(originalUrl,
+                                         ignoreUrlParametersMatching) {
+    var url = new URL(originalUrl);
+    // Remove the hash; see https://github.com/GoogleChrome/sw-precache/issues/290
+    url.hash = '';
+    url.search = url.search.slice(1) // Exclude initial '?'
+        .split('&amp;') // Split into an array of 'key=value' strings
+        .map(function(kv) {
+            return kv.split('='); // Split each 'key=value' string into a [key, value] array
+        })
+        .filter(function(kv) {
+            return ignoreUrlParametersMatching.every(function(ignoredRegex) {
+                return !ignoredRegex.test(kv[0]); // Return true iff the key doesn't match any of the regexes.
+            });
+        })
+        .map(function(kv) {
+            return kv.join('='); // Join each [key, value] array into a 'key=value' string
+        })
+        .join('&amp;'); // Join the array of 'key=value' strings into a string with '&amp;' in between each
+    return url.toString();
+};
+
+var hashParamName = '_sw-precache';
+//定义需要缓存的 url 列表
+var urlsToCacheKeys = new Map(
+    precacheConfig.map(function(item) {
+        var relativeUrl = item[0];
+        var hash = item[1];
+        var absoluteUrl = new URL(relativeUrl, self.location);
+        var cacheKey = createCacheKey(absoluteUrl, hashParamName, hash, false);
+        return [absoluteUrl.toString(), cacheKey];
+    })
+);
+//把 cache 中的 url 提取出来,进行去重操作
+function setOfCachedUrls(cache) {
+    return cache.keys().then(function(requests) {
+        //提取 url
+        return requests.map(function(request) {
+            return request.url;
+        });
+    }).then(function(urls) {
+        //去重
+        return new Set(urls);
+    });
+}
+//sw 安装阶段
+self.addEventListener('install', function(event) {
+    event.waitUntil(
+        //首先尝试取出存在客户端 cache 中的数据
+        caches.open(cacheName).then(function(cache) {
+            return setOfCachedUrls(cache).then(function(cachedUrls) {
+                return Promise.all(
+                    Array.from(urlsToCacheKeys.values()).map(function(cacheKey) {
+                        //如果需要缓存的 url 不在当前 cache 中,则添加到 cache
+                        if (!cachedUrls.has(cacheKey)) {
+                            //设置 same-origin 是为了兼容旧版本 safari 中其默认值不为 same-origin,
+                            //只有当 URL 与响应脚本同源才发送 cookies、 HTTP Basic authentication 等验证信息
+                            var request = new Request(cacheKey, {credentials: 'same-origin'});
+                            return fetch(request).then(function(response) {
+                                //通过 fetch api 请求资源
+                                if (!response.ok) {
+                                    throw new Error('Request for ' + cacheKey + ' returned a ' +
+                                        'response with status ' + response.status);
+                                }
+                                return cleanResponse(response).then(function(responseToCache) {
+                                    //并设置到当前 cache 中
+                                    return cache.put(cacheKey, responseToCache);
+                                });
+                            });
+                        }
+                    })
+                );
+            });
+        }).then(function() {
+
+            //强制跳过等待阶段,进入激活阶段
+            return self.skipWaiting();
+
+        })
+    );
+});
+self.addEventListener('activate', function(event) {
+    //清除 cache 中原来老的一批相同 key 的数据
+    var setOfExpectedUrls = new Set(urlsToCacheKeys.values());
+    event.waitUntil(
+        caches.open(cacheName).then(function(cache) {
+            return cache.keys().then(function(existingRequests) {
+                return Promise.all(
+                    existingRequests.map(function(existingRequest) {
+                        if (!setOfExpectedUrls.has(existingRequest.url)) {
+                            //cache 中删除指定对象
+                            return cache.delete(existingRequest);
+                        }
+                    })
+                );
+            });
+        }).then(function() {
+            //self 相当于 webworker 线程的当前作用域
+            //当一个 service worker 被初始注册时，页面在下次加载之前不会使用它。 claim() 方法会立即控制这些页面
+            //从而更新客户端上的 serviceworker
+            return self.clients.claim();
+
+        })
+    );
+});
+
+self.addEventListener('fetch', function(event) {
+    if (event.request.method === 'GET') {
+        // 标识位,用来判断是否需要缓存
+        var shouldRespond;
+        // 对 url 进行一些处理,移除一些不必要的参数
+        var url = stripIgnoredUrlParameters(event.request.url, ignoreUrlParametersMatching);
+        // 如果该 url 不是我们想要缓存的 url,置为 false
+        shouldRespond = urlsToCacheKeys.has(url);
+        // 如果 shouldRespond 未 false,再次验证
+        var directoryIndex = 'index.html';
+        if (!shouldRespond &amp;&amp; directoryIndex) {
+            url = addDirectoryIndex(url, directoryIndex);
+            shouldRespond = urlsToCacheKeys.has(url);
+        }
+        // 再次验证,判断其是否是一个 navigation 类型的请求
+        var navigateFallback = '';
+        if (!shouldRespond &amp;&amp;
+            navigateFallback &amp;&amp;
+            (event.request.mode === 'navigate') &amp;&amp;
+            isPathWhitelisted([], event.request.url)) {
+            url = new URL(navigateFallback, self.location).toString();
+            shouldRespond = urlsToCacheKeys.has(url);
+        }
+        // 如果标识位为 true
+        if (shouldRespond) {
+            event.respondWith(
+                caches.open(cacheName).then(function(cache) {
+                    //去缓存 cache 中找对应的 url 的值
+                    return cache.match(urlsToCacheKeys.get(url)).then(function(response) {
+                        //如果找到了,就返回 value
+                        if (response) {
+                            return response;
+                        }
+                        throw Error('The cached response that was expected is missing.');
+                    });
+                }).catch(function(e) {
+                    // 如果没找到则请求该资源
+                    console.warn('Couldn\'t serve response for "%s" from cache: %O', event.request.url, e);
+                    return fetch(event.request);
+                })
+            );
+        }
+    }
+});
+</code></pre><p>这里的策略大概就是优先在 Cache 中寻找资源，如果找不到再请求资源。可以看出，为了实现一个较为简单的缓存，还是比较复杂和繁琐的，所以很多工具就应运而生了。</p><h1>Workbox</h1><p>由于直接写原生的 sw.js，比较繁琐和复杂，所以一些工具就出现了，而 Workbox 是其中的佼佼者，由 google 团队推出。</p><h2>简介</h2><p>在 Workbox 之前，GoogleChrome 团队较早时间推出过 sw-precache 和 sw-toolbox 库，但是在 GoogleChrome 工程师们看来，workbox 才是真正能方便统一的处理离线能力的更完美的方案，所以停止了对 sw-precache 和 sw-toolbox 的维护。</p><h2>使用者</h2><p>有很多团队也是启用该工具来实现 serviceworker 的缓存，比如说：</p><ul><li>淘宝首页</li><li>网易新闻 wap 文章页</li><li>百度的 Lavas</li></ul><h2>基本配置</h2><p>首先，需要在项目的 sw.js 文件中，引入 Workbox 的官方 js，这里用了我们自己的静态资源：</p><pre><code>importScripts(
+    "https://edu-cms.nosdn.127.net/topics/js/workbox_9cc4c3d662a4266fe6691d0d5d83f4dc.js"
+);
+</code></pre><p>其中 importScripts 是 webworker 中加载 js 的方式。</p><p>引入 Workbox 后，全局会挂载一个 Workbox 对象</p><pre><code>if (workbox) {
+    console.log('workbox 加载成功');
+} else {
+    console.log('workbox 加载失败');
+}
+</code></pre><p>然后需要在使用其他的 api 前，提前使用配置</p><pre><code>//关闭控制枱中的输出
+workbox.setConfig({ debug: false });
+</code></pre><p>也可以统一指定存储时 Cache 的名称：</p><pre><code>//设置缓存 cachestorage 的名称
+workbox.core.setCacheNameDetails({
+    prefix:'edu-cms',
+    suffix:'v1'
+});
+</code></pre><h2>precache</h2><p>Workbox 的缓存分为两种，一种的 precache，一种的 runtimecache。</p><p>precache 对应的是在 installing 阶段进行读取缓存的操作。它让开发人员可以确定缓存文件的时间和长度，以及在不进入网络的情况下将其提供给浏览器，这意味着它可以用于创建 Web 离线工作的应用。</p><h3>工作原理</h3><p>首次加载 Web 应用程序时，Workbox 会下载指定的资源，并存储具体内容和相关修订的信息在 indexedDB 中。</p><p>当资源内容和 sw.js 更新后，Workbox 会去比对资源，然后将新的资源存入 Cache，并修改 indexedDB 中的版本信息。</p><p>我们举一个例子：</p><pre><code>workbox.precaching.precacheAndRoute([
+    './main.css'
+]);
+</code></pre><p><img src="https://oscimg.oschina.net/oscnet/up-d8a79ba50b83bfbc538b960e07f0c707b17.png" alt="" referrerpolicy="no-referrer"></p><p>indexedDB 中会保存其相关信息</p><p><img src="https://oscimg.oschina.net/oscnet/up-b9f1c514f24a2b5121771fa9b59fb0cc82b.png" alt="" referrerpolicy="no-referrer"></p><p>这个时候我们把 main.css 的内容改变后，再刷新页面，会发现除非强制刷新，否则 Workbox 还是会读取 Cache 中存在的老的 main.css 内容。</p><p>即使我们把 main.css 从服务器上删除，也不会对页面造成影响。</p><p>所以这种方式的缓存都需要配置一个版本号。在修改 sw.js 时，对应的版本也需要变更。</p><h3>使用实践</h3><p>当然了，一般我们的一些不经常变的资源，都会使用 cdn，所以这里自然就需要支持域外资源了，配置方式如下：</p><pre><code>var fileList = [
+    {
+        url:'https://edu-cms.nosdn.127.net/topics/js/cms_specialWebCommon_js_f26c710bd7cd055a64b67456192ed32a.js'
+    },
+    {
+        url:'https://static.ws.126.net/163/frontend/share/css/article.207ac19ad70fd0e54d4a.css'
+    }
+];
+
+
+//precache 适用于支持跨域的 cdn 和域内静态资源
+workbox.precaching.suppressWarnings();
+workbox.precaching.precacheAndRoute(fileList, {
+    "ignoreUrlParametersMatching": [/./]
+});
+</code></pre><p>这里需要对应的资源配置跨域允许头，否则是不能正常加载的。且文件都要以版本文件名的方式，来确保修改后 Cache 和 indexDB 会得到更新。</p><p>理解了原理和实践后，说明这种方式适合于上线后就不会经常变动的静态资源。</p><h2>runtimecache</h2><p>运行时缓存是在 install 之后，activated 和 fetch 阶段做的事情。</p><p>既然在 fetch 阶段发送，那么 runtimecache 往往应对着各种类型的资源，对于不同类型的资源往往也有不同的缓存策略。</p><h3>缓存策略</h3><p>Workbox 提供的缓存策划有以下几种，通过不同的配置可以针对自己的业务达到不同的效果：</p><h3>Stale While Revalidate</h3><p>这种策略的意思是当请求的路由有对应的 Cache 缓存结果就直接返回，</p><p>在返回 Cache 缓存结果的同时会在后台发起网络请求拿到请求结果并更新 Cache 缓存，如果本来就没有 Cache 缓存的话，直接就发起网络请求并返回结果，这对用户来说是一种非常安全的策略，能保证用户最快速的拿到请求的结果。</p><p>但是也有一定的缺点，就是还是会有网络请求占用了用户的网络带宽。可以像如下的方式使用 State While Revalidate 策略：</p><pre><code>workbox.routing.registerRoute(
+    new RegExp('https://edu-cms\.nosdn\.127\.net/topics/'),
+    workbox.strategies.staleWhileRevalidate({
+        //cache 名称
+        cacheName: 'lf-sw:static',
+        plugins: [
+            new workbox.expiration.Plugin({
+                //cache 最大数量
+                maxEntries: 30
+            })
+        ]
+    })
+);
+</code></pre><h3>Network First</h3><p>这种策略就是当请求路由是被匹配的，就采用网络优先的策略，也就是优先尝试拿到网络请求的返回结果，如果拿到网络请求的结果，就将结果返回给客户端并且写入 Cache 缓存。</p><p>如果网络请求失败，那最后被缓存的 Cache 缓存结果就会被返回到客户端，这种策略一般适用于返回结果不太固定或对实时性有要求的请求，为网络请求失败进行兜底。可以像如下方式使用 Network First 策略：</p><pre><code>//自定义要缓存的 html 列表
+var cacheList = [
+    '/Hexo/public/demo/PWADemo/workbox/index.html'
+];
+workbox.routing.registerRoute(
+    //自定义过滤方法
+    function(event) {
+        // 需要缓存的 HTML 路径列表
+        if (event.url.host === 'localhost:63342') {
+            if (~cacheList.indexOf(event.url.pathname)) return true;
+            else return false;
+        } else {
+            return false;
+        }
+    },
+    workbox.strategies.networkFirst({
+        cacheName: 'lf-sw:html',
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxEntries: 10
+            })
+        ]
+    })
+);
+</code></pre><h3>Cache First</h3><p>这个策略的意思就是当匹配到请求之后直接从 Cache 缓存中取得结果，如果 Cache 缓存中没有结果，那就会发起网络请求，拿到网络请求结果并将结果更新至 Cache 缓存，并将结果返回给客户端。这种策略比较适合结果不怎么变动且对实时性要求不高的请求。可以像如下方式使用 Cache First 策略：</p><pre><code>workbox.routing.registerRoute(
+    new RegExp('https://edu-image\.nosdn\.127\.net/'),
+    workbox.strategies.cacheFirst({
+        cacheName: 'lf-sw:img',
+        plugins: [
+            //如果要拿到域外的资源，必须配置
+            //因为跨域使用 fetch 配置了
+            //mode: 'no-cors',所以 status 返回值为 0，故而需要兼容
+            new workbox.cacheableResponse.Plugin({
+                statuses: [0, 200]
+            }),
+            new workbox.expiration.Plugin({
+                maxEntries: 40,
+                //缓存的时间
+                maxAgeSeconds: 12 * 60 * 60
+            })
+        ]
+    })
+);
+</code></pre><h3>Network Only</h3><p>比较直接的策略，直接强制使用正常的网络请求，并将结果返回给客户端，这种策略比较适合对实时性要求非常高的请求。</p><h3>Cache Only</h3><p>这个策略也比较直接，直接使用 Cache 缓存的结果，并将结果返回给客户端，这种策略比较适合一上线就不会变的静态资源请求。</p><h2>举个栗子</h2><p>又到了举个栗子的阶段了，这次我们用淘宝好了，看看他们是如何通过 Workbox 来配置 Service Worker 的：</p><pre><code>//首先是异常处理
+self.addEventListener('error', function(e) {
+  self.clients.matchAll()
+    .then(function (clients) {
+      if (clients &amp;&amp; clients.length) {
+        clients[0].postMessage({ 
+          type: 'ERROR',
+          msg: e.message || null,
+          stack: e.error ? e.error.stack : null
+        });
+      }
+    });
+});
+
+self.addEventListener('unhandledrejection', function(e) {
+  self.clients.matchAll()
+    .then(function (clients) {
+      if (clients &amp;&amp; clients.length) {
+        clients[0].postMessage({
+          type: 'REJECTION',
+          msg: e.reason ? e.reason.message : null,
+          stack: e.reason ? e.reason.stack : null
+        });
+      }
+    });
+})
+//然后引入 workbox
+importScripts('https://g.alicdn.com/kg/workbox/3.3.0/workbox-sw.js');
+workbox.setConfig({
+  debug: false,
+  modulePathPrefix: 'https://g.alicdn.com/kg/workbox/3.3.0/'
+});
+//直接激活跳过等待阶段
+workbox.skipWaiting();
+workbox.clientsClaim();
+//定义要缓存的 html
+var cacheList = [
+  '/',
+  '/tbhome/home-2017',
+  '/tbhome/page/market-list'
+];
+//html 采用 networkFirst 策略，支持离线也能大体访问
+workbox.routing.registerRoute(
+  function(event) {
+    // 需要缓存的 HTML 路径列表
+    if (event.url.host === 'www.taobao.com') {
+      if (~cacheList.indexOf(event.url.pathname)) return true;
+      else return false;
+    } else {
+      return false;
+    }
+  },
+  workbox.strategies.networkFirst({
+    cacheName: 'tbh:html',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 10
+      })
+    ]
+  })
+);
+//静态资源采用 staleWhileRevalidate 策略，安全可靠
+workbox.routing.registerRoute(
+  new RegExp('https://g\.alicdn\.com/'),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'tbh:static',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 20
+      })
+    ]
+  })
+);
+//图片采用 cacheFirst 策略，提升速度
+workbox.routing.registerRoute(
+  new RegExp('https://img\.alicdn\.com/'),
+  workbox.strategies.cacheFirst({
+    cacheName: 'tbh:img',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200]
+      }),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 12 * 60 * 60
+      })
+    ]
+  })
+);
+
+workbox.routing.registerRoute(
+  new RegExp('https://gtms01\.alicdn\.com/'),
+  workbox.strategies.cacheFirst({
+    cacheName: 'tbh:img',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200]
+      }),
+      new workbox.expiration.Plugin({
+        maxEntries: 30,
+        maxAgeSeconds: 12 * 60 * 60
+      })
+    ]
+  })
+);
+</code></pre><p>可以看出，使用 Workbox 比起直接手撸来，要快很多，也明确很多。</p><h2>原理</h2><p>目前分析 Service Worker 和 Workbox 的文章不少，但是介绍 Workbox 原理的文章却不多。这里简单介绍下 Workbox 这个工具库的原理。</p><p>首先将几个我们产品用到的模块图奉上：</p><p><img src="https://oscimg.oschina.net/oscnet/up-b22e014db049eea325d28de53c9b6b9cd76.png" alt="" referrerpolicy="no-referrer"></p><p>简单提几个 Workbox 源码的亮点。</p><h3>通过 Proxy 按需依赖</h3><p>熟悉了 Workbox 后会得知，它是有很多个子模块的，各个子模块再通过用到的时候按需 importScript 到线程中。 <img src="https://oscimg.oschina.net/oscnet/up-12e98258edc4bd13e5ad48a74c9835ede68.png" alt="" referrerpolicy="no-referrer"></p><p>做到按需依赖的原理就是通过 Proxy 对全局对象 Workbox 进行代理：</p><pre><code>new Proxy(this, {
+  get(t, s) {
+    //如果 workbox 对象上不存在指定对象，就依赖注入该对象对应的脚本
+    if (t[s]) return t[s];
+    const o = e[s];
+    return o &amp;&amp; t.loadModule(`workbox-${o}`), t[s];
+  }
+})
+</code></pre><p>如果找不到对应模块，则通过 importScripts 主动加载：</p><pre><code>/**
+ * 加载前端模块
+ * @param {Strnig} t 
+ */
+loadModule(t) {
+  const e = this.o(t);
+  try {
+    importScripts(e), (this.s = !0);
+  } catch (s) {
+    throw (console.error(`Unable to import module '${t}' from '${e}'.`), s);
+  }
+}
+</code></pre><h3>通过 freeze 冻结对外暴露 api</h3><p>Workbox.core 模块中提供了几个核心操作模块，如封装了 indexedDB 操作的 DBWrapper、对 Cache Storage 进行读取的 Cache Wrapper，以及发送请求的 fetchWrapper 和日志管理的 logger 等等。</p><p>为了防止外部对内部模块暴露出去的 api 进行修改，导致出现不可预估的错误，内部模块可以通过 Object.freeze 将 api 进行冻结保护：</p><pre><code>var _private = /*#__PURE__*/Object.freeze({
+    DBWrapper: DBWrapper,
+    WorkboxError: WorkboxError,
+    assert: finalAssertExports,
+    cacheNames: cacheNames,
+    cacheWrapper: cacheWrapper,
+    fetchWrapper: fetchWrapper,
+    getFriendlyURL: getFriendlyURL,
+    logger: defaultExport
+  });
+</code></pre><h1>总结</h1><p>通过对 Service Worker 的理解和 Workbox 的应用，可以进一步提升产品的性能和弱网情况下的体验。有兴趣的同学也可以对 Workbox 的源码细细评读，其中还有很多不错的设计模式和编程风格值得学习。</p><p><img src="https://oscimg.oschina.net/oscnet/up-a546d4d52ff6cdf625f4d4a4890fd454bec.png" alt="" referrerpolicy="no-referrer"></p><p><strong>-END-</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 10:45:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/youdaotech/blog/5054309</guid>
+            <link>https://my.oschina.net/youdaotech/blog/5054309</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Wasmer 开源 WinterJS：Rust 编写的 Service Worker]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Wasmer 团队开源了一款用 Rust 编写的<strong> JavaScript Service Worker：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwasmer.io%2Fposts%2Fannouncing-winterjs-service-workers" target="_blank">WinterJS</a></u></strong>。</p><p>据介绍，WinterJS 使用 SpiderMonkey 运行时执行 JavaScript（与 Firefox 使用的运行时相同），并遵循 WinterCG 规范，目的是最大限度地兼容 Cloudflare Workers、Deno Deploy 和 Vercel 等其他服务（因此命名为 WinterJS）。</p><p>WinterJS 除了速度极快，还能通过 WASIX <strong>编译成 WebAssembly</strong>，因此完全支持在 Wasmer 上运行。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6382fe02fb5cbb80e1cb6951156b73e1143.png" referrerpolicy="no-referrer"></p><p>开源地址：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fwasmerio%2Fwinterjs" target="_blank">https://github.com/wasmerio/winterjs</a></u></p><p>&nbsp;</p><blockquote><p>Wasmer 是支持 WASI 和 Emscripten 的通用 WebAssembly 运行时，提供基于 WebAssembly 的超轻量级容器，专注于支持在任何平台上运行 WASM 代码：从桌面端到云端、以及 IoT 设备，并且能嵌入在任何编程语言中。</p><p><img alt="" src="https://static.oschina.net/uploads/space/2023/0627/173716_02s8_2720166.png" referrerpolicy="no-referrer"></p><p>Wasmer 凭借其多样化的支持和专注于从通用桌面应用程序到 「便携式 ML/AI 应用程序」 的领域，目前仍然是领先的 WASM 运行时之一。</p></blockquote></div>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Wasmer 团队开源了一款用 Rust 编写的<strong> JavaScript Service Worker：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwasmer.io%2Fposts%2Fannouncing-winterjs-service-workers" target="_blank">WinterJS</a></u></strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6382fe02fb5cbb80e1cb6951156b73e1143.png" referrerpolicy="no-referrer"></p><p><em>WinterJS 开源地址：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fwasmerio%2Fwinterjs" target="_blank">https://github.com/wasmerio/winterjs</a></u></em></p><p>据介绍，WinterJS 使用 SpiderMonkey 运行时执行 JavaScript（与 Firefox 使用的运行时相同），并遵循 WinterCG 规范，目的是最大限度地兼容 Cloudflare Workers、Deno Deploy 和 Vercel 等其他服务（因此命名为 WinterJS）。</p><p>WinterJS 除了速度极快，还能通过 WASIX <strong>编译成 WebAssembly</strong>，因此完全支持在 Wasmer 上运行。</p><ul><li><strong>使用示例</strong></li></ul><p><strong>创建<code>serviceworker.js</code>文件，并返回 "hello world"</strong></p><pre><code class="language-javascript">$ wasmer run wasmer/winterjs --net --mapdir /app:. /app/serviceworker.js</code></pre><pre><code class="language-javascript">addEventListener('fetch', (req) =&gt; {
+  req.respondWith(`hello world from ${req.request.url.href}`);
+});</code></pre><blockquote><p>Wasmer 是支持 WASI 和 Emscripten 的通用 WebAssembly 运行时，提供基于 WebAssembly 的超轻量级容器，专注于支持在任何平台上运行 WASM 代码：从桌面端到云端、以及 IoT 设备，并且能嵌入在任何编程语言中。</p><p><img alt="" src="https://static.oschina.net/uploads/space/2023/0627/173716_02s8_2720166.png" referrerpolicy="no-referrer"></p><p>Wasmer 凭借其多样化的支持和专注于从通用桌面应用程序到 「便携式 ML/AI 应用程序」 的领域，目前仍然是领先的 WASM 运行时之一。</p></blockquote></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 29 Oct 2023 10:36:38 GMT</pubDate>
+            <pubDate>Sun, 29 Oct 2023 10:35:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263968/winterjs-service-workers</guid>
             <link>https://www.oschina.net/news/263968/winterjs-service-workers</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[国外物价高，6 美元只能买 50 个 GitHub stars]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>《Wired》杂志发表文章<em>"<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wired.com%2Fstory%2Fgithub-stars-black-market-coders-cheat%2F" target="_blank">The GitHub Black Market That Helps Coders Cheat the Popularity Contest</a></u>"</em>，介绍了交易 GitHub Stars 的地下黑市。</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1028/161939_TSqR_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>GitHub 平台托管项目的受欢迎程度能够为部分程序员和创业公司打开一扇大门，他们通过 Stars 获得关注度、影响力和声誉。然而地下黑市出售的 Stars 提供了」以假乱真「的方式来让他们进行作弊。这些虚假 Stars 在某种程度上能帮助程序员和创业公司在联络投资人或找工作时留下好印象。</p><p>据介绍，在交易 GitHub Stars 的平台上，支付价值&nbsp;6 美元的以太币即可购买 50 个 Stars。除了 Stars，其他可量化的指标——如 Forks、Watchers 和 Follower 也可单独或组合购买。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://static.oschina.net/uploads/space/2023/1024/174616_4UDX_2720166.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><em>via<span>&nbsp;</span><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbaddhi.shop%2Fproduct%2Fbuy-github-followers%2F" target="_blank">https://baddhi.shop/product/buy-github-followers/</a></u></em></p><p>文章写道，此前初创公司、程序员和投资者在决定雇用谁、为谁工作或投资谁时，会使用这些指标来筛选有潜力的程序员和初创公司。</p><p>但真正决定成功的不仅是这些指标，投资者开始意识到这种评估方式并不可靠，正在改变对 GitHub Stars 等指标的依赖，GitHub 平台也在打击这些专门用于刷数据的虚假账号。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 28 Oct 2023 10:44:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263862/github-stars-black-market-coders-cheat</guid>
-            <link>https://www.oschina.net/news/263862/github-stars-black-market-coders-cheat</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -70,7 +651,7 @@
 }</code></pre><p>这不仅减少代码量，还减少了更改数据和重新渲染页面所需的网络往返次数，从而提升用户体验。</p><ul><li><strong>部分预渲染 (Partial Prerendering)</strong></li></ul><p>Next.js 团队正在为 Next.js 开发的」部分预渲染「是一种针对具有快速初始静态响应的动态内容的编译器优化。</p><p>Partial Prerendering 基于十年来对服务器端渲染 (SSR)、静态网站生成 (SSG) 和增量静态重验证 (ISR) 的研究和开发。</p><p>详情查看<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-14" target="_blank"><u>发布公告</u></a>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 28 Oct 2023 08:48:00 GMT</pubDate>
+            <pubDate>Sun, 29 Oct 2023 08:48:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263948/next-js-14</guid>
             <link>https://www.oschina.net/news/263948/next-js-14</link>
             <author>
@@ -85,7 +666,7 @@
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="project_detail_above_text_link_1" data-tracepid="project_detail_above_text_link"><a style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" target="_blank">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代 <img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><p>libnop 是一个仅用于序列化和反序列化 C++数据类型的头库，无需外部代码生成器或运行时支持库。唯一的强制性要求是一个支持 C++14 标准的编译器。</p><hr><p style="color:#1f2328; text-align:start"><strong>libnop 有以下目标：</strong></p><ul><li>使简单的序列化任务变得容易，使复杂的任务变得易于处理。</li><li>在 C++语言中移除对代码生成器和模式文件描述数据类型、格式和协议的依赖。</li><li>避免运行序列化操作时可能需要的额外运行时间。</li><li>提供现代功能，如双向二进制兼容性、数据验证、类型安全性和类型可替代性。</li><li>以最少的工作量处理内部类型、常见的 STL 类型和容器以及用户定义的类型。</li><li>生成易于分析的代码。</li><li>避免动态内存的分配时使用。</li></ul></div>
                                                                 ]]>
             </description>
-            <pubDate>Sat, 28 Oct 2023 07:36:00 GMT</pubDate>
+            <pubDate>Sun, 29 Oct 2023 07:36:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/libnop</guid>
             <link>https://www.oschina.net/p/libnop</link>
         </item>
@@ -97,9 +678,9 @@
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>下面这张图来自近日举办的&nbsp;Next.js Conf 2023，里面的代码使用了名为<strong>「Server Actions」</strong>的特性——在前端代码中使用 SQL 语句直接操作数据库。</p><blockquote><p>Next.js 是流行的开源前端框架，其开发商是知名创业公司 Vercel。</p><p>Next.js 提供了包括服务器端渲染和为 Web 应用程序生成静态网站在内的功能。Vercel 作为一个开放的云平台提供了网站托管服务，让开发者能够在上面开发、预览和发布 Web 应用，同时优化了前端开发者的开发和部署体验。</p></blockquote><p><img alt="" height="533" src="https://oscimg.oschina.net/oscnet/up-e254f1c847ae20e8c530b34f9021da3a4d0.png" width="400" referrerpolicy="no-referrer"></p><p>在最新发布的 Next.js 14 中，Server Actions 已到达稳定阶段。其团队表示，Server Actions 改进了开发者在编写数据变更方面的体验。</p><p>Server Actions 允许开发者定义异步服务器函数，他们可以使用 Server Actions 重新验证缓存数据、重定向到不同的路由、设置和读取 cookie 等等。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-77eb78e36979830a06c1f44ed2476bb4db1.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-0ad921306554c0716b4b4b0a8bedb71b8ba.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-badb8152ef443eb8272d03c220e0450c723.png" referrerpolicy="no-referrer"></p><p>不过目前看来，大多数人对它的评价似乎并不太好 ——</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1029/122449_wEe4_2720166.png" referrerpolicy="no-referrer"></p></blockquote></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 28 Oct 2023 04:54:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263921</guid>
-            <link>https://www.oschina.net/news/263921</link>
+            <pubDate>Sun, 29 Oct 2023 04:54:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263921/nextjs-server-actions</guid>
+            <link>https://www.oschina.net/news/263921/nextjs-server-actions</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -112,11 +693,41 @@
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>Linux Mint 团队在最新月度报告中<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.linuxmint.com%2F%3Fp%3D4591" target="_blank">提到</a></u>，他们已经开始着手开发对 Wayland 的支持。</p><p>团队称这项工作是他们在很长一段时间内必须面对的主要挑战之一，虽然他们不期待 Wayland 能很快取代 Xorg 作为默认值，无论是在 21.3 中，还是在 22.x 中，但仍然希望做好准备。</p><p>按照计划，Cinnamon 6.0 计划在今年的 Mint 21.3 中推出，<strong>并将提供实验性的 Wayland 支持</strong>。用户可以从登录界面在默认 Cinnamon 会话（在 Xorg 上运行）和 Cinnamon on Wayland 之间进行选择。</p><p>下图是 Cinnamon on Wayland 的运行截图：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-21b9daccab538fe5909df6cef6b172695f5.png" referrerpolicy="no-referrer"></p><p>Linux Mint 团队表示，他们可能在 2026 年实现对 Wayland 的稳定支持/默认支持。鉴于 Linux Mint 坚持以 Ubuntu LTS 为基础，因此并不指望在 Ubuntu 24.04 LTS 之前就能支持 Wayland。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 28 Oct 2023 04:19:00 GMT</pubDate>
+            <pubDate>Sun, 29 Oct 2023 04:19:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263917/linux-mint-wayland-progress</guid>
             <link>https://www.oschina.net/news/263917/linux-mint-wayland-progress</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[国外物价高，6 美元只能买 50 个 GitHub stars]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>《Wired》杂志发表文章<em>"<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wired.com%2Fstory%2Fgithub-stars-black-market-coders-cheat%2F" target="_blank">The GitHub Black Market That Helps Coders Cheat the Popularity Contest</a></u>"</em>，介绍了交易 GitHub Stars 的地下黑市。</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1028/161939_TSqR_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>GitHub 平台托管项目的受欢迎程度能够为部分程序员和创业公司打开一扇大门，他们通过 Stars 获得关注度、影响力和声誉。然而地下黑市出售的 Stars 提供了」以假乱真「的方式来让他们进行作弊。这些虚假 Stars 在某种程度上能帮助程序员和创业公司在联络投资人或找工作时留下好印象。</p><p>据介绍，在交易 GitHub Stars 的平台上，支付价值&nbsp;6 美元的以太币即可购买 50 个 Stars。除了 Stars，其他可量化的指标——如 Forks、Watchers 和 Follower 也可单独或组合购买。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://static.oschina.net/uploads/space/2023/1024/174616_4UDX_2720166.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><em>via<span>&nbsp;</span><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbaddhi.shop%2Fproduct%2Fbuy-github-followers%2F" target="_blank">https://baddhi.shop/product/buy-github-followers/</a></u></em></p><p>文章写道，此前初创公司、程序员和投资者在决定雇用谁、为谁工作或投资谁时，会使用这些指标来筛选有潜力的程序员和初创公司。</p><p>但真正决定成功的不仅是这些指标，投资者开始意识到这种评估方式并不可靠，正在改变对 GitHub Stars 等指标的依赖，GitHub 平台也在打击这些专门用于刷数据的虚假账号。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 28 Oct 2023 10:44:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263862/github-stars-black-market-coders-cheat</guid>
+            <link>https://www.oschina.net/news/263862/github-stars-black-market-coders-cheat</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[小米 14 开机动画显示澎湃 OS 基于 Android]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>小米 14、澎湃 OS 等一大波新品已经正式登场<strong>。澎湃 OS 发布前，不少人都争论，它不是小米自研的系统，对此雷军还特意表示，确实不是。</strong></p><p>小米的澎湃 OS 由两部分组成：一部分是基于安卓系统进行深度进化的，这使得澎湃 OS 可以与安卓系统保持同步，并且能够使用安卓软件。</p><p>另一部分则是小米自研发的 Vela 系统，主要用于实现小米产品之间的互联互通。</p><p>这种系统架构使得澎湃 OS 能够兼顾兼容性和自主性，既满足了用户对丰富应用的需求，又能够提供更好的硬件软件一体化体验。</p><p><strong>发布会后，有网友从现场展示的新机看到，小米澎湃 OS 开机页面动画还是和以前一样，也有显示 "Powered by android"，这也算是证实了雷军之前的说法。</strong></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-4b428f25973338129e02686c3a80ff9faf1.png" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 28 Oct 2023 05:17:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263829</guid>
+            <link>https://www.oschina.net/news/263829</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
             </author>
         </item>
         <item>
@@ -136,6 +747,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[2023 CCF 中国开源大会开源商业化分论坛顺利召开]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/event/2331193" target="_blank">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><p>10 月 21 日至 22 日，由中国计算机学会（CCF）、开放原子开源基金会主办的 2023 CCF 中国开源大会在长沙顺利举行。其中，开源商业化分论坛由开源中国承办，开源中国董事长马越担任主席。来自开源原生商业公司的诸多专家就开源项目商业化最佳实践展开分享，为更多开发者和企业提供可借鉴的经验，共同推动开源生态建设，助力开源生态发展。</p><p><strong>开源中国董事长马越</strong>以《中国开源商业发展的现状及思考》为题发表主旨演讲。他指出，当前开源创业公司有「七大恨」：没有品牌、没有流量、没有销售能力、没有资质、没有交付能力、没有现金流、没有资本渠道。这些都严重阻碍了创业公司进一步发展壮大。而解决开源创业公司「七大恨」的关键就在于开源创业联合体。所谓开源创业联合体，就是提供通用服务模型的价值流平台，实现集成和自动化 IT 价值链的插件开放平台，融合市场各类开源或商业生态能力，落地客户场景服务。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-729f0faa336b257003127266ac12c4b722d.png" width="800" referrerpolicy="no-referrer"></p><p>最后马越提议，希望能够集众多开源力量共建这样的插件开放平台，繁荣开源商业生态，互通有无。开源中国已积累了十几年的商业化经验以及商业化能力，旗下 Gitee 平台也已经入驻了 27 万多家中小团队，服务中国 600 多家 100 亿元估值以上的大企业。未来，开源中国将通过该插件平台将这些经验和能力赋能更多开源企业。</p><p><strong>CCF 开源发展委员会常委谭中意</strong>就 「AI to B 的开源和商业化」这两大方向展开探讨。谭中意认为，当前 LLM to B 业务的难点在于，需要找到一个 Killer 场景——有足够的商业回报，能覆盖大模型 Finetune 和 Serving 以及 LLM 应用开发和运维的成本。但是 LLM 技术存在先天上的约束：一是无法避免幻觉的问题，To C 业务需要满足网信办规定，合规成本很高；二是无法避免概率的问题，To B 的严肃场景可能不太适合。因此，突破口可能在于：一是企业内部，对生成内容更讲究创意或者实时 Check 的场景，比如内部研发代码生成工具、游戏行业的场景；二是电商领域，比如促销、广告投放等，因为这是离钱最近的潜力市场，且容易形成数据闭环。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-cf8531b4308c6c6399ab200699cb0ef9b7d.png" width="800" referrerpolicy="no-referrer"></p><p>至于开源在 LLM 产业的关键作用，主要有两个：一是降低成本，开源是降低整个产业创新成本的关键，即 AI 民主化。这需要整个学术界和产业界一起努力，来把成本降下来，而且开源底座模型是整个大生态最重要部分；二是建立信任，人工智能要让人信任，它必须公开透明。一旦这个问题解决了，一个十万亿规模的市场可能起飞。</p><p><strong>PingCAP 副总裁刘松</strong>分享了 TiDB 从开源到 Serverless 的商业化演进逻辑。据其介绍，PingCAP 的商业化之路可以总结为「四部曲」：创建一个满足时代刚需的开源项目，开源产品获得规模化的用户部署与反馈，打造一个全球化的商业化模式，持续创造满足极致用户需求的产品形态。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-c12ba68303c5e846f95912614c315de728c.png" width="800" referrerpolicy="no-referrer"></p><p>刘松表示，面对「开源 + 云」互相推动和演进的新技术环境，TiDB 演进方向从技术领先走向了「技术+体验」领先。当前，PingCAP 围绕 TiDB 构建了三大产品形态：TiDB 企业版、TiDB Cloud（全托管）、TiDB Cloud Serverless。其中，TiDB Cloud 提供全托管的 DBaaS （Database-as-a-Service）服务，极大地降低了云数据库的使用门槛；TiDB Cloud Serverless 基于云原生/多云的设计，采用 AI-Ready 的架构，实现极致低成本、极致弹性，拥有自动化的资源调度能力以及灵活集成 AI 能力等特性。</p><p><strong>统信软件解决方案中心专家任紫东</strong>以《中国开源操作系统商业发展探索》为题展开分享。任紫东认为，2020 年是国产 Linux 里程碑之年。2019 年前，我国有 10 多家国产操作系统企业，随着政策引导和市场竞争战略的选择，国产操作系统厂商进行了全新的业态整合，2020 年起，初步形成两家主流国产操作系统企业，统信就是其中之一。及至 2022 年，产业链的商业形态形成。头部操作系统公司规模也呈现「干百十」特征：千人以上的操作系统开发队伍，百人以上的内核研发团队，十人以上的开源合规律师团队。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-d9d35f21d4f87673628b2337118d6fb42dc.png" width="800" referrerpolicy="no-referrer"></p><p>当前，统信 UOS 生态是国内最大的自主操作系统生态圈之一。统信己基于服务器操作系统完成诸多主流国外商业软件的适配，涵盖了 Oracle、IBM、SAP、微软等厂商的主流数据库产品，Google、FaceBook、百度、华为等厂商的主流 AI 人工智能类产品，以及 Oracle、IBM 等厂商的主流中间件产品。</p><p>开源社区做得好，怎么变成钱？在以《白鲸 DataOps 开源矩阵商业化之路》为题的演讲中，<strong>白鲸开源 CEO 郭炜</strong>提到，白鲸花了 8 个月时间，摸索了一套开源商业转化流程，积累数千万的商业 Pipeline 以及上百个线索，而投入资源不过是一名销售人员，没有任何市场费用。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-c3550e7f84e4a38252e13b77a70f32bcd94.png" width="800" referrerpolicy="no-referrer"></p><p>郭炜把这些成果归结于几大原则：「别人做中石油，我做中石化」，即做所有人的朋友；开源项目定位要清晰，商业功能痛点要明确，因此白鲸开源采取了「开源矩阵+OpenCore」的路线；开源商业软件要重视「行业属性」，分行业洞察痛点，口碑营销；不忘初心，牢记使命，不断升级开源版，商业版才有机会；勇于探索，拥抱新技术，将大模型融入软件，等等。</p><p>最后他提到，开源风口并没有过去，而且温度刚刚好。面对经济下行周期、资本趋于冷静以及收入体量要求更高等挑战，也应看到行业展现出来更多的机会，比如恶性竞争减少，互联网公司开始付费买工具，订阅制更容易被接受，海外市场逐步增长等等。</p><p><strong>TDengine 联合创始人&amp; 商业化 VP 李广</strong>分享了 TDengine 是如何从开源时序数据库到工业大数据处理平台的。他表示，一款软件开源，就意味着可信、可控。TDengine 的商业逻辑就是重塑 2B 销售模式，以开源建社区与品牌，以开源建 GTM 路径。通过开源扩大影响力，树立品牌，形成开发者社区，构建竞争壁垒，快速获得市场反馈，快速迭代，快速打造生态，获得用户信任。另一方面，将传统的 2B 销售演变为 2C 的模式，将传统的登门拜访演变为线上销售，将资源型销售转化为技术和产品型销售。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-a48a9ecbd7606788031401fba0b8a83267d.png" width="800" referrerpolicy="no-referrer"></p><p>当前，TDengine 提供三种产品与服务，一是开源社区版——TDengine OSS，主要是为了建立开发者社区，建立生态；二是企业版——TDengine Enterprise，支持独立部署并按照 TBL（Term Based License）年度服务订阅或者永久 Licenese 模式销售；三是云服务版——TDengine Cloud，在阿里云、AWS、华为云等云平台上直接提供 SaaS 服务，根据数据量和时长计费。</p><p>最后他表示，开源软件的商业化逻辑已经发生了变化，从关注增长转向强调利润。2B 软件群龙纷争的时代结束，只有深入行业黑土地才能生存。</p><p><strong>筑栈（KodeRover / Zadig）创始人 &amp; CEO 李倩</strong>分析了公司为什么选择深耕中国而不是出海。据悉，在商业化过程中，KodeRover 也面临过不少问题，比如花了时间打磨产品，但用户付费意愿不强烈；有需求有预算的大客户找上门，却因为自身团队规模过小无法为其提供大型服务等等，不过 KodeRover 最终也地制定了相应策略。李倩将公司的商业化思路总结为：技术上用开源铸造好基建，打造产品力、品牌力；商业上，中国场景助力「新 IT」 （比如硬科技创新、旧行业升级重整）升级，创造客户价值；可持续创造价值，广泛链接，为客户提供最优质的解决方案。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-e0510f159c4ed52d504290463b06b22c059.png" width="800" referrerpolicy="no-referrer"></p><p>李倩提到，Zadig 是生产软件的软件，目的是交付数字业务。 Zadig 开源两年，企业安装总量近 3 万，目前是国内云原生 DevOps 领域落地最广泛的平台，成为包括字节飞书、极氪、路特斯、小鹏、七牛云、WiFi 万能钥匙、易快报、iMile、TT 语音、锅圈、药师帮、大参林、老百姓大药房、 益丰大药房、小天才等标杆企业的数千家企业研发工程师每日深度、高频使用的软件交付平台。</p><p><strong>EMQ 映云科技联合创始人兼 CPO 金发华</strong>以《EMQ —— 开源数实融合基础软件的商业化》为题发表演进。据了解，作为全球领先的物联网基础软件提供商，EMQ 创立并主导 LF Edge eKuiper、NanoMQ、Neuron 等多个全球知名边缘软件开源项目。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-086857ea6bb66926b0c38eb9fb66172ceae.png" width="800" referrerpolicy="no-referrer"></p><p>金发华表示，Hosting(Cloud) 模式是未来产品的一个方向。当前，EMQ Cloud 商业服务有三种。一是 Serverless，轻松几步即可获得一个安全可伸缩的 ServerlessMQTT 服务。全托管特性让用户无需关心基础设施和资源管理，特别适用于个人开发者、中小型项目、开发测试环境以及技术框架的评估。二是专有版，独立部署的全托管 MQTT 服务，具有更高的性能保障和可定制能力，尤其适用于对性能、稳定性要求较高的企业级项目。三是 BYOC (Bring Your Own Cloud)，用户在自己的云上部署 EMQX 集群,并交由 EMQX 团队托管，适用于有严格数据安全和合规性要求的企业级项目，最大限度地利用现有的云资源。</p><p><strong>天际科技投资副总裁江志桐</strong>阐述了开源与 AI 时代下的投资逻辑。她表示，在 AI 2.0 时代，从全球市场来看，基于大模型未来增长预期，资本给予显著溢价。当前通用模型格局明确，出现了微软、谷歌双龙头企业，工具层、应用层、垂直领域涌现大量独角兽。全球市场都在关注大模型商业化的落地，围绕效率、创意、情感陪伴 2C/2B 的应用生态繁荣。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-d423c2f9a083841554cb3cea84bb20c4056.png" width="800" referrerpolicy="no-referrer"></p><p>与此同时，开源正在加速 AI 2.0 落地，加速 AI 生态繁荣。开源是大模型基础设施必然选择，延伸出的服务、应用具有巨大商业机会。AI 开源时代的投资策略以核心人物为中心，布局早期，发挥产业资源优势，关键人物、网络效应、稀缺数据，以及软硬一体都有可能成为企业护城河的因素，也是 AI 开源时代投资重点。</p><p>那么中国市场的机会在哪里呢？江志桐认为，主要在于两方面，一是基础设施，二是垂直行业。国内大模型的应用还在快速成长，基于开源加速模型落地后，整个 AI 生态里面也会出现能够对标全球市场的公司。总之，国内 AI 市场还处于巨头形成的阶段。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 28 Oct 2023 02:32:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/3859945/blog/10136947</guid>
+            <link>https://my.oschina.net/u/3859945/blog/10136947</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[扎克伯克：Meta 明年投入更多工程和计算资源到 AI 领域]]>
             </title>
             <description>
@@ -151,58 +777,13 @@
         </item>
         <item>
             <title>
-                <![CDATA[小米 14 开机动画显示澎湃 OS 基于 Android]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>小米 14、澎湃 OS 等一大波新品已经正式登场<strong>。澎湃 OS 发布前，不少人都争论，它不是小米自研的系统，对此雷军还特意表示，确实不是。</strong></p><p>小米的澎湃 OS 由两部分组成：一部分是基于安卓系统进行深度进化的，这使得澎湃 OS 可以与安卓系统保持同步，并且能够使用安卓软件。</p><p>另一部分则是小米自研发的 Vela 系统，主要用于实现小米产品之间的互联互通。</p><p>这种系统架构使得澎湃 OS 能够兼顾兼容性和自主性，既满足了用户对丰富应用的需求，又能够提供更好的硬件软件一体化体验。</p><p><strong>发布会后，有网友从现场展示的新机看到，小米澎湃 OS 开机页面动画还是和以前一样，也有显示 "Powered by android"，这也算是证实了雷军之前的说法。</strong></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-4b428f25973338129e02686c3a80ff9faf1.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 27 Oct 2023 05:17:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263829</guid>
-            <link>https://www.oschina.net/news/263829</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2023 CCF 中国开源大会开源商业化分论坛顺利召开]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/event/2331193" target="_blank">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><p>10 月 21 日至 22 日，由中国计算机学会（CCF）、开放原子开源基金会主办的 2023 CCF 中国开源大会在长沙顺利举行。其中，开源商业化分论坛由开源中国承办，开源中国董事长马越担任主席。来自开源原生商业公司的诸多专家就开源项目商业化最佳实践展开分享，为更多开发者和企业提供可借鉴的经验，共同推动开源生态建设，助力开源生态发展。</p><p><strong>开源中国董事长马越</strong>以《中国开源商业发展的现状及思考》为题发表主旨演讲。他指出，当前开源创业公司有「七大恨」：没有品牌、没有流量、没有销售能力、没有资质、没有交付能力、没有现金流、没有资本渠道。这些都严重阻碍了创业公司进一步发展壮大。而解决开源创业公司「七大恨」的关键就在于开源创业联合体。所谓开源创业联合体，就是提供通用服务模型的价值流平台，实现集成和自动化 IT 价值链的插件开放平台，融合市场各类开源或商业生态能力，落地客户场景服务。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-729f0faa336b257003127266ac12c4b722d.png" width="800" referrerpolicy="no-referrer"></p><p>最后马越提议，希望能够集众多开源力量共建这样的插件开放平台，繁荣开源商业生态，互通有无。开源中国已积累了十几年的商业化经验以及商业化能力，旗下 Gitee 平台也已经入驻了 27 万多家中小团队，服务中国 600 多家 100 亿元估值以上的大企业。未来，开源中国将通过该插件平台将这些经验和能力赋能更多开源企业。</p><p><strong>CCF 开源发展委员会常委谭中意</strong>就 「AI to B 的开源和商业化」这两大方向展开探讨。谭中意认为，当前 LLM to B 业务的难点在于，需要找到一个 Killer 场景——有足够的商业回报，能覆盖大模型 Finetune 和 Serving 以及 LLM 应用开发和运维的成本。但是 LLM 技术存在先天上的约束：一是无法避免幻觉的问题，To C 业务需要满足网信办规定，合规成本很高；二是无法避免概率的问题，To B 的严肃场景可能不太适合。因此，突破口可能在于：一是企业内部，对生成内容更讲究创意或者实时 Check 的场景，比如内部研发代码生成工具、游戏行业的场景；二是电商领域，比如促销、广告投放等，因为这是离钱最近的潜力市场，且容易形成数据闭环。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-cf8531b4308c6c6399ab200699cb0ef9b7d.png" width="800" referrerpolicy="no-referrer"></p><p>至于开源在 LLM 产业的关键作用，主要有两个：一是降低成本，开源是降低整个产业创新成本的关键，即 AI 民主化。这需要整个学术界和产业界一起努力，来把成本降下来，而且开源底座模型是整个大生态最重要部分；二是建立信任，人工智能要让人信任，它必须公开透明。一旦这个问题解决了，一个十万亿规模的市场可能起飞。</p><p><strong>PingCAP 副总裁刘松</strong>分享了 TiDB 从开源到 Serverless 的商业化演进逻辑。据其介绍，PingCAP 的商业化之路可以总结为「四部曲」：创建一个满足时代刚需的开源项目，开源产品获得规模化的用户部署与反馈，打造一个全球化的商业化模式，持续创造满足极致用户需求的产品形态。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-c12ba68303c5e846f95912614c315de728c.png" width="800" referrerpolicy="no-referrer"></p><p>刘松表示，面对「开源 + 云」互相推动和演进的新技术环境，TiDB 演进方向从技术领先走向了「技术+体验」领先。当前，PingCAP 围绕 TiDB 构建了三大产品形态：TiDB 企业版、TiDB Cloud（全托管）、TiDB Cloud Serverless。其中，TiDB Cloud 提供全托管的 DBaaS （Database-as-a-Service）服务，极大地降低了云数据库的使用门槛；TiDB Cloud Serverless 基于云原生/多云的设计，采用 AI-Ready 的架构，实现极致低成本、极致弹性，拥有自动化的资源调度能力以及灵活集成 AI 能力等特性。</p><p><strong>统信软件解决方案中心专家任紫东</strong>以《中国开源操作系统商业发展探索》为题展开分享。任紫东认为，2020 年是国产 Linux 里程碑之年。2019 年前，我国有 10 多家国产操作系统企业，随着政策引导和市场竞争战略的选择，国产操作系统厂商进行了全新的业态整合，2020 年起，初步形成两家主流国产操作系统企业，统信就是其中之一。及至 2022 年，产业链的商业形态形成。头部操作系统公司规模也呈现「干百十」特征：千人以上的操作系统开发队伍，百人以上的内核研发团队，十人以上的开源合规律师团队。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-d9d35f21d4f87673628b2337118d6fb42dc.png" width="800" referrerpolicy="no-referrer"></p><p>当前，统信 UOS 生态是国内最大的自主操作系统生态圈之一。统信己基于服务器操作系统完成诸多主流国外商业软件的适配，涵盖了 Oracle、IBM、SAP、微软等厂商的主流数据库产品，Google、FaceBook、百度、华为等厂商的主流 AI 人工智能类产品，以及 Oracle、IBM 等厂商的主流中间件产品。</p><p>开源社区做得好，怎么变成钱？在以《白鲸 DataOps 开源矩阵商业化之路》为题的演讲中，<strong>白鲸开源 CEO 郭炜</strong>提到，白鲸花了 8 个月时间，摸索了一套开源商业转化流程，积累数千万的商业 Pipeline 以及上百个线索，而投入资源不过是一名销售人员，没有任何市场费用。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-c3550e7f84e4a38252e13b77a70f32bcd94.png" width="800" referrerpolicy="no-referrer"></p><p>郭炜把这些成果归结于几大原则：「别人做中石油，我做中石化」，即做所有人的朋友；开源项目定位要清晰，商业功能痛点要明确，因此白鲸开源采取了「开源矩阵+OpenCore」的路线；开源商业软件要重视「行业属性」，分行业洞察痛点，口碑营销；不忘初心，牢记使命，不断升级开源版，商业版才有机会；勇于探索，拥抱新技术，将大模型融入软件，等等。</p><p>最后他提到，开源风口并没有过去，而且温度刚刚好。面对经济下行周期、资本趋于冷静以及收入体量要求更高等挑战，也应看到行业展现出来更多的机会，比如恶性竞争减少，互联网公司开始付费买工具，订阅制更容易被接受，海外市场逐步增长等等。</p><p><strong>TDengine 联合创始人&amp; 商业化 VP 李广</strong>分享了 TDengine 是如何从开源时序数据库到工业大数据处理平台的。他表示，一款软件开源，就意味着可信、可控。TDengine 的商业逻辑就是重塑 2B 销售模式，以开源建社区与品牌，以开源建 GTM 路径。通过开源扩大影响力，树立品牌，形成开发者社区，构建竞争壁垒，快速获得市场反馈，快速迭代，快速打造生态，获得用户信任。另一方面，将传统的 2B 销售演变为 2C 的模式，将传统的登门拜访演变为线上销售，将资源型销售转化为技术和产品型销售。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-a48a9ecbd7606788031401fba0b8a83267d.png" width="800" referrerpolicy="no-referrer"></p><p>当前，TDengine 提供三种产品与服务，一是开源社区版——TDengine OSS，主要是为了建立开发者社区，建立生态；二是企业版——TDengine Enterprise，支持独立部署并按照 TBL（Term Based License）年度服务订阅或者永久 Licenese 模式销售；三是云服务版——TDengine Cloud，在阿里云、AWS、华为云等云平台上直接提供 SaaS 服务，根据数据量和时长计费。</p><p>最后他表示，开源软件的商业化逻辑已经发生了变化，从关注增长转向强调利润。2B 软件群龙纷争的时代结束，只有深入行业黑土地才能生存。</p><p><strong>筑栈（KodeRover / Zadig）创始人 &amp; CEO 李倩</strong>分析了公司为什么选择深耕中国而不是出海。据悉，在商业化过程中，KodeRover 也面临过不少问题，比如花了时间打磨产品，但用户付费意愿不强烈；有需求有预算的大客户找上门，却因为自身团队规模过小无法为其提供大型服务等等，不过 KodeRover 最终也地制定了相应策略。李倩将公司的商业化思路总结为：技术上用开源铸造好基建，打造产品力、品牌力；商业上，中国场景助力「新 IT」 （比如硬科技创新、旧行业升级重整）升级，创造客户价值；可持续创造价值，广泛链接，为客户提供最优质的解决方案。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-e0510f159c4ed52d504290463b06b22c059.png" width="800" referrerpolicy="no-referrer"></p><p>李倩提到，Zadig 是生产软件的软件，目的是交付数字业务。 Zadig 开源两年，企业安装总量近 3 万，目前是国内云原生 DevOps 领域落地最广泛的平台，成为包括字节飞书、极氪、路特斯、小鹏、七牛云、WiFi 万能钥匙、易快报、iMile、TT 语音、锅圈、药师帮、大参林、老百姓大药房、 益丰大药房、小天才等标杆企业的数千家企业研发工程师每日深度、高频使用的软件交付平台。</p><p><strong>EMQ 映云科技联合创始人兼 CPO 金发华</strong>以《EMQ —— 开源数实融合基础软件的商业化》为题发表演进。据了解，作为全球领先的物联网基础软件提供商，EMQ 创立并主导 LF Edge eKuiper、NanoMQ、Neuron 等多个全球知名边缘软件开源项目。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-086857ea6bb66926b0c38eb9fb66172ceae.png" width="800" referrerpolicy="no-referrer"></p><p>金发华表示，Hosting(Cloud) 模式是未来产品的一个方向。当前，EMQ Cloud 商业服务有三种。一是 Serverless，轻松几步即可获得一个安全可伸缩的 ServerlessMQTT 服务。全托管特性让用户无需关心基础设施和资源管理，特别适用于个人开发者、中小型项目、开发测试环境以及技术框架的评估。二是专有版，独立部署的全托管 MQTT 服务，具有更高的性能保障和可定制能力，尤其适用于对性能、稳定性要求较高的企业级项目。三是 BYOC (Bring Your Own Cloud)，用户在自己的云上部署 EMQX 集群,并交由 EMQX 团队托管，适用于有严格数据安全和合规性要求的企业级项目，最大限度地利用现有的云资源。</p><p><strong>天际科技投资副总裁江志桐</strong>阐述了开源与 AI 时代下的投资逻辑。她表示，在 AI 2.0 时代，从全球市场来看，基于大模型未来增长预期，资本给予显著溢价。当前通用模型格局明确，出现了微软、谷歌双龙头企业，工具层、应用层、垂直领域涌现大量独角兽。全球市场都在关注大模型商业化的落地，围绕效率、创意、情感陪伴 2C/2B 的应用生态繁荣。</p><p style="text-align:center"><img height="533" src="https://oscimg.oschina.net/oscnet/up-d423c2f9a083841554cb3cea84bb20c4056.png" width="800" referrerpolicy="no-referrer"></p><p>与此同时，开源正在加速 AI 2.0 落地，加速 AI 生态繁荣。开源是大模型基础设施必然选择，延伸出的服务、应用具有巨大商业机会。AI 开源时代的投资策略以核心人物为中心，布局早期，发挥产业资源优势，关键人物、网络效应、稀缺数据，以及软硬一体都有可能成为企业护城河的因素，也是 AI 开源时代投资重点。</p><p>那么中国市场的机会在哪里呢？江志桐认为，主要在于两方面，一是基础设施，二是垂直行业。国内大模型的应用还在快速成长，基于开源加速模型落地后，整个 AI 生态里面也会出现能够对标全球市场的公司。总之，国内 AI 市场还处于巨头形成的阶段。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 27 Oct 2023 02:32:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/3859945/blog/10136947</guid>
-            <link>https://my.oschina.net/u/3859945/blog/10136947</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[智谱 AI 推出第三代基座大模型]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>2023 年 10 月 27 日，智谱 AI 于 2023 中国计算机大会（CNCC）上，推出了<strong>全自研的第三代基座大模型 ChatGLM3</strong>及相关系列产品。</p><p><img height="281" src="https://static.oschina.net/uploads/space/2023/1028/102320_GQzP_2720166.jpg" width="500" referrerpolicy="no-referrer"></p><p>以下汇总摘录自官方公告：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FSVq458IhrR2GGezA9goumw" target="_blank">https://mp.weixin.qq.com/s/SVq458IhrR2GGezA9goumw</a></u></p><hr><h4><strong>全新技术升级</strong></h4><p><strong>1. 更强大的性能：</strong></p><p>今年以来，这是我们第三次对 ChatGLM 基座模型进行了深度优化。我们采用了独创的多阶段增强预训练方法，更丰富的训练数据和更优的训练方案，使训练更为充分。</p><p>评测显示，与 ChatGLM 二代模型相比，在 44 个中英文公开数据集测试中，ChatGLM3 在国内同尺寸模型中排名首位。其中，MMLU 提升 36%、CEval 提升 33%、GSM8K 提升 179% 、BBH 提升 126%。</p><p><strong>2. 瞄向 GPT-4V 的技术升级：</strong></p><p>瞄向 GPT-4V，ChatGLM3 本次实现了若干全新功能的迭代升级，包括：</p><p><strong>多模态理解</strong>能力的 CogVLM，看图识语义，在 10 余个国际标准图文评测数据集上取得 SOTA；</p><p><strong>代码增强</strong>模块 Code Interpreter 根据用户需求生成代码并执行，自动完成数据分析、文件处理等复杂任务；</p><p><strong>网络搜索增强</strong>WebGLM，接入搜索增强，能自动根据问题在互联网上查找相关资料并在回答时提供参考相关文献或文章链接。</p><p>ChatGLM3 的<strong>语义能力与逻辑能力</strong>大大增强。</p><p><strong>3. 全新的 Agent 智能体能力：</strong></p><p>ChatGLM3 本次集成了自研的 AgentTuning 技术，激活了模型智能体能力，尤其在智能规划和执行方面，相比于 ChatGLM 二代提升 1000%；开启国产大模型原生支持工具调用、代码执行、游戏、数据库操作、知识图谱搜索与推理、操作系统等复杂场景。</p><p><strong>4. Edge 端侧模型：</strong></p><p>ChatGLM3 本次推出可手机部署的端测模型 ChatGLM3-1.5B 和 ChatGLM3-3B，支持包括 Vivo、小米、三星在内的多种手机以及车载平台，甚至支持移动平台上 CPU 芯片的推理，速度可达 20 tokens/s。</p><p>精度方面 ChatGLM3-1.5B 和 ChatGLM3-3B 在公开 Benchmark 上与 ChatGLM2-6B 模型性能接近。</p><p><strong>5. 更高效推理/降本增效：</strong></p><p>基于最新的高效动态推理和显存优化技术，我们当前的推理框架在相同硬件、模型条件下，相较于目前最佳的开源实现，包括伯克利大学推出的 vLLM 以及 Hugging Face TGI 的最新版本，推理速度提升了 2-3 倍，推理成本降低一倍，每千 tokens 仅 0.5 分，成本最低。</p><h4><strong>新一代「智谱清言」上线</strong></h4><p>在全新升级的 ChatGLM3 赋能下，生成式 AI 助手智谱清言已成为国内首个具备代码交互能力的大模型产品（Code Interpreter）。</p><p>传送门：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fchatglm.cn%2Fmain%2Fcode" target="_blank">https://chatglm.cn/main/code</a></u></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102833_nbbu_2720166.png" referrerpolicy="no-referrer"></p><p>在这一能力的加持下，ChatGLM3 可支持图像处理、数学计算、数据分析等使用场景。以下分别为：</p><p><strong>处理数据生成图表</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102853_C5gK_2720166.png" referrerpolicy="no-referrer"></p><p><strong>画图</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102920_iPm4_2720166.png" referrerpolicy="no-referrer"></p><p><strong>上传 SQL 代码分析</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102938_Bkdu_2720166.png" referrerpolicy="no-referrer"></p><p>随着 WebGLM 大模型能力的加入，智谱清言现具有搜索增强能力。智谱清言可以帮助用户整理出相关问题的网上文献或文章链接，并整理出答案。</p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102955_TE2Q_2720166.jpg" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103014_ein5_2720166.png" referrerpolicy="no-referrer"></p><p>CogVLM 模型则提高了智谱清言的中文图文理解能力，取得了接近 GPT-4V 的图片理解能力。它可以回答各种类型的视觉问题，并且可以完成复杂的目标检测，并打上标签，完成自动数据标注。</p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103030_N8vg_2720166.png" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103042_fWLm_2720166.jpg" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103052_suIU_2720166.jpg" referrerpolicy="no-referrer"></p><hr><p>据介绍，自 2022 年初，智谱 GLM 系列模型已支持在升腾、神威超算、海光 DCU 架构上进行大规模预训练和推理，当前已支持 10 余种国产硬件生态，包括升腾、神威超算、海光 DCU、海飞科、沐曦曦云、算能科技、天数智芯、寒武纪、摩尔线程、百度昆仑芯、灵汐科技、长城超云等。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 27 Oct 2023 02:31:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263818</guid>
-            <link>https://www.oschina.net/news/263818</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[Ubuntu 24.04 进入开发阶段，代号 Noble Numbat]]>
             </title>
             <description>
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="color:#000000">Canonical 的 Utkarsh Gupta 在一封发送给 Ubuntu 开发邮件列表的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flists.ubuntu.com%2Farchives%2Fubuntu-devel%2F2023-October%2F042835.html" target="_blank">电子邮件中宣布</a>，Ubuntu 24.04 现已开放供开发，并透露了该版本的代号为「Noble Numbat」。</span></p><blockquote><p><span style="color:#000000">我们很高兴地宣布，Noble Numbat 现已开放开发。自动同步已启用，并将很快运行。和往常一样，我们预计在初始阶段会有大量的构建和自动测试涌入，这将导致一些延迟现象的出现。请协助修复出现的任何故障。</span></p></blockquote><p><span style="color:#000000">根据百度百科，Numbat（袋食蚁兽）是分布于澳大利亚西南部的一种小型有袋动物，几乎只以白蚁为食，每天可以吃约 20000 只白蚁。目前仅在少数地区存活，属于濒危物种，已被列入《世界自然保护联盟濒危物种红色名录》。袋食蚁兽的体型小而吻长，牙齿多达 52 枚，超过任何陆生哺乳动物的齿数，齿细，排成长列，长而能伸的舌（长约 10 厘米），用以捕捉白蚁。</span></p><p><span style="color:#000000"><img alt="" height="286" src="https://oscimg.oschina.net/oscnet/up-050f5f99cc77c3757686112b409fb2558f7.jpg" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">Ubuntu 24.04 将是 Ubuntu 自 2006 年以来的第 10 个 LTS 版本。Ubuntu 的 LTS 版本将获得 5 年的安全更新、错误修复和精选应用程序更新。Ubuntu Pro 则会在此基础上额外增加 5 年的安全保障，为现代的 LTS 版本提供了长达十年的支持。</span></p><p><span style="color:#000000">目前对于 Ubuntu 24.04 中将包含的新功能和改进仍然知之甚少。但 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.omgubuntu.co.uk%2F2023%2F10%2Fubuntu-24-04-development-open" target="_blank">OMG! Ubuntu</a> 指出，对于长期支持版本而言，Ubuntu 在主要新功能、用户界面的巨大变化等方面往往会比较保守，主要会更加专注于坚实、稳定的体验。</span></p><p><span style="color:#000000">可以确定的是，24.04 肯定会配备新的 Linux 内核（6.7 或 6.8，视时间而定）、GNOME 46（预计将在三月份发布）。Canonical 的 Oliver Grawert 还透露，一个不可变的、snap-based Ubuntu 24.04 镜像将于 4 月份提供下载（但不会是默认推荐下载）。</span></p><p><span style="color:#000000">Ubuntu 24.04 计划于 2024 年 4 月 25 日正式发布。其功能冻结阶段定于 2024 年 2 月 29 日，beta 版本计划于 2024 年 4 月 4 日发布。</span></p><p><img height="501" src="https://oscimg.oschina.net/oscnet/up-78523d04d02ccf21bda56aa13e0dcd0b317.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">可在此查看具体的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdiscourse.ubuntu.com%2Ft%2Fnoble-numbat-release-schedule%2F35649" target="_blank">发布时间表</a>。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 09:29:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 09:29:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263754/ubuntu-24-04-noble-numbat</guid>
             <link>https://www.oschina.net/news/263754/ubuntu-24-04-noble-numbat</link>
             <author>
@@ -217,7 +798,7 @@
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/event/2331193" target="_blank">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><div><p style="text-align:left">有研究发现，网站加载时间每增加一秒，用户便会流失 10%。为提高页面的秒开率，各路人马不断探索着优化策略，仅仅在浏览器领域下的优化已经满足不了极致的要求了，大家开始往服务端方向不断探索，并一度让【服务端渲染】这一古早的概念「翻红」，且炒得火热。</p><p>服务端渲染简称 SSR，全称 Server Side Rendering，顾名思义是将渲染的工作放在 Server 端进行。这种办法不仅有利于首屏渲染，提高 SPA 应用的首屏响应速度，还方便搜索引擎抓取，有利于 SEO 优化。不过，到 2023 年了，SSR 并没有预想中的流行。</p><p>有评论认为，大部分用 SSR 的原因是为了服务 SEO，但现在搜索引擎已经跟上发展步伐了，对于用框架写成的 SPA 支持也不错，所以 SSR 必要性没那么大了。还有人觉得 SSR 就是伪需求，业务逻辑和控制器分离好了加载一样快。</p><p>但也有评论认为，现在仍然有大量的用户因为网络环境或设备情况，在访问 Web 页面的时候无法达到很好的体验，如果要提升这部分用户的体验，那么 SSR 就是一种不可或缺的方式。</p><p style="text-align:left">对此，真实的情况是怎样的？实际应用中，阻碍 SSR 成为 Web 主流开发模式的原因是什么？这种方法放到今天的环境下过时了吗？什么样的业务场景更适合 SSR 呢？对此，开源中国邀请了两位前端大佬，来听听他们的看法。</p><ul><li><p><span style="color:#245bdb">刘奎，社区暱称 kuitos 。支付宝体验技术部前端工程师，开源微前端方案 qiankun 作者，目前在蚂蚁负责 Web 基建研发相关工作。</span></p></li><li><p><span style="color:#245bdb">刘勇，社区暱称天猪，某大厂 Node.js </span><span style="color:#245bdb">Infra</span><span style="color:#245bdb"> 负责人，EggJS / CNPM 核心开发者。</span></p></li></ul><p>&nbsp;</p><span id="OSC_h1_1"></span><h1>一、SSR，并不是伪需求</h1><p><span style="color:#245bdb"><strong>Q1：以你的经验，什么类型的项目和场景更常用 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> ？能举些例子吗？</strong></span></p><p><strong>刘奎：</strong>对首屏性能非常敏感，或者对 SEO 有强诉求的这类网站会更常用 SSR，如：</p><ul><li><p>电商平台：更快的首屏渲染可以让用户更快的看到商品信息，提升购买转化率</p></li><li><p>营销活动页：秒开能有效提升营销活动的业务效果</p></li><li><p>门户网站：内容型站点通常对 SEO 有着比较强的诉求</p></li></ul><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q2：从你的实际体验出发，你觉得 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 相比于 </strong></span><span style="color:#245bdb"><strong>CSR</strong></span><span style="color:#245bdb"><strong>（</strong></span><span style="color:#245bdb"><strong>Client-side rendering</strong></span><span style="color:#245bdb"><strong>）模式，优势在哪？</strong></span></p><p><strong>刘奎：</strong>从我个人体验来看，最大的优势还是在首屏体验上，SSR 模式下 HTML 加载过程中用户就能看到有效的页面内容，这个基本是 CSR 很难做到的。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q3：如今</strong></span><span style="color:#245bdb"><strong>搜索引擎</strong></span><span style="color:#245bdb"><strong>已经支持渲染了，你认为还有必要因为 </strong></span><span style="color:#245bdb"><strong>SEO</strong></span><span style="color:#245bdb"><strong> 的原因使用 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 吗？</strong></span></p><p><strong>刘奎：</strong>由于众所周知的原因，国内的搜索引擎对 SPA 类型的应用支持的并不好，如果希望自己的网站能更好的被爬虫索引到，基本上还是需要使用 SSR（或者 SSR 的变种）方案了。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q4：有人认为 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 是伪需求，要改善首屏渲染性能的话，后端服务的业务逻辑和控制器分离，控制器分视图控制器和接口控制器，调用相同的业务逻辑。第一次打开页面，前端 </strong></span><span style="color:#245bdb"><strong>JavaScript</strong></span><span style="color:#245bdb"><strong> 加载页面渲染的数据，用户交互时再请求接口获取数据。这个方案比性能着急的 SSR 强多了。你怎么评价？</strong></span></p><p><strong>刘奎：</strong>这个方案本质还是 CSR，无法解决 CSR 方案原生的问题：即用户必须等到 JS 下载完成 -&gt; 发起接口请求 -&gt; JS 获取数据渲染页面之后，才能看到有效内容的问题。在越苛刻的网络环境及用户设备条件下，这个问题会越明显。</p><p><strong>刘勇：</strong>根据团队的基建成熟度和业务场景做技术选型，这 2 个方案没有绝对的优劣，也不是绝对的割裂，它们是可以通过前端工程化结合成一个方案的。</p><p>&nbsp;</p><span id="OSC_h1_2"></span><h1>二、SSR，想红有点难</h1><p><span style="color:#245bdb"><strong>Q5：以当前的形势来看，</strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 并没能成为 Web 主流的开发模式，你觉得这其中的阻碍有哪些？</strong></span></p><p><strong>刘奎：</strong>我觉得主要有这几类原因：</p><ul><li><p><strong>技术复杂度：</strong>SSR 需要在服务器端进行渲染，并与前端框架进行集成，对开发人员来说需要掌握更多的技术知识。</p></li><li><p><strong>SSR</strong><strong> 带来的额外的开发及维护成本：</strong>相对于 CSR，SSR 方案需要前端额外去关注服务端相关的开发及运维，比如如何写出更高性能的服务端渲染逻辑，如何处理潜在的内存泄露、变量污染等隔离问题，如何做 SSR 的容灾（在 SSR 失败时 fallback 到 CSR）等，这些都需要团队有额外的资源及时间投入。</p></li><li><p><strong>场景匹配度：</strong>国内大量的服务是通过小程序、APP 这类载体进行分发的，纯 Web 技术栈的产品相对较少，这点与国外的场景有着非常大的不同。</p></li></ul><p><strong>刘勇：</strong>首先，SSR 是需要服务器资源成本的，在降本提效的大背景下，会需要结合 Serverless 或边缘计算等一些基建才能找到平衡点。同时既然是服务端，就有一定的运维能力要求，对前端团队的技术积累有一定的要求。</p><p>其次，框架的封装和维护如果做的不好的话，业务同学写 SSR 很容易弄出内存泄露问题，这是非常常见的。而且目前的前端框架还没有针对 SSR 场景进行优化，如果只是首屏展示快，但紧接着要下载超大的 Bundle 文件，从而用户可交互时间太慢，就得不偿失了。</p><p>最后，演进路径问题，譬如蚂蚁那边，他们当年就已经跟把离线包的上下游基建都做的很完善了，APP 侧、网络侧都有兄弟团队配合一起打磨。这种模式会有一些缺陷，如离线包太多时的业务竞争问题，但就首屏性能这一点上，SSR 不一定比它好多少，这时候让他们切换到 SSR 就会有不小的阻力。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q6：有评论认为 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 开发和维护成本太高了，转而投向了 </strong></span><span style="color:#245bdb"><strong>CSR</strong></span><span style="color:#245bdb"><strong> 的怀抱。CSR 能否取得跟 SSR 一样的效果呢？有什么具体的操作方案吗？</strong></span></p><p><strong>刘勇：</strong>从首屏性能的关键点看，CSR 如果不做一定的优化的话，至少 3 次串行的 HTTP 请求，首屏时间肯定比不过 SSR（互操作时间就不一定）。</p><p>不过相应的解决方案也挺多的，如 ServiceWorker、离线包等等方式。</p><p><strong>刘奎：</strong>单从首屏渲染速度这一点来看，CSR 想取得 SSR 类似的效果，可以采取以下方案优化：</p><ol><li><p><strong>首屏页面静态资源优化：</strong>通过代码切割 &amp; 懒加载等手段，确保首屏需要的 JS/CSS 是最小化的版本，并通过内联等方式直接打到 HTML 中，减少首屏渲染需要的网络请求；</p></li><li><p><strong>缓存和</strong><strong>预加载</strong><strong>：</strong>利用客户端的缓存及预加载等机制，提升二次访问速度；</p></li><li><p><strong>使用更轻量的框架：</strong>选择更轻量的前端框架，从而减少首屏的 JS 体积，提升加载速度；</p></li><li><p><strong>优化关键接口响应速度：</strong>优化首屏需要的关键内容的接口响应速度，确保前端能更快的呈现页面。</p></li></ol><p>但如果还有额外的 SEO 诉求，单纯的 CSR 可能很难达到一样的效果。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q7：如果将原有的应用直接切换到 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 一体化应用中来，成本会有多大？对开发团队会有哪些挑战呢？</strong></span></p><p><strong>刘奎：</strong>成本及挑战有以下几点：</p><ol><li><p><strong>应用改造成本：</strong>大部分应用都是无法直接在服务端环境运行的，基本都需要做一定程度的改造，比如消除首屏渲染代码中对 window、location 等浏览器特有 API 的依赖，构建出用于服务端运行的 JS 等。</p></li><li><p><strong>SSR</strong><strong> 函数研发及运维挑战：</strong>同时具备丰富的前端及服务端开发经验的团队在大部分公司都是非常少见的，如前面提到的，SSR 带来的额外的服务端的开发及运维挑战，这个也是需要前端团队考虑的。</p></li></ol><p>&nbsp;</p><span id="OSC_h1_3"></span><h1>三、也许，SSR + CSR 会是未来新方向？</h1><p><span style="color:#245bdb"><strong>Q8：现在一些网站采用了</strong></span><span style="color:#245bdb"><strong>首屏服务器端</strong></span><span style="color:#245bdb"><strong>渲染，即对于用户最开始打开的那个页面采用的是服务器端渲染，这样就保证了渲染速度，而其他的页面采用</strong></span><span style="color:#245bdb"><strong>客户端渲染</strong></span><span style="color:#245bdb"><strong>，这样就完成了前后端分离。你觉得这会是融合了两者优势的更完美的方案吗？</strong></span></p><p><strong>刘奎：</strong>是的，这也是目前社区内的最佳实践，能很好的保留 SSR 及 SPA 应用的优点。</p><p><strong>刘勇：</strong>这其实很多年前就有相关实践了，譬如当年云龙在 UC 的 Scrat Pagelet 就是类似的实践，甚至当时做的是后续页面也通过服务端局部渲染，按需更新前端页面的阶段。</p><p>这种方式在业界也有看到一些更近一步的实践：开发者很自然的去写逻辑，不用管什么分离不分离的事，在前端工程化那一层自动拆分，SSG + SSR + CSR，一些可以静态构建的直接在构建阶段处理了，一些可以在服务端渲染的服务端，剩下的非刚需的组件直接前端渲染掉。这些都能做，前提是前端工程化这块的基建是否足够完善，研发模式是否足够收敛。</p><p>最后提醒下，我所了解大部份 SSR 实践，一般也会在前面再挡一个短时效的 CDN，然后通过 CSR 做千人千面的修饰和后续业务逻辑。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q9：你如何看待 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 的未来发展？是会随着硬件的升级逐步淘汰，还是会随着技术的更新越发流行？</strong></span></p><p><strong>刘勇：</strong>优化思路是不会过时的，也许某一天我们现在熟悉的 SSR 的编程界面变了，譬如当年的 SSR 是用 nunjucks、ejs 之类的模版，现在是 react、vue。未来也会有新的技术出现，但它很有可能也属于 SSR 的一种实践模式。</p><p><strong>刘奎：</strong>按照我的经验来看，很多时候新的技术方案大都会尝试更多的压榨硬件机能，从而获得更好的交互体验，所以任何时期都会存在相对「低端」的设备，这个应该是解决不掉的（笑</p><p>在我看来，SSR 最主要的落地成本还是在服务端的研发及运维上，这个对于大部分公司的前端团队都是较大的负担，进而因为 ROI 不高导致 SSR 落地困难。但是，随着 Serverless 的发展，出现了许多几乎「零运维」的 Serverless 方案，可以极大地降低前端团队的运维成本。同时，从社区的趋势来看，近年来流行的各种前端框架都在拥抱 Edge 和 SSR，例如 Next.js、remix-run、Qwik、Astro、Fresh 等。同时，React 等库也推出了性能表现更佳的流式 SSR 能力。通过这些框架技术的集成和迭代，不仅可以显著降低前端工程师开发 SSR 应用的研发成本，还能进一步提升传统 SSR 的性能效果。</p><p>从目前的趋势来看，我觉得 SSR 会随着研发及运维成本的降低，变得越发的流行。</p><p>&nbsp;</p><p><span style="color:#245bdb"><strong>Q10：结合你的项目经验，你会如何评价 </strong></span><span style="color:#245bdb"><strong>SSR</strong></span><span style="color:#245bdb"><strong> 这一模式呢？</strong></span></p><p><strong>刘勇：</strong>从前端的历史演进看，是 SSR → CSR → SSR，粗一看似乎是在开历史倒车，但实际不然。</p><p>举个例子，当年前端的 HTML + CSS + JS 都是 all-in-one 的单文件方式，因为那时候前端没有编译能力只能写在一起；随着前端工程化的演进，开发期拆成多文件方式进行组织，构建时自动处理成为了主流；再进一步又出现了类似 Vue SFC 这样的单文件方式，这是开倒车么？其实不是，而是随着基建的完善，用户编程界面是可以更贴近直觉的，性能和部署之类的事交给工具去做即可。</p><p>因此，我认为 SSR 模式是有真实场景的，但在目前这个阶段，我觉得它还有很多切实的性能问题和工程化问题需要解决才能更好的落地。</p><p><strong>刘奎：</strong>CSR 虽然也能获得比较好的首屏体验，但受限于用户设备的机能，存在着明显的性能天花板。而 SSR 则能更好的借助边缘计算（ESR）、流式渲染等服务端能力，有效的提升性能天花板，在大部分时候会是 Web 应用提升首屏性能的一个有效武器。</p><p>当然每个项目和团队都有不同的特点和目标，在选择开发模式时需要综合考虑各种因素。</p><p>&nbsp;</p><p style="text-align:left">对此，你怎么看？你的项目采取了 SSR 还是 CSR 呢？快来评论区说说你的体验吧~</p></div></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 09:11:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 09:11:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/u/6852546/blog/10136979</guid>
             <link>https://my.oschina.net/u/6852546/blog/10136979</link>
             <author>
@@ -232,7 +813,7 @@
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>推特官方帐号发布了<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FXEng%2Fstatus%2F1717754398410240018" target="_blank">一年的工程总结</a>，亮点数据包括：</p><ul><li><p><span style="color:#000000"><span style="background-color:#ffffff">彻底重构 For you 服务和排名系统，代码行数从 700K 减少到 70K，减少了 90%，计算占用量减少了 50%，帖子吞吐量增加了 80%。</span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">重构了技术栈的 API 中间件层，并简化了架构</span></span>，<span style="color:#000000"><span style="background-color:#ffffff">删除超过 10 万行代码和数千个未使用的内部端，消除未采用的客户端服务。</span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">关闭萨克拉门托数据中心并重新配置 5,200 个机架和 148,000 台服务器，每年节省超过 1 亿美元。</span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">元数据获取后延迟减少了 50%，全局 API 超时错误减少了 90%。</span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">优化了对云服务提供商的使用，在本地进行更多工作，每月云成本降低了 60%。具体是将所有媒体/blob 工件移出云，使得整体云数据存储大小减少了 60%。同时，云数据处理成本降低了 75%。</span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">构建本地 GPU 超级计算集群，并设计、开发和交付 43.2Tbps 的新网络结构架构以支持集群。 </span></span></p></li><li><p><span style="color:#000000"><span style="background-color:#ffffff">扩展网络主干容量和冗余，每年节省 1,390 万美元。 </span></span></p></li></ul><hr><p><img src="https://static.oschina.net/uploads/space/2023/1027/161455_YSrE_2720166.png" referrerpolicy="no-referrer"></p><hr><p><strong>推荐阅读</strong></p><ul><li><a href="https://www.oschina.net/news/231624/a-single-engineer-brought-down-twitter" target="_blank">一名工程师修改配置导致推特宕机，马斯克回应：要彻底重写这堆 "ShitCode"</a></li><li><a href="https://www.oschina.net/news/259436/elon-musk-moved-twitter-servers-himself" target="news">马斯克硬核迁移推特服务器</a></li><li><a href="https://www.oschina.net/news/247743/twitter-rate-limit" target="news">马斯克称 Twitter 数据被极端抓取，紧急上线「限流」机制</a></li><li><a href="https://www.oschina.net/news/228687/musk-twitter-recommend-algorithm" target="news">马斯克连夜命令推特工程师修改算法</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 08:00:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 08:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263723/x-engineering-report</guid>
             <link>https://www.oschina.net/news/263723/x-engineering-report</link>
             <author>
@@ -309,7 +890,7 @@ try{
 </code></pre><p><strong>以下是 tldb 分布式锁的功能测试数据：</strong><strong>多线程并发，调用 lock 获取同一个对象锁后，程序的运行数据：</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-09276d085e420b382074c69dade4cd6372b.jpg" alt="" referrerpolicy="no-referrer"></p><p><strong>多线程并发使用自旋的方式调用 trylock 与 lock 获取同一个对象锁：</strong><img src="https://oscimg.oschina.net/oscnet/up-cb14a249e167dfb0eca3c06850a6017f182.jpg" alt="" referrerpolicy="no-referrer"></p><hr><p><a href="https://www.oschina.net/action/GoToLink?url=mailto%3A%E6%9C%89%E4%BB%BB%E4%BD%95%E9%97%AE%E9%A2%98%E6%88%96%E5%BB%BA%E8%AE%AE%E8%AF%B7Email%EF%BC%9Adonnie4w%40gmail.com%E6%88%96" target="_blank">有任何问题或建议请 Email：donnie4w@gmail.com 或</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftlnet.top%2Fcontact" target="_blank">https://tlnet.top/contact</a> 发信给我，谢谢！</p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 07:38:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 07:38:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/donnie4w/blog/10114233</guid>
             <link>https://my.oschina.net/donnie4w/blog/10114233</link>
             <author>
@@ -324,7 +905,7 @@ try{
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="color:#000000">微软 CEO 萨提亚·纳德拉 (Satya Nadella) 日前透露，该公司 GitHub Copilot 软件的付费用户已超过 100 万。</span></p><p><span style="color:#000000">「借助 GitHub Copilot，我们将开发人员的工作效率提高了 55%，我们拥有超过 100 万付费 Copilot 用户。此外，已有超过 37,000 个组织订阅了 Copilot for Business，环比增长 40%。本季度，我们通过 GitHub Copilot Chat 添加了新功能，Shopify 等数字原生企业以及马士基和普华永道等领先企业已在使用这些功能，以提高其软件开发人员的生产力。」</span></p><p><img height="264" src="https://oscimg.oschina.net/oscnet/up-1fbc03d629d9cf27183ca8ebfb858414029.png" width="700" referrerpolicy="no-referrer"></p><p><span style="color:#000000">纳德拉表示，Copilot 是其在公司产品线中推广 AI 的众多方式之一。该公司的必应搜索引擎已经与 OpenAI 的 ChatGPT 集成，迄今为止用户参与的聊天数量已「超过 19 亿次」。</span></p><p><span style="color:#000000">他指出，Microsoft Edge 浏览器的市场份额现已连续 10 个季度增长。「本季度，我们推出了新的个性化答案以及对 DALL-E 3 的支持，帮助人们获得更相关的答案并创建极其逼真的图像。迄今为止，我们已创建了超过 18 亿张图像。借助 Copilot 在购物方面的应用，大家可以获取更多量身定制的推荐以及达成更好的交易。」</span></p><p><span style="color:#000000">目前，微软已经向初创公司 OpenAI 投资超过 100 亿美元；华尔街预计微软将从与 OpenAI 的合作中获得巨大的财务回报。一些华尔街分析师估计，这种合作关系有一天可能会给微软带来 1000 亿美元的价值。</span></p><p><span style="color:#000000">尽管纳德拉没有量化 GitHub Copilot 的收入，但微软 CFO Amy Hood 表示，「高于预期的 AI 消费推动了 Azure 的收入增长」。</span></p><p><span style="color:#000000">该公司智能云计算业务本季度的总收入超出了分析师的预期 (234 亿美元)，同比增长 19%，达到 243 亿美元。Hood 表示，其中 Azure 业务增长了 29%，有 3 个百分点来自「AI 服务」。</span></p><p><span style="color:#000000">此外，微软方面还将 Copilot 引入了 Power Platform，使任何人都可以使用自然语言来创建应用程序，构建虚拟代理和分析数据。纳德拉表示：「包括 3M、Equinor、Lumen Technologies、Nationwide、PG&amp;E 和丰田在内的超过 126,000 家组织都使用了 Copilot 和 Power Platform。」</span></p><p><span style="color:#000000">该公司还正在将生成式 AI 添加到其 LinkedIn 业务中。「我们发现本季度在 LinkedIn 上观看 AI 相关学习课程的会员数量增加了近 80%」。以及将 Copilot 扩展到医疗保健等各行各业。目前，该公司正在将临床工具集成到 Azure 上的 Fabric 数据服务中。</span></p><p><span style="color:#000000">纳德拉称，GitHub Copilot 和其他产品的推出还处于早期阶段。「我们正处于非常非常早期的阶段，因此我们期待看到这些产品在未来的发展。Copilot 的早期发展给了我们很大的信心，更重要的是，让我们的客户对这些产品所代表的价值充满了信心。」</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 07:33:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 07:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263710</guid>
             <link>https://www.oschina.net/news/263710</link>
             <author>
@@ -339,7 +920,7 @@ try{
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><blockquote><p>本文转载自 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fxq_0nAxzuZ4t0HLXLy8BEg" target="_blank"><strong>国家安全部微信公众号</strong></a></u></p></blockquote><p>你知道 SDK 是什么吗？SDK 是英文 Software Development Kit 的缩写，即软件开发工具包，它的类型多种多样。如果把开发一个软件系统比作盖一所「三室一厅」的房子，那么不同的 SDK 就是这套房子的「客厅」「卧室」「衞生间」「厨房」等功能模块。盖好这套房子，我们只需要从不同的供应商那里选择这个功能模块拼装即可，而不再需要从「砌砖」「垒墙」做起，从而极大提高了软件开发的效率。</p><p>近年来，国家安全机关工作发现，境外一些别有用心的组织和人员，正在通过 SDK 搜集我用户数据和个人信息，给我国家安全造成了一定风险隐患。</p><h4><span style="color:#ffffff"><strong><span style="background-color:#2980b9">SDK 带来哪些数据安全问题？</span></strong></span></h4><p>当前，SDK 以其多样化、易用性和灵活性等优势成为移动供应产业链中最重要的一项服务，与此同时也带来诸多数据安全问题。</p><ul><li><strong>过度收集用户数据</strong></li></ul><p>有些 SDK 会收集与提供服务无关的个人信息，或强制申请非必要的使用权限，比如获取地理位置、通话记录、相册照片等信息以及拍照、录音等功能。当 SDK 的用户覆盖量达到一定规模时，可以通过搜集的大量数据，对不同用户群体进行画像侧写，从而分析出潜在的有用信息，比如同事关系、单位位置、行为习惯等。</p><p>一些境外 SDK 服务商，通过向开发者提供免费服务，甚至向开发者付费等方式来获取数据。据相关网站披露，一款在美国拥有 5 万日活跃用户的应用程序，其开发者通过使用某 SDK，每月可以获得 1500 美元的收入。作为回报，该 SDK 服务商可以从这款应用程序中收集用户的位置数据。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-28cd143918cb6491c1493e0dcedaa1e2bd3.png" referrerpolicy="no-referrer"></p><p><em>SDK 搜集个人信息类型</em></p><ul><li><strong>境外情报机构将 SDK 作为搜集数据的重要渠道</strong></li></ul><p>据报道，美国特种作战司令部曾向美国 SDK 服务商 Anomaly Six 购置了「商业遥测数据源」的访问服务，而该服务商曾自称将 SDK 软件植入全球超过 500 款应用中，可以监控全球大约 30 亿部手机的位置信息。</p><p>2022 年 4 月，有关媒体曝光巴拿马一家公司通过向世界各地的应用程序开发人员付费的方式，将其 SDK 代码整合到应用程序中，秘密地从数百万台移动设备上收集数据，而该公司与为美国情报机构提供网络情报搜集等服务的国防承包商关系密切。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-b4bc6599b4e81d3e9a7883925c9f4c2c397.png" referrerpolicy="no-referrer"></p><p><em>《华尔街日报》：美国政府承包商在多个手机 APP 中嵌入跟踪软件</em></p><h4><span style="color:#ffffff"><strong><span style="background-color:#2980b9">消除 SDK 背后的数据风险</span></strong><strong><span style="background-color:#2980b9">我们应该怎么做？</span></strong></span></h4><p>据国内权威机构掌握，截至 2022 年 12 月，我国 10 万个头部应用中，共检测出 2.3 万余例样本使用境外 SDK，使用境外 SDK 应用的境内终端约有 3.8 亿台。对此，我们又应该做些什么呢？</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-85cdd9629fe616749844499bf44f168c4aa.png" referrerpolicy="no-referrer"></p><p><em>SDK 申请收集用户信息占比</em></p><ul><li><strong>应用程序开发企业</strong>：应尽量选择接入经过备案认证的 SDK，引入境外 SDK 前应做好安全检测和风险评估，深入了解 SDK 的隐私政策，并利用 SDK demo 以及 APP 测试环境对 SDK 声明内容进行一致性比对，并持续监测 SDK 是否有异常行为。</li><li><strong>个人用户</strong>：个人用户在使用手机应用程序时，要增强个人信息保护意识及安全使用技能，要选择安全可靠的渠道下载使用应用程序，不安装来路不明的应用，不盲目通过敏感权限的申请。特别是发现 SDK 申请与应用功能无关的权限时，需要保持高度警惕。</li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 07:17:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 07:17:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263704</guid>
             <link>https://www.oschina.net/news/263704</link>
             <author>
@@ -354,7 +935,7 @@ try{
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>AlmaLinux 9.3 首个 Beta <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Falmalinux.org%2Fblog%2F2023-10-26-announcing-93-beta%2F" target="_blank">已发布</a></u>，支持如下架构：</p><ul><li>x86_64</li><li>aarch64</li><li>ppc64le</li><li>s390x</li></ul><blockquote><p>AlmaLinux 是开放源码的、社区驱动的项目，它从红帽企业版 Linux (RHEL) 的源码编译而来。AlmaLinux 跟 RHEL 8 完全在二进制上兼容，它由 CloudLinux OS 的创建者打造。AlmaLinux 团队承诺永久免费提供 AlmaLinux 操作系统，项目永久开源且不采取任何限制，不收取任何费用，支持至 2029 年。</p><p>2020 年 Red Hat 决定停止将 CentOS Linux 作为独立发行版，改为推出滚动更新发行版 CentOS Stream，把它作为企业发行版 RHEL 的上游 beta 版本。社区立即推出了多个项目替代 CentOS，其中最为突出的是两个项目：Rocky Enterprise Software Foundation 赞助的 Rocky Linux；另一个是 AlmaLinux OS Foundation 的 AlmaLinux。</p></blockquote><p><img alt="" height="338" src="https://oscimg.oschina.net/oscnet/up-72dd7ba127776ae2ae6516dee8014e60855.png" width="600" referrerpolicy="no-referrer"></p><p>此版本引入了针对容器和虚拟机的新安全特性和运行状况检查选项。此外还提供了支持混合云创新所需的灵活性、稳定性和可靠性。</p><p>公告写道：</p><blockquote><p>AlmaLinux 9.3 Beta 旨在提高灵活性和可靠性，并增强混合环境中的安全性。该版本继续对自动化和系统管理进行简化。</p><p>Web 控制枱增强功能简化了管理任务。此外，用户可以配置运行状况，以检查虚拟机中 Podman 容器和 vsock 设备的操作。</p><p>Application Streams 更新为开发人员提供了灵活性和自定义选项，而不会影响平台的稳定性。</p></blockquote><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwiki.almalinux.org%2Frelease-notes%2F9.3-beta.html" target="_blank">AlmaLinux 9.3 Beta Release Notes</a></u></p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 07:03:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 07:03:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263700/almalinux-9-3-beta</guid>
             <link>https://www.oschina.net/news/263700/almalinux-9-3-beta</link>
             <author>
@@ -369,7 +950,7 @@ try{
                 <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">中国信息通信研究院政策与经济研究所互联网运行分析团队于日前，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FxZbTT8DZ0Q79-2RGTXhFbg" target="_blank">发布</a>了《2023 年三季度互联网投融资运行情况》报告。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify">报告构建了互联网行业投融资研究框架，借助 CB Insights 数据库，深入挖掘我国和全球行业投融资整体态势及重点领域情况，为行业趋势预测、热点问题预判提供重要参考。</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify">本季要点：</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong>1.&nbsp;</strong><strong>我国互联网投融资略有反弹。</strong>2023Q3，我国互联网投融资规模企稳，案例数环比下跌 5.8%，同比下跌 54%；披露的金额环比上涨 34.7%，同比下跌 36.4%。</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong>2.<span>&nbsp;</span></strong><strong>全球互联网投融资继续下探。</strong>2023Q3，全球互联网投融资案例数环比下跌 5.1%，同比下跌 23.4%；披露的金额环比下跌 15.5%，同比下跌 28.8%。</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span><strong>3.</strong><strong>企业服务融资占比保持领先。</strong>2023Q3，我国企业服务领域融资案例数占比 25.7%，融资金额占比 26%；全球企业服务领域融资案例数占比 21.3%，融资金额占比 19.8%。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>报告全文：</span></p><p><img height="3587" src="https://oscimg.oschina.net/oscnet/up-ee666d0691d7989a2ff66c9cfbe80f422d2.png" width="500" referrerpolicy="no-referrer"></p><p><img height="2012" src="https://oscimg.oschina.net/oscnet/up-2d7d99c36f9f1ebf6569235631c9a3771cd.png" width="500" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.caict.ac.cn%2Fkxyj%2Fqwfb%2Fqwsj%2F202310%2FP020231027488865727077.pdf" target="_blank">报告全文下载</a>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 06:36:00 GMT</pubDate>
+            <pubDate>Fri, 27 Oct 2023 06:36:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/263690</guid>
             <link>https://www.oschina.net/news/263690</link>
             <author>
@@ -378,17 +959,17 @@ try{
         </item>
         <item>
             <title>
-                <![CDATA[Windows CE 彻底退役]]>
+                <![CDATA[智谱 AI 推出第三代基座大模型]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>诞生于 1996 年的 Windows 嵌入式操作系统 —— Windows CE (Windows Embedded Compact) 本月迎来了它的生命周期终点。</p><p>Windows CE 最初是 Windows 的精简版本，之后逐渐发展成为全新的操作系统，它有自己的 CE 内核，而不是传统 Windows 操作系统使用的 NT 内核。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8f640a89f188c88148ea17ea44e6c74b915.png" referrerpolicy="no-referrer"></p><p>它的最后一个版本是 2013 年 8 月 11 日发布的 Windows Embedded Compact 2013（或者叫 Windows CE 8.0），该版本于 2018 年 10 月结束主流支持 (Mainstream Support)，<strong>2023 年 10 月结束延长支持 (Extended Support)</strong>，成为不受支持的退役产品。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-bea6f86fc521c769ddd160731ae640284b0.png" referrerpolicy="no-referrer"></p><p>然而很少有人注意到 Windows CE 的生命周期已结束。作为一个产品，CE 8.0 的发布未能获得太多关注或宣传。即使在 Windows CE 社区中，大多数人也认为 Windows Embedded Compact 2013 完全不适合使用。与之前的 Windows CE 7.0 一样，基于 CE 8.0 平台发布的设备很少，因此大多数人甚至从未见过 CE 8 的实体设备。</p><p>CE 8 唯一值得注意的特性是首次加入了 IPv6 支持，但更重要的是删除了默认示例用户界面，它规定任何 OEM 都必须发布带有完全自定义编码界面的设备，然而很少有供应商愿意这样做，此举事实上真正结束了廉价 Windows CE 上网本设备的时代。</p><blockquote><p>事实上微软并未介绍过 CE 缩写的由来，一般解释则有 Compact Edition、Customer Embedded、Consumer Electronics 等等。</p><p>在 2008 年 4 月 15 日举行的嵌入式系统大会上，微软宣布将 Windows CE 更名为 Windows Embedded Compact，与 Windows Embedded Enterprise、Windows Embedded Standard 和 Windows Embedded POSReady 组成 Windows Embedded 系列产品。</p></blockquote><p>===彩蛋分割线===</p><p>曾被称为「国产机皇」的魅族 M8，其运行的操作系统正是基于 Windows CE 开发。</p><p><img alt="" height="533" src="https://oscimg.oschina.net/oscnet/up-786c41866ad15ca06fc5d0a683e8366c459.png" width="400" referrerpolicy="no-referrer"></p></div>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><a data-traceid="news_detail_above_text_link_1" data-tracepid="news_detail_above_text_link" style="color:#A00; font-weight:bold;" href="https://www.oschina.net/event/2331193" _blank"="">OSC 请你来轰趴啦！1028 苏州源创会，一起寻宝 AI 时代<img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div><p>2023 年 10 月 27 日，智谱 AI 于 2023 中国计算机大会（CNCC）上，推出了<strong>全自研的第三代基座大模型 ChatGLM3</strong>及相关系列产品。</p><p><img height="281" src="https://static.oschina.net/uploads/space/2023/1028/102320_GQzP_2720166.jpg" width="500" referrerpolicy="no-referrer"></p><p>以下汇总摘录自官方公告：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FSVq458IhrR2GGezA9goumw" target="_blank">https://mp.weixin.qq.com/s/SVq458IhrR2GGezA9goumw</a></u></p><hr><h4><strong>全新技术升级</strong></h4><p><strong>1. 更强大的性能：</strong></p><p>今年以来，这是我们第三次对 ChatGLM 基座模型进行了深度优化。我们采用了独创的多阶段增强预训练方法，更丰富的训练数据和更优的训练方案，使训练更为充分。</p><p>评测显示，与 ChatGLM 二代模型相比，在 44 个中英文公开数据集测试中，ChatGLM3 在国内同尺寸模型中排名首位。其中，MMLU 提升 36%、CEval 提升 33%、GSM8K 提升 179% 、BBH 提升 126%。</p><p><strong>2. 瞄向 GPT-4V 的技术升级：</strong></p><p>瞄向 GPT-4V，ChatGLM3 本次实现了若干全新功能的迭代升级，包括：</p><p><strong>多模态理解</strong>能力的 CogVLM，看图识语义，在 10 余个国际标准图文评测数据集上取得 SOTA；</p><p><strong>代码增强</strong>模块 Code Interpreter 根据用户需求生成代码并执行，自动完成数据分析、文件处理等复杂任务；</p><p><strong>网络搜索增强</strong>WebGLM，接入搜索增强，能自动根据问题在互联网上查找相关资料并在回答时提供参考相关文献或文章链接。</p><p>ChatGLM3 的<strong>语义能力与逻辑能力</strong>大大增强。</p><p><strong>3. 全新的 Agent 智能体能力：</strong></p><p>ChatGLM3 本次集成了自研的 AgentTuning 技术，激活了模型智能体能力，尤其在智能规划和执行方面，相比于 ChatGLM 二代提升 1000%；开启国产大模型原生支持工具调用、代码执行、游戏、数据库操作、知识图谱搜索与推理、操作系统等复杂场景。</p><p><strong>4. Edge 端侧模型：</strong></p><p>ChatGLM3 本次推出可手机部署的端测模型 ChatGLM3-1.5B 和 ChatGLM3-3B，支持包括 Vivo、小米、三星在内的多种手机以及车载平台，甚至支持移动平台上 CPU 芯片的推理，速度可达 20 tokens/s。</p><p>精度方面 ChatGLM3-1.5B 和 ChatGLM3-3B 在公开 Benchmark 上与 ChatGLM2-6B 模型性能接近。</p><p><strong>5. 更高效推理/降本增效：</strong></p><p>基于最新的高效动态推理和显存优化技术，我们当前的推理框架在相同硬件、模型条件下，相较于目前最佳的开源实现，包括伯克利大学推出的 vLLM 以及 Hugging Face TGI 的最新版本，推理速度提升了 2-3 倍，推理成本降低一倍，每千 tokens 仅 0.5 分，成本最低。</p><h4><strong>新一代「智谱清言」上线</strong></h4><p>在全新升级的 ChatGLM3 赋能下，生成式 AI 助手智谱清言已成为国内首个具备代码交互能力的大模型产品（Code Interpreter）。</p><p>传送门：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fchatglm.cn%2Fmain%2Fcode" target="_blank">https://chatglm.cn/main/code</a></u></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102833_nbbu_2720166.png" referrerpolicy="no-referrer"></p><p>在这一能力的加持下，ChatGLM3 可支持图像处理、数学计算、数据分析等使用场景。以下分别为：</p><p><strong>处理数据生成图表</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102853_C5gK_2720166.png" referrerpolicy="no-referrer"></p><p><strong>画图</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102920_iPm4_2720166.png" referrerpolicy="no-referrer"></p><p><strong>上传 SQL 代码分析</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102938_Bkdu_2720166.png" referrerpolicy="no-referrer"></p><p>随着 WebGLM 大模型能力的加入，智谱清言现具有搜索增强能力。智谱清言可以帮助用户整理出相关问题的网上文献或文章链接，并整理出答案。</p><p><img src="https://static.oschina.net/uploads/space/2023/1028/102955_TE2Q_2720166.jpg" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103014_ein5_2720166.png" referrerpolicy="no-referrer"></p><p>CogVLM 模型则提高了智谱清言的中文图文理解能力，取得了接近 GPT-4V 的图片理解能力。它可以回答各种类型的视觉问题，并且可以完成复杂的目标检测，并打上标签，完成自动数据标注。</p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103030_N8vg_2720166.png" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103042_fWLm_2720166.jpg" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1028/103052_suIU_2720166.jpg" referrerpolicy="no-referrer"></p><hr><p>据介绍，自 2022 年初，智谱 GLM 系列模型已支持在升腾、神威超算、海光 DCU 架构上进行大规模预训练和推理，当前已支持 10 余种国产硬件生态，包括升腾、神威超算、海光 DCU、海飞科、沐曦曦云、算能科技、天数智芯、寒武纪、摩尔线程、百度昆仑芯、灵汐科技、长城超云等。</p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 26 Oct 2023 06:22:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/263685/end-of-an-era-windows-ces-final-day</guid>
-            <link>https://www.oschina.net/news/263685/end-of-an-era-windows-ces-final-day</link>
+            <pubDate>Fri, 27 Oct 2023 02:31:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/263818</guid>
+            <link>https://www.oschina.net/news/263818</link>
             <author>
-                <![CDATA[来源: OSCHINA]]>
+                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
