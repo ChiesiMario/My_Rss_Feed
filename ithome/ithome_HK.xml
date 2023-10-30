@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 30 Oct 2023 13:07:20 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Oct 2023 17:15:11 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[惡意軟體 StripedFly 利用永恆之藍漏洞，感染百萬台電腦]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/stripedfly_01-156.png?itok=LKcP33tu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>駭客組織影子掮客（The Shadow Brokers）於 2017 年 4 月，公佈美國國家安全局（NSA）開發的 SMB v1 漏洞「永恆之藍（EternalBlue，CVE-2017-0144）」，事隔一個月陸續引發<a href="https://www.ithome.com.tw/article/114311">WannaCry</a>、<a href="https://www.ithome.com.tw/tags/notpetya">NotPetya</a>等勒索軟體的大規模攻擊，後來有研究人員發現，<a href="https://www.ithome.com.tw/news/130477">中國駭客組織 Buckeye（亦稱 APT3、Gothic Panda）在一年前就拿來用於攻擊行動</a>，遠較影子掮客於 2016 年 8 月兜售的時間還要早。</p><p>但如今，研究人員發現另一批駭客在 2016 年 4 月也開始利用這項漏洞，卻直到最近才被發現其攻擊行動。</p><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/">資安業者卡巴斯基揭露存在超過 5 年的惡意軟體框架 StripedFly</a>，對於發現該惡意程式的蹤跡，研究人員起初於 2022 年發現有兩組惡意程式碼（Shell Code）被注入到 Wininit 處理程序，這些程式碼過往曾在惡意軟體 Equation 出現，當時被誤認為挖礦程式，但研究人員發現，這只是表面可見的威脅，並非攻擊者的主要目的。</p><p>他們發現此 Shell Code 會透過 Wininit 處理程序從 Bitbucket、GitHub、GitLab 下載惡意程式，然後執行 PowerShell 指令碼，過程中利用 2017 年揭露的永恆之藍漏洞，最終在受害電腦部署 StripedFly。</p><p><a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif"><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>此惡意程式酬載的檔名為 system.img，具備洋葱網路的用户端功能，目的是避免網路通訊遭到幹擾，而在利用上述漏洞停用 SMB v1 通訊埠之後，就能透過 SSH，將 StripedFly 散佈到位處相同內部網路的 Windows、Linux 電腦。研究人員根據駭客所使用的 Bitbucket 儲存庫，估計有超過 100 萬台電腦遭到感染，其中在今年 4 月至 9 月仍有近 6 萬台電腦受害。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly03.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>而對於 StripedFly 的功能，研究人員指出是透過可執行檔主程式，搭配外掛模組的方式運作，主要功能包含：執行攻擊者下達的命令、收集帳密資料、對目標電腦進行偵察、利用 SSH 帳密組合嘗試滲透其他電腦、利用永恆之藍漏洞入侵其他 Windows 電腦、反向代理伺服器、挖掘門羅幣。值得留意的是，研究人員強調，挖礦模組很可能是此惡意軟體能夠長時間逃避偵測的重要因素。</p><p>為了維持在受害電腦上運作，StripedFly 針對 Windows、Linux 作業系統，採取專屬的措施。</p><p>在 Windows 電腦上，該惡意程式會根據得到的權限，試圖透過 PowerShell 指令碼建立工作排程，或是竄改登錄檔來達到目的；而在 Linux 電腦當中，惡意程式會濫用 systemd 服務、自動啟動的.desktop 檔案，或是其他能更動個人設定或是電腦開機組態的檔案，來維持於受害電腦運作。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159563</guid>
+            <link>https://www.ithome.com.tw/news/159563</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[超過 6 成的白帽駭客企圖利用生成式 AI 來發現漏洞]]>
@@ -38,7 +53,7 @@
                 <![CDATA[【資安日報】10 月 30 日，有人在 2016 年就利用永恆之藍漏洞，打造惡意軟體 StripedFly，迄今仍有數萬台電腦遭到感染]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美國國家安全局（NSA）掌握的 SMB v1 漏洞「永恆之藍（EternalBlue）」、於 2017 年 4 月被駭客組織影子掮客（The Shadow Brokers）公佈，1 個月內引發勒索軟體 WannaCry 大規模感染的事故，但有研究人員指出，有其他駭客也利用這項漏洞打造惡意程式，並暗中活動超過 5 年，直到今年都還有數萬台電腦受害。</p><p>值得留意的是，這些駭客發起惡意軟體攻擊的時間最早可能在 2016 年 4 月，比影子掮客聲稱於同年 8 月竊得相關資料的時間還要早。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">惡意軟體 StripedFly 利用永恆之藍漏洞，感染百萬台電腦</span></strong></a></p>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美國國家安全局（NSA）掌握的 SMB v1 漏洞「永恆之藍（EternalBlue）」、於 2017 年 4 月被駭客組織影子掮客（The Shadow Brokers）公佈，1 個月內引發勒索軟體 WannaCry 大規模感染的事故，但有研究人員指出，有其他駭客也利用這項漏洞打造惡意程式，並暗中活動超過 5 年，直到今年都還有數萬台電腦受害。</p><p>值得留意的是，這些駭客發起惡意軟體攻擊的時間最早可能在 2016 年 4 月，比影子掮客聲稱於同年 8 月竊得相關資料的時間還要早。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.ithome.com.tw/news/159563"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">惡意軟體 StripedFly 利用永恆之藍漏洞，感染百萬台電腦</span></strong></a></p>
                 <!-- notionvc: e648f1a6-396c-4212-ac5a-8e1ef78bd20e -->
                 <p></p>
                 <p>
@@ -263,7 +278,7 @@
                             <author>
                                 <![CDATA[周峻佑]]>
                             </author>
-                            <category>新聞</category>
+                            <category>資安 </category>
                         </item>
                         <item>
                             <title>
@@ -293,7 +308,7 @@
                             <author>
                                 <![CDATA[林妍溱]]>
                             </author>
-                            <category>新聞</category>
+                            <category>醫療 IT</category>
                         </item>
                         <item>
                             <title>
@@ -338,7 +353,7 @@
                             <author>
                                 <![CDATA[林妍溱]]>
                             </author>
-                            <category>新聞</category>
+                            <category>資安 </category>
                         </item>
                         <item>
                             <title>
@@ -353,7 +368,7 @@
                             <author>
                                 <![CDATA[李建興]]>
                             </author>
-                            <category>新聞</category>
+                            <category>AI</category>
                         </item>
                         <item>
                             <title>
@@ -374,7 +389,7 @@ Amazon 推社羣電商功能，能要求親朋好友給予購物意見並簡單�
                             <author>
                                 <![CDATA[郭又華]]>
                             </author>
-                            <category>新聞</category>
+                            <category>AI</category>
                         </item>
                         <item>
                             <title>
@@ -636,7 +651,7 @@ Amazon 推社羣電商功能，能要求親朋好友給予購物意見並簡單�
                                                     <author>
                                                         <![CDATA[周峻佑]]>
                                                     </author>
-                                                    <category>新聞</category>
+                                                    <category>資安 </category>
                                                 </item>
                                                 <item>
                                                     <title>
@@ -651,7 +666,7 @@ Amazon 推社羣電商功能，能要求親朋好友給予購物意見並簡單�
                                                     <author>
                                                         <![CDATA[陳曉莉]]>
                                                     </author>
-                                                    <category>新聞</category>
+                                                    <category>AI</category>
                                                 </item>
                                                 <item>
                                                     <title>
@@ -666,22 +681,7 @@ Amazon 推社羣電商功能，能要求親朋好友給予購物意見並簡單�
                                                     <author>
                                                         <![CDATA[陳曉莉]]>
                                                     </author>
-                                                    <category>新聞</category>
-                                                </item>
-                                                <item>
-                                                    <title>
-                                                        <![CDATA[Amazon 公佈第三季財報，廣告營收成長 26%]]>
-                                                    </title>
-                                                    <description>
-                                                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0802-amazon-960_3.jpg?itok=FdJekV1o" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://ir.aboutamazon.com/news-release/news-release-details/2023/Amazon.com-Announces-Third-Quarter-Results/default.aspx" target="_blank">Amazon 週四（10/26）公佈</a>今年第三季財報，該季 Amazon 創下 1,431 億美元的營收，比去年同期成長 13%，淨收入為 99 億美元，成長 244%。該季 Amazon 廣告服務的營收成長了 26%，訂閲服務營收成長 14%，AWS 則成長 12%。</p><p>財報顯示，今年第三季 Amazon 線上商店的營收為 573 億美元，成長 7%；實體商店的營收為 50 億美元，成長 6%；第三方銷售服務的營收為 343 億美元，成長 20%；訂閲服務營收為 102 億美元，成長 14%；廣告服務營收為 121 億美元，成長 26%；AWS 營收為 231 億美元，成長 12%。</p><p>其中，第三方銷售服務涵蓋了佣金，以及相關的交付及運費服務等，而廣告服務則包含了針對賣家、供應商及出版商所提供的贊助式、陳列式與影音廣告。</p><p>從營業利潤（Operating Income）的角度來看，該季 Amazon 北美零售業務創下 879 億美元的營收，營業利潤為 43 億美元；國際零售營收為 321 億美元，虧損 9,500 萬美元；AWS 營收為 231 億美元，營業利潤是 70 億美元；扣除税賦之後的淨營收為 99 億美元，每股盈餘為 0.94 美元。</p><p>廣告服務的強勁表現也讓 Amazon 持續推動相關投資，包括提供廣告的文字生成服務，並<a href="https://www.ithome.com.tw/news/159498" target="_blank">正在測試廣告的圖像生成 AI 工具</a>。</p></div></div></div><div></div></div></div></div>]]>
-                                                    </description>
-                                                    <pubDate>Thu, 26 Oct 2023 16:00:00 GMT</pubDate>
-                                                    <guid isPermaLink="false">https://www.ithome.com.tw/news/159526</guid>
-                                                    <link>https://www.ithome.com.tw/news/159526</link>
-                                                    <author>
-                                                        <![CDATA[陳曉莉]]>
-                                                    </author>
-                                                    <category>新聞</category>
+                                                    <category>AI</category>
                                                 </item>
                                             </channel>
                                         </rss>
