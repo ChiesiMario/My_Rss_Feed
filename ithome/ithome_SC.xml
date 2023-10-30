@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 30 Oct 2023 13:07:20 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Oct 2023 17:15:11 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/stripedfly_01-156.png?itok=LKcP33tu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>骇客组织影子掮客（The Shadow Brokers）于 2017 年 4 月，公布美国国家安全局（NSA）开发的 SMB v1 漏洞「永恒之蓝（EternalBlue，CVE-2017-0144）」，事隔一个月陆续引发<a href="https://www.ithome.com.tw/article/114311">WannaCry</a>、<a href="https://www.ithome.com.tw/tags/notpetya">NotPetya</a>等勒索软体的大规模攻击，后来有研究人员发现，<a href="https://www.ithome.com.tw/news/130477">中国骇客组织 Buckeye（亦称 APT3、Gothic Panda）在一年前就拿来用于攻击行动</a>，远较影子掮客于 2016 年 8 月兜售的时间还要早。</p><p>但如今，研究人员发现另一批骇客在 2016 年 4 月也开始利用这项漏洞，却直到最近才被发现其攻击行动。</p><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/">资安业者卡巴斯基揭露存在超过 5 年的恶意软体框架 StripedFly</a>，对于发现该恶意程式的踪迹，研究人员起初于 2022 年发现有两组恶意程式码（Shell Code）被注入到 Wininit 处理程序，这些程式码过往曾在恶意软体 Equation 出现，当时被误认为挖矿程式，但研究人员发现，这只是表面可见的威胁，并非攻击者的主要目的。</p><p>他们发现此 Shell Code 会透过 Wininit 处理程序从 Bitbucket、GitHub、GitLab 下载恶意程式，然后执行 PowerShell 指令码，过程中利用 2017 年揭露的永恒之蓝漏洞，最终在受害电脑部署 StripedFly。</p><p><a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif"><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>此恶意程式酬载的档名为 system.img，具备洋葱网路的用户端功能，目的是避免网路通讯遭到干扰，而在利用上述漏洞停用 SMB v1 通讯埠之后，就能透过 SSH，将 StripedFly 散布到位处相同内部网路的 Windows、Linux 电脑。研究人员根据骇客所使用的 Bitbucket 储存库，估计有超过 100 万台电脑遭到感染，其中在今年 4 月至 9 月仍有近 6 万台电脑受害。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly03.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>而对于 StripedFly 的功能，研究人员指出是透过可执行档主程式，搭配外挂模组的方式运作，主要功能包含：执行攻击者下达的命令、收集帐密资料、对目标电脑进行侦察、利用 SSH 帐密组合尝试渗透其他电脑、利用永恒之蓝漏洞入侵其他 Windows 电脑、反向代理伺服器、挖掘门罗币。值得留意的是，研究人员强调，挖矿模组很可能是此恶意软体能够长时间逃避侦测的重要因素。</p><p>为了维持在受害电脑上运作，StripedFly 针对 Windows、Linux 作业系统，采取专属的措施。</p><p>在 Windows 电脑上，该恶意程式会根据得到的权限，试图透过 PowerShell 指令码建立工作排程，或是窜改登录档来达到目的；而在 Linux 电脑当中，恶意程式会滥用 systemd 服务、自动启动的.desktop 档案，或是其他能更动个人设定或是电脑开机组态的档案，来维持于受害电脑运作。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159563</guid>
+            <link>https://www.ithome.com.tw/news/159563</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[超过 6 成的白帽骇客企图利用生成式 AI 来发现漏洞]]>
@@ -38,7 +53,7 @@
                 <![CDATA[【资安日报】10 月 30 日，有人在 2016 年就利用永恒之蓝漏洞，打造恶意软体 StripedFly，迄今仍有数万台电脑遭到感染]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美国国家安全局（NSA）掌握的 SMB v1 漏洞「永恒之蓝（EternalBlue）」、于 2017 年 4 月被骇客组织影子掮客（The Shadow Brokers）公布，1 个月内引发勒索软体 WannaCry 大规模感染的事故，但有研究人员指出，有其他骇客也利用这项漏洞打造恶意程式，并暗中活动超过 5 年，直到今年都还有数万台电脑受害。</p><p>值得留意的是，这些骇客发起恶意软体攻击的时间最早可能在 2016 年 4 月，比影子掮客声称于同年 8 月窃得相关资料的时间还要早。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑</span></strong></a></p>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美国国家安全局（NSA）掌握的 SMB v1 漏洞「永恒之蓝（EternalBlue）」、于 2017 年 4 月被骇客组织影子掮客（The Shadow Brokers）公布，1 个月内引发勒索软体 WannaCry 大规模感染的事故，但有研究人员指出，有其他骇客也利用这项漏洞打造恶意程式，并暗中活动超过 5 年，直到今年都还有数万台电脑受害。</p><p>值得留意的是，这些骇客发起恶意软体攻击的时间最早可能在 2016 年 4 月，比影子掮客声称于同年 8 月窃得相关资料的时间还要早。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.ithome.com.tw/news/159563"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑</span></strong></a></p>
                 <!-- notionvc: e648f1a6-396c-4212-ac5a-8e1ef78bd20e -->
                 <p></p>
                 <p>
@@ -263,7 +278,7 @@
                             <author>
                                 <![CDATA[周峻佑]]>
                             </author>
-                            <category>新闻</category>
+                            <category>资安 </category>
                         </item>
                         <item>
                             <title>
@@ -293,7 +308,7 @@
                             <author>
                                 <![CDATA[林妍溱]]>
                             </author>
-                            <category>新闻</category>
+                            <category>医疗 IT</category>
                         </item>
                         <item>
                             <title>
@@ -338,7 +353,7 @@
                             <author>
                                 <![CDATA[林妍溱]]>
                             </author>
-                            <category>新闻</category>
+                            <category>资安 </category>
                         </item>
                         <item>
                             <title>
@@ -353,7 +368,7 @@
                             <author>
                                 <![CDATA[李建兴]]>
                             </author>
-                            <category>新闻</category>
+                            <category>AI</category>
                         </item>
                         <item>
                             <title>
@@ -374,7 +389,7 @@ Amazon 推社群电商功能，能要求亲朋好友给予购物意见并简单�
                             <author>
                                 <![CDATA[郭又华]]>
                             </author>
-                            <category>新闻</category>
+                            <category>AI</category>
                         </item>
                         <item>
                             <title>
@@ -636,7 +651,7 @@ Amazon 推社群电商功能，能要求亲朋好友给予购物意见并简单�
                                                     <author>
                                                         <![CDATA[周峻佑]]>
                                                     </author>
-                                                    <category>新闻</category>
+                                                    <category>资安 </category>
                                                 </item>
                                                 <item>
                                                     <title>
@@ -651,7 +666,7 @@ Amazon 推社群电商功能，能要求亲朋好友给予购物意见并简单�
                                                     <author>
                                                         <![CDATA[陈晓莉]]>
                                                     </author>
-                                                    <category>新闻</category>
+                                                    <category>AI</category>
                                                 </item>
                                                 <item>
                                                     <title>
@@ -666,22 +681,7 @@ Amazon 推社群电商功能，能要求亲朋好友给予购物意见并简单�
                                                     <author>
                                                         <![CDATA[陈晓莉]]>
                                                     </author>
-                                                    <category>新闻</category>
-                                                </item>
-                                                <item>
-                                                    <title>
-                                                        <![CDATA[Amazon 公布第三季财报，广告营收成长 26%]]>
-                                                    </title>
-                                                    <description>
-                                                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0802-amazon-960_3.jpg?itok=FdJekV1o" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://ir.aboutamazon.com/news-release/news-release-details/2023/Amazon.com-Announces-Third-Quarter-Results/default.aspx" target="_blank">Amazon 周四（10/26）公布</a>今年第三季财报，该季 Amazon 创下 1,431 亿美元的营收，比去年同期成长 13%，净收入为 99 亿美元，成长 244%。该季 Amazon 广告服务的营收成长了 26%，订阅服务营收成长 14%，AWS 则成长 12%。</p><p>财报显示，今年第三季 Amazon 线上商店的营收为 573 亿美元，成长 7%；实体商店的营收为 50 亿美元，成长 6%；第三方销售服务的营收为 343 亿美元，成长 20%；订阅服务营收为 102 亿美元，成长 14%；广告服务营收为 121 亿美元，成长 26%；AWS 营收为 231 亿美元，成长 12%。</p><p>其中，第三方销售服务涵盖了佣金，以及相关的交付及运费服务等，而广告服务则包含了针对卖家、供应商及出版商所提供的赞助式、陈列式与影音广告。</p><p>从营业利润（Operating Income）的角度来看，该季 Amazon 北美零售业务创下 879 亿美元的营收，营业利润为 43 亿美元；国际零售营收为 321 亿美元，亏损 9,500 万美元；AWS 营收为 231 亿美元，营业利润是 70 亿美元；扣除税赋之后的净营收为 99 亿美元，每股盈余为 0.94 美元。</p><p>广告服务的强劲表现也让 Amazon 持续推动相关投资，包括提供广告的文字生成服务，并<a href="https://www.ithome.com.tw/news/159498" target="_blank">正在测试广告的图像生成 AI 工具</a>。</p></div></div></div><div></div></div></div></div>]]>
-                                                    </description>
-                                                    <pubDate>Thu, 26 Oct 2023 16:00:00 GMT</pubDate>
-                                                    <guid isPermaLink="false">https://www.ithome.com.tw/news/159526</guid>
-                                                    <link>https://www.ithome.com.tw/news/159526</link>
-                                                    <author>
-                                                        <![CDATA[陈晓莉]]>
-                                                    </author>
-                                                    <category>新闻</category>
+                                                    <category>AI</category>
                                                 </item>
                                             </channel>
                                         </rss>
