@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 31 Oct 2023 05:45:44 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 31 Oct 2023 07:46:48 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -80,14 +80,270 @@
         </item>
         <item>
             <title>
-                <![CDATA[恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑]]>
+                <![CDATA[骇客组织 0ktapus 部署勒索软体 BlackCat，从事档案加密及破坏，向受害者进行勒索]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/stripedfly_01-156.png?itok=LKcP33tu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>骇客组织影子掮客（The Shadow Brokers）于 2017 年 4 月，公布美国国家安全局（NSA）开发的 SMB v1 漏洞「永恒之蓝（EternalBlue，CVE-2017-0144）」，事隔一个月陆续引发<a href="https://www.ithome.com.tw/article/114311">WannaCry</a>、<a href="https://www.ithome.com.tw/tags/notpetya">NotPetya</a>等勒索软体的大规模攻击，后来有研究人员发现，<a href="https://www.ithome.com.tw/news/130477">中国骇客组织 Buckeye（亦称 APT3、Gothic Panda）在一年前就拿来用于攻击行动</a>，远较影子掮客于 2016 年 8 月兜售的时间还要早。</p><p>但如今，研究人员发现另一批骇客在 2016 年 4 月也开始利用这项漏洞，却直到最近才被发现其攻击行动。</p><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/">资安业者卡巴斯基揭露存在超过 5 年的恶意软体框架 StripedFly</a>，对于发现该恶意程式的踪迹，研究人员起初于 2022 年发现有两组恶意程式码（Shell Code）被注入到 Wininit 处理程序，这些程式码过往曾在恶意软体 Equation 出现，当时被误认为挖矿程式，但研究人员发现，这只是表面可见的威胁，并非攻击者的主要目的。</p><p>他们发现此 Shell Code 会透过 Wininit 处理程序从 Bitbucket、GitHub、GitLab 下载恶意程式，然后执行 PowerShell 指令码，过程中利用 2017 年揭露的永恒之蓝漏洞，最终在受害电脑部署 StripedFly。</p><p><a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif"><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>此恶意程式酬载的档名为 system.img，具备洋葱网路的用户端功能，目的是避免网路通讯遭到干扰，而在利用上述漏洞停用 SMB v1 通讯埠之后，就能透过 SSH，将 StripedFly 散布到位处相同内部网路的 Windows、Linux 电脑。研究人员根据骇客所使用的 Bitbucket 储存库，估计有超过 100 万台电脑遭到感染，其中在今年 4 月至 9 月仍有近 6 万台电脑受害。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly03.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>而对于 StripedFly 的功能，研究人员指出是透过可执行档主程式，搭配外挂模组的方式运作，主要功能包含：执行攻击者下达的命令、收集帐密资料、对目标电脑进行侦察、利用 SSH 帐密组合尝试渗透其他电脑、利用永恒之蓝漏洞入侵其他 Windows 电脑、反向代理伺服器、挖掘门罗币。值得留意的是，研究人员强调，挖矿模组很可能是此恶意软体能够长时间逃避侦测的重要因素。</p><p>为了维持在受害电脑上运作，StripedFly 针对 Windows、Linux 作业系统，采取专属的措施。</p><p>在 Windows 电脑上，该恶意程式会根据得到的权限，试图透过 PowerShell 指令码建立工作排程，或是窜改登录档来达到目的；而在 Linux 电脑当中，恶意程式会滥用 systemd 服务、自动启动的.desktop 档案，或是其他能更动个人设定或是电脑开机组态的档案，来维持于受害电脑运作。</p></div></div></div><div></div></div></div></div>]]>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/figure-2-octo-tempest-ttps.png?itok=d6-xuZOB" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>一年前，骇客组织 0ktapus（亦称 Scattered Spider、Octo Tempest）锁定身分验证解决方案 Okta 的用户下手引起全球关注，云端服务业者 Twilio、Cloudflare 出面表明遭到攻击，如今研究人员指出，这些骇客开始与勒索软体 BlackCat（Alphv）结盟，并运用相关工具发动攻击。</p><p>这些骇客最早大约于 2022 年初出没，当时他们针对电信业者、业务外包业者发动 SIM 卡挟持（SIM Swapping）攻击，到了 2022 年末，这些骇客向其他网路罪犯兜售 SIM 卡挟持技术，锁定高价值人士的帐号来盗取加密货币。</p><p>但到了 2023 年中，这些骇客改变目标，并采用其他组织的工具发动攻击。</p><p><a href="https://www.microsoft.com/en-us/security/blog/2023/10/25/octo-tempest-crosses-boundaries-to-facilitate-extortion-encryption-and-destruction/">微软对于 0ktapus 近期的攻击行动提出警告</a>，2023 年 6 月，这些骇客成为勒索软体 BlackCat 的附属团体，并对目标组织部署勒索软体，近期主要集中于虚拟化环境 VMWare ESXi 的伺服器。</p><p><a href="https://s4.itho.me/sites/default/files/images/Octo-Tempest-evolution.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/Octo-Tempest-evolution.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><h3><strong>假冒客服、IT 服务台发动社交工程攻击，成主要的入侵管道</strong></h3><p>通常骇客会先对于目标组织进行调查，以便冒充组织、模仿电话通讯、收集相关个资，针对客户支援或是 IT 服务台的员工进行社交工程攻击，从而取得入侵组织的初始存取权限，要求客服人员重置密码或是双因素验证设定。在部分攻击行动当中，骇客也可能会假冒新进员工来发动攻击。</p><p>研究人员看到这些骇客也会一般员工下手，发动对手中间人攻击（AiTM），或是进行其他社交工程攻击，从而在受害电脑部署远端管理工具（RMM），或是清除受害者 FIDO2 的 Token。再者，过往这些骇客擅长的 SIM 挟持攻击，也是他们用于入侵的管道之一。</p>
+                <!-- notionvc: dcca9a8b-7ec0-4509-9bd3-fc3d4f3e6d16 -->
+                <p>一旦成功入侵目标组织，骇客便会执行侦察工作，从而掌握高权限，先是从 AD 大量汇出使用者、群组、装置资讯，再取得虚拟化环境的基础架构，以及企业管理的资源组态，并对于云端环境、程式码储存库、伺服器、备份管理基础架构进行调查，过程中骇客运用多项工具来进行，例如：利用 PingCastle 与 ADRecon 侦察 AD、透过 Advanced IP Scanner 拓扑受害组织网路、采用 Go 程式库 Govmomi 列出所有的 vCenter 的 API、运用 PowerShell 模组 PureStorage FlashArray 找出储存阵列等。</p>
+                <p>而对于这些骇客如何在受害组织提升权限，研究人员指出，他们会利用社交工程攻击，借由外流的密码设置流程，以及大量收集的用户、群组资料，透过各种方式建立信任来达成目的。在某些情况下，攻击者还会利用流出的经理帐号，核准密码重置请求，而能绕过组织正常的申请重置密码程序。</p>
+                <p>除此之外，骇客也会利用开源工具 Jercretz 和 TruffleHog，在组织的程式码储存库挖掘明文帐密资料、金钥等机密，以便进一步利用。再者，这些骇客也会利用 MicroBurst 企图存取组织存放的帐密资料，或是透过 Mimikatz、Hekatomb、Lazagne、gosecretsdump、smbpasswd.py、LinPEAS、ADFSDump 等开源工具收集。</p>
+                <p>而在其他提升权限的手法上，他们还会利用名为 VMAccess Extension 的工具，对建置于 Azure 的虚拟机器（VM）重设密码，或是窜改组态。或者，对于虚拟网域控制器磁区进行快照备份，来取得 AD 资料库档案 NTDS.dit。</p>
+                <h3>
+                    <strong>为了避免东窗事发，骇客入侵资安部门，并控制装置管理系统及端点防护系统</strong>
+                </h3>
+                <p>值得留意的是，这些骇客在过程中为了避免遭到侦测，骇客还会对于资安部门的人员下手，目的是透过端点侦测与回应系统（EDR）、装置管理系统，或是开源工具 Privacy.sexy 框架，停用资安产品及安全功能，从而放行恶意程式、部署远端管理工具、窃取机密资料，他们甚至会窜改 IT 人员的电子邮件规则，自动删除资安系统或是供应商发出的警告。</p>
+                <p>对于骇客如何持续在受害组织活动，研究人员指出，他们也运用了多种开源或远端桌面连线工具如：ScreenConnect、FleetDeck、AnyDesk、RustDesk、Splashtop、Pulseway、TightVNC、LummaC2、Level.io、Mesh、TacticalRMM、Tailscale、Ngrok、WsTunnel、Rsocx、catcatel 来进行。同时，无论是 Windows 还是 Linux 电脑，研究人员发现骇客都会部署反向 Shell。</p>
+                <p>再者，这些骇客也会利用隧道工具 Twingate，并利用 Azure 容器充当专属的连接器，而不致将行踪曝露于网际网路。此外，对于 VMware 虚拟化环境，骇客则是罕见地部署 Linux 后门程式 Bedevil，并启动 Python 指令码对虚拟机器下达命令。</p>
+                <h3>
+                    <strong>窃取资料的层面多元，涵盖档案共用系统、程式码储存库、资料库、应用程式系统</strong>
+                </h3>
+                <p>究竟这些骇客的攻击目的为何？研究人员认为，主要还是获取经济利益，但不同的是，现在这些骇客不只窃取加密货币，还会进行勒索软体攻击。</p>
+                <p>值得一提的是，骇客在部署勒索软体之前，他们会透过合法的用户端程式，例如：DBeaver、MongoDB Compass、Azure SQL 查询编辑器、Cerebrata，来存取程式码储存库，以及资料库、档案共用系统，窃取机密资料，之后透过 GoFile.io、Sh.Azl、StorjShare、Temp.sh、MegaSync、Paste.ee、Backblaze 等多种匿名档案代管服务将资料流出。</p>
+                <p>此外，研究人员也看到骇客采用另一种较为特殊的手法，就是滥用资料整合服务 Azure Data Factory，将特定资料自动化传送至骇客架设的 SFTP 伺服器。而针对存放于 SharePont 的资料，攻击者则会透过合法的 Microsoft 365 备份解决方案，像是 Veeam、AFI Backup、CommVault 进行汇出。</p>
+                <p>至于 Salesforce、ZenDesk 等其他骇客认为具备高价值的应用系统，他们会透过 FiveTran 等第三方服务，透过 API 连接器来复制资料库的内容。</p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/Figure-2-octo-tempest-ttps.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/Figure-2-octo-tempest-ttps.png" style="width: 580px;" referrerpolicy="no-referrer">
+                        </a>
+                    </p>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</div></div>]]>    </description>    <pubDate>Mon, 30 Oct 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/159564</guid>    <link>https://www.ithome.com.tw/news/159564</link>    <author>
+<![CDATA[周峻佑]]>    </author>    <category>新闻</category>    </item>    <item>    <title>
+<![CDATA[恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑]]>    </title>    <description>
+<![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/stripedfly_01-156.png?itok=LKcP33tu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>骇客组织影子掮客（The Shadow Brokers）于 2017 年 4 月，公布美国国家安全局（NSA）开发的 SMB v1 漏洞「永恒之蓝（EternalBlue，CVE-2017-0144）」，事隔一个月陆续引发<a href="https://www.ithome.com.tw/article/114311">WannaCry</a>、<a href="https://www.ithome.com.tw/tags/notpetya">NotPetya</a>等勒索软体的大规模攻击，后来有研究人员发现，<a href="https://www.ithome.com.tw/news/130477">中国骇客组织 Buckeye（亦称 APT3、Gothic Panda）在一年前就拿来用于攻击行动</a>，远较影子掮客于 2016 年 8 月兜售的时间还要早。</p><p>但如今，研究人员发现另一批骇客在 2016 年 4 月也开始利用这项漏洞，却直到最近才被发现其攻击行动。</p><p><a href="https://securelist.com/stripedfly-perennially-flying-under-the-radar/110903/">资安业者卡巴斯基揭露存在超过 5 年的恶意软体框架 StripedFly</a>，对于发现该恶意程式的踪迹，研究人员起初于 2022 年发现有两组恶意程式码（Shell Code）被注入到 Wininit 处理程序，这些程式码过往曾在恶意软体 Equation 出现，当时被误认为挖矿程式，但研究人员发现，这只是表面可见的威胁，并非攻击者的主要目的。</p><p>他们发现此 Shell Code 会透过 Wininit 处理程序从 Bitbucket、GitHub、GitLab 下载恶意程式，然后执行 PowerShell 指令码，过程中利用 2017 年揭露的永恒之蓝漏洞，最终在受害电脑部署 StripedFly。</p><p><a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif"><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>此恶意程式酬载的档名为 system.img，具备洋葱网路的用户端功能，目的是避免网路通讯遭到干扰，而在利用上述漏洞停用 SMB v1 通讯埠之后，就能透过 SSH，将 StripedFly 散布到位处相同内部网路的 Windows、Linux 电脑。研究人员根据骇客所使用的 Bitbucket 储存库，估计有超过 100 万台电脑遭到感染，其中在今年 4 月至 9 月仍有近 6 万台电脑受害。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly03.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>而对于 StripedFly 的功能，研究人员指出是透过可执行档主程式，搭配外挂模组的方式运作，主要功能包含：执行攻击者下达的命令、收集帐密资料、对目标电脑进行侦察、利用 SSH 帐密组合尝试渗透其他电脑、利用永恒之蓝漏洞入侵其他 Windows 电脑、反向代理伺服器、挖掘门罗币。值得留意的是，研究人员强调，挖矿模组很可能是此恶意软体能够长时间逃避侦测的重要因素。</p><p>为了维持在受害电脑上运作，StripedFly 针对 Windows、Linux 作业系统，采取专属的措施。</p><p>在 Windows 电脑上，该恶意程式会根据得到的权限，试图透过 PowerShell 指令码建立工作排程，或是窜改登录档来达到目的；而在 Linux 电脑当中，恶意程式会滥用 systemd 服务、自动启动的.desktop 档案，或是其他能更动个人设定或是电脑开机组态的档案，来维持于受害电脑运作。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/159563</guid>    <link>https://www.ithome.com.tw/news/159563</link>    <author>
+<![CDATA[周峻佑]]>    </author>    <category>新闻</category>    </item>    <item>    <title>
+<![CDATA[超过 6 成的白帽骇客企图利用生成式 AI 来发现漏洞]]>    </title>    <description>
+<![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-hacker-960.jpg?itok=XjhOHttd" width="960" height="420" alt="" title="情境示意图，Photo by <a href=&quot;https://unsplash.com/@gamell?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Joan Gamell</a> on <a href=&quot;https://unsplash.com/photos/black-flat-screen-computer-monitor-nFqwVZhimpM?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> 情境示意图，Photo by <a href="https://unsplash.com/@gamell?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Joan Gamell</a> on <a href="https://unsplash.com/photos/black-flat-screen-computer-monitor-nFqwVZhimpM?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>漏洞悬赏平台 HackerOne 上周公布了<a href="https://www.hackerone.com/press-release/hackers-surpass-300-million-all-time-earnings-hackerone-platform" target="_blank">2023 年的骇客驱动安全报告（Hacker-Powered Security Report）</a>，发现有 61% 的白帽骇客正在利用生成式 AI（GenAI）来开发各种骇客工具，以用来发现更多的漏洞，同时也有 62% 的骇客打算专注于开放网路应用安全专案（OWASP）所揭露的大型语言模型（LLM）十大安全漏洞。</p><p>此一报告是 HackerOne 针对与该平台合作的逾 2,000 位白帽骇客，在去年 6 月至今年 9 月间所进行的调查，发现骇客寻找并提报漏洞的最大动机是赚钱，占了 80%，但也有高达 78% 是为了学习，另也有 47% 表示其骇客行动是为了保护企业与使用者。</p><p>至于这些白帽骇客锁定的领域中，由网路及线上服务居冠，占了 58%，金融服务则占了 53%，零售业与电子商务平台占了 48%，电脑软体占了 43%，政府组织为 40%。</p><p>骇客们通常具备多种技术，高达 95% 拥有网页应用测试的专长，但也有 63% 专精于漏洞研究，47% 著重在网路渗透测试，40% 的长才在于红队测试，另有 20% 擅长社交工程，18% 擅长无线渗透测试。而他们主要把这些技术应用在入侵网站，占了 98%，55% 用来攻陷 API，43% 攻击 Android 程式，23% 攻击开源码专案，而攻击 iOS 程式或桌面软体则各占 17%。</p><p>骇客们也对新兴的 GenAI 技术感兴趣，认为该技术既能提高生产力也能维持竞争力。有 66% 的骇客表示他们正在或准备利用 GenAI 来撰写报告，53% 表示欲利用 GenAI 来写程式，还有 33% 说要用 GenAI 来降低语言的门槛。</p><p>另有 55% 的骇客认为 GenAI 工具本身可望在未来几年成为攻击目标，61% 计划开发基于 GenAI 的工具来发现更多的漏洞，还有 62% 准备专研来自 OWASP 的十大 LLM 漏洞。</p><p>事实上，现在已经有 14% 的骇客把 GenAI 当作重要的工具，也有 53% 以某些形式使用 GenAI。</p><p>该调查也询问了骇客选择参与特定抓漏专案的原因，其中有 73% 明白表示是因为丰厚的赏金，有 50% 的原因是预期可找到大量的漏洞，46% 是因为范围的多样化，另有 45% 的骇客表明是为了挑战与学习的机会。</p><p>至于骇客不提报漏洞的主要原因则包括回应太慢（60%）、范围受限（58%）、沟通不良（55%）、奖金太低（48%），以及外界风评太差（44%）等。</p><p>HackerOne 的客户涵盖了 Coinbase、微软、GitHub、Goldman Sachs、Slack、General Motors、Hyatt 及美国国防部等、于 2012 年成立以来，该平台已颁发超过 3 亿美元的抓漏奖金，有 30 名骇客透过该平台获得超过 100 万美元的奖金，其中一名骇客的总奖金更突破 400 万美元。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/159551</guid>    <link>https://www.ithome.com.tw/news/159551</link>    <author>
+<![CDATA[陈晓莉]]>    </author>    <category>新闻</category>    </item>    <item>    <title>
+<![CDATA[【资安日报】10 月 30 日，有人在 2016 年就利用永恒之蓝漏洞，打造恶意软体 StripedFly，迄今仍有数万台电脑遭到感染]]>    </title>    <description>
+<![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美国国家安全局（NSA）掌握的 SMB v1 漏洞「永恒之蓝（EternalBlue）」、于 2017 年 4 月被骇客组织影子掮客（The Shadow Brokers）公布，1 个月内引发勒索软体 WannaCry 大规模感染的事故，但有研究人员指出，有其他骇客也利用这项漏洞打造恶意程式，并暗中活动超过 5 年，直到今年都还有数万台电脑受害。</p><p>值得留意的是，这些骇客发起恶意软体攻击的时间最早可能在 2016 年 4 月，比影子掮客声称于同年 8 月窃得相关资料的时间还要早。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.ithome.com.tw/news/159563"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑</span></strong></a></p>
+<!-- notionvc: e648f1a6-396c-4212-ac5a-8e1ef78bd20e -->
+<p></p>
+<p>
+    <a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif">
+        <img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+        </a>资安业者卡巴斯基揭露存在超过 5 年的恶意软体框架 StripedFly，对于发现该恶意程式的踪迹，研究人员起初于 2022 年发现有恶意程式码（Shell Code）被注入到 Wininit 处理程序，这些程式码过往曾在恶意软体 Equation 出现，当时被误认为挖矿程式，但研究人员发现，这只是表面可见的威胁，并非攻击者的主要目的。
+    </p>
+    <p>他们发现此 Shell Code 会透过 Wininit 处理程序从 Bitbucket、GitHub、GitLab 下载恶意程式，然后执行 PowerShell 指令码，过程中利用 2017 年揭露的永恒之蓝（EternalBlue，CVE-2017-0144）漏洞，最终在受害电脑部署 StripedFly。</p>
+    <p>此恶意程式酬载的档名为 system.img，具备洋葱网路的用户端功能，目的是避免网路通讯遭到干扰，而在利用上述漏洞停用 SMB v1 通讯埠之后，就能透过 SSH，将 StripedFly 散布到位处相同内部网路的 Windows、Linux 电脑。研究人员估计有超过 100 万台电脑遭到感染，其中在今年 4 月至 9 月仍有近 6 万台电脑受害。</p>
+    <p>
+        <a href="https://www.microsoft.com/en-us/security/blog/2023/10/25/octo-tempest-crosses-boundaries-to-facilitate-extortion-encryption-and-destruction/">
+            <strong style="font-size: 22px;">
+                <span style="color: rgb(0, 0, 0);">骇客组织 0ktapus 部署勒索软体 BlackCat，从事档案加密及破坏，向受害者进行勒索</span>
+            </strong>
+        </a>
+    </p>
+    <!-- notionvc: a37988be-bc6a-4c6f-977e-d01797b03e25 -->
+    <p></p>
+    <p>
+        <a href="https://s4.itho.me/sites/default/files/images/A_Cascade_of_Compromise_Unveiling_Lazarus_Campaign_01.png">
+            <img alt="" src="https://s4.itho.me/sites/default/files/images/A_Cascade_of_Compromise_Unveiling_Lazarus_Campaign_01.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+            </a>一年前，骇客组织 0ktapus（亦称 Scattered Spider、Octo Tempest）锁定身分验证解决方案 Okta 的用户下手引起全球关注，云端服务业者 Twilio、Cloudflare 出面表明遭到攻击，如今研究人员指出，这些骇客开始与勒索软体 BlackCat（Alphv）结盟，并运用相关工具发动攻击。
+        </p>
+        <p>微软对于该组织近期的攻击行动提出警告，2023 年中，这些骇客成为勒索软体 BlackCat 的附属团体，并对目标组织部署勒索软体，近期主要集中于虚拟化环境 VMWare ESXi 的伺服器，针对客户支援或是 IT 服务台的员工进行社交工程攻击，从而取得入侵组织的初始存取权限，要求客服人员重置密码或是双因素验证设定。</p>
+        <p>一旦成功入侵目标组织，骇客便会执行侦察工作，从而掌握高权限，先是从 AD 大量汇出使用者、群组、装置资讯，再取得虚拟化环境的基础架构，并对于云端环境进行调查，最终部署勒索软体并执行档案加密。过程中为了避免遭到侦测，骇客还会对于资安部门的人员下手，目的是停用资安产品及安全功能，甚至会窜改 IT 人员的电子邮件规则，自动删除资安系统或是供应商发出的警告。</p>
+        <p>
+            <a href="http://securelist.com/unveiling-lazarus-new-campaign/110888/">
+                <strong style="font-size: 22px;">
+                    <span style="color: rgb(0, 0, 0);">北韩骇客 Lazarus 锁定软体供应商发动供应链攻击，企图窃取原始码</span>
+                </strong>
+            </a>
+        </p>
+        <!-- notionvc: 194a2b84-9c91-4c5f-90bb-7cc9f00b5514 -->
+        <p></p>
+        <p>资安业者卡巴斯基揭露近期北韩骇客组织 Lazarus 发起的攻击行动，他们在今年 7 月中旬，侦测到骇客对数个组织出手，利用合法软体及帐密进行加密网路通讯，借由尚未修补的漏洞发动攻击。</p>
+        <p>经过调查，这个出现漏洞的软体，其开发商曾多次成为这群骇客攻击的目标，这代表骇客很有可能对其窃取原始码，或是入侵软体供应链，并在攻击其他软体开发商的时候继续利用相关漏洞。研究人员指出，他们看到骇客利用前述提及的漏洞，于受害组织部署恶意软体 Signbt，并将其酬注入记忆体内，而能够秘密执行 Shell Code。</p>
+        <p>此恶意程式能为骇客收集系统资讯、控制受害电脑的处理程序、得知电脑存放的档案、上传或下载档案并于记忆体内载入，以及使用 Windows 内建的命令或是公用程式。在受害电脑植入了 Signbt 之后，研究人员看到骇客下载另一款恶意程式 LPEClient，以及截取帐密资料的工具，而 LPEClient 曾在多起攻击行动里出现，光是今年该公司就发现至少 3 起资安事故。</p>
+        <p>
+            <a href="https://twitter.com/troyhunt/status/1717291454341750929">
+                <strong style="font-size: 22px;">
+                    <span style="color: rgb(0, 0, 0);">CCleaner 用户资料遭外流，原因是母公司遭遇 MOVEit Transfer 零时差漏洞攻击</span>
+                </strong>
+            </a>
+        </p>
+        <!-- notionvc: 93c551d2-1727-4b6a-a364-02aee91dc6bf -->
+        <p></p>
+        <p>根据维护密码外泄查询网站 Have I Been Pwned 的研究人员 Troy Hunt 表示，资安业者 Gen Digital 近期向系统清理程式 CCleaner 的用户寄送电子邮件，证实他们也在今年 5 月遭遇 MOVEit Transfer 零时差漏洞攻击影响，骇客窃取客户的姓名、联络资讯、购买的产品资讯。该公司发言人 Jess Monney 透露，约有 2％用户受到波及，但不愿透露受影响客户数量。</p>
+        <p>无独有偶，该公司旗下另一家资安业者也传出遭遇该攻击事故，导致资料外泄，今年 6 月有研究人员发现，勒索软体骇客 Clop 将 Norton LifeLock 列为受害组织，Gen Digital 也证实他们遭到相关攻击。</p>
+        <p>
+            <a href="https://securityaffairs.com/153149/cyber-crime/lockbit-ransomware-gang-boeing.html">
+                <strong style="font-size: 22px;">
+                    <span style="color: rgb(0, 0, 0);">波音公司传出遭到勒索软体 LockBit 攻击</span>
+                </strong>
+            </a>
+        </p>
+        <!-- notionvc: 3d27b622-7bed-411c-97f0-e2442a6665ee -->
+        <p></p>
+        <p>
+            <a href="https://s4.itho.me/sites/default/files/images/boeing-image-54.png">
+                <img alt="" src="https://s4.itho.me/sites/default/files/images/boeing-image-54.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                </a>根据资安新闻网站 SecurityWeek 的报导，勒索软体 LockBit 声称入侵大型飞机制造商波音，并要求这家公司必须 11 月 2 日前联络他们，讨论支付赎金的事宜。
+            </p>
+            <p>对此，研究人员 Brett Callow 推测，波音可能不是真正的受害公司，应该是该公司的供应商遭骇。</p>
+            <p>&nbsp;</p>
+            <h3>
+                <strong>【漏洞与修补】</strong>
+            </h3>
+            <p>
+                <a href="https://techcrunch.com/2023/10/27/apple-fixes-bug-that-undermined-ios-privacy-feature-for-years/">
+                    <strong style="font-size: 22px;">
+                        <span style="color: rgb(0, 0, 0);">苹果修补 iOS 装置的 MAC 位址广播漏洞</span>
+                    </strong>
+                </a>
+            </p>
+            <!-- notionvc: 731017c8-d4d1-4b13-b656-2b7e87c55c4d -->
+            <p></p>
+            <p>10 月 25 日苹果发布 iOS 17.1 及 16.7.2、iPadOS 17.1 及 16.7.2、watchOS 10.1、tvOS 17.1，当中修补 3 年前就可能导致行动装置、穿戴装置泄露 MAC 位址的漏洞 CVE-2023-42846。</p>
+            <p>通报这项漏洞的研究人员 Tommy Mysk 指出，这项漏洞与苹果在推出 iOS 14、iPadOS 14、watchOS 7 加入的新安全功能 private Wi-Fi address 有关，该公司声称装置会为每个 Wi-Fi 无线网路采用不同的 MAC 位址，但研究人员发现，这项功能并未实际发挥作用，由于这些装置在连上 Wi-Fi 网路的时候，会广播呼叫网路上的 AirPlay 装置，同时传送夹带装置的真实 MAC 位址资讯，使得他人得以追踪这些装置。</p>
+            <p>对此，苹果也提出说明，该漏洞与 mDNSResponder 程式码错误有关，他们在更新程式移除了相关程式码。</p>
+            <p>资料来源</p>
+            <p>1.&nbsp;
+                <a href="https://twitter.com/mysk_co/status/1717541345223389346">https://twitter.com/mysk_co/status/1717541345223389346</a>
+                <br>
+2.&nbsp;
+                    <a href="https://support.apple.com/HT213982">https://support.apple.com/HT213982</a>
+                    <br>
+3.&nbsp;
+                        <a href="https://support.apple.com/HT213981">https://support.apple.com/HT213981</a>
+                        <br>
+4.&nbsp;
+                            <a href="https://support.apple.com/HT213988">https://support.apple.com/HT213988</a>
+                            <br>
+5.&nbsp;
+                                <a href="https://support.apple.com/HT213987">https://support.apple.com/HT213987</a>
+                            </p>
+                            <p>
+                                <a href="https://github.com/flyyue2001/cve/blob/main/D-LINK%20-DAR-7000_sql_:sysmanage:editrole.php.md">
+                                    <strong style="font-size: 22px;">
+                                        <span style="color: rgb(0, 0, 0);">D-Link 上网安全闸道存在 SQL 注入漏洞</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 3a7e4681-57a3-4941-a76d-bf3d249d3cc6 -->
+                            <p></p>
+                            <p>
+                                <a href="https://s4.itho.me/sites/default/files/images/265646319-4149a219-fa7a-45d2-9154-a3b2e336f084.png">
+                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/265646319-4149a219-fa7a-45d2-9154-a3b2e336f084.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                    </a>10 月初传出资料外泄事故的 D-Link，他们的员工上网安全管理闸道设备 DAR-7000 被发现有资安漏洞。根据研究人员 flyyue2001 的揭露，此产品具有 SQL 注入漏洞 CVE-2023-42406，攻击者一旦触发漏洞，就有机会透过发送特定的恶意酬载，从而取得管理者权限，并执行任意命令，CVSS 风险评分为 7.5。这名研究人员也在 GitHub 上，公布概念性验证程式码。
+                                </p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>【资安产业动态】</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://www.zerodayinitiative.com/blog/2023/10/27/pwn2own-toronto-2023-day-four-results">
+                                        <strong style="font-size: 22px;">
+                                            <span style="color: rgb(0, 0, 0);">研究人员在漏洞挖掘竞赛 Pwn2Own Toronto 2023 找出近 60 个零时差漏洞</span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 49ff5d56-5d3d-43a6-b3b7-cd2f7c218fa6 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://s4.itho.me/sites/default/files/images/Master%2Bof%2BPwn%2BLeaderboard.jpg">
+                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/Master%2Bof%2BPwn%2BLeaderboard.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                        </a>漏洞挖掘竞赛 Pwn2Own Toronto 2023 于 10 月 24 日至 27 日在加拿大多伦多举行，本次参赛队伍找寻漏洞的目标，包含了智慧型手机（Apple iPhone 14、Google Pixel 7、三星 Galaxy S23、小米 13 Pro）、印表机、Wi-Fi 无线路由器、NAS、智慧家电装置、视讯监控系统、智慧音箱、Chromecast 电视棒、Pixel Watch 等，其中，在手机的部分，参赛队伍似乎聚焦三星 Galaxy S23，4 次成功找出漏洞；另一个热门目标是 Canon 无线彩色印表机 imageCLASS MF753Cdw，参赛者 5 度找出漏洞。
+                                    </p>
+                                    <p>比赛结果出炉，这次研究人员总共找到 58 个漏洞，由 Team Viettel 得到冠军，拿下 30 个 Pwn 大师积分、抱走 18 万美元；第二名是 Sea Security，得到 17.25 个积分、11.6 万美元；第三名则是 Devcore Intern 和 Interrupt Labs 组成的团队，得到 10 个积分、5 万美元。</p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新闻】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://blog.cloudflare.com/ddos-threat-report-2023-q3/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">HTTP/2 Rapid Reset 攻击横行，2023 第三季 DDoS 流量大幅增加</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: ec0c98ae-e618-4e42-bbed-60287a6628f8 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://notes.valdikss.org.ru/jabber.ru-mitm/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">Akamai 旗下子公司传出遭到骇客锁定，透过 XMPP 即时通讯服务监听</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 2135f1d5-2103-44a9-8a51-6916f443dd3f -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.horizon3.ai/nextgen-mirth-connect-remote-code-execution-vulnerability-cve-2023-43208/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">医疗资料整合平台 Mirth Connect 存在重大漏洞，恐曝露病人敏感资料</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 8739c941-4191-47ed-a313-59f8d57bca92 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://news.drweb.com/show/review/?lng=en&amp;i=14767">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">恶意广告 App 上架 Google Play 市集，已有 200 万人下载</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: d307f7bd-1d17-43c2-b881-a974eea82678 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/new-hunters-international-ransomware-possible-rebrand-of-hive/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">新兴骇客组织</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                        <a href="https://www.bleepingcomputer.com/news/security/new-hunters-international-ransomware-possible-rebrand-of-hive/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">Hunters International 攻击英国学校，疑为勒索软体 Hive 卷土重来</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期资安日报</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159530">
+                                            <strong>【10 月 27 日】&nbsp;研究人员揭露新型攻击手法 iLeakage，可透过推测执行漏洞、用浏览器窃取苹果装置的用户机密资讯</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159501">
+                                            <strong>【10 月 26 日】&nbsp;研究人员揭露热门网站服务的 OAuth 漏洞，攻击者可架设另一个网页服务来挟持用户的登入资料</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159482">
+                                            <strong>【10 月 25 日】&nbsp;6 月 iOS 装置零点击攻击调查结果出炉，骇客严格确认已渗透至真实环境，才开始植入恶意程式</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                </div></div>]]>
             </description>
             <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159563</guid>
-            <link>https://www.ithome.com.tw/news/159563</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159548</guid>
+            <link>https://www.ithome.com.tw/news/159548</link>
             <author>
                 <![CDATA[周峻佑]]>
             </author>
@@ -95,14 +351,14 @@
         </item>
         <item>
             <title>
-                <![CDATA[超过 6 成的白帽骇客企图利用生成式 AI 来发现漏洞]]>
+                <![CDATA[塔塔集团收购纬创印度厂，成印度首家本土 iPhone 制造商]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-hacker-960.jpg?itok=XjhOHttd" width="960" height="420" alt="" title="情境示意图，Photo by <a href=&quot;https://unsplash.com/@gamell?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Joan Gamell</a> on <a href=&quot;https://unsplash.com/photos/black-flat-screen-computer-monitor-nFqwVZhimpM?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> 情境示意图，Photo by <a href="https://unsplash.com/@gamell?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Joan Gamell</a> on <a href="https://unsplash.com/photos/black-flat-screen-computer-monitor-nFqwVZhimpM?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>漏洞悬赏平台 HackerOne 上周公布了<a href="https://www.hackerone.com/press-release/hackers-surpass-300-million-all-time-earnings-hackerone-platform" target="_blank">2023 年的骇客驱动安全报告（Hacker-Powered Security Report）</a>，发现有 61% 的白帽骇客正在利用生成式 AI（GenAI）来开发各种骇客工具，以用来发现更多的漏洞，同时也有 62% 的骇客打算专注于开放网路应用安全专案（OWASP）所揭露的大型语言模型（LLM）十大安全漏洞。</p><p>此一报告是 HackerOne 针对与该平台合作的逾 2,000 位白帽骇客，在去年 6 月至今年 9 月间所进行的调查，发现骇客寻找并提报漏洞的最大动机是赚钱，占了 80%，但也有高达 78% 是为了学习，另也有 47% 表示其骇客行动是为了保护企业与使用者。</p><p>至于这些白帽骇客锁定的领域中，由网路及线上服务居冠，占了 58%，金融服务则占了 53%，零售业与电子商务平台占了 48%，电脑软体占了 43%，政府组织为 40%。</p><p>骇客们通常具备多种技术，高达 95% 拥有网页应用测试的专长，但也有 63% 专精于漏洞研究，47% 著重在网路渗透测试，40% 的长才在于红队测试，另有 20% 擅长社交工程，18% 擅长无线渗透测试。而他们主要把这些技术应用在入侵网站，占了 98%，55% 用来攻陷 API，43% 攻击 Android 程式，23% 攻击开源码专案，而攻击 iOS 程式或桌面软体则各占 17%。</p><p>骇客们也对新兴的 GenAI 技术感兴趣，认为该技术既能提高生产力也能维持竞争力。有 66% 的骇客表示他们正在或准备利用 GenAI 来撰写报告，53% 表示欲利用 GenAI 来写程式，还有 33% 说要用 GenAI 来降低语言的门槛。</p><p>另有 55% 的骇客认为 GenAI 工具本身可望在未来几年成为攻击目标，61% 计划开发基于 GenAI 的工具来发现更多的漏洞，还有 62% 准备专研来自 OWASP 的十大 LLM 漏洞。</p><p>事实上，现在已经有 14% 的骇客把 GenAI 当作重要的工具，也有 53% 以某些形式使用 GenAI。</p><p>该调查也询问了骇客选择参与特定抓漏专案的原因，其中有 73% 明白表示是因为丰厚的赏金，有 50% 的原因是预期可找到大量的漏洞，46% 是因为范围的多样化，另有 45% 的骇客表明是为了挑战与学习的机会。</p><p>至于骇客不提报漏洞的主要原因则包括回应太慢（60%）、范围受限（58%）、沟通不良（55%）、奖金太低（48%），以及外界风评太差（44%）等。</p><p>HackerOne 的客户涵盖了 Coinbase、微软、GitHub、Goldman Sachs、Slack、General Motors、Hyatt 及美国国防部等、于 2012 年成立以来，该平台已颁发超过 3 亿美元的抓漏奖金，有 30 名骇客透过该平台获得超过 100 万美元的奖金，其中一名骇客的总奖金更突破 400 万美元。</p></div></div></div><div></div></div></div></div>]]>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-apple_inida-960.jpg?itok=kKtyB8Ky" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>印度电视台《NDTV》（New Delhi Television）<a href="https://www.ndtv.com/india-news/apple-iphone-to-now-be-made-in-india-by-tata-group-4519908" target="_blank">上周揭露</a>，印度最大集团 Tata Group（塔塔集团）将买下纬创（Wistron）印度厂，成为苹果在印度的 iPhone 制造商，而这也是印度第一个本土的苹果制造商。至于纬创亦于上周五（10/27）透过<a href="http://mops.twse.com.tw/mops/web/t05st01" target="_blank">公开资讯观测站</a>公布了此一重大讯息。</p><p>根据纬创的说明，该公司将把 Wistron InfoComm Manufacturing（India）的股权，以 1.25 亿美元卖给 TaTa Electronics。TaTa Electronics 为塔塔集团旗下的制造公司，专门生产精密零件。</p><p>此一消息在印度是由当地电子暨资讯技术部部长<a href="https://twitter.com/Rajeev_GoI/status/1717852648064598105" target="_blank">Rajeev Chandrasekhar 透过 X 对外发表</a>，显示它对印度而言是个重要的消息。Chandrasekhar 并说塔塔将接手纬创印度的营运，替苹果生产于印度及全球销售的 iPhone。</p><p>《NDTV》则分析，过去苹果在全球所销售的 iPhone 绝大多数是在中国制造，此一交易将推动印度日益成长的制造能力，也让塔塔集团成为印度首家本土的 iPhone 制造商。</p></div></div></div><div></div></div></div></div>]]>
             </description>
             <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159551</guid>
-            <link>https://www.ithome.com.tw/news/159551</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159547</guid>
+            <link>https://www.ithome.com.tw/news/159547</link>
             <author>
                 <![CDATA[陈晓莉]]>
             </author>
@@ -110,325 +366,63 @@
         </item>
         <item>
             <title>
-                <![CDATA[【资安日报】10 月 30 日，有人在 2016 年就利用永恒之蓝漏洞，打造恶意软体 StripedFly，迄今仍有数万台电脑遭到感染]]>
+                <![CDATA[Google 演算法可用降噪耳机量测心率]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231030.png?itok=uiGYKt8m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由美国国家安全局（NSA）掌握的 SMB v1 漏洞「永恒之蓝（EternalBlue）」、于 2017 年 4 月被骇客组织影子掮客（The Shadow Brokers）公布，1 个月内引发勒索软体 WannaCry 大规模感染的事故，但有研究人员指出，有其他骇客也利用这项漏洞打造恶意程式，并暗中活动超过 5 年，直到今年都还有数万台电脑受害。</p><p>值得留意的是，这些骇客发起恶意软体攻击的时间最早可能在 2016 年 4 月，比影子掮客声称于同年 8 月窃得相关资料的时间还要早。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.ithome.com.tw/news/159563"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">恶意软体 StripedFly 利用永恒之蓝漏洞，感染百万台电脑</span></strong></a></p>
-                <!-- notionvc: e648f1a6-396c-4212-ac5a-8e1ef78bd20e -->
-                <p></p>
-                <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/StripedFly_01.gif" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>资安业者卡巴斯基揭露存在超过 5 年的恶意软体框架 StripedFly，对于发现该恶意程式的踪迹，研究人员起初于 2022 年发现有恶意程式码（Shell Code）被注入到 Wininit 处理程序，这些程式码过往曾在恶意软体 Equation 出现，当时被误认为挖矿程式，但研究人员发现，这只是表面可见的威胁，并非攻击者的主要目的。
-                    </p>
-                    <p>他们发现此 Shell Code 会透过 Wininit 处理程序从 Bitbucket、GitHub、GitLab 下载恶意程式，然后执行 PowerShell 指令码，过程中利用 2017 年揭露的永恒之蓝（EternalBlue，CVE-2017-0144）漏洞，最终在受害电脑部署 StripedFly。</p>
-                    <p>此恶意程式酬载的档名为 system.img，具备洋葱网路的用户端功能，目的是避免网路通讯遭到干扰，而在利用上述漏洞停用 SMB v1 通讯埠之后，就能透过 SSH，将 StripedFly 散布到位处相同内部网路的 Windows、Linux 电脑。研究人员估计有超过 100 万台电脑遭到感染，其中在今年 4 月至 9 月仍有近 6 万台电脑受害。</p>
-                    <p>
-                        <a href="https://www.microsoft.com/en-us/security/blog/2023/10/25/octo-tempest-crosses-boundaries-to-facilitate-extortion-encryption-and-destruction/">
-                            <strong style="font-size: 22px;">
-                                <span style="color: rgb(0, 0, 0);">骇客组织 0ktapus 部署勒索软体 BlackCat，从事档案加密及破坏，向受害者进行勒索</span>
-                            </strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: a37988be-bc6a-4c6f-977e-d01797b03e25 -->
-                    <p></p>
-                    <p>
-                        <a href="https://s4.itho.me/sites/default/files/images/A_Cascade_of_Compromise_Unveiling_Lazarus_Campaign_01.png">
-                            <img alt="" src="https://s4.itho.me/sites/default/files/images/A_Cascade_of_Compromise_Unveiling_Lazarus_Campaign_01.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                            </a>一年前，骇客组织 0ktapus（亦称 Scattered Spider、Octo Tempest）锁定身分验证解决方案 Okta 的用户下手引起全球关注，云端服务业者 Twilio、Cloudflare 出面表明遭到攻击，如今研究人员指出，这些骇客开始与勒索软体 BlackCat（Alphv）结盟，并运用相关工具发动攻击。
-                        </p>
-                        <p>微软对于该组织近期的攻击行动提出警告，2023 年中，这些骇客成为勒索软体 BlackCat 的附属团体，并对目标组织部署勒索软体，近期主要集中于虚拟化环境 VMWare ESXi 的伺服器，针对客户支援或是 IT 服务台的员工进行社交工程攻击，从而取得入侵组织的初始存取权限，要求客服人员重置密码或是双因素验证设定。</p>
-                        <p>一旦成功入侵目标组织，骇客便会执行侦察工作，从而掌握高权限，先是从 AD 大量汇出使用者、群组、装置资讯，再取得虚拟化环境的基础架构，并对于云端环境进行调查，最终部署勒索软体并执行档案加密。过程中为了避免遭到侦测，骇客还会对于资安部门的人员下手，目的是停用资安产品及安全功能，甚至会窜改 IT 人员的电子邮件规则，自动删除资安系统或是供应商发出的警告。</p>
-                        <p>
-                            <a href="http://securelist.com/unveiling-lazarus-new-campaign/110888/">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">北韩骇客 Lazarus 锁定软体供应商发动供应链攻击，企图窃取原始码</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 194a2b84-9c91-4c5f-90bb-7cc9f00b5514 -->
-                        <p></p>
-                        <p>资安业者卡巴斯基揭露近期北韩骇客组织 Lazarus 发起的攻击行动，他们在今年 7 月中旬，侦测到骇客对数个组织出手，利用合法软体及帐密进行加密网路通讯，借由尚未修补的漏洞发动攻击。</p>
-                        <p>经过调查，这个出现漏洞的软体，其开发商曾多次成为这群骇客攻击的目标，这代表骇客很有可能对其窃取原始码，或是入侵软体供应链，并在攻击其他软体开发商的时候继续利用相关漏洞。研究人员指出，他们看到骇客利用前述提及的漏洞，于受害组织部署恶意软体 Signbt，并将其酬注入记忆体内，而能够秘密执行 Shell Code。</p>
-                        <p>此恶意程式能为骇客收集系统资讯、控制受害电脑的处理程序、得知电脑存放的档案、上传或下载档案并于记忆体内载入，以及使用 Windows 内建的命令或是公用程式。在受害电脑植入了 Signbt 之后，研究人员看到骇客下载另一款恶意程式 LPEClient，以及截取帐密资料的工具，而 LPEClient 曾在多起攻击行动里出现，光是今年该公司就发现至少 3 起资安事故。</p>
-                        <p>
-                            <a href="https://twitter.com/troyhunt/status/1717291454341750929">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">CCleaner 用户资料遭外流，原因是母公司遭遇 MOVEit Transfer 零时差漏洞攻击</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 93c551d2-1727-4b6a-a364-02aee91dc6bf -->
-                        <p></p>
-                        <p>根据维护密码外泄查询网站 Have I Been Pwned 的研究人员 Troy Hunt 表示，资安业者 Gen Digital 近期向系统清理程式 CCleaner 的用户寄送电子邮件，证实他们也在今年 5 月遭遇 MOVEit Transfer 零时差漏洞攻击影响，骇客窃取客户的姓名、联络资讯、购买的产品资讯。该公司发言人 Jess Monney 透露，约有 2％用户受到波及，但不愿透露受影响客户数量。</p>
-                        <p>无独有偶，该公司旗下另一家资安业者也传出遭遇该攻击事故，导致资料外泄，今年 6 月有研究人员发现，勒索软体骇客 Clop 将 Norton LifeLock 列为受害组织，Gen Digital 也证实他们遭到相关攻击。</p>
-                        <p>
-                            <a href="https://securityaffairs.com/153149/cyber-crime/lockbit-ransomware-gang-boeing.html">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">波音公司传出遭到勒索软体 LockBit 攻击</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 3d27b622-7bed-411c-97f0-e2442a6665ee -->
-                        <p></p>
-                        <p>
-                            <a href="https://s4.itho.me/sites/default/files/images/boeing-image-54.png">
-                                <img alt="" src="https://s4.itho.me/sites/default/files/images/boeing-image-54.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                </a>根据资安新闻网站 SecurityWeek 的报导，勒索软体 LockBit 声称入侵大型飞机制造商波音，并要求这家公司必须 11 月 2 日前联络他们，讨论支付赎金的事宜。
-                            </p>
-                            <p>对此，研究人员 Brett Callow 推测，波音可能不是真正的受害公司，应该是该公司的供应商遭骇。</p>
-                            <p>&nbsp;</p>
-                            <h3>
-                                <strong>【漏洞与修补】</strong>
-                            </h3>
-                            <p>
-                                <a href="https://techcrunch.com/2023/10/27/apple-fixes-bug-that-undermined-ios-privacy-feature-for-years/">
-                                    <strong style="font-size: 22px;">
-                                        <span style="color: rgb(0, 0, 0);">苹果修补 iOS 装置的 MAC 位址广播漏洞</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 731017c8-d4d1-4b13-b656-2b7e87c55c4d -->
-                            <p></p>
-                            <p>10 月 25 日苹果发布 iOS 17.1 及 16.7.2、iPadOS 17.1 及 16.7.2、watchOS 10.1、tvOS 17.1，当中修补 3 年前就可能导致行动装置、穿戴装置泄露 MAC 位址的漏洞 CVE-2023-42846。</p>
-                            <p>通报这项漏洞的研究人员 Tommy Mysk 指出，这项漏洞与苹果在推出 iOS 14、iPadOS 14、watchOS 7 加入的新安全功能 private Wi-Fi address 有关，该公司声称装置会为每个 Wi-Fi 无线网路采用不同的 MAC 位址，但研究人员发现，这项功能并未实际发挥作用，由于这些装置在连上 Wi-Fi 网路的时候，会广播呼叫网路上的 AirPlay 装置，同时传送夹带装置的真实 MAC 位址资讯，使得他人得以追踪这些装置。</p>
-                            <p>对此，苹果也提出说明，该漏洞与 mDNSResponder 程式码错误有关，他们在更新程式移除了相关程式码。</p>
-                            <p>资料来源</p>
-                            <p>1.&nbsp;
-                                <a href="https://twitter.com/mysk_co/status/1717541345223389346">https://twitter.com/mysk_co/status/1717541345223389346</a>
-                                <br>
-2.&nbsp;
-                                    <a href="https://support.apple.com/HT213982">https://support.apple.com/HT213982</a>
-                                    <br>
-3.&nbsp;
-                                        <a href="https://support.apple.com/HT213981">https://support.apple.com/HT213981</a>
-                                        <br>
-4.&nbsp;
-                                            <a href="https://support.apple.com/HT213988">https://support.apple.com/HT213988</a>
-                                            <br>
-5.&nbsp;
-                                                <a href="https://support.apple.com/HT213987">https://support.apple.com/HT213987</a>
-                                            </p>
-                                            <p>
-                                                <a href="https://github.com/flyyue2001/cve/blob/main/D-LINK%20-DAR-7000_sql_:sysmanage:editrole.php.md">
-                                                    <strong style="font-size: 22px;">
-                                                        <span style="color: rgb(0, 0, 0);">D-Link 上网安全闸道存在 SQL 注入漏洞</span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: 3a7e4681-57a3-4941-a76d-bf3d249d3cc6 -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://s4.itho.me/sites/default/files/images/265646319-4149a219-fa7a-45d2-9154-a3b2e336f084.png">
-                                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/265646319-4149a219-fa7a-45d2-9154-a3b2e336f084.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                    </a>10 月初传出资料外泄事故的 D-Link，他们的员工上网安全管理闸道设备 DAR-7000 被发现有资安漏洞。根据研究人员 flyyue2001 的揭露，此产品具有 SQL 注入漏洞 CVE-2023-42406，攻击者一旦触发漏洞，就有机会透过发送特定的恶意酬载，从而取得管理者权限，并执行任意命令，CVSS 风险评分为 7.5。这名研究人员也在 GitHub 上，公布概念性验证程式码。
-                                                </p>
-                                                <p>&nbsp;</p>
-                                                <h3>
-                                                    <strong>【资安产业动态】</strong>
-                                                </h3>
-                                                <p>
-                                                    <a href="https://www.zerodayinitiative.com/blog/2023/10/27/pwn2own-toronto-2023-day-four-results">
-                                                        <strong style="font-size: 22px;">
-                                                            <span style="color: rgb(0, 0, 0);">研究人员在漏洞挖掘竞赛 Pwn2Own Toronto 2023 找出近 60 个零时差漏洞</span>
-                                                        </strong>
-                                                    </a>
-                                                </p>
-                                                <!-- notionvc: 49ff5d56-5d3d-43a6-b3b7-cd2f7c218fa6 -->
-                                                <p></p>
-                                                <p>
-                                                    <a href="https://s4.itho.me/sites/default/files/images/Master%2Bof%2BPwn%2BLeaderboard.jpg">
-                                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/Master%2Bof%2BPwn%2BLeaderboard.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                        </a>漏洞挖掘竞赛 Pwn2Own Toronto 2023 于 10 月 24 日至 27 日在加拿大多伦多举行，本次参赛队伍找寻漏洞的目标，包含了智慧型手机（Apple iPhone 14、Google Pixel 7、三星 Galaxy S23、小米 13 Pro）、印表机、Wi-Fi 无线路由器、NAS、智慧家电装置、视讯监控系统、智慧音箱、Chromecast 电视棒、Pixel Watch 等，其中，在手机的部分，参赛队伍似乎聚焦三星 Galaxy S23，4 次成功找出漏洞；另一个热门目标是 Canon 无线彩色印表机 imageCLASS MF753Cdw，参赛者 5 度找出漏洞。
-                                                    </p>
-                                                    <p>比赛结果出炉，这次研究人员总共找到 58 个漏洞，由 Team Viettel 得到冠军，拿下 30 个 Pwn 大师积分、抱走 18 万美元；第二名是 Sea Security，得到 17.25 个积分、11.6 万美元；第三名则是 Devcore Intern 和 Interrupt Labs 组成的团队，得到 10 个积分、5 万美元。</p>
-                                                    <p>&nbsp;</p>
-                                                    <h3>
-                                                        <strong>【其他新闻】</strong>
-                                                    </h3>
-                                                    <p>
-                                                        <a href="https://blog.cloudflare.com/ddos-threat-report-2023-q3/">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">HTTP/2 Rapid Reset 攻击横行，2023 第三季 DDoS 流量大幅增加</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: ec0c98ae-e618-4e42-bbed-60287a6628f8 -->
-                                                    <p></p>
-                                                    <p>
-                                                        <a href="https://notes.valdikss.org.ru/jabber.ru-mitm/">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">Akamai 旗下子公司传出遭到骇客锁定，透过 XMPP 即时通讯服务监听</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: 2135f1d5-2103-44a9-8a51-6916f443dd3f -->
-                                                    <p></p>
-                                                    <p>
-                                                        <a href="https://www.horizon3.ai/nextgen-mirth-connect-remote-code-execution-vulnerability-cve-2023-43208/">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">医疗资料整合平台 Mirth Connect 存在重大漏洞，恐曝露病人敏感资料</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: 8739c941-4191-47ed-a313-59f8d57bca92 -->
-                                                    <p></p>
-                                                    <p>
-                                                        <a href="https://news.drweb.com/show/review/?lng=en&amp;i=14767">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">恶意广告 App 上架 Google Play 市集，已有 200 万人下载</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: d307f7bd-1d17-43c2-b881-a974eea82678 -->
-                                                    <p></p>
-                                                    <p>
-                                                        <a href="https://www.bleepingcomputer.com/news/security/new-hunters-international-ransomware-possible-rebrand-of-hive/">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">新兴骇客组织</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                        <a href="https://www.bleepingcomputer.com/news/security/new-hunters-international-ransomware-possible-rebrand-of-hive/">
-                                                            <strong>
-                                                                <span style="font-size: 20px;">
-                                                                    <span style="color: rgb(0, 0, 0);">Hunters International 攻击英国学校，疑为勒索软体 Hive 卷土重来</span>
-                                                                </span>
-                                                            </strong>
-                                                        </a>
-                                                    </p>
-                                                    <p>&nbsp;</p>
-                                                    <h3>
-                                                        <strong>近期资安日报</strong>
-                                                    </h3>
-                                                    <p>
-                                                        <a href="https://www.ithome.com.tw/news/159530">
-                                                            <strong>【10 月 27 日】&nbsp;研究人员揭露新型攻击手法 iLeakage，可透过推测执行漏洞、用浏览器窃取苹果装置的用户机密资讯</strong>
-                                                        </a>
-                                                    </p>
-                                                    <p>
-                                                        <a href="https://www.ithome.com.tw/news/159501">
-                                                            <strong>【10 月 26 日】&nbsp;研究人员揭露热门网站服务的 OAuth 漏洞，攻击者可架设另一个网页服务来挟持用户的登入资料</strong>
-                                                        </a>
-                                                    </p>
-                                                    <p>
-                                                        <a href="https://www.ithome.com.tw/news/159482">
-                                                            <strong>【10 月 25 日】&nbsp;6 月 iOS 装置零点击攻击调查结果出炉，骇客严格确认已渗透至真实环境，才开始植入恶意程式</strong>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                </div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159548</guid>
-                            <link>https://www.ithome.com.tw/news/159548</link>
-                            <author>
-                                <![CDATA[周峻佑]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[塔塔集团收购纬创印度厂，成印度首家本土 iPhone 制造商]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-apple_inida-960.jpg?itok=kKtyB8Ky" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>印度电视台《NDTV》（New Delhi Television）<a href="https://www.ndtv.com/india-news/apple-iphone-to-now-be-made-in-india-by-tata-group-4519908" target="_blank">上周揭露</a>，印度最大集团 Tata Group（塔塔集团）将买下纬创（Wistron）印度厂，成为苹果在印度的 iPhone 制造商，而这也是印度第一个本土的苹果制造商。至于纬创亦于上周五（10/27）透过<a href="http://mops.twse.com.tw/mops/web/t05st01" target="_blank">公开资讯观测站</a>公布了此一重大讯息。</p><p>根据纬创的说明，该公司将把 Wistron InfoComm Manufacturing（India）的股权，以 1.25 亿美元卖给 TaTa Electronics。TaTa Electronics 为塔塔集团旗下的制造公司，专门生产精密零件。</p><p>此一消息在印度是由当地电子暨资讯技术部部长<a href="https://twitter.com/Rajeev_GoI/status/1717852648064598105" target="_blank">Rajeev Chandrasekhar 透过 X 对外发表</a>，显示它对印度而言是个重要的消息。Chandrasekhar 并说塔塔将接手纬创印度的营运，替苹果生产于印度及全球销售的 iPhone。</p><p>《NDTV》则分析，过去苹果在全球所销售的 iPhone 绝大多数是在中国制造，此一交易将推动印度日益成长的制造能力，也让塔塔集团成为印度首家本土的 iPhone 制造商。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159547</guid>
-                            <link>https://www.ithome.com.tw/news/159547</link>
-                            <author>
-                                <![CDATA[陈晓莉]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[Google 演算法可用降噪耳机量测心率]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-apg-google_ai-960.jpg?itok=2hnHowHu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://blog.research.google/2023/10/audioplethysmography-for-cardiac.html?m=1" target="_blank">Google 一项研究显示</a>，降噪耳机除了可放音乐外，还能用来监测运动时的心率，而且 Google 研发的侦测技术，比现行主流技术不受肤色影响判读准确性。媒体推测，这可能会内建到 Google 下一代智慧型耳机 Pixel Buds 中。</p><p>Google 上周在 MobiCom2023 公布名为心脏监测的声音体积描记图（Audioplethysmography，APG）方法的论文，介绍经由耳机侦测心脏健康的方法。这个方法可配合耳道式主动降噪（active noise cancelling，ANC）耳机，来侦测心率甚至心律变异（HRV）等健康量测值。</p><p>现行以穿戴装置为基础的健康侦测，主要是整合光体积变化描记图法（Photoplethysmogram，PPG）及心电图（electrocardiogram，ECG）和微控制器，来侦测睡眠、心率、血压等。但这类方法成本高、较耗电、声学设计较复杂、还增加装置重量，使得这种方法也难设计成耳机。另一个问题是，PPG 是以光为基础的侦测，还会受到受测者肤色影响。</p><p>而主动式降噪耳机则提供另类方法。之前也有人已经发展耳机麦克风来侦测心率、呼吸、身体活动及诊断耳朵疾病。消费者用的耳罩式主动降噪耳机则内建高通滤波器，来过滤掉身体运动产生的声音或风声。此外，耳道式耳机的被动听取讯号，则仰赖耳塞品质好坏。种种因素限制了耳罩式耳机并不适合（小于 50Hz 的）低频讯号的被动侦测。而耳道式主动式降噪耳机，则可避免以上缺点。</p><p>耳道式耳机原理是透过喇叭释放低密波超音波讯号触发回音，再由耳机上的回馈麦克风接收。Google 开发了一个圆柱回响模型的同调检测（coherent detection）法来分析 APG 波型，发现最终的 APG 波形和 PPG 波形相似度极高，而且动脉切迹（dicrotic notch）更明显，这表示能从血压波形提供动脉系统（如血压值）更多资讯。</p><p>Google 又使用频道分集（channel diversity）手法确保提高 APG 讯号及抗运动杂讯的能力。最后 Google 发现到侦测最佳心搏波形及心律变异的频率，在 30 到 32 kHz 之间。</p><p>在测试中，Google 小组将其方法套用市售 ANC 耳机，并以 Polar ECG 运动量测胸带作为对照组。他们找来 153 名受试者进行 2 次测试，结果显示 APG 方法在心率及心律变异的绝对误差中值分别为 3.21% 和 2.7%，显示为稳定的准确率。这表示，APG 方法不像 PPG 侦测会受到受试者肤色影响准确率。</p><p>Google 的研究提出比现行穿戴式装置主流的 PPG 技术，拥有成本更低、不受使用者肤色影响、适用多种运动、而且软体升级容易等优点。内建在耳机中，超音波讯号也不会干扰音乐播放，有助于此类产品的普及。</p><p>本论文是由<a href="https://9to5google.com/2023/10/27/google-anc-earbuds-heart-rate/" target="_blank">9to5Google</a>首先报导。<a href="https://9to5google.com/2023/10/02/pixel-buds-pro-hearing-wellness-conversation-detection/" target="_blank">该网站 10 月初也报导</a>，Google 测试中的 Pixel Buds App 程式码分析显示，下一代 Pixel Buds 可能包含侦测音量以维持听力健康，以及可切换降噪和通透模式的对话侦测功能。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159546</guid>
-                            <link>https://www.ithome.com.tw/news/159546</link>
-                            <author>
-                                <![CDATA[林妍溱]]>
-                            </author>
-                            <category>医疗 IT</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[传 Google 又加码投资 Anthropic 20 亿美元]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0712-anthropic-claude_2-9601.jpg?itok=r_WyJHFT" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Anthropic</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>OpenAI 获得微软投资上百亿美元，引发其同业 Anthropic 成为其他科技巨头竞逐的目标。<a href="https://www.wsj.com/tech/ai/google-commits-2-billion-in-funding-to-ai-startup-anthropic-db4d4c50" target="_blank">《华尔街日报》报导</a>，Google 又在近日追加投资 Anthropic 20 亿美元。</p><p>Anthropic 是由 OpenAI 前研发主管 Dario Amodei 于 2021 年创立，也有不少 OpenAI 前员工加入其团队。Anthropic 今年 3 月发表的 AI 模型 Claude 号称比 ChatGPT 更为「有帮助、诚实、无害」。该公司今年 9 月也首度发表了第一个收费 AI 助理服务 Claude Pro。</p><p>这消息是继 Google 2022 年投资 Anthropic 3 亿美元后，再一次大手笔资助的消息。华尔街日报引述消息人士指出，截至今年，Google 已经投资这家新创公司 5 亿美元，还同意陆续资助 15 亿美元。CNBC 则报导，Anthropic 5 月间募得 4.5 亿美元，是 OpenAI 今年初获得微软投资以来，AI 业者募资最高的纪录。</p><p>Google 未评论此事，不过 Anthropic 的联合创办人 Daniela Amodei<a href="https://www.cnbc.com/2023/10/27/google-commits-to-invest-2-billion-in-openai-competitor-anthropic.html" target="_blank">向 CNBC 证实此事</a>。她表示过去几个月来该公司都在开发最新聊天机器人，有 30 到 35 人直接投入底层模型的研发工作。她也表示，AI 市场高速成长，因此有极大空间让多家业者都能成功。</p><p>OpenAI 2019 年获得微软投资超过百亿美元后，去年 11 月发表 ChatGPT 引发生成式 AI 热潮，而微软也将 OpenAI 的文字 AI 模型 GPT-4、图片生成模型 DALL-E 整合到其 Windows、Bing、Edge 产品中。这也让 Anthropic 成为微软竞争者的心头好。除了 Google 外，<a href="https://www.ithome.com.tw/news/158977" target="_blank">Amazon 也在 9 月宣布</a>投资 40 亿美元，除了在 AWS 的 AI 云端平台 Bedrock 提供 AI 模型，也要求 Anthropic 协助其 Bedrock 服务及 AI 晶片的研发。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159545</guid>
-                            <link>https://www.ithome.com.tw/news/159545</link>
-                            <author>
-                                <![CDATA[林妍溱]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[联合国成立 AI 顾问组织，寻求 AI 的全球治理方向]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-ai-photo_by_steve_johnson_on_unsplash-960.jpg?itok=f5nsxNvC" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Steve Johnson</a> on <a href=&quot;https://unsplash.com/photos/a-persons-head-with-a-circuit-board-in-front-of-it-WhAQMsdRKMI?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Steve Johnson</a> on <a href="https://unsplash.com/photos/a-persons-head-with-a-circuit-board-in-front-of-it-WhAQMsdRKMI?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://news.un.org/en/story/2023/10/1142867" target="_blank">联合国（United Nations，UN）上周四（10/26）成立了人工智慧顾问组织（AI Advisory Body）</a>，以研究 AI 技术的风险、机会，以及全球治理方向。</p><p>该组织是由联合国秘书长 António Guterres 所发起，招揽了来自全球的 39 名不同性别、区域与背景的专家，预计于今年底前便会针对 AI 的风险、挑战、机会，以及如何利用 AI 来加速永续发展目标（Sustainable Development Goals，SDGs）等议题提出建议。</p><p>AI 在过去一年来的快速进展，特别是 ChatGPT 的问世，令各界都加速投入了与 AI 有关的每个面向。而 Guterres 认为可利用 AI 来协助解决气候变迁与停滞不前的 17 个 SDGs，相信 AI 得以扩大各国政府、民间组织及联合国的能力，从预测与解决危机，到推出公共衞生与教育服务。</p><p>Guterres 指出，AI Advisory Body 是 AI 治理全球对话的起点，以便尽可能地替全人类带来利益，同时遏制与减少风险。不过，Guterres 也强调，这将取决于 AI 是否被负责任地利用，且让所有人都能使用，目前相关的专业知识集中在少数公司与国家，而这很可能会深化全球的不平等，让数位落差变成鸿沟。</p><p>其它 AI 可能带来的潜在风险还包括加速不实资讯的传播，进一步强化偏见、歧视、监视、侵犯隐私、诈欺或其它侵犯人权的行为，恶意使用还可能破坏对制度的信任，削弱社会凝聚力，并威胁民主。</p><p>Guterres 自己都觉得 AI 有点可怕的其中一个例子是，身为葡萄牙人的他在一个 AI 应用中看到自己用完美的中文进行演讲，而且嘴唇的活动与语文完全一致，然而，真实的他并不会说中文。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159544</guid>
-                            <link>https://www.ithome.com.tw/news/159544</link>
-                            <author>
-                                <![CDATA[陈晓莉]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[苹果修补公开 iOS 装置 MAC 地址长达 3 年的隐私漏洞]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0711-apple-cyber-security-96011.jpg?itok=Hg_j5d4-" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>苹果上周释出<a href="https://support.apple.com/en-us/HT213982" target="_blank">iOS/iPadOS 17.1</a>及<a href="https://support.apple.com/en-ph/HT213988" target="_blank">watchOS 10.1</a>更新，以修补 3 年前起就泄露 iPhone、iPad 及 Apple Watch MAC 位置的漏洞。</p><p>更新修补的漏洞 CVE-2023-42846，是由二位研究人员 Talal Haj Bakry 及 Tommy Mysk 揭露与通报。苹果只简单描述，该漏洞可造成 iOS 装置被人经由公开的 Wi-Fi MAC 位址追踪。</p><p>这项漏洞是出在 iOS 中私有 Wi-Fi 位址（Private Wi-Fi address）的功能中。<a href="https://support.apple.com/en-us/102509" target="_blank">根据苹果解释</a>，装置在连上 Wi-Fi 网路时，会公开一组独特的网路位置，名为 Media Access Control（MAC）位置。但因为装置总是使用固定的位址，这会让网路营运商和其他观测网路活动的人，长期下来可以轻易掌握装置活动和位置，便能追踪使用者或建立使用者侧写（profiling）。所有 Wi-Fi 网路上的装置都受此影响。</p><p>苹果从 iOS/iPadOS 14 及 watchOS 7 起加入新安全功能，可为每个 Wi-Fi 网路使用不同 MAC 位址，名为私有 Wi-Fi 位址。在此功能下，如果用户删除网路设定和内容，下次再连上同一 Wi-Fi 网路时，就会有不同私有 MAC 位址。而从 iOS/iPadOS 15 及 watchOS 8 起，如果 iOS 装置 6 个月未连 Wi-Fi 网路，下次再连上该网路，也会换成新的位址。要是用户设定不记忆 Wi-Fi 网路，则 iOS 装置便不会记录，除非两次连网间隔少于 2 周。</p><p>不过<a href="https://twitter.com/mysk_co/status/1717541345223389346" target="_blank">研究人员 Mysk 发现</a>，这个功能根本从 iOS 14 推出后就未起作用。当 iPhone 连上 Wi-Fi 网路时，它会发送广播呼叫以发掘网路上的 AirPlay 装置。而在此时，iOS 也会将装置真实的 Wi-Fi MAC 位址广播出去。而在真实 MAC 网址曝光后，iOS 装置即可能被 Wi-Fi 网路上的其他人追踪。</p><p>本装置影响的 iPhone XS、iPad Pro 12.9 吋第 2 代、iPad Pro 10.5 吋及 iPad Pro 11 吋、iPad Air 3、iPad 6、iPad mini 5 以后，以及 Apple Watch 4 以后版本。</p><p>苹果说明此漏洞出在 mDNSResponder 的一段程式码错误，更新作业系统已移除了有 bug 的程式码。</p><p>最新 iOS 更新修补的漏洞，还包括可让非经授权的使用者存取 Passkeys（CVE-2023-42847）、读取隐藏相簿（CVE-2023-42845）、使用 Siri 存取敏感用户资料，以及使应用程式存取联络人资料（CVE-2023-42857）等 18 项安全漏洞。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159543</guid>
-                            <link>https://www.ithome.com.tw/news/159543</link>
-                            <author>
-                                <![CDATA[林妍溱]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                        <item>
-                            <title>
-                                <![CDATA[MLCommons 成立 AIS 工作组，推动 AI 安全基准测试发展]]>
-                            </title>
-                            <description>
-                                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/mlcommons_-_mlcommons.org_.jpg?itok=cAk0lul_" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>开放工程联盟 MLCommons 宣布成立<a href="https://mlcommons.org/en/news/formation-ai-safety-working-group/">人工智慧安全（AI Safety，AIS）工作组</a>，该工作组的目标是要建立一个平台，由许多贡献者组成测试池，支援各种使用案例的人工智慧安全基准。该工作组最初的重点，将会使用史丹佛大学所开发的 Holistic Evaluation of Language Models（HELM）框架，作为大型语言模型开发安全基准。</p><p>MLCommons 是一个开放协作的生态系，目的在于推动机器学习的发展和应用，该组织的重点在于发展基准测试、最佳实践、资料集和各种共享资源上，以促进机器学习社群的成长与创新。像是该组织在 9 月时就发布了人工智慧基准测试，用以强化模型推论和储存评估。</p><p>虽然人工智慧系统对社会带来巨大利益，但也存在风险，输出可能存在毒性、错误资讯和偏见，MLCommons 指出，人工智慧与其他复杂技术一样，社会需要一个产业标准的安全测试，在实现利益的同时，最大程度降低风险。</p><p>MLCommons 的新平台将提供一个机制，让使用者能够从测试池中选择基准测试，并将输出整合成容易理解的分数，类似其他产业标准的方式，如汽车安全测试和能源之星评分，对人工智慧系统的安全性进行评级。</p><p>该平台的短期重点，在于支援严谨可靠的人工智慧安全测试技术发展，AIS 工作组会运用成员和人工智慧社群的技术与营运专业，用以创建人工智慧安全基准测试技术。而 AIS 工作组的第一个任务，便是替大型语言模型制定安全基准，以史丹佛大学基础模型研究中心的研究成果，以及历经两年时间开发的 HELM 框架作为基础，开发大型语言模型安全基准。</p><p>除了 HELM 框架之外，AIS 工作组中多个成员，也计划将内部用于人工智慧安全测试技术公开，与 MLCommons 社群共享，加速安全基准发展脚步。AIS 工作组是一个多学科与跨领域的集合体，专家来自 Anthropic、Coactive AI、Google、Inflection、英特尔、Meta、微软、Nvidia、OpenAI、Qualcomm 等多家人工智慧领域重要公司，同时还有来自学术界的 Joaquin Vanschoren、Percy Liang 与 Bo Li 等多位人工智慧重要学者。</p><p>AIS 工作组透过整合不同领域专家知识和经验，共同创建和指导人工智慧安全基准测试技术，该工作组鼓励社群开放参与以吸引更多专家，加入推动此人工智慧安全议题。</p></div></div></div><div></div></div></div></div>]]>
-                            </description>
-                            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
-                            <guid isPermaLink="false">https://www.ithome.com.tw/news/159529</guid>
-                            <link>https://www.ithome.com.tw/news/159529</link>
-                            <author>
-                                <![CDATA[李建兴]]>
-                            </author>
-                            <category>新闻</category>
-                        </item>
-                    </channel>
-                </rss>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-apg-google_ai-960.jpg?itok=2hnHowHu" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://blog.research.google/2023/10/audioplethysmography-for-cardiac.html?m=1" target="_blank">Google 一项研究显示</a>，降噪耳机除了可放音乐外，还能用来监测运动时的心率，而且 Google 研发的侦测技术，比现行主流技术不受肤色影响判读准确性。媒体推测，这可能会内建到 Google 下一代智慧型耳机 Pixel Buds 中。</p><p>Google 上周在 MobiCom2023 公布名为心脏监测的声音体积描记图（Audioplethysmography，APG）方法的论文，介绍经由耳机侦测心脏健康的方法。这个方法可配合耳道式主动降噪（active noise cancelling，ANC）耳机，来侦测心率甚至心律变异（HRV）等健康量测值。</p><p>现行以穿戴装置为基础的健康侦测，主要是整合光体积变化描记图法（Photoplethysmogram，PPG）及心电图（electrocardiogram，ECG）和微控制器，来侦测睡眠、心率、血压等。但这类方法成本高、较耗电、声学设计较复杂、还增加装置重量，使得这种方法也难设计成耳机。另一个问题是，PPG 是以光为基础的侦测，还会受到受测者肤色影响。</p><p>而主动式降噪耳机则提供另类方法。之前也有人已经发展耳机麦克风来侦测心率、呼吸、身体活动及诊断耳朵疾病。消费者用的耳罩式主动降噪耳机则内建高通滤波器，来过滤掉身体运动产生的声音或风声。此外，耳道式耳机的被动听取讯号，则仰赖耳塞品质好坏。种种因素限制了耳罩式耳机并不适合（小于 50Hz 的）低频讯号的被动侦测。而耳道式主动式降噪耳机，则可避免以上缺点。</p><p>耳道式耳机原理是透过喇叭释放低密波超音波讯号触发回音，再由耳机上的回馈麦克风接收。Google 开发了一个圆柱回响模型的同调检测（coherent detection）法来分析 APG 波型，发现最终的 APG 波形和 PPG 波形相似度极高，而且动脉切迹（dicrotic notch）更明显，这表示能从血压波形提供动脉系统（如血压值）更多资讯。</p><p>Google 又使用频道分集（channel diversity）手法确保提高 APG 讯号及抗运动杂讯的能力。最后 Google 发现到侦测最佳心搏波形及心律变异的频率，在 30 到 32 kHz 之间。</p><p>在测试中，Google 小组将其方法套用市售 ANC 耳机，并以 Polar ECG 运动量测胸带作为对照组。他们找来 153 名受试者进行 2 次测试，结果显示 APG 方法在心率及心律变异的绝对误差中值分别为 3.21% 和 2.7%，显示为稳定的准确率。这表示，APG 方法不像 PPG 侦测会受到受试者肤色影响准确率。</p><p>Google 的研究提出比现行穿戴式装置主流的 PPG 技术，拥有成本更低、不受使用者肤色影响、适用多种运动、而且软体升级容易等优点。内建在耳机中，超音波讯号也不会干扰音乐播放，有助于此类产品的普及。</p><p>本论文是由<a href="https://9to5google.com/2023/10/27/google-anc-earbuds-heart-rate/" target="_blank">9to5Google</a>首先报导。<a href="https://9to5google.com/2023/10/02/pixel-buds-pro-hearing-wellness-conversation-detection/" target="_blank">该网站 10 月初也报导</a>，Google 测试中的 Pixel Buds App 程式码分析显示，下一代 Pixel Buds 可能包含侦测音量以维持听力健康，以及可切换降噪和通透模式的对话侦测功能。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159546</guid>
+            <link>https://www.ithome.com.tw/news/159546</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>医疗 IT</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[传 Google 又加码投资 Anthropic 20 亿美元]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0712-anthropic-claude_2-9601.jpg?itok=r_WyJHFT" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Anthropic</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>OpenAI 获得微软投资上百亿美元，引发其同业 Anthropic 成为其他科技巨头竞逐的目标。<a href="https://www.wsj.com/tech/ai/google-commits-2-billion-in-funding-to-ai-startup-anthropic-db4d4c50" target="_blank">《华尔街日报》报导</a>，Google 又在近日追加投资 Anthropic 20 亿美元。</p><p>Anthropic 是由 OpenAI 前研发主管 Dario Amodei 于 2021 年创立，也有不少 OpenAI 前员工加入其团队。Anthropic 今年 3 月发表的 AI 模型 Claude 号称比 ChatGPT 更为「有帮助、诚实、无害」。该公司今年 9 月也首度发表了第一个收费 AI 助理服务 Claude Pro。</p><p>这消息是继 Google 2022 年投资 Anthropic 3 亿美元后，再一次大手笔资助的消息。华尔街日报引述消息人士指出，截至今年，Google 已经投资这家新创公司 5 亿美元，还同意陆续资助 15 亿美元。CNBC 则报导，Anthropic 5 月间募得 4.5 亿美元，是 OpenAI 今年初获得微软投资以来，AI 业者募资最高的纪录。</p><p>Google 未评论此事，不过 Anthropic 的联合创办人 Daniela Amodei<a href="https://www.cnbc.com/2023/10/27/google-commits-to-invest-2-billion-in-openai-competitor-anthropic.html" target="_blank">向 CNBC 证实此事</a>。她表示过去几个月来该公司都在开发最新聊天机器人，有 30 到 35 人直接投入底层模型的研发工作。她也表示，AI 市场高速成长，因此有极大空间让多家业者都能成功。</p><p>OpenAI 2019 年获得微软投资超过百亿美元后，去年 11 月发表 ChatGPT 引发生成式 AI 热潮，而微软也将 OpenAI 的文字 AI 模型 GPT-4、图片生成模型 DALL-E 整合到其 Windows、Bing、Edge 产品中。这也让 Anthropic 成为微软竞争者的心头好。除了 Google 外，<a href="https://www.ithome.com.tw/news/158977" target="_blank">Amazon 也在 9 月宣布</a>投资 40 亿美元，除了在 AWS 的 AI 云端平台 Bedrock 提供 AI 模型，也要求 Anthropic 协助其 Bedrock 服务及 AI 晶片的研发。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159545</guid>
+            <link>https://www.ithome.com.tw/news/159545</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[联合国成立 AI 顾问组织，寻求 AI 的全球治理方向]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1030-ai-photo_by_steve_johnson_on_unsplash-960.jpg?itok=f5nsxNvC" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Steve Johnson</a> on <a href=&quot;https://unsplash.com/photos/a-persons-head-with-a-circuit-board-in-front-of-it-WhAQMsdRKMI?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Steve Johnson</a> on <a href="https://unsplash.com/photos/a-persons-head-with-a-circuit-board-in-front-of-it-WhAQMsdRKMI?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://news.un.org/en/story/2023/10/1142867" target="_blank">联合国（United Nations，UN）上周四（10/26）成立了人工智慧顾问组织（AI Advisory Body）</a>，以研究 AI 技术的风险、机会，以及全球治理方向。</p><p>该组织是由联合国秘书长 António Guterres 所发起，招揽了来自全球的 39 名不同性别、区域与背景的专家，预计于今年底前便会针对 AI 的风险、挑战、机会，以及如何利用 AI 来加速永续发展目标（Sustainable Development Goals，SDGs）等议题提出建议。</p><p>AI 在过去一年来的快速进展，特别是 ChatGPT 的问世，令各界都加速投入了与 AI 有关的每个面向。而 Guterres 认为可利用 AI 来协助解决气候变迁与停滞不前的 17 个 SDGs，相信 AI 得以扩大各国政府、民间组织及联合国的能力，从预测与解决危机，到推出公共衞生与教育服务。</p><p>Guterres 指出，AI Advisory Body 是 AI 治理全球对话的起点，以便尽可能地替全人类带来利益，同时遏制与减少风险。不过，Guterres 也强调，这将取决于 AI 是否被负责任地利用，且让所有人都能使用，目前相关的专业知识集中在少数公司与国家，而这很可能会深化全球的不平等，让数位落差变成鸿沟。</p><p>其它 AI 可能带来的潜在风险还包括加速不实资讯的传播，进一步强化偏见、歧视、监视、侵犯隐私、诈欺或其它侵犯人权的行为，恶意使用还可能破坏对制度的信任，削弱社会凝聚力，并威胁民主。</p><p>Guterres 自己都觉得 AI 有点可怕的其中一个例子是，身为葡萄牙人的他在一个 AI 应用中看到自己用完美的中文进行演讲，而且嘴唇的活动与语文完全一致，然而，真实的他并不会说中文。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159544</guid>
+            <link>https://www.ithome.com.tw/news/159544</link>
+            <author>
+                <![CDATA[陈晓莉]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[苹果修补公开 iOS 装置 MAC 地址长达 3 年的隐私漏洞]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0711-apple-cyber-security-96011.jpg?itok=Hg_j5d4-" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>苹果上周释出<a href="https://support.apple.com/en-us/HT213982" target="_blank">iOS/iPadOS 17.1</a>及<a href="https://support.apple.com/en-ph/HT213988" target="_blank">watchOS 10.1</a>更新，以修补 3 年前起就泄露 iPhone、iPad 及 Apple Watch MAC 位置的漏洞。</p><p>更新修补的漏洞 CVE-2023-42846，是由二位研究人员 Talal Haj Bakry 及 Tommy Mysk 揭露与通报。苹果只简单描述，该漏洞可造成 iOS 装置被人经由公开的 Wi-Fi MAC 位址追踪。</p><p>这项漏洞是出在 iOS 中私有 Wi-Fi 位址（Private Wi-Fi address）的功能中。<a href="https://support.apple.com/en-us/102509" target="_blank">根据苹果解释</a>，装置在连上 Wi-Fi 网路时，会公开一组独特的网路位置，名为 Media Access Control（MAC）位置。但因为装置总是使用固定的位址，这会让网路营运商和其他观测网路活动的人，长期下来可以轻易掌握装置活动和位置，便能追踪使用者或建立使用者侧写（profiling）。所有 Wi-Fi 网路上的装置都受此影响。</p><p>苹果从 iOS/iPadOS 14 及 watchOS 7 起加入新安全功能，可为每个 Wi-Fi 网路使用不同 MAC 位址，名为私有 Wi-Fi 位址。在此功能下，如果用户删除网路设定和内容，下次再连上同一 Wi-Fi 网路时，就会有不同私有 MAC 位址。而从 iOS/iPadOS 15 及 watchOS 8 起，如果 iOS 装置 6 个月未连 Wi-Fi 网路，下次再连上该网路，也会换成新的位址。要是用户设定不记忆 Wi-Fi 网路，则 iOS 装置便不会记录，除非两次连网间隔少于 2 周。</p><p>不过<a href="https://twitter.com/mysk_co/status/1717541345223389346" target="_blank">研究人员 Mysk 发现</a>，这个功能根本从 iOS 14 推出后就未起作用。当 iPhone 连上 Wi-Fi 网路时，它会发送广播呼叫以发掘网路上的 AirPlay 装置。而在此时，iOS 也会将装置真实的 Wi-Fi MAC 位址广播出去。而在真实 MAC 网址曝光后，iOS 装置即可能被 Wi-Fi 网路上的其他人追踪。</p><p>本装置影响的 iPhone XS、iPad Pro 12.9 吋第 2 代、iPad Pro 10.5 吋及 iPad Pro 11 吋、iPad Air 3、iPad 6、iPad mini 5 以后，以及 Apple Watch 4 以后版本。</p><p>苹果说明此漏洞出在 mDNSResponder 的一段程式码错误，更新作业系统已移除了有 bug 的程式码。</p><p>最新 iOS 更新修补的漏洞，还包括可让非经授权的使用者存取 Passkeys（CVE-2023-42847）、读取隐藏相簿（CVE-2023-42845）、使用 Siri 存取敏感用户资料，以及使应用程式存取联络人资料（CVE-2023-42857）等 18 项安全漏洞。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 29 Oct 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159543</guid>
+            <link>https://www.ithome.com.tw/news/159543</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>资安 </category>
+        </item>
+    </channel>
+</rss>
