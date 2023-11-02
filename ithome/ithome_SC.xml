@@ -16,8 +16,210 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 02 Nov 2023 08:47:48 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Nov 2023 10:48:25 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【资安日报】11 月 2 日，伊朗骇客组织利用后门程式 Liontail 攻击 Windows 伺服器，锁定中东地区的政府机关与金融单位而来]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231102.png?itok=Cm45Az_m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>伊朗骇客攻击中东国家的情况越来越频繁，最近出现了新的骇客 Scarred Manticore，他们主要针对目标组织的 Windows 伺服器而来。</p><p>但值得留意的是，这些骇客的恶意程式与 C2 连线的管道相当特别，竟是透过作业系统底层的驱动程式来进行，这种手法使得受害组织难以察觉他们的攻击行动。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://research.checkpoint.com/2023/from-albania-to-the-middle-east-the-scarred-manticore-is-listening/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">中东政府机关、金融单位遭伊朗骇客组织锁定，利用 IIS 后门程式 Liontail 攻击伺服器</span></strong></a></p>
+                <!-- notionvc: cafc6089-3d58-4a38-907f-a1909c80d6d8 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/LionTail_scheme.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/LionTail_scheme.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>资安业者 Check Point 与 Sygnia 联手，调查伊朗骇客组织 Scarred Manticore 的攻击行动，这些骇客锁定中东地区，主要目标是政府机关、军事单位、电信业者，但也有 IT 服务供应商、金融业者、非政府组织遭到攻击。
+                    </p>
+                    <p>在最新的攻击行动里，研究人员看到骇客散布名为 Liontail 的恶意程式框架，先是寻找目标组织曝露于网际网路的 Windows 伺服器，透过 DLL 搜寻顺序挟持（DLL Search Order Hijacking）或是可执行档的方式，部署后门程式。其中，比较特别的是，在 DLL 搜寻顺序挟持的攻击过程当中，骇客锁定 Windows Server 作业系统缺乏的 DLL 档案，如 wlanapi.dll、wlbsctrl.dll，将后门程式命名为上述 DLL 档案名称，然后再透过 Windows 档案总管或其他的处理程序，载入 DLL 程式库型态的后门程式。若是后门程式以可执行档的型态进行部署，骇客会将其假冒为 Palo Alto Networks 的资安产品 Cortex XDR 元件 Cyvera Console。</p>
+                    <p>研究人员指出，此后门程式与 C2 进行通讯的做法较为罕见，骇客利用 IOCTL（Input and Output Control）介面，直接与底层的驱动程式 HTTP.sys 进行互动来达成，由于这种方式不透过 IIS 或 HTTP 的 API，不仅资安防护系统无法监控，也不会留下任何事件记录。</p>
+                    <p>
+                        <a href="https://www.elastic.co/security-labs/elastic-catches-dprk-passing-out-kandykorn">
+                            <strong style="font-size: 22px;">
+                                <span style="color: rgb(0, 0, 0);">北韩骇客组织 Lazarus 针对 Mac 电脑下手，散布恶意程式 Kandykorn</span>
+                            </strong>
+                        </a>
+                    </p>
+                    <!-- notionvc: 071609fc-da67-4ef7-8a9d-33a20ba18f5b -->
+                    <p></p>
+                    <p>
+                        <a href="https://s4.itho.me/sites/default/files/images/Kandykorn-image31.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/Kandykorn-image31.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>Elastic 旗下的安全实验室揭露北韩骇客 Lazarus 的攻击行动，研究人员看到骇客锁定加密货币交易平台的区块链工程师，散布 macOS 恶意程式 Kandykorn。
+                        </p>
+                        <p>攻击者先是在公开的 Discord 伺服器佯称区块链工程师，利用社交工程手法，提供加密货币套利机器人（arbitrage bot），引诱目标人士下载带有恶意程式码的 ZIP 压缩档。一旦目标人士执行其中的 Main.py 指令码，就有可能导致电脑被植入恶意程式。</p>
+                        <p>在整个攻击链当中，Main.py 会触发另一个指令码 watcher.py，然后从云端档案储存服务 Google Drive 下载 testSpeed.py，而这个指令码再从另一个 Google Drive 网址取得名为 FinderTools 的 Python 档案。FinderTools 下载、执行恶意酬载 Sugarloader，最终连线远端伺服器取得 Kandykorn，并于记忆体内执行。此后门程式具备列出受害电脑存放的档案、执行恶意程式或命令、泄漏资料、终止处理程序的功能。</p>
+                        <p>
+                            <a href="https://www.mandiant.com/resources/blog/session-hijacking-citrix-cve-2023-4966">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">政府机关、科技产业、法律机构遭到 Citrix Bleed 漏洞攻击锁定</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: c18a8363-769c-48bc-b7f4-eb5b991ee458 -->
+                        <p></p>
+                        <p>10 月上旬 Citrix 揭露重大漏洞 Citrix Bleed（CVE-2023-4966），后来资安业者 Mandiant 指出，该漏洞在 8 月就被用于攻击行动，现在研究人员透露更多细节。</p>
+                        <p>他们透露至少有 4 组人马发动相关攻击，并透过.NET 后门程式 Freefire、certutil、远端桌面连线工具 AnyDesk 等十多样工具于目标组织进行网路侦察、窃取帐密资料，并透过远端桌面连线（RDP）程式进行横向移动。</p>
+                        <p>而对于骇客的攻击目标，研究人员指出，骇客锁定法律及专业服务、科技业、政府机关，受害组织分布在美洲、欧洲、非洲、亚太地区。</p>
+                        <p>&nbsp;</p>
+                        <h3>
+                            <strong>【漏洞与修补】</strong>
+                        </h3>
+                        <p>
+                            <a href="https://www.bleepingcomputer.com/news/security/3-000-apache-activemq-servers-vulnerable-to-rce-attacks-exposed-online/">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">3 千台可透过网际网路存取的 Apache ActiveMQ 伺服器曝露于重大漏洞，可被远端执行任意程式码</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 7501f5c5-e973-4181-a755-896744ecfc98 -->
+                        <p></p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/exposed-numbers.jpg">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/exposed-numbers.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>10 月 27 日讯息导向中介软体 ActiveMQ 修补漏洞 CVE-2023-46604 攻击者有可能利用 OpenWire 通讯协定的序列化类别型态，远端执行任意 Shell 命令，CVSS 风险评为 10 分。
+                            </p>
+                            <p>关于受此漏洞影响的状况，根据 ShadowServer 基金会公开的资讯，目前总共有可透过网际网路存取的 ActiveMQ 伺服器，多达 7,249 台，其中有 3,329 台执行存在漏洞的系统，中国约有 2,400 台最多，美国约有 530 台居次，德国、印度、荷兰、俄罗斯、法国、韩国皆有超过 100 台伺服器曝险。</p>
+                            <p>资料来源</p>
+                            <p>1.&nbsp;
+                                <a href="https://activemq.apache.org/security-advisories.data/CVE-2023-46604-announcement.txt">https://activemq.apache.org/security-advisories.data/CVE-2023-46604-announcement.txt</a>
+                                <br>
+2.&nbsp;
+                                    <a href="https://www.shadowserver.org/what-we-do/network-reporting/accessible-activemq-service-report/">https://www.shadowserver.org/what-we-do/network-reporting/accessible-activemq-service-report/</a>
+                                </p>
+                                <p>
+                                    <a href="https://confluence.atlassian.com/security/cve-2023-22518-improper-authorization-vulnerability-in-confluence-data-center-and-server-1311473907.html">
+                                        <strong style="font-size: 22px;">
+                                            <span style="color: rgb(0, 0, 0);">Atlassian 针对 DevOps 协作平台 Confluence 重大漏洞提出警告</span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 04b90f6c-039e-422f-a715-6dde5ecbe3ca -->
+                                <p></p>
+                                <p>10 月 31 日 IT 业者 Atlassian 发布资安通告，指出旗下 DevOps 协作平台 Confluence 存在重大漏洞 CVE-2023-22518，影响所有版本的 Confluence Data Center、Confluence Server，此漏洞原因与不适当的授权有关，CVSS 风险评分为 9.1。</p>
+                                <p>对此，该公司推出 7.19.16、8.3.4、8.4.4、8.5.3、8.6.1 新版予以修补，并指出攻击者无法借此泄露伺服器的资料，不致影响机密性，目前也尚未出现遭到利用的迹象。</p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>【资安防御措施】</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/159600">
+                                        <strong style="font-size: 22px;">
+                                            <span style="color: rgb(0, 0, 0);">50 个国家组织宣誓不向勒索软体低头，拒付赎金</span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 9d808c39-3a76-4966-a954-4c589bb8e22e -->
+                                <p></p>
+                                <p>
+                                    <a href="https://s4.itho.me/sites/default/files/images/odag_dag_photos_3rd_annual_counter_ransomware_initiative_air_shot_final-1.jpg">
+                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/odag_dag_photos_3rd_annual_counter_ransomware_initiative_air_shot_final-1.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                        </a>由美国主导的国际反勒索软体高峰会（International Counter Ransomware Initiative，CRI）今年迈入第 3 届，本次有埃及、希腊、约旦等 12 个国家，以及国际刑警组织（Interpol）加入，使得该高峰会成员数目达到了 50 个。
+                                    </p>
+                                    <p>这些成员组织决定共同开发用于破坏骇客基础设施的战术，并借由情资共享改善网路安全。今年会议的重点，在于开发破坏骇客基础设施的能力，包括制定培养 CRI 新成员网路能力的计划、利用人工智慧来对抗勒索软体、导入新的资讯共享平台让成员国得以快速分享情资，并成立 CRI 专属网站与论坛以供受害者求救。</p>
+                                    <p>值得留意的是，本次所有成员首度发布联合声明，CRI 会员国的政府单位不应支付赎金，展现他们不愿向骇客低头的决心。</p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159602">
+                                            <strong style="font-size: 22px;">
+                                                <span style="color: rgb(0, 0, 0);">为确保 AI 安全，28 国签署布莱切利宣言</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: f8dbf01c-016b-446d-a60a-d018a3692817 -->
+                                    <p></p>
+                                    <p>由英国号召的首届 AI 安全高峰会（AI Safety Summit）于 11 月 1 日于当地的布莱切利园（Bletchley Park）展开，与会 28 个国家的代表，就「人工智慧最前线（Frontier AI）」所带来的机会与风险达成了共识，共同签署布莱切利宣言（Bletchley Declaration），这些国家包括位居全球 AI 领先地位的美国、中国、英国、以色列、加拿大。</p>
+                                    <p>此宣言特别提及 AI 所使用的机器学习模型存在的安全风险，而有可能导致遭人滥用，或是造成工安意外、网路安全、渲染不实资讯的风险，应透过国际合作来解决，各国应推动相对应的监管机构，并要求开发相关模型的企业组织，在确保 AI 系统安全背负更大的责任。</p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新闻】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://medium.com/mitre-attack/attack-v14-fa473603f86b">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">MITRE 发布第 14 版 ATT&amp;CK，著重工业控制系统与行动装置领域强化</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: f683a8b6-eed7-4ef0-bd22-6f07fd286dd0 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/toronto-public-library-outages-caused-by-black-basta-ransomware-attack/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">加拿大多伦多市立图书馆传出遭勒索软体 Black Basta 攻击</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 3e3310bf-2419-47ac-a68d-80034bba1b08 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/british-library-knocked-offline-by-weekend-cyberattack/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">大英图书馆遭遇网路攻击，网路服务及图书馆业务受到冲击</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://unit42.paloaltonetworks.com/pensive-ursa-uses-upgraded-kazuar-backdoor/">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">俄罗斯骇客 Turla 散布后门程式 Kazuar，行踪变得更加隐密</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 2bf5919d-833c-4d4f-913e-45636e228ead -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://chromereleases.googleblog.com/2023/10/stable-channel-update-for-desktop_31.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">
+                                                    <span style="color: rgb(0, 0, 0);">Google 发布电脑版 Chrome 119，修补 15 个漏洞</span>
+                                                </span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 56c9488c-d5f4-48ff-b1cb-0e8806740e8d -->
+                                    <p></p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期资安日报</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159586">
+                                            <strong>【11 月 1 日】&nbsp;研究人员揭露专门供应网路罪犯使用的短网址服务供应商 Prolific Puma，骇客经营超过 4 年未被发现</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159575">
+                                            <strong>【10 月 31 日】&nbsp;曝露于 GitHub 程式库的帐密资料成为骇客下手的对象！有人从中收集 AWS 的帐密，将 EC2 实体拿来挖矿</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/159548">
+                                            <strong>【10 月 30 日】&nbsp;有人在 2016 年就利用永恒之蓝漏洞，打造恶意软体 StripedFly，迄今仍有数万台电脑遭到感染</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                </div></div>]]>
+            </description>
+            <pubDate>Wed, 01 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159609</guid>
+            <link>https://www.ithome.com.tw/news/159609</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[另一加密货币业者 SafeMoon 遭美国 SEC 提告]]>
@@ -53,7 +255,7 @@
                 <![CDATA[全球 28 个国家签署了确保 AI 安全的《布莱切利宣言》]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1102-ai-photo_by_steve_johnson_on_unsplash-960.jpg?itok=ErPNzplz" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Steve Johnson</a> on <a href=&quot;https://unsplash.com/photos/a-computer-circuit-board-with-a-brain-on-it-_0iV9LmPDn0?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Steve Johnson</a> on <a href="https://unsplash.com/photos/a-computer-circuit-board-with-a-brain-on-it-_0iV9LmPDn0?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由英国所号召的第一届 AI 安全高峰会（AI Safety Summit）周三（11/1）<a href="https://www.gov.uk/government/news/countries-agree-to-safe-and-responsible-development-of-frontier-ai-in-landmark-bletchley-declaration" target="_blank">在英国布莱切利园（Bletchley Park）展开</a>，参与该高峰会的 28 个国家的代表共同签署了《布莱切利宣言》（Bletchley Declaration），就前沿人工智慧（AI）所带来的机会与风险达成了共识，签署该宣言的包括了目前被视为位居全球 AI 领先地位的美国、中国、英国、以色列与加拿大。</p><p><a href="https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration/the-bletchley-declaration-by-countries-attending-the-ai-safety-summit-1-2-november-2023" target="_blank">《布莱切利宣言》</a>强调 AI 应以人为本，以安全、值得信赖及负责的方式进行设计与部署。它先阐述了 AI 所带来的全球机会，包括改善人类的福祉、和平与繁荣，除了现有的各种应用之外，未来应以包容的方式将 AI 部署至全球的公益事业上，从衞生、教育、粮食安全、科学，到干净能源、生物多样化及气候等，之后即承认 AI 也带来了重大风险。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1102-AI%20Safety%20Summit-Bletchley%20Declaration-by%20%E8%8B%B1%E5%9C%8B%E6%94%BF%E5%BA%9C%E5%AE%98%E7%B6%B2-2.jpg" style="width: 450px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">图片来源_英国政府官网</span></span></p><p>宣言中表示，欢迎各国共同审查与解决 AI 现有与潜在的影响，了解需要解决人权保护、透明度、可解释性、公平、问责、监管、安全、适当的人类监督、道德 、减少偏见、隐私与资料保护问题，同时它们也发现，内容操纵与生成式欺骗内容的能力可能会带来不可预见的风险，上述的所有问题都非常重要，有解决的必要与急迫性。</p><p>该宣言强调了前沿 AI 的安全风险，指的是那些具备强大功能的通用 AI 模型，包括基础模型在内。因为这些模型得以执行各种任务，而它们可能造成的伤害可能超越现代最先进模型的能力，不管是故意滥用或是人类控制出了意外，亦特别担心网路安全、生物技术，以及放大不实资讯的相关风险。</p><p>总之，从该宣言中可以看出，就在人类积极探究 AI 所能带来的贡献之余，其实人类对于 AI 可能带来的风险或伤害也还在摸索中。</p><p>此外，《布莱切利宣言》认为，AI 所带来的许多风险基本上是国际性的，最好透过国际合作来解决，各国应同时考虑推动创新及相对应的监管架构，以最大化 AI 的好处并管理风险。另也鼓励协助发展中国家建置 AI 能力，借此支援其永续成长及缩小发展差距。并要求那些开发前沿 AI 能力的组织，在确保 AI 系统的安全性方面应背负更重大的责任。</p><p>布莱切利园是英国的一处宅第，它是英国政府在第二次世界大战期间解读军事情报密码的所在地，现已成为博物馆，由于此一宣言是在布莱切利园签署，因而被称为《布莱切利宣言》。</p></div></div></div><div></div></div></div></div>]]>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1102-ai-photo_by_steve_johnson_on_unsplash-960.jpg?itok=ErPNzplz" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Steve Johnson</a> on <a href=&quot;https://unsplash.com/photos/a-computer-circuit-board-with-a-brain-on-it-_0iV9LmPDn0?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@steve_j?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Steve Johnson</a> on <a href="https://unsplash.com/photos/a-computer-circuit-board-with-a-brain-on-it-_0iV9LmPDn0?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由英国所号召的第一届 AI 安全高峰会（AI Safety Summit）周三（11/1）<a href="https://www.gov.uk/government/news/countries-agree-to-safe-and-responsible-development-of-frontier-ai-in-landmark-bletchley-declaration" target="_blank">在英国布莱切利园（Bletchley Park）展开</a>，参与该高峰会的 28 个国家的代表共同签署了《布莱切利宣言》（Bletchley Declaration），就前沿人工智慧（frontier AI）所带来的机会与风险达成了共识，签署该宣言的包括目前被视为位居全球 AI 领先地位的美国、中国、英国、以色列与加拿大。</p><p><a href="https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration/the-bletchley-declaration-by-countries-attending-the-ai-safety-summit-1-2-november-2023" target="_blank">《布莱切利宣言》</a>强调 AI 应以人为本，以安全、值得信赖及负责的方式进行设计与部署。它先阐述了 AI 所带来的全球机会，包括改善人类的福祉、和平与繁荣，除了现有的各种应用之外，未来应以包容的方式将 AI 部署至全球的公益事业上，从衞生、教育、粮食安全、科学，到干净能源、生物多样化及气候等，之后即承认 AI 也带来了重大风险。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1102-AI%20Safety%20Summit-Bletchley%20Declaration-by%20%E8%8B%B1%E5%9C%8B%E6%94%BF%E5%BA%9C%E5%AE%98%E7%B6%B2-2.jpg" style="width: 450px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">图片来源_英国政府官网</span></span></p><p>宣言中表示，欢迎各国共同审查与解决 AI 现有与潜在的影响，了解需要解决人权保护、透明度、可解释性、公平、问责、监管、安全、适当的人类监督、道德 、减少偏见、隐私与资料保护问题，同时它们也发现，内容操纵与生成式欺骗内容的能力可能会带来不可预见的风险，上述的所有问题都非常重要，有解决的必要与急迫性。</p><p>该宣言强调了前沿 AI 的安全风险，指的是那些具备强大功能的通用 AI 模型，包括基础模型在内。因为这些模型得以执行各种任务，而它们可能造成的伤害可能超越现代最先进模型的能力，不管是故意滥用或是人类控制出了意外，亦特别担心网路安全、生物技术，以及放大不实资讯的相关风险。</p><p>总之，从该宣言中可以看出，就在人类积极探究 AI 所能带来的贡献之余，其实人类对于 AI 可能带来的风险或伤害也还在摸索中。</p><p>此外，《布莱切利宣言》认为，AI 所带来的许多风险基本上是国际性的，最好透过国际合作来解决，各国应同时考虑推动创新及相对应的监管架构，以最大化 AI 的好处并管理风险。另也鼓励协助发展中国家建置 AI 能力，借此支援其永续成长及缩小发展差距。并要求那些开发前沿 AI 能力的组织，在确保 AI 系统的安全性方面应背负更重大的责任。</p><p>布莱切利园是英国的一处宅第，它是英国政府在第二次世界大战期间解读军事情报密码的所在地，现已成为博物馆，由于此一宣言是在布莱切利园签署，因而被称为《布莱切利宣言》。</p></div></div></div><div></div></div></div></div>]]>
             </description>
             <pubDate>Wed, 01 Nov 2023 16:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.ithome.com.tw/news/159602</guid>
@@ -270,7 +472,7 @@
             <author>
                 <![CDATA[陈晓莉]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -347,183 +549,5 @@
             </author>
             <category>新闻</category>
         </item>
-        <item>
-            <title>
-                <![CDATA[【资安日报】10 月 31 日，曝露于 GitHub 程式库的帐密资料成为骇客下手的对象！有人从中收集 AWS 的帐密，将 EC2 实体拿来挖矿]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231031.png?itok=Gm9bbBx3" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>过往不断有研究人员对开发者提出警告，将专案所需存取的帐密资料写入程式码，将有可能带来危害。而最近研究人员发现的挖矿攻击行动 EleKtra-Leak，就是这样的典型例子，攻击者从公开的 GitHub 储存库收集 AWS 帐密资料，再趁机夺取这些用户花钱租用的 EC2 执行个体服务进行挖矿。</p><p>特别的是，骇客利用这些帐号挖矿之后，竟然把它们列入黑名单，这样的手法可说是相当少见。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">骇客发动 EleKtra-Leak 挖矿攻击，利用 GitHub 曝露的 AWS 帐密来夺取用户 EC2 运算服务，替他们挖掘加密货币</span></strong></a></p>
-                <!-- notionvc: c82dfbe9-3682-4542-91ef-750e78a013b6 -->
-                <p></p>
-                <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/word-image-130743-2-2.png">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/word-image-130743-2-2.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>资安业者 Palo Alto Networks 揭露名为 EleKtra-Leak 的挖矿攻击行动，骇客约从 2020 年 12 月开始进行相关活动，光是在今年 8 月 30 日至 10 月 6 日，他们就看到有多达 474 个 Amazon EC2 执行个体遭骇，被攻击者拿来挖掘门罗币。
-                    </p>
-                    <p>研究人员指出，这些骇客先是滥用 GitHub 提供的机密资讯扫描功能，以及 AWS 的 AWSCompromisedKeyQuarantine 政策标签来寻找目标，一旦确认目标储存库存放了 AWS 帐密资料，或是其他的身分验证管理（IAM）资料，攻击者就试图找出这类帐密，对目标 AWS 帐号进行侦察，然后建立安全群组，并透过 VPN 程式存取 EC2 执行个体，从 Google Drive 下载挖矿软体并执行，整个过程是自动化运作，总共进行超过 400 次 API 呼叫，过程只花费 7 分钟。</p>
-                    <p>特别的是，这些骇客也将他们用过的帐密资料加入黑名单。研究人员推测，这么做的目的，很有可能是防止遭到进一步分析。</p>
-                    <p>
-                        <a href="https://www.bleepingcomputer.com/news/security/lastpass-breach-linked-to-theft-of-44-million-in-crypto/">
-                            <strong style="font-size: 22px;">
-                                <span style="color: rgb(0, 0, 0);">研究人员揭露 440 万美元加密货币窃盗事故，起因疑与密码管理解决方案 LastPass 资料外泄有关</span>
-                            </strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: 9db7923b-3167-416d-8ed6-9fac66076f27 -->
-                    <p></p>
-                    <p>根据资安新闻网站 Bleeping Computer 报导，10 月 27 日加密货币调查员 ZachXBT 指出，他与加密货币钱包 MetaMask 开发者 Taylor Monahan 联手，追踪一系列加密货币遭窃的事故，光是 25 日就有约 440 万美元遭窃，至少有 25 名投资人受害，而根据他们的调查，这些人的共同点，就是都有使用密码管理解决方案 LastPass。</p>
-                    <p>研究人员指出，骇客之所以能榨干这些人的资产，关键是他们利用 2022 年 LastPass 遭骇而外流的资料，因此得逞。他们得知有人正在破解被泄露的密码资料库，而有可能导致更多 LastPass 用户成为目标。</p>
-                    <p>而这并非首度有人因 LastPass 资料外泄事故损失加密货币，资安新闻网站 Krebs on Security 于今年 9 月指出，从去年 12 月下旬，陆续传出有人受害，估计已被偷走逾 3,500 万美元加密货币。</p>
-                    <p>资料来源</p>
-                    <p>1.&nbsp;
-                        <a href="https://twitter.com/zachxbt/status/1717901088521687330">https://twitter.com/zachxbt/status/1717901088521687330</a>
-                        <br>
-2.&nbsp;
-                            <a href="https://krebsonsecurity.com/2023/09/experts-fear-crooks-are-cracking-keys-stolen-in-lastpass-breach/">https://krebsonsecurity.com/2023/09/experts-fear-crooks-are-cracking-keys-stolen-in-lastpass-breach/</a>
-                        </p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/159568">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">针对 2020 年 SolarWinds 供应链攻击事故，美国证券交易委员指控该公司蓄意隐瞒</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 2fb0198d-ca4e-4d60-9261-9b23d83cccbc -->
-                        <p></p>
-                        <p>10 月 30 日
-                            <a href="https://www.sec.gov/news/press-release/2023-227">美国证券交易委员会（SEC）对 IT 业者 SolarWinds 进行控告</a>，原因是在 2020 年的供应链攻击事故当中，该公司内控失灵，资安长 Timothy Brown 涉及诈欺，违反美国证券交易法。
-                        </p>
-                        <p>SEC 指出，该公司从 2018 年 10 月股票公开发行，到 2020 年 12 月遭遇木马程式 Sunburst 供应链攻击，SolarWinds 对外夸大其资安措施，同时低估已知的资安风险，甚至未主动揭露。根据 SEC 的调查，该公司内部工程师曾在 2018 年提出警告，他们的远端存取组态不安全，一旦有人利用相关弱点，就有机会在不被发现的情况下为所欲为，Timothy Brown 也曾在内部简报提及此事。</p>
-                        <p>而在前述攻击行动发生的数个月前，该公司内部资安问题重重。例如，他们在 2020 年 6 月调查锁定客户而来的网路攻击，Timothy Brown 认为，骇客已经不断针对 Orion 软体下手，企图发动规模更大的攻击，同年 9 月，该名资安长在内部会议指出，8 月发现的资安问题数量，已超越工程团队负荷。</p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>【漏洞与修补】</strong>
-                        </h3>
-                        <p>
-                            <a href="https://www.esentire.com/blog/the-wiki-slack-attack">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">研究人员揭露滥用维基百科的攻击手法 Wiki-Slack，将 Slack 用户进行重新导向</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: b5c711d6-4187-49ba-a718-996a16c79223 -->
-                        <p></p>
-                        <p>资安业者 eSentire 揭露滥用维基百科的攻击手法，骇客锁定商务人士下手，从维基百科挑选目标人士可能感兴趣的主题，并在维基百科条目加入特定注解，以便触发后续的攻击行动。一旦目标人士将上述的维基百科条目转贴至 Slack 频道，就有可能呈现原始维基百科不会出现的连结，从而导致其他 Slack 使用者点选，然后导向恶意网站，并向他们散布恶意软体。</p>
-                        <p>研究人员指出，这种攻击手法也可能套用在 Medium 部落格，但有鉴于维基百科广为人知，骇客滥用这项服务的可能性较高。针对上述的弱点，研究人员已向 Slack 进行通报。</p>
-                        <p>
-                            <a href="https://www.armosec.io/blog/cve-2023-5043-nginx-ingress/">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">针对 K8s 打造的 Nginx Ingress 控制器存在高风险漏洞</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: cd23e912-a482-4a11-ae61-dc2f986abae2 -->
-                        <p></p>
-                        <p>资安业者 Armo 指出，有人近日针对适用于 K8s 环境的 Nginx Ingress 控制器，通报了高风险漏洞 CVE-2022-4886、CVE-2023-5043、CVE-2023-5044，其中最严重的是 CVE-2022-4886，攻击者有机会用来绕过此控制器的路径清理功能，从而取得存取该控制器的帐密资料，CVSS 风险评分为 8.8。</p>
-                        <p>另外两个漏洞，则是让攻击者有机会滥用程式码片段 configuration-snippet 或 permanent-redirect 的注解栏位，从而执行任意命令或是程式码，CVSS 风险评分皆为 7.6。对此，该软体的维护者提出了缓解措施，呼吁使用者应尽速套用。</p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>【资安产业动态】</strong>
-                        </h3>
-                        <p>
-                            <a href="https://www.hackerone.com/press-release/hackers-surpass-300-million-all-time-earnings-hackerone-platform">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">逾 6 成白帽骇客利用生成式 AI 来发现漏洞</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 1d1a7d74-59cc-4443-a2b7-0567233ec755 -->
-                        <p></p>
-                        <p>10 月 26 日漏洞悬赏平台 HackerOne 发布年度报告，当中提及生成式 AI（GenAI）持续受到骇客欢迎，有 61％白帽骇客正在利用此技术开发各式工具，用来发现更多漏洞，另有 62% 骇客对于生成式 AI 采用的大型语言模型（LLM）感兴趣，他们将针对 OWASP 揭露的 10 大安全漏洞进行相关研究。</p>
-                        <p>此外，受访者也表明进一步运用生成式 AI 处理相关工作的情况，有 66％打算拿来产生报告、53％会用于编写程式码，另有 33% 则是将其运用于减少语言隔阂。事实上，目前已有 14% 骇客将其视为重要工具，并有 53% 开始采用。</p>
-                        <p>而对于白帽骇客带来的贡献，时下企业组织认为普遍面临资安人才缺乏的现象得到缓解，70% 客户认为，这些白帽骇客充分协助他们，使其免于遭遇资安事故。</p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>【其他新闻】</strong>
-                        </h3>
-                        <p>
-                            <a href="https://www.securityjoes.com/post/bibi-linux-a-new-wiper-dropped-by-pro-hamas-hacktivist-group">
-                                <strong>
-                                    <span style="font-size: 20px;">
-                                        <span style="color: rgb(0, 0, 0);">资料破坏软体 BiBi-Linux 锁定以色列组织而来</span>
-                                    </span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 4f8f462d-a271-40cb-912c-406b83e4c0b7 -->
-                        <p></p>
-                        <p>
-                            <a href="https://www.elastic.co/security-labs/ghostpulse-haunts-victims-using-defense-evasion-bag-o-tricks">
-                                <strong>
-                                    <span style="font-size: 20px;">
-                                        <span style="color: rgb(0, 0, 0);">恶意软体 Ghostpulse 透过 MSIX 安装程式散布</span>
-                                    </span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 906c01b8-260d-4f09-affc-163a06b14cc0 -->
-                        <p></p>
-                        <p>
-                            <a href="https://www.malwarebytes.com/blog/threat-intelligence/2023/10/malvertising-via-dynamic-search-ads-delivers-malware-bonanza">
-                                <strong>
-                                    <span style="font-size: 20px;">
-                                        <span style="color: rgb(0, 0, 0);">Google 动态广告遭到滥用，攻击者散布恶意程式</span>
-                                    </span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 4d6bd06d-356c-48b6-8c8d-1d9cb34b6532 -->
-                        <p></p>
-                        <p>
-                            <a href="https://www.bleepingcomputer.com/news/security/hackers-email-stolen-student-data-to-parents-of-nevada-school-district/">
-                                <strong>
-                                    <span style="font-size: 20px;">
-                                        <span style="color: rgb(0, 0, 0);">美国内华达州校区遭遇大规模资料外泄，骇客向家长寄送窃得的学生资料施压</span>
-                                    </span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: fd0f3070-d01b-4899-8ea4-02de77878e23 -->
-                        <p></p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/159565">
-                                <strong>
-                                    <span style="font-size: 20px;">
-                                        <span style="color: rgb(0, 0, 0);">勒索软体骇客 LockBit 宣称骇入波音并窃走机密</span>
-                                    </span>
-                                </strong>
-                            </a>
-                        </p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>近期资安日报</strong>
-                        </h3>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/159548">
-                                <strong>【10 月 30 日】&nbsp;有人在 2016 年就利用永恒之蓝漏洞，打造恶意软体 StripedFly，迄今仍有数万台电脑遭到感染</strong>
-                            </a>
-                        </p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/159530">
-                                <strong>【10 月 27 日】&nbsp;研究人员揭露新型攻击手法 iLeakage，可透过推测执行漏洞、用浏览器窃取苹果装置的用户机密资讯</strong>
-                            </a>
-                        </p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/159501">
-                                <strong>【10 月 26 日】&nbsp;研究人员揭露热门网站服务的 OAuth 漏洞，攻击者可架设另一个网页服务来挟持用户的登入资料</strong>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div></div>
-        </div>
-    </div></div>]]>
-</description>
-<pubDate>Mon, 30 Oct 2023 16:00:00 GMT</pubDate>
-<guid isPermaLink="false">https://www.ithome.com.tw/news/159575</guid>
-<link>https://www.ithome.com.tw/news/159575</link>
-<author>
-    <![CDATA[周峻佑]]>
-</author>
-<category>资安 </category>    </item>    </channel>    </rss>
+    </channel>
+</rss>
