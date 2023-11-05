@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 05 Nov 2023 13:29:08 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 05 Nov 2023 15:30:09 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -43,6 +43,21 @@
             <pubDate>Sat, 04 Nov 2023 16:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.ithome.com.tw/news/159644</guid>
             <link>https://www.ithome.com.tw/news/159644</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[北韩骇客组织 Lazarus 针对 Mac 电脑下手，散布恶意程式 Kandykorn]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/kandykorn-image31-156.png?itok=zEbx0Wzn" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Elastic</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Elastic 旗下的安全实验室<a href="https://www.elastic.co/security-labs/elastic-catches-dprk-passing-out-kandykorn">揭露北韩骇客 Lazarus 的攻击行动</a>，研究人员看到骇客锁定加密货币交易平台的区块链工程师，散布 macOS 恶意程式 Kandykorn。</p><p>攻击者先是在公开的 Discord 伺服器佯称区块链工程师，利用社交工程手法，提供加密货币套利机器人（arbitrage bot），引诱目标人士下载带有恶意程式码的 ZIP 压缩档。一旦目标人士执行其中的 Main.py 指令码，就有可能导致电脑被植入恶意程式。</p><p>乍看之下，这个指令码没有恶意内容，似乎执行的是普通的功能，只是将其他的 Python 指令码当作模组导入，然而研究人员分析 watcher.py 指令码内容，发现攻击者的意图。</p><p>在整个攻击链当中，Main.py 会触发另一个指令码 watcher.py，然后从云端档案储存服务 Google Drive 下载 testSpeed.py，而这个指令码再从另一个 Google Drive 网址取得名为 FinderTools 的 Python 档案。FinderTools 下载、执行恶意酬载 Sugarloader，最终连线远端伺服器取得 Kandykorn，并于记忆体内执行。此后门程式具备列出受害电脑存放的档案、执行恶意程式或命令、泄漏资料、终止处理程序的功能。</p><p><a href="https://s4.itho.me/sites/default/files/images/Kandykorn-image31.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/Kandykorn-image31.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><h3><strong>恶意程式载入工具 Sugarloader 在攻击流程扮演关键角色</strong></h3><p>值得一提的是，骇客使用的恶意酬载 Sugarloader，先后以不同的档案名称.sld 和.log 出现于攻击流程。</p><p>骇客利用打包程式进行混淆处理，导致采用静态分析做法的资安系统，能够解析的程式较为有限。研究人员发现对方在程式码当中，利用含有跳转（JMP）的起始函数，将标头指定到尚未定义的记忆体位址，然后于记忆体内解压缩可执行档。由于对方利用了这种手法，截至研究人员揭露这起攻击行动的时候，恶意软体分析平台 VirusTotal 所有的防毒引擎皆将 Sugarloader 视为无害。</p><p>这个恶意程式的主要功能之一，就是从 C2 下载 Kandykorn 的有效酬载。根据研究人员的分析，骇客同时设置了 C2 的备援 IP 位址，以防主要伺服器无法存取的情况。一旦此恶意程式的设定组态载入记忆体并解密，就会建立与远端伺服器的连线并取得 Kandykorn，并透过反射式载入（Reflective Binary Loading）手法，滥用 NSCreateObjectFileImageFromMemory、NSLinkModule 等 API，在特定处理程序所使用的记忆体区域当中，执行恶意酬载。</p><p>而为了能够持续在受害电脑运作，骇客也透过 Sugarloader 建立名为 Hloader 的恶意程式，并将其伪装成 Discord 主程式，同样地，VirusTotal 所有的防毒引擎也将该恶意程式视为无害。</p><p>过程中，攻击者运用了相当罕见的手法，研究人员称为执行流程挟持（Execution Flow Hijacking）。攻击者锁定通常会随著电脑开机启动的即时通讯软体 Discord，而使用载入程式 Hloader 的目的，就是同时启动 Discord 执行档与.log 酬载（即 Sugarloader 的另一个型态）。</p><p>具体而言，攻击者会将原本的 Discord 主程式更名，并以 Hloader 替代、执行，载入.log，让此可执行档在记忆体内运作，完全不会写入磁碟。之后，再将 Discord 主程式、Hloader 改回原本的档案名称。</p><p><a href="https://s4.itho.me/sites/default/files/images/Kandykorn-image33.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/Kandykorn-image33.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 04 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159642</guid>
+            <link>https://www.ithome.com.tw/news/159642</link>
             <author>
                 <![CDATA[周峻佑]]>
             </author>
@@ -251,7 +266,7 @@
 <author>
     <![CDATA[周峻佑]]>
 </author>
-<category>新闻</category>    </item>    <item>
+<category>资安 </category>    </item>    <item>
 <title>
     <![CDATA[国内已有近 20 款 Wi-Fi 6E、7 相关产品取得 NCC 认证，年底前更多产品陆续上市]]>
 </title>
@@ -368,17 +383,4 @@
 <author>
     <![CDATA[李建兴]]>
 </author>
-<category>新闻</category>    </item>    <item>
-<title>
-    <![CDATA[DeepMind 发布新版 AlphaFold 模型，能够精准预测生物分子结构加速药物开发]]>
-</title>
-<description>
-    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/a_glimpse_of_the_next_generation_of_alphafold_-_google_deepmind_-_deepmind.google.png?itok=aOceZO7C" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google DeepMind 与 Isomorphic Labs 持续合作发展蛋白质预测模型 AlphaFold，现在开发出更强大的<a href="https://deepmind.google/discover/blog/a-glimpse-of-the-next-generation-of-alphafold/">新版本</a>，覆盖范围从蛋白质扩展到所有与生物相关的分子，并能够对蛋白质资料库中几乎所有分子进行预测，且能达到原子等级的精确度。</p><p>DeepMind 在 2020 年的时候，首次推出蛋白质预测模型 AlphaFold，而这让研究人员能以全新方式理解蛋白质与其交互作用。AlphaFold 是对单股蛋白质预测的突破性研究，而后的 AlphaFold-Multimer，则是进一步扩展到拥有多个蛋白质链的复合物，而 AlphaFold 2.3 则扩展到更复杂的复合物。</p><p>之前 AlphaFold 也与 EMBL 的欧洲生物资讯研究所（EMBL-EBI）合作，透过 AlphaFold 蛋白质结构资料库，公开所有目前已知的蛋白质结构预测。而 AlphaFold 资料库也已经成为重要的科学研究资源，到目前为止已经超过 190 个国家 140 万用户进行存取，同时 AlphaFold 也被用于加速新型疫苗和药物的开发。</p><p>在某些与药物开发相关的蛋白质结构预测问题，最新版本的 AlphaFold 效能远胜 2.3 版本，其能够准确预测蛋白质与配体（Ligand）的绑定结构，研究人员指出，这对于药物开发非常有价值。目前生医产业主要使用对接方法（Docking Methods），来确定配体和蛋白质间的交互作用，但这类方法需要固定参考蛋白质结构，和配体绑定位置。</p><p>不过，新模型却不需要这些参考资讯，就能预测蛋白质与配体的结构，并且最终的结果也能超越目前最佳的对接方法，此外，新版本 AlphaFold 还可以模拟所有原子的位置，表达出蛋白质和核酸，在与其他分子交互作用时的灵活性。</p><p>由于对接方法需要假设蛋白质和配体结构在交互时维持不变，因此就无法捕捉到这些结构的动态变化，因此整体来说，新模型能够提供更为准确且全面的交互作用结构资讯。研究人员的实验也证明，新模型预测的结构，与实验所得到结构非常相近。</p><p>目前 Isomorphic Labs 正在利用最新的 AlphaFold 设计治疗性药物，借由运用 AlphaFold 快速且准确地描绘出对治疗疾病重要的大分子结构。研究人员提到，该模型新增的功能，有助于加速生物医学的突破，在疾病途径（Disease Pathways）、基因体学、生物可再生材料和药物设计机制等领域，提供更深入的理解。</p></div></div></div><div></div></div></div></div>]]>
-</description>
-<pubDate>Thu, 02 Nov 2023 16:00:00 GMT</pubDate>
-<guid isPermaLink="false">https://www.ithome.com.tw/news/159612</guid>
-<link>https://www.ithome.com.tw/news/159612</link>
-<author>
-    <![CDATA[李建兴]]>
-</author>
-<category>AI</category>    </item>    </channel>    </rss>
+<category>新闻</category>    </item>    </channel>    </rss>
