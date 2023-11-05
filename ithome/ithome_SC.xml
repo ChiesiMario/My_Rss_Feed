@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 05 Nov 2023 15:30:09 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 05 Nov 2023 17:30:15 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -62,6 +62,21 @@
                 <![CDATA[周峻佑]]>
             </author>
             <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[中东政府机关、金融单位遭伊朗骇客组织锁定，利用 IIS 后门程式 Liontail 攻击伺服器]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/liontail_scheme-156.png?itok=lycVdeSv" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Check Point</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>资安业者 Check Point 与 Sygnia 联手，<a href="https://research.checkpoint.com/2023/from-albania-to-the-middle-east-the-scarred-manticore-is-listening/">调查伊朗骇客组织 Scarred Manticore 的攻击行动</a>，这些骇客锁定中东地区国家，包含沙乌地阿拉伯、阿拉伯联合大公国（UAE）、约旦、科威特、阿曼、伊拉克、以色列，主要目标是政府机关、军事单位、电信业者，但也有 IT 服务供应商、金融业者、非政府组织遭到攻击。</p><p>多年来，这些骇客利用各种针对 IIS 网页伺服器的后门程式，以及多种自制的 Web Shell、DLL 后门程式、或者以驱动程式打造的恶意软体来发动攻击。而对于攻击者的身分，研究人员认为，Scarred Manticore 很可能与名为 Storm-0861 的新兴骇客组织有密切交集，此为去年攻击阿尔巴尼亚政府的 4 个伊朗骇客组织其中之一。但他们也指出，这些骇客与伊朗骇客组织 OilRig（亦称 APT34、Europium、Hazel Sandstorm）也有一定程度的关联。</p><p>在最新的攻击行动里，研究人员看到骇客散布名为 Liontail 的恶意程式框架，先是寻找目标组织曝露于网际网路的 Windows 伺服器，透过 DLL 搜寻顺序挟持（DLL Search Order Hijacking）或是可执行档的方式，部署后门程式。</p><p><a href="https://s4.itho.me/sites/default/files/images/LionTail_scheme.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/LionTail_scheme.png" style="width: 581px;" referrerpolicy="no-referrer"></a></p><p>此恶意程式框架的元件，由 Shell Code 载入程式，以及在记忆体常驻的 Shell Code 酬载组成，其中一个元件就是以 C 语言编写的后门程式 Liontail，此为档案很小、但功能相当复杂的被动后门程式，骇客为其设置一组 URL 监听名单，攻击者一旦向这些网址发送请求，此后门程式就会执行当中挟带的恶意酬载。</p><p>其中，比较特别的是，在 DLL 搜寻顺序挟持的攻击过程当中，骇客锁定 Windows Server 作业系统缺乏的 DLL 档案，如 wlanapi.dll、wlbsctrl.dll，将后门程式命名为上述 DLL 档案名称，然后再透过 Windows 档案总管或其他的处理程序，或是将某些预设停用的服务启用，载入 DLL 程式库型态的后门程式。</p><p>在攻击者将后门程式命名为 wlbsctrl.dll 的情况，他们会在名为 IKE and AuthIP IPsec Keying Modules 的服务启动时载入 DLL 档案，此时攻击者会将可延伸验证通讯协定（EAP）开启。</p><p>若是后门程式以可执行档的型态进行部署，骇客会将其假冒为 Palo Alto Networks 的资安产品 Cortex XDR 元件 Cyvera Console。</p><p>研究人员指出，此后门程式与 C2 进行通讯的做法较为罕见，骇客利用 IOCTL（Input and Output Control）介面，直接与底层的驱动程式 HTTP.sys 进行互动来达成，由于这种方式不透过 IIS 或 HTTP 的 API，不仅资安防护系统无法监控，也不会留下任何事件记录。研究人员强调，由于 HTTP.sys 的 IOCTL 没有相关资讯可供参考，攻击者必须进一步研究才能找到具体的方法，因此骇客采用上述的通讯手法隐匿攻击行动，并非易事。</p><p>类似这种隐匿后门流量的攻击行动，还有<a href="https://www.ithome.com.tw/news/158872#HTTPSnoop">思科威胁情报小组揭露的 ShroudedSnooper</a>，骇客利用名为 HTTPSnoop 的后门程式，攻击中东地区的电信业者。</p><p>除了可执行档，研究人员也发现 Liontail 的 Shell Code 载入工具，此程式以 Web Shell 为基础打造而成，他们比对该载入工具与后门程式，发现采用的 Shell Code 架构及参数完全相同，由此推测骇客的攻击工具是规模较大的框架，上述两种恶意程式都是其中的元件，代表攻击者可根据攻击行动的需求，动态产生恶意程式载入器及酬载。</p><p>研究人员也发现在 Liontail 之外，这些骇客也打造了其他工具。例如，专门锁定 Exchange 伺服器而来的 Lionhead，这是网路流量转送器（Web forwarder），攻击者也利用类似的 DLL 挟持手法，于受害伺服器进行部署，并利用雷同的转送方法，将流量导向使用 Exchange 网页服务（EWS）的端点。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 04 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159641</guid>
+            <link>https://www.ithome.com.tw/news/159641</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>资安 </category>
         </item>
         <item>
             <title>
@@ -370,17 +385,4 @@
 <author>
     <![CDATA[李建兴]]>
 </author>
-<category>AI</category>    </item>    <item>
-<title>
-    <![CDATA[JetBrains 释出跨平台开发工具 Kotlin Multiplatform 第一个稳定版本]]>
-</title>
-<description>
-    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/fireshot_capture_2055_-_kotlin_multiplatform_for_cross-platform_development_-_jetbrains_-_www.jetbrains.com_.png?itok=7-KMRsUZ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>JetBrains 正式推出跨平台开发工具<a href="https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-stable/">Kotlin Multiplatform（KMP）</a>，让开发人员可以在不同平台间共享程式码，但同时又能保留原生程式开发的优势。目前 Kotlin Multiplatform 已经进入稳定阶段，用户可以将其用于开发环境中。</p><p>KMP 的核心由多个部分组成，包括编译器、语言功能、函式库 API、IDE、建置工具等，其被设计为一个高灵活性和适应性的工具，能够模糊平台和原生开发之间的界线。开发人员可以重复使用大量的程式码，并在需要的时候编写原生程式码，并将共享的 Kotlin 程式码整合到各式专案中。</p><p>KMP 让开发人员在不同平台维护单一程式码库，特别像是应用程式的逻辑部分，因此可大幅减少开发者，针对不同平台编写和维护相同程式逻辑的时间。虽然 KMP 提供跨平台的能力，但是 KMP 也同时让开发者保有原生程式开发的灵活性，确保效能表现以及使用特定平台 SDK 的自由度。针对特定平台才可使用的功能像是蓝牙或 GPS，KMP 提供特殊语法，让开发者在这些平台独立实现专属的功能。</p><p>KMP 具有高度灵活性，能够支援不同程度的程式码重用和原生程式开发案例，像是开发者可以仅共享部分以 Kotlin 编写的重要逻辑程式码，或是在新专案使用 KMP 开发，以 Kotlin 实作全部资料处理和业务逻辑，但在各平台应用程式维持原生使用者介面，又或是搭配 Compose Multiplatform 这个 JetBrains 的宣告式 UI 框架，跨不同平台完全共享使用者介面和逻辑程式码。</p><p>Kotlin Gradle 扩充套件加入预设阶层范本功能，来简化开发者专案配置和维护工作，该功能可以自动配置 Kotlin Source Sets，以适应一些常见的应用，减少典型建置脚本需要编写的样板程式码。而在 KMP 中，JetBrains 在 Kotlin Gradle 扩充套件中新增约 50 个诊断程式，以检测常见的建置问题，并提供修复问题的提示，同时改进在 Xcode 中的 Gradle 错误输出，使专案原生部分的建置问题更容易被发现。</p><p>目前开发人员可以在 Android、iOS、桌面 JVM、伺服器端 JVM 和网页上共用程式码。Google 的 Android 团队也开始提供多平台 Jetpack 函式库实验性版本，而 Collections、DataStore、Annotations 与 Paging 函式库，则已经与 KMP 相容。iOS 开发体验的部分，则有 Touchlab 开发的 SKIE，能够生成 Swift 程式码，并且产生与 Swift 程式码介接的 API 层以桥接 Kotlin 类型，实现无缝的协程（Coroutines）互通性。</p><p>JetBrains 还在持续发展 KMP，并且预计 2024 年会推出 Compose Multiplatform for iOS 的 Beta 版，官方也正在开发 Kotlin/Wasm，使得 KMP 能够更方便地进行网页开发，预计明年会推出 Compose Multiplatform for Web Alpha 版本。</p></div></div></div><div></div></div></div></div>]]>
-</description>
-<pubDate>Thu, 02 Nov 2023 16:00:00 GMT</pubDate>
-<guid isPermaLink="false">https://www.ithome.com.tw/news/159613</guid>
-<link>https://www.ithome.com.tw/news/159613</link>
-<author>
-    <![CDATA[李建兴]]>
-</author>
-<category>新闻</category>    </item>    </channel>    </rss>
+<category>AI</category>    </item>    </channel>    </rss>
