@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 05 Nov 2023 09:17:45 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 05 Nov 2023 11:18:43 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[骇客发动 EleKtra-Leak 挖矿攻击，利用 GitHub 曝露的 AWS 帐密来夺取用户 EC2 运算服务，替他们挖掘加密货币]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/word-image-130743-2-2-156.png?itok=jK6uztuX" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Palo Alto Networks</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>资安业者 Palo Alto Networks 揭露<a href="https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking">名为 EleKtra-Leak 的挖矿攻击行动</a>，骇客约从 2020 年 12 月开始进行相关活动，光是在今年 8 月 30 日至 10 月 6 日，他们就看到有多达 474 个 Amazon EC2 执行个体遭骇，被攻击者拿来挖掘门罗币。</p><p>研究人员指出，这些骇客先是滥用 GitHub 提供的机密资讯扫描功能，以及 AWS 的 AWSCompromisedKeyQuarantine 政策标签来寻找目标，一旦确认目标储存库存放了 AWS 帐密资料，或是其他的身分验证管理（IAM）资料，攻击者就试图找出这类帐密，对目标 AWS 帐号进行侦察，然后建立安全群组，并透过 VPN 程式存取 EC2 执行个体，从 Google Drive 下载挖矿软体并执行，整个过程是自动化运作，总共进行超过 400 次 API 呼叫，过程只花费 7 分钟。</p><h3><strong>待云端服务业者将受害帐号标记，更能完全掌握可用的运算资源</strong></h3><p>照理来说，当开发人员不慎在 GitHub 曝露自己的 AWS 金钥时，该储存库提供 Secret Scanning 侦测机制就有可能察觉，并向 AWS 通报，接下来该云端服务业者便会对于曝露金钥的使用者，套用 AWSCompromisedKeyQuarantine 政策标签来进行隔离，防范攻击者滥用。</p><p>由于这种自动预防机制，目的是防范相关金钥遭到滥用，而非这些 AWS 用户的帐号遭到攻击，因此攻击者很有可能找寻曝露相关资料、但 AWS 帐号尚未遭到封锁的 GitHub 储存库，挟持 AWS 帐号之后，等到该云端服务业者进行标记，攻击者就能在没有其他人干扰的情况下，滥用受害组织的 AWS 资源。</p><p>研究人员在其中一起事故当中，透过 AWS 安全事件记录系统 CloudTrail 看到这种现象。在 AWS 触发上述的隔离政策标签后，不到 4 分钟攻击者就开始下达 APIDescribeRegions 命令进行侦察。</p><p><a href="https://s4.itho.me/sites/default/files/images/word-image-130743-1-2.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/word-image-130743-1-2.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><h3><strong>攻击流程完全透过自动化进行</strong></h3><p>而对于整个攻击行动的流程，研究人员指出都是透过自动化执行，一旦攻击者从 GitHub 储存库发现金钥，就会开始一系列的攻击流程。对方会先进行一系列的 AWS 帐号侦察，完成后就会建立安全群组，找寻所有能够存取的 EC2 执行个体，过程中骇客的攻击流程，都是透过 VPN 于背景进行。</p><p>为了提高挖矿的获利，攻击者会在这些 EC2 执行个体采用大型云端虚拟机器，通常是拥有 192 个虚拟处理器、192 GB 记忆体的虚拟机器 c5a.24xlarge，以便在相同时间里挖取更多加密货币。</p><p>骇客在启动这些 EC2 执行个体的过程中，呼叫了名为 RunInstance 的 API，用来执行 Cloud-Init 指令码，从而在这些执行个体进行参数配置，并执行后续的攻击行动。值得留意的是，对方的相关操作并未在 CloudTrail 留下事件记录。</p><p>对此，研究人员对 EC2 执行个体进一步采证，发现骇客从 Google Drive 下载挖矿软体的档案，然后在储存到执行个体后再行解密、执行。此外，对方所使用的 AMI 映像档为私有档案，并未在 AWS Marketplace 市集上架，其中部分映像档是采用 Ubuntu 18 为基础开发。研究人员根据找到的入侵指标（IoC），他们推测，攻击行动很有可能从 2020 年开始。</p><p><a href="https://s4.itho.me/sites/default/files/images/word-image-130743-2-2.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/word-image-130743-2-2.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>特别的是，这些骇客也将他们用过的帐密资料加入黑名单。研究人员推测，这么做的目的，很有可能是防止遭到进一步分析。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 04 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159644</guid>
+            <link>https://www.ithome.com.tw/news/159644</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[【资安日报】11 月 3 日，讯息导向中介软体 ActiveMQ 重大漏洞出现攻击行动，骇客用于投放勒索软体 HelloKitty]]>
@@ -260,7 +275,7 @@
 <author>
     <![CDATA[陈晓莉]]>
 </author>
-<category>新闻</category>    </item>    <item>
+<category>资安 </category>    </item>    <item>
 <title>
     <![CDATA[Brave 推出浏览器 AI 助理 Leo，强调匿名性、正确性]]>
 </title>
@@ -551,17 +566,4 @@
 <author>
     <![CDATA[周峻佑]]>
 </author>
-<category>资安 </category>    </item>    <item>
-<title>
-    <![CDATA[另一加密货币业者 SafeMoon 遭美国 SEC 提告]]>
-</title>
-<description>
-    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1102-us_sec-guan_fang_tu_pian_-960.jpg?itok=i0AV6y9k" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>美国证券交易委员会</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.sec.gov/news/press-release/2023-229" target="_blank">美国证券交易委员会（SEC）周三（11/1）控告</a>另一区块链业者暨加密货币发行商 SafeMoon，指控 SafeMoon 及该公司的创办人 Kyle Nagy、执行长 John Karony 与技术长 Thomas Smith 借由未经注册地销售加密资产进行大规模的诈欺。</p><p>SafeMoon 在 2021 年 3 月创立并发行了同名的 SafeMoon 代币，其行销口号就是要将该代币的价格「安全送上月球」（Safely to the moon），Nagy 还向投资人保证，资金被安全地保管，没人能够提取，由于当时正值这类迷因币风行的时代，SafeMoon 币市值最高曾超过 80 亿美元。</p><p>然而，根据 SEC 的调查，SafeMoon 不仅没能替投资人创造利润，市值还蒸发了数十亿美元，且 SafeMoon 高层从该专案中取走了价值超过 2 亿美元加密资产，并擅自挪用流动池中的资金以供自己挥霍。</p><p>SEC 执法部门负责加密资产的 David Hirsch 表示，去中心化的金融宣称提供透明度及可预测的结果，但未注册的产品缺乏法律所要求的披露与问责制，而吸引了像是 Nagy 这样的骗子，牺牲他人以成全自己。</p><p>根据诉状，SafeMoon 代币的价格在 2021 年 3 月 12 日至 4 月 20 日之间飙涨了 55,000%，市值超过 57 亿美元，不过，外界在 4 月 20 日得知 SafeMoon 流动池并未被锁住之后，立即暴跌了 50%，随后，执行长 Karony 与技术长 Smith 即开始挪用投资人资产来购买 SafeMoon 代币，以提高该币的价格并创造交易假象。</p><p>此外，这些被告还挪用了数百万美元来购买豪宅、汽车与展开奢侈的旅游。根据<a href="https://www.justice.gov/usao-edny/pr/founders-and-executives-digital-asset-company-charged-multi-million-dollar" target="_blank">美国司法部所发布的新闻稿</a>，Karony 与 Smith 都在本周被逮捕，惟创办人 Nagy 仍逍遥法外。</p><p>今年 8 月<a href="https://www.ithome.com.tw/news/158055" target="_blank">SEC 也曾控告</a>另一名以加密货币之名行诈骗之实的 Richard Heart。</p></div></div></div><div></div></div></div></div>]]>
-</description>
-<pubDate>Wed, 01 Nov 2023 16:00:00 GMT</pubDate>
-<guid isPermaLink="false">https://www.ithome.com.tw/news/159604</guid>
-<link>https://www.ithome.com.tw/news/159604</link>
-<author>
-    <![CDATA[陈晓莉]]>
-</author>
-<category>新闻</category>    </item>    </channel>    </rss>
+<category>资安 </category>    </item>    </channel>    </rss>
