@@ -16,8 +16,55 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 06 Nov 2023 01:01:10 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 06 Nov 2023 03:04:28 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[云几何内核开源平台 —— OpenGeometry 开源社区正式发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>11 月 5 日，由广东省工业和信息化厅、广东省科学技术厅、广东省教育厅、深圳市人民政府主办，工业和信息化部第五研究所、广东省数字化学会承办，深圳市工业和信息化局、深圳市龙岗区人民政府、深圳市福田区人民政府协办的 2023 工业软件生态大会在广东省深圳市召开。</p><p>在大会主论坛上，国内备受关注的云几何内核开源平台——OpenGeometry 开源社区正式发布。</p><p><img src="https://static.oschina.net/uploads/space/2023/1106/104536_bRwO_2720166.png" referrerpolicy="no-referrer"></p><p>据介绍，OpenGeometry Group（简称 OGG）是由数字化工业软件联盟孵化，并由开元几何（深圳）科技有限公司作为服务公司运营的开源项目。OpenGeometry 开源社区将通过搭建云几何内核的开源软件开发平台，构建新一代工业软件的核心「根」技术，为工业软件的产品研发提供支持，并带动上下游厂商、服务商等合作伙伴共同参与，最终形成产业链协同发展的良性循环。</p><p>OpenGeometry 开源社区表示，未来将积极与科研院校、工业软件厂商、工业软件应用企业、开发者等合作伙伴进行广泛的技术交流和合作，引进国内外最先进的技术、吸引顶尖的人才，引入数字化工业软件联盟的生态资源，深入电子、汽车、装备制造等行业应用中进行场景化联合研发，真正做到以高质量的技术更好地服务产业实体经济。</p><div>
+ 北师大港浸大的单肖文教授代在会上表示，OpenGeometry 开源社区对中国工业软件界意义很大，是构筑工业软件的「根」，只有「根」扎得深，工业软件的树才能枝繁叶茂。
+</div></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 06 Nov 2023 02:50:26 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265108</guid>
+            <link>https://www.oschina.net/news/265108</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[轻松理解 Transformers (3): Feed-Forward Layer 部分]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><blockquote><p>编者按：随着人工智能技术的不断发展 Transformer 架构已经成为了当今最为热门的话题之一。前馈层作为 Transformer 架构中的重要组成部分，其作用和特点备受关注。本文通过浅显易懂的语言和生活中的例子，帮助读者逐步理解 Transformers 中的前馈层。</p><p>本文是 Transformers 系列的第三篇。作者的观点是：前馈层在 Transformer 架构中扮演着至关重要的角色，它能够有效地提高计算效率，同时也是集体智慧的体现。</p><p>文章作者首先介绍了前馈层的基本结构，它由全连接层组成，进行线性变换和线性计算。但也存在局限性，不能进行复杂的非线性变换。所以前馈层需要激活函数（如 ReLU）进行非线性转换，增强网络的表达能力。为防止模型仅记忆数据特征而不具备推理能力，需要使用正则化技术如 dropout。相信通过本文的阅读，读者将对 Transformer 中的前馈层有更深入的理解。</p><p>随着深度学习在语音、图像、自然语言处理等领域取得突破，人工智能或许正向着真正的通用人工智能迈进。但要培养通用人工智能，我们还需不断深入理解其中的原理和相关机制。</p><p>以下是译文，enjoy！</p></blockquote><p><strong>作者 | Chen Margalit</strong></p><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fchen-margalit%2F" target="_blank">https://www.linkedin.com/in/chen-margalit/</a></strong></p><p><strong>编译 | 岳扬</strong></p><p><em><strong>本文经原作者授权，由 Baihai IDP 编译。如需转载译文，请联系获取授权。</strong></em></p><p><em>原文链接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftowardsdatascience.com%2Fsimplifying-transformers-state-of-the-art-nlp-using-words-you-understand-part-4-feed-foward-264bfee06d9" target="_blank">https://towardsdatascience.com/simplifying-transformers-state-of-the-art-nlp-using-words-you-understand-part-4-feed-foward-264bfee06d9</a></em></p><p>本节将介绍前馈层（Feed-Forward layer），这是大多数深度学习架构中的基础元素。在有关深度学习的常见话题交流时，一般都会强调它们在构造 Transformer 架构中的重要作用。</p><p><img src="https://oscimg.oschina.net/oscnet/up-9a856aacefd53ae8070b810c099e0da6711.png" alt="" referrerpolicy="no-referrer"><em>原论文中的图片[1]</em></p><p>前馈全连接层（feed-forward linear layer）基本上就是一堆神经元，每个神经元都与其他神经元相连接。请看下图，其中 a、b、c 和 d 是神经元。这些神经元包含了一些 input（即一些我们想要理解的数据（像素值（pixels）、词嵌入（word embeddings）等））。它们与编号为 1 的神经元相连。每两个神经元之间的连接都有不同的连接权重值（connection strength）。例如，a-1 是 0.12，b-1 是-0.3，等等。实际上，左列中的所有神经元都与右列中的所有神经元相连。但是为了清晰起见，我没有在图像中展示全部的连接，你需要了解这一情况。就像图中有 a-1 一样，还应该有 a-2、b-2、c-2、d-3 等。两个神经元之间的每个连接都有不同的「连接权重」。</p><p><img src="https://oscimg.oschina.net/oscnet/up-f139aa760b0e5733e14a61f50803820e023.png" alt="" referrerpolicy="no-referrer"></p><p><em>该图由原文作者绘制</em></p><p>该架构有两点值得注意：</p><ol><li>如前所述，每个节点（神经元）都与其他节点相连。所有的 a、b、c、d 都与其他神经元（1、2、3）相连。可以将这幅图像看作是一条军队指挥链。1、2、3 是指挥官。他们从士兵 a、b、c、d 那里得到情报。a 知道某件事情的一些细节，但它的情报不够全面。1 知道的就更多了，因为它能够从 a、b、c 和 d 那里同时得到情报。2 和 3 也是指挥官，同样从 a、b、c、d 那里获取情报。这些指挥官（1、2、3）也会向更高级的指挥官传递报告。在他们之后的指挥官既从 a、b、c、d 那里得到情报，也从 1、2、3 那里得到情报，因为下一层（每列神经元为一层）也是以完全相同的方式进行全连接的。因此，首先要明白的是， 1 的情报比 a 更全面，而下一层指挥官的情报也比 1 更全面。</li><li>第二点需要注意的是，每个节点与下一层的每个其他节点之间的连接权重是不同的。a-1 是 0.12，b-1 是-0.3。我在这里给出的数字显然是虚构的，但它们也是在合理的范围内，并且它们都是自动学习调整的参数（learned parameters）（例如，它们在训练过程中会发生变化）。把这些数字看作是 1 对 a、b 等的影响程度。从 1 号指挥官的角度来看，a 的情报有一定的可信度。但不应该想当然地相信他说的每一句话，可以选择性地相信他说的某些话。b 则截然不同。这个节点通常会低估它接收到的输入（情报）的重要性，就像一个悠闲的人一样。「这是一只 tiger 吗？不，只是一只 big cat。」 这是对发生的事情的过度简化，但重要的是要注意这一点：<strong>每个神经元都掌握着一些 input（无论是原始输入还是经过处理的 input）并进行处理后将其传递下去。</strong></li></ol><p>你知道「传话游戏」吗？你和其他 10 个人坐成一排，然后你向下一个人耳语一个词，比如说「Pizza」。第 2 个人听成了类似「Pazza」的词，于是他们把「Pazza」传给了第 3 个人。第 3 个人听成了 「Lassa」（毕竟是耳语），于是他把 「Lassa」传给了第 4 个人。第 4 个人听成了 「Batata」，于是他又转述了 「Batata」，以此类推。当你问第 10 个人他听到了什么？结果他回答「Shambala」，我们是怎么从「Pizza」到「Shambala」的？这个游戏与神经网络的区别在于，每个人都会对信息进行处理。第二个人不会说 「Pazza」，他会说「Pazza 是意大利菜，很好吃」。第三个人会说：「Lassa 是一道意大利菜，在全世界都很常见」，等等。每个人（层）都会补充一些他们希望有用的东西。</p><p>基本情况就是这样。<strong>每个神经元获得输入，处理输入，然后继续传递。</strong> 为了与全连接层（fully connected layer）相匹配，我建议对这个游戏进行升级：从现在开始，在游戏中引入多行人，每个人都可以对每一行中的其他人说悄悄话。从每一行的第 2 位开始，每个人都会收到很多人的悄悄话，他们需要了解每个人说的话语的「权重」（重要性），这就是前馈层（Feed Forward Layer）。</p><p><strong>为什么我们要使用前馈层？因为它们使我们的计算能够更加有效，可以将其类比为集体智慧的体现。</strong> 讲一个关于「猜测一头牛重量」的故事吧！1906 年，在英国的某个地方，有人把一头牛带到一个展览会上。主持人随机挑选了 787 名观览者，请他们猜测这头牛的重量。你认为他们猜测的结果会是多少？这头牛的实际体重是多少呢？</p><p>他们猜测的平均值是 1197 磅（542 公斤）。这些都是随机抽取的群众对牛体重的估计。这个平均猜测值离真实重量相差多远呢？只有 1 磅差距，也就是 450 克。这头牛的重量是 1198 磅。这个故事来自这里[2]，我不确定细节是否准确，但回到本文的主题，我们可以把线性层 <em>（译者</em><em>注：此处即本文所说的前馈层）</em> 看作是在做类似的事情。通过增加更多的参数、更多的计算（更多的猜测），就可以得到更准确的结果。</p><p><img src="https://oscimg.oschina.net/oscnet/up-1dd0ad28fe0fffea90238839fce31188c1e.png" alt="" referrerpolicy="no-referrer"></p><p><em>照片由 Larry Costales[3] 在 Unsplash[4] 上发布</em></p><p>让我们试着想象一个真实的使用场景。给神经网络输入一张图片，让它判断图片里的是苹果还是橙子。这种架构基于卷积神经网络（CNN）层，本文不会深入讨论这个知识点，因为其超出了本系列文章的范围。但该层是一个能够学习和识别图像中特定模式（specific patterns）的计算层。 <em>（译者注：这些特定模式的识别有助于网络进行更准确的分类和判断，例如判断图像中是苹果还是橙子。）</em> 每一层都能识别更复杂的模式。例如，第一层几乎不能识别出任何东西，该层只是传递原始像素，第二层就能够识别出垂直线条。如果下一层同时接收到有垂直线条的信息，并从其他神经元那里听说还有非常接近的垂直线条。它会将两者综合起来进行计算、分析，然后思考：不错！这是一个角落。这就是从多个来源获取输入信息的好处。</p><p>我们可能会认为，进行计算的次数越多，得到的结果就越好。但事实上，并非完全是这样，但确实有一定的道理。如果我们做更多的计算，咨询更多人（神经元）的意见，通常就能得出更好的结果。</p><h1><strong>01 激活函数 Activation Function</strong></h1><p>接下来将介绍深度学习中另一个非常重要的基本概念的关键组成部分——激活函数，并探讨它与 Transformer 的关系，以便更好地理解两者之间的关联。</p><p>尽管全连接层（Fully connected layers）的使用非常广泛，但也存在一个很大的缺点——<strong>它们是线性层（linear layers），只能进行线性变换和线性计算。全连接层可以进行加法和乘法运算，但无法以「创造性」的方式转换输入（input）。有时候，仅仅增加计算量是不够的，需要以完全不同的思考方式来解决问题。</strong></p><p>如果我每天工作 10 个小时，每天赚 10 美元，如果我想更快地存下 1 万美元，我可以每周工作更多天，或者每天工作更多小时。但是肯定还有其他解决方案，对吧？有很多人不需要他们拥有的钱（我可以更好地利用它），或者我可以找到更高薪的工作等等。解决办法并不总是千篇一律。</p><p>同理，在本文的情况下，激活函数可以来提供帮助。激活函数能够帮助我们进行非线性变换（non-linear transformation）。例如，将一个数字列表[1, 4, -3, 5.6]转换为概率分布，就是 Softmax 激活函数的作用。该激活函数能够将这些数字转换为[8.29268754e-03, 1.66563082e-01, 1.51885870e-04, 8.24992345e-01]这样的输出。这 5 个数字相加等于 1。虽然这些数字看起来有些混乱，但 e-03 表示第一个数字（8）在小数点后 3 个零开始（例如 0.00，然后是 82926。实际上该数字是 0.00829268754）。<strong>这个 Softmax 激活函数将整数转换为 0 到 1 之间的浮点数，转换后的浮点数仍然保持了原始整数之间的相对大小关系。这种保持相对大小关系的特性在统计学中非常有用。</strong></p><p>还有其他类型的激活函数，其中最常用的之一是 ReLU（修正线性单元）。这是一种非常简单（同时也非常有用）的激活函数，它能够将任何负数转化为 0，而非负数保持不变。非常简单且实用。如果我将列表[1, -3, 2]输入 ReLU 函数，会得到[1, 0, 2]。</p><p>在介绍完复杂的 Softmax 之后，你可能会期望一些更复杂的东西，但有人曾经告诉我「Luck is useful」。有了激活函数后，我们就走运了。</p><p>我们之所以需要这些激活函数，是因为非线性关系（nonlinear relationship）无法通过线性计算（全连接层）来表示。如果我每工作一小时就能得到 10 美元，那么收入就是线性关系。如果我每连续工作 5 个小时，接下来的 5 个小时就能增加 10%，那么这种关系就不再是线性的了。我的工资不再是工作小时数乘以固定的小时工资。<strong>在文本生成等更复杂的任务中使用深度学习，就是因为我们要建模的关系高度非线性。</strong> 在「我喜欢」之后能出现的词并不是固定的。</p><p>ReLU 的一大优势，也许可以解释它为何被广泛使用，就是<strong>对大量数据进行计算的成本非常低。</strong> 当神经元数量较少时（比方说几万个），计算量并不重要。但是当像大语言模型那样使用数千亿个神经元时，一种更高效的计算方式会带来巨大差异。</p><h1><strong>02 正则化 Regularization</strong></h1><p>在解释 Transformer 中如何实现正则化（非常简单）之前，我们将介绍最后一个概念——dropout，这是一种正则化技术。由于算法是基于数据的，并且它们的任务是尽可能逼近训练目标，所以对于一个大脑聪明的人来说，有时仅仅记住一点点东西就足够了。正如我们在学校中所受到的教育，学习复杂的逻辑并不总是有用的，我们有时只需记住我们所见过的，或者记住与之接近的东西。第二次世界大战是什么时候发生的？嗯...它受到了第一次世界大战、经济危机、人民愤怒等等因素的影响...大约是 1917 年左右...所以我们就说是 1928 年吧。记住确切的日期可能更好。</p><p>可以想象，这对机器学习来说并不是好事。如果我们需要的是已经有答案的问题的答案，我们就不需要这些复杂的技术了。我们需要一个聪明的算法，因为我们无法记住所有的东西。我们需要它进行实时推理，进行思考。<strong>正则化（Regularization）是让算法仅学习不记忆的一系列技术的总称。在这些正则化技术中，一种常用的技术就是 dropout。</strong></p><h1><strong>03 Dropout</strong></h1><p>dropout 可以说是一种相当简单的技术。还记得我们说过全连接层（fully connected layers）是完全连接的吗？dropout 打破了这种逻辑。dropout 技术将「连接权重（connection strength）」设置为 0，这意味着该连接不会产生任何影响。对于 1 号指挥官来说，连接到士兵「a」的输入变为 0 时，「a」传递的情报会变得完全无用。不回答，不肯定，也不否定。<strong>我们在每一层中使用 dropout 技术时，会随机选择一定数量的神经元（由开发者配置），并将它们与其他神经元的连接权重设为 0。</strong> 每次指挥官会被迫忽略不同的士兵，因此无法记住其中任何一个士兵，因为下次可能不会再遇到它们传递情报。</p><h1><strong>04 回到 Transformer！</strong></h1><p>现在我们已经掌握了理解 Transformer 中前馈层工作原理所需的所有基础知识。接下来解释实现过程就会非常简单了。It will now be very simple.</p><p><img src="https://oscimg.oschina.net/oscnet/up-d58c4da377e46953ddd77cd2bcb9c4fdd64.png" alt="" referrerpolicy="no-referrer"></p><p><em>图片来自 Vaswani, A. 等人的论文[5]</em></p><p>在原论文中的架构图中，前馈线性层只做了四件事情：</p><ul><li><strong>对文本中的每个位置 (用向量表示)，进行逐位置的线性计算。</strong></li><li><strong>对线性运算的输出应用 ReLU 函数。</strong></li><li><strong>对上一步骤 ReLU 运算的输出进行再一次线性运算。</strong></li><li><strong>最后，将其添加到第 3 层的输出中。</strong></li></ul><p>就是这样。如果你有深度学习领域的相关经验，那么理解这一部分对你来说可能很容易。如果你没有经验，可能稍显吃力，但你已经理解了深度学习中一个极为重要的组成部分。</p><p>在下一部分,我们将介绍 Transformer 中的解码器 (Decoder) 部分相关知识！</p><p><strong>END</strong></p><h1><strong>参考资料</strong></h1><p>[1]<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fproceedings.neurips.cc%2Fpaper_files%2Fpaper%2F2017%2Ffile%2F3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank">https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf</a></p><p>[2]<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wondriumdaily.com%2Fthe-wisdom-of-crowds%2F%23%3A%7E%3Atext%3DAn%2520Astonishing%2520Example%2520of%2520the%2520Wisdom%2520of%2520Crowds%26text%3DThe%2520actual%2520weight%2520of%2520the%2Cthat%2520weight%2520was%25201%252C197%2520pounds" target="_blank">https://www.wondriumdaily.com/the-wisdom-of-crowds/#:~:text=An%20Astonishing%20Example%20of%20the%20Wisdom%20of%20Crowds&amp;text=The%20actual%20weight%20of%20the,that%20weight%20was%201%2C197%20pounds</a>.</p><p>[3]<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Funsplash.com%2F%40larry3%3Futm_source%3Dunsplash%26utm_medium%3Dreferral%26utm_content%3DcreditCopyText" target="_blank">https://unsplash.com/@larry3?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText</a></p><p>[4]<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Funsplash.com%2Fphotos%2FAhf1ZmcKzgE%3Futm_source%3Dunsplash%26utm_medium%3Dreferral%26utm_content%3DcreditCopyText" target="_blank">https://unsplash.com/photos/Ahf1ZmcKzgE?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText</a></p><p>[5]<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fproceedings.neurips.cc%2Fpaper_files%2Fpaper%2F2017%2Ffile%2F3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank">https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 06 Nov 2023 02:08:34 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/IDP/blog/10141048</guid>
+            <link>https://my.oschina.net/IDP/blog/10141048</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[私域管理平台，LinkWeChat V4.9.8 版本发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">LinkWeChat 是国内首个基于企业微信的开源 SCRM，在集成了企微强大的开放能力的基础上，进一步升级拓展灵活高效的客户运营能力及多元化精准营销能力，让客户与企业之间建立强链接，帮助企业提高客户运营效率，强化营销能力，拓展盈利空间，是企业私域流量管理与营销的综合解决方案，目前已经受到企业微信的官方推荐和国家级木兰开源社区进行孵化，同时也是国家工信部重点扶持项目，同时也获得 2022 年中国开源创新大赛二等奖。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>LinkWeChat v4.9.8 主要的升级内容如下：</strong></p><p><span style="background-color:#ffffff; color:#40485b">1.新客拉群全面功能全面升级。</span></p><p><img height="1546" src="https://oscimg.oschina.net/oscnet/up-d30b09016eb3d60391627a8d946d2a4a2d0.png" width="2878" referrerpolicy="no-referrer"></p><p><img height="1432" src="https://oscimg.oschina.net/oscnet/up-fd3b292eed49db590d07d6316b8e2d3148e.png" width="2880" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#40485b">2.客群活码新增标签功能。</span></p><p><img height="1528" src="https://oscimg.oschina.net/oscnet/up-f195ef36ba86355f0514250c17935b5fee4.png" width="2872" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 06 Nov 2023 01:05:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265081/linkwechat-4-9-8-released</guid>
+            <link>https://www.oschina.net/news/265081/linkwechat-4-9-8-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[OpenELA 公开发布 Enterprise Linux 源代码]]>
@@ -150,18 +197,6 @@
         </item>
         <item>
             <title>
-                <![CDATA[Hyprland —— 动态平铺式 Wayland 合成器]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Hyprland 是一款基于 wlroots 的动态平铺式 Wayland 合成器。</p><p>它提供最新的 Wayland 功能，可高度自定义，拥有所有美观的外观、最强大的插件、简易的 IPC，以及比其他基于 wlr 的合成器更多的 QoL 功能等等...</p><p><strong>特性：</strong></p><ul><li>所有令人赏心悦目的内容：渐变边框、模糊、动画、阴影等等</li><li>大量定制</li><li>比其他基于 wlr 的合成器提供更多的生活质量内容</li><li>自定义贝塞尔曲线以获得最佳动画</li><li>强大的插件支持</li><li>撕裂支持以获得更好的游戏性能</li><li>易于扩展和可读的代码库</li><li>快速、积极的开发</li><li>不害怕提供尖端功能</li><li>保存后立即重新加载配置</li><li>完全动态的工作空间</li><li>两个内置布局以及更多可用作插件的布局</li><li>紧随<code>wlroots-git</code></li><li>全局按键绑定传递给你选择的应用程序</li><li>平铺/伪平铺/浮动/全屏窗口</li><li>特殊工作区（便签本）</li><li>窗口组（选项卡模式）</li><li>强大的窗口/监视器/图层规则</li><li>基于套接字的 IPC</li><li>原生 IME 和输入面板支持</li></ul><p>&nbsp;<img height="282" src="https://static.oschina.net/uploads/space/2023/1030/172906_LCd1_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><img height="281" src="https://static.oschina.net/uploads/space/2023/1030/172925_yXI2_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><img height="313" src="https://static.oschina.net/uploads/space/2023/1030/172946_yrzI_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
-                                                                ]]>
-            </description>
-            <pubDate>Sat, 04 Nov 2023 02:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/hyprland</guid>
-            <link>https://www.oschina.net/p/hyprland</link>
-        </item>
-        <item>
-            <title>
                 <![CDATA[Gitee 推荐 | 将 Web 动画渲染为视频的框架 WebVideoCreator]]>
             </title>
             <description>
@@ -280,76 +315,15 @@ ianvs -f examples/robot/lifelong_learning_bench/benchmarkingjob.yaml</pre><p><im
         </item>
         <item>
             <title>
-                <![CDATA[小米 HyperOS 内置 32 位 App 转译器，性能比原生支持更好]]>
+                <![CDATA[Hyprland —— 动态平铺式 Wayland 合成器]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>小米手机系统软件部总监张国全介绍了 Xiaomi HyperOS 对第三方应用进行兼容的开发工作。</p><p>据介绍，小米 14&nbsp; 搭载的 CPU 虽然仅支持 64 位架构，但 HyperOS 通过内置 32 位转译内核的方式让用户在新设备上无缝运行 32 位应用。</p><p>相比小米 13 通过 CPU 小核原生运行 32 位应用，<strong>小米 14 凭借译码器可以在大核上运行 32 位应用</strong>，所以即便 CPU 不支持 32 位但依然实现了 32 位应用的兼容支持，而且性能反而更好。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-543d609013f751cb4c431b863bcca7c25bb.png" referrerpolicy="no-referrer"></p><p>此外，小米工程师分析了每年不兼容的三方应用，发现有一大类三方应用修改的内容都比较相似、在应用适配新系统前会出现种闪退和无法使用的问题，因此自研了一套 <strong>CompatEngine 引擎</strong>，可以不依赖三方应用开发者主动做兼容适配第三方应用，经验证目前超过 90% 未适配应用均可正常使用。</p></div>
-                                    ]]>
+                <![CDATA[<div class="content"><p>Hyprland 是一款基于 wlroots 的动态平铺式 Wayland 合成器。</p><p>它提供最新的 Wayland 功能，可高度自定义，拥有所有美观的外观、最强大的插件、简易的 IPC，以及比其他基于 wlr 的合成器更多的 QoL 功能等等...</p><p><strong>特性：</strong></p><ul><li>所有令人赏心悦目的内容：渐变边框、模糊、动画、阴影等等</li><li>大量定制</li><li>比其他基于 wlr 的合成器提供更多的生活质量内容</li><li>自定义贝塞尔曲线以获得最佳动画</li><li>强大的插件支持</li><li>撕裂支持以获得更好的游戏性能</li><li>易于扩展和可读的代码库</li><li>快速、积极的开发</li><li>不害怕提供尖端功能</li><li>保存后立即重新加载配置</li><li>完全动态的工作空间</li><li>两个内置布局以及更多可用作插件的布局</li><li>紧随<code>wlroots-git</code></li><li>全局按键绑定传递给你选择的应用程序</li><li>平铺/伪平铺/浮动/全屏窗口</li><li>特殊工作区（便签本）</li><li>窗口组（选项卡模式）</li><li>强大的窗口/监视器/图层规则</li><li>基于套接字的 IPC</li><li>原生 IME 和输入面板支持</li></ul><p>&nbsp;<img height="282" src="https://static.oschina.net/uploads/space/2023/1030/172906_LCd1_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><img height="281" src="https://static.oschina.net/uploads/space/2023/1030/172925_yXI2_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><img height="313" src="https://static.oschina.net/uploads/space/2023/1030/172946_yrzI_4252687.png" width="500" referrerpolicy="no-referrer"></p></div>
+                                                                ]]>
             </description>
-            <pubDate>Fri, 03 Nov 2023 09:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/264814</guid>
-            <link>https://www.oschina.net/news/264814</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Chrome 支持运行 Kotlin、Java 等 GC 编程语言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>谷歌 Chrome 开发者博客<strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.chrome.com%2Fblog%2Fwasmgc%2F" target="_blank">官宣</a></u></strong>：Chrome 已默认启用 <strong>WebAssembly 垃圾回收 (WasmGC) </strong>功能&nbsp;—— 能够<strong>将具有 GC 的编程语言编译为 WebAssembly (Wasm)</strong>。</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1103/165225_wBLu_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>下面是示例代码</p><ul><li><strong>Kotlin Wasm</strong></li></ul><pre><code class="language-java">import kotlinx.browser.document
-import kotlinx.dom.appendText
-import org.w3c.dom.HTMLDivElement
-
-fun main() {
-    (document.getElementById("warning") as HTMLDivElement).style.display = "none"
-    document.body?.appendText("Hello, ${greet()}!")
-}
-
-fun greet() = "world"</code></pre><p>据介绍，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fgc%2Fblob%2Fmain%2Fproposals%2Fgc%2FOverview.md" target="_blank">WasmGC </a></u>是 WebAssembly 社区群组发布的一项提案。当前的 Wasm 最小可行化实现只能处理线性内存中的 number 类型数据，即整数和浮点数。随着引用类型 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWebAssembly%2Freference-types%2Fblob%2Fmaster%2Fproposals%2Freference-types%2FOverview.md" target="_blank">reference types</a>) 提案的发布，Wasm 还可以保留外部引用。</p><p>WasmGC 现在添加了结构体和数组堆类型，因此<strong>支持非线性内存分配</strong>。每个 WasmGC 对象都有固定的类型和结构，这使得虚拟机可以轻松生成有效的代码来访问其字段，而不会像 JavaScript 等动态语言那样存在去优化的风险。</p><p>因此，<strong>该提案通过结构和数组堆类型为 WebAssembly 增加了对高级托管语言的有效支持</strong>，使得针对 Wasm 的语言编译器能够与主机 VM 中的垃圾回收器集成。简单来说，通过 WasmGC，将编程语言移植到 Wasm 意味着编程语言的垃圾回收器不再需要成为移植的一部分，而是可以<strong>直接使用现有的垃圾回收器</strong>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 03 Nov 2023 09:02:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/264807/wasmgc-chrome</guid>
-            <link>https://www.oschina.net/news/264807/wasmgc-chrome</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[查询平均提速 700%，奇安信基于 Apache Doris 升级日志安全分析系统]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><strong>本文导读</strong>：数智时代的到来使网络安全成为了不可忽视的重要领域。奇安信作为一家领先的网络安全解决方案领军者，致力于为企业提供先进全面的网络安全保护，其日志分析系统在网络安全中发挥着关键作用，通过对运行日志数据的深入分析，能够对漏洞和异常行为生成关键见解，帮助企业建立有效的防御策略。本文将深入探讨奇安信在网络安全与日志分析解决方案的关键优势，了解基于 Apache Doris 构建的全新一体化日志存储分析平台如何实时监测和分析日志事件，加强对可疑活动的追踪与应对，提升系统安全性与快速响应能力。（作者｜奇安信，服务端技术专家，舒鹏）</p><p>奇安信是中国企业级网络安全市场的领军者，专注于为政府和企业用户提供新一代网络安全产品和服务。目前核心产品天擎终端安全系统在国内已有 4000 万政企用户部署、全国部署服务器超过 100 万台、服务超 40 万大型机构。作为网络安全国家队，奇安信立志为国家构建安全的网络空间，在终端安全、云安全、威胁情报、态势感知等领域的技术研发持续领先。</p><p>随着现代企业数字化转型的不断深化，大数据、物联网、5G 等创新技术的广泛应用加速了企业的数字化转型步伐，这使得原先的网络边界被打破，多源多样的终端设备成为了新的安全边界。</p><p>网络安全系统的防御性能与日志分析密不可分，当网络设备、操作系统以及应用程序在运行时，会产生大量的运行日志，其中蕴涵了丰富的数据价值。最大化地利用运行日志数据能够有效检测内部系统的安全风险、还原攻击路径、回溯攻击入口等，可以进一步提升系统安全性、保障企业网络安全，因此日志分析系统在其中发挥着不可或缺的作用。</p><p>本文将介绍奇安信在网络安全场景中，基于 Apache Doris 进行架构升级迭代并建设全新一体化日志存储分析平台的实践经验。</p><h1>早期架构痛点与需求</h1><p>安全日志平台的架构如下图所示，原始的设备、系统日志首先经过业务处理环节，包括归一化和扩充维度等操作。这些处理步骤旨在将来自不同设备和系统日志转化为半结构化 JSON 格式的安全日志，并将其写入 Kafka 消息队列中。</p><p>最新的日志会被写入实时数仓，安全分析师可以通过分析平台对实时数仓中的最新数据进行交互式查询，从而进行攻击研判和追踪溯源等安全分析工作。另外，离线数仓用于保存历史数据，以支持长周期数据挖掘的离线分析。</p><p><img src="https://cdn.selectdb.com/static/Wechat_IMG_494_f5c46bcc5d.jpg" alt="WechatIMG494.jpg" referrerpolicy="no-referrer"></p><p>在以上日志数据平台中，日志数据的写入速度与查询分析效率对上层业务人员进行实时安全事件监控和分析至关重要，这也是当前我们所面对的最主要痛点。</p><p>一方面，每天所生产的安全日志数据达到千亿级，写入压力很大。最初我们选择使用某 Apache Doris 的 Fork 版本来存储日志数据，但在实际应用中，随着每天新增日志量的不断增长，入库速度逐渐降低、集群写入压力过大、高峰期数据积压严重，对集群稳定性造成很大影响，并且数据压力较高时、查询效率也达不到有效果的保证。随后我们对集群进行多次扩容，从 3 节点逐步扩容到 13 节点，尽管机器成本已经大幅超过预期、但写入效率并没有发生本质的改善。</p><p>另一方面，业务人员在进行安全日志分析时，经常需要对文本字段（如 URL，payload 等）进行关键字匹配。在原系统中只能通过 SQL LIKE 进行全量扫描和暴力匹配，整体查询性能不佳，千亿级数量的数据表查询耗时接近分钟级甚至达到数百秒，即便按照时间区间过滤大量数据后、查询耗时仍在数秒到数十秒。一旦遇到并发查询性能还会进一步恶化，很难满足日常安全分析的需求。</p><p>除写入和查询效率以外，运维监控也是我们的痛点之一，该厂商提供的可视化运维系统需要商业 License 授权，对于开源社区用户不友好，集群维护处于原始手动状态。</p><h1>架构选型与升级的思考</h1><p>为了解决过去版本的痛点、满足更高效实时的日志分析诉求，我们亟需对早期系统升级改造。同时面向安全日志分析场景，我们也对新日志分析平台的架构提出了更高的要求：</p><ul><li><p><strong>写入性能</strong>：系统一方面需要支持海量病毒查杀事件等数据实时写入与存储，以满足分析时效性的要求，另一方面需要基于日志数据 Schema Free 特点支持丰富数据类型的写入与变更。</p></li><li><p><strong>查询性能</strong>：由于日志查询分析会涉及对文本类型、JSON 数据进行全文检索、日期或普通数值的范围查询，系统需要对字符串提供模糊查询的能力，还需要支持能够灵活创建且类型丰富的索引，以加速筛选过滤海量数据，提升查询效率。</p></li><li><p><strong>存储成本</strong>：设备每天产生大量的日志数据，为了挖掘这些有价值的日志信息，业务人员还需要从数据中进行筛选和分析，并对异常日志回溯追踪，这使得日志存储的规模很大、存储周期相对较长，因此高性价比的存储成本也是系统构建的目标之一。</p></li><li><p><strong>运维成本</strong>：系统自身的运维简易程度以及是否具备合适的管控工具都能帮助我们进一步提效。</p></li></ul><p>在持续关注业界 OLAP 数据库的过程中，我们发现 Apache Doris 最近一年的发展非常迅猛，最新的 2.0 版本也把日志存储和检索分析作为新的发力点，推出了倒排索引、NGram BloomFilter 索引等特性，对关键词检索、LIKE 文本匹配的性能有大幅提升，与我们文本检索慢的痛点需求非常契合，因此开启了新架构的升级之旅。</p><h1>架构升级之旅</h1><p>上文中提到，在整体架构选型过程中我们主要关注的地方包括写入性能、查询性能、数据存储成本以及运维成本等方面。在架构升级过程中，我们选择了 Apache Doris 当时最新发布的 2.0 版本，具体升级收益如下。</p><h3>01 写入性能提升超 200%</h3><p>为了评估 Apache Doris 写入的极限性能，我们初期使用与线上系统相同配置的 3 台服务器，从 Kafka 接入线上真实写入流量，测试期间当 CPU 写入效率跑满至 100% 时写入吞吐达到了 108 万条/s、1.15 GB/s，写入数据的可见性延迟保持在秒级。</p><p>而线上运行的原系统集群规模达 13 台，在同样的数据写入情况下，CPU 利用率 30% 左右、写入吞吐仅 30 万条/s，并且存在高峰期 CPU Load 高、系统响应慢的问题。</p><p>根据测试结果，我们预估架构<strong>替换为 Apache Doris 后保持同样 30% 的 CPU 占用，只需要 3 台服务器即可满足写入需求，机器资源成本至少节约 70%</strong>。值得注意的是，在测试中对 Apache Doris 表中一半字段开启了倒排索引，如果不开启倒排索引的话，写入性能在之前基础上还能够再提升 50% 左右。</p><h3>02 存储成本降低近 40%</h3><p>在看到写入性能的大幅提升后，Apache Doris 存储空间占用也给我们带来了惊喜。<strong>在开启倒排索引的前提下，存储空间比原系统不具备倒排索引还要略低，压缩比从 1 : 4.3 提高至 1 : 5.7。</strong></p><p>通过对比 Apache Doris 在磁盘上存储的文件大小，同一份数据的索引文件 (.idx) 与数据文件 (.dat) 大小相差无几。换言而之，增加索引后 Doris 数据膨胀率大约在 1 倍左右，与许多数据库和检索引擎 3-5 倍的膨胀率相比，Doris 的数据存储空间占用相对较低。经过研究发现，Apache Doris 采用了列式存储和 ZSTD 压缩算法来优化存储空间占用。Doris 将原始数据和倒排索引都以列的形式存储，使同一列的数据被存储在相邻位置，从而实现了更高的压缩率。</p><p>ZSTD 是一个优秀的新型压缩算法，使用了智能优化算法，相较于常见的 GZIP 算法， ZSTD 具有更高的压缩率和更快的解压速度，尤其在处理日志场景时表现非常出色。</p><h3>03 查询性能平均提升 690%</h3><p>对于业务最关注的查询性能，我们从线上查询日志进行去重后分析出 79 条 SQL，在同一天总数据（1000 亿条）、同样规模的集群（10 BE 节点）上对比测试 Apache Doris 与原系统的查询耗时。</p><p><strong>我们发现，与原系统相比，所有的查询语句均有明显提升，整体查询性能提升近 7 倍，有 26 条 SQL 查询语句性能提升 10 倍以上</strong>，其中 8 条 SQL 查询提升 10-20 倍、14 条 SQL 查询提升 20-50 倍、还有 4 条 SQL 查询提升 50 倍以上。最大差异的一条 SQL 查询语句为 Q43，在原系统中执行时间接近一分钟，在 Apache Doris 中仅需不到 1 秒，其性能差异高达到 88 倍。</p><p><img src="https://cdn.selectdb.com/static/Wechat_IMG_495_6ac4f35ed5.jpg" alt="WechatIMG495.jpg" referrerpolicy="no-referrer"></p><p>针对性能提升幅度高的查询，我们进行了对比分析并发现了其中几个共同点：</p><p><strong>倒排索引对关键词查找的加速：Q23、Q24、Q30、Q31、Q42、Q43、Q50 等</strong></p><pre><code>1 -- 例如 q43 提升 88.2 倍
-2 
-3 SELECT count() from table2 
-4 WHERE ( event\_time &gt;= 1693065600000 and event\_time &lt; 1693152000000) 
-5 &nbsp; AND (rule\_hit\_big MATCH 'xxxx');
-</code></pre><p>这种基于倒排索引进行关键词检索的技术，相较于基本的暴力扫描后进行文本匹配具有显著的优势，一方面极大地减少了需要读取的数据量；另一方面，在查询过程中无需进行文本匹配操作，因此查询效率往往提升一个数量级甚至更高。</p><p><img src="https://cdn.selectdb.com/static/Wechat_IMG_496_12be3ae384.jpg" alt="WechatIMG496.jpg" referrerpolicy="no-referrer"></p><p><strong>NGram BloomFilter 索引对 LIKE 的加速：Q75、Q76、Q77、Q78 等</strong></p><pre><code>1 -- 例如 q75 提升 44.4 倍
-2 
-3 SELECT * FROM table1
-4 WHERE  ent_id = 'xxxxx' 
-5 &nbsp;  AND event_date = '2023-08-27' 
-6 &nbsp;  AND file_level = 70 
-7 &nbsp;  AND rule\_group\_id LIKE 'adid:%' 
-8 ORDER BY event_time LIMIT 100；
-</code></pre><p>对于要查找的非一个完整关键词的场景，LIKE 仍然是有用的查询方式，Apache Doris 的 NGram BloomFilter 索引能对常规的 LIKE 进行加速。</p><p>NGram BloomFilter 索引与普通 BloomFilter 索引不同，它不是将整个文本放入 BloomFilter ，而是将文本分成连续的子串，每个子串长度为 n ，并将他们放入 NGram BloomFilter 中。对于 <code>cola LIKE '%pattern%'</code> 的查询，将<code>'pattern'</code>按照同样的方式分成长度为 n 的子串，判断每个子串在 BloomFilter 中是否存在，如果有一个子串不存在，则说明 BloomFilter 对应的数据块中没有跟<code>'pattern'</code>匹配的数据块，因此通过跳过数据块扫描的步骤，达到加速查询的效果。</p><p><strong>满足条件的最新 TopN 条日志明细查询优化：Q19-Q29 等</strong></p><pre><code>1 -- 例如 q22，提升 50.3 倍
-2 
-3 SELECT * FROM table1
-4 where event\_date = '2023-08-27' and file\_level = 70 
-5 &nbsp; and ent\_id = 'nnnnnnn' and file\_name = 'xxx.exe'
-6 order by event_time limit 100;
-</code></pre><p>这种<code>SELECT * FROM t WHERE xxx ORDER BY xx LIMIT n</code> 的查询，在查找满足某种条件的最新 n 条日志时使用频率非常高，Apache Doris 针对这种 SQL 查询模式进行了专门的优化，根据查询的中间状态确定排序字段的动态范围，并利用自动动态谓词下推的方式，避免读全部数据进行排序取 TopN，从而减少需要读取的数据量（有时甚至可以减少一个数量级），进而提升了查询效率。</p><h3><strong>04 可视化运维管控和可视化查询 WebUI，最大化减少运维和探索分析成本</strong></h3><p>为了提高日常集群维护的效率，我们使用了飞轮科技免费开放的可视化集群管理工具 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcn.selectdb.com%2Fblog%2F102" target="_blank">Cluster Manager for Apache Doris</a> （以下简称 Doris Manager ）。Doris Manager 提供的功能可以满足日常运维中集群监控、巡检、修改配置、扩缩容、升级等操作，降低登陆机器手动操作的麻烦和误操作风险。</p><p><img src="https://cdn.selectdb.com/static/Wechat_IMG_497_a752c765ea.jpg" alt="WechatIMG497.jpg" referrerpolicy="no-referrer"></p><p>除了管控 Apache Doris 集群之后，Doris Manager 还集成了类似 Kibana 的可视化日志探索分析 WebUI，对于习惯 ELK 日志分析的用户非常友好，支持关键词检索、趋势图展示、趋势图拖拽日期范围、明细日志平铺和折叠展示、字段值过滤等交互方便的探索式分析，跟日志场景探索下钻的分析需求很契合。</p><p><img src="https://cdn.selectdb.com/static/Wechat_IMG_498_2e65f945f0.jpg" alt="WechatIMG498.jpg" referrerpolicy="no-referrer"></p><h1><strong>总结与规划</strong></h1><p>在跟随 Apache Doris 2.0-alpha，2.0-beta，2.0 正式版本发布的节奏，我们根据业务场景进行了详细的评测，也为社区反馈了不少优化建议，得到社区的积极响应和解决。系统经历试运行一个月之后，我们将 2.0.1 版本正式用于生产环境，替换了原系统集群，完成架构升级改造，实现了写入性能、查询性能、存储成本、运维成本等多方面收益：</p><ul><li><p><strong>写入性能提升 3 倍以上</strong>：目前，奇安信的日志分析平台每日平均有数千亿的新增安全日志数据，通过 Doris 的 Routine Load 能够将数据实时稳定写入库，保障数据低延迟高吞吐写入。</p></li><li><p><strong>查询性能平均提升 7 倍</strong>：查询响应时间大幅减少，与之前的查询效率相比达到平均 7 倍提升，其中业务特别关注的全文检索速度达到 20 倍以上的提升，助力日志分析与网络安全运营效率。</p></li><li><p><strong>高效便捷的可视化管理</strong>：Cluster Manager for Apache Doris 工具提供了可视化集群监控告警平台，满足日常集群监控等一系列操作，同时 WebUI 多种功能为分析人员提供了操作简单、使用便捷的交互式分析。总而言之，Doris 的易用性、灵活性大幅降低了开发、运维、分析人员的学习与使用成本。</p></li></ul><p>后续我们还将在日志分析场景下探索更多 Apache Doris 的能力。我们将扩大 JSON 数据类型的相关应用，加强系统对于半结构化数据深度分析的能力。同时，我们也<strong>非常期待 Apache Doris 2.1 版本中新增的 Variant 可变数据类型，支持存储任意结构的 JSON 数据，支持字段个数与类型的变化，让业务人员灵活定义特殊字符，以更好地实现半结构数据 Schema Free 的分析需求</strong>。</p><p>非常感谢 SelectDB 团队一直以来对我们的技术支持，助力奇安信走向「体系化防御、数字化运营」的网络日志安全管理，帮助客户准确识别、保护和监管网络设备与各类系统，确保业务人员在任何时候都能够安全、可信、稳定地访问数据与业务。</p><p>最后，我们也将持续参与到 Apache Doris 社区建设中，将相关成果贡献回馈社区，希望 Apache Doris 飞速发展，越来越好！</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 03 Nov 2023 08:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/5735652/blog/10140250</guid>
-            <link>https://my.oschina.net/u/5735652/blog/10140250</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
+            <pubDate>Thu, 02 Nov 2023 02:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/hyprland</guid>
+            <link>https://www.oschina.net/p/hyprland</link>
         </item>
     </channel>
 </rss>
