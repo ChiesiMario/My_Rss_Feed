@@ -16,34 +16,44 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 09 Nov 2023 20:10:17 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 09 Nov 2023 22:13:23 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[美團招兵買馬，擬開發鴻蒙系統 App]]>
+                <![CDATA[解密 deepin-IDE：如何實現簡單靈活的調試技術？]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">美團招聘官網近日更新了多個鴻蒙相關的社招開發崗位，為鴻蒙原生應用開發招兵買馬。主要開發美團鴻蒙 App、大眾點評鴻蒙 App。</span></p><p><span style="color:#000000">其中的一個「鴻蒙高級工程師（C++）」職位就是面向美團鴻蒙 App 研發團隊。根據介紹，具體的崗位職責為：</span></p><ol><li><span style="color:#000000">參與鴻蒙端動態化容器的架構設計，確保項目研發質量和代碼的可維護性；</span></li><li><span style="color:#000000">負責鴻蒙端動態化容器的模塊設計與實現，實現高性能、高質量的容器模塊；</span></li><li><span style="color:#000000">對項目中的技術難點和重點進行深入研究和總結，積累可複用的經驗。</span></li><li><span style="color:#000000">能夠主動解決和推動項目前鴻蒙端動態化容器技術領域的阻塞點和難點；</span></li><li><span style="color:#000000">結合美團的業務需求，探索行業前沿技術，規劃容器技術路線。</span></li></ol><p><span style="color:#000000">且滿足「熟悉 ArkTS 和鴻蒙上的主流開發框架（例如 ArkUI）；作為主要貢獻者參與過有影響力的開源產品的開發；瞭解 Web 開發，熟悉瀏覽器內核的運行機制；瞭解動態化容器原理，熟悉 Hybrid、React Native、Flutter 等前沿技術之一；樂於分享和溝通，活躍於 GitHub 和各大技術社區，或有自己的高質量原創博客」等條件的將優先考慮。</span></p><p><span style="color:#000000"><img alt="" height="267" src="https://oscimg.oschina.net/oscnet/up-ae63f8c42eec2e0095d1026cb5f531df31b.png" width="500" referrerpolicy="no-referrer"></span></p></div>
+                <![CDATA[<div class="content"><div><p>前不久深度科技旗下 deepin 社區發佈了自己的 IDE：deepin-IDE，得到了全網用戶尤其是開源社區用戶的廣泛關注，目前在 GitHub（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flinuxdeepin%2Fdeepin-unioncode" target="_blank">https://github.com/linuxdeepin/deepin-unioncode</a>）倉庫的 star 數量已經達到 600 多個，説明大家的熱情還是很高漲的。</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922163311.png" referrerpolicy="no-referrer"></div><p>為了從技術層面給大家的熱情做一個反饋，本文試着將 deepin-IDE 內部的一些實現方法進行分享，希望能夠解答友友們的疑惑並得到積極的反饋。</p><p>本篇挑了大家關心的「調試」部分進行分享。需要説明的是，deepin-IDE 的調試功能是選用 DAP（Debug Adapter Protocol ）調試適配協議實現的，所以整體架構是圍繞該協議搭建的，至於<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>具體是什麼，讓我們帶着問號往下看。</p><h2>什麼是<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議</h2><p><code>DAP</code><span>&nbsp;</span>即調試適配協議 ( Debug Adapter Protocol )，顧名思義，它是用來對多種調試器進行抽象統一的適配層，將原有<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>和調試工具直接交互的模式更改為和<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>進行交互。該模式可以讓<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>集成多種調試器變得更簡單，且靈活性更好。</p><p>在<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>中的調試功能有許多小功能組成，包括單步執行、斷點、查看變量值等，常規的實現方式是在每個<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>中去實現這些邏輯，且因為調試工具的接口不同，還需要為每個調試工具做一些適配工作，這將導致大量且重複的工作，如下圖所示：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922164609.png" referrerpolicy="no-referrer"></div><p>調試適配器協議背後的想法是標準化一個抽象協議，用於開發工具如何與具體調試器通信。這個思想和<span>&nbsp;</span><code>LSP</code>(Language Server Protocol) 和<span>&nbsp;</span><code>BSP</code>(Build Server Protocol) 類似，都是通過協議去統一相同功能在不同工具之間的差異性。其所處位置如下圖所示，其中左邊為不同的開發工具，右邊為不能同的調試器，不同於開發工具和調試器直接交互的方式，<code>DAP</code><span>&nbsp;</span>將這些交互統一了起來，讓開發工具和調試工具都面向<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>編程。</p><p>上圖中的交互是通過協議進行，所以不會像通過<span>&nbsp;</span><code>API</code><span>&nbsp;</span>的方式存在語言限制，可以更好的適應調試器的集成。</p><h2>DAP 如何工作</h2><p>以下部分解釋了開發工具（例如<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>或編輯器）和調試適配器之間的交互，包括具體的協議格式説明、交互流程等。</p><h3>調試會話</h3><p>開發工具有兩種基礎的方式和調試器進行交互，分別是:</p><p>【單會話模式】</p><p>在這種模式下，開發工具啓動一個調試適配器作為一個單獨的進程並且通過標準的 std 接口進行通信。在調試會話的結束時調試適配器就終止，對於當前的調試會話，開發工具往往需要實現多個調試適配。</p><p>【多會話模式】</p><p>在這種模式下，開發工具不會啓動調試適配器，而是假定它已經在運行並且會在特定端口上偵聽連接嘗試，對於每個調試會話，開發工具在特定端口上啓動一個新的通信會話並在會話結束時斷開連接。</p><p>在與調試適配器建立連接後，開發工具和調試適配器之間通過基礎協議進行通信。</p><h3>基礎協議</h3><p>基礎協議由兩部分組成，包括頭和內容 (類似於 HTTP)，頭部和內容部分通過「\r\n」進行分割：</p><p>【協議頭】</p><p>協議頭部分由字段組成， 每個頭字段由一個鍵和一個值組成，用‘:’（一個冒號和一個空格）分隔， 每個頭字段都以「\r\n「結尾。由於最後一個協議頭字段和整個協議頭本身都以 \r\n 終止，並且由於協議頭是強制性的，所以消息的內容部分總是在（並唯一標識）兩個 \r\n 序列之前。當前只支持一個協議頭字段：</p><table style="border-spacing:0px; max-width:100%"><tbody><tr><th style="text-align:left">頭字段名</th><th style="text-align:left">值類型</th><th style="text-align:left">描述</th></tr></tbody><tbody><tr><td style="border-style:double; border-width:1px; text-align:left">Content-Length</td><td style="border-style:double; border-width:1px; text-align:left">數字</td><td style="border-style:double; border-width:1px; text-align:left">這個字段是必須的，用來記錄內容字段的長度，單位是字節。</td></tr></tbody></table><p>協議頭部分使用的是「ASCII」編碼。</p><p>【內容部分】</p><p>內容部分包含了實際要傳輸的數據，這些數據用<span>&nbsp;</span><code>JSON</code><span>&nbsp;</span>格式來描述請求、響應和事件。內容部分用的是<span>&nbsp;</span><code>utf-8</code><span>&nbsp;</span>編碼</p><p>為了有個具體的認識，這裏舉個簡單的例子。在調試過程中，開發人員經常會使用到下一步操作，在<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>中其協議為：</p><div><pre><code class="language-plain">Content-Length: 119\r\n
+\r\n
+{
+ &nbsp; &nbsp;"seq": 153,
+ &nbsp; &nbsp;"type": "request",
+ &nbsp; &nbsp;"command": "next",
+ &nbsp; &nbsp;"arguments": {
+ &nbsp; &nbsp; &nbsp; &nbsp;"threadId": 3
+ &nbsp;  }
+}
+</code></pre></div><p>類型是「請求」，命令是下一步，參數部分可以攜帶多個，這裏是用的線程 Id。 這個協議看着挺簡單的，是吧？接下來就講講如何使用它。</p><h3>使用方法</h3><p>詳細的使用方法這裏就不涉及，因為用一個時序圖就可以説明：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922164954.png" referrerpolicy="no-referrer"></div><p>可以看到，初始化、請求、響應等必要的步驟都在圖中。其中調試適配器可以理解為調試器的抽象，調試功能的最終執行者是由對應語言的調試工具實現的。</p><h2>在 deepin-IDE 中的實現</h2><p>在 deepin-IDE 中，調試功能的實現是結合<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>+<span>&nbsp;</span><code>debugmanager</code><span>&nbsp;</span>實現的。</p><p><code>cppdap</code><span>&nbsp;</span>是一款基於 C++ 開發的<span>&nbsp;</span><code>SDK</code>，基本實現了<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>的全量協議。 deepin-IDE 的客戶端和服務端都是應用的該<span>&nbsp;</span><code>SDK</code><span>&nbsp;</span>進行開發，據此可以實現以下功能：</p><p>1.通信功能，包括服務端的 TCP 監聽，客戶端的 TCP 連接等；</p><p>2.<code>DAP</code><span>&nbsp;</span>協議的封裝，並實現協議的串行化和解串行化；</p><p>3.提供註冊回調功能，從而可以在回調內處理各種事件、請求等；</p><p>它的層級結構如下：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165226.png" referrerpolicy="no-referrer"></div><p>用<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>可以減少客戶端和服務端不少工作量，也統一了兩邊的協議數據。而 debugmanager 可以理解為調試器的抽象，包含所有必要的調試要素。整體結構如下：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165251.png" referrerpolicy="no-referrer"></div><p>左邊是客戶端，右邊是服務端，內部實現如下：</p><h3>客戶端實現</h3><p>客戶端包含了兩個個主要功能，一個是和<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>服務端進行交互，發送調試命令或處理返回的數據；另一個是將<code>DAP</code><span>&nbsp;</span>數據轉換後顯示到用戶界面，並響應界面發送的事件。概括起來就包含業務模塊、事件模塊、<code>DAP</code><span>&nbsp;</span>模塊和界面 4 個部分。</p><p>業務模塊</p><ul><li><p>業務模塊包含了插件類、調試參數、調試管理類等，其中插件類負責插件加載、初始化、獲取上下文等，調試管理類用來組合事件、<code>DAP</code>、界面幾個模塊。 事件模塊</p></li><li><p>事件模塊包含兩個子模塊，分別是事件發送和事件接收，比如頁面跳轉事件、添加\移除斷點事件等。<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>模塊</p></li></ul><p><code>DAP</code><span>&nbsp;</span>模塊基於<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>開發，採用層級結構，底層是原始<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議封裝，中間層是針對業務做的進一步封裝，簡化了向外提供的接口，最上層是對整個調試功能的整合，包括數據緩存、界面元素、命令收發。</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165331.png" referrerpolicy="no-referrer"></div><ul><li>界面部分，界面模塊包含堆棧界面、變量界面、斷點列表、異步對話框等，用於<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>的數據展示。</li></ul><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165342.png" referrerpolicy="no-referrer"></div><ul><li>如上圖所示，灰色部分為<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>客戶端的界面呈現。</li></ul><h3>服務端實現</h3><p>服務端的功能分為兩個部分，一個是基於<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>實現命令的收發，另一個是與<span>&nbsp;</span><code>gdb</code><span>&nbsp;</span>交互，實現調試程序的啓動、暫停、退出等一系列動作。</p><p>DAP</p><ul><li><p>和客戶端一樣，服務端也是基於<code>cppdap</code>實現的通信和協議封裝和解析。 調試工具</p></li><li><p>和調試工具的交互是通過進程調用的方式實現，接收進程輸出得到返回信息。如果調試工具本身支持<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議，則可以直接交互。</p></li></ul><p>至此，本次的分享就到這兒啦！不知道你對<span>&nbsp;</span><code>deepin-IDE</code><span>&nbsp;</span>中的調試功能有所瞭解了嗎？</p><p>溫馨提示，deepin-IDE 還包含很多有意思的功能，如果大家感興趣可以積極反饋，後續有機會再進行分享。</p><h2>參考文檔</h2><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmicrosoft.github.io%2Fdebug-adapter-protocol%2Foverview" target="_blank">debug-adapter-protocol</a></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwiki.deepin.org%2Fzh%2F05_HOW-TO%2F02_%25E5%25BC%2580%25E5%258F%2591%25E7%259B%25B8%25E5%2585%25B3%2Fdeepin-unioncode" target="_blank">deepin-IDE 使用手冊</a></p><p>內容來源：deepin 社區</p><p>內容作者：deepin-mozart、toberyan</p></div></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 07 Nov 2023 07:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/265725</guid>
-            <link>https://www.oschina.net/news/265725</link>
+            <pubDate>Tue, 07 Nov 2023 06:38:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265585/deepin-ide-debug</guid>
+            <link>https://www.oschina.net/news/265585/deepin-ide-debug</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
             <title>
-                <![CDATA[蘋果正在利用 LLM 徹底改造 Siri，將成為殺手級 AI 應用]]>
+                <![CDATA[蘋果暫停 iPhone 和 Mac 的系統新功能開發工作，專注修復 bug]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>爆料者 Tech_Reve 發表推文<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FTech_Reve%2Fstatus%2F1722418466647625999" target="_blank">表示</a></u>，蘋果公司正在使用大語言模型 (LLM) 將 Siri 徹底改造成「終極虛擬助理」，並準備將其開發為「最強大的殺手級 AI 應用」。</p><p>目前蘋果正在積極推進這項開發工作，首款產品預計將在 WWDC 2024 上亮相。改進後的 Siri 將成為 iPhone 16 及後續機型的標配功能。</p><p><img src="https://static.oschina.net/uploads/space/2023/1109/111614_rFyz_2720166.png" referrerpolicy="no-referrer"></p><p>Tech_Reve 還説道，蘋果和三星一樣<strong>，整體思路都是專注於在設備側運行，同時配合雲端實現相關 AI 服務</strong>，這是因為 AI 在本地運行響應時間更快、不需要網絡連接，且更具隱私性。</p><p>上個月<u><a href="https://www.oschina.net/news/263067">彭博社的報道</a></u>也提到了蘋果公司內部對如何部署生成式 AI 的爭論：<strong>完全在設備上運行、基於雲運行或介於兩者之間</strong>。</p><p><span style="background-color:#ffffff; color:#333333">部署在設備上會運行得更快，並有助於保護隱私，但通過雲部署大模型將允許更高級的操作。部署在設備端的策略也會讓蘋果更難更新其技術並適應快速變化的行業。考慮到這一點，該公司很可能採用組合方法：<strong>使用設備上的部署處理某些功能，使用雲來處理更高級的任務</strong>。</span></p><p>彭博社還提到，今年 7 月，蘋果公司構建了自己的大型語言模型，<a href="https://www.oschina.net/news/250184/apple-gpt"><strong>稱為 Ajax</strong></a>，並推出了一個名為 「Apple GPT」 的內部聊天機器人來測試其功能。下一步的關鍵是確定該技術是否能夠應對競爭對手，以及蘋果如何將其實際應用到產品中。</p><p>分別負責人工智能和軟件工程的高級副總裁 John Giannandrea 以及 Craig Federighi 正在帶頭開展這項工作，服務主管 Eddy Cue 也參與其中。目前，3 人計劃每年在該項目上花費約 10 億美元。</p><p>據介紹，John Giannandrea 主要負責全新 AI 系統的底層技術，他的團隊目前正在改進 Siri，這個更智能的 Siri 最早可能會在明年準備就緒。</p></div>
+                <![CDATA[<div class="content"><p>彭博社報道稱，蘋果公司罕見地暫停了明年 iPhone、iPad、Mac 和其他設備的軟件更新開發工作，以便根除代碼中的 bug。</p><p><img src="https://static.oschina.net/uploads/space/2023/1108/141600_8Btu_2720166.png" referrerpolicy="no-referrer"></p><p>via <em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bloomberg.com%2Fnews%2Farticles%2F2023-11-07%2Fapple-delays-work-on-ios-18-macos-15-watchos-11-due-to-problems-with-bugs" target="_blank">彭博社</a></u></em></p><p>蘋果上週在內部向員工宣佈了這一決定，<strong>公司工程師現在的主要任務不是添加新功能而是修復 bug 和改進性能</strong>。</p><p>在準備明年發佈的新操作系統時，軟件工程管理團隊在內部測試中發現了太多的<strong>"escapes"</strong>問題（內部測試期間遺漏的錯誤）。由於數千名不同的蘋果員工在各種操作系統和設備上工作，這些操作系統和設備需要無縫協作，因此很容易出現故障。</p><p>因此他們採取了不同尋常的做法，暫停新功能開發一週，專注於修 bug。雖然暫停一週，但發版時間仍按原計劃進行。</p><p>目前還不清楚此次暫停開發一週對上述系統來説存在哪些影響，彭博社稱這是蘋果非常罕見的舉動。</p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 07 Nov 2023 03:27:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/265689</guid>
-            <link>https://www.oschina.net/news/265689</link>
+            <pubDate>Tue, 07 Nov 2023 06:21:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265579</guid>
+            <link>https://www.oschina.net/news/265579</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -287,21 +297,6 @@ getServiceMethod.invoke(null, "location", proxyLocationManager);
         </item>
         <item>
             <title>
-                <![CDATA[華為與西工大合作，發佈首款流體力學大模型「秦嶺・翱翔」]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>華為近日宣佈，與西北工業大學聯合研發的首個面向飛行器的流體力學大模型「秦嶺・翱翔」現已正式發佈。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ff4d245868c9104fe5ffe5ca0fd9c6111a1.png" referrerpolicy="no-referrer"></p><p>秦嶺・翱翔大模型是西工大流體力學智能化國際聯合研究所攜手華為 AI4Sci Lab 在國產開源流體計算軟件風雷的基礎上，依託昇騰 AI 澎湃算力及昇思 MindSpore AI 框架共同研發的面向飛行器流體仿真的智能化模型。</p><p>大模型通過打造智能通用的流體力學軟件平台與流體工業全場景應用底座，旨在實現全場景流場準確預測。同時結合業界領先的數據同化、AI 湍流模型、流場快速預測等技術，支撐流體力學大模型的基礎構架。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d498c2db0add1f15cf241f0aff43d998bfb.png" referrerpolicy="no-referrer"></p><p>具體來説，大模型採用自研多級分佈式並行自適應框架，多層級融合流體力學經典理論和人工智能方法，構造數學物理關聯特徵、開展多範式一體化建模、搭建不變性可實現性多模態統一框架。同時，在模型算法設計、混合精度加速，以及數值求解耦合並行優化等方面進行了創新與驗證，實現了高置信度流場重構、全速域湍流場求解和複雜流場近實時預測。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 06 Nov 2023 08:51:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/265612</guid>
-            <link>https://www.oschina.net/news/265612</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[英偉達或將推出針對中國區的最新改良版 AI 芯片]]>
             </title>
             <description>
@@ -311,6 +306,21 @@ getServiceMethod.invoke(null, "location", proxyLocationManager);
             <pubDate>Mon, 06 Nov 2023 07:25:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/265728</guid>
             <link>https://www.oschina.net/news/265728</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[美團招兵買馬，擬開發鴻蒙系統 App]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">美團招聘官網近日更新了多個鴻蒙相關的社招開發崗位，為鴻蒙原生應用開發招兵買馬。主要開發美團鴻蒙 App、大眾點評鴻蒙 App。</span></p><p><span style="color:#000000">其中的一個「鴻蒙高級工程師（C++）」職位就是面向美團鴻蒙 App 研發團隊。根據介紹，具體的崗位職責為：</span></p><ol><li><span style="color:#000000">參與鴻蒙端動態化容器的架構設計，確保項目研發質量和代碼的可維護性；</span></li><li><span style="color:#000000">負責鴻蒙端動態化容器的模塊設計與實現，實現高性能、高質量的容器模塊；</span></li><li><span style="color:#000000">對項目中的技術難點和重點進行深入研究和總結，積累可複用的經驗。</span></li><li><span style="color:#000000">能夠主動解決和推動項目前鴻蒙端動態化容器技術領域的阻塞點和難點；</span></li><li><span style="color:#000000">結合美團的業務需求，探索行業前沿技術，規劃容器技術路線。</span></li></ol><p><span style="color:#000000">且滿足「熟悉 ArkTS 和鴻蒙上的主流開發框架（例如 ArkUI）；作為主要貢獻者參與過有影響力的開源產品的開發；瞭解 Web 開發，熟悉瀏覽器內核的運行機制；瞭解動態化容器原理，熟悉 Hybrid、React Native、Flutter 等前沿技術之一；樂於分享和溝通，活躍於 GitHub 和各大技術社區，或有自己的高質量原創博客」等條件的將優先考慮。</span></p><p><span style="color:#000000"><img alt="" height="267" src="https://oscimg.oschina.net/oscnet/up-ae63f8c42eec2e0095d1026cb5f531df31b.png" width="500" referrerpolicy="no-referrer"></span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 06 Nov 2023 07:20:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265725</guid>
+            <link>https://www.oschina.net/news/265725</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
@@ -343,6 +353,21 @@ getServiceMethod.invoke(null, "location", proxyLocationManager);
             <link>https://www.oschina.net/news/265693</link>
             <author>
                 <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[蘋果正在利用 LLM 徹底改造 Siri，將成為殺手級 AI 應用]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>爆料者 Tech_Reve 發表推文<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FTech_Reve%2Fstatus%2F1722418466647625999" target="_blank">表示</a></u>，蘋果公司正在使用大語言模型 (LLM) 將 Siri 徹底改造成「終極虛擬助理」，並準備將其開發為「最強大的殺手級 AI 應用」。</p><p>目前蘋果正在積極推進這項開發工作，首款產品預計將在 WWDC 2024 上亮相。改進後的 Siri 將成為 iPhone 16 及後續機型的標配功能。</p><p><img src="https://static.oschina.net/uploads/space/2023/1109/111614_rFyz_2720166.png" referrerpolicy="no-referrer"></p><p>Tech_Reve 還説道，蘋果和三星一樣<strong>，整體思路都是專注於在設備側運行，同時配合雲端實現相關 AI 服務</strong>，這是因為 AI 在本地運行響應時間更快、不需要網絡連接，且更具隱私性。</p><p>上個月<u><a href="https://www.oschina.net/news/263067">彭博社的報道</a></u>也提到了蘋果公司內部對如何部署生成式 AI 的爭論：<strong>完全在設備上運行、基於雲運行或介於兩者之間</strong>。</p><p><span style="background-color:#ffffff; color:#333333">部署在設備上會運行得更快，並有助於保護隱私，但通過雲部署大模型將允許更高級的操作。部署在設備端的策略也會讓蘋果更難更新其技術並適應快速變化的行業。考慮到這一點，該公司很可能採用組合方法：<strong>使用設備上的部署處理某些功能，使用雲來處理更高級的任務</strong>。</span></p><p>彭博社還提到，今年 7 月，蘋果公司構建了自己的大型語言模型，<a href="https://www.oschina.net/news/250184/apple-gpt"><strong>稱為 Ajax</strong></a>，並推出了一個名為 「Apple GPT」 的內部聊天機器人來測試其功能。下一步的關鍵是確定該技術是否能夠應對競爭對手，以及蘋果如何將其實際應用到產品中。</p><p>分別負責人工智能和軟件工程的高級副總裁 John Giannandrea 以及 Craig Federighi 正在帶頭開展這項工作，服務主管 Eddy Cue 也參與其中。目前，3 人計劃每年在該項目上花費約 10 億美元。</p><p>據介紹，John Giannandrea 主要負責全新 AI 系統的底層技術，他的團隊目前正在改進 Siri，這個更智能的 Siri 最早可能會在明年準備就緒。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 06 Nov 2023 03:27:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265689</guid>
+            <link>https://www.oschina.net/news/265689</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -422,6 +447,21 @@ getServiceMethod.invoke(null, "location", proxyLocationManager);
         </item>
         <item>
             <title>
+                <![CDATA[華為與西工大合作，發佈首款流體力學大模型「秦嶺・翱翔」]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>華為近日宣佈，與西北工業大學聯合研發的首個面向飛行器的流體力學大模型「秦嶺・翱翔」現已正式發佈。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ff4d245868c9104fe5ffe5ca0fd9c6111a1.png" referrerpolicy="no-referrer"></p><p>秦嶺・翱翔大模型是西工大流體力學智能化國際聯合研究所攜手華為 AI4Sci Lab 在國產開源流體計算軟件風雷的基礎上，依託昇騰 AI 澎湃算力及昇思 MindSpore AI 框架共同研發的面向飛行器流體仿真的智能化模型。</p><p>大模型通過打造智能通用的流體力學軟件平台與流體工業全場景應用底座，旨在實現全場景流場準確預測。同時結合業界領先的數據同化、AI 湍流模型、流場快速預測等技術，支撐流體力學大模型的基礎構架。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d498c2db0add1f15cf241f0aff43d998bfb.png" referrerpolicy="no-referrer"></p><p>具體來説，大模型採用自研多級分佈式並行自適應框架，多層級融合流體力學經典理論和人工智能方法，構造數學物理關聯特徵、開展多範式一體化建模、搭建不變性可實現性多模態統一框架。同時，在模型算法設計、混合精度加速，以及數值求解耦合並行優化等方面進行了創新與驗證，實現了高置信度流場重構、全速域湍流場求解和複雜流場近實時預測。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 05 Nov 2023 08:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/265612</guid>
+            <link>https://www.oschina.net/news/265612</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[著名硬件黑客黃欣國：美國限制 RISC-V 只會適得其反]]>
             </title>
             <description>
@@ -446,46 +486,6 @@ getServiceMethod.invoke(null, "location", proxyLocationManager);
             <pubDate>Sun, 05 Nov 2023 06:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/265587</guid>
             <link>https://www.oschina.net/news/265587</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[解密 deepin-IDE：如何實現簡單靈活的調試技術？]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><p>前不久深度科技旗下 deepin 社區發佈了自己的 IDE：deepin-IDE，得到了全網用戶尤其是開源社區用戶的廣泛關注，目前在 GitHub（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flinuxdeepin%2Fdeepin-unioncode" target="_blank">https://github.com/linuxdeepin/deepin-unioncode</a>）倉庫的 star 數量已經達到 600 多個，説明大家的熱情還是很高漲的。</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922163311.png" referrerpolicy="no-referrer"></div><p>為了從技術層面給大家的熱情做一個反饋，本文試着將 deepin-IDE 內部的一些實現方法進行分享，希望能夠解答友友們的疑惑並得到積極的反饋。</p><p>本篇挑了大家關心的「調試」部分進行分享。需要説明的是，deepin-IDE 的調試功能是選用 DAP（Debug Adapter Protocol ）調試適配協議實現的，所以整體架構是圍繞該協議搭建的，至於<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>具體是什麼，讓我們帶着問號往下看。</p><h2>什麼是<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議</h2><p><code>DAP</code><span>&nbsp;</span>即調試適配協議 ( Debug Adapter Protocol )，顧名思義，它是用來對多種調試器進行抽象統一的適配層，將原有<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>和調試工具直接交互的模式更改為和<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>進行交互。該模式可以讓<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>集成多種調試器變得更簡單，且靈活性更好。</p><p>在<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>中的調試功能有許多小功能組成，包括單步執行、斷點、查看變量值等，常規的實現方式是在每個<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>中去實現這些邏輯，且因為調試工具的接口不同，還需要為每個調試工具做一些適配工作，這將導致大量且重複的工作，如下圖所示：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922164609.png" referrerpolicy="no-referrer"></div><p>調試適配器協議背後的想法是標準化一個抽象協議，用於開發工具如何與具體調試器通信。這個思想和<span>&nbsp;</span><code>LSP</code>(Language Server Protocol) 和<span>&nbsp;</span><code>BSP</code>(Build Server Protocol) 類似，都是通過協議去統一相同功能在不同工具之間的差異性。其所處位置如下圖所示，其中左邊為不同的開發工具，右邊為不能同的調試器，不同於開發工具和調試器直接交互的方式，<code>DAP</code><span>&nbsp;</span>將這些交互統一了起來，讓開發工具和調試工具都面向<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>編程。</p><p>上圖中的交互是通過協議進行，所以不會像通過<span>&nbsp;</span><code>API</code><span>&nbsp;</span>的方式存在語言限制，可以更好的適應調試器的集成。</p><h2>DAP 如何工作</h2><p>以下部分解釋了開發工具（例如<span>&nbsp;</span><code>IDE</code><span>&nbsp;</span>或編輯器）和調試適配器之間的交互，包括具體的協議格式説明、交互流程等。</p><h3>調試會話</h3><p>開發工具有兩種基礎的方式和調試器進行交互，分別是:</p><p>【單會話模式】</p><p>在這種模式下，開發工具啓動一個調試適配器作為一個單獨的進程並且通過標準的 std 接口進行通信。在調試會話的結束時調試適配器就終止，對於當前的調試會話，開發工具往往需要實現多個調試適配。</p><p>【多會話模式】</p><p>在這種模式下，開發工具不會啓動調試適配器，而是假定它已經在運行並且會在特定端口上偵聽連接嘗試，對於每個調試會話，開發工具在特定端口上啓動一個新的通信會話並在會話結束時斷開連接。</p><p>在與調試適配器建立連接後，開發工具和調試適配器之間通過基礎協議進行通信。</p><h3>基礎協議</h3><p>基礎協議由兩部分組成，包括頭和內容 (類似於 HTTP)，頭部和內容部分通過「\r\n」進行分割：</p><p>【協議頭】</p><p>協議頭部分由字段組成， 每個頭字段由一個鍵和一個值組成，用‘:’（一個冒號和一個空格）分隔， 每個頭字段都以「\r\n「結尾。由於最後一個協議頭字段和整個協議頭本身都以 \r\n 終止，並且由於協議頭是強制性的，所以消息的內容部分總是在（並唯一標識）兩個 \r\n 序列之前。當前只支持一個協議頭字段：</p><table style="border-spacing:0px; max-width:100%"><tbody><tr><th style="text-align:left">頭字段名</th><th style="text-align:left">值類型</th><th style="text-align:left">描述</th></tr></tbody><tbody><tr><td style="border-style:double; border-width:1px; text-align:left">Content-Length</td><td style="border-style:double; border-width:1px; text-align:left">數字</td><td style="border-style:double; border-width:1px; text-align:left">這個字段是必須的，用來記錄內容字段的長度，單位是字節。</td></tr></tbody></table><p>協議頭部分使用的是「ASCII」編碼。</p><p>【內容部分】</p><p>內容部分包含了實際要傳輸的數據，這些數據用<span>&nbsp;</span><code>JSON</code><span>&nbsp;</span>格式來描述請求、響應和事件。內容部分用的是<span>&nbsp;</span><code>utf-8</code><span>&nbsp;</span>編碼</p><p>為了有個具體的認識，這裏舉個簡單的例子。在調試過程中，開發人員經常會使用到下一步操作，在<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>中其協議為：</p><div><pre><code class="language-plain">Content-Length: 119\r\n
-\r\n
-{
- &nbsp; &nbsp;"seq": 153,
- &nbsp; &nbsp;"type": "request",
- &nbsp; &nbsp;"command": "next",
- &nbsp; &nbsp;"arguments": {
- &nbsp; &nbsp; &nbsp; &nbsp;"threadId": 3
- &nbsp;  }
-}
-</code></pre></div><p>類型是「請求」，命令是下一步，參數部分可以攜帶多個，這裏是用的線程 Id。 這個協議看着挺簡單的，是吧？接下來就講講如何使用它。</p><h3>使用方法</h3><p>詳細的使用方法這裏就不涉及，因為用一個時序圖就可以説明：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922164954.png" referrerpolicy="no-referrer"></div><p>可以看到，初始化、請求、響應等必要的步驟都在圖中。其中調試適配器可以理解為調試器的抽象，調試功能的最終執行者是由對應語言的調試工具實現的。</p><h2>在 deepin-IDE 中的實現</h2><p>在 deepin-IDE 中，調試功能的實現是結合<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>+<span>&nbsp;</span><code>debugmanager</code><span>&nbsp;</span>實現的。</p><p><code>cppdap</code><span>&nbsp;</span>是一款基於 C++ 開發的<span>&nbsp;</span><code>SDK</code>，基本實現了<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>的全量協議。 deepin-IDE 的客戶端和服務端都是應用的該<span>&nbsp;</span><code>SDK</code><span>&nbsp;</span>進行開發，據此可以實現以下功能：</p><p>1.通信功能，包括服務端的 TCP 監聽，客戶端的 TCP 連接等；</p><p>2.<code>DAP</code><span>&nbsp;</span>協議的封裝，並實現協議的串行化和解串行化；</p><p>3.提供註冊回調功能，從而可以在回調內處理各種事件、請求等；</p><p>它的層級結構如下：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165226.png" referrerpolicy="no-referrer"></div><p>用<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>可以減少客戶端和服務端不少工作量，也統一了兩邊的協議數據。而 debugmanager 可以理解為調試器的抽象，包含所有必要的調試要素。整體結構如下：</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165251.png" referrerpolicy="no-referrer"></div><p>左邊是客戶端，右邊是服務端，內部實現如下：</p><h3>客戶端實現</h3><p>客戶端包含了兩個個主要功能，一個是和<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>服務端進行交互，發送調試命令或處理返回的數據；另一個是將<code>DAP</code><span>&nbsp;</span>數據轉換後顯示到用戶界面，並響應界面發送的事件。概括起來就包含業務模塊、事件模塊、<code>DAP</code><span>&nbsp;</span>模塊和界面 4 個部分。</p><p>業務模塊</p><ul><li><p>業務模塊包含了插件類、調試參數、調試管理類等，其中插件類負責插件加載、初始化、獲取上下文等，調試管理類用來組合事件、<code>DAP</code>、界面幾個模塊。 事件模塊</p></li><li><p>事件模塊包含兩個子模塊，分別是事件發送和事件接收，比如頁面跳轉事件、添加\移除斷點事件等。<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>模塊</p></li></ul><p><code>DAP</code><span>&nbsp;</span>模塊基於<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>開發，採用層級結構，底層是原始<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議封裝，中間層是針對業務做的進一步封裝，簡化了向外提供的接口，最上層是對整個調試功能的整合，包括數據緩存、界面元素、命令收發。</p><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165331.png" referrerpolicy="no-referrer"></div><ul><li>界面部分，界面模塊包含堆棧界面、變量界面、斷點列表、異步對話框等，用於<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>的數據展示。</li></ul><div><img src="https://wiki.deepin.org/05_HOW-TO/deepin-unioncode/img-20230922165342.png" referrerpolicy="no-referrer"></div><ul><li>如上圖所示，灰色部分為<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>客戶端的界面呈現。</li></ul><h3>服務端實現</h3><p>服務端的功能分為兩個部分，一個是基於<span>&nbsp;</span><code>cppdap</code><span>&nbsp;</span>實現命令的收發，另一個是與<span>&nbsp;</span><code>gdb</code><span>&nbsp;</span>交互，實現調試程序的啓動、暫停、退出等一系列動作。</p><p>DAP</p><ul><li><p>和客戶端一樣，服務端也是基於<code>cppdap</code>實現的通信和協議封裝和解析。 調試工具</p></li><li><p>和調試工具的交互是通過進程調用的方式實現，接收進程輸出得到返回信息。如果調試工具本身支持<span>&nbsp;</span><code>DAP</code><span>&nbsp;</span>協議，則可以直接交互。</p></li></ul><p>至此，本次的分享就到這兒啦！不知道你對<span>&nbsp;</span><code>deepin-IDE</code><span>&nbsp;</span>中的調試功能有所瞭解了嗎？</p><p>溫馨提示，deepin-IDE 還包含很多有意思的功能，如果大家感興趣可以積極反饋，後續有機會再進行分享。</p><h2>參考文檔</h2><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmicrosoft.github.io%2Fdebug-adapter-protocol%2Foverview" target="_blank">debug-adapter-protocol</a></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwiki.deepin.org%2Fzh%2F05_HOW-TO%2F02_%25E5%25BC%2580%25E5%258F%2591%25E7%259B%25B8%25E5%2585%25B3%2Fdeepin-unioncode" target="_blank">deepin-IDE 使用手冊</a></p><p>內容來源：deepin 社區</p><p>內容作者：deepin-mozart、toberyan</p></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 05 Nov 2023 06:38:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/265585/deepin-ide-debug</guid>
-            <link>https://www.oschina.net/news/265585/deepin-ide-debug</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[蘋果暫停 iPhone 和 Mac 的系統新功能開發工作，專注修復 bug]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>彭博社報道稱，蘋果公司罕見地暫停了明年 iPhone、iPad、Mac 和其他設備的軟件更新開發工作，以便根除代碼中的 bug。</p><p><img src="https://static.oschina.net/uploads/space/2023/1108/141600_8Btu_2720166.png" referrerpolicy="no-referrer"></p><p>via <em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bloomberg.com%2Fnews%2Farticles%2F2023-11-07%2Fapple-delays-work-on-ios-18-macos-15-watchos-11-due-to-problems-with-bugs" target="_blank">彭博社</a></u></em></p><p>蘋果上週在內部向員工宣佈了這一決定，<strong>公司工程師現在的主要任務不是添加新功能而是修復 bug 和改進性能</strong>。</p><p>在準備明年發佈的新操作系統時，軟件工程管理團隊在內部測試中發現了太多的<strong>"escapes"</strong>問題（內部測試期間遺漏的錯誤）。由於數千名不同的蘋果員工在各種操作系統和設備上工作，這些操作系統和設備需要無縫協作，因此很容易出現故障。</p><p>因此他們採取了不同尋常的做法，暫停新功能開發一週，專注於修 bug。雖然暫停一週，但發版時間仍按原計劃進行。</p><p>目前還不清楚此次暫停開發一週對上述系統來説存在哪些影響，彭博社稱這是蘋果非常罕見的舉動。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 05 Nov 2023 06:21:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/265579</guid>
-            <link>https://www.oschina.net/news/265579</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
