@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 12 Nov 2023 12:06:05 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 12 Nov 2023 16:06:20 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[印度政府机关遭到骇客组织 SideCopy 锁定，利用 WinRAR 漏洞发动攻击]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/sidecopy_oct2023-winrar-2.drawio-156.png?itok=ct3n7Jk6" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>软体开发商 RARLab 于 7 月下旬修补的零时差漏洞 CVE-2023-38831，继俄罗斯、中国有多个国家级骇客利用这项漏洞发动攻击，有其他国家级骇客也跟进，将其用于攻击行动。</p><p>资安业者 Seqrite 揭露<a href="https://www.seqrite.com/blog/sidecopys-multi-platform-onslaught-leveraging-winrar-zero-day-and-linux-variant-of-ares-rat/">巴基斯坦骇客组织 SideCopy 近期的攻击行动</a>，这些骇客锁定印度，积极利用 WinRAR 的漏洞 CVE-2023-38831，对 Windows 电脑部署 AllaKore RAT、DRat 等恶意软体，但他们也看到骇客对于 Linux 电脑植入 Ares RAT 变种恶意程式。</p><p>SideCopy 的攻击行动最早可追溯自 2019 年，长期以来都是针对南亚国家下手，其中又以印度国防产业、阿富汗政府机关为主要目标。研究人员指出，从今年初，他们每个月几乎都会看到新的攻击行动，也陆续发现骇客所使用的新工具，像是 Double Action RAT、另一个以.NET 开发的 RAT 木马程式，而在战术、技术、程序（TTP）上，这些骇客也开始透过 PowerShell 远端执行命令。</p><p>此外，这些骇客今年更积极针对大学生下手，并泄露学生资料，研究人员推测很有可能是替恐怖组织招募成员。再者，该组织不光攻击 Windows 电脑，他们近期也开发了 Poseidon 及其他公用程式，使得 Linux 攻击工具更为强大。</p><p>特别的是，研究人员提及，该组织还会利用蜜罐陷阱（Honeypot）引诱国防人员上当，借由网路间谍行动窃取机密情报。</p><p>而对于这波利用 WinRAR 漏洞的攻击，骇客先是透过网路钓鱼手法，引诱使用者下载 PDF 诱饵档案，但实际上为 Windows 捷径档案（LNK），一旦开启此档，电脑就有可能执行远端的 HTA 档案，从而检查电脑安装的.NET 版本、防毒软体资讯，然后使用 Base64 编码解密，于记忆体内执行恶意 DLL 档案，为了执行这个 DLL 档案，骇客会滥用 Windows 内建的公用程式，如 credwiz.exe、rekeywiz.exe，以 DLL 侧载（DLL Side-loading）手法载入恶意 DLL 档案。</p><p>在其中一起攻击行动里，骇客散布声称与印度太空研究组织 NSRO 有关的 PDF 档案，档名是 ACR.pdf 或 ACR_ICR_ECR_Form_for_Endorsement_New_Policy.pdf，针对 Windows 电脑而来。但研究人员进一步调查发现，这些攻击者也将这两个 PDF 档案用于散布 Linux 变种的 Ares RAT。再者，两次攻击骇客使用的网域，都指向相同的 IP 位址。</p><p>而在针对 Windows 电脑的攻击行动当中，使用者若是依照指示开启 PDF 档案，电脑就会从骇客的网域下载 ZIP 档案，当中含有伪装成 PDF 档案的 Windows 连结档案，其中一个是 Homomaleity – Indian Armed Forces ․pdf.lnk。一旦使用者开启，就会触发远端的 HTA 档案，这个档案内容包含了诱饵 PDF 档案、恶意 DLL 程式库，并会检查电脑安装的.NET 版本、收集防毒软体资讯，然后将 DLL 档案解码、在记忆体内执行。</p><p>这个 DLL 程式库先会开启诱饵档案降低使用者戒心，然后向骇客的网域发送讯号，从而下载最终的 HTA 及 DLL 档案，并根据受害电脑采用的防毒软体程式（Seqrite、Quick Heal、卡巴斯基、Avast、Avira、Bitdefender、Microsoft Defender），移动至特定的资料夹，启动最终的 DLL 档案。</p><p>而另一个骇客所使用的 Homomaleity – Indian Armed Forces.zip 压缩档，则是内含 ELF 执行档，研究人员反组译后，发现该恶意程式会在受害电脑部署以 Python 打造的 Ares RAT。</p><p><a href="https://s4.itho.me/sites/default/files/images/SideCopy_Oct2023-Ares-2_drawio.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/SideCopy_Oct2023-Ares-2_drawio.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>而在另一起攻击行动当中，骇客会在网路钓鱼的过程里利用了前述的 WinRAR 漏洞。一旦使用者依照对方指示操作，电脑便会下载恶意压缩档，内容是 PDF 档案及同名资料夹，使用者若透过 WinRAR 开启，并执行 PDF 档案，有效酬载就会透过 WinRAR 的 ShellExecute 功能函数触发。研究人员指出，骇客所使用的 PDF 诱饵档案，与全印度非公报军官组织（AIANGO）有关。</p><p>在上述压缩档内的资料夹里，含有名为 AllaKore RAT 的恶意酬载，其功能包括窃取系统资讯、键盘侧录、截取萤幕画面、上传或下载档案，甚至能让攻击者远端存取受害电脑。</p><p>研究人员也根据恶意网域、C2 的 IP 位址，与其他攻击行动建立关联。这些骇客曾在 4 月假借沙乌地阿拉伯代表团的名义，散布另一款恶意程式 DRat，后来又在 8 月以美中贸易战为诱饵再度进行攻击。同样在 8 月，该组织又以印度国防部及议会事务为幌子，散布 Ares RAT 恶意程式。</p><p><a href="https://s4.itho.me/sites/default/files/images/SideCopy_Oct2023-WinRAR-2_drawio.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/SideCopy_Oct2023-WinRAR-2_drawio.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>附带一提，<a href="https://thehackernews.com/2023/11/sidecopy-exploiting-winrar-flaw-in.html">资安新闻网站 Hacker News 认为</a>，这些骇客针对 Linux 电脑下手并非巧合，原因是印度政府与国防部门打算使用名为 Maya OS 的 Linux 版本，逐步取代 Windows 作业系统。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 11 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159747</guid>
+            <link>https://www.ithome.com.tw/news/159747</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[Google 行事历被找出用作 C2 基础架构的方法？有恶意程式开发者宣称能办到，引起骇客圈热议]]>
@@ -77,7 +92,7 @@
             <author>
                 <![CDATA[罗正汉]]>
             </author>
-            <category></category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -92,7 +107,7 @@
             <author>
                 <![CDATA[王若朴]]>
             </author>
-            <category></category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -149,7 +164,7 @@
             <author>
                 <![CDATA[黄彦棻]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -167,7 +182,7 @@
             <author>
                 <![CDATA[黄彦棻]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -182,7 +197,7 @@
             <author>
                 <![CDATA[陈晓莉]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -207,7 +222,7 @@
             <author>
                 <![CDATA[黄彦棻]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -402,7 +417,7 @@
             <author>
                 <![CDATA[周峻佑]]>
             </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -435,22 +450,7 @@
             <author>
                 <![CDATA[黄彦棻]]>
             </author>
-            <category>资安 </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[《资安法》实施五年首度大修法！主管机关启动资安法修法程序]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zhong_kai_jiang_yu_gao_zi_an_fa_xiu_fa_-960.jpg?itok=0sOY0ofb" width="960" height="420" alt="" title="数位部推动《资安法》修法，除了召开座谈会收集各界专家学者意见外，也在国发会「公共政策网路参与平台－众开讲」预告修法，希望收集更多网友意见作为修法参考。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 数位部推动《资安法》修法，除了召开座谈会收集各界专家学者意见外，也在国发会「公共政策网路参与平台－众开讲」预告修法，希望收集更多网友意见作为修法参考。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>台湾目前唯一规范各种资安事件通报、应变及处理的法律，就是《资通安全管理法》（以下简称为《资安法》），自从 2018 年 6 月 6 日制定公布，到 2019 年元旦正式实施以来，至今并未进行修法。</p><p>过去五年未能修法，有个很重要的原因在于：修法组织异动。原先负责《资安法》制定的行政院资通安全处，原本是行政院的四级幕僚单位，而在 2022 年 8 月 27 日行政院数位发展部成立后，也同时成立资安专责单位：资安署。因为负责修法单位的组织异动，也让相关的修法进度无法有进展。</p><p>由于《资安法》自实施以来都没有修过法，为了让该法更符合实际的运作模式，外界开始有修法的呼声，数位部也透过举办几次座谈会，邀请各界专家学者，汇整各界意见，后续在国发会「公共政策网路参与平台—众开讲」中公告，预告修正《资通安全管理法》。</p><p>此次，《资安法》修正草案中，明订《资安法》主管机关和资安执行机关，也另外新增六条法条，多数都是为了将现行对资安的实务作为法制化，包括资安会报入法、禁用危害国家资安产品入法、特定非公务机关设资安长入法、行政检查入法外，也增订拒绝行政检查的罚则，以及发生个资外泄的资安事件时，也将适用《个资法》规范。</p><p>由于《资安法》适用公务机关以及特定非公务机关，目前台湾特定非公务机关只有数位部、指定的中央目的事业主管机关，以及被指定的关键基础设施服务提供者知情，目前数位发展部以担心中共知情为由，不愿意公布名单。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>主管机关为二级机关数位部，执行单位为三级机关资安署</strong></span></span></p><p>为了让《资安法》的运作更符合实务要求并配合行政院的组织运作，所以，此次修法草案中，最重要的一件事，就是配合数位发展部以及资安署的成立，于是，在修正草案第二条中，将原本的主管机关从行政院改为数位发展部，相关的国家资通安全业务，则交由数位发展部资安署办理。</p><p>这个因应行政院组织异动随之调整的法条内容，会产生什么影响？原本的行政院资通安全处是行政院四级的幕僚机关，所有发文都会以行政院的名义对外发送，而因为是行政院的发文，所以各机关重视程度相对高。但数位发展部成立后，属于行政院的二级机关，资安署更是三级机关，因此，当数位发展部发文时，由于其他部会属于平行单位，重视与否端看该公文是否与部会业务相关。至于三级单位的资安署，处境更尴尬——虽然在修正草案中，已经明订资安署是国家的资安专责单位，但在组织运作上，却因为三级位阶矮人一等，若是要对外发文给上级单位时，难免也会遇到上下权责难以对应的考量。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>资安署收各部会资安稽核报告，金管会对上下权责区分表达意见</strong></span></span></p><p>最明显的例子就是，数位发展部在国发会众开讲平台搜集各界对《资安法》修正草案的建议，就有金管会发文指出权责问题。</p><p>首先，依据修正草案第八条的规定，资安署得定期或不定期稽核公务机关及特定非公务机关的资通安全维护计划实施情形，金管会认为，当三级机关的资安署可以对一、二级公务机关，以及特定非公务机关（包含关键基础设施提供者）办理资安稽核相关作业，并要求将稽核结果及改善报告送交资安署时，这样的作法是否符合相关业法上下权责的划分、组织职掌等事宜，因此，金管会表示，对于资安署能否据以办理相关稽核作业的权责妥适性，也应该一并考虑斟酌。</p><p>另一个争议点是修正草案第十九条增订「关键基础设施提供者的指定基准、废止条件及程序由中央目的事业主管机关公告，并拟订指定清单报行政院核定。」金管会提出，如果中央目的事业主管机关依公告的指定基准，指定关键基础设施提供者的清单，与行政院核定结果不符的时候，其所公告指定基准是否具有法规效力。</p><p>另外，第十九条中也规定，中央目的事业主管机关会征询相关公务机关、民间团体、专家学者的意见后订定指定清单，金管会表示，指定程序是否具订定之必要，建议再审酌其必要性及法规位阶。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>资安会报正式入法，建立跨机关、中央地方联防机制</strong></span></span></p><p>除了资安事务的主管机关和执行机关明定在《资安法》修正草案中，另外一个重点就是，将现行运作多年的行政院「国家资通安全会报」，正式纳入《资安法》新增的修正草案第五条，并指定数位发展部为幕僚单位。</p><p>「资通安全会报」从 2011 年经行政院院会核定后，通过第一期资通安全机制计划，便同时成立行政院「国家资通安全会报」。根据《行政院国家资通安全会报设置要点》第一条，设立国家资通安全会报的目的就是为了：积极推动国家资通安全政策，加速建构国家资通安全环境并提升国家竞争力。</p><p>资通安全会报由行政院副院长兼任召集人，行政院资安长则由资通安全会报召集人兼任；这是整合跨部会、跨直辖市副首长、专家、学者的资安组织，相关幕僚作业则由数位发展部办理。</p><p>事实上，资安会报运作已经超过十年，除了要因应全球资安威胁和突发的资安事件越来越多之外，最主要的任务就是：协助建立各机关中央和地方的联防体系，真正强化跨机关的资安应变和协调处理能力，以及落实资安会报的决议事项。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>特定非公务机关的指定方式让人不解</strong></span></span></p><p>事实上，《资安法》在五年前开始修订时，当时的法律架构参考《个资法》，法条内容则针对公务机关以及特定非公务机关两个标的，因此，许多熟悉《个资法》个资的人，看到公务机关以及特定非公务机关的用语，会觉得似曾相识。</p><p>不过，《资安法》和《个资法》最大的差异在于，对「非公务机关」的适用范围定义不同，前者是「特定」非公务机关，后者则是除了公务之关之外都算是非公务机关。</p><p>因此，《资安法》适用的特定非公务机关的范围，其实经过中央目的事业主管机关的再三挑选后，才指定的「特定」非公务机关，数量上一定比《个资法》适用的范围小。</p><p>不过，台湾指定的特定非公务机关，目前面临很严重的问题，那就是：即便是同一个产业、类似规模，甚至是扮演相似的角色，会因为主管机关的认知不同，而有指定与否的差别。</p><p>举例而言，关键基础设施中的交通运输领域，中央目的事业主管机关是交通部，针对飞机类的主管机关则是民航局。</p><p>据了解，在国籍航空中，只有中华航空公司被指定为关键基础设施中的「特定非公务机关」，但同为国籍航空的长荣航空、立荣航空、华信航空、星宇航空以及台湾虎航等，都不在关键基础设施领域中的「特定非公务机关」名单中。</p><p>若以规模和功能来看，身为国籍航空的华航过去曾经帮忙国家运送疫苗，长荣航空也同样有帮忙运送疫苗，因此，既然在先前 COVID-19 全球疫情大爆发的情况下，政府都会要求两家航空公司协助，如今就国家安全的角度而言，就应该有不同标准吗？如果只是因为官股成分的不同，所以民航局仅指定中华航空作为关键基础设施中的特定非公务机关，然而，如果不同时指定其他国籍航空公司，恐怕会产生许多争议，不符合全民的认知与期待。</p><p>若回头看修正草案第三条对关键基础设施的定义，「指行政院公告之关键领域中，该领域服务所依赖之系统或网路之实体或虚拟资产，其功能一旦停止运作或效能降低，对国家安全、社会公共利益、国民生活或经济活动有重大影响之虞者。」从上述定义来看，中华航空和长荣航空一旦服务中断，对台湾社会造成的冲击，难道会有差异吗？</p><p>再者，金融业因为营业规模大小而分级，全部纳入管理，航空业和其他列为八大关键基础设施领域的服务提供者，也同样可以透过分级分类的方式，把相同等级的业者，一并纳入同样关键基础设施领域的特定非公务机关名单，才是合理的作为。</p><p>就好像，通传会（NCC）要指定电信业者作为特定非公务机关时，一定是因为该业者对于台湾通讯服务扮演重要角色，一旦服务中断，将会严重影响社会、民生和经济活动。</p><p>所以，NCC 如果因为官股成分，只指定中华电信作为特定非公务机关，而不指定台湾大哥大和远传电信的话，是否就会变成政府认定，列为特定非公务机关的中华电信，其服务一旦中断，对社会国家造成的冲击，会比其他电信业者大呢？</p><p>由此可证，如果中华电信、台湾大哥大和远传电信，因为都是台湾重要的电信服务提供者，一旦服务中断，都会对台湾社会带来同样巨大的冲击，因此，都必须列为特定非公务机关的名单时，难道，长荣航空不应该因为和中华航空具有同样的重要性，而应该同样被列入特定非公务机关的名单中吗？</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>数位部不愿公布关键基础设施清单，引发质疑</strong></span></span></p><p>另一个资安法修法的争议点在于，数位发展部目前不愿意公布关键基础设施服务提供者的名单，他们对外的说法是：「担心中共知道后，会攻打这些单位」但平心而论，这样的理由并无法令人信服，反而会被认为是公务人员「不做不错」的心态作祟。</p><p>对欧盟《资安法》有深入研究的政大法律系兼任助理教授万幼筠表示，欧盟有一个跨国关键基础设施的清单列表，在每个关键基础设施领域，都可以各自找到欧盟 30 个会员国各自的关键基础设施清单。另外，在网路上，甚至也可以找到一个 Open Infrastructure Map，提供全球各国关键基础设施的电厂地图。</p><p>从上述做法来看，国家关键基础设施的清单并非不能公开，敌对国家与组织仍然可以透过许多方法进行收集和判断，不会因为政府不公开而能阻止其他人认定，但数位发展部如今却以关键基础设施的清单被中共知道，会对台湾不利为由而不愿意提供，此举令人觉得荒谬！</p><p>换个角度来看，这些关键基础设施的清单就算不公布，以中共对台湾的渗透，加上台湾内部有许多过度亲中人士的协助，中共还是可以知道哪些是关键基础设施的名单吗？数位部不公布清单，只是鸵鸟心态，更严重的问题，在于国人如果无法明确知道所要保护的对象，如何进一步提高这方面的心防？</p><p>事实上，关键不在于能否彻底隐瞒、不泄漏清单，而是被视为关键基础设施服务提供者，是否做好应该有的资安防护措施，这不只是政府的责任，也是民众的责任；而且，透过资讯公开透明的全民监督方式，也可以作为监督相关关键基础设施精进资安作为的外部动力。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 09 Nov 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159729</guid>
-            <link>https://www.ithome.com.tw/news/159729</link>
-            <author>
-                <![CDATA[黄彦棻]]>
-            </author>
-            <category>资安 </category>
+            <category>新闻</category>
         </item>
     </channel>
 </rss>
