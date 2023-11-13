@@ -16,22 +16,73 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 13 Nov 2023 07:07:08 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 13 Nov 2023 09:07:24 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[Slowquery —— 图形化显示 MySQL 慢日志平台]]>
+                <![CDATA[OBS Studio 30.0 正式发布：支持 WebRTC]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p style="text-align:start"><span style="background-color:#ffffff; color:#1f2328">Slowquery</span>&nbsp;是一个开源的 PHP Web 应用程序，旨在帮助数据库管理员（DBA）和开发者更好地管理和监控 MySQL 数据库的慢查询日志。它提供了一个简单易用的界面，可以方便地查看和分析慢查询日志，并提供了许多有用的功能，例如慢查询邮件报警和自动发送慢查询分析报告等。</p><p>以下是主要功能和特点：</p><ol><li>显示慢查询日志：提供了一个实时更新的界面，可以显示数据库中的慢查询日志，包括执行时间、执行次数、SQL 语句等信息。用户可以通过界面轻松地查看和分析慢查询日志，找到哪些查询是慢查询，并了解它们的执行情况。</li><li>慢查询搜索和筛选：提供了强大的搜索和筛选功能，使用户可以快速找到感兴趣的慢查询。用户可以通过执行时间、执行次数、SQL 语句等多个维度进行搜索和筛选，还可以对搜索结果进行排序和过滤，以便更好地了解慢查询的情况。</li><li>慢查询分析：提供了慢查询分析功能，可以对慢查询进行深入的分析和诊断。它可以将慢查询与数据库的表结构进行关联，显示每个表的查询次数和平均执行时间等信息，使用户更好地了解慢查询的本质和根源。</li><li>邮件报警：支持配置邮件报警功能，可以自动发送慢查询分析报告和警报信息给指定的邮箱。用户可以根据需要设置报警阈值和报警时间等参数，以便及时了解数据库的性能问题。</li></ol><hr><p style="color:#1f2328; text-align:start">参考了开源工具 Anemometer 图形展示思路，开发在页面上点击慢 SQL，就会自动反馈优化建议，同时也支持自动发送邮件报警功能。</p><p style="color:#1f2328; text-align:start">agent 客户端慢日志采集分析是结合 Percona pt-query-digest 工具来实现。</p><hr><p><img alt="image" src="https://camo.githubusercontent.com/a7f7c0d40aafb4a0ac83921b84b47902b62dbcfd151e2c1a160f7ba85c605e6a/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313730393136352e6a7067" referrerpolicy="no-referrer"></p><p><img alt="image" src="https://camo.githubusercontent.com/bf8132e9b985c985d7cba6c81af73f89027c0b145c064d0d27231d3201f35686/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313732343432382e6a7067" referrerpolicy="no-referrer"></p><p><img height="768" src="https://oscimg.oschina.net/oscnet/up-fdcdf886f52f4aced8b0a9733ed59f75b68.png" width="1366" referrerpolicy="no-referrer"></p><hr><p style="color:#1f2328; text-align:start"><span style="background-color:#ffffff; color:#1f2328">视频演示：</span><a href="https://www.douyin.com/video/7278552026181586216">https://www.douyin.com/video/7278552026181586216</a></p><hr><p style="color:#1f2328; text-align:start">服务端部署</p><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F">拉取镜像</a></h1><div style="text-align:start"><pre><code>shell&gt; docker pull docker.io/hcymysql/slowquery:2023-09-13</code></pre></div><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E5%90%AF%E5%8A%A8">启动</a></h1><div style="text-align:start"><pre><code>shell&gt; docker run -itd -e "TERM=xterm-256color" --privileged --name slowquery -p 80:80 -p 3306:3306 &lt;IMAGE ID&gt; /usr/sbin/init
-</code></pre></div><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E8%BF%9B%E5%85%A5docker%E9%87%8C%E5%90%AF%E5%8A%A8httpd%E6%9C%8D%E5%8A%A1">进入 docker 里，启动 httpd 服务</a></h1><div style="text-align:start"><pre><code>shell&gt; docker exec -it slowquery /bin/bash
-shell&gt; systemctl start httpd.service </code></pre></div><hr><h1><span>​</span>录入你要监控的 MySQL 主库配置信息</h1><div style="text-align:start"><pre><code>mysql&gt; INSERT INTO slowquery.dbinfo VALUES (1,'192.168.148.101','test','admin','123456',3306);
-</code></pre><div><hr><p>客户端部署</p></div></div><p style="color:#1f2328; text-align:start">进入到 slowquery/client_agent_script 目录下，把 slowquery_analysis.sh 脚本拷贝到生产 MySQL 主库上做慢日志分析推送，并修改里面的配置信息</p><p style="color:#1f2328; text-align:start">定时任务（10 分钟一次）</p><div style="text-align:start"><pre><code>*/10 * * * * /bin/bash /usr/local/bin/slowquery_analysis.sh &gt; /dev/null 2&gt;&amp;1</code></pre></div><p style="color:#1f2328; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E6%89%93%E5%BC%80%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5httpyouripslowqueryslowqueryphp">打开浏览器，输入</a><a href="http://yourip/slowquery/slowquery.php">http://yourIP/slowquery/slowquery.php</a></p><hr><h1 style="text-align:start">慢查询邮件推送报警配置</h1><p style="color:#1f2328; text-align:start">进入到 slowquery/alarm_mail/目录里，修改 sendmail.php 配置信息</p><p style="color:#1f2328; text-align:start">定时任务（每隔 3 小时慢查询报警推送一次）</p><div style="text-align:start"><pre><code>0 */3 * * * cd /var/www/html/slowquery/alarm_mail;/usr/bin/php  /var/www/html/slowquery/alarm_mail/sendmail.php</code></pre></div><p><img alt="image" src="https://camo.githubusercontent.com/f473330c47bae487618e026e4a2b1a333f40225ddf7dbc49e4d2bab2b863b017/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313832363135302e6a7067" referrerpolicy="no-referrer"></p><p><img height="643" src="https://oscimg.oschina.net/oscnet/up-5579779848fc6de5f8ba128de399d97154d.png" width="1158" referrerpolicy="no-referrer"></p></div>
-                                                                ]]>
+                <![CDATA[<div class="content"><p>OBS Studio 30.0 已正式发布。此版本移除了对 Ubuntu 20.04、Qt 5 和&nbsp;FFmpeg 4.4 之前版本的支持。</p><p>主要变化包括：</p><ul><li><p>支持 WebRTC（详情查看&nbsp;<u><a href="https://www.oschina.net/news/221903/obs-support-webrtc">OBS Studio 支持 WebRTC，采用 Rust 实现</a></u>）</p></li><li><p>重新设计状态栏，以便组织和结构化地管理内容，并引入更具代表性和可识别性的图标</p></li><li><p>为 Linux 平台添加 Intel QSV (Quick Sync Video) 支持</p></li><li><p>为 macOS 版本添加应用程序音频捕获</p></li><li><p>为 Windows 版本添加着色器缓存以减少启动时间</p></li><li><p>添加 「安全模式」：无需第三方插件、脚本和 websockets 即可运行 OBS</p></li></ul><p>其他值得关注的变化包括：默认按名称对音频 / 视频编码器下拉列表进行排序、增加使用拖放来排列过滤器的功能、在可能的情况下启用 GPU 缩放 「重新缩放输出」，以及增加了 Studio 模式下场景变化的日志记录。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6e1d644551806138afe46e459aa0b1af884.png" referrerpolicy="no-referrer"></p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fobsproject%2Fobs-studio%2Freleases%2Ftag%2F30.0.0" target="_blank">Release Notes</a></u>。</p></div>
+                                    ]]>
             </description>
-            <pubDate>Mon, 13 Nov 2023 06:00:59 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/slowquery</guid>
-            <link>https://www.oschina.net/p/slowquery</link>
+            <pubDate>Mon, 13 Nov 2023 03:03:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/266222/obs-studio-30-released</guid>
+            <link>https://www.oschina.net/news/266222/obs-studio-30-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[AiEditor beta.1 发布，一个面向 AI 的下一代富文本编辑器]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="text-align:center"><img alt="screenshot.png" src="https://gitee.com/aieditor-team/aieditor/raw/main/docs/assets/image/screenshot.png" referrerpolicy="no-referrer"></p><p><strong>关于 AiEditor</strong></p><blockquote><p>AiEditor 是一个面向 AI 的下一代富文本编辑器，她基于 Web Component，因此支持 Layui、Vue、React、Angular 等几乎任何前端框架。她适配了 PC Web 端和手机端，并提供了，亮色，和 暗色，两个主题。除此之外，她还提供了灵活的配置，开发者可以方便的使用其开发任何文字编辑的应用。</p></blockquote><h2>在线演示</h2><p><a href="https://gitee.com/link?target=http%3A%2F%2Faieditor.jpress.cn">http://aieditor.jpress.cn</a></p><h2>已完善</h2><ul><li>&nbsp;基础：标题、正文、字体、字号、加粗、斜体、下划线、删除线、链接、行内代码、上标、下标、分割线、引用、打印</li><li>&nbsp;增强：撤回、重做、格式刷、橡皮擦、待办事项、字体颜色、背景颜色、Emoji 表情、对齐方式、行高、有（无）序列表、段落缩进、强制换行</li><li>&nbsp;附件：支持图片、视频、文件功能，支持选择上传、粘贴上传、拖拽上传、支持拖动调整大小...</li><li>&nbsp;代码：行内代码、代码块、代码语言选择</li><li>&nbsp;表格：左增右增、左减右减、上增下增、上减下减、合并单元格、解除合并</li><li>&nbsp;A I：AI 续写、AI 优化、AI 校对、AI 翻译、自定义 AI 菜单及其 Prompts</li><li>&nbsp;更多：亮色主题、暗色主题、手机版适配、全屏编辑、@某某某（提及）...</li></ul><h2>待完善（计划中...）</h2><ul><li>&nbsp;国际化</li><li>&nbsp;团队协作</li><li>&nbsp;自动化测试</li><li>&nbsp;AI 插入图片</li><li>&nbsp;AI 图生图（AI 图片优化）</li><li>&nbsp;AI 一键排版</li><li>&nbsp;进一步强化增贴功能</li><li>&nbsp;上传视频自动获取缩略图</li><li>&nbsp;WORD 导入、导出</li><li>&nbsp;PDF 导出、PDF 预览</li><li>&nbsp;类腾讯文档 UI 风格</li><li>&nbsp;类 Notion 拖拽功能</li><li>&nbsp;更多的大模型对接：文心一言、ChatGPT</li></ul><h2>构建&amp;运行</h2><p><strong>构建</strong></p><pre>git clone https://gitee.com/aieditor-team/aieditor.git
+
+cd aieditor
+
+# 安装依赖
+npm install</pre><p><strong>运行</strong></p><p>修改&nbsp;<code>demos/main.ts</code>&nbsp;下的内容为：</p><pre>new AiEditor({
+    element: "#aiEditor",
+    placeholder: "点击输入内容...",
+    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。输入，空格 + "/" 可以快速弹出 AI 菜单哦 ',
+    ai: {
+        model: {
+            xinghuo: {
+                appId: "***",
+                apiKey: "***",
+                apiSecret: "***",
+            }
+        }
+    }
+})</pre><p>或者直接移除 AI 的配置，如下所示（移除后，则不能使用 AI 功能）：</p><pre>new AiEditor({
+    element: "#aiEditor",
+    placeholder: "点击输入内容...",
+    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。输入，空格 + "/" 可以快速弹出 AI 菜单哦 ',
+})</pre><p>然后再命令行下执行：</p><pre>npm run dev</pre><h2>AI 功能配置</h2><ul><li>1、去科大讯飞注册账号&nbsp;<a href="https://gitee.com/link?target=https%3A%2F%2Fxinghuo.xfyun.cn">https://xinghuo.xfyun.cn</a></li><li>2、在科大讯飞服务管理中（<a href="https://gitee.com/link?target=https%3A%2F%2Fconsole.xfyun.cn%2Fservices%2Fbm2">https://console.xfyun.cn/services/bm2</a>&nbsp;） 获取 appId、apiKey、apiSecret。</li><li>3、在配置中添加科大讯飞星火大模型配置</li></ul><pre>new AiEditor({
+    element: "#aiEditor",
+    placeholder: "点击输入内容...",
+    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。',
+    ai: {
+        model: {
+            xinghuo: {
+                appId: "***",
+                apiKey: "***",
+                apiSecret: "***",
+            }
+        }
+    }
+})
+</pre></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 13 Nov 2023 01:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/266204/aieditor-beta1</guid>
+            <link>https://www.oschina.net/news/266204/aieditor-beta1</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
         </item>
         <item>
             <title>
@@ -47,6 +98,21 @@ shell&gt; systemctl start httpd.service </code></pre></div><hr><h1><span>​</sp
             <author>
                 <![CDATA[原创]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Slowquery —— 图形化显示 MySQL 慢日志平台]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="text-align:start"><span style="background-color:#ffffff; color:#1f2328">Slowquery</span>&nbsp;是一个开源的 PHP Web 应用程序，旨在帮助数据库管理员（DBA）和开发者更好地管理和监控 MySQL 数据库的慢查询日志。它提供了一个简单易用的界面，可以方便地查看和分析慢查询日志，并提供了许多有用的功能，例如慢查询邮件报警和自动发送慢查询分析报告等。</p><p>以下是主要功能和特点：</p><ol><li>显示慢查询日志：提供了一个实时更新的界面，可以显示数据库中的慢查询日志，包括执行时间、执行次数、SQL 语句等信息。用户可以通过界面轻松地查看和分析慢查询日志，找到哪些查询是慢查询，并了解它们的执行情况。</li><li>慢查询搜索和筛选：提供了强大的搜索和筛选功能，使用户可以快速找到感兴趣的慢查询。用户可以通过执行时间、执行次数、SQL 语句等多个维度进行搜索和筛选，还可以对搜索结果进行排序和过滤，以便更好地了解慢查询的情况。</li><li>慢查询分析：提供了慢查询分析功能，可以对慢查询进行深入的分析和诊断。它可以将慢查询与数据库的表结构进行关联，显示每个表的查询次数和平均执行时间等信息，使用户更好地了解慢查询的本质和根源。</li><li>邮件报警：支持配置邮件报警功能，可以自动发送慢查询分析报告和警报信息给指定的邮箱。用户可以根据需要设置报警阈值和报警时间等参数，以便及时了解数据库的性能问题。</li></ol><hr><p style="color:#1f2328; text-align:start">参考了开源工具 Anemometer 图形展示思路，开发在页面上点击慢 SQL，就会自动反馈优化建议，同时也支持自动发送邮件报警功能。</p><p style="color:#1f2328; text-align:start">agent 客户端慢日志采集分析是结合 Percona pt-query-digest 工具来实现。</p><hr><p><img alt="image" src="https://camo.githubusercontent.com/a7f7c0d40aafb4a0ac83921b84b47902b62dbcfd151e2c1a160f7ba85c605e6a/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313730393136352e6a7067" referrerpolicy="no-referrer"></p><p><img alt="image" src="https://camo.githubusercontent.com/bf8132e9b985c985d7cba6c81af73f89027c0b145c064d0d27231d3201f35686/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313732343432382e6a7067" referrerpolicy="no-referrer"></p><p><img height="768" src="https://oscimg.oschina.net/oscnet/up-fdcdf886f52f4aced8b0a9733ed59f75b68.png" width="1366" referrerpolicy="no-referrer"></p><hr><p style="color:#1f2328; text-align:start"><span style="background-color:#ffffff; color:#1f2328">视频演示：</span><a href="https://www.douyin.com/video/7278552026181586216">https://www.douyin.com/video/7278552026181586216</a></p><hr><p style="color:#1f2328; text-align:start">服务端部署</p><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F">拉取镜像</a></h1><div style="text-align:start"><pre><code>shell&gt; docker pull docker.io/hcymysql/slowquery:2023-09-13</code></pre></div><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E5%90%AF%E5%8A%A8">启动</a></h1><div style="text-align:start"><pre><code>shell&gt; docker run -itd -e "TERM=xterm-256color" --privileged --name slowquery -p 80:80 -p 3306:3306 &lt;IMAGE ID&gt; /usr/sbin/init
+</code></pre></div><h1 style="margin-left:0; margin-right:0; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E8%BF%9B%E5%85%A5docker%E9%87%8C%E5%90%AF%E5%8A%A8httpd%E6%9C%8D%E5%8A%A1">进入 docker 里，启动 httpd 服务</a></h1><div style="text-align:start"><pre><code>shell&gt; docker exec -it slowquery /bin/bash
+shell&gt; systemctl start httpd.service </code></pre></div><hr><h1><span>​</span>录入你要监控的 MySQL 主库配置信息</h1><div style="text-align:start"><pre><code>mysql&gt; INSERT INTO slowquery.dbinfo VALUES (1,'192.168.148.101','test','admin','123456',3306);
+</code></pre><div><hr><p>客户端部署</p></div></div><p style="color:#1f2328; text-align:start">进入到 slowquery/client_agent_script 目录下，把 slowquery_analysis.sh 脚本拷贝到生产 MySQL 主库上做慢日志分析推送，并修改里面的配置信息</p><p style="color:#1f2328; text-align:start">定时任务（10 分钟一次）</p><div style="text-align:start"><pre><code>*/10 * * * * /bin/bash /usr/local/bin/slowquery_analysis.sh &gt; /dev/null 2&gt;&amp;1</code></pre></div><p style="color:#1f2328; text-align:start"><a href="https://github.com/hcymysql/slowquery#%E6%89%93%E5%BC%80%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5httpyouripslowqueryslowqueryphp">打开浏览器，输入</a><a href="http://yourip/slowquery/slowquery.php">http://yourIP/slowquery/slowquery.php</a></p><hr><h1 style="text-align:start">慢查询邮件推送报警配置</h1><p style="color:#1f2328; text-align:start">进入到 slowquery/alarm_mail/目录里，修改 sendmail.php 配置信息</p><p style="color:#1f2328; text-align:start">定时任务（每隔 3 小时慢查询报警推送一次）</p><div style="text-align:start"><pre><code>0 */3 * * * cd /var/www/html/slowquery/alarm_mail;/usr/bin/php  /var/www/html/slowquery/alarm_mail/sendmail.php</code></pre></div><p><img alt="image" src="https://camo.githubusercontent.com/f473330c47bae487618e026e4a2b1a333f40225ddf7dbc49e4d2bab2b863b017/68747470733a2f2f646261706c75732e636e2f75706c6f616466696c652f323031392f303332302f32303139303332303130313832363135302e6a7067" referrerpolicy="no-referrer"></p><p><img height="643" src="https://oscimg.oschina.net/oscnet/up-5579779848fc6de5f8ba128de399d97154d.png" width="1158" referrerpolicy="no-referrer"></p></div>
+                                                                ]]>
+            </description>
+            <pubDate>Sun, 12 Nov 2023 06:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/slowquery</guid>
+            <link>https://www.oschina.net/p/slowquery</link>
         </item>
         <item>
             <title>
@@ -128,21 +194,6 @@ FreeIOE 使用的<a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com
         </item>
         <item>
             <title>
-                <![CDATA[OBS Studio 30.0 正式发布：支持 WebRTC]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>OBS Studio 30.0 已正式发布。此版本移除了对 Ubuntu 20.04、Qt 5 和&nbsp;FFmpeg 4.4 之前版本的支持。</p><p>主要变化包括：</p><ul><li><p>支持 WebRTC（详情查看&nbsp;<u><a href="https://www.oschina.net/news/221903/obs-support-webrtc">OBS Studio 支持 WebRTC，采用 Rust 实现</a></u>）</p></li><li><p>重新设计状态栏，以便组织和结构化地管理内容，并引入更具代表性和可识别性的图标</p></li><li><p>为 Linux 平台添加 Intel QSV (Quick Sync Video) 支持</p></li><li><p>为 macOS 版本添加应用程序音频捕获</p></li><li><p>为 Windows 版本添加着色器缓存以减少启动时间</p></li><li><p>添加 「安全模式」：无需第三方插件、脚本和 websockets 即可运行 OBS</p></li></ul><p>其他值得关注的变化包括：默认按名称对音频 / 视频编码器下拉列表进行排序、增加使用拖放来排列过滤器的功能、在可能的情况下启用 GPU 缩放 「重新缩放输出」，以及增加了 Studio 模式下场景变化的日志记录。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6e1d644551806138afe46e459aa0b1af884.png" referrerpolicy="no-referrer"></p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fobsproject%2Fobs-studio%2Freleases%2Ftag%2F30.0.0" target="_blank">Release Notes</a></u>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 12 Nov 2023 03:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266222/obs-studio-30-released</guid>
-            <link>https://www.oschina.net/news/266222/obs-studio-30-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[openKylin 软件商店上新啦！超多精品应用任意下载~]]>
             </title>
             <description>
@@ -152,57 +203,6 @@ FreeIOE 使用的<a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com
             <pubDate>Sun, 12 Nov 2023 02:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/266218</guid>
             <link>https://www.oschina.net/news/266218</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[AiEditor beta.1 发布，一个面向 AI 的下一代富文本编辑器]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:center"><img alt="screenshot.png" src="https://gitee.com/aieditor-team/aieditor/raw/main/docs/assets/image/screenshot.png" referrerpolicy="no-referrer"></p><p><strong>关于 AiEditor</strong></p><blockquote><p>AiEditor 是一个面向 AI 的下一代富文本编辑器，她基于 Web Component，因此支持 Layui、Vue、React、Angular 等几乎任何前端框架。她适配了 PC Web 端和手机端，并提供了，亮色，和 暗色，两个主题。除此之外，她还提供了灵活的配置，开发者可以方便的使用其开发任何文字编辑的应用。</p></blockquote><h2>在线演示</h2><p><a href="https://gitee.com/link?target=http%3A%2F%2Faieditor.jpress.cn">http://aieditor.jpress.cn</a></p><h2>已完善</h2><ul><li>&nbsp;基础：标题、正文、字体、字号、加粗、斜体、下划线、删除线、链接、行内代码、上标、下标、分割线、引用、打印</li><li>&nbsp;增强：撤回、重做、格式刷、橡皮擦、待办事项、字体颜色、背景颜色、Emoji 表情、对齐方式、行高、有（无）序列表、段落缩进、强制换行</li><li>&nbsp;附件：支持图片、视频、文件功能，支持选择上传、粘贴上传、拖拽上传、支持拖动调整大小...</li><li>&nbsp;代码：行内代码、代码块、代码语言选择</li><li>&nbsp;表格：左增右增、左减右减、上增下增、上减下减、合并单元格、解除合并</li><li>&nbsp;A I：AI 续写、AI 优化、AI 校对、AI 翻译、自定义 AI 菜单及其 Prompts</li><li>&nbsp;更多：亮色主题、暗色主题、手机版适配、全屏编辑、@某某某（提及）...</li></ul><h2>待完善（计划中...）</h2><ul><li>&nbsp;国际化</li><li>&nbsp;团队协作</li><li>&nbsp;自动化测试</li><li>&nbsp;AI 插入图片</li><li>&nbsp;AI 图生图（AI 图片优化）</li><li>&nbsp;AI 一键排版</li><li>&nbsp;进一步强化增贴功能</li><li>&nbsp;上传视频自动获取缩略图</li><li>&nbsp;WORD 导入、导出</li><li>&nbsp;PDF 导出、PDF 预览</li><li>&nbsp;类腾讯文档 UI 风格</li><li>&nbsp;类 Notion 拖拽功能</li><li>&nbsp;更多的大模型对接：文心一言、ChatGPT</li></ul><h2>构建&amp;运行</h2><p><strong>构建</strong></p><pre>git clone https://gitee.com/aieditor-team/aieditor.git
-
-cd aieditor
-
-# 安装依赖
-npm install</pre><p><strong>运行</strong></p><p>修改&nbsp;<code>demos/main.ts</code>&nbsp;下的内容为：</p><pre>new AiEditor({
-    element: "#aiEditor",
-    placeholder: "点击输入内容...",
-    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。输入，空格 + "/" 可以快速弹出 AI 菜单哦 ',
-    ai: {
-        model: {
-            xinghuo: {
-                appId: "***",
-                apiKey: "***",
-                apiSecret: "***",
-            }
-        }
-    }
-})</pre><p>或者直接移除 AI 的配置，如下所示（移除后，则不能使用 AI 功能）：</p><pre>new AiEditor({
-    element: "#aiEditor",
-    placeholder: "点击输入内容...",
-    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。输入，空格 + "/" 可以快速弹出 AI 菜单哦 ',
-})</pre><p>然后再命令行下执行：</p><pre>npm run dev</pre><h2>AI 功能配置</h2><ul><li>1、去科大讯飞注册账号&nbsp;<a href="https://gitee.com/link?target=https%3A%2F%2Fxinghuo.xfyun.cn">https://xinghuo.xfyun.cn</a></li><li>2、在科大讯飞服务管理中（<a href="https://gitee.com/link?target=https%3A%2F%2Fconsole.xfyun.cn%2Fservices%2Fbm2">https://console.xfyun.cn/services/bm2</a>&nbsp;） 获取 appId、apiKey、apiSecret。</li><li>3、在配置中添加科大讯飞星火大模型配置</li></ul><pre>new AiEditor({
-    element: "#aiEditor",
-    placeholder: "点击输入内容...",
-    content: 'AiEditor 是一个面向 AI 的开源富文本编辑器。',
-    ai: {
-        model: {
-            xinghuo: {
-                appId: "***",
-                apiKey: "***",
-                apiSecret: "***",
-            }
-        }
-    }
-})
-</pre></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 12 Nov 2023 01:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266204/aieditor-beta1</guid>
-            <link>https://www.oschina.net/news/266204/aieditor-beta1</link>
             <author>
                 <![CDATA[来源: 投稿]]>
             </author>
