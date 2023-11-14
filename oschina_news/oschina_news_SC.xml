@@ -16,140 +16,34 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 14 Nov 2023 07:40:21 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 14 Nov 2023 09:45:42 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[从 JDK 11 升级到 JDK 17 的最全实践干货]]>
+                <![CDATA[2023 年收入最高的 10 种编程语言]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><h1><strong>1、前言</strong></h1><p>上篇文章给大家带来了<a href="https://my.oschina.net/u/4090830/blog/10111749">JDK8 升级 JDK11 的最全实践，</a>相信大家阅读后已经对 JDK11 有了比较深入的了解。2021 年 9 月 14 日，Oracle 发布了可以长期支持的 JDK17 版本，那么从 JDK11 到 JDK17，到底带来了哪些特性呢？亚毫秒级的 ZGC 效果到底怎么样呢？值得我们升级吗？而且升级过程会遇到哪些问题呢？带着这些问题，本篇文章将带来完整的 JDK11 升级 JDK17 最全实践。</p><h1><strong>2、为什么升级 JDK17</strong></h1><p><strong>1）长期支持版本</strong></p><p>JDK17 是 Oracle 官方在 2021 年 9 月 14 日发布的一个长期支持（LTS）版本，意味着它将获得长期的更新和支持，有助于保持程序的稳定性和可靠性。</p><p><strong>2）性能提升</strong></p><p>更好的垃圾回收器。综合评估，从 Java 8 升级到 Java 11，**G1GC 平均速度提升 16.1%，ParallelGC 为 4.5%****，**从 Java 11 升级到 Java 17，<strong>G1GC 平均速度提升 8.66%，ParallelGC 为 6.54%</strong>（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.optaplanner.org%2Fblog%2F2021%2F09%2F15%2FHowMuchFasterIsJava17.html" target="_blank">基于 OptaPlanner 的用例基准测试表明）</a></p><p>最大的亮点是带来了<strong>稳定版的 ZGC 垃圾回收器，达到亚毫秒级停顿。</strong></p><p><strong>3）新语法和特性</strong></p><p>Switch 表达式简化、Text Blocks 文本块、instanceof 的模式匹配升级和 NullPointerException 提示信息改进等</p><p>4）<strong>支持最新的技术和框架</strong></p><p>Spring framework6 和 Spring Boot3 都默认使用 Java 17 作为最低版本</p><h1><strong>3、升级后压测效果</strong></h1><blockquote><p><strong>先给出结论：</strong></p><p>1、JDK17 相对于 JDK8 和 JDK11，<strong>所有垃圾回收器的性能都有很明显的提升，特别是稳定版的 ZGC 垃圾回收器</strong></p><p>2、<strong>不论任何机器配置下，都推荐使用 ZGC</strong>，ZGC 的停顿时间达到亚毫秒级，吞吐量也比较高</p></blockquote><p><strong>我在 JDOS 平台上选择了不同配置的机器（2C4G、4C8G、8C16G），并分别使用 JDK8、JDK11 和 JDK17 进行部署和压测。</strong></p><p>整个压测过程限时 60 分钟，用 180 个虚拟用户并发请求一个接口，每次接口请求都创建 512Kb 的数据。最终产出不同 GC 回收器的各项指标数据，来分析 GC 的性能提升效果。</p><p><strong>以下是压测的性能情况：</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-07-18-46yVgvcZ9YUGOrY9x.png" alt="" referrerpolicy="no-referrer"></p><h1><strong>4、OracleJDK 和 OpenJDK 的选择</strong></h1><p>2021 年 9 月，Oracle 宣布 JDK17 可以免费商用，直到下一个 LTS 版本之后继续提供整整一年，同时 Oracle 将继续按照自 Java 9 以来的相同版本和时间表提供 GPL 下的 Oracle OpenJDK 版本。</p><p>2023 年 9 月，OracleJDK 发布了新的 LTS 版本 JDK21，这就意味着从<strong>2024 年 9 月开始，在生产环境使用 OracleJDK17 将需要付费。</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-01-20-01PLCD1wvvcxLRLNv.png" alt="" referrerpolicy="no-referrer"></p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.oracle.com%2Fhk%2Fjava%2Ftechnologies%2Fdownloads%2F%23java17" target="_blank">https://www.oracle.com/hk/java/technologies/downloads/#java17</a></p><p>OracleJDK 和 OpenJDK 这两个之间没有真正的技术差别，因为针对 Oracle JDK 构建过程是基于 OpenJDK 的。自从 JDK11 开始，OracleJDK 和 OpenJDK 在功能上基本相同，所以推荐使用 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjdk.java.net%2Farchive%2F" target="_blank">OpenJDK17</a> 或其他开源的 JDK 版本，这些开源版本都是基于 OpenJDK 构建并提供长期支持的,比如：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fadoptopenjdk.net%2F" target="_blank">AdoptOpenJDK</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevelopers.redhat.com%2Fproducts%2Fopenjdk%2Foverview" target="_blank">RedHatOpenJDK。</a></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-02-11-19DsSkxKErEDeigz2.png" alt="" referrerpolicy="no-referrer"></p><p>官方参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Fjava%2Fpost%2Foracle-jdk-releases-for-java-11-and-later" target="_blank">https://blogs.oracle.com/java/post/oracle-jdk-releases-for-java-11-and-later</a></p><h1><strong>5、JDK11 到 JDK17 带来了哪些新特性</strong></h1><h3><strong>5.1、JVM 改进</strong></h3><p>1、ZGC 垃圾回收器从实验性功能更改为<strong>正式产品功能</strong>，从 JDK11 引入以来，经过持续的迭代升级，目前已经足够稳定。<strong>需要手动开启，开启方式：-XX:+UseZGC</strong></p><p>2、G1 垃圾回收器仍然作为默认垃圾回收器，进行改进升级，主要包括可中止的混合收集集合、NUMA 可识别内存分配等</p><p>3、JDK14 开始删除 CMS 垃圾回收器</p><p>4、JDK14 开始弃用 ParallelScavenge 和 SerialOld GC 的组合使用</p><p>5、JDK15 禁用偏向锁，默认禁用：-XX:+UseBiasedLocking</p><p>6、NullPointerException 提示信息改进</p><p>JDK14 以前的出现 NullPointerException 时，只能定位到所在异常行，无法定位具体是哪个变量。改进后的 NullPointerException，可以清晰描述具体变量，提升了空指针异常的可读性。</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-27-10-50TTuaDvegXKr9SAo.png" alt="" referrerpolicy="no-referrer"></p><h3><strong>5.2、新语法特性</strong></h3><h4><strong>5.2.1、Switch 表达式简化</strong></h4><p>switch 表达式带来了简化式的编码方式，提供了新的分支切换方式，即 -&gt; 符号，右则表达式方法体在执行完分支方法之后，自动结束 switch 分支，同时 -&gt; 右则方法块中可以是表达式、代码块或者是手动抛出的异常</p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F361" target="_blank">https://openjdk.org/jeps/361</a></p><p><strong>传统写法</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-17-22rnaBICUHwCBlYZf.png" alt="" referrerpolicy="no-referrer"></p><p><strong>新写法</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-10-18Z48ZmbyE6jT10uWqP.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.2、Text Blocks 文本块</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F378" target="_blank">https://openjdk.org/jeps/378</a></p><p>通过编写 """，来减少转义字符和换行符，达到简化代码和提高代码可读性的目的</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-18-16tXnkRnYOGkQhTMS.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.3、Record 类型</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F395" target="_blank">https://openjdk.org/jeps/395</a></p><p>record 是 JDK 14 引入的关键字，用于声明不可变的数据类。它适用于存储纯粹的值类型数据，如接口传输数据、座标点和只读的日志记录。与 lombok 相比，record 简化了定义纯粹数据类型的过程。由于 record 类是不可变的，成员变量只能设置一次且无法更改，无需提供显式的 setter() 方法。</p><p><strong>1、定义 Point 类，使用关键字 record，未定义 get/set</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-25-19-50LjIj50MDXubzNv07.png" alt="" referrerpolicy="no-referrer"></p><p><strong>2、查看编译后的字节码文件</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-05MfRyF9o9FOD120oS.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-077FA41CoAIm41MkgIY.png" alt="" referrerpolicy="no-referrer"></p><p><strong>3、使用 Point 类</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-11LdZCsODuD8JpjE0.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.4、instanceof 的模式匹配升级</strong></h4><ul><li>instanceof 类型判断再也不需要强制转换</li></ul><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F394" target="_blank">https://openjdk.org/jeps/394</a></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-25-18-20mhLGcH20q20N25D0a.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.5、密封的类和接口</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F409" target="_blank">https://openjdk.org/jeps/409</a></p><p>JDK15 开始，引入了 sealed 普通类或接口类，这些类只允许被指定的类或者 interface 进行扩展和实现。</p><p>使用修饰符 sealed，您可以将一个类声明为密封类。密封的类使用关键字 permits 列出可以直接扩展它的类。子类可以是最终的，非密封的或密封的</p><p>比较实用的一个特性，可以用来限制类的层次结构</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-19-23EeeAvjyEjufkdfY.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.6、其他优化和升级</strong></h4><p>感兴趣的同学，推荐阅读 OpenJDK 官方文档说明，从 JDK11 到 JDK17 的改动： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fprojects%2Fjdk%2F17%2Fjeps-since-jdk-11" target="_blank">https://openjdk.org/projects/jdk/17/jeps-since-jdk-11</a></p><h1><strong>6、升级步骤</strong></h1><h3><strong>6.1、JDK 选择</strong></h3><p>OpenJDK17 下载：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjdk.java.net%2Farchive%2F" target="_blank">https://jdk.java.net/archive/</a></p><p>行云镜像：jdt-base-tomcat/java-jdt-centos7.4-openjdk-17.0.2-tomcat8.0.53</p><h3><strong>6.2、pom 编译配置升级</strong></h3><p>maven 编译所需 JDK 升级至 17</p><pre><code>&lt;properties&gt;
-    &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
-    &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
-&lt;/properties&gt;
-
-</code></pre><h3><strong>6.3、SpringBoot 升级</strong></h3><p>SpringBoot 版本升级到<strong>2.7.15</strong>，Spring 版本升级为<strong>5.3.29</strong></p><p><strong>为什么不升级到 SpringBoot3？</strong></p><p>Spring Boot 3.0 最低要求 Java 17，SpringBoot3.0 带来了很多变化，和 SpringBoot2 差异较大。 考虑到公司很多中间件都是基于 SpringBoot2 构建的，所以此处推荐升级到 SpringBoot2 的最高版本 2.7.15。</p><p><strong>POM 升级</strong></p><pre><code>&lt;parent&gt;
- &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
- &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
- &lt;version&gt;2.7.15&lt;/version&gt;
-&lt;/parent&gt;
-
-</code></pre><p>也可以通过设置 dependencyManagement 的方式：</p><pre><code>&lt;properties&gt;
-    &lt;!-- 框架版本配置--&gt;
-    &lt;springboot-version&gt;2.7.15&lt;/springboot-version&gt;
-    &lt;springframework.version&gt;5.3.29&lt;/springframework.version&gt;
-&lt;/properties&gt;  
-
-&lt;dependencyManagement&gt;
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-            &lt;version&gt;${springboot-version}&lt;/version&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-framework-bom&lt;/artifactId&gt;
-            &lt;version&gt;${springframework.version}&lt;/version&gt;
-            &lt;scope&gt;import&lt;/scope&gt;
-            &lt;type&gt;pom&lt;/type&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-
-</code></pre><p>参考：</p><p>spring 升级指南： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-framework%2Fwiki%2FSpring-Framework-Versions" target="_blank">https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions</a></p><p>springboot 版本官网： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fprojects%2Fspring-boot%23learn" target="_blank">https://spring.io/projects/spring-boot#learn</a></p><p><strong>循环依赖问题</strong></p><p>SpringBoot 升级到 2.7.15 后，如果应用中存在循环依赖的问题，启动时会报如下错误：</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-22-10-48Z10IRCapBcpKAVDi.png" alt="" referrerpolicy="no-referrer"></p><p><strong>原因</strong>：官方文档不鼓励循环依赖引用，默认情况下是禁止的</p><p><strong>解决方案：</strong></p><p>第一种：推荐更新应用中 bean 的依赖关系来解决</p><p>第二种：配置文件中加入以下配置，<strong>为了和旧版本保持一致，此配置推荐添加</strong></p><pre><code>#放开循环依赖
-spring.main.allow-circular-references=true
-
-</code></pre><h3><strong>6.4、常用中间件升级</strong></h3><h4><strong>6.4.1、Lombok 版本升级到 1.18.20 以上</strong></h4><pre><code>&lt;dependency&gt;
- &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
- &lt;artifactId&gt;lombok&lt;/artifactId&gt;
- &lt;version&gt;1.18.20&lt;/version&gt;
-&lt;/dependency&gt;
-
-</code></pre><p>如果不升级，编译时会报错如下：</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-13-20-01itBREuaDZdAzrpZ.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>6.4.2、swgger 问题，springfox3.0.0 和 springboot2.7 版本不兼容</strong></h4><p><strong>异常：</strong></p><pre><code>Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException: 
-Cannot invoke "org.springframework.web.servlet.mvc.condition.PatternsRequestCondition.getPatterns()" because "this.condition" is null
-
-</code></pre><p><strong>解决方案：</strong></p><pre><code>/**
- * 增加如下配置可解决 Spring Boot 2.7.15 与 Swagger 3.0.0 不兼容问题
- **/
-@Bean
-public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
-return new BeanPostProcessor() {
-
-@Override
- public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
-                customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
-            }
-return bean;
-}
-
-private &lt;T extends RequestMappingInfoHandlerMapping&gt; void customizeSpringfoxHandlerMappings(List&lt;T&gt; mappings) {
-            List&lt;T&gt; copy = mappings.stream().filter(mapping -&gt; mapping.getPatternParser() == null).collect(Collectors.toList());
-            mappings.clear();
-            mappings.addAll(copy);
-        }
-
-@SuppressWarnings("unchecked")
-private List&lt;RequestMappingInfoHandlerMapping&gt; getHandlerMappings(Object bean) {
-try {
-                Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
-                field.setAccessible(true);
-return (List&lt;RequestMappingInfoHandlerMapping&gt;) field.get(bean);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-throw new IllegalStateException(e);
-            }
-        }
-    };
-}
-
-</code></pre><p>参考：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F950787" target="_blank">https://developer.aliyun.com/article/950787</a></p><h4><strong>6.4.3、AKS 升级（针对直接从 JDK8 升级的情况）</strong></h4><p><strong>异常</strong>：Causedby: java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException</p><p><strong>原因</strong>：Java11 删除了 Java EE modules，其中就包括 java.xml.bind (JAXB)。</p><p><strong>解决方案：</strong></p><p>手动引入如下包即可</p><pre><code>&lt;!-- API, java.xml.bind module --&gt; 
-&lt;dependency&gt;
-      &lt;groupId&gt;jakarta.xml.bind&lt;/groupId&gt;
-      &lt;artifactId&gt;jakarta.xml.bind-api&lt;/artifactId&gt;
-      &lt;version&gt;2.3.2&lt;/version&gt;
-&lt;/dependency&gt; 
-&lt;!-- Runtime, com.sun.xml.bind module --&gt;
-&lt;dependency&gt;
-       &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
-       &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
-       &lt;version&gt;2.3.2&lt;/version&gt;
-&lt;/dependency&gt;
-
-</code></pre><h4><strong>6.4.4、Concrete 配置中心阻塞升级</strong></h4><p>使用 Concrete 时，启动时异常：</p><pre><code> Unable to make field private static final java.lang.reflect.Method jdk.proxy2.$Proxy97.m0 accessible: 
- module jdk.proxy2 does not "opens jdk.proxy2" to unnamed module @61d47554
-
-</code></pre><p><strong>原因：</strong></p><p>分析下 Concrete 报错的原因，如下图，包内 com.wangyin.concrete.spring.ConcreteConfigProcessor#postProcessAfterInitialization（212 行）的实现逻辑</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-14-00LgxgUIrSYEUTxjm.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-13-44BFAP7OjBiZqyaDb.png" alt="" referrerpolicy="no-referrer"></p><p><strong>解决方案：</strong></p><p>1、在 JVM 启动参数中设置--add-opens jdk.proxy2 来开启私有字段的访问，但因为动态代理生成的包名是随机不明确的，<strong>所以这种方案不可行</strong>。JDK 官方文档也明确表示不支持访问动态代理内部的随机字段。官方说明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcr.openjdk.org%2F%7Emr%2Fjigsaw%2Fspec%2Fapi%2Fjava%2Flang%2Freflect%2FProxy.html" target="_blank">https://cr.openjdk.org/~mr/jigsaw/spec/api/java/lang/reflect/Proxy.html</a></p><p>2、代码修改，只需把 f.setAccessible(true) 移到 Modifier.isStatic(f.getModifiers()) 的判断下方即可。原因是方法 Modifier.isStatic(f.getModifiers()) 本来就要跳过静态字段，这样修改直接避免了访问。<strong>推动 concrete 团队修复问题或更换使用 Ducc 配置中心</strong></p><h3><strong>6.5、JVM 启动参数配置</strong></h3><h4><strong>6.5.1、开启 ZGC</strong></h4><p><strong>启动参数中配置：</strong>-XX:+UseZGC</p><p>移除-XX:ConcGCThreads，行云部署下 JVM 参数配置需要清除</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-17-15-14Lyy3vSkGQSvlvGe.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>6.5.2、不同中间件所需启动参数</strong></h4><p>升级 JDK17 后，项目启动时可能会遇到如下两种类型的异常：</p><p>1、cannot access class sun.util.calendar.ZoneInfo (in module java.base) because <strong>module java.base</strong> does not <strong>export sun.util.calendar</strong> to unnamed module @0x2611f533</p><p>2、Unable to make field final int java.math.BigInteger.signum accessible: <strong>module java.base</strong> does not "<strong>opens java.math</strong>" to unnamed module @525f1e4e</p><p><strong>异常原因：</strong></p><p>自从 JDK9 中引入了模块化功能后，再到 JDK17，对于包扫描和反射的权限控制更加的严格。常见的库比如（Spring）大量用到包扫描和反射，所以常出现此错误。</p><p><strong>解决方案：</strong></p><p>一个粗暴的解决办法是将没开放的 module 强制对外开放，即保持和 Java9 之前的版本一致。</p><ul><li>--add-exports 导出包，意味着其中的所有公共类型和成员都可以在编译和运行时访问。</li><li>--add-opens 打开包，意味着其中的所有类型和成员（不仅是公共类型）都可以在运行时访问。</li></ul><p>主要区别在于<code>--add-opens</code>允许「深度反射」，即非公共成员的访问，才可以调用<code>setAccessible(true)</code></p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F44056405%2Fwhats-the-difference-between-add-exports-and-add-opens-in-java-9" target="_blank">https://stackoverflow.com/questions/44056405/whats-the-difference-between-add-exports-and-add-opens-in-java-9</a></p><p><strong>SGM 需要加入：</strong></p><pre><code>--add-opens java.management/java.lang.management=ALL-UNNAMED 
---add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED 
---add-opens java.management/sun.management=ALL-UNNAMED
-
-</code></pre><p><strong>R2M 需要加入：</strong></p><pre><code>--add-opens java.base/java.time=ALL-UNNAMED
-
-</code></pre><p><strong>Ducc 需要加入：</strong></p><pre><code>--add-opens java.base/java.util.concurrent=ALL-UNNAMED
---add-opens java.base/java.util.concurrent.locks=ALL-UNNAMED
---add-opens java.base/java.security=ALL-UNNAMED
---add-opens java.base/jdk.internal.loader=ALL-UNNAMED
---add-opens java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED 
---add-opens java.base/java.net=ALL-UNNAMED 
---add-opens java.base/sun.nio.ch=ALL-UNNAMED 
-
-</code></pre><p><strong>AKS 需要加入：</strong></p><pre><code>--add-exports java.base/sun.security.action=ALL-UNNAMED
---add-opens java.base/java.lang=ALL-UNNAMED
---add-opens java.base/java.math=ALL-UNNAMED
---add-opens java.base/java.util=ALL-UNNAMED
---add-opens java.base/sun.util.calendar=ALL-UNNAMED
-
-</code></pre><h3><strong>6.6、启动后的验证</strong></h3><p>1.推荐先升级 JDK11，再到 JDK17，一边升级一边进行验证观察</p><p>2.观察日志是否有异常，特别是上面说到的启动时异常</p><p>3.观察监控类软件，比如 SGM、UMP 等监控是否正常</p><p>4.推荐逐步有序切量，并做好常态化压测，防止影响核心业务</p><p>5.升级完成后，<strong>最好能做个全流程的功能测试，防止功能异常</strong></p><h1><strong>7、总结</strong></h1><blockquote><p>1、升级后，除了可以使用新的语法特性，最大的亮点是可以使用亚毫秒级停顿的 GC 性能（至少百倍的 GC 性能提升），所以 <strong>强烈建议升级到 JDK17</strong></p><p>2、整个升级过程并不复杂，主要涉及到中间件版本的升级和启动参数的配置</p></blockquote><p>如果还停留在 JDK8，推荐先升级 JDK11，再到 JDK17，具体升级步骤先参考我的上篇文章「<a href="https://my.oschina.net/u/4090830/blog/10111749">JDK8 升级 JDK11 最全实践干货来了</a>」，再参考本章中的升级步骤。</p><p>希望以上分享可以给大家带来实际的帮助，升级过程中如果遇到问题，欢迎大家在评论区回复。</p><blockquote><p>作者：京东科技，曲振富</p><p>来源：京东云开发者社区，转载请注明来源</p></blockquote></div>
+                <![CDATA[<div class="content"><p>在过去的一年时间里（2022 年 10 月 1 日到 2023 年 10 月 1 日） ，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Fblog%2Ftop-10-highest-paid-programming-languages%2F" target="_blank">DevJobsScanner</a> 分析了来自世界各地的超过 1000 万份开发工作机会，以了解市场以及最热门、薪酬最高的编程语言。值得注意的是，本项研究只关注了来自美国的职位。在总共 1000 万个开发工作岗位中，有 130 万个有工资。在这 130 万个职位中，有 23 万个职位属于编程语言类。在这 23 万个职位中，约有 8.6 万个职位来自美国。</p><h4><strong>10 - Java</strong></h4><p><img height="144" src="https://oscimg.oschina.net/oscnet/up-da0d9c70bef29cef379fa443218b09df6dd.png" width="300" referrerpolicy="no-referrer"></p><p>Java 位列第十。DevJobsScanner 指出，Java 的工作机会大多要求份非常丰富的经验，Spring 等 Java 框架也是该行业的高薪职位。Java 开发人员的平均年薪约为 11.8 万美元。</p><ul style="margin-left:0; margin-right:0"><li>平均工资：~$118k</li><li>薪资中位数：$117k</li><li>发现的工作数量（带薪水）：23K 个</li></ul><p>查看具体的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-java-jobs%2F" target="_blank">&nbsp;Java 职位</a>。</p><h4 style="margin-left:0px; margin-right:0px; text-align:start"><strong><span style="color:#000000">9-Python</span></strong></h4><p><img height="91" src="https://oscimg.oschina.net/oscnet/up-9bb3fb64562542db24cf36832f6b43d5966.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">Python 是当今最流行的语言之一，也是排名第九的高薪职位。Python 是一种 non-typed 的高级语言。它拥有全方位的实用工具，从脚本和工具到使用 Django 框架编写整个 Web 应用程序。该语言多被用于数据科学。</span></p><p><span style="color:#000000">调查结果显示，虽然 Python 开发人员的平均工资为每年 12.5 万美元，但有些薪资已经达到了每年 50 万美元。</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$125K</span></li><li><span style="color:#000000">薪资中位数：$120k</span></li><li><span style="color:#000000">发现的工作数量（带薪水）：14K 个</span></li></ul><p>&nbsp;查看具体的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-java-jobs%2F" target="_blank">&nbsp;</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-python-jobs%2F" target="_blank">Python 职位</a>。</p><h4><strong>8 - Swift</strong></h4><p><img height="123" src="https://oscimg.oschina.net/oscnet/up-3a30ea9fb6d3c66be2a2ad231125f7a79ba.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">Swift 是，苹果公司开发的一种现代通用语言。它有多种用途，但最常见、流行的用途是开发 iOS 和 Mac 应用程序。Swift 开发人员的平均年薪为 12.7 万美元。</span></p><ul style="margin-left:0; margin-right:0"><li>平均工资：~$127k</li><li>薪资中位数：$125k</li><li><span style="color:#000000">发现的工作数量（带薪水）</span>：174 个</li></ul><p>查看具体的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-swift-jobs%2F" target="_blank">Swift 职位</a>。</p><h4><strong>7 - Go</strong></h4><p><img height="120" src="https://oscimg.oschina.net/oscnet/up-963f146d826e179eefe3c93c441a54055da.png" width="300" referrerpolicy="no-referrer"></p><p>Go 语言由&nbsp;Google 团队成员于 2007 年推出，一直广受欢迎。它简单、易用，能快速完成任务。Go 深受 C 语言的影响，但在内存安全、垃圾收集和结构类型方面也有重大改进。</p><ul style="margin-left:0; margin-right:0"><li>平均工资：~$130k</li><li>薪资中位数：$128k</li><li><span style="color:#000000">发现的工作数量（带薪水）</span>：1.2K 个</li></ul><p>查看具体的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-go-jobs%2F" target="_blank">Go 职位</a>。</p><h4><strong>6 - Ruby</strong></h4><p><img height="128" src="https://oscimg.oschina.net/oscnet/up-21b412b86bcb795c62b42a25bdd199348fd.png" width="300" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">Ruby 语言已经流行多年并且现在仍然很流行。调查显示，Ruby 需求相当高，而且大部分都是高薪。</span></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">Ruby 主要流行于 Web 开发，与著名的 Ruby on Rails 框架结合使用。它也有一些其他的实用工具，从脚本和原型设计到游戏开发（使用 DragonRuby）。DevJobsScanner 认为，鉴于&nbsp;Ruby 的多样性，学习该语言永远不会是一个糟糕的选择；它也是一种高级语言，可以快速开发应用程序（类似于 Python）。</span></p><blockquote><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">Ruby 开发人员的工资中位数（13.6 万美元）超过了平均工资（13.2 万美元）。这表明对中级和高级 Ruby 专业人员的强劲需求，说明掌握 Ruby 方面的专业知识往往能带来高于平均水平的薪酬。</span></p></blockquote><ul style="margin-left:0; margin-right:0"><li>平均工资：~$132k</li><li>薪资中位数：$136k</li><li>找到的工作数量（带薪水）：3.4K 个</li></ul><p>&nbsp;查看具体的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-ruby-jobs%2F" target="_blank">Ruby 职位</a>。</p><h4><strong>5 - Scala</strong></h4><p><img height="146" src="https://oscimg.oschina.net/oscnet/up-551dddb9d865060c07593f99b8a5b10d1e9.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">排在前五位的是 Scala。Scala 是一种结合了面向对象和函数式编程的高级语言。它可以编译成 Java 字节码，并在 Java 虚拟机（JVM）上运行。它的设计初衷是为了解决 Java 所面临的一些"缺陷"和批评。它拥有一个强大的爱好者社区，以及良好的周边库，可以轻松上手。</span></p><p><span style="color:#000000">虽然 Scala 开发人员的平均年薪为 13.5 万美元，但有些职位的年薪最高可达约 40 万美元。</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$135k</span></li><li><span style="color:#000000">薪资中位数：$130k</span></li><li><span style="color:#000000">找到的工作数量（带薪水）： 533 个</span></li></ul><p>查看具体的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-scala-jobs%2F" target="_blank">Scala 职位</a>。</p><h4><strong>4 - C/C++</strong></h4><p><img height="179" src="https://oscimg.oschina.net/oscnet/up-6e86e1cf5b0d7679b684b0158bb78cd21ed.png" width="200" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">C/C++ 稳居前 4 位，平均年薪约为 13.6 万美元。 C++ 在行业中的应用非常广泛，视频游戏、服务器、数据库、空间探测器等许多领域都可以找到 C++ 的身影。区块链生态系统中也大量使用 C++，比特币或 Solidity 智能合约语言均完全由 C++ 编写。</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$136K</span></li><li><span style="color:#000000">薪资中位数：$125k</span></li><li><span style="color:#000000">找到的工作数量（带薪水）：3K 个</span></li></ul><p><span style="color:#000000">&nbsp;查看具体的</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-c%2B%2B-jobs%2F" target="_blank">&nbsp;C/C++ 职位</a>。</p><h4><strong>3-ABAP</strong></h4><p><img height="124" src="https://oscimg.oschina.net/oscnet/up-c183b86954e313b623cd8417d793c87f6ba.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">ABAP 是 2023 年企业资源规划 (ERP) 生态系统中最有价值的语言之一。ABAP 是 SAP 创建的一种高级编程语言，用于在 SAP 平台上开发应用程序。自 20 世纪 80 年代以来，它一直是 SAP 应用程序的支柱，允许自定义开发和修改 SAP 应用程序。</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$137k</span></li><li><span style="color:#000000">薪资中位数：$134k</span></li><li><span style="color:#000000">找到的工作数量（带薪水）：134 个</span></li></ul><p>查看具体的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-abap-jobs%2F" target="_blank">ABAP 职位</a>。</p><h4><strong>2 - Rust</strong></h4><p><img height="141" src="https://oscimg.oschina.net/oscnet/up-d07474ac36e203ae14401437617eca9135b.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">Rust 平均薪资约为 15.6 万美元，且该语言的薪资和受欢迎程度都在持续上升。Rust&nbsp;与 C++ 类似，但具有内存安全或安全并发等更高级的功能，使其成为高性能大型应用程序的完美选择。该语言最近在 web3/区块链领域颇受欢迎，例如 Solana 合约不是用 Solidity 制作的，而是采用的 Rust。</span></p><p><span style="color:#000000">虽然 Rust 开发人员的平均年薪为 15.6 万美元，但有些职位的年薪达到了 50 万美元。</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$156k</span></li><li><span style="color:#000000">薪资中位数：$150k</span></li><li><span style="color:#000000">找到的工作数量（带薪水）：197 个</span></li></ul><p><span style="color:#000000">查看具体的&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-rust-jobs%2F" target="_blank">Rust 职位</a>。</p><h4><span style="color:#000000"><strong>1 - Solidity</strong></span></h4><p><img height="109" src="https://oscimg.oschina.net/oscnet/up-49425fe9eab67498220eef604ab1e04f8fe.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">位居 2023 年薪资排行榜首的是 Solidity，平均薪资为 18.8 万美元。这门以太坊背后的前团队发明的语言最近受到了广泛关注。相关职位的求职者人数少，从而使得薪酬直线上升。Solidity 是一种高级面向对象编程语言。它用于编写当今大多数区块链中运行的智能合约背后的逻辑。</span></p><p>&nbsp;</p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">平均工资：~$188k</span></li><li><span style="color:#000000">薪资中位数：1$180k</span></li><li><span style="color:#000000">找到的工作数量（带薪水）：136 个</span></li></ul><p><span style="color:#000000">查看具体的&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Ftop-paid-solidity-jobs%2F" target="_blank">Solidity 职位</a><span style="color:#000000">。</span></p><hr><p><strong>完整列表</strong></p><p><img height="657" src="https://oscimg.oschina.net/oscnet/up-9139be9626b0c984bca34d0c24578038302.png" width="500" referrerpolicy="no-referrer"></p><p><strong>薪资分布图</strong></p><p><img height="820" src="https://oscimg.oschina.net/oscnet/up-844c88902e330224b38a8a0448482adf31d.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">更多详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.devjobsscanner.com%2Fblog%2Ftop-10-highest-paid-programming-languages%2F" target="_blank">查看官方博客</a>。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 14 Nov 2023 07:35:19 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10142895</guid>
-            <link>https://my.oschina.net/u/4090830/blog/10142895</link>
+            <pubDate>Tue, 14 Nov 2023 08:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/266426/top-10-highest-paid-programming-languages</guid>
+            <link>https://www.oschina.net/news/266426/top-10-highest-paid-programming-languages</link>
             <author>
-                <![CDATA[原创]]>
+                <![CDATA[来源: OSCHINA]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[国内最大、性能媲美 GPT 3.5，元象开源 650 亿参数高性能大模型]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#1f2328; text-align:start"><strong>XVERSE-65B</strong><span>&nbsp;</span>是由深圳元象科技自主研发的支持多语言的大语言模型（Large Language Model），参数规模为 650 亿，本次开源的模型为底座模型<span>&nbsp;</span><strong>XVERSE-65B</strong>，主要特点如下：</p><ul><li><strong>模型结构</strong>：XVERSE-65B 使用主流 Decoder-only 的标准 Transformer 网络结构，支持 16K 的上下文长度（Context Length），能满足更长的多轮对话、知识问答与摘要等需求，模型应用场景更广泛。</li><li><strong>训练数据</strong>：构建了 2.6 万亿 token 的高质量、多样化的数据对模型进行充分训练，包含中、英、俄、西等 40 多种语言，通过精细化设置不同类型数据的采样比例，使得中英两种语言表现优异，也能兼顾其他语言效果。</li><li><strong>分词</strong>：基于 BPE（Byte-Pair Encoding）算法，使用上百 GB 语料训练了一个词表大小为 100,534 的分词器，能够同时支持多语言，而无需额外扩展词表。</li><li><strong>训练框架</strong>：训练中采用 FlashAttention2 加速计算，3D 并行基础上采用虚拟流水线（virtual pipeline）技术，降低较长流水线和 16k 上下文窗口产生的过高气泡率，在千卡集群的峰值算力利用率达到业界前列。同时通过集群基础设施运营、资源调度、训练框架和调度平台协同等持续优化，打造出高稳定、低中断、强容错的训练系统，将每周有效训练率提升至 98.6%。</li></ul><h4 style="margin-left:0px; margin-right:0px; text-align:left"><span style="color:#000000"><strong>评测结果</strong></span></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><img height="454" src="https://oscimg.oschina.net/oscnet/up-2cd1eb2bb0579c1ae7d9b7cdba455e38df6.png" width="500" referrerpolicy="no-referrer">&nbsp;</span></p><h4 style="text-align:start"><strong>硬件需求</strong></h4><p style="color:#1f2328; text-align:start">下表列出了在 XVERSE-65B 上进行推理和微调所需要的硬件资源：</p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#1f2328; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; max-width:100%; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:max-content; word-spacing:0px"><thead><tr><th>&nbsp;</th><th>类型</th><th>方法</th><th>内存</th><th>GPU</th></tr></thead><tbody><tr><td style="border-style:solid; border-width:1px">XVERSE-65B</td><td style="border-style:solid; border-width:1px">训练</td><td style="border-style:solid; border-width:1px">LoRA with ZeRO-3</td><td style="border-style:solid; border-width:1px">1500GB</td><td style="border-style:solid; border-width:1px">8*A800 80G</td></tr><tr><td style="border-style:solid; border-width:1px">XVERSE-65B</td><td style="border-style:solid; border-width:1px">推理</td><td style="border-style:solid; border-width:1px">BF16/FP16</td><td style="border-style:solid; border-width:1px">500GB</td><td style="border-style:solid; border-width:1px">2*A800 80G</td></tr></tbody></table></div>
+                                                                ]]>
+            </description>
+            <pubDate>Tue, 14 Nov 2023 08:26:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/xverse-65b</guid>
+            <link>https://www.oschina.net/p/xverse-65b</link>
         </item>
         <item>
             <title>
@@ -159,7 +53,7 @@ throw new IllegalStateException(e);
                 <![CDATA[<div class="content"><p>AlmaLinux 9.3 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Falmalinux.org%2Fblog%2F2023-11-13-announcing-93-stable%2F" target="_blank">已正式发布</a></u>，代号「Shamrock Pampas Cat」。目前提供的 ISO 镜像文件支持如下 4 种架构：</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmirrors.almalinux.org%2Fisos%2Fx86_64%2F9.3.html" target="_blank">Intel/AMD (x86_64)</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmirrors.almalinux.org%2Fisos%2Faarch64%2F9.3.html" target="_blank">ARM64 (aarch64)</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmirrors.almalinux.org%2Fisos%2Fppc64le%2F9.3.html" target="_blank">IBM PowerPC (ppc64le)</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmirrors.almalinux.org%2Fisos%2Fs390x%2F9.3.html" target="_blank">IBM Z (s390x)</a></li></ul><blockquote><p>AlmaLinux 是开放源码的、社区驱动的项目，它从红帽企业版 Linux (RHEL) 的源码编译而来。AlmaLinux 跟 RHEL 8 完全在二进制上兼容，它由 CloudLinux OS 的创建者打造。AlmaLinux 团队承诺永久免费提供 AlmaLinux 操作系统，项目永久开源且不采取任何限制，不收取任何费用，支持至 2029 年。</p><p>2020 年 Red Hat 决定停止将 CentOS Linux 作为独立发行版，改为推出滚动更新发行版 CentOS Stream，把它作为企业发行版 RHEL 的上游 beta 版本。社区立即推出了多个项目替代 CentOS，其中最为突出的是两个项目：Rocky Enterprise Software Foundation 赞助的 Rocky Linux；另一个是 AlmaLinux OS Foundation 的 AlmaLinux。</p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-990d29cc9bd5b9f0f68183ea6d2b6c47315.png" referrerpolicy="no-referrer"></p><p>公告写道，AlmaLinux 9.3&nbsp;旨在提高灵活性和可靠性，并增强混合环境中的安全性。该版本继续对自动化和系统管理进行简化。Web 控制枱增强功能简化了管理任务。此外，用户可以配置运行状况，以检查虚拟机中 Podman 容器和 vsock 设备的操作。Application Streams 更新为开发人员提供了灵活性和自定义选项，而不会影响平台的稳定性。</p><p>此版本引入了针对容器和虚拟机的新安全特性和运行状况检查选项。此外还提供了支持混合云创新所需的灵活性、稳定性和可靠性。</p><p>工具链也进行了更新，包括使用 GCC 11.4.1 作为默认系统编译器，以及 GCC 13，LLVM 16.0.6，Rust 1.71.1，Go 1.20.10，Keylime 7.3.0，Node.js20，Redis 7，Apache 2.4.57，Grafana 9.2.10，PCP 6.0.5，Valgrind 3.21，SystemTap 4.9，elfutils 0.189，OpenSCAP 1.3.8，SEtools 4.4.3 和 pcsc-lite-ccid 1.5.2。</p><p>安全方面，AlmaLinux OS 9.3 改进了对 FIPS-140-3 标准要求的所有 TLS 1.2 连接所需的扩展主密钥 （EMS） 扩展 （RFC 7627） 的支持，并将 SCAP 安全指南更新到 0.1.69 版本，其中带来了三个符合 CCN-STIC-610A22 指南和 ANSSI 配置文件 2.0 的新 SCAP 配置文件。</p><hr><p>延伸阅读</p><ul><li><a href="https://www.oschina.net/news/262448/almalinux-stays-rhel-compatible">AlmaLinux 不使用「红帽代码」，如何保持兼容 RHEL</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 14 Nov 2023 06:34:28 GMT</pubDate>
+            <pubDate>Tue, 14 Nov 2023 06:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/266400/almalinux-9-3-stable</guid>
             <link>https://www.oschina.net/news/266400/almalinux-9-3-stable</link>
             <author>
@@ -224,7 +118,7 @@ throw new IllegalStateException(e);
         </item>
         <item>
             <title>
-                <![CDATA[指针没用好，一行代码让公司损失 6000 万美元]]>
+                <![CDATA[指针「爆雷」导致公司损失上亿资金]]>
             </title>
             <description>
                 <![CDATA[<div class="content"><p>1990 年 1 月 15 日，AT&amp;T 的新泽西运营中心检测到大范围的系统故障，网络显示屏上出现了大量红色警告。</p><p>尽管试图排除故障，但网络故障仍持续了 9 个小时，导致呼叫连接故障率达到 50%。</p><p><strong>AT&amp;T 因此损失了 6000 多万美元，6 万多名美国人的电话完全无法接通</strong>。</p><p>此外，500 个航班延误，8.5 万人受到影响。</p><p>按理说，AT&amp;T 的长途网络是高效率的典范，它利用先进的电子交换机和信号系统处理了全国大部分的电话。该系统通常能在几秒钟内完成电话路由选择。</p><p>然而，就在这一天，从纽约的一个交换机开始，整个网络出现了故障。这是由于最近一次更新中的一个软件错误造成的，该错误影响了网络中的 114 个交换机。当纽约的交换机复位并发出信号时，这个错误引发了多米诺骨牌效应，导致大范围的网络中断。</p><p><strong>有趣的是，这个软件并没有经过测试。由于代码改动较小，因此按照管理层的要求绕过了测试</strong>。</p><h3>问题所在</h3><p>追根溯源，原因在于网络交换机实施的软件更新中出现了编码错误。</p><p>该错误发生在一个 C 语言程序中，涉及嵌套条件语句中一个错位的中断语句，导致数据覆盖和系统重置。</p><p>伪代码</p><pre><code>1  while (ring receive buffer not empty 
@@ -430,32 +324,135 @@ throw new IllegalStateException(e);
         </item>
         <item>
             <title>
-                <![CDATA[JetBrains 推出新的 C/C++ IDE：CLion Nova]]>
+                <![CDATA[JDK11 升级 JDK17 最全实践干货来了 | 京东云技术团队]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">JetBrains 宣布推出全新的&nbsp;CLion Nova 早期预览版，<span style="background-color:#ffffff">使用 ReSharper C++/Rider C++ 语言引擎而不是 CLion「传统」引擎。「我们将新的实验预览版命名为 CLion Nova，而当前的 CLion 版本则是 CLion Classic。未来，我们计划将 CLion Nova 并入 CLion Classic。我们不打算推出新产品。」</span></span></p><p><span style="color:#000000">该公司打算先收集用户反馈，然后在 2024 年的某个时刻根据具体的反馈结果将&nbsp;<span style="background-color:#ffffff">CLion Nova 合并到&nbsp;CLion Classic。在此之前，预览版本将免费提供，并且可以与 CLion (Classic) 安装并行安装。目前&nbsp;CLion Nova&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Ftoolbox-app%2F" target="_blank">只能通过 Toolbox 应用程序</a><span style="color:#000000">获得。</span></p><p><span style="color:#000000"><span style="background-color:#ffffff"><img alt="" height="281" src="https://oscimg.oschina.net/oscnet/up-d8f4e7450a6ce6527151f7d97e3629a6f59.png" width="500" referrerpolicy="no-referrer"></span></span></p><p><span style="color:#000000">CLion Nova&nbsp;重点关注 IDE 的响应能力、准确性和性能。有两个主要目标：</span></p><ul style="margin-left:0; margin-right:0"><li><span style="color:#000000">解决 CLion 因使用「传统」引擎而导致的长期存在的<strong>性能</strong>和<strong>质量问题。</strong></span></li><li><span style="color:#000000">统一 JetBrains 所有 C++ 工具（即 CLion、Rider 和 ReSharper C++）的用户体验。</span></li></ul><p><span style="color:#000000">&nbsp;<img alt="" height="211" src="https://oscimg.oschina.net/oscnet/up-d18769c1e056c9bdb1ea86ad5ce12804963.png" width="300" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">CLion Nova 仍然使用两种 C++ 语言引擎：基于 clangd 的引擎和 ReSharper C++/Rider 使用的引擎，且&nbsp;CLion Nova 包含了 CLion Classic 的大部分功能。</span></p><p><span style="color:#000000">CLion Nova </span>的性能优势主要在于：</p><ul style="margin-left:0; margin-right:0"><li>更快的高亮显示速度，尤其是在代码增量更新的情况下</li><li>响应速度更快的&nbsp;UI</li><li>查找使用速度更快</li><li>重构时的冻结和挂起情况显着减少</li><li>更快的测试索引</li></ul><p>此外，CLion Nova 还增添了一些 CLion Classic 中未包含的新功能：&nbsp;</p><ul style="margin-left:0; margin-right:0"><li>新的重构，例如<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FRefactorings_for_CPP.html%23intro_field" target="_blank">引入字段</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FRefactorings_for_CPP.html%23namespace_alias" target="_blank">引入命名空间别名</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FRefactorings_for_CPP.html%23using_enum" target="_blank">引入 using 枚举</a>以及<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FRefactorings_for_CPP.html%23convert_to_scoped" target="_blank">转换为作用域枚举</a>。</li><li>新的检查、快速修复和意图，例如冗余限定符、用明确的类型声明替换<code>auto</code>以及<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FCode_Style_Assistance_in_CPP.html%23sort_includes" target="_blank"><code>#include</code>指令排序</a>。</li><li>新的代码提示，例如<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FSettings_Inlay_Hints_CPP_Other.html%23preprocessor-directive" target="_blank">预处理指令提示</a>﻿和&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fresharper%2FInline_Parameter_Name_Hints.html%23push-to-hint-mode" target="_blank">Push-to-Hint 模式</a>。</li></ul><p><img alt="" height="183" src="https://oscimg.oschina.net/oscnet/up-13d64d47fd11ccfff6297a4bd485597e5e7.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">与 CLion Classic 不同的是，CLion Nova 不使用&nbsp;<strong style="color:#19191c">clangd&nbsp;</strong>来实现代码完成或高亮显示等核心 IDE 功能。不过，JetBrains 的 clangd 分支仍然与新引擎一起运行，以执行各种任务（ClangFormat、Clang-Tidy、MISRA 检查、数据流分析等）。&nbsp;</span></p><p>公告指出，对于&nbsp;<span style="color:#000000">CLion Classic </span>而言，使用&nbsp;<span style="color:#000000">CLion Nova </span>将拥有一些全新的体验：</p><ul style="margin-left:0; margin-right:0"><li>用户键入时 IDE 的一些反应方式会有所差异。</li><li>与代码洞察功能相关的某些 UI 元素和设置可能看起来不寻常或位于不熟悉的位置。</li><li>某些与代码相关的设置在 CLion Nova 中可能具有不同的默认值。首次启动时，CLion Nova 将从 CLion Classic 迁移一些按项目和应用程序设置，但不是全部。</li><li>在不同语言配置（即调试/发布）之间切换可能需要更多时间来让代码洞察引擎跟上。也没有选项可以切换每个文件的解析上下文。</li><li>ReSharper C++ 仅适用于 Windows，而 Rider 则支持跨平台。ReSharper C++/Rider 引擎可能无法像 Windows 环境那样无缝地支持非 Windows 环境。</li></ul><p><img alt="" height="382" src="https://oscimg.oschina.net/oscnet/up-c2c732eb8e4fd3d5f0bda9c1c6c3a7e2241.png" width="500" referrerpolicy="no-referrer"></p><p>&nbsp;<span style="color:#000000">CLion Nova 目前确实的功能包括：</span></p><ul style="margin-left:0; margin-right:0"><li><strong>工具链</strong>：存在多种选项可用于在 CLion 中设置<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fclion%2F2023.3%2Fremote-development.html" target="_blank">远程工作</a>。CLion Nova 支持本地资源的远程工作，但瘦客户端 (Gateway)&nbsp; 的远程工作尚不可用。</li><li><strong>语言</strong>：Objective-C 语言、CUDA（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FRSCPP-613" target="_blank">RSCPP-613</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FCPP-26144" target="_blank">CPP-26144</a>）和一些特定于供应商的编译器扩展尚不受支持。</li><li>目前不支持某些 intentions 和 quick-fixes，例如&nbsp;Simplify 语句 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FCPP-35879" target="_blank">CPP-35879</a>&nbsp;)。</li><li>一些流行度不高的 refactorings 也不支持。官方计划稍后重新引入 Move<span style="background-color:#ffffff; color:#19191c"><span>&nbsp;</span>(</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FCPP-35867" target="_blank">CPP-35867</a><span style="background-color:#ffffff; color:#19191c">) 和<span>&nbsp;</span></span>Inline Parameter<span style="background-color:#ffffff; color:#19191c"><span>&nbsp;</span>refactorings (</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FCPP-35868" target="_blank">CPP-35868</a><span style="background-color:#ffffff; color:#19191c">)</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutrack.jetbrains.com%2Fissue%2FCPP-35868" target="_blank">。</a></li><li>JetBrains 的 AI 助手尚不适用于 CLion Nova。</li></ul></div>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/event/2331338" target="_blank">从数据到大模型应用，11 月 25 日，杭州源创会，共享开发小技巧 <img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><h1><strong>1、前言</strong></h1><p>上篇文章给大家带来了<a href="https://my.oschina.net/u/4090830/blog/10111749">JDK8 升级 JDK11 的最全实践，</a>相信大家阅读后已经对 JDK11 有了比较深入的了解。2021 年 9 月 14 日，Oracle 发布了可以长期支持的 JDK17 版本，那么从 JDK11 到 JDK17，到底带来了哪些特性呢？亚毫秒级的 ZGC 效果到底怎么样呢？值得我们升级吗？而且升级过程会遇到哪些问题呢？带着这些问题，本篇文章将带来完整的 JDK11 升级 JDK17 最全实践。</p><h1><strong>2、为什么升级 JDK17</strong></h1><p><strong>1）长期支持版本</strong></p><p>JDK17 是 Oracle 官方在 2021 年 9 月 14 日发布的一个长期支持（LTS）版本，意味着它将获得长期的更新和支持，有助于保持程序的稳定性和可靠性。</p><p><strong>2）性能提升</strong></p><p>更好的垃圾回收器。综合评估，从 Java 8 升级到 Java 11，**G1GC 平均速度提升 16.1%，ParallelGC 为 4.5%****，**从 Java 11 升级到 Java 17，<strong>G1GC 平均速度提升 8.66%，ParallelGC 为 6.54%</strong>（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.optaplanner.org%2Fblog%2F2021%2F09%2F15%2FHowMuchFasterIsJava17.html" target="_blank">基于 OptaPlanner 的用例基准测试表明）</a></p><p>最大的亮点是带来了<strong>稳定版的 ZGC 垃圾回收器，达到亚毫秒级停顿。</strong></p><p><strong>3）新语法和特性</strong></p><p>Switch 表达式简化、Text Blocks 文本块、instanceof 的模式匹配升级和 NullPointerException 提示信息改进等</p><p>4）<strong>支持最新的技术和框架</strong></p><p>Spring framework6 和 Spring Boot3 都默认使用 Java 17 作为最低版本</p><h1><strong>3、升级后压测效果</strong></h1><blockquote><p><strong>先给出结论：</strong></p><p>1、JDK17 相对于 JDK8 和 JDK11，<strong>所有垃圾回收器的性能都有很明显的提升，特别是稳定版的 ZGC 垃圾回收器</strong></p><p>2、<strong>不论任何机器配置下，都推荐使用 ZGC</strong>，ZGC 的停顿时间达到亚毫秒级，吞吐量也比较高</p></blockquote><p><strong>我在 JDOS 平台上选择了不同配置的机器（2C4G、4C8G、8C16G），并分别使用 JDK8、JDK11 和 JDK17 进行部署和压测。</strong></p><p>整个压测过程限时 60 分钟，用 180 个虚拟用户并发请求一个接口，每次接口请求都创建 512Kb 的数据。最终产出不同 GC 回收器的各项指标数据，来分析 GC 的性能提升效果。</p><p><strong>以下是压测的性能情况：</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-07-18-46yVgvcZ9YUGOrY9x.png" alt="" referrerpolicy="no-referrer"></p><h1><strong>4、OracleJDK 和 OpenJDK 的选择</strong></h1><p>2021 年 9 月，Oracle 宣布 JDK17 可以免费商用，直到下一个 LTS 版本之后继续提供整整一年，同时 Oracle 将继续按照自 Java 9 以来的相同版本和时间表提供 GPL 下的 Oracle OpenJDK 版本。</p><p>2023 年 9 月，OracleJDK 发布了新的 LTS 版本 JDK21，这就意味着从<strong>2024 年 9 月开始，在生产环境使用 OracleJDK17 将需要付费。</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-01-20-01PLCD1wvvcxLRLNv.png" alt="" referrerpolicy="no-referrer"></p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.oracle.com%2Fhk%2Fjava%2Ftechnologies%2Fdownloads%2F%23java17" target="_blank">https://www.oracle.com/hk/java/technologies/downloads/#java17</a></p><p>OracleJDK 和 OpenJDK 这两个之间没有真正的技术差别，因为针对 Oracle JDK 构建过程是基于 OpenJDK 的。自从 JDK11 开始，OracleJDK 和 OpenJDK 在功能上基本相同，所以推荐使用 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjdk.java.net%2Farchive%2F" target="_blank">OpenJDK17</a> 或其他开源的 JDK 版本，这些开源版本都是基于 OpenJDK 构建并提供长期支持的,比如：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fadoptopenjdk.net%2F" target="_blank">AdoptOpenJDK</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevelopers.redhat.com%2Fproducts%2Fopenjdk%2Foverview" target="_blank">RedHatOpenJDK。</a></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-11-02-11-19DsSkxKErEDeigz2.png" alt="" referrerpolicy="no-referrer"></p><p>官方参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Fjava%2Fpost%2Foracle-jdk-releases-for-java-11-and-later" target="_blank">https://blogs.oracle.com/java/post/oracle-jdk-releases-for-java-11-and-later</a></p><h1><strong>5、JDK11 到 JDK17 带来了哪些新特性</strong></h1><h3><strong>5.1、JVM 改进</strong></h3><p>1、ZGC 垃圾回收器从实验性功能更改为<strong>正式产品功能</strong>，从 JDK11 引入以来，经过持续的迭代升级，目前已经足够稳定。<strong>需要手动开启，开启方式：-XX:+UseZGC</strong></p><p>2、G1 垃圾回收器仍然作为默认垃圾回收器，进行改进升级，主要包括可中止的混合收集集合、NUMA 可识别内存分配等</p><p>3、JDK14 开始删除 CMS 垃圾回收器</p><p>4、JDK14 开始弃用 ParallelScavenge 和 SerialOld GC 的组合使用</p><p>5、JDK15 禁用偏向锁，默认禁用：-XX:+UseBiasedLocking</p><p>6、NullPointerException 提示信息改进</p><p>JDK14 以前的出现 NullPointerException 时，只能定位到所在异常行，无法定位具体是哪个变量。改进后的 NullPointerException，可以清晰描述具体变量，提升了空指针异常的可读性。</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-27-10-50TTuaDvegXKr9SAo.png" alt="" referrerpolicy="no-referrer"></p><h3><strong>5.2、新语法特性</strong></h3><h4><strong>5.2.1、Switch 表达式简化</strong></h4><p>switch 表达式带来了简化式的编码方式，提供了新的分支切换方式，即 -&gt; 符号，右则表达式方法体在执行完分支方法之后，自动结束 switch 分支，同时 -&gt; 右则方法块中可以是表达式、代码块或者是手动抛出的异常</p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F361" target="_blank">https://openjdk.org/jeps/361</a></p><p><strong>传统写法</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-17-22rnaBICUHwCBlYZf.png" alt="" referrerpolicy="no-referrer"></p><p><strong>新写法</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-10-18Z48ZmbyE6jT10uWqP.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.2、Text Blocks 文本块</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F378" target="_blank">https://openjdk.org/jeps/378</a></p><p>通过编写 """，来减少转义字符和换行符，达到简化代码和提高代码可读性的目的</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-18-16tXnkRnYOGkQhTMS.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.3、Record 类型</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F395" target="_blank">https://openjdk.org/jeps/395</a></p><p>record 是 JDK 14 引入的关键字，用于声明不可变的数据类。它适用于存储纯粹的值类型数据，如接口传输数据、座标点和只读的日志记录。与 lombok 相比，record 简化了定义纯粹数据类型的过程。由于 record 类是不可变的，成员变量只能设置一次且无法更改，无需提供显式的 setter() 方法。</p><p><strong>1、定义 Point 类，使用关键字 record，未定义 get/set</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-25-19-50LjIj50MDXubzNv07.png" alt="" referrerpolicy="no-referrer"></p><p><strong>2、查看编译后的字节码文件</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-05MfRyF9o9FOD120oS.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-077FA41CoAIm41MkgIY.png" alt="" referrerpolicy="no-referrer"></p><p><strong>3、使用 Point 类</strong></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-12-11LdZCsODuD8JpjE0.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.4、instanceof 的模式匹配升级</strong></h4><ul><li>instanceof 类型判断再也不需要强制转换</li></ul><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F394" target="_blank">https://openjdk.org/jeps/394</a></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-25-18-20mhLGcH20q20N25D0a.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.5、密封的类和接口</strong></h4><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F409" target="_blank">https://openjdk.org/jeps/409</a></p><p>JDK15 开始，引入了 sealed 普通类或接口类，这些类只允许被指定的类或者 interface 进行扩展和实现。</p><p>使用修饰符 sealed，您可以将一个类声明为密封类。密封的类使用关键字 permits 列出可以直接扩展它的类。子类可以是最终的，非密封的或密封的</p><p>比较实用的一个特性，可以用来限制类的层次结构</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-26-19-23EeeAvjyEjufkdfY.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>5.2.6、其他优化和升级</strong></h4><p>感兴趣的同学，推荐阅读 OpenJDK 官方文档说明，从 JDK11 到 JDK17 的改动： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fprojects%2Fjdk%2F17%2Fjeps-since-jdk-11" target="_blank">https://openjdk.org/projects/jdk/17/jeps-since-jdk-11</a></p><h1><strong>6、升级步骤</strong></h1><h3><strong>6.1、JDK 选择</strong></h3><p>OpenJDK17 下载：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjdk.java.net%2Farchive%2F" target="_blank">https://jdk.java.net/archive/</a></p><p>行云镜像：jdt-base-tomcat/java-jdt-centos7.4-openjdk-17.0.2-tomcat8.0.53</p><h3><strong>6.2、pom 编译配置升级</strong></h3><p>maven 编译所需 JDK 升级至 17</p><pre><code>&lt;properties&gt;
+    &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+&lt;/properties&gt;
+
+</code></pre><h3><strong>6.3、SpringBoot 升级</strong></h3><p>SpringBoot 版本升级到<strong>2.7.15</strong>，Spring 版本升级为<strong>5.3.29</strong></p><p><strong>为什么不升级到 SpringBoot3？</strong></p><p>Spring Boot 3.0 最低要求 Java 17，SpringBoot3.0 带来了很多变化，和 SpringBoot2 差异较大。 考虑到公司很多中间件都是基于 SpringBoot2 构建的，所以此处推荐升级到 SpringBoot2 的最高版本 2.7.15。</p><p><strong>POM 升级</strong></p><pre><code>&lt;parent&gt;
+ &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+ &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+ &lt;version&gt;2.7.15&lt;/version&gt;
+&lt;/parent&gt;
+
+</code></pre><p>也可以通过设置 dependencyManagement 的方式：</p><pre><code>&lt;properties&gt;
+    &lt;!-- 框架版本配置--&gt;
+    &lt;springboot-version&gt;2.7.15&lt;/springboot-version&gt;
+    &lt;springframework.version&gt;5.3.29&lt;/springframework.version&gt;
+&lt;/properties&gt;  
+
+&lt;dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+            &lt;version&gt;${springboot-version}&lt;/version&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-framework-bom&lt;/artifactId&gt;
+            &lt;version&gt;${springframework.version}&lt;/version&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+
+</code></pre><p>参考：</p><p>spring 升级指南： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-framework%2Fwiki%2FSpring-Framework-Versions" target="_blank">https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions</a></p><p>springboot 版本官网： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fprojects%2Fspring-boot%23learn" target="_blank">https://spring.io/projects/spring-boot#learn</a></p><p><strong>循环依赖问题</strong></p><p>SpringBoot 升级到 2.7.15 后，如果应用中存在循环依赖的问题，启动时会报如下错误：</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-22-10-48Z10IRCapBcpKAVDi.png" alt="" referrerpolicy="no-referrer"></p><p><strong>原因</strong>：官方文档不鼓励循环依赖引用，默认情况下是禁止的</p><p><strong>解决方案：</strong></p><p>第一种：推荐更新应用中 bean 的依赖关系来解决</p><p>第二种：配置文件中加入以下配置，<strong>为了和旧版本保持一致，此配置推荐添加</strong></p><pre><code>#放开循环依赖
+spring.main.allow-circular-references=true
+
+</code></pre><h3><strong>6.4、常用中间件升级</strong></h3><h4><strong>6.4.1、Lombok 版本升级到 1.18.20 以上</strong></h4><pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+ &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+ &lt;version&gt;1.18.20&lt;/version&gt;
+&lt;/dependency&gt;
+
+</code></pre><p>如果不升级，编译时会报错如下：</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-09-13-20-01itBREuaDZdAzrpZ.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>6.4.2、swgger 问题，springfox3.0.0 和 springboot2.7 版本不兼容</strong></h4><p><strong>异常：</strong></p><pre><code>Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException: 
+Cannot invoke "org.springframework.web.servlet.mvc.condition.PatternsRequestCondition.getPatterns()" because "this.condition" is null
+
+</code></pre><p><strong>解决方案：</strong></p><pre><code>/**
+ * 增加如下配置可解决 Spring Boot 2.7.15 与 Swagger 3.0.0 不兼容问题
+ **/
+@Bean
+public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
+return new BeanPostProcessor() {
+
+@Override
+ public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
+                customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
+            }
+return bean;
+}
+
+private &lt;T extends RequestMappingInfoHandlerMapping&gt; void customizeSpringfoxHandlerMappings(List&lt;T&gt; mappings) {
+            List&lt;T&gt; copy = mappings.stream().filter(mapping -&gt; mapping.getPatternParser() == null).collect(Collectors.toList());
+            mappings.clear();
+            mappings.addAll(copy);
+        }
+
+@SuppressWarnings("unchecked")
+private List&lt;RequestMappingInfoHandlerMapping&gt; getHandlerMappings(Object bean) {
+try {
+                Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+                field.setAccessible(true);
+return (List&lt;RequestMappingInfoHandlerMapping&gt;) field.get(bean);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+throw new IllegalStateException(e);
+            }
+        }
+    };
+}
+
+</code></pre><p>参考：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F950787" target="_blank">https://developer.aliyun.com/article/950787</a></p><h4><strong>6.4.3、AKS 升级（针对直接从 JDK8 升级的情况）</strong></h4><p><strong>异常</strong>：Causedby: java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException</p><p><strong>原因</strong>：Java11 删除了 Java EE modules，其中就包括 java.xml.bind (JAXB)。</p><p><strong>解决方案：</strong></p><p>手动引入如下包即可</p><pre><code>&lt;!-- API, java.xml.bind module --&gt; 
+&lt;dependency&gt;
+      &lt;groupId&gt;jakarta.xml.bind&lt;/groupId&gt;
+      &lt;artifactId&gt;jakarta.xml.bind-api&lt;/artifactId&gt;
+      &lt;version&gt;2.3.2&lt;/version&gt;
+&lt;/dependency&gt; 
+&lt;!-- Runtime, com.sun.xml.bind module --&gt;
+&lt;dependency&gt;
+       &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+       &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+       &lt;version&gt;2.3.2&lt;/version&gt;
+&lt;/dependency&gt;
+
+</code></pre><h4><strong>6.4.4、Concrete 配置中心阻塞升级</strong></h4><p>使用 Concrete 时，启动时异常：</p><pre><code> Unable to make field private static final java.lang.reflect.Method jdk.proxy2.$Proxy97.m0 accessible: 
+ module jdk.proxy2 does not "opens jdk.proxy2" to unnamed module @61d47554
+
+</code></pre><p><strong>原因：</strong></p><p>分析下 Concrete 报错的原因，如下图，包内 com.wangyin.concrete.spring.ConcreteConfigProcessor#postProcessAfterInitialization（212 行）的实现逻辑</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-14-00LgxgUIrSYEUTxjm.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-27-13-44BFAP7OjBiZqyaDb.png" alt="" referrerpolicy="no-referrer"></p><p><strong>解决方案：</strong></p><p>1、在 JVM 启动参数中设置--add-opens jdk.proxy2 来开启私有字段的访问，但因为动态代理生成的包名是随机不明确的，<strong>所以这种方案不可行</strong>。JDK 官方文档也明确表示不支持访问动态代理内部的随机字段。官方说明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcr.openjdk.org%2F%7Emr%2Fjigsaw%2Fspec%2Fapi%2Fjava%2Flang%2Freflect%2FProxy.html" target="_blank">https://cr.openjdk.org/~mr/jigsaw/spec/api/java/lang/reflect/Proxy.html</a></p><p>2、代码修改，只需把 f.setAccessible(true) 移到 Modifier.isStatic(f.getModifiers()) 的判断下方即可。原因是方法 Modifier.isStatic(f.getModifiers()) 本来就要跳过静态字段，这样修改直接避免了访问。<strong>推动 concrete 团队修复问题或更换使用 Ducc 配置中心</strong></p><h3><strong>6.5、JVM 启动参数配置</strong></h3><h4><strong>6.5.1、开启 ZGC</strong></h4><p><strong>启动参数中配置：</strong>-XX:+UseZGC</p><p>移除-XX:ConcGCThreads，行云部署下 JVM 参数配置需要清除</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2023-10-17-15-14Lyy3vSkGQSvlvGe.png" alt="" referrerpolicy="no-referrer"></p><h4><strong>6.5.2、不同中间件所需启动参数</strong></h4><p>升级 JDK17 后，项目启动时可能会遇到如下两种类型的异常：</p><p>1、cannot access class sun.util.calendar.ZoneInfo (in module java.base) because <strong>module java.base</strong> does not <strong>export sun.util.calendar</strong> to unnamed module @0x2611f533</p><p>2、Unable to make field final int java.math.BigInteger.signum accessible: <strong>module java.base</strong> does not "<strong>opens java.math</strong>" to unnamed module @525f1e4e</p><p><strong>异常原因：</strong></p><p>自从 JDK9 中引入了模块化功能后，再到 JDK17，对于包扫描和反射的权限控制更加的严格。常见的库比如（Spring）大量用到包扫描和反射，所以常出现此错误。</p><p><strong>解决方案：</strong></p><p>一个粗暴的解决办法是将没开放的 module 强制对外开放，即保持和 Java9 之前的版本一致。</p><ul><li>--add-exports 导出包，意味着其中的所有公共类型和成员都可以在编译和运行时访问。</li><li>--add-opens 打开包，意味着其中的所有类型和成员（不仅是公共类型）都可以在运行时访问。</li></ul><p>主要区别在于<code>--add-opens</code>允许「深度反射」，即非公共成员的访问，才可以调用<code>setAccessible(true)</code></p><p>参考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F44056405%2Fwhats-the-difference-between-add-exports-and-add-opens-in-java-9" target="_blank">https://stackoverflow.com/questions/44056405/whats-the-difference-between-add-exports-and-add-opens-in-java-9</a></p><p><strong>SGM 需要加入：</strong></p><pre><code>--add-opens java.management/java.lang.management=ALL-UNNAMED 
+--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED 
+--add-opens java.management/sun.management=ALL-UNNAMED
+
+</code></pre><p><strong>R2M 需要加入：</strong></p><pre><code>--add-opens java.base/java.time=ALL-UNNAMED
+
+</code></pre><p><strong>Ducc 需要加入：</strong></p><pre><code>--add-opens java.base/java.util.concurrent=ALL-UNNAMED
+--add-opens java.base/java.util.concurrent.locks=ALL-UNNAMED
+--add-opens java.base/java.security=ALL-UNNAMED
+--add-opens java.base/jdk.internal.loader=ALL-UNNAMED
+--add-opens java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED 
+--add-opens java.base/java.net=ALL-UNNAMED 
+--add-opens java.base/sun.nio.ch=ALL-UNNAMED 
+
+</code></pre><p><strong>AKS 需要加入：</strong></p><pre><code>--add-exports java.base/sun.security.action=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.math=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/sun.util.calendar=ALL-UNNAMED
+
+</code></pre><h3><strong>6.6、启动后的验证</strong></h3><p>1.推荐先升级 JDK11，再到 JDK17，一边升级一边进行验证观察</p><p>2.观察日志是否有异常，特别是上面说到的启动时异常</p><p>3.观察监控类软件，比如 SGM、UMP 等监控是否正常</p><p>4.推荐逐步有序切量，并做好常态化压测，防止影响核心业务</p><p>5.升级完成后，<strong>最好能做个全流程的功能测试，防止功能异常</strong></p><h1><strong>7、总结</strong></h1><blockquote><p>1、升级后，除了可以使用新的语法特性，最大的亮点是可以使用亚毫秒级停顿的 GC 性能（至少百倍的 GC 性能提升），所以 <strong>强烈建议升级到 JDK17</strong></p><p>2、整个升级过程并不复杂，主要涉及到中间件版本的升级和启动参数的配置</p></blockquote><p>如果还停留在 JDK8，推荐先升级 JDK11，再到 JDK17，具体升级步骤先参考我的上篇文章「<a href="https://my.oschina.net/u/4090830/blog/10111749">JDK8 升级 JDK11 最全实践干货来了</a>」，再参考本章中的升级步骤。</p><p>希望以上分享可以给大家带来实际的帮助，升级过程中如果遇到问题，欢迎大家在评论区回复。</p><blockquote><p>作者：京东科技，曲振富</p><p>来源：京东云开发者社区，转载请注明来源</p></blockquote></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 13 Nov 2023 10:44:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266295/jetbrains-clion-nova</guid>
-            <link>https://www.oschina.net/news/266295/jetbrains-clion-nova</link>
+            <pubDate>Mon, 13 Nov 2023 01:36:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10142895</guid>
+            <link>https://my.oschina.net/u/4090830/blog/10142895</link>
             <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[正式开源！网易有道上线 「易魔声」 语音合成引擎]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><strong>刚刚，我们上线了「易魔声」开源语音合成（TTS）引擎！🎉🎉🎉</strong></p><p>「易魔声」，是一款有道自研 TTS 引擎，目前支持中英文双语，包含<strong>2000 多种不同的音色</strong>，更有特色的情感合成功能，支持合成包含<strong>快乐、兴奋、悲伤、愤怒</strong>等广泛情感的语音。</p><p style="text-align:center"><strong><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fpan.baidu.com%2Fs%2F1Gl7irtGrXoqFwgox3UzlgA%3Fpwd%3Dtwck" rel="nofollow" target="_blank">「易魔声」中文&nbsp; 网易有道</a></strong></p><p style="text-align:center">（我们用「易魔声」将以上这段话进行了技术合成，点击试听 ）</p><p>用户可免费在开源社区 GitHub 进行下载使用（地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetease-youdao%2FEmotiVoice" rel="nofollow" target="_blank">https://github.com/netease-youdao/EmotiVoice</a>），通过我们提供的 web 界面、及批量生成结果的脚本接口，轻松实现音色的情感合成与应用。</p><p style="text-align:center"><img alt="" src="https://mp.weixin.qq.com/s/WktfW3t1O5vn4QJWoRVLuA" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9d1543d602359db470e97a2559595b763a6.png" referrerpolicy="no-referrer"></p><p style="text-align:center">（<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetease-youdao%2FEmotiVoice" rel="nofollow" target="_blank">GitHub 开源界面</a></strong>，点击蓝字可跳转）</p><p>在你过往的回忆里，是不是也有一些特别的声音，比如：偶像的声音激励人心、妈妈的声音让我们一秒回忆起小时候......声音，作为语言维度的一种，总是蕴含着人类充沛的情感表达。<strong>而富有情感的合成语音，是能够为应用和内容增色的 AI 功能。</strong></p><p>现在通过「易魔声」，简单通过在文本中加入情感的描述提示，开发者或者内容创作者就可以自由合成符合自己需求的带有情感的语音，比传统 TTS 更加自然逼真！👍</p><p>「易魔声」，是有道 AI 团队今年开发的一个项目。随着基于 GAN 等现代 AI 技术的语音能力越来越成熟，实现一个质量较高的 TTS 系统的门槛越来越低。但即使如此，中英双语的高质量、现代 TTS 模块还是不容易找到，要在自己的应用与内容中<strong>加入高逼真度且高度可控的语音，特别是中英双语的语音，依然比较麻烦</strong>。</p><p>这也是我们将这个项目开源的初衷，希望能帮助有需求的开发者与内容创作者，并不断扩大高质量 TTS 的应用范围。<strong>目前该项目还处于初期阶段，期待大家在</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnetease-youdao%2FEmotiVoice" rel="nofollow" target="_blank"><strong>开源网站</strong></a><strong>给予我们更多反馈</strong>，我们非常希望听到大家的使用体验与建议💪，<strong>欢迎各位扫码进群交流～</strong></p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-95a884f5c1625d1bcc2e8d42937f33d0cb9.jpg" referrerpolicy="no-referrer"></p><p style="text-align:center"><strong>若二维码失效，可扫描下方二维码，添加我们工作人员的企业微信申请进群~</strong></p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-c7306442e032ed93adbdf1a5fecf938d6b4.jpg" referrerpolicy="no-referrer"></p><p>借此机会，我们也邀请您了解和探索有道的更多酷炫 AI 技术👇</p><ul><li>您可以尝试我们的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fai.youdao.com%2Fpersonalized-voice.s" rel="nofollow" target="_blank"><strong>声音定制和声音复刻功能</strong></a>（点击蓝字即可试用）。从用户录制到试听整个过程只需 5 分钟，即可完成个性化的声音定制。</li><li>您也可以和**<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhiecho.youdao.com%2F%23%2Fweb" rel="nofollow" target="_blank">Hi Echo 虚拟人口语私教</a>**（点击蓝字即可跳转）聊一聊。通过有道的「子曰」教育大模型、语音和虚拟人技术，Echo 可以陪你轻松练习地道的英语口语。每天练习 10 分钟，口语水平快速提高哦。</li><li>您还可以微信搜索**「有道智云体验中心」小程序**。在这里，可以访问我们已经对开发者通过 API 等形式开放的文本和图像翻译、文字和各类图片识别、作文批改等各类 AI 技术。</li></ul><p><strong>关于有道智云</strong></p><p>有道智云 AI 开放平台，是网易有道旗下一站式人工智能服务提供商，为开发者、企业和政府机构等提供自然语言翻译、文字识别、OCR、语音识别等服务以及行业解决方案，致力于提供安全、可靠和高效的云服务。</p><p>联系电话：010-8255-8901；商务合作：AIcloud_Business@corp.youdao.com.</p><p>想了解更多关于有道人工智能的内容，可访问「有道智云」官网👉<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fai.youdao.com%2F" rel="nofollow" target="_blank"><strong>https://ai.youdao.com</strong></a>.</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 13 Nov 2023 10:32:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/youdaotech/blog/10142807</guid>
-            <link>https://my.oschina.net/youdaotech/blog/10142807</link>
-            <author>
-                <![CDATA[原创]]>
+                <![CDATA[京东云开发者]]>
             </author>
         </item>
     </channel>
