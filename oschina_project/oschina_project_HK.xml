@@ -16,8 +16,38 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 19 Nov 2023 01:57:21 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 19 Nov 2023 03:57:39 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Spring Data 2023.1 正式 GA]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Spring Data 2023.1 (代號：Vaughan) 現已正式<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F17%2Fspring-data-2023-1-goes-ga" target="_blank">發佈</a>，該版本包含多個基礎架構主題以及對單個存儲模塊的改進。</p><p>Spring Data 2023.1 已將 Spring Framework baseline 升級到 6.1，同時還升級了 Project Reactor 2023.0.0 和 Micrometer 1.12.0，要求將 Java 17 作為最低平台版本，並支持高達 Java 21 的虛擬線程支持。</p><p>通過配置 Virtual Threads-enabled<code>Executor</code>，可以在各種組件中使用虛擬線程。這些組件的突出示例是 Redis 的 MessageListenerContainer 或 Mongo 的 MessageListenerContainer，用於 Change Streams 和 Tailing Cursor polling。使用虛擬線程需要選擇加入，因為配置仍默認為平台線程。</p><p>此版本還提供了&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-framework%2Freference%2F6.1%2Fintegration%2Fcheckpoint-restore.html" target="_blank">JVM Checkpoint Restore arrangements (Project CRaC)</a>&nbsp;的改進。Spring Data Redis 的&nbsp;connection factory bean 現在是<code>Lifecycle</code>bean，可在 bean 初始化時自動啓動，並且可以在獲取 checkpoint snapshot 之前停止。項目團隊表示，接下來將計劃探索對其他模塊的支持，但是特定支持通常需要數據庫驅動程序直接支持。</p><p>各個模塊內還有許多其他功能和改進以及各種變化。此版本還對 Spring Data JDBC 模塊中的 Single Query Loading&nbsp;提供實驗性支持，以使用 single query&nbsp;加載完整聚合。瞭解有關新增功能的更多信息，可參閲<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-commons%2Fwiki%2FSpring-Data-2023.1-%2528Vaughan%2529-Release-Notes" target="_blank">發行説明</a>和各個模塊參考文檔。</p><p>展望未來，項目團隊計劃擴展 Single Query Loading 支持並修改 JPA 的查詢機制，以整合隨着時間的推移而發展的各種查詢方法。</p><p>此版本將包含在即將發佈的 Spring Boot 3.2 GA 版本中。</p><ul><li>Spring Data Commons<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcommons%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcommons%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-commons%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li><li>Spring Data JPA<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fjpa%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fjpa%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-jpa%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li><li>Spring Data KeyValue<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fkeyvalue%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fkeyvalue%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-keyvalue%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li><li>Spring Data MongoDB<code>4.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fmongodb%2Fdocs%2F4.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fmongodb%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-mongodb%2Freleases%2Ftag%2F4.2.0" target="_blank">Changelog</a></li><li>Spring Data for Apache Cassandra<code>4.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcassandra%2Fdocs%2F4.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcassandra%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-cassandra%2Freleases%2Ftag%2F4.2.0" target="_blank">Changelog</a></li><li>Spring Data Neo4j<code>7.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fneo4j%2Fdocs%2F7.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fneo4j%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-neo4j%2Freleases%2Ftag%2F7.2.0" target="_blank">Changelog</a></li><li>Spring Data LDAP<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fldap%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fldap%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-ldap%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li><li>Spring Data REST<code>4.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Frest%2Fdocs%2F4.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Frest%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-rest%2Freleases%2Ftag%2F4.2.0" target="_blank">Changelog</a></li><li>Spring Data Redis<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fredis%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fredis%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-redis%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li><li>Spring Data Elasticsearch<code>5.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Felasticsearch%2Fdocs%2F5.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Felasticsearch%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-elasticsearch%2Freleases%2Ftag%2F5.2.0" target="_blank">Changelog</a></li><li>Spring Data Couchbase<code>5.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcouchbase%2Fdocs%2F5.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Fcouchbase%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-couchbase%2Freleases%2Ftag%2F5.2.0" target="_blank">Changelog</a></li><li>Spring Data Relational<code>3.2 GA</code>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Frelational%2Fdocs%2F3.2.0%2Fapi%2F" target="_blank">Javadoc</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-data%2Frelational%2Freference%2F" target="_blank">Documentation</a>-<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-data-relational%2Freleases%2Ftag%2F3.2.0" target="_blank">Changelog</a></li></ul><div><div><div><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff; color:#333333">詳情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F17%2Fspring-data-2023-1-goes-ga" target="_blank">查看官方公告</a><span style="background-color:#ffffff; color:#333333">。</span></p></div></div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 18 Nov 2023 02:41:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267099/spring-data-2023-1-ga</guid>
+            <link>https://www.oschina.net/news/267099/spring-data-2023-1-ga</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Calibre 7.0 發佈，功能強大的開源電子書工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Calibre 開源項目是 Calibre 官方出的電子書管理工具。它可以查看，轉換，編輯和分類所有主流格式的電子書。Calibre 是個跨平台軟件，可以在 Linux、Windows 和 macOS 上運行。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Calibre 7.0 現已正式發佈，此次更新內容如下：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>New features</strong></p><ul><li>有關 7.0 和 6.0 之間 calibre 主要變化的詳細信息，參閲&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcalibre-ebook.com%2Fnew-in%2Fsixteen" target="_blank">https://calibre-ebook.com/new-in/sixteen</a></li><li>可為 calibre 中的任何作者、標籤、系列等添加註釋，並提供鏈接和圖片</li><li>E-book viewer：添加對 HTML image maps 的支持</li><li>Content server home page：顯示默認圖書館中最近添加的三本書</li><li>Content server：在控件頂層添加返回圖書詳細信息頁面的按鈕</li><li>Content server：Book details：在同一窗口而不是新窗口中打開評論字段中的鏈接</li><li>添加「Show items in selected books」選項來&nbsp;Manage tags 和 Manage authors</li></ul><p style="text-align:start"><strong><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Bug 修復</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>Metadata download：修復了由於 GDPR 而無法在歐洲從 Google 下載的問題</li><li>修復編輯日期時有時會偏差一天的問題</li><li>Edit book：修復當光標位於包含特殊字符的行時，特殊字符的高亮顯示不可見的問題</li><li>修復嵌入元數據在文件被另一個程序鎖定時在 Windows 上顯示無限錯誤對話框的問題</li><li>PDF Output：修復在輸入文檔主體後有無效內容的情況下嘗試設置頁眉或頁腳時出現的錯誤</li><li>E-book viewer：Read aloud：修復了單擊空白處導致朗讀從章節開頭重新開始的問題</li><li>Book details：修復通過上下文菜單 Manage authors 不起作用的問題</li><li>E-book viewer：顯示 chrome 應首先關閉活動腳註彈出窗口，並且僅在用户重複該操作時才顯示 chrome</li><li>修復某些 PDF 文件的元數據更新速度非常慢的問題</li><li>Catalogs：重新生成目錄時，不要刪除用户添加到目錄書籍條目的任何標籤</li><li>Linux installer：修復舊版本簽名的下載</li><li>修復編輯非活動虛擬圖書館更改圖書列表排序的問題</li></ul><p><span style="background-color:#ffffff; color:#333333">更多詳情可查看：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcalibre-ebook.com%2Fwhats-new" target="_blank">https://calibre-ebook.com/whats-new</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 18 Nov 2023 02:17:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267095/calibre-7-0-released</guid>
+            <link>https://www.oschina.net/news/267095/calibre-7-0-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[野火 IM 1.2.0 已經發布，即時通訊系統]]>
@@ -31,6 +61,61 @@
             <link>https://www.oschina.net/news/267056/wildfirechat-1-2-0-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Eclipse Vert.x 4.5.0 發佈，虛擬線程支持]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Eclipse Vert.x 是一個微服務開發框架，基於事件和異步，依託於全異步 Java 服務器 Netty，並擴展了很多其他特性，以其輕量、高性能、支持多語言開發而備受開發者青睞。</span></p><p><span style="background-color:#ffffff; color:#333333">Eclipse Vert.x 4.5.0 現已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fblog%2Feclipse-vert-x-4-5-0%2F" target="_blank">發佈</a>，此版本帶來了一些新功能，包括虛擬線程支持。亮點更新如下：</span></p><h4><strong>虛擬線程</strong></h4><p>虛擬線程 verticle 可以等待 Vert.x futures 並同步獲取結果。</p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">Verticle</span><span style="color:#c9e5f9">verticle</span><span>=</span><span style="color:#d2a8e0">new</span><span style="color:#f0a46c">AbstractVerticle</span>() {
+  <span style="color:#adb5bd">@Override</span><span style="color:#d2a8e0">public</span><span style="color:#d2a8e0">void</span><span style="color:#f0a46c">start</span><span>()</span> {
+    <span style="color:#f0a46c">HttpClient</span><span style="color:#c9e5f9">client</span><span>=</span> vertx.createHttpClient();
+    <span style="color:#f0a46c">HttpClientRequest</span><span style="color:#c9e5f9">req</span><span>=</span> Future.await(client.request(
+      HttpMethod.GET,
+      <span style="color:#6cb9f0">8080</span>,
+      <span style="color:#6cb9f0">"localhost"</span>,
+      <span style="color:#6cb9f0">"/"</span>));
+    <span style="color:#f0a46c">HttpClientResponse</span><span style="color:#c9e5f9">resp</span><span>=</span> Future.await(req.send());
+    <span style="color:#f0a46c">int</span><span style="color:#c9e5f9">status</span><span>=</span> resp.statusCode();
+    <span style="color:#f0a46c">Buffer</span><span style="color:#c9e5f9">body</span><span>=</span> Future.await(resp.body());
+  }
+};
+
+<span style="color:#adb5bd">// Run the verticle a on virtual thread</span>
+vertx.deployVerticle(verticle, <span style="color:#d2a8e0">new</span><span style="color:#f0a46c">DeploymentOptions</span>().setThreadingModel(ThreadingModel.VIRTUAL_THREAD));</code></pre><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23virtual_threads" target="_blank">Vert.x 虛擬線程</a>可以使用<code>await</code>來 block 任何 Vert.x future&nbsp;：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span><span style="background-color:#3a2840"><span><span><span><span><span style="color:#ffffff"><span><span><span><span><span><span><span><span><span><span><span><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#adb5bd">// create a test table</span>
+await(pool.query(<span style="color:#6cb9f0">"create table test(id int primary key, name varchar(255))"</span>).execute());
+<span style="color:#adb5bd">// insert some test data</span>
+await(pool.query(<span style="color:#6cb9f0">"insert into test values (1, 'Hello'), (2, 'World')"</span>).execute());
+<span style="color:#adb5bd">// query some data</span>
+RowSet&lt;Row&gt; rows = await(pool.query(<span style="color:#6cb9f0">"select * from test"</span>).execute());
+<span style="color:#d2a8e0">for</span> (Row row : rows) {
+  System.out.println(<span style="color:#6cb9f0">"row = "</span> + row.toJson());
+}
+</code></pre><p style="color:#3c3c3b; text-align:start">可以在<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fvert-x3%2Fvertx-examples%2Ftree%2F4.x%2Fvirtual-threads-examples" target="_blank">ex­am­ple repo</a>&nbsp;查看更多信息。</p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span>動態 SQL 連接創建</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>默認情況下，連接池始終連接到同一主機，換句話説，數據庫配置是靜態<em>的</em>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>有時數據庫配置需要是動態的，例如連接到數據庫陣列，或者數據庫配置可能會改變。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>通過<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-pg-client%2Fjava%2F%23_dynamic_connection_configuration" target="_blank">動態連接配置，</a>你可以在 Vert.x 中輕鬆實現這一點：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">Pool</span><span style="color:#c9e5f9">pool</span><span>=</span> PgBuilder.pool()
+  .with(poolOptions)
+  .connectingTo(() -&gt; {
+    Future&lt;SqlConnectOptions&gt; connectOptions = retrieveOptions();
+    <span style="color:#d2a8e0">return</span> connectOptions;
+  })
+  .using(vertx)
+  .build();
+</code></pre><p style="color:#3c3c3b; text-align:start"><span style="color:#3c3c3b">每次 pool 需要創建連接時，都會調用 options supplier 並使用返回的選項來創建連接。</span></p><h4 style="text-align:start">PG bouncer transaction pooling mode</h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>7 級代理可以在與實際數據庫的多個連接上平衡查詢負載。當發生這種情況時，客户端可能會因缺乏 session affinity&nbsp;而感到 confused，並且可能會出現不必要的錯誤，例如 ERROR: unnamed preded statements does not exit (26000)。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>Vert.x SQL 客户端現在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-pg-client%2Fjava%2F%23_using_a_level_7_proxy" target="_blank">支持 </a>7 級代理，例如&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.pgbouncer.org%2F" target="_blank">PgBouncer&nbsp;</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><h4 style="text-align:start"><span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span>TCP SSL 選項更新</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>現在可以<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23_updating_ssltls_configuration" target="_blank">在運行時更新 TCP client/server SSL 選項</a>&nbsp;，這對於證書輪換非常有用。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java">Future&lt;Boolean&gt; fut = server.updateSSLOptions(
+  <span style="color:#d2a8e0">new</span><span style="color:#f0a46c">SSLOptions</span>()
+    .setKeyCertOptions(<span style="color:#d2a8e0">new</span><span style="color:#f0a46c">JksOptions</span>()
+      .setPath(<span style="color:#6cb9f0">"/path/to/your/server-keystore.jks"</span>)
+      .setPassword(<span style="color:#6cb9f0">"password-of-your-keystore"</span>)));
+</code></pre><p style="color:#3c3c3b; text-align:start"><span style="color:#3c3c3b">新連接將使用更新的配置。</span></p><h4 style="text-align:start"><strong>WebSocket client</strong></h4><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23_websockets_on_the_client" target="_blank">在新的 WebSocket client</a>&nbsp;中從 Vert.x HTTP client 捕獲了 WebSocket client API&nbsp;。</p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">WebSocketClient</span><span style="color:#c9e5f9">wsClient</span><span>=</span> vertx.createWebSocketClient();
+
+Future&lt;WebSocket&gt; f = wsClient.connect(connectOptions);
+</code></pre><p style="color:#3c3c3b; text-align:start">這一改動的目的是讓<code>HttpClient</code>接口專注於 HTTP 交互，並清理接口。</p><h4 style="text-align:start"><strong>Client builders</strong></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>在 4.5 中開始引入用於高級客户端創建的 builder pattern。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>當 Vert.x 客户端需要進行超出選項的配置時，builder pattern 有助於配置和創建 Vert.x 客户端。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fblog%2Fwhats-new-in-vert-x-4-5%2F" target="_blank">查看官方博客</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 17 Nov 2023 06:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/266908/eclipse-vert-x-4-5-0-released</guid>
+            <link>https://www.oschina.net/news/266908/eclipse-vert-x-4-5-0-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -252,61 +337,6 @@ public class ExtendedInfo {
         </item>
         <item>
             <title>
-                <![CDATA[Eclipse Vert.x 4.5.0 發佈，虛擬線程支持]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Eclipse Vert.x 是一個微服務開發框架，基於事件和異步，依託於全異步 Java 服務器 Netty，並擴展了很多其他特性，以其輕量、高性能、支持多語言開發而備受開發者青睞。</span></p><p><span style="background-color:#ffffff; color:#333333">Eclipse Vert.x 4.5.0 現已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fblog%2Feclipse-vert-x-4-5-0%2F" target="_blank">發佈</a>，此版本帶來了一些新功能，包括虛擬線程支持。亮點更新如下：</span></p><h4><strong>虛擬線程</strong></h4><p>虛擬線程 verticle 可以等待 Vert.x futures 並同步獲取結果。</p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">Verticle</span><span style="color:#c9e5f9">verticle</span><span>=</span><span style="color:#d2a8e0">new</span><span style="color:#f0a46c">AbstractVerticle</span>() {
-  <span style="color:#adb5bd">@Override</span><span style="color:#d2a8e0">public</span><span style="color:#d2a8e0">void</span><span style="color:#f0a46c">start</span><span>()</span> {
-    <span style="color:#f0a46c">HttpClient</span><span style="color:#c9e5f9">client</span><span>=</span> vertx.createHttpClient();
-    <span style="color:#f0a46c">HttpClientRequest</span><span style="color:#c9e5f9">req</span><span>=</span> Future.await(client.request(
-      HttpMethod.GET,
-      <span style="color:#6cb9f0">8080</span>,
-      <span style="color:#6cb9f0">"localhost"</span>,
-      <span style="color:#6cb9f0">"/"</span>));
-    <span style="color:#f0a46c">HttpClientResponse</span><span style="color:#c9e5f9">resp</span><span>=</span> Future.await(req.send());
-    <span style="color:#f0a46c">int</span><span style="color:#c9e5f9">status</span><span>=</span> resp.statusCode();
-    <span style="color:#f0a46c">Buffer</span><span style="color:#c9e5f9">body</span><span>=</span> Future.await(resp.body());
-  }
-};
-
-<span style="color:#adb5bd">// Run the verticle a on virtual thread</span>
-vertx.deployVerticle(verticle, <span style="color:#d2a8e0">new</span><span style="color:#f0a46c">DeploymentOptions</span>().setThreadingModel(ThreadingModel.VIRTUAL_THREAD));</code></pre><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23virtual_threads" target="_blank">Vert.x 虛擬線程</a>可以使用<code>await</code>來 block 任何 Vert.x future&nbsp;：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span><span style="background-color:#3a2840"><span><span><span><span><span style="color:#ffffff"><span><span><span><span><span><span><span><span><span><span><span><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#adb5bd">// create a test table</span>
-await(pool.query(<span style="color:#6cb9f0">"create table test(id int primary key, name varchar(255))"</span>).execute());
-<span style="color:#adb5bd">// insert some test data</span>
-await(pool.query(<span style="color:#6cb9f0">"insert into test values (1, 'Hello'), (2, 'World')"</span>).execute());
-<span style="color:#adb5bd">// query some data</span>
-RowSet&lt;Row&gt; rows = await(pool.query(<span style="color:#6cb9f0">"select * from test"</span>).execute());
-<span style="color:#d2a8e0">for</span> (Row row : rows) {
-  System.out.println(<span style="color:#6cb9f0">"row = "</span> + row.toJson());
-}
-</code></pre><p style="color:#3c3c3b; text-align:start">可以在<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fvert-x3%2Fvertx-examples%2Ftree%2F4.x%2Fvirtual-threads-examples" target="_blank">ex­am­ple repo</a>&nbsp;查看更多信息。</p><h4 style="text-align:start"><strong><span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span>動態 SQL 連接創建</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>默認情況下，連接池始終連接到同一主機，換句話説，數據庫配置是靜態<em>的</em>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>有時數據庫配置需要是動態的，例如連接到數據庫陣列，或者數據庫配置可能會改變。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>通過<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-pg-client%2Fjava%2F%23_dynamic_connection_configuration" target="_blank">動態連接配置，</a>你可以在 Vert.x 中輕鬆實現這一點：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">Pool</span><span style="color:#c9e5f9">pool</span><span>=</span> PgBuilder.pool()
-  .with(poolOptions)
-  .connectingTo(() -&gt; {
-    Future&lt;SqlConnectOptions&gt; connectOptions = retrieveOptions();
-    <span style="color:#d2a8e0">return</span> connectOptions;
-  })
-  .using(vertx)
-  .build();
-</code></pre><p style="color:#3c3c3b; text-align:start"><span style="color:#3c3c3b">每次 pool 需要創建連接時，都會調用 options supplier 並使用返回的選項來創建連接。</span></p><h4 style="text-align:start">PG bouncer transaction pooling mode</h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>7 級代理可以在與實際數據庫的多個連接上平衡查詢負載。當發生這種情況時，客户端可能會因缺乏 session affinity&nbsp;而感到 confused，並且可能會出現不必要的錯誤，例如 ERROR: unnamed preded statements does not exit (26000)。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>Vert.x SQL 客户端現在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-pg-client%2Fjava%2F%23_using_a_level_7_proxy" target="_blank">支持 </a>7 級代理，例如&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.pgbouncer.org%2F" target="_blank">PgBouncer&nbsp;</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><h4 style="text-align:start"><span><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span>TCP SSL 選項更新</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>現在可以<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23_updating_ssltls_configuration" target="_blank">在運行時更新 TCP client/server SSL 選項</a>&nbsp;，這對於證書輪換非常有用。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java">Future&lt;Boolean&gt; fut = server.updateSSLOptions(
-  <span style="color:#d2a8e0">new</span><span style="color:#f0a46c">SSLOptions</span>()
-    .setKeyCertOptions(<span style="color:#d2a8e0">new</span><span style="color:#f0a46c">JksOptions</span>()
-      .setPath(<span style="color:#6cb9f0">"/path/to/your/server-keystore.jks"</span>)
-      .setPassword(<span style="color:#6cb9f0">"password-of-your-keystore"</span>)));
-</code></pre><p style="color:#3c3c3b; text-align:start"><span style="color:#3c3c3b">新連接將使用更新的配置。</span></p><h4 style="text-align:start"><strong>WebSocket client</strong></h4><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fdocs%2Fvertx-core%2Fjava%2F%23_websockets_on_the_client" target="_blank">在新的 WebSocket client</a>&nbsp;中從 Vert.x HTTP client 捕獲了 WebSocket client API&nbsp;。</p><pre style="margin-left:0; margin-right:0; text-align:start"><code class="language-java"><span style="color:#f0a46c">WebSocketClient</span><span style="color:#c9e5f9">wsClient</span><span>=</span> vertx.createWebSocketClient();
-
-Future&lt;WebSocket&gt; f = wsClient.connect(connectOptions);
-</code></pre><p style="color:#3c3c3b; text-align:start">這一改動的目的是讓<code>HttpClient</code>接口專注於 HTTP 交互，並清理接口。</p><h4 style="text-align:start"><strong>Client builders</strong></h4><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>在 4.5 中開始引入用於高級客户端創建的 builder pattern。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>當 Vert.x 客户端需要進行超出選項的配置時，builder pattern 有助於配置和創建 Vert.x 客户端。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#3c3c3b"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvertx.io%2Fblog%2Fwhats-new-in-vert-x-4-5%2F" target="_blank">查看官方博客</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 16 Nov 2023 06:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266908/eclipse-vert-x-4-5-0-released</guid>
-            <link>https://www.oschina.net/news/266908/eclipse-vert-x-4-5-0-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[Bun v1.0.12 版本發佈：功能升級與錯誤修復]]>
             </title>
             <description>
@@ -365,46 +395,6 @@ Future&lt;WebSocket&gt; f = wsClient.connect(connectOptions);
             <pubDate>Thu, 16 Nov 2023 03:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/266886/wecom-sdk-1-2-3-released</guid>
             <link>https://www.oschina.net/news/266886/wecom-sdk-1-2-3-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【店滴雲】可命令行生成 uniapp 接口文件，結合官方 sdk 快速開發]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:center">【店滴雲】可命令行生成 uniapp 接口文件，結合官方 sdk 快速開發</p><p>命令行：</p><div><pre><span style="background-color:#153811; color:#54b33e">php ./yii addons/createapi --addons=diandi_hotel</span></pre></div><p>生成的 api 文件示例：</p><pre><code>import sendHttp from "@/uni_modules/ddiot-ui/js_sdk/http/index.js"
-
-export function hotelCommentList(hotel_id, room_id, page, pageSize) {
-return sendHttp('/diandi_hotel/comment/list', "POST", {
-hotel_id,
-room_id,
-page,
-pageSize
-}, true)
-}</code></pre></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 16 Nov 2023 03:28:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266881/ddiot-updated</guid>
-            <link>https://www.oschina.net/news/266881/ddiot-updated</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[FydeOS v17.1 發佈，集中修復 Linux 子系統，增加本土化優化]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#121212; margin-left:0; margin-right:0; text-align:start"><img alt="" height="720" src="https://oscimg.oschina.net/oscnet/up-9957e1513ae48366915d9d57f2b638760ae.png" width="1440" referrerpolicy="no-referrer"></p><p style="color:#121212; margin-left:0; margin-right:0; text-align:start">FydeOS v17.1 是對 FydeOS v17 Nostalgic Reflections 的一個集合功能修復及維護版本。在此次的發佈裏，值得一提的修改的有：</p><ul><li>集中修復了 Linux 子系統存在的一些問題： 
-  <ul><li>修復了某些 Linux 程序無法展現 GUI 的問題</li><li>修復了某些 Linux 程序在系統休眠喚醒後崩潰的問題</li><li>修復了某些常用 Linux 程序（比如 WPS Linux）無法通過雙擊 .deb 軟件包安裝的依賴缺失</li><li>優化了 Linux 鏡像內的源地址；默認指向部署在中國大陸的阿里雲鏡像</li><li>其它本土化優化，包括中文字體和系統語言等</li><li><strong>如果你是從早期版本的 FydeOS 通過 OTA 升級到此 v17.1 版本，以上 Linux 子系統的優化並不會通過升級系統而生效；你需要刪除 Linux 環境並重新開啓才能獲得。</strong></li></ul></li></ul><div><img alt="" height="1824" src="https://oscimg.oschina.net/oscnet/up-bcbf3ddcf921f81e98aa29ac7468275d9f6.png" width="2736" referrerpolicy="no-referrer"></div><ul><li>修復了攝像頭無法在某些安卓應用中開啓的問題</li><li>修復了在系統內添加打印機可能會報錯的問題</li><li>優化了「提交反饋」的功能</li><li>為多啓動安裝的 FydeOS 增加了「<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffydeos.com%2Ffaq%2Fdisable-media-files-scan" target="_blank">禁用多分區下的媒體文件自動掃描以獲得更長的電池續航時間</a></u>」的功能</li><li>在<span>&nbsp;</span><code>hwtuner</code><span>&nbsp;</span>中添加了更新 rEFInd 二進制文件以及新設計的深色主題的入口</li><li>添加了針對常見 USB wifi 適配器芯片的支持：MT7612U、RTL8192EU、RTL8188GU 以及 RTL8188CUS</li></ul><p style="color:#121212; margin-left:0; margin-right:0; text-align:start">希望你喜歡本次更新的新功能，有什麼想對我們説的，歡迎隨時到<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcommunity.fydeos.com%2F" target="_blank">FydeOS 社區</a>來告訴我們。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 16 Nov 2023 03:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/266880/fydeos-17-1-released</guid>
-            <link>https://www.oschina.net/news/266880/fydeos-17-1-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
