@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 19 Nov 2023 05:30:35 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 19 Nov 2023 09:39:37 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[哈玛斯骇客使用资料破坏软体 BiBi，占用大量处理器资源抹除 Windows 电脑资料]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/bibi-fig03-156.png?itok=pxqIXZT1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>自 10 月上旬巴勒斯坦激进组织哈玛斯突袭以色列，引发以巴冲突，有上百个骇客组织表态声援两大阵营，并透过 DDoS 攻击敌对国家的企业组织来表达诉求。但也有骇客组织采取更为激进的手段，造成更为严重的破坏。</p><p>10 月底资安业者 SecurityJoes 揭露<a href="https://www.securityjoes.com/post/bibi-linux-a-new-wiper-dropped-by-pro-hamas-hacktivist-group">针对以色列组织而来的 BiBi-Linux 资料破坏软体（Wiper）</a>，疑似哈玛斯骇客所为，专门针对 Linux 主机而来，而 BiBi 字串很有可能指的就是以色列总理 Benjamin Netanyahu 的暱称；接著<a href="https://twitter.com/ESETresearch/status/1719437301900595444">资安业者 ESET 的研究人员看到此恶意程式的变种</a>，可攻击 Windows 电脑与伺服器，攻击者是名为 BiBiGun 的哈玛斯骇客，以色列电脑紧急回应团队（IL-CERT）也发出警告，<a href="https://www.gov.il/he/departments/publications/reports/alert_1660">并提供 YARA 特征码让企业组织能够侦测相关攻击行动</a>，如今，有研究人员公布进一步的调查结果。</p><h3><strong>针对 Windows 电脑的恶意程式出现</strong></h3><p><a href="http://blogs.blackberry.com/en/2023/11/bibi-wiper-used-in-the-israel-hamas-war-now-runs-on-windows">资安业者 BlackBerry 指出</a>，Windows 版的资料破坏软体 BiBi-Windows 是 10 月 21 日制作，由微软 Visual Studio 2019 编译，本体为 64 位元的可执行档，大小仅 203 KB。一旦电脑受到感染，此资料破坏软体会先检查电脑的处理器架构及执行绪的数量，为了尽可能加快破坏资料的速度，此恶意程式通常会使用 12 个执行绪、占用 8 个处理器核心，并破坏 EXE、DLL、SYS 以外的档案，删除磁碟区阴影复制服务（Volume Shadow Copy）的备份资料、停用 Windows 还原功能。</p><p>而对于破坏档案的方式，上述的资料破坏软体会写入随机档案来进行，导致档案无法使用，而且无法复原。再者，就是会将已经破坏的档案重新命名，更换由 10 个随机字元组成的档案名称，并搭配 BiBi1 至 BiBi5 的副档名。研究人员指出，骇客排除破坏上述 3 种类型档案的原因，就是要维持电脑的作业系统能正常运作，以便让破坏资料的工作能够完成。</p><p>为了让攻击流程能顺利进行，这些骇客还滥用 Windows 作业系统内建的模组 Restart Manager，以及名为 Rstrtmgr.dll 的程式库。</p><p>利用 Restart Manager 的目的，很有可能是为了强制将资料解除锁定后进行破坏，而这种攻击手法先前也曾出现，<a href="https://www.ithome.com.tw/news/138922">2020 年 VMware 旗下的威胁防护小组指出</a>，勒索软体 Conti 就利用上述方式，加密遭到锁定的档案。（编按：攻击者如何滥用这种工具的方法<a href="https://www.crowdstrike.com/blog/windows-restart-manager-part-1/">可参考资安业者 CrowdStrike 的说明</a>）</p><p>为了回避侦测，攻击者所发动的所有指令内容，采用由右至左（RTL）的顺序储存，而有机会逃过部分防毒软体的特征码。但究竟骇客如何散布此资料破坏软体？研究人员表示仍不得而知。</p><p><a href="https://s4.itho.me/sites/default/files/images/bibi-fig03.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/bibi-fig03.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><h3><strong>研究人员先看到 Linux 恶意程式的攻击行动</strong></h3><p>这并非在以色冲突之后，首度针对以色列而来的资料破坏软体攻击。资安业者 Security Joes 的事件回应团队在协助以色列企业组织调查的过程中，发现名为 BiBi-Linux 的资料破坏软体，显然是锁定该国企业组织而来，背后疑似由隶属哈马斯的骇客打造，意图在战争当中制造混乱。</p><p>研究人员指出，这款资料破坏软体特别之处，在于不与 C2 连线，也不会外泄受害组织的资料，更没有留下要胁付款的勒索讯息。</p><p>取而代之的是，此资料破坏软体借由无用的资料来覆写档案，导致资料难以复原，甚至影响整个作业系统，而且，该程式运用多个处理程序，并透过排程系统执行，最终遭到破坏的档案会含有 BiBi 字串的副档名。骇客这么做的目的，显然是为了让破坏行动的效率最大化。</p><p>与 Windows 版本的 BiBi-Windows 类似，骇客也会排除.out 和.so 档案，原因是 Linux 版资料破坏程式 bibi-linux.out 和 nohup.out 两个档案，以及 Linux 作业系统运作所需的.so 程式库。</p><p>值得留意的是，研究人员在公布这个恶意程式的时候，恶意软体分析网站 VirusTotal 仅有两款防毒引擎将其视为有害。</p><p><a href="https://s4.itho.me/sites/default/files/images/d03b6f_395a5bd66f6d4431a35b3aa07eeac71c~mv2.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/d03b6f_395a5bd66f6d4431a35b3aa07eeac71c~mv2.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>研究人员后来<a href="https://www.securityjoes.com/post/mission-data-destruction-a-large-scale-data-wiping-campaign-targeting-israel">进一步透露</a>调查结果，发起上述相关资料破坏攻击行动的骇客，自 10 月 7 日设置了名为 Karma 的 Telegram 频道，口号是「Bibi will shatter our dream of turning 80」，很有可能与以色列即将于 2028 年建国满 80 周年有关，这些骇客企图伪装成以色列组织，企图散布与该国总理有关的假资讯。</p><p>根据研究人员掌握的证据，认为发起攻击的骇客与伊朗骇客组织 Moses Staff 有关。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 18 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/159903</guid>
+            <link>https://www.ithome.com.tw/news/159903</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[OpenAI 执行长 Sam Altman 被开除]]>
@@ -66,7 +81,7 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
             <author>
                 <![CDATA[郭又华]]>
             </author>
-            <category>新闻</category>
+            <category></category>
         </item>
         <item>
             <title>
@@ -267,7 +282,7 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
     <author>
         <![CDATA[周峻佑]]>
     </author>
-    <category>新闻</category>
+    <category>资安 </category>
 </item>
 <item>
     <title>
@@ -297,7 +312,7 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
     <author>
         <![CDATA[郭又华]]>
     </author>
-    <category>新闻</category>
+    <category>AI</category>
 </item>
 <item>
     <title>
@@ -312,7 +327,7 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
     <author>
         <![CDATA[李昀璇]]>
     </author>
-    <category>新闻</category>
+    <category>AI</category>
 </item>
 <item>
     <title>
@@ -357,7 +372,7 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
     <author>
         <![CDATA[林妍溱]]>
     </author>
-    <category>新闻</category>
+    <category>Cloud </category>
 </item>
 <item>
     <title>
@@ -371,21 +386,6 @@ Google 新增 GDN 和 Youtube 品牌安全选项，可以简单排除广告附�
     <link>https://www.ithome.com.tw/news/159883</link>
     <author>
         <![CDATA[林妍溱]]>
-    </author>
-    <category>新闻</category>
-</item>
-<item>
-    <title>
-        <![CDATA[【贯彻数据至上原则的关键基础建设】酷澎 PB 级数据平台大解析]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1117-coupang-app-960.jpg?itok=5dVJnjxz" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>酷澎</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2019 到 2022 年，全球受到疫情笼罩，线上商务市场大幅拓张。这段期间，位居韩国电商领导地位的酷澎其年营收从台币 2 千亿元，急速成长到 6 千 6 百亿元。极其庞大的业务规模扩张，使他们持续升级数据基础建设。</p><p>这个基础建设自 2019 年的大数据平台扩张。不过，他们不再叫它「大数据平台」，而是「数据平台」──这意味著，不管数据大小，只要可以用来辅助决策，都会透过这个平台处理、输出。</p><p>截至 2022 年，这个 PB 级数据平台一天执行超过 5,000 个任务，使用超过 70 个来源的数据。从工程师、商业分析师、高阶主管、外部供应商和外部广告主，超过 50 个团队使用数据平台。甚至，酷澎预期，此平台未来处理数据量还会再增加数倍，就算目前平台足以支援高时效性、高并行性的 PB 级数据处理，他们仍不断升级数据处理流程，为未来平台扩充做准备。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>靠通用撷取框架来支援高速、多元、大量数据处理</strong></span></span></p><p>酷澎数据平台的架构主体分为撷取和分析类大平台。撷取平台由网页日志纪录、串流数据架构及通用数据撷取框架组成，从超过 70 种来源撷取数据。数据平台会自动化调度（Orchestrate）这些数据的储存和处理程序，期间套用资安及数据品质框架。接著，数据会汇入由大数据平台、顾客体验分析平台及机器学习平台构成的分析类平台，依照不同使用需求进一步处理数据，再输出到实际使用这些数据的系统中。</p><p>&nbsp;</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%961-%E6%95%B8%E6%93%9A%E5%B9%B3%E8%87%BA%E6%9E%B6%E6%A7%8B-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong><span style="color: rgb(178, 34, 34);">酷澎 2022 年数据平台架构</span><br><span style="color: rgb(105, 105, 105);">酷澎数据平台架构中，数据撷取层从超过 70 种数据源撷取数据，经过储存、处理、资安及调度等程序，将数据输入到数据分析平台。分析平台会再依据各式数据应用需求进行进阶处理，再输出到串接于平台的不同系统中。</span></strong><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源／酷澎</span></span></p><p>由于数据来源众多，传统手动建置个别数据流程（Date pipeline）的作法会导致管理及维护困难。酷澎做法是，自行打造一个通用数据撷取（UDI，Universal Data Ingestion）框架，能全自动化撷取资料、适用于所有数据源，且数据使用者可以不仰赖数据工程师，自行调整数据撷取设定。</p><p>UDI 框架设计强调可以处理多元、高速、大量的数据。为了支援多元数据来源，酷澎将 UDI 框架设计为一个 Hadoop 的外挂框架，新增数据源时，只要重复套用同一框架便能完成，既不需要撰写大量程式码，更压低了新增流程的成本。</p><p>酷澎还设计了各式自动化流程，以实现高速处理大量数据。例如，撷取数据时，此框架会自动化检查数据撷取过程符合资安协定、自动化过滤数据，只存取必要栏位。批次撷取数据时，会自动评估并设定每批数据量，控制在有效率但安全的范围内。</p><p>为了处理大量数据，酷澎将数据湖建立在 AWS S3 环境，以支援大量平行扩充。数据查询及处理也使用各式支援大量数据处理的开源技术。例如，用 Hive 来设计数据消费层，使用 Spark 来进行 ELT 等数据处理，以及使用 Presto 作为临时资料查询引擎。</p><p>未来，酷澎计划调整数据撷取模式，要发展事件驱动型（Event-based）即时资料流处理流程，并从异动资料撷取（CDC）逐渐改为强型别 Log-based 撷取模式。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>打造 Hadoop 抽象层来提升资源运用效率</strong></span></span></p><p>数据经过初步处理，流到分析平台，进一步根据实际应用需求来处理。分析平台是大数据分析、数据探勘、数据管理、查询、各式实验、机器学习、顾客体验分析等诸多数据应用场景的基础建设，</p><p>随著数据应用需求不断多元化、规模化，酷澎以原本数据处理架构为基础，打造新工作管理机制，借由提升资源利用效率，来支援更多并行工作。这对分析平台中处理最多数据的大数据平台，尤其重要。</p><p>酷澎对大数据平台下的 Hadoop 便下了许多功夫来优化管理机制。他们使用 Hadoop 环境时，遇到了一些痛点，其一是部分数据使用者不熟悉数据处理指令撰写，成为他们使用数据的阻力，也使资源运用效率较低。</p><p>第二个问题较为复杂，涉及到成本、资源运用及 Hadoop 设计带来的限制。</p><p>酷澎在 Amazon EMR 环境执行 Hadoop。随著用量提升，云端储存和运算资源用成本控管成为一大课题。酷澎大多使用较便宜的 Spot Instances（竞价型执行个体），而非较贵的 Reserved（预留型）或 On-Demand Instances（按需计价执行个体）。代价是，颠峰时段，运算资源时常会 AWS 被收回，给其他更高优先级或开价更高的云端用户使用，导致工作中断，进而影响整体资料品质。</p><p>当酷澎能稳定存取的运算资源不足，便衍生出了大量资料回填（Backfill）需求。偏偏，Hadoop 设计上对于数据删除、更新及新增 （Upsert）支援度不高，大量回填不仅造成额外运算成本，还可能进一步影响数据品质。甚至，来不及等到资料回填，他们就被迫用低品质的数据来进行决策。</p><p>2019 年，为了优化云端资源运用效率，酷澎开始依照用途来分类丛集，分出了特定用途、常驻、短期等不同丛集类型，并严格控管每个丛集的生命周期长短，以避免浪费运算资源。同时，他们导入了基于人工预测的扩充机制，依据资源用量峰值分析，来提前排程丛集资源扩充，以避免云端服务商原有的自动扩充功能来不及应对爆量需求。</p><p>后来，酷澎还打造了 Hadoop 抽象层来进一步强化资源分配。Hadoop 抽象层是一个 Web-based 介面，作为中心化监控及管理系统。负责管理的工程师可以用来监控及管理 EMR 丛集。终端使用者则能透过 Airflow operator 或 Python SDK 等管道来提交任务需求到抽象层，再由抽象层自动分配适当的技术、丛集及资源用量。</p><p>这个抽象层为 Hadoop 上的工作流程带来几个益处。其一，简化了大数据处理任务的提交流程；其二，简化了数据丛集的实体细节；其三，透过自动分配机制，每个任务获得适当的运算资源，酷澎暂时避免了靠增加额外 Hadoop 丛集来扩充资源。</p><p class="rtecenter"><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%962-%E6%95%B8%E6%93%9A%E5%B9%B3%E8%87%BA%E6%9E%B6%E6%A7%8B-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></span></span></p><p><strong><span style="color: rgb(178, 34, 34);">大数据平台的 Hadoop 抽象层</span><br><span style="color: rgb(105, 105, 105);">酷澎为大数据平台的 Hadoop 打造了一层抽象层。一般使用者可以透过 Airflow 或 SDK 来提交数据任务，由抽象层会自动分配任务所需资源和执行环境。系统管理员则能透过此抽象层来中心化管理 EMR 丛集。</span></strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／酷澎</span></p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>调整 Redshift 丛集分工来降低资源争夺</strong></span></span></p><p>大数据平台中，酷澎使用 Redshift 作为销售、财务、产品目录及行销等不同领域数据的资料仓储。酷澎表示，Redshift 管理需求低、上手容易，但随著数据量以及查询需求提升，Redshift 开始出现了一些问题。</p><p>第一是资源用量低扩充弹性问题。Redshift 扩充弹性不如 Hadoop，酷澎会随著数据使用需求弹性扩充和缩减。不过，Redshift 调整的弹性不足以应付他们数据使用需求变化。这导致工程师调整用量时，时常在使用者沟通及检查系统健康状况，费时甚至多于扩充相关的实际工程作业。</p><p>第二个问题是并行任务管理问题。Redshift 是大规模平行处理（MPP）架构，任务伫列管理会更加复杂，且同时进行的资料查询或资料处理任务会互相排挤。频宽和算力的排挤，会造成执行速度下滑；数据及元数据存取权的排挤，则会导致资料存取锁定（Data lock）。也由于 MPP 原本设计上不会于丛集间分享数据，酷澎起初做法是在不同丛集丛集中储存数据副本，虽然一定程度增加任务执行速度，但算力和储存需求负荷便会更重。</p><p>后来，酷澎调整 Redshift 丛集的架构，分为 3 个数据处理丛集以及 5 个使用者查询丛集。前者又分为 1 个关键处理丛集以及 2 个一般处理丛集。一般处理丛集主要用来处理数据提取及载入（ELT 中的 E 和 L），以及少量转换（ELT 中的 T）；关键处理丛集负责关键资料转换，从原始资料转为符合不同需求的资料市集。</p><p>5 个使用者查询丛集则分配给不同业务领域的使用者，用来做领域专门的临时分析、额外数据转换，以及重复执行查询指令来做数据追踪。</p><p>这种分工模式，使丛集间争取资源的情况减少。他们还将这些丛集转换为 Redshift RA3 丛集，支援跨丛集数据共享功能，不再需要手动复制数据。</p><p>不只如此，他们导入了 Redshift Spectrum 工具，可以直接从 S3 环境中查询结构和半结构化资料，而不需要载入数据到 Redshift 表格中。若使用者要查询的数据不需要经由 Redshift 丛集处理，便能直接透过 Spectrum 来快速达成。</p><p>未来，他们计划将 Redshift 资料处理程序转移到资源扩充更弹性的 EMR 环境，利用 Spark 来进行资料处理。不过，仍支援使用者用 Redshift 来处理储存于 S3 的数据。</p><p class="rtecenter"><span style="color: rgb(105, 105, 105); font-size: 14px;"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%963-Redshift%E5%8F%A2%E9%9B%86%E8%A8%AD%E8%A8%88-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></span></p><p><strong><span style="color: rgb(178, 34, 34);">大数据平台的 Redshift 丛集设计架构</span><br><span style="color: rgb(105, 105, 105);">酷澎为大数据平台的 Redshift 重新设计了丛集架构，数据会先由 2 个一般处理丛集进行提取和载入，再由关键处理丛集来转换，输入到 5 个依业务领域分类的使用者查询丛集，进行进一步转换、测试和分析。</span></strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／酷澎</span></p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>建立数据探勘系统来支援全平台元数据检索</strong></span></span></p><p>良好的元数据搜寻功能对于数据探勘、数据管理、各式数据工程及数据应用来说相当关键。酷澎早期已经开发了元数据搜寻引擎，不过随著数据基础架构演进，此系统不复堪用。</p><p>举例来说，Hive 元数据储存在 Metastore 资料库中，但实际数据则储存在 HDFS 中，使用者常会需要知道数据格式、储存位置、数据沿袭、新鲜度、以及产生时间等资讯。这与传统 RDBMS 只在意表格 Schema 的情况非常不同。</p><p>近年酷澎更新了数据探勘系统，会自动用 Meta query 从各式生产系统的资料库以及资料仓储搜集元数据，并统一储存在中央元数据资料库中，供使用者搜寻。此系统 1 小时内便能反映元数据变动。</p><p>这个探勘系统虽然不复杂，却是大数据平台重要的一环，也是酷澎内使用率前几高的数据管理功能，一天会有上百人来从上千个数据表中查询元数据。</p><p class="rtecenter"><span style="color: rgb(105, 105, 105); font-size: 14px;"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%964-%E5%85%83%E6%95%B8%E6%93%9A%E6%90%9C%E5%B0%8B-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></span></p><p><strong><span style="color: rgb(178, 34, 34);">大数据平台的数据探勘系统</span><br><span style="color: rgb(105, 105, 105);">数据探勘系统会从各式生产资料库及资料仓储搜集元数据，供每天上百个使用者搜寻上千个数据表的各式元数据，包括数据格式、储存位置、沿袭历程、新鲜度、以及产生时间等。</span></strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／酷澎</span></p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>打造顾客分析及 ML 专用平台，统一管理工作流程及资源分配</strong></span></span></p><p>顾客资料分析以及机器学习模型训练是酷澎两大类关键数据应用情境，经手数据量大、数据处理需求多、应用范围也广。过往，这两类情境的数据流程是逐案建立，不过随著需求量提升，他们便为这两类情境打造了专用自助式平台，以减少重工、统一工作流程、管理资源分配，并降低非工程人员使用门槛。</p><p>为顾客资料分析建立的自助式平台名为顾客经验分析平台（CXAP），会搜集各式客户端事件数据并提供分析功能。此平台作用类似于 CDP，不过是整合到整个数据平台当中，而非一个独立系统。</p><p>使用者于 CXAP 前端介面可以进行数据分析和探勘。CXAP 支援输入 SQL 指令，也有图形化使用者界面，不需要写程式码就可以做到使用者旅途分析、销售漏斗分析、数据趋势分析等操作。</p><p>CXAP 后端包含开源关连式资料库 ClickHouse，支援接近即时的数据撷取和处理，可以在数据产生数十秒内完成撷取，以加速数据从生成到实际应用。他们还整合了数据分析及探勘工具 Superset，可以快速制作视觉化报表。</p><p class="rtecenter"><span style="color: rgb(105, 105, 105); font-size: 14px;"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%965-CX%E5%88%86%E6%9E%90%E7%A4%BA%E7%AF%84-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></span></p><p><strong><span style="color: rgb(178, 34, 34);">分析类平台的顾客体验分析平台</span><br><span style="color: rgb(105, 105, 105);">酷澎分析平台下的顾客体验分析平台可以用 SQL 指令来搜寻各式客户端事件数据，也能透过 No-code 工具来生产各式视觉化资料分析报表。图为分析顾客旅途用的桑基图。</span></strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／酷澎</span></p><p>酷澎也为机器学习模型开发设置了一个平台。机器学习平台则比 CXAP 更加复杂，统一了数据准备、互动式 Notebook 开发环境、运算资源存取、超参数调整、模型部署及应用等 ML 工作流程，并支援常见 ML 工程所需资源。</p><p>此平台将 ML 模型开发流程分为 3 阶段：数据准备阶段、训练和追踪阶段、实际应用阶段。数据准备阶段，酷澎使用 Airflow 来管理并驱动 Spark、Hive、Presto 等数据处理工具，以导入机器学习所需训练数据。他们更开发了一个 SDK，让工程师可以整合、同步、分享及管理不同来源的数据集。</p><p>训练和追踪阶段，此平台提供预先封装了各式常见 ML/DL 框架及数据科学函式库的容器，只要启动一个 Jupyter 容器即能进行后续开发。开发人员可以透过 CLI 或 API 来存取 GPU 运算资源，进行模型训练，还可以透过视觉化仪表板追踪实验进度。此平台也支援多种超参数调整演算法，来快速实验不同超参数设定。</p><p>实际应用阶段，此平台内建模型部署工具，用 K8S 来管理和执行模型部署及连结到外部应用程式。开发人员也容易透过 Jsonnet 来设定自动扩充配置，以及产生符合 REST 格式和使用 gRPS 协定的模型对外 API。</p><p class="rtecenter"><span style="color: rgb(105, 105, 105); font-size: 14px;"><img alt="" src="https://s4.itho.me/sites/default/files/images/600-%E5%9C%966-ML%E5%B9%B3%E8%87%BA%E6%9E%B6%E6%A7%8B-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-%E9%85%B7%E6%BE%8E.png" style="width: 600px;" referrerpolicy="no-referrer"></span></p><p><strong><span style="color: rgb(178, 34, 34);">分析类平台的机器学习平台</span><br><span style="color: rgb(105, 105, 105);">酷澎分析平台下的机器学习平台制定了一个标准化工作流程，涵盖资料准备、训练、GPU 资源调度、模型调整、模型储存、模型部署、外部系统串接。平台上提供许多常见 ML 工程所需资源，并有统一 GPU 资源分配机制。</span></strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／酷澎</span></p><p>数据经过数据平台一系列处理后，会输出到各式工具及系统，供内外部终端使用者使用。正是利用这些数据，酷澎许多核心竞争能力才变得可能。</p><p>接下来，我们将介绍酷澎如何利用这些数据，来支援火箭速配背后的自制地图系统、高科技物流中心背后的 SCM 应用开发工具，以及支援产品功能设计、产品外观设计、SCM、行销等不同领域利用数据驱动决策的实验平台。</p><p><a href="https://www.ithome.com.tw/article/159891" target="_blank"><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;相关报导&nbsp;</span><img alt="" src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/1156-feng_mian_p1-open-960x420_kao_bei_0.jpg?itok=3oHIQ1sZ" style="width: 550px;" referrerpolicy="no-referrer"></strong></span></a></p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Thu, 16 Nov 2023 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/159882</guid>
-    <link>https://www.ithome.com.tw/news/159882</link>
-    <author>
-        <![CDATA[郭又华]]>
     </author>
     <category>新闻</category>
 </item>    </channel>    </rss>
