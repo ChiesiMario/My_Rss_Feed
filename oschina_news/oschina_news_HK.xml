@@ -16,8 +16,49 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 21 Nov 2023 17:43:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 21 Nov 2023 19:47:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[TypeScript 5.3 正式發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>TypeScript 5.3 已正式發佈。</p><p><strong>主要變化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a>&nbsp;提案的最近更新</p></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">在 Import Types</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">中提供對<code>resolution-mode</code>的穩定支持</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">為所有 Module Modes</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">提供</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank"><code>resolution-mode</code>支持</a></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>檢查對實例字段的<code>super</code>屬性訪問</p></li><li><p>針對類型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳過 JSDoc 解析以進行優化</p></li><li><p>合併<code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a></strong></p><p>import attributes 的一個用例是向運行時提供有關模塊預期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
+// not a runnable/malicious JavaScript file with a `.json` extension.
+import obj from "./something.json" with { type: "json" };
+</code></pre><p>TypeScript 不會檢查這些屬性的內容，因為它們是特定於主機的，因此不會對它們進行檢查，只是讓瀏覽器和運行時處理它們（可能會出錯）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
+// But your browser? Probably not.
+import * as foo from "./foo.js" with { type: "fluffy bunny" };
+</code></pre><p>動態 import () 調用也可以通過第二個參數使用 import 屬性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
+    with: { type: "json" }
+});
+</code></pre><p>第二個參數的預期類型由一個名為<code>ImportCallOptions</code>的類型定義，默認情況下，該類型只期望調用一個屬性<code>with</code>。</p><p>請注意，導入屬性是從早期的 "導入斷言"（import assertions）提案演變而來的，該提案已在 TypeScript 4.5 中實現。最明顯的區別是使用了<code>with</code>關鍵字而非<code>assert</code>關鍵字。但不太明顯的區別是，運行時現在可以自由使用屬性來指導導入路徑的解析和解釋，而導入斷言只能在加載模塊後斷言某些特性。</p><p>隨着時間的推移，TypeScript 將淘汰舊的導入斷言語法，轉而使用建議的導入屬性語法。使用 assert 的現有代碼應遷移到 with 關鍵字。需要導入屬性的新代碼應只使用<code>with</code>關鍵字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根據<code>switch (true)</code>中每個<code>case</code>子句的條件執行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
+    switch (true) {
+        case typeof x === "string":
+            // 'x' is a 'string' here
+            console.log(x.toUpperCase());
+            // falls through...
+
+        case Array.isArray(x):
+            // 'x' is a 'string | any[]' here.
+            console.log(x.length);
+            // falls through...
+
+        default:
+          // 'x' is 'unknown' here.
+          // ...
+    }
+}
+</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F" target="_blank">詳情查看發佈公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 03:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267382/typescript-5-3-ga</guid>
+            <link>https://www.oschina.net/news/267382/typescript-5-3-ga</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[微軟週二補丁日 (Patch Tuesday) 實施 20 週年]]>
@@ -29,6 +70,21 @@
             <pubDate>Tue, 21 Nov 2023 02:51:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267373/20-years-of-patch-tuesday</guid>
             <link>https://www.oschina.net/news/267373/20-years-of-patch-tuesday</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Spring Security 6.2 GA]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Spring Security 6.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">已正式 GA</a>。</p><p>Spring Security 是一個能夠為基於 Spring 的企業應用系統提供聲明式的安全訪問控制解決方案的安全框架。它提供了一組可以在 Spring 應用上下文中配置的 Bean，充分利用了 Spring IoC，DI（控制反轉 Inversion of Control ,DI:Dependency Injection 依賴注入）和 AOP（面向切面編程）功能，為應用系統提供聲明式的安全訪問控制功能，減少了為企業系統安全控制編寫大量重複代碼的工作。</p><p>Spring Security 6.2 將 Spring Framework baseline&nbsp;與 Project Reactor 2023.0.0 和 Micrometer 1.12.0 一起升級到了 6.1，同時要求將 Java 17 作為最低平台版本，並支持高達 Java 21 的虛擬線程支持。該版本將包含在即將發佈的 Spring Boot 3.2 GA 版本中。</p><p>一些版本更新亮點內容如下：</p><p><strong>Configuration</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F5011" target="_blank">gh-5011 - (docs)</a>&nbsp;如果存在<code>CorsConfigurationSource</code> bean ，則自動啓用<code>.cors()</code></p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13204" target="_blank">gh-13204 - (docs)</a>&nbsp;添加<code>AbstractConfiguredSecurityBuilder.with(…​)</code>方法以應用返回構建器的配置器</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13587" target="_blank">gh-13587 - blog post</a>&nbsp;簡化 OAuth2 客户端組件模型的配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13857" target="_blank">gh-13857 - docs</a>&nbsp;將 servlet 模式支持添加到 AuthorizeHttpRequests</p></li></ul><p><strong>OAuth 2.0/OIDC</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F7845" target="_blank">gh-7845 - docs</a>&nbsp;添加 OIDC Back-channel Logout&nbsp;支持</li></ul><p><strong>Messaging</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12532" target="_blank">gh-12532</a>&nbsp;- 添加安全上下文傳播支持</li></ul><p><strong>Web</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12817" target="_blank">gh-12817</a>&nbsp;- 使 RedirectStrategy status code 可配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13988" target="_blank">gh-13988</a>&nbsp;- 可配置 HTTP Basic 請求解析</p></li></ul><p><strong>Documentation</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13784" target="_blank">gh-13784 - docs</a>- 使用示例更新 OAuth2 文檔登錄頁面</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F11926" target="_blank">gh-11926 - docs</a>&nbsp;記錄如何在沒有<code>WebSecurityConfigurerAdapter</code>的情況下發布<code>AuthenticationManager</code>&nbsp;<code>@Bean</code></p></li></ul><p>詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">查看官方公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 02:32:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267367/spring-security-6-2-ga</guid>
+            <link>https://www.oschina.net/news/267367/spring-security-6-2-ga</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -59,6 +115,21 @@
             <pubDate>Mon, 20 Nov 2023 10:37:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/awebsocket</guid>
             <link>https://www.oschina.net/p/awebsocket</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Oracle Linux 9.3 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Oracle Linux 9 系列<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Flinux%2Fpost%2Foracle-linux-9-update-3" target="_blank">發佈了第 3 個版本更新</a></u>，支持 64 位 Intel 和 AMD (<code>x86_64</code>) 以及 64 位 Arm (<code>aarch64</code>) 平台。與所有的 Oracle Linux 版本一樣，此版本與相應 RHEL 版本 100% 應用二進制兼容。</p><p>對於<code>x86_64</code>和<code>aarch64</code>架構，Oracle Linux 提供了 Unbreakable Enterprise Kernel (UEK) 內核，版本為 UEK Release 7 Update 2, 5.15.0-200.131.27。UEK R7 基於上游 Linux Kernel 5.15，同時支持 Oracle Linux 9 和 Oracle Linux 8。此外還為<code>x86_64</code>架構提供兼容紅帽的內核 (RHCK)，版本號為 5.14.0-364。</p><p><strong>主要變化</strong></p><ul><li>Oracle Linux 現在支持通過 DNF 安裝補丁後自動重啓系統。通過增強的 DNF，使用不同選項（從不、更改時、需要時）自動重啓可以加快補丁管理操作</li><li>OpenSSH 默認情況下顯式強制使用 SHA-2 算法進行密鑰測試，對於運行 Oracle Linux 9 Update 3 的系統，SHA-1 在客户端不可用；此增強功能避免了使用 SHA-1 算法中的弱點</li><li>採用 UEK R7U2 的 Oracle Linux 9.3 繼續維護並支持 btrfs 文件系統，以訪問 Linux 上最現代的寫入時複製 (COW) 文件系統之一</li></ul><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Flinux%2Fpost%2Foracle-linux-9-update-3" target="_blank">詳情查看發佈公告</a></u>、<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.oracle.com%2Fen%2Foperating-systems%2Foracle-linux%2F9%2Frelnotes9.3%2F%23Oracle-Linux-9" target="_blank">Release Notes</a></u>。</p><blockquote><p>Oracle Linux 是由 Oracle 支持的企業級 Linux 發行版，它從 RHEL 源代碼包生成。Oracle Linux 的獨有特性包括一份定製且嚴格測試過的名為 「Oracle Unbreakable Kernel」 的 Linux 內核，與 Oracle 的多數數據庫應用在內的軟硬件產品的緊密集成，以及 「零掉線打補丁」 技術 —— 該特性能讓系統管理員在不重啓的情況下更新內核。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65ef8ba8572130a6b1d0d70109f7d6a0c03.png" referrerpolicy="no-referrer"></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 10:20:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267286/oracle-linux-9-update-3</guid>
+            <link>https://www.oschina.net/news/267286/oracle-linux-9-update-3</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
         </item>
         <item>
             <title>
@@ -139,47 +210,6 @@
         </item>
         <item>
             <title>
-                <![CDATA[TypeScript 5.3 正式發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>TypeScript 5.3 已正式發佈。</p><p><strong>主要變化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a>&nbsp;提案的最近更新</p></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">在 Import Types</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">中提供對<code>resolution-mode</code>的穩定支持</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">為所有 Module Modes</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">提供</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank"><code>resolution-mode</code>支持</a></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>檢查對實例字段的<code>super</code>屬性訪問</p></li><li><p>針對類型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳過 JSDoc 解析以進行優化</p></li><li><p>合併<code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a></strong></p><p>import attributes 的一個用例是向運行時提供有關模塊預期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
-// not a runnable/malicious JavaScript file with a `.json` extension.
-import obj from "./something.json" with { type: "json" };
-</code></pre><p>TypeScript 不會檢查這些屬性的內容，因為它們是特定於主機的，因此不會對它們進行檢查，只是讓瀏覽器和運行時處理它們（可能會出錯）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
-// But your browser? Probably not.
-import * as foo from "./foo.js" with { type: "fluffy bunny" };
-</code></pre><p>動態 import () 調用也可以通過第二個參數使用 import 屬性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
-    with: { type: "json" }
-});
-</code></pre><p>第二個參數的預期類型由一個名為<code>ImportCallOptions</code>的類型定義，默認情況下，該類型只期望調用一個屬性<code>with</code>。</p><p>請注意，導入屬性是從早期的 "導入斷言"（import assertions）提案演變而來的，該提案已在 TypeScript 4.5 中實現。最明顯的區別是使用了<code>with</code>關鍵字而非<code>assert</code>關鍵字。但不太明顯的區別是，運行時現在可以自由使用屬性來指導導入路徑的解析和解釋，而導入斷言只能在加載模塊後斷言某些特性。</p><p>隨着時間的推移，TypeScript 將淘汰舊的導入斷言語法，轉而使用建議的導入屬性語法。使用 assert 的現有代碼應遷移到 with 關鍵字。需要導入屬性的新代碼應只使用<code>with</code>關鍵字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根據<code>switch (true)</code>中每個<code>case</code>子句的條件執行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
-    switch (true) {
-        case typeof x === "string":
-            // 'x' is a 'string' here
-            console.log(x.toUpperCase());
-            // falls through...
-
-        case Array.isArray(x):
-            // 'x' is a 'string | any[]' here.
-            console.log(x.length);
-            // falls through...
-
-        default:
-          // 'x' is 'unknown' here.
-          // ...
-    }
-}
-</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F" target="_blank">詳情查看發佈公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 03:39:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267382/typescript-5-3-ga</guid>
-            <link>https://www.oschina.net/news/267382/typescript-5-3-ga</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[中國操作系統調研]]>
             </title>
             <description>
@@ -236,21 +266,6 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };
             <link>https://my.oschina.net/koderover/blog/10149325</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Spring Security 6.2 GA]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Spring Security 6.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">已正式 GA</a>。</p><p>Spring Security 是一個能夠為基於 Spring 的企業應用系統提供聲明式的安全訪問控制解決方案的安全框架。它提供了一組可以在 Spring 應用上下文中配置的 Bean，充分利用了 Spring IoC，DI（控制反轉 Inversion of Control ,DI:Dependency Injection 依賴注入）和 AOP（面向切面編程）功能，為應用系統提供聲明式的安全訪問控制功能，減少了為企業系統安全控制編寫大量重複代碼的工作。</p><p>Spring Security 6.2 將 Spring Framework baseline&nbsp;與 Project Reactor 2023.0.0 和 Micrometer 1.12.0 一起升級到了 6.1，同時要求將 Java 17 作為最低平台版本，並支持高達 Java 21 的虛擬線程支持。該版本將包含在即將發佈的 Spring Boot 3.2 GA 版本中。</p><p>一些版本更新亮點內容如下：</p><p><strong>Configuration</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F5011" target="_blank">gh-5011 - (docs)</a>&nbsp;如果存在<code>CorsConfigurationSource</code> bean ，則自動啓用<code>.cors()</code></p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13204" target="_blank">gh-13204 - (docs)</a>&nbsp;添加<code>AbstractConfiguredSecurityBuilder.with(…​)</code>方法以應用返回構建器的配置器</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13587" target="_blank">gh-13587 - blog post</a>&nbsp;簡化 OAuth2 客户端組件模型的配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13857" target="_blank">gh-13857 - docs</a>&nbsp;將 servlet 模式支持添加到 AuthorizeHttpRequests</p></li></ul><p><strong>OAuth 2.0/OIDC</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F7845" target="_blank">gh-7845 - docs</a>&nbsp;添加 OIDC Back-channel Logout&nbsp;支持</li></ul><p><strong>Messaging</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12532" target="_blank">gh-12532</a>&nbsp;- 添加安全上下文傳播支持</li></ul><p><strong>Web</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12817" target="_blank">gh-12817</a>&nbsp;- 使 RedirectStrategy status code 可配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13988" target="_blank">gh-13988</a>&nbsp;- 可配置 HTTP Basic 請求解析</p></li></ul><p><strong>Documentation</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13784" target="_blank">gh-13784 - docs</a>- 使用示例更新 OAuth2 文檔登錄頁面</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F11926" target="_blank">gh-11926 - docs</a>&nbsp;記錄如何在沒有<code>WebSecurityConfigurerAdapter</code>的情況下發布<code>AuthenticationManager</code>&nbsp;<code>@Bean</code></p></li></ul><p>詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">查看官方公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 02:32:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267367/spring-security-6-2-ga</guid>
-            <link>https://www.oschina.net/news/267367/spring-security-6-2-ga</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -491,21 +506,6 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };
             <link>https://www.oschina.net/news/267352</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Oracle Linux 9.3 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Oracle Linux 9 系列<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Flinux%2Fpost%2Foracle-linux-9-update-3" target="_blank">發佈了第 3 個版本更新</a></u>，支持 64 位 Intel 和 AMD (<code>x86_64</code>) 以及 64 位 Arm (<code>aarch64</code>) 平台。與所有的 Oracle Linux 版本一樣，此版本與相應 RHEL 版本 100% 應用二進制兼容。</p><p>對於<code>x86_64</code>和<code>aarch64</code>架構，Oracle Linux 提供了 Unbreakable Enterprise Kernel (UEK) 內核，版本為 UEK Release 7 Update 2, 5.15.0-200.131.27。UEK R7 基於上游 Linux Kernel 5.15，同時支持 Oracle Linux 9 和 Oracle Linux 8。此外還為<code>x86_64</code>架構提供兼容紅帽的內核 (RHCK)，版本號為 5.14.0-364。</p><p><strong>主要變化</strong></p><ul><li>Oracle Linux 現在支持通過 DNF 安裝補丁後自動重啓系統。通過增強的 DNF，使用不同選項（從不、更改時、需要時）自動重啓可以加快補丁管理操作</li><li>OpenSSH 默認情況下顯式強制使用 SHA-2 算法進行密鑰測試，對於運行 Oracle Linux 9 Update 3 的系統，SHA-1 在客户端不可用；此增強功能避免了使用 SHA-1 算法中的弱點</li><li>採用 UEK R7U2 的 Oracle Linux 9.3 繼續維護並支持 btrfs 文件系統，以訪問 Linux 上最現代的寫入時複製 (COW) 文件系統之一</li></ul><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblogs.oracle.com%2Flinux%2Fpost%2Foracle-linux-9-update-3" target="_blank">詳情查看發佈公告</a></u>、<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.oracle.com%2Fen%2Foperating-systems%2Foracle-linux%2F9%2Frelnotes9.3%2F%23Oracle-Linux-9" target="_blank">Release Notes</a></u>。</p><blockquote><p>Oracle Linux 是由 Oracle 支持的企業級 Linux 發行版，它從 RHEL 源代碼包生成。Oracle Linux 的獨有特性包括一份定製且嚴格測試過的名為 「Oracle Unbreakable Kernel」 的 Linux 內核，與 Oracle 的多數數據庫應用在內的軟硬件產品的緊密集成，以及 「零掉線打補丁」 技術 —— 該特性能讓系統管理員在不重啓的情況下更新內核。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65ef8ba8572130a6b1d0d70109f7d6a0c03.png" referrerpolicy="no-referrer"></p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 19 Nov 2023 10:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267286/oracle-linux-9-update-3</guid>
-            <link>https://www.oschina.net/news/267286/oracle-linux-9-update-3</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
