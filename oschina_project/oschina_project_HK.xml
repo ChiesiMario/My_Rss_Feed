@@ -16,8 +16,79 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 21 Nov 2023 02:46:14 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 21 Nov 2023 04:48:09 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[wechat-app-mall 14.14.2 發佈，微信小程序商城]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">微信小程序商城 wechat-app-mall 已經升級至 version 14.14.2 ，具體詳情請查看碼雲項目主頁更新</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本次更新功能如下：</p><ol><li>保存小程序碼到手機相冊，用户拒絕後給你提示並引導用户打開設置去開啓權限；</li><li>上傳文件接口升級；</li><li>關於我們，幫助中心頁面，增加轉發及分享朋友圈；</li><li>客服支持配置成企業微信；</li><li>提現後台控制開關；</li><li>增加 IoT 控制；</li><li>按天定價、時段定價頁面示例；</li><li>vant，apifm-sdk 升級到最新版；</li><li>核銷開關係統參數可控制，核銷碼改為小程序碼，支持直接用微信掃一掃進行核銷；</li><li>申請發票增加訂閲消息；</li><li>好評率計算方式調整；</li><li>增加設置暱稱頭像彈框，引導用户完善資料;三級分銷搶客支持在 config.js 配置；</li><li>系統設置增加調試開關，以及打開小程序設置;</li><li>秒殺樣式美化;</li><li>增加轉發朋友圈功能;</li><li>vant 升級到最新版;</li><li>增加動態會員碼功能;</li><li>編輯資料頁面優化;</li><li>提現超過 2000 增加填寫真實姓名;</li></ol></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 03:41:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267383/wechat-app-mall-14-14-2-released</guid>
+            <link>https://www.oschina.net/news/267383/wechat-app-mall-14-14-2-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[TypeScript 5.3 正式發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>TypeScript 5.3 已正式發佈。</p><p><strong>主要變化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a>&nbsp;提案的最近更新</p></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">在 Import Types</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">中提供對<code>resolution-mode</code>的穩定支持</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">為所有 Module Modes</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">提供</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank"><code>resolution-mode</code>支持</a></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>檢查對實例字段的<code>super</code>屬性訪問</p></li><li><p>針對類型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳過 JSDoc 解析以進行優化</p></li><li><p>合併<code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a></strong></p><p>import attributes 的一個用例是向運行時提供有關模塊預期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
+// not a runnable/malicious JavaScript file with a `.json` extension.
+import obj from "./something.json" with { type: "json" };
+</code></pre><p>TypeScript 不會檢查這些屬性的內容，因為它們是特定於主機的，因此不會對它們進行檢查，只是讓瀏覽器和運行時處理它們（可能會出錯）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
+// But your browser? Probably not.
+import * as foo from "./foo.js" with { type: "fluffy bunny" };
+</code></pre><p>動態 import () 調用也可以通過第二個參數使用 import 屬性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
+    with: { type: "json" }
+});
+</code></pre><p>第二個參數的預期類型由一個名為<code>ImportCallOptions</code>的類型定義，默認情況下，該類型只期望調用一個屬性<code>with</code>。</p><p>請注意，導入屬性是從早期的 "導入斷言"（import assertions）提案演變而來的，該提案已在 TypeScript 4.5 中實現。最明顯的區別是使用了<code>with</code>關鍵字而非<code>assert</code>關鍵字。但不太明顯的區別是，運行時現在可以自由使用屬性來指導導入路徑的解析和解釋，而導入斷言只能在加載模塊後斷言某些特性。</p><p>隨着時間的推移，TypeScript 將淘汰舊的導入斷言語法，轉而使用建議的導入屬性語法。使用 assert 的現有代碼應遷移到 with 關鍵字。需要導入屬性的新代碼應只使用<code>with</code>關鍵字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根據<code>switch (true)</code>中每個<code>case</code>子句的條件執行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
+    switch (true) {
+        case typeof x === "string":
+            // 'x' is a 'string' here
+            console.log(x.toUpperCase());
+            // falls through...
+
+        case Array.isArray(x):
+            // 'x' is a 'string | any[]' here.
+            console.log(x.length);
+            // falls through...
+
+        default:
+          // 'x' is 'unknown' here.
+          // ...
+    }
+}
+</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F" target="_blank">詳情查看發佈公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 03:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267382/typescript-5-3-ga</guid>
+            <link>https://www.oschina.net/news/267382/typescript-5-3-ga</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微軟週二補丁日 (Patch Tuesday) 實施 20 週年]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>微軟安全響應中心上週慶祝了週二補丁日 (Patch Tuesday) <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmsrc.microsoft.com%2Fblog%2F2023%2F11%2Freflecting-on-20-years-of-patch-tuesday%2F" target="_blank">實施二十週年</a></u>。</p><p>週二補丁日也稱補丁星期二、星期二更新 (Update Tuesday) 等，它是一個在行業內被廣泛使用的非正式術語，指微軟定期在每個月的第二個星期二發佈其軟件產品的更新補丁，經由 Windows Update 推送給用户。具體時間為 UTC 18:00（或 17:00 開始）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-584f40b5209168b60a127974dbb6c03dc59.png" referrerpolicy="no-referrer"></p><p>微軟有一種習慣，會在偶數月份發佈更多的更新，相應奇數月份的更新會更少。少數更新也會在週二補丁日之外被髮布。某些更新，例如 Microsoft Defender 的病毒庫更新則會每天發佈。有時候，在一次常規的週二補丁日之後會有一次額外的週二補丁日。另外一些更新則可能隨時會被髮布。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a84502b16cff68810870adb778d2491d613.png" referrerpolicy="no-referrer"></p><p>微軟於 2003 年 10 月正式開始了此模式。在統一採用週二補丁日前，安全補丁的發佈是零零散散的，這種零散的模式給 IT 工作者和組織部署重要補丁帶來了挑戰。微軟率先提出的可預測的補丁發佈時間表改變了這一狀況。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 02:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267373/20-years-of-patch-tuesday</guid>
+            <link>https://www.oschina.net/news/267373/20-years-of-patch-tuesday</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Spring Security 6.2 GA]]>
@@ -26,7 +97,7 @@
                 <![CDATA[<div class="content"><p>Spring Security 6.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">已正式 GA</a>。</p><p>Spring Security 是一個能夠為基於 Spring 的企業應用系統提供聲明式的安全訪問控制解決方案的安全框架。它提供了一組可以在 Spring 應用上下文中配置的 Bean，充分利用了 Spring IoC，DI（控制反轉 Inversion of Control ,DI:Dependency Injection 依賴注入）和 AOP（面向切面編程）功能，為應用系統提供聲明式的安全訪問控制功能，減少了為企業系統安全控制編寫大量重複代碼的工作。</p><p>Spring Security 6.2 將 Spring Framework baseline&nbsp;與 Project Reactor 2023.0.0 和 Micrometer 1.12.0 一起升級到了 6.1，同時要求將 Java 17 作為最低平台版本，並支持高達 Java 21 的虛擬線程支持。該版本將包含在即將發佈的 Spring Boot 3.2 GA 版本中。</p><p>一些版本更新亮點內容如下：</p><p><strong>Configuration</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F5011" target="_blank">gh-5011 - (docs)</a>&nbsp;如果存在<code>CorsConfigurationSource</code> bean ，則自動啓用<code>.cors()</code></p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13204" target="_blank">gh-13204 - (docs)</a>&nbsp;添加<code>AbstractConfiguredSecurityBuilder.with(…​)</code>方法以應用返回構建器的配置器</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13587" target="_blank">gh-13587 - blog post</a>&nbsp;簡化 OAuth2 客户端組件模型的配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13857" target="_blank">gh-13857 - docs</a>&nbsp;將 servlet 模式支持添加到 AuthorizeHttpRequests</p></li></ul><p><strong>OAuth 2.0/OIDC</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F7845" target="_blank">gh-7845 - docs</a>&nbsp;添加 OIDC Back-channel Logout&nbsp;支持</li></ul><p><strong>Messaging</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12532" target="_blank">gh-12532</a>&nbsp;- 添加安全上下文傳播支持</li></ul><p><strong>Web</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12817" target="_blank">gh-12817</a>&nbsp;- 使 RedirectStrategy status code 可配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13988" target="_blank">gh-13988</a>&nbsp;- 可配置 HTTP Basic 請求解析</p></li></ul><p><strong>Documentation</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13784" target="_blank">gh-13784 - docs</a>- 使用示例更新 OAuth2 文檔登錄頁面</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F11926" target="_blank">gh-11926 - docs</a>&nbsp;記錄如何在沒有<code>WebSecurityConfigurerAdapter</code>的情況下發布<code>AuthenticationManager</code>&nbsp;<code>@Bean</code></p></li></ul><p>詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">查看官方公告</a>。</p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 21 Nov 2023 02:33:08 GMT</pubDate>
+            <pubDate>Mon, 20 Nov 2023 02:32:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267367/spring-security-6-2-ga</guid>
             <link>https://www.oschina.net/news/267367/spring-security-6-2-ga</link>
             <author>
@@ -41,7 +112,7 @@
                 <![CDATA[<div class="content"><h4><strong>升級內容：</strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#1f2328">1、優化系統統計工程管理模塊；</span><br><span style="background-color:#ffffff; color:#1f2328">2、insights 模塊功能初始化；</span><br><span style="background-color:#ffffff; color:#1f2328">3、項目文檔優化；</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong><em>一鍵部署，一行代碼接入，無需大數據研發運維經驗，輕鬆實現海量數據實時統計，使用 XL-LightHouse 後：</em></strong></p><ul><li><span style="color:#0033b3">&nbsp;1、</span>再也不需要用 Flink、Spark、ClickHouse 或者基於 Redis 這種臃腫笨重的方案跑數了；</li><li><span style="color:#0033b3">&nbsp;</span>2、再也不需要疲於應付對個人價值提升沒有多大益處的數據統計需求了，能夠幫助您從瑣碎反覆的數據統計需求中抽身出來，從而專注於對個人提升、對企業發展更有價值的事情；</li><li><span style="color:#0033b3">&nbsp;</span>3、輕鬆幫您實現任意細粒度的監控指標，是您監控服務運行狀況，排查各類業務數據波動、指標異常類問題的好幫手；</li><li><span style="color:#0033b3">&nbsp;</span>4、培養數據思維，輔助您將所從事的工作建立數據指標體系，量化工作產出，做專業嚴謹的職場人，創造更大的個人價值；</li></ul><h4><em><strong>概述</strong></em></h4><ul><li>XL-LightHouse 是針對互聯網領域繁雜的流式數據統計需求而開發的一套集成了數據寫入、數據運算、數據存儲和數據可視化等一系列功能，支持超大數據量，支持超高併發的【通用型流式大數據統計平台】。</li><li>XL-LightHouse 目前已基本涵蓋了常見的流式數據統計場景，包括 count、sum、max、min、avg、distinct、topN/lastN 等多種運算，支持多維度計算，支持分鐘級、小時級、天級多個時間粒度的統計，支持自定義統計週期的配置。</li><li>XL-LightHouse 內置豐富的轉化類函數、支持表達式解析，可以滿足各種複雜的條件篩選和邏輯判斷。</li><li>XL-LightHouse 是一套功能完備的流式大數據統計領域的數據治理解決方案，它提供了比較友好和完善的可視化查詢功能，並對外提供 API 查詢接口，此外還包括數據指標管理、權限管理、統計限流等多種功能。</li><li>XL-LightHouse 支持時序性數據的存儲和查詢。</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong><em>產品優勢</em></strong></p><ul><li>XL-LightHouse 面向企業繁雜的流式數據統計需求，可以幫助企業在極短時間內快速實現數以萬計、數十萬計的數據指標，而這是 Flink、ClickHouse 之類技術所遠不能比擬的，XL-LightHouse 幫助企業低成本實現數據化運營，數據指標體系可遍佈企業運轉的方方面面；</li><li>對單個流式統計場景的數據量無限制，可以非常龐大，也可以非常稀少，您既可以使用它完成十億級用户量 APP 的 DAU 統計、十幾萬台服務器的運維監控、一線互聯網大廠數據量級的日誌統計、也可以用它來統計一天只有零星幾次的接口調用量、耗時狀況；</li><li>支持高併發查詢統計結果；</li><li>一鍵部署、一行代碼接入，無需專業的大數據研發人員，普通工程人員就可以輕鬆駕馭；</li><li>有完善的數據指標可視化以及數據指標管理維護等功能；</li></ul><h4><strong><em>收益</em></strong></h4><ul><li>XL-LightHouse 可以幫助企業更快速的搭建起一套較為完善的、穩定可靠的數據化運營體系，節省企業在數據化運營方面的投入，主要體現在以下幾個方面：</li><li>減少企業在流式大數據統計方面的研發成本和數據維護成本。</li><li>幫助企業節省時間成本，輔助互聯網產品的快速迭代。</li><li>為企業節省較為可觀的服務器運算資源。</li><li>便於數據在企業內部的共享和互通。</li><li>此外，XL-LightHouse 對中小企業友好，它大大降低了中小企業使用流式大數據統計的技術門檻，通過簡單的頁面配置和數據接入即可應對繁雜的流式數據統計需求。&nbsp;</li></ul><h4><strong><em>項目地址</em></strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxl-xueling%2Fxl-lighthouse.git" target="_blank">https://github.com/xl-xueling/xl-lighthouse.git</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/xl-xueling/xl-lighthouse.git">https://gitee.com/xl-xueling/xl-lighthouse.git</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 21 Nov 2023 01:47:08 GMT</pubDate>
+            <pubDate>Mon, 20 Nov 2023 01:46:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267354/xl-lighthouse-1-1-4</guid>
             <link>https://www.oschina.net/news/267354/xl-lighthouse-1-1-4</link>
             <author>
@@ -522,56 +593,6 @@
             <pubDate>Sun, 19 Nov 2023 06:49:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267249/inkscape-1-3-1-released</guid>
             <link>https://www.oschina.net/news/267249/inkscape-1-3-1-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[MathLabTool 數學仿真、圖形化工具，新增 NLP 交互接口，231120]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">MathLabTool 是一款數學仿真、圖形化工具，可為數學相關的實驗、仿真、圖形化等各類需求，提供便捷工具。 可以為數據繪製各類 2D、3D 圖形，視頻、圖像處理，顯示實時串口數據圖形，封裝各類算法。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/p/mathlabtool">https://www.oschina.net/p/mathlabtool</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">更新功能列表（231120）：</p><ul><li>增加 NLP 交互接口。</li></ul><pre><code class="language-javascript">mlt_AI_NLP_chat(function (msg, file_dir){
-mlt_page_console_log('get_msg:', msg, file_dir, '\n');
-var ret_msg = 'ret_' + msg;
-mlt_page_console_log('ret_msg:', ret_msg, '\n');
-return ret_msg;
-});</code></pre><p><img height="455" src="https://oscimg.oschina.net/oscnet/up-b37c21263439cca1b84748e34c7755c7e7f.png" width="500" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 19 Nov 2023 06:07:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267241/mathlabtool-231120</guid>
-            <link>https://www.oschina.net/news/267241/mathlabtool-231120</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Apache Dubbo 3.2.9 發佈，分佈式 RPC 服務框架]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#000000">Apache Dubbo 是一款高性能、輕量級的開源 Java RPC 框架，它提供了三大核心能力：面向接口的遠程方法調用、智能容錯和負載均衡，以及服務自動註冊和發現。Apache Dubbo 3.2.9 現已發佈，具體更新內容包括：</span></p><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>錯誤修復</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>修復 RegistryNotifier 關閉時通知錯誤&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13273" target="_blank">#13273</a></li><li>修復<span style="background-color:#ffffff; color:#1f2328">`dubbo.enabled=false``<span>&nbsp;</span></span>在執行器配置器中不起作用的問題&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13360" target="_blank">#13360</a></li><li>修復&nbsp;async generic method metrics&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13336" target="_blank">#13336</a></li><li>修復&nbsp;go away handler&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13376" target="_blank">#13376</a></li><li>修復 InjvmInvoker 中的泛型類型結果&nbsp;<span style="background-color:#ffffff; color:#1f2328">copy</span>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13351" target="_blank">#13351</a></li></ul><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>代碼增強</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>相關 PR：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13250" target="_blank">#13250</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13271" target="_blank">#13271</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13289" target="_blank">#13289</a>。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13311" target="_blank">#13311</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13319" target="_blank">#13319</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13320" target="_blank">#13320</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13267" target="_blank">#13267</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13361" target="_blank">#13361</a></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>依賴升級</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>更新 Fabric8_kubernetes_version：6.9.0 -&gt; 6.9.1&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13280" target="_blank">#13280</a></li><li>更新 org.codehaus.mojo:license-maven-plugin: 2.2.0 -&gt; 2.3.0&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13281" target="_blank">#13281</a></li><li>更新 protobuf-java_version: 3.24.4 -&gt; 3.25.0&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13313" target="_blank">#13313</a></li><li>更新 Fabric8_kubernetes_version：6.9.1 -&gt; 6.9.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13315" target="_blank">#13315</a></li><li>更新 netty4_version: 4.1.100.Final -&gt; 4.1.101.Final&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13352" target="_blank">#13352</a></li><li>更新 com.alibaba.fastjson2:fastjson2: 2.0.41 -&gt; 2.0.42&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fpull%2F13309" target="_blank">#13309</a></li></ul><p style="text-align:start">更新説明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Freleases%2Ftag%2Fdubbo-3.2.9" target="_blank">https://github.com/apache/dubbo/releases/tag/dubbo-3.2.9</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 19 Nov 2023 06:06:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267240/dubbo-3-2-9-released</guid>
-            <link>https://www.oschina.net/news/267240/dubbo-3-2-9-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Red Hat Enterprise Linux 9.3]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Red Hat Enterprise Linux 9.3 上週正式發佈。</p><p>公告寫道，RHEL 9.3 引入了部分變化，包括<strong>支持雲實例中的 UEFI 環境</strong>。此外通過 Red Hat Insights 增加了新的管理服務，並全面支持 Stratis 作為系統存儲選項。</p><p>此前 RHEL 鏡像生成器創建的 EC2 AMD 或 Intel 64 位架構 AMIs 鏡像只支持 Legacy Boot 引導。因此無法利用某些需要 UEFI 啓動的 AWS 功能，如安全啓動。現在，該增強功能擴展了 AWS EC2 AMD 或英特爾 64 位架構 AMI 鏡像，除支持 Legacy BIOS 啓動外，還支持 UEFI 啓動。因此，現在可以利用需要使用 UEFI 引導鏡像的 AWS 功能。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.redhat.com%2Fen%2Fabout%2Fpress-releases%2Fred-hat-launches-next-versions-worlds-leading-enterprise-linux-platform" target="_blank">詳情查看發佈公告</a></u>。</p><p>延伸閲讀：<em><u><a href="https://www.oschina.net/news/266400/almalinux-9-3-stable" target="_blank">AlmaLinux 9.3 正式發佈，CentOS 最佳替代方案之一</a></u></em></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 19 Nov 2023 04:33:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267226/rhel-9-3</guid>
-            <link>https://www.oschina.net/news/267226/rhel-9-3</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
