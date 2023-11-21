@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 21 Nov 2023 10:41:52 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 21 Nov 2023 12:44:05 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[「X」Embedding in NLP｜初識自然語言處理（NLP）]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>從情感分析到信息提取，再到機器翻譯、問答系統、聊天機器人……自然語言處理（Natural Language Processing，NLP）的應用可謂複雜多樣。向量數據庫的加入，則為 NLP 注入了更多的可能性。</p><p>為了方便大家能夠深入瞭解向量數據庫與 NLP 的關係及應用，我們上線了「X」Embedding in NLP 系列專題，分為初階和進階兩部分。本文為初階第一篇，將詳細介紹 NLP 以及以 Zilliz Cloud、Milvus 為代表的向量數據庫是如何為 NLP 賦能的。</p><h2>01.什麼是 NLP ？</h2><p>自然語言處理（NLP）是跨學科的機器學習技術，結合了人工智能和計算語言學。其主要目標是讓計算機能夠以有意義和有價值的方式理解和響應人類語言。</p><p>當然，我們可以構建一個包含所有句子的詞典來實現這一目標，但這有些不切實際，因為人類語言中用於構成句子的單詞組合無窮無盡。不僅如此，口音、多樣的同義詞匯、錯誤發音或句中省略單詞等情況，進一步加深了人類語言的複雜性。</p><p>NLP 運用各種技術和算法處理自然語言數據。本質上，NLP 用於處理非結構化數據，特別是非結構化文本，並通過自然語言理解（NLU），使用文本和語音的句法和語義分析來確定句子的含義，並生成計算機可以使用的結構化文本。相反，自然語言生成（NLG）是指計算機根據一些數據輸入生成人類語言文本的響應。</p><p>通過利用 NLP 技術，開發人員可以從文本數據中提取信息和洞見，使機器能夠理解和響應人類查詢，並將所有涉及語言處理的任務自動化。可以説，NLP 使人機交互過程更直觀、高效和流暢。NLP 在現實世界中有眾多應用，如虛擬助手、聊天機器人、信息檢索系統、語言翻譯服務、情感分析工具和自動化內容生成等。而向量數據庫，尤其是其高效的 embedding 向量存儲和檢索能力能夠為 NLP 領域帶來革新，簡化相似文檔或短語的搜索過程。</p><h2>02.NLP 用例</h2><p>開發人員可以使用 NLP 構建多種應用，包括：</p><h3>情感分析</h3><p>情感分析是指確定文本中表達的情感或情緒。情感分析涉及將文本分類為正面、負面或中性。情感分析技術可能使用機器學習算法在標記數據集上訓練模型，或利用預訓練模型捕捉單詞和短語的情感。情感分析常見的場景之一是電影評論分類，可以統計出正負面的影評佔的比例。</p><h3>信息提取</h3><p>信息提取是指從文本中識別特定信息，例如提取名稱、日期或數值。信息提取使用命名實體識別（NER）和關係提取從非結構化文本中提取結構化數據。</p><h3>機器翻譯</h3><p>NLP 通過利用統計或神經網絡機器翻譯模型實現機器翻譯。這些模型從大量平行文本數據中學習語言之間的模式和關係，允許它們適當藉助上下文將文本從一種語言翻譯成另一種語言。</p><h3>問答系統</h3><p>問答系統使用 NLP 技術理解用戶問題並從給定的文本語料庫中檢索相關信息。問答系統包含文本理解、文檔檢索和信息提取等步驟，為用戶提供準確和相關的查詢答案。</p><h3>虛擬助手或聊天機器人</h3><p>虛擬助手是諸如 Alexa 或 Siri 這樣的產品，它們接收人類的話語並從人類語言中推導出命令從而觸發動作。（例如：嘿，Alexa，打開燈！）。聊天機器人使用書面語言與人類互動，從而協助用戶處理賬戶或賬單問題或其他一般問題。在完成文本處理後，聊天機器人就可以遍歷決策樹從而做出正確的操作。</p><h3>文本生成</h3><p>NLP 模型可以基於給定的提示或輸入生成文本。這包括語言建模、文本摘要和使用諸如循環神經網絡（RNN）或 Transformer 模型等技術的文本生成等任務。</p><h3>垃圾郵件檢測</h3><p>自然語言處理可以輔助垃圾郵件檢測。例如，通過查看過度使用的單詞、錯誤的語法或不適當的緊急聲明，檢查電子郵件的內容以確定它是否是垃圾郵件。</p><h2>03.NLP 原理</h2><p>NLP 是指通過一系列技術和算法，使計算機能夠處理、理解和生成人類語言。以下是 NLP 工作流程：</p><p>文本預處理—— NLP 的初始步驟通常是文本數據的預處理。預處理涉及諸如分段（將句子分解為組成詞）、token 化（將文本分割為單個單詞或 token）、停用詞（去除像停用詞和普通詞如「the」或「is」這樣不攜帶太多含義的標點）以及應用詞幹提取（為給定標記推導詞幹）或詞形還原（從字典中獲取標記的含義以得到根源）以將單詞還原為其基本形式的任務。</p><p>語言理解—— NLP 算法使用各種技術來理解文本的含義和結構。這些技術包括：詞性標註（通過為每個單詞分配語法標籤進行語法分析）、句法解析（分析句子結構）和命名實體識別（識別和分類命名實體，如人物、組織、地點或流行文化參考）等任務。</p><p><em>「觀其伴而知其意（You shall know a word by the company it keeps）」</em></p><p>-- 英國語言學家 J. R. Firth</p><h2>04.NLP 模型</h2><p>在大型數據集上接受訓練以執行特定 NLP 任務的深度學習模型被稱為 NLP 的預訓練模型（PTM），它們可以通過避免從頭開始訓練新模型來幫助下游 NLP 任務。以下是一些著名的自然語言處理模型，以便模型更準確地執行：</p><ul><li><p>BERT（Bidirectional Encoder Representations from Transformer） 是由 Google 開發的自然語言處理模型，可學習文本的雙向表示。</p></li><li><p>XLNet 是 CMU 和 Google Brain 團隊在 2019 年 6 月份於論文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F1906.08237" target="_blank">《XLNet: Generalized Autoregressive Pretraining for Language Understanding》</a>發佈的模型。</p></li><li><p>RoBERTa 是 2019 年在論文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F1907.11692" target="_blank">《RoBERTa: A Robustly Optimized BERT Pretraining Approach》</a>中被提出的。</p></li><li><p>ALBERT 模型來自 Google 2019 年公佈的論文《ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS》。</p></li><li><p>StructBERT 是阿里對 BERT 的一個改進，於 2019 年在論文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F1908.04577" target="_blank">《StructBERT: Incorporating Language Structures into Pre-training for Deep Language Understanding》</a>中提出。</p></li><li><p>PaLM 2 是下一代大語言模型，已經過大量數據訓練，能夠預測人類輸入後的下一個單詞。</p></li><li><p>GPT-4 是 OpenAI 開發的多模態大語言模型。它是 GPT 系列中的第四個模型，以其強大的自然語言生成能力而聞名。</p></li><li><p>SentenceTransformers 是一個用於句子、文本和圖像 Embedding 的 Python 框架，最初於論文《Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks》中提出。</p></li></ul><h2>05.Zilliz 如何賦能 NLP？</h2><p>開發者正在使用向量數據庫革新 NLP 領域。向量數據庫能夠有效存儲和檢索 NLP 模型生成的 Embedding <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzilliz.com.cn%2Fglossary%2Fembedding-%25E5%2590%2591%25E9%2587%258F" target="_blank">向量</a>，簡化了基於語義相似性尋找相似文檔、短語或甚至單個詞的過程。此外，使用向量數據庫後，開發者可以快速總結 Collection 文檔。使用 NLP 算法可以從文本語料庫中提取最重要的句子，然後藉助 Milvus 便可找到與提取的短語語義上最相似的短語。</p><p>另一個廣泛的向量數據庫 + NLP 用例就是檢索增強生成（Retrieval Augmented Generation，RAG）。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzilliz.com.cn%2Fuse-cases%2Fllm-retrieval-augmented-generation" target="_blank">RAG</a> 通常以聊天機器人的形式出現。大語言模型僅基於公開可用的數據進行訓練。因此，它們可能缺乏特定領域知識或者私有信息。開發者可以在 LLM 之外的向量數據庫中存儲特定領域的數據，進行相似性搜索以返回與用戶提問相關的 top-K 結果。最終將這些結果合併發送至 LLM，使其生成準確的答案。</p><h2>06.總結</h2><p>使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzilliz.com.cn%2Fblog%2Fvectordatabase-introduction-milvus" target="_blank">向量數據庫</a>，尤其是其高效的 embedding 向量存儲和檢索能力能夠為 NLP 領域帶來革新，簡化相似文檔或短語的搜索過程。NLP 結合了人工智能和計算語言學，幫助計算機理解並響應人類語言，其應用場景廣泛，包括虛擬助手、聊天機器人、翻譯服務和情感分析等。諸如 BERT、XLNet、RoBERTa、ALBERT 和 GPT-4 之類的 NLP 模型和 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzilliz.com.cn%2Fcloud" target="_blank">Zilliz Cloud</a> 之類的向量數據庫能夠進一步增強 NLP，簡化基於語義相似性檢索相似文檔或短語的過程。</p><hr><ul><li><p>如果在使用 Milvus 或 Zilliz 產品有任何問題，可添加小助手微信 「zilliz-tech」 加入交流羣。</p></li><li><p>歡迎關注微信公眾號「Zilliz」，瞭解最新資訊。</p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 11:01:27 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4209276/blog/10149535</guid>
+            <link>https://my.oschina.net/u/4209276/blog/10149535</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[AWebSocket - 基於 OkHttp 封裝的 WebSocket]]>
@@ -481,17 +496,6 @@
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[🔥 周熱點 | OpenAI 內訌，奧特曼被驅逐；俄羅斯操作系統 Aurora OS 5.0 全新 UI 亮相；.NET 8 正式 GA.....]]>
-            </title>
-            <description>
-                <![CDATA[回顧一週熱門資訊。2023.11.13-2023.11.19]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 03:50:00 GMT</pubDate>
-            <guid isPermaLink="false">https://mp.weixin.qq.com/s?__biz=MzA4OTI5NjUwOA==&#38;mid=2649093971&#38;idx=1&#38;sn=3f2a763dda28e1c46c3aeca3f287766e&#38;chksm=880c4c40bf7bc556325bae39dd086d3b0d3cea17b35ad8c141b34669fc8c632bc161023a587a&#38;token=584579097&#38;lang=zh_CN#rd</guid>
-            <link>https://mp.weixin.qq.com/s?__biz=MzA4OTI5NjUwOA==&#38;mid=2649093971&#38;idx=1&#38;sn=3f2a763dda28e1c46c3aeca3f287766e&#38;chksm=880c4c40bf7bc556325bae39dd086d3b0d3cea17b35ad8c141b34669fc8c632bc161023a587a&#38;token=584579097&#38;lang=zh_CN#rd</link>
         </item>
     </channel>
 </rss>
