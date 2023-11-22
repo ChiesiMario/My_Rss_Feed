@@ -16,8 +16,25 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 21 Nov 2023 23:00:25 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 22 Nov 2023 01:01:59 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[scheme-langserver 发布类型推断功能，并整合进入 auto-autocomplete.]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Scheme-langserver 是一款面向 scheme 语言的语言服务器，它基于 LSP 协议（Language Server Protocol）提供了自动补全（auto-complete）、寻找变量定义（goto definition）等功能。</p><p>11 月 21 日，scheme-langserver 发布了类型推断功能，并将该功能整合进入了自动补全。如图所示，在补全光标处的引导词「l」（大写 L）时，scheme-langserver 给出了多个可选项，并且将类型匹配程度较高的「length-a」、「length-b」放到了比较靠前的位置——因为「&gt;=」过程（也就是其他语言中的函数）要求变量必须是「real?」，而上文可以推断出「length-a」、「length-b」为「integer?」类型。</p><p><img alt="" height="1152" src="https://oscimg.oschina.net/oscnet/up-a0cf3214c3d3f798bd3281120b07eb57f92.png" width="732" referrerpolicy="no-referrer"></p><p>这项工作的主要特点在于：</p><ol><li>使用了作者自行开发的 DSL（Domain Specific Language）和解释器实现类型推断功能。这大大降低了编写相关功能的难度，让整个项目的可维护性更强；</li><li>基于 scheme-langserver 的面向「未完成代码」的自动补全功能，能够补全局部变量（这在一些竞品中是不能实现的）；</li><li>实现了「渐进定型」实现为动态类型语言的类型推导。关于这一点，可以看如下案例：</li></ol><p>例如对于 javascript 代码，参数 a 的类型是不清楚的——关于这一点，在 typescript 当中的解决方法是第二行中的案例——添加类型标注（number）。</p><pre><code class="language-javascript">function(a){return 1+a}
+
+function(a : number){return 1+a}</code></pre><p>但是实际上，我们当然知道「+」操作符操作的只能是「number」（当然还有 string 等等）。因此，应当由计算机自行推出「a」的类型为「number」而不需要自行推断（当然，这是有一定的代价和其他问题的）。</p><p>目前这项工作还存在一些问题，主要包括：</p><ol><li>类型推断工作使得索引构建时间较长，较大程度影响用户使用体验；</li><li>类型推断系统引入了一个全排列操作，对于有较多参数（比如 4 个）的过程（或者说函数）的类型推导造成了限制；</li><li>还有大量的测试需要进行，以尽可能减少错误；</li><li>通过一些参数限制了涉及递归函数的类型推断以减少操作间隔感，但是这就在类型推断的可靠性上有了一些问题。</li></ol><p>Scheme-langserver 同时是「2022 中国互联网发展创新与投资大赛公益项目暨 2022 年中国开源创新大赛」二等奖项目。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 16:49:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267508</guid>
+            <link>https://www.oschina.net/news/267508</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[「X」Embedding in NLP｜初识自然语言处理（NLP）]]>
@@ -44,6 +61,21 @@
             <pubDate>Tue, 21 Nov 2023 10:37:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/awebsocket</guid>
             <link>https://www.oschina.net/p/awebsocket</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微软开源 Terminal Chat]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>微软<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fcommandline%2Fterminal-chat-in-windows-terminal-canary%2F" target="_blank">宣布</a>开源其 AI 聊天功能 Terminal Chat 的工作，邀请开发人员尝试体验并参与构建。「Windows Terminal 团队致力于提高透明度，我们希望让开源社区有机会帮助我们定义 terminal 应用程序中的人工智能。」</p><p><span style="color:#000000">Terminal Chat 是 Windows Terminal Canary 中的一项功能，允许用户保持在 terminal 上下文中的同时，与 AI 服务聊天以获得智能建议（例如查找命令或解释错误消息）。</span></p><p><img alt="" height="323" src="https://oscimg.oschina.net/oscnet/up-7d85ccd13aaf667d1c3ebcd092187c83cf8.png" width="500" referrerpolicy="no-referrer"></p><p>值得注意的是，Windows Terminal Canary 不提供默认模型或内置 AI 模型。因此要使用 Terminal Chat，用户必须手动在 Windows Terminal Canary 的 Terminal Chat 设置中添加 AI 服务端点和密钥。</p><p>目前，Terminal Chat 仅支持 Azure OpenAI 服务。要获取必要的 Azure OpenAI 服务端点和密钥，用户需要创建和部署 Azure OpenAI 服务资源。</p><p><img alt="" height="337" src="https://oscimg.oschina.net/oscnet/up-3418831b63a1cef6ad618521d5e8e233d0f.png" width="500" referrerpolicy="no-referrer"></p><p><img alt="" height="319" src="https://oscimg.oschina.net/oscnet/up-2698239a8126cd25a2f1bab83a5f1c0f605.png" width="500" referrerpolicy="no-referrer"></p><p style="text-align:left"><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Windows Terminal Canary 仅在用户发送消息时与 AI 服务进行通信，聊天记录和用户活动 shell 的名称也会附加到发送给 AI 服务的信息中。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>Terminal Chat&nbsp;<span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>结束后，Windows Terminal Canary 不会保存聊天历史记录。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:left"><span style="color:#000000"><span style="background-color:#ffffff">微软方面表示，他们知道「AI in a terminal」听起来令人生畏，因此他们将致力于提高透明度并积极听取用户反馈。「我们坚信，开源社区的加入将帮助我们确定人工智能路线图，并帮助我们确定可用于核心产品 Windows Terminal 的最基本的 AI 功能集。」</span></span></p><p style="text-align:left"><span style="color:#000000">Terminal Chat&nbsp;<span style="background-color:#ffffff">功能目前仅在 Windows Terminal Canary 中提供，不会包含在 WindowsTerminal 预览版或 Windows Terminal 稳定版的构建中。</span></span></p><p style="text-align:left"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmicrosoft%2Fterminal%23installing-windows-terminal-canary" target="_blank"><span style="color:#2980b9"><span style="background-color:#ffffff">下载地址</span></span></a></strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 09:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267428/terminal-chat-in-windows-terminal-canary</guid>
+            <link>https://www.oschina.net/news/267428/terminal-chat-in-windows-terminal-canary</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
         </item>
         <item>
             <title>
@@ -94,6 +126,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[微软 CEO：Sam Altman 可能会重返 OpenAI]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">Sam Altman 在被 OpenAI 公司解雇后宣布转投微软，但这一决定并非板上钉钉。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.theverge.com%2F2023%2F11%2F20%2F23969586%2Fsam-altman-plotting-return-open-ai-microsoft" target="_blank">The Verge</a> 援引多位知情人士消息称，如果解雇 Altman 的其余董事会成员下台，他和联合创始人 Greg Brockman 仍愿意重返 OpenAI。</span></p><p><span style="color:#000000">与此同时，微软首席执行官 Satya Nadella 在接受</span><span style="color:#333333"></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Falexeheath%2Fstatus%2F1726741601278681400" target="_blank">CNBC</a><span style="color:#333333"><span>&nbsp;</span>和<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Ftechnology%2Fstatus%2F1726751929475150226" target="_blank">Bloomberg TV</a><span style="color:#333333"><span>&nbsp;</span></span><span style="color:#000000">采访时也明确表示，</span>Altman 可能会以某种身份重返 OpenAI。</p><p>他在被问及&nbsp;<span style="color:#000000">Altman 以及 700 名 OpenAI 员工是否会加入微软时回答道，「这取决于 OpenAI 董事会、管理层和员工的选择」。并表示，无论他们是去是留，他都对这两种选择持开放态度。「显然，如果 Sam 和 Greg 不打算留在 OpenAI，我们希望他们有一个美好的归宿。」</span></p><p><img height="281" src="https://oscimg.oschina.net/oscnet/up-dc4fe464c1a2cd2a935cf44d7d8bd62f0c8.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">关于「明天谁会是 OpenAI 的 CEO」的直白提问，Nadella 也依旧是同样的回答："我会把这个问题留给 OpenAI 和它的董事会"。</span></p><p><span style="color:#000000">此外，当被问及微软是否需要在 OpenAI 董事会中占有一席之地时，他则表示，OpenAI 的治理方面必须做出一些改革，微软方面将就此与其董事会进行对话，并随着事态的发展而逐步推进解决这个问题。</span></p><p><span style="color:#000000"><span style="background-color:#ffffff">目前，被认为是此次 「政变」 组织者的 OpenAI 首席科学家 Ilya Sutskever 已经改变了主意，签署联名信要求 </span>Altman 回归。因此，<span style="background-color:#ffffff">OpenAI 剩下的三名董事会成员中只需要有两人反转就能让 Altman 回归。</span></span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 03:41:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267384/microsoft-ceo-sam-altman-plotting-return-open-ai</guid>
+            <link>https://www.oschina.net/news/267384/microsoft-ceo-sam-altman-plotting-return-open-ai</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[中国操作系统调研]]>
             </title>
             <description>
@@ -124,6 +171,21 @@
         </item>
         <item>
             <title>
+                <![CDATA[发动 OpenAI 「政变」幕后黑手浮出水面：Quora 联合创始人 Adam]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>据报道，随着局势日渐明朗，此次宫斗大剧的幕后黑手指向了 OpenAI 董事会成员、问答网站 Quora 联合创始人亚当·德安格洛（Adam D'Angelo），是他煽动并拉拢了公司首席科学家伊尔亚·苏茨克维（Ilya Sutskever）一起驱逐山姆·奥尔特曼（Sam Altman）。</p><p><strong>OpenAI 董事会背景</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1121/111403_8DJZ_2720166.png" referrerpolicy="no-referrer"></p><p>有人指出，德安格洛不满原因奥尔特曼的原因与 11 月初 OpenAI 开发者大会宣布的 GPTs 有关，德安格洛认为自己创办的 AI 机器人产品 Poe 将会被 GPTs 所淘汰，<strong>他对身为董事会成员却没有提前得知 GPTs 的存在而感到不满</strong>，觉得奥尔特曼不该对自己保密。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-d6576cd6d0b5a4521931becb8dedd5bf47b.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fwilliamlegate%2Fstatus%2F1726715671487156554" target="_blank">https://twitter.com/williamlegate/status/1726715671487156554</a></u></em></p></blockquote><p>据说德安格洛现在正忙着和律师商量应对方案。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ebba8bbe70d3d6091986c34281eacfde3b8.png" referrerpolicy="no-referrer"></p><p>公开资料显示，德安格洛出生于 1984 年，他被《财富》杂志誉为「科技界最聪明的人之一」，大学去了被誉为"天才"摇篮的加州理工，毕业后成为 Facebook 的第一任 CTO，后创办全球领先问答网站 Quora。他 2016 年上了《福布斯》杂志 40 岁以下最富有企业家排行榜。</p><p>此外，在纳德拉宣布 OpenAI 创始人奥尔特曼和格雷格・布罗克曼将<u><a href="https://www.oschina.net/news/267272">加入</a></u>微软领导新的 AI 研究团队后，微软股价盘前大涨 57%。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 03:02:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267375</guid>
+            <link>https://www.oschina.net/news/267375</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[Zadig 推出环境睡眠，平均节省一半测试资源]]>
             </title>
             <description>
@@ -133,96 +195,6 @@
             <pubDate>Tue, 21 Nov 2023 02:34:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/koderover/blog/10149325</guid>
             <link>https://my.oschina.net/koderover/blog/10149325</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[云原生周刊：Istio 1.20.0 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>开源项目推荐</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Floft-sh%2Fdevpod" target="_blank">DevPod</a></h3><p>DevPod 是一款纯客户端工具，可在任何后端基于 devcontainer.json 创建可重现的开发人员环境。每个开发者环境都在一个容器中运行，并通过 devcontainer.json 进行指定。通过 DevPod 提供商，这些环境可以在任何后端创建，如本地计算机、Kubernetes 集群、任何可访问的远程机器或云中的虚拟机。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FFairwindsOps%2Fgemini" target="_blank">Gemini</a></h3><p>Gemini 是用于管理卷快照的 Kubernetes CRD 和 operator。可以定期为 PersistentVolumes 上的数据创建快照，清空旧快照，并以最少的停机时间恢复快照。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fr0binak%2FMTKPI" target="_blank">MTKPI</a></h3><p>MTKPI - 多工具 Kubernetes 渗透测试镜像。该 docker 映像包含 Kubernetes 渗透测试所需的所有最常用工具。</p><h2>文章推荐</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-alert-and-monitoring-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 个最佳告警和监控工具</a></h3><p>这篇文章介绍了针对 Kubernetes 的前五个告警和监控工具。文章指出，Kubernetes 作为容器运行应用程序的首选选择，具有可伸缩性、灵活性和弹性等优势。然而，管理和监控 Kubernetes 可能会相当困难。因此，对于保证应用程序平稳可靠运行的关键是监控和告警。监控和告警是有效运营 Kubernetes 集群的实践方法，它们使您能够收集集群、节点、Pod、容器、服务和应用程序的指标、日志和跟踪数据，并使用仪表板、图表和表格对数据进行可视化和分析。通过规则、阈值和通知对异常、错误、故障和 SLA 违规进行告警，并通过调查根本原因、解决问题或升级到适当的团队来采取行动。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-machine-learning-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 大机器学习工具</a></h3><p>这篇文章介绍了在 Kubernetes 上进行机器学习的五个顶级工具。文章介绍了每个工具的特点、优势和使用案例，以及选择这些工具的标准，如功能性、易用性、流行度和创新性。通过使用这些工具，用户可以更轻松地在 Kubernetes 上进行机器学习任务，并提高其工作流程的效率和可靠性。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspacelift.io%2Fblog%2Fkubernetes-deployment-strategies" target="_blank">8 种不同类型的 Kubernetes 部署策略</a></h3><p>这篇文章介绍了 Kubernetes 的八种不同部署策略，包括 Recreating、Rolling、Blue/Green、Canary、A/B、Ramped Slow Rollout、Best-Effort Controlled Rollout 和 Shadow Deployment。它解释了每种策略的优点和用途，帮助读者在应用程序部署和升级时做出明智的选择。</p><h2>云原生动态</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkubescape.io%2Fblog%2F2023%2F09%2F19%2Fintroducing-kubescape-3%2F" target="_blank">Kubescape 3.0 发布</a></h3><p>Kubescape 是 CNCF Kubernetes 安全姿态管理工具的下一代，日前发布了 v3.0。</p><p>Kubescape 3.0 新增以下功能：</p><ul><li>将合规性和容器扫描结果存储为 Kubernetes 集群内的资源</li><li>通过命令行界面扫描容器镜像的漏洞</li><li>报告集群中所有镜像的漏洞情况</li><li>全新的概览安全扫描，帮助你为集群安全设置基线</li><li>突出显示高风险工作负载：那些如果受到损害可能造成最大危害的工作负载</li><li>改进的显示输出</li><li>新的基于能力的 Helm chart</li><li>每个工作负载、命名空间和集群的 Prometheus 指标</li><li>通过 Prometheus Alertmanager 进行告警</li><li>将数据发送到集群外的托管服务</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.opencost.io%2Fblog%2Faks-cost-analysis" target="_blank">OpenCost 宣布与 Microsoft AKS 成本分析工具集成</a></h3><p>OpenCost 正在与 Microsoft 的新 Azure Kubernetes Service（AKS）成本分析工具集成，以实现使用度量收集。Microsoft Azure 的客户现在可以根据 Kubernetes 特定的结构，原生地了解成本分配的可见性。</p><p>AKS 成本分析是针对标准和高级 AKS 群集的附加组件，向客户提供免费的服务。它直接在 Azure 门户中提供成本分配报告。AKS 客户现在可以轻松地可视化其 Kubernetes 成本分配，作为进一步优化和异常检测的基础。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fistio.io%2Flatest%2Fnews%2Freleases%2F1.20.x%2Fannouncing-1.20%2F" target="_blank">Istio 1.20.0 发布</a></h3><p>Istio 1.20.0 发布，这是 2023 年最后一个 Istio 版本，以下是该版本主要变化：</p><ul><li>网关 API</li><li>改进的外部名称服务支持</li><li>一致的 Envoy 过滤器排序</li><li>对网络 WasmPlugin 的扩展支持</li><li>TCP 元数据交换增强</li><li>插入根证书轮换</li><li>流量镜像现在支持多个目标</li><li>...</li></ul><blockquote><p>本文由博客一文多发平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 发布！</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 10:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10149219</guid>
-            <link>https://my.oschina.net/u/4197945/blog/10149219</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微软开源 Terminal Chat]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>微软<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fcommandline%2Fterminal-chat-in-windows-terminal-canary%2F" target="_blank">宣布</a>开源其 AI 聊天功能 Terminal Chat 的工作，邀请开发人员尝试体验并参与构建。「Windows Terminal 团队致力于提高透明度，我们希望让开源社区有机会帮助我们定义 terminal 应用程序中的人工智能。」</p><p><span style="color:#000000">Terminal Chat 是 Windows Terminal Canary 中的一项功能，允许用户保持在 terminal 上下文中的同时，与 AI 服务聊天以获得智能建议（例如查找命令或解释错误消息）。</span></p><p><img alt="" height="323" src="https://oscimg.oschina.net/oscnet/up-7d85ccd13aaf667d1c3ebcd092187c83cf8.png" width="500" referrerpolicy="no-referrer"></p><p>值得注意的是，Windows Terminal Canary 不提供默认模型或内置 AI 模型。因此要使用 Terminal Chat，用户必须手动在 Windows Terminal Canary 的 Terminal Chat 设置中添加 AI 服务端点和密钥。</p><p>目前，Terminal Chat 仅支持 Azure OpenAI 服务。要获取必要的 Azure OpenAI 服务端点和密钥，用户需要创建和部署 Azure OpenAI 服务资源。</p><p><img alt="" height="337" src="https://oscimg.oschina.net/oscnet/up-3418831b63a1cef6ad618521d5e8e233d0f.png" width="500" referrerpolicy="no-referrer"></p><p><img alt="" height="319" src="https://oscimg.oschina.net/oscnet/up-2698239a8126cd25a2f1bab83a5f1c0f605.png" width="500" referrerpolicy="no-referrer"></p><p style="text-align:left"><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Windows Terminal Canary 仅在用户发送消息时与 AI 服务进行通信，聊天记录和用户活动 shell 的名称也会附加到发送给 AI 服务的信息中。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>Terminal Chat&nbsp;<span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>结束后，Windows Terminal Canary 不会保存聊天历史记录。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:left"><span style="color:#000000"><span style="background-color:#ffffff">微软方面表示，他们知道「AI in a terminal」听起来令人生畏，因此他们将致力于提高透明度并积极听取用户反馈。「我们坚信，开源社区的加入将帮助我们确定人工智能路线图，并帮助我们确定可用于核心产品 Windows Terminal 的最基本的 AI 功能集。」</span></span></p><p style="text-align:left"><span style="color:#000000">Terminal Chat&nbsp;<span style="background-color:#ffffff">功能目前仅在 Windows Terminal Canary 中提供，不会包含在 WindowsTerminal 预览版或 Windows Terminal 稳定版的构建中。</span></span></p><p style="text-align:left"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmicrosoft%2Fterminal%23installing-windows-terminal-canary" target="_blank"><span style="color:#2980b9"><span style="background-color:#ffffff">下载地址</span></span></a></strong></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 09:04:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267428/terminal-chat-in-windows-terminal-canary</guid>
-            <link>https://www.oschina.net/news/267428/terminal-chat-in-windows-terminal-canary</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微软 CEO：Sam Altman 可能会重返 OpenAI]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">Sam Altman 在被 OpenAI 公司解雇后宣布转投微软，但这一决定并非板上钉钉。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.theverge.com%2F2023%2F11%2F20%2F23969586%2Fsam-altman-plotting-return-open-ai-microsoft" target="_blank">The Verge</a> 援引多位知情人士消息称，如果解雇 Altman 的其余董事会成员下台，他和联合创始人 Greg Brockman 仍愿意重返 OpenAI。</span></p><p><span style="color:#000000">与此同时，微软首席执行官 Satya Nadella 在接受</span><span style="color:#333333"></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Falexeheath%2Fstatus%2F1726741601278681400" target="_blank">CNBC</a><span style="color:#333333"><span>&nbsp;</span>和<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Ftechnology%2Fstatus%2F1726751929475150226" target="_blank">Bloomberg TV</a><span style="color:#333333"><span>&nbsp;</span></span><span style="color:#000000">采访时也明确表示，</span>Altman 可能会以某种身份重返 OpenAI。</p><p>他在被问及&nbsp;<span style="color:#000000">Altman 以及 700 名 OpenAI 员工是否会加入微软时回答道，「这取决于 OpenAI 董事会、管理层和员工的选择」。并表示，无论他们是去是留，他都对这两种选择持开放态度。「显然，如果 Sam 和 Greg 不打算留在 OpenAI，我们希望他们有一个美好的归宿。」</span></p><p><img height="281" src="https://oscimg.oschina.net/oscnet/up-dc4fe464c1a2cd2a935cf44d7d8bd62f0c8.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">关于「明天谁会是 OpenAI 的 CEO」的直白提问，Nadella 也依旧是同样的回答："我会把这个问题留给 OpenAI 和它的董事会"。</span></p><p><span style="color:#000000">此外，当被问及微软是否需要在 OpenAI 董事会中占有一席之地时，他则表示，OpenAI 的治理方面必须做出一些改革，微软方面将就此与其董事会进行对话，并随着事态的发展而逐步推进解决这个问题。</span></p><p><span style="color:#000000"><span style="background-color:#ffffff">目前，被认为是此次 「政变」 组织者的 OpenAI 首席科学家 Ilya Sutskever 已经改变了主意，签署联名信要求 </span>Altman 回归。因此，<span style="background-color:#ffffff">OpenAI 剩下的三名董事会成员中只需要有两人反转就能让 Altman 回归。</span></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 03:41:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267384/microsoft-ceo-sam-altman-plotting-return-open-ai</guid>
-            <link>https://www.oschina.net/news/267384/microsoft-ceo-sam-altman-plotting-return-open-ai</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[发动 OpenAI 「政变」幕后黑手浮出水面：Quora 联合创始人 Adam]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>据报道，随着局势日渐明朗，此次宫斗大剧的幕后黑手指向了 OpenAI 董事会成员、问答网站 Quora 联合创始人亚当·德安格洛（Adam D'Angelo），是他煽动并拉拢了公司首席科学家伊尔亚·苏茨克维（Ilya Sutskever）一起驱逐山姆·奥尔特曼（Sam Altman）。</p><p><strong>OpenAI 董事会背景</strong></p><p><img src="https://static.oschina.net/uploads/space/2023/1121/111403_8DJZ_2720166.png" referrerpolicy="no-referrer"></p><p>有人指出，德安格洛不满原因奥尔特曼的原因与 11 月初 OpenAI 开发者大会宣布的 GPTs 有关，德安格洛认为自己创办的 AI 机器人产品 Poe 将会被 GPTs 所淘汰，<strong>他对身为董事会成员却没有提前得知 GPTs 的存在而感到不满</strong>，觉得奥尔特曼不该对自己保密。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-d6576cd6d0b5a4521931becb8dedd5bf47b.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fwilliamlegate%2Fstatus%2F1726715671487156554" target="_blank">https://twitter.com/williamlegate/status/1726715671487156554</a></u></em></p></blockquote><p>据说德安格洛现在正忙着和律师商量应对方案。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ebba8bbe70d3d6091986c34281eacfde3b8.png" referrerpolicy="no-referrer"></p><p>公开资料显示，德安格洛出生于 1984 年，他被《财富》杂志誉为「科技界最聪明的人之一」，大学去了被誉为"天才"摇篮的加州理工，毕业后成为 Facebook 的第一任 CTO，后创办全球领先问答网站 Quora。他 2016 年上了《福布斯》杂志 40 岁以下最富有企业家排行榜。</p><p>此外，在纳德拉宣布 OpenAI 创始人奥尔特曼和格雷格・布罗克曼将<u><a href="https://www.oschina.net/news/267272">加入</a></u>微软领导新的 AI 研究团队后，微软股价盘前大涨 57%。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 03:02:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267375</guid>
-            <link>https://www.oschina.net/news/267375</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[OpenAI 超 700 名员工签署联名信，要求董事会集体辞职]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>据纽约时报等媒体统计数据，目前 OpenAI 至少有 743 名员工已签署联名信逼迫董事会集体辞职，同时恢复 Sam Altman 和 Greg Brockman 在董事会的职位。<strong>否则所有签名者集体跳槽微软</strong>，而且这一人数正在持续增加中（昨晚还只有&nbsp;500 人左右）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b5ce54499e3d9390d7173b0cacee47dfbc.png" referrerpolicy="no-referrer"></p><p>出乎意料的是，被认为是 OpenAI&nbsp;此次「政变」组织者的首席科学家 Ilya Sutskever 也签署了这一联名信。在这之前，Ilya Sutskever <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Filyasut%2Fstatus%2F1726590052392956028" target="_blank">发表推文称</a></u>：</p><blockquote><p>「我对自己参与董事会的行动深感遗憾。我从来没有想过要伤害 OpenAI。我热爱我们共同建立的一切，我将尽一切努力让公司重新团结起来。」</p><p><img src="https://oscimg.oschina.net/oscnet/up-498cd7551f25f7cc120902eb390081941de.png" referrerpolicy="no-referrer"></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-08e0a2b4d71953d511d7c02b0bc333b91bf.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65a525945aa136b1379d133093172eaa368.png" referrerpolicy="no-referrer"></p><p>同时，多位消息人士告诉 The Verge，<strong>如果解雇他的其余董事会成员下台，Sam Altman&nbsp;和联合创始人&nbsp;Greg Brockman&nbsp;仍然愿意重返 OpenAI。</strong></p><p>公开资料显示&nbsp;OpenAI 员工人数为 770 名，这批「逼宫」的人占据了员工总数超 96% 之多。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 02:17:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267364</guid>
-            <link>https://www.oschina.net/news/267364</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[修完这个 Bug 后，MySQL 性能提升了 300%]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>最近 MySQL 官方在 8.0.35 上修复了一个 bug：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3d378f6a5fb5f8dff83d14e5ff72cab3b1b.png" alt="file" referrerpolicy="no-referrer"></p><p>这个 bug 是由 Mark Callaghan 发现的。Mark 早年在 Google MySQL 团队，后来去了 Meta MySQL，也主导了 RocksDB 的开发。</p><p><img src="https://oscimg.oschina.net/oscnet/up-378864937e5b51e7e3eccce11e141140199.png" alt="file" referrerpolicy="no-referrer"></p><p>Mark 在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugs.mysql.com%2Fbug.php%3Fid%3D109595" target="_blank">#109595</a> 的 bug report 给出了非常详细的复现步骤</p><p><img src="https://oscimg.oschina.net/oscnet/up-8b85b0e3e90e67e4818aa415877ce952032.png" alt="file" referrerpolicy="no-referrer"></p><p>在官方修复后，Mark 在他的读写 benchmark 上验证有 300% 的提升 (4x)。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b04bfe95f38c366667868bb63f5182862a1.png" alt="file" referrerpolicy="no-referrer"></p><p>这样的性能提升在 Hacker News 上也引起了讨论，评论区也呈现了 HN 一贯的嘲讽风格。</p><p><img src="https://oscimg.oschina.net/oscnet/up-0dbfce2e26833c161f1e3a3441c51d78a92.png" alt="file" referrerpolicy="no-referrer"></p><p>其实 infra 层这种性能提升的空间并不少。业界缺少的是像 Mark 这样躬身入局，抽丝剥茧的钻研态度。之前 Jeff Dean 在 Google 内部也做过一个分享，讲了通过优化一小段代码，就给 Google 一年省了十几万核。</p><p>画根线很容易，难的永远是知道在哪儿画。</p><hr><p>💡 更多资讯，请关注 Bytebase 公号：Bytebase</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 02:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10143821</guid>
-            <link>https://my.oschina.net/u/6148470/blog/10143821</link>
             <author>
                 <![CDATA[原创]]>
             </author>
@@ -415,7 +387,7 @@
 </div></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 20 Nov 2023 01:55:00 GMT</pubDate>
+            <pubDate>Tue, 21 Nov 2023 01:55:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/u/4489239/blog/10149295</guid>
             <link>https://my.oschina.net/u/4489239/blog/10149295</link>
             <author>
@@ -430,11 +402,26 @@
                 <![CDATA[<div class="content"><p style="color:#222222; margin-left:0px; margin-right:0px; text-align:justify"><span><span style="color:#000000">2023 年 11 月，经 openKylin 社区技术委员会审议通过，</span><strong><span style="color:#000000">Intel SIG</span></strong><span style="color:#000000">正式成立。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">Intel SIG 由</span><strong><span style="color:#000000">英特尔中国</span></strong><span style="color:#000000">发起成立，负责 openKylin 社区中桌面操作系统上 Intel 最新平台支持、适配与优化等技术相关的开发工作。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify">&nbsp;</p><p style="color:#222222; margin-left:0; margin-right:0; text-align:center"><em><span><strong><span style="color:#ffae28">01&nbsp;</span></strong></span></em><span><strong><span style="color:#0b43d1">SIG 目标</span></strong></span></p><ul><li><span>创建并维护 openKylin Intel 新平台的规划和升级，建设更完善的 openKylin-Intel 技术生态；</span></li><li><span>充分利用 openKylin 提供的平台，把最新的 Intel 技术基础软件栈融入 openKylin 操作系统，为未来社区的创新和发展提供更广阔的空间，为推动 Intel 产品的落地提供生态支撑。</span></li></ul><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify">&nbsp;</p><p style="color:#222222; margin-left:0; margin-right:0; text-align:center"><em><span><strong><span style="color:#ffae28">02&nbsp;</span></strong></span></em><span><strong><span style="color:#0b43d1">SIG 职责</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><strong><span style="color:#0052ff">1、Intel 新平台</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">根据 openKylin 社区的规划，并且结合上游内核的开发，Intel SIG 会对 Intel 最新的平台在下游社区进行全面支持。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><strong><span style="color:#0052ff">2、Intel 新技术</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">根据客户的需求，引入 Intel 优势技术，更好的提供可行性方案；拓展更广的技术和商业合作空间。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><strong><span style="color:#0052ff">3、OEM 的支持</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">根据桌面平台的生产商 (OEM)，Intel 可以根据 OEM 的需求以及 openKylin 的要求，合作支持 OEM。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><strong><span style="color:#0052ff">4、与 openKylin 共赢</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">Intel SIG 愿意与 openKylin 各方合作，共同构建面向未来的良性合作生态环境，为 openKylin 开源桌面操作系统的发展提质提速。</span></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify">&nbsp;</p><p style="color:#222222; margin-left:0; margin-right:0; text-align:center"><em><span><strong><span style="color:#ffae28">03&nbsp;</span></strong></span></em><span><strong><span style="color:#0b43d1">欢迎加入 SIG</span></strong></span></p><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">Intel SIG 负责 openKylin 社区中 Intel 技术相关的开发和信息交流，本小组拥有国内外顶尖的 Intel 平台研究技术团队，为拓展 openKylin 的生态提供有力支撑，期待各位感兴趣的小伙伴们的加入！</span></span></p><ul><li><span>邮件列表：</span></li><li><span><span style="color:#0052ff">intel@lists.openkylin.top</span></span></li><li><span>SIG 主页：</span></li><li><span><span style="color:#0052ff">https://gitee.com/openkylin/community/tree/master/sig/Intel-SIG</span></span></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 20 Nov 2023 01:35:00 GMT</pubDate>
+            <pubDate>Tue, 21 Nov 2023 01:35:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267352</guid>
             <link>https://www.oschina.net/news/267352</link>
             <author>
                 <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[云原生周刊：Istio 1.20.0 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>开源项目推荐</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Floft-sh%2Fdevpod" target="_blank">DevPod</a></h3><p>DevPod 是一款纯客户端工具，可在任何后端基于 devcontainer.json 创建可重现的开发人员环境。每个开发者环境都在一个容器中运行，并通过 devcontainer.json 进行指定。通过 DevPod 提供商，这些环境可以在任何后端创建，如本地计算机、Kubernetes 集群、任何可访问的远程机器或云中的虚拟机。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FFairwindsOps%2Fgemini" target="_blank">Gemini</a></h3><p>Gemini 是用于管理卷快照的 Kubernetes CRD 和 operator。可以定期为 PersistentVolumes 上的数据创建快照，清空旧快照，并以最少的停机时间恢复快照。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fr0binak%2FMTKPI" target="_blank">MTKPI</a></h3><p>MTKPI - 多工具 Kubernetes 渗透测试镜像。该 docker 映像包含 Kubernetes 渗透测试所需的所有最常用工具。</p><h2>文章推荐</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-alert-and-monitoring-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 个最佳告警和监控工具</a></h3><p>这篇文章介绍了针对 Kubernetes 的前五个告警和监控工具。文章指出，Kubernetes 作为容器运行应用程序的首选选择，具有可伸缩性、灵活性和弹性等优势。然而，管理和监控 Kubernetes 可能会相当困难。因此，对于保证应用程序平稳可靠运行的关键是监控和告警。监控和告警是有效运营 Kubernetes 集群的实践方法，它们使您能够收集集群、节点、Pod、容器、服务和应用程序的指标、日志和跟踪数据，并使用仪表板、图表和表格对数据进行可视化和分析。通过规则、阈值和通知对异常、错误、故障和 SLA 违规进行告警，并通过调查根本原因、解决问题或升级到适当的团队来采取行动。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-machine-learning-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 大机器学习工具</a></h3><p>这篇文章介绍了在 Kubernetes 上进行机器学习的五个顶级工具。文章介绍了每个工具的特点、优势和使用案例，以及选择这些工具的标准，如功能性、易用性、流行度和创新性。通过使用这些工具，用户可以更轻松地在 Kubernetes 上进行机器学习任务，并提高其工作流程的效率和可靠性。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspacelift.io%2Fblog%2Fkubernetes-deployment-strategies" target="_blank">8 种不同类型的 Kubernetes 部署策略</a></h3><p>这篇文章介绍了 Kubernetes 的八种不同部署策略，包括 Recreating、Rolling、Blue/Green、Canary、A/B、Ramped Slow Rollout、Best-Effort Controlled Rollout 和 Shadow Deployment。它解释了每种策略的优点和用途，帮助读者在应用程序部署和升级时做出明智的选择。</p><h2>云原生动态</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkubescape.io%2Fblog%2F2023%2F09%2F19%2Fintroducing-kubescape-3%2F" target="_blank">Kubescape 3.0 发布</a></h3><p>Kubescape 是 CNCF Kubernetes 安全姿态管理工具的下一代，日前发布了 v3.0。</p><p>Kubescape 3.0 新增以下功能：</p><ul><li>将合规性和容器扫描结果存储为 Kubernetes 集群内的资源</li><li>通过命令行界面扫描容器镜像的漏洞</li><li>报告集群中所有镜像的漏洞情况</li><li>全新的概览安全扫描，帮助你为集群安全设置基线</li><li>突出显示高风险工作负载：那些如果受到损害可能造成最大危害的工作负载</li><li>改进的显示输出</li><li>新的基于能力的 Helm chart</li><li>每个工作负载、命名空间和集群的 Prometheus 指标</li><li>通过 Prometheus Alertmanager 进行告警</li><li>将数据发送到集群外的托管服务</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.opencost.io%2Fblog%2Faks-cost-analysis" target="_blank">OpenCost 宣布与 Microsoft AKS 成本分析工具集成</a></h3><p>OpenCost 正在与 Microsoft 的新 Azure Kubernetes Service（AKS）成本分析工具集成，以实现使用度量收集。Microsoft Azure 的客户现在可以根据 Kubernetes 特定的结构，原生地了解成本分配的可见性。</p><p>AKS 成本分析是针对标准和高级 AKS 群集的附加组件，向客户提供免费的服务。它直接在 Azure 门户中提供成本分配报告。AKS 客户现在可以轻松地可视化其 Kubernetes 成本分配，作为进一步优化和异常检测的基础。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fistio.io%2Flatest%2Fnews%2Freleases%2F1.20.x%2Fannouncing-1.20%2F" target="_blank">Istio 1.20.0 发布</a></h3><p>Istio 1.20.0 发布，这是 2023 年最后一个 Istio 版本，以下是该版本主要变化：</p><ul><li>网关 API</li><li>改进的外部名称服务支持</li><li>一致的 Envoy 过滤器排序</li><li>对网络 WasmPlugin 的扩展支持</li><li>TCP 元数据交换增强</li><li>插入根证书轮换</li><li>流量镜像现在支持多个目标</li><li>...</li></ul><blockquote><p>本文由博客一文多发平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 发布！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 10:20:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10149219</guid>
+            <link>https://my.oschina.net/u/4197945/blog/10149219</link>
+            <author>
+                <![CDATA[原创]]>
             </author>
         </item>
         <item>
@@ -445,7 +432,7 @@
                 <![CDATA[<div class="content"><p>近日，河南电视台都市频道节目报道称，河南周口联通为了强迫用户更换光猫，<strong>公司在后台停掉用户的宽带账号，导致用户无法上网，然后让工程师上门「维修」，谎称光猫损坏，需要花 299 元换新</strong>。<strong>更换完后，联通再在后台恢复用户的网络</strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6bca55961849d5db6bafd2b8cf31a04abc6.png" referrerpolicy="no-referrer"></p><p>联通公司不仅对老用户进行这种强制更换光猫的行为，还会在给新用户装机的时候，故意使用破旧光猫，也就是之前强迫用户换新留下的，而再过一段时间之后，又会告诉用户使用的是旧光猫无法匹配，必须换新。联通公司还会故意关掉用户的短信服务，在后台增加增值业务，之后再把短信功能打开，以此牟利。</p><p><img height="826" src="https://static.oschina.net/uploads/space/2023/1120/163843_Utox_2720166.png" width="1518" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1120/164043_bGMp_2720166.png" referrerpolicy="no-referrer"></p><p>周口联通回应称，全力配合省公司调查组进行调查核实。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5af067ca7f5336640898e328da5adc6109b.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.sina.com.cn%2Fs%2F2023-11-20%2Fdoc-imzvfrzw9582625.shtml" target="_blank">https://news.sina.com.cn/s/2023-11-20/doc-imzvfrzw9582625.shtml</a></u></em></p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 19 Nov 2023 08:31:00 GMT</pubDate>
+            <pubDate>Mon, 20 Nov 2023 08:31:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267276</guid>
             <link>https://www.oschina.net/news/267276</link>
             <author>
@@ -460,7 +447,7 @@
                 <![CDATA[<div class="content"><p>本文根据 2023 云栖大会演讲实录整理而成，演讲信息如下：</p><p><strong>演讲人</strong>：陈守元 | 阿里云计算平台事业部开源大数据产品总监</p><p><strong>演讲主题</strong>：阿里云开源大数据产品年度发布</p><p>随着云计算的不断发展，未来数据处理和应用的趋势将围绕 Cloud Native、Severless 和 Data+AI 展开。其中，云原生架构已成为主流趋势，因为它可以提高数据处理和应用程序的可伸缩性和灵活性，支持大规模部署和更快的响应时间。同时，Serverless 作为一种新型计算模式，可以提高处理效率、降低运营成本并减少资源浪费，其独特的特点使得其成为处理大规模数据的理想选择。此外，Data 与 AI 融合正在快速发展，不断提高智能化和自动化程度，同时需要高质量的数据来支撑算法的准确性和有效性。</p><p><img src="https://oscimg.oschina.net/oscnet/up-a48d65a7b7035e480f3276674b7f31f68a3.png" alt="" referrerpolicy="no-referrer"></p><h2>EMR：面向下一代湖仓和全面 Serverless 化</h2><p>下面进入产品发布环节，我们将围绕上面三个点&nbsp;做哪些事情、有哪些发布更好地服务用户上云&nbsp;来讲述我们产品的重点发布。</p><p><img src="https://oscimg.oschina.net/oscnet/up-4026c36c77d94f189e70fb9fe1cb0464515.png" alt="" referrerpolicy="no-referrer"></p><p>首先，我们来看 EMR。EMR 是一个云原生开源大数据平台系统。对于 EMR 而言，线下 IDC 大量基于开源 Hadoop 生态构建的线下用户搬站上云第一站就会选择 EMR，因为改造代价特别地小，几乎可以无缝平迁上云。这对用户来说是具有巨大的人力资本和机器资本的节省。&nbsp;我们将阿里云 EMR 定位为&nbsp;用户搬站上云的第一站。</p><p>今年我们的产品矩阵做了升级，我们希望在云上基于更多样化的 IaaS 提供多样化的 EMR 产品形态。EMR 通用版，核心解决的用户问题就是帮助用户的大数据系统平迁上云，这也是和用户线下部署兼容度最高的方案。第二个是 EMR 容器版，即 EMR ACK 版。现在 IT 基础设施的云原生容器化基本上都深入人心，我们大量客户在云上基于 IT 系统的构建都会选择容器化的平台，例如阿里云的 ACK。用户自然而然会联想到如何把 Data 和 AI 的 workload 迁移到 IT 基础设施的同一个集群里，完成 Data&amp;AI 的负载&nbsp;与 IT 设施负载混用，EMR 容器版，或者说 EMR onACK 就是帮用户解决这类问题的产品。</p><p>最后也是我们今天想强调的重点就是 EMR Serverless 版。对于 EMR Serverless 子产品线而言，内部有些 feature 或者功能&nbsp;在之前云栖中已做了发布。今天对于 EMR Serverless 产品线是一个更加完整的矩阵呈现，今天会重点讲一下 Serverless Spark、Serverless StrarRocks 两大主流 EMR 计算引擎的 Serverless 化，今天也是我们正式对外提出一个完整的 EMR Serverless 化的产品线矩阵。</p><p>EMR Serverless 版是 EMR 产品线形态中诞生最晚、发布最新的一代产品和技术，其实 EMR 围绕 Serverless 的布局在一年前、两年前都在紧锣密鼓地进行。前面 OSS-HDFS、Serverless HDFS 这一块其实在去年、前年已有发布，但是今年我们做了更多的尝试努力，我们希望把 EMR 上面主流的大数据计算引擎、存储引擎、开发平台、元数据管理全都 Serverless 化，只有这样方才能够更好地满足云原生用户更好地利用大数据。Serverless Spark，更好地解决了湖仓场景下 Data ETL 的处理能力，Serverless StrarRocks 更好地解决了湖仓场景下 Data analytic 能力，Serverless HDFS 更好解决了湖仓场景下数据存储能力，最后 EMR Stutio 帮助用户线下可以平迁体验上云，让用户能够更好使用云上大数据基础设施，同时还能免运维。所以 EMR 今年从计算，到存储，到开发环境&nbsp;几乎全部实现了 EMR 主力引擎和平台都能够做到 Serverless 化，我们希望能够把整个大数据开发运维闭环，从而进一步帮助云原生上的开发者更好地把大数据用起来。</p><p><img src="https://oscimg.oschina.net/oscnet/up-e0e494088f0e316e87a203fb7a7b147a1c7.png" alt="" referrerpolicy="no-referrer"></p><p>下面仍然回到 EMR 主力场景， EMR 通用版，围绕湖仓场景做了大量更新。EMR 主力场景仍然围绕着湖仓处理，围绕在湖仓计算、存储、运维、开发做了大量的更新。在计算层面，我们核心还是降本提效，IaaS 层适配了新的倚天 CPU，PaaS 层做了 Native Spark RunTime，这些都是从 IaaS 层和 PaaS 层更好地帮助用户降本提效。存储部分，Serverless HDFS (同时也称之为 OSS-HDFS)&nbsp;很早已有发布，但是在这一年希望让 Serverless HDFS 和&nbsp;本地 HDFS 在使用层面给用户体验完全一致，包括&nbsp;在&nbsp;文件性能、数据访问、源数据获取等方案&nbsp;做到几乎完全一致。为上述目标，我们因此做了大量有关系统性能优化&nbsp;以及&nbsp;系统安全性优化。我们的 Open 文件性能的提升、DU 访问源数据的提升，这些都是今年的成果。</p><p><img src="https://oscimg.oschina.net/oscnet/up-00bfea3732092d7e26b3743ad341b1f080a.png" alt="" referrerpolicy="no-referrer"></p><p>EMR 运维，这主要体现在两个方面。在云上来说 EMR 能结合到云原生上面给用户创造比较大的平台价值就在于弹性，今年我们做到大量的弹性优化。我们大量客户给我们反馈说 EMR 的平台弹性越来越稳定；另外一个运维重点，即 EMR Doctor，我们希望通过 AI 的方式、自动化、智能化的运维平台方式帮助用户去解决开源大数据运维的问题。从社区开源大数据用户反馈来看，开源大数据使用最大的、最痛的点就是系统运维。如何长期有效地保证我们的业务在云上健康地运行，这是很多用户上云和云下使用开源大数据非常大的痛点，EMR Doctor 就是解决这个问题。EMR 开发，即 EMR Studio，我们希望云原生 Serverless 化托管了我们的开发平台、调度平台，帮助用户从线下的体验完全平迁到云上的一套体验。以上均是 EMR 围绕湖仓场景的重大更新。</p><p>最后仍然回到 EMR For AI，我们每个产品都在拥抱积极的变化，这里分为三部分：EMR DataScience、EMR Doctor、EMR+DataWorks 的 Code Pilot。EMR DataScience 是在 EMR 的容器版里面，我们提供了一个新的集群叫 EMR DataScience，里面内置了不少 AI 最流行的组件，包括 Pytorch、TF。我们希望用户在一个平台上既能够处理大数据，同时还能够云原生地处理 AI 的工具，这是 EMR DataScience 帮助用户做的相关工作。EMR Doctor，这个工作前面提到希望用 AI 化、智能化的方式帮助用户实现 AIOps，能够用自动化的手段定位问题、诊断问题、及早发现问题。EMR+Dataworks，今年 DataWorks 重磅的发布就是 code pilot 的发布，但是那上面作为一个平台实际上底下也对接了 EMR 等等，正好实际上 code pilot 也是平台引擎无关的 Feature，可以生成 EMR 里面的 HIVE 代码，用户就可以用 DataWorks 上面开发平台能够通过自然语言生成 MaxCompute 的 SQL，能够操作业务，这样能够极大地减少用户开发代码的成本，这在 DataWorks 对外提供公测的时候欢迎去试用一下。</p><h2>Flink Streaming Lakehouse：新一代的流式湖仓新方案</h2><p>下面我们看一下 Flink Streaming Lakehouse。Lakehouse 这个概念其实在前几年很火，原因就是对于一个 Lakehouse 的系统来说，既兼具了 Data Warehouse 的严谨，包括 ACID、版本的管理、数据格式的校验等等；同时它还有 Data Lake 的灵活性，能够放很多大量非结构化的文本，包括图片、视频、音频、图像等等。而 Lakehouse 同时能够承载结构化的数据和非结构化的数据，这对用户来说是非常好的 AI 和大数据融合的底层存储方案。但是我们看 Lakehouse 的过程中发现 Lakehouse 在时效性方面有非常大的问题，Flink 核心使命和价值就在帮助我们的客户解决大数据实时化转型和升级。所以 Flink 社区&nbsp;和&nbsp;我们&nbsp;一起发布了 Streaming Lakehouse 方案。</p><p><img src="https://oscimg.oschina.net/oscnet/up-37eae0cedf4dbaf6356c5188b319f6e8a02.png" alt="" referrerpolicy="no-referrer"></p><p>回到 Streaming Lakehouse 我主要从产品方向&nbsp;讲三个场景要点。前面已经提到 Lakehouse 在 AI 时代下 Lakehouse 的方案会越来越重要，因为它既能存储结构化的数据又能存储非阶段的数据，这个是大数据和 AI 一体化存储的重要承载点。但是 Lakehouse 在实践的过程中仍然遇到时效性的问题，整个 Lakehouse 的 Data Pipeline 串联起来可能达到小时级别的延迟，从最开始的数据进入到数据价值的发挥，比如 BI、AI，能够看到整个数据链路到小时级别，这其实对于用户来说要构建一个实时湖仓面临很大的延迟。所以 Flink 希望一起帮助用户做到 Lakehouse 的实时化，通过流式、实时帮助用户做很大的提升。</p><p>最后是 Unified，其实 Flink 社区在前几年一直主打 Unified Batch &amp; Streaming。我们希望在计算层面做到融合，就是流批一体。我们在开源社区推广流批一体的方案时，发现如果用户只是计算层面的融合对于用户只能解决一半的问题。还有一半问题在于存储，存储仍然是两套的存储方案，两套存储和两套数据因此会导致的离线和实时的数据不一致性对于用户来说是非常大的问题，所以 Flink 团队和社区一起构建了 Paimon。Paimon 基于底层的分布式文件系统，比如说 OSS 会构建一个 Unified 的 storage，既可以做流，也可以做批，我们称之为批流一体的存储。所以 Flink+Paimon 构成 Lakehouse 的方案，既具备 Unified 的 process，也可以具备 Unified 的 Storage，这一层合并在一起能够真正完整地帮助用户实现流批一体的解决方案。这是我们 Streaming Lakehouse 的价值点，最终我们希望帮助用户在 Data+AI 时代下提供实时化、流式化和 Serverless 化的湖仓方案。</p><p>回到 Flink 主线，我们一直以来的使命就是希望帮助用户做到大数据的升级和转型，所以追求实时场景下的性价比一直是 Flink 团队一直以来努力的方向。追求实时化的性价比今年有两个重要的点，一个是 Flink 全面拥抱了倚天，结合到倚天&nbsp;整个实时计算 Flink 综合的性价比有 50% 的提升，这是 Flink 团队结合 IaaS 层面做了大量优化。同时在 PaaS 层 Flink 企业级内核&nbsp;我们仍然在做大量优化，这其中包括算子的优化，以及未来我们会公布 native runtime 的优化。这部分优化相比于开源 Flink 引擎，我们实时计算 Flink 版&nbsp;会有两倍的提升，特别是在吞吐部分可以解决很多用户高吞吐量或者大流量的实时计算场景。</p><p><img src="https://oscimg.oschina.net/oscnet/up-93711ed92a4488a619f2f0cfa9e51e70d03.png" alt="" referrerpolicy="no-referrer"></p><h2>Elasticsearch:Serverless 和 Search for Data &amp; AI</h2><p>接下来讲一下 Elasticsearch，这也是开源大数据很重要的组成部分。说到 Elasticsearch 可能大家更多仍然停留在比较早期 for data 的 search，就是全文的检索，类似于搜索引擎要做全文的检索。但今天我想告诉大家这个思想需要刷新一下，Elasticsearch 不仅是 for data 的 search，也是 for AI 的 search。我今天给大家重点会讲一下 ES 如何从 Data 转变成 Data+AI 的 search 系统。</p><p>第一个是我们的 Elasticsearch 的版本发布。坦白地说，当前产品形态，即 ES on PaaS 的独立集群版本已经非常好地满足我们中国公有云和专有云客户很多的市场需求，不少中大型公司都非常认可阿里云的 ES 产品形态，产品客户受众无论在基数以及未来增长都很不错。但实际上随着最近这一两年客户在降本提效上提上了日程之后，发现有一批非常大的潜在客户以及中长尾的客户其实仍然对云上的独立集群版本所带来的成本仍然认为是比较大的上云入门门槛。他们非常希望以低门槛甚至零门槛的方式开启云上的 ES，这就是我们 ES Serverless 要做的初衷，我们希望以一个零门槛的方式能够帮助用户开启云上 Elasticsearch 的使用。</p><p><img src="https://oscimg.oschina.net/oscnet/up-dda1df3c99a6593d14261aabceb742084c0.png" alt="" referrerpolicy="no-referrer"></p><p>同时 Elasticsearch Serverless 也是我们国内首家支持通用场景的 ES 版本。去年我们也发布了一个 Elasticsearch Serverless 版本，但更多解决日志 ELK 场景的需求。但是该版本在数据一致性上会存在问题，所以今年我们进行大量的产品技术架构重构。本次 ES Serverless 的发布是一个面向通用场景的升级发布，这里面不仅支持包括日志场景，还支持订单、金融等等场景，这里面的数据一致性都可以得到很好的保障。这是我们今年发布相比于去年发布升级很不一样的点。针对 ES Serverless 可以真正按量付费、秒级弹性、简单运维，同时可以完全兼容开源的 ES，这是很多其他的厂商不一定能做到的。</p><p>下面重点强调 ES for AI 和 Data 的部分，标志着 ES 真正从 Data 面向 Data&amp;AI 的搜索引擎。云栖会场外面有很大的广告栏，主打的是 ESRE 的发布，这是 ES 公司重大的发布。发布的核心简单跟大家说一下，就是支持 AI 相关检索，包括向量检索，包括多路并规的查询优化，这些东西都是在 ES 内核重点打的点，帮助用户做 AI 检索。阿里云 ES 围绕着 ES 最新的 AI 能力进行了大量方案集成，就是右边的增强方案。我们跟达摩院 AI 方案做联合，和 PAI—EAS 方案联合，甚至会和社区一起做更多的联合方案，这些方案能够帮助我们的用户更好地在云上用上阿里云、达摩院 AI 的技术，和社区的 ES 更好地结合起来。所以我们希望通过 ES8.9 这个版本能够帮助用户构建下一代面向 Data+AI 的检索系统。</p><p><img src="https://oscimg.oschina.net/oscnet/up-47305474e3702aae7f01185fc4b3c7a7d65.png" alt="" referrerpolicy="no-referrer"></p><p>围绕 ES 自研能力的升级，阿里云 ES 是和 ES 公司一起合作，也是基于开源的 ES 做更多的优化孵化，其实是完全基于开源，也是完全兼容开源的，我们做了大量的增强。而这里面做了三个升级，包括场景的升级，也就是日志场景向通用场景的升级和改造。去年 ES 更多是做日志场景、ELK 场景，今年的 ES Serverless 面向通用场景进行完全开放。另外就是有关搜索内核引擎的优化，包括读写分离、存算分离，这些更好地解决集群稳定性问题、成本流控问题、资源弹性的问题。最后我们在购买链路和相关控制枱上做了比较大的体验升级，我们非常推荐大家去用一用阿里云 ES Serverless 版本，感受一下完全 Serverless 化的 ES。</p><h2>Milvus：AI 时代的搜索引擎</h2><p>今天最后一个，也是今年完全新的产品。前面全部是我们现有的功能、现有产品线的叠加，Milvus 这部分是我们今年要发布的 AI 时代新的搜索引擎。目前，在向量检索部分 Milvus 几乎是全球最火、最亮眼的技术。我们会在 12 月份开启向量检索 Milvus 版本对外测试，相比于开源的 Milvus 来说会做相应产品企业级的增强。同时在兼容开源的 Milvus 之上，我们还会去结合达摩院的技术能够提供更好的企业级向量检索能力。同时在云上肯定会做大量的产品联合工作，包括和我们的存储上有大量非结构化的数据可供用户检索查询。同时我们会跟 PAI 平台、达摩院 AI 模型做更多的深度集成，做 AI 向量检索能力、做大模型向量支撑，这些方案未来都会在我们的产品之上构建。所以我们最终是希望能够帮助云上使用 Milvus 的用户更快、更方便、更低门槛构建 AI 时代下的搜索系统。</p><p><img src="https://oscimg.oschina.net/oscnet/up-684d85b432854ecd04eafd9cad2a5a50df8.png" alt="" referrerpolicy="no-referrer"></p><p>回顾一下我们讲了大数据的三个趋势。Cloud Native，整个 IT 投资都在往云上加速转型。Serverless 化，我们认为未来的 PaaS 平台最终全部都会归到 Serverless 化，所有 AI 产品、大数据产品和其他 PaaS 产品都会归到 Serverless 化。最后是 Data+AI，未来 AI 和大数据会做彻底的融合打通，这也是我们整个开源大数据一直以来在积极围绕这三个点做布局。</p><p>最后希望大家多多关注阿里云，关注阿里云的开源大数据，谢谢大家！</p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 19 Nov 2023 08:00:00 GMT</pubDate>
+            <pubDate>Mon, 20 Nov 2023 08:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/u/5583868/blog/10149103</guid>
             <link>https://my.oschina.net/u/5583868/blog/10149103</link>
             <author>
@@ -475,7 +462,7 @@
                 <![CDATA[<div class="content"><p>微软 CEO Satya Nadella 刚刚<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fsatyanadella%2Fstatus%2F1726509045803336122" target="_blank">发布推特称</a></u>，OpenAI 前 CEO 和总裁 Sam Altman &amp; Greg Brockman 将加入微软，他们负责领导新的 AI 研究团队。</p><p><img height="1176" src="https://static.oschina.net/uploads/space/2023/1120/155839_imd2_2720166.png" width="1264" referrerpolicy="no-referrer"></p><p>Sam Altman 转发了这条推文，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fsama%2Fstatus%2F1726510261509779876" target="_blank">并说道</a></u>：不忘使命，砥砺前行。</p><p><img height="678" src="https://static.oschina.net/uploads/space/2023/1120/161424_UZuO_2720166.png" width="1272" referrerpolicy="no-referrer"></p><p>Satya Nadella <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fsatyanadella%2Fstatus%2F1726516824597258569" target="_blank">评论了 Sam 的推文</a>：</p><blockquote><p>Sam，我对你以首席执行官身份加入新团队感到无比激动，你将为我们的创新工作开辟新的道路。</p><p>多年来，我们学会了如何为创始人和创新者提供空间，让他们在微软内部发展独立的身份和文化，这一点从 GitHub、Mojang Studios 到 LinkedIn 的发展中可见一斑。我迫不及待想看到你也能做到。</p></blockquote><p><img height="1372" src="https://static.oschina.net/uploads/space/2023/1120/164746_aILD_2720166.png" width="1286" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 19 Nov 2023 08:00:00 GMT</pubDate>
+            <pubDate>Mon, 20 Nov 2023 08:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/267272</guid>
             <link>https://www.oschina.net/news/267272</link>
             <author>
@@ -484,17 +471,32 @@
         </item>
         <item>
             <title>
-                <![CDATA[Altman 回归失败，OpenAI 董事会聘请 Twitch 前高管担任 CEO]]>
+                <![CDATA[OpenAI 超 700 名员工签署联名信，要求董事会集体辞职]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">据</span>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.theinformation.com%2Farticles%2Fbreaking-sam-altman-will-not-return-as-ceo-of-openai" target="_blank">The Information</a>&nbsp;<span style="color:#000000">和</span>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bloomberg.com%2Fnews%2Farticles%2F2023-11-20%2Fopenai-s-board-hires-former-twitch-executive-shear-as-ceo" target="_blank">Bloomberg</a>&nbsp;<span style="color:#000000">消息称，经过一个周末的谈判，OpenAI 董事会决定不顾投资者要求 Sam Altman 复职的呼声，聘请前 Twitch 首席执行官 Emmett Shear 来担任该公司的临时首席执行官。</span></p><p><span style="color:#000000">OpenAI 联合创始人兼董事会董事 Ilya Sutskever 向员工表示，公司高管有尝试努力挽回 Sam Altman，但没有成功，Altman</span>&nbsp;<span style="color:#000000">将不会回到 OpenAI。</span></p><p><img alt="" height="300" src="https://static.oschina.net/uploads/space/2023/1120/153143_G4mc_4252687.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">Emmett Shear 将从 Mira Murati 手中接过这一职位，这也意味着 OpenAI 在三天内迎来了第三任首席执行官。此前，在 Sam Altman 被突然解雇后，曾有大批 OpenAI 员工开始在社交媒体上表达了对 Altman 的支持，Mira Murati 也在此列。</span></p><p><span style="color:#000000">Shear 在 2006 年帮助推出了游戏流媒体网站 Twitch，并于 2014 年以近 10 亿美元的价格将其出售给亚马逊。今年早些时候，Shear 辞去了 Twitch 的首席执行官一职。</span></p><p><span style="color:#000000">有知情人士表示，Shear 之所以能赢得 OpenAI 董事会的青睐，是因为他能意识到人工智能所带来的生存威胁。此外，<span style="background-color:#ffffff">Open AI 的董事会已经至少联系了两名科技行业的知名高管，希望其中一位可以担任公司董事长的职位。</span></span></p><p><span style="color:#000000">OpenAI 及其最大投资者微软的发言人目前暂未回应相关置评请求。</span></p></div>
+                <![CDATA[<div class="content"><p>据纽约时报等媒体统计数据，目前 OpenAI 至少有 743 名员工已签署联名信逼迫董事会集体辞职，同时恢复 Sam Altman 和 Greg Brockman 在董事会的职位。<strong>否则所有签名者集体跳槽微软</strong>，而且这一人数正在持续增加中（昨晚还只有&nbsp;500 人左右）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b5ce54499e3d9390d7173b0cacee47dfbc.png" referrerpolicy="no-referrer"></p><p>出乎意料的是，被认为是 OpenAI&nbsp;此次「政变」组织者的首席科学家 Ilya Sutskever 也签署了这一联名信。在这之前，Ilya Sutskever <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Filyasut%2Fstatus%2F1726590052392956028" target="_blank">发表推文称</a></u>：</p><blockquote><p>「我对自己参与董事会的行动深感遗憾。我从来没有想过要伤害 OpenAI。我热爱我们共同建立的一切，我将尽一切努力让公司重新团结起来。」</p><p><img src="https://oscimg.oschina.net/oscnet/up-498cd7551f25f7cc120902eb390081941de.png" referrerpolicy="no-referrer"></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-08e0a2b4d71953d511d7c02b0bc333b91bf.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65a525945aa136b1379d133093172eaa368.png" referrerpolicy="no-referrer"></p><p>同时，多位消息人士告诉 The Verge，<strong>如果解雇他的其余董事会成员下台，Sam Altman&nbsp;和联合创始人&nbsp;Greg Brockman&nbsp;仍然愿意重返 OpenAI。</strong></p><p>公开资料显示&nbsp;OpenAI 员工人数为 770 名，这批「逼宫」的人占据了员工总数超 96% 之多。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 19 Nov 2023 07:17:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267256/openai-twitch-ceo-shear</guid>
-            <link>https://www.oschina.net/news/267256/openai-twitch-ceo-shear</link>
+            <pubDate>Mon, 20 Nov 2023 02:17:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267364</guid>
+            <link>https://www.oschina.net/news/267364</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[修完这个 Bug 后，MySQL 性能提升了 300%]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>最近 MySQL 官方在 8.0.35 上修复了一个 bug：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3d378f6a5fb5f8dff83d14e5ff72cab3b1b.png" alt="file" referrerpolicy="no-referrer"></p><p>这个 bug 是由 Mark Callaghan 发现的。Mark 早年在 Google MySQL 团队，后来去了 Meta MySQL，也主导了 RocksDB 的开发。</p><p><img src="https://oscimg.oschina.net/oscnet/up-378864937e5b51e7e3eccce11e141140199.png" alt="file" referrerpolicy="no-referrer"></p><p>Mark 在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugs.mysql.com%2Fbug.php%3Fid%3D109595" target="_blank">#109595</a> 的 bug report 给出了非常详细的复现步骤</p><p><img src="https://oscimg.oschina.net/oscnet/up-8b85b0e3e90e67e4818aa415877ce952032.png" alt="file" referrerpolicy="no-referrer"></p><p>在官方修复后，Mark 在他的读写 benchmark 上验证有 300% 的提升 (4x)。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b04bfe95f38c366667868bb63f5182862a1.png" alt="file" referrerpolicy="no-referrer"></p><p>这样的性能提升在 Hacker News 上也引起了讨论，评论区也呈现了 HN 一贯的嘲讽风格。</p><p><img src="https://oscimg.oschina.net/oscnet/up-0dbfce2e26833c161f1e3a3441c51d78a92.png" alt="file" referrerpolicy="no-referrer"></p><p>其实 infra 层这种性能提升的空间并不少。业界缺少的是像 Mark 这样躬身入局，抽丝剥茧的钻研态度。之前 Jeff Dean 在 Google 内部也做过一个分享，讲了通过优化一小段代码，就给 Google 一年省了十几万核。</p><p>画根线很容易，难的永远是知道在哪儿画。</p><hr><p>💡 更多资讯，请关注 Bytebase 公号：Bytebase</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 20 Nov 2023 02:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10143821</guid>
+            <link>https://my.oschina.net/u/6148470/blog/10143821</link>
+            <author>
+                <![CDATA[原创]]>
             </author>
         </item>
     </channel>
