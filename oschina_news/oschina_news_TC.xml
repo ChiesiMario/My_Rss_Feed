@@ -16,8 +16,25 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 21 Nov 2023 23:59:22 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 22 Nov 2023 02:01:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[scheme-langserver 發佈類型推斷功能，並整合進入 auto-autocomplete.]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Scheme-langserver 是一款面向 scheme 語言的語言服務器，它基於 LSP 協議（Language Server Protocol）提供了自動補全（auto-complete）、尋找變量定義（goto definition）等功能。</p><p>11 月 21 日，scheme-langserver 發佈了類型推斷功能，並將該功能整合進入了自動補全。如圖所示，在補全光標處的引導詞「l」（大寫 L）時，scheme-langserver 給出了多個可選項，並且將類型匹配程度較高的「length-a」、「length-b」放到了比較靠前的位置——因為「&gt;=」過程（也就是其他語言中的函數）要求變量必須是「real?」，而上文可以推斷出「length-a」、「length-b」為「integer?」類型。</p><p><img alt="" height="1152" src="https://oscimg.oschina.net/oscnet/up-a0cf3214c3d3f798bd3281120b07eb57f92.png" width="732" referrerpolicy="no-referrer"></p><p>這項工作的主要特點在於：</p><ol><li>使用了作者自行開發的 DSL（Domain Specific Language）和解釋器實現類型推斷功能。這大大降低了編寫相關功能的難度，讓整個項目的可維護性更強；</li><li>基於 scheme-langserver 的面向「未完成代碼」的自動補全功能，能夠補全局部變量（這在一些競品中是不能實現的）；</li><li>實現了「漸進定型」實現為動態類型語言的類型推導。關於這一點，可以看如下案例：</li></ol><p>例如對於 javascript 代碼，參數 a 的類型是不清楚的——關於這一點，在 typescript 當中的解決方法是第二行中的案例——添加類型標註（number）。</p><pre><code class="language-javascript">function(a){return 1+a}
+
+function(a : number){return 1+a}</code></pre><p>但是實際上，我們當然知道「+」操作符操作的只能是「number」（當然還有 string 等等）。因此，應當由計算機自行推出「a」的類型為「number」而不需要自行推斷（當然，這是有一定的代價和其他問題的）。</p><p>目前這項工作還存在一些問題，主要包括：</p><ol><li>類型推斷工作使得索引構建時間較長，較大程度影響用戶使用體驗；</li><li>類型推斷系統引入了一個全排列操作，對於有較多參數（比如 4 個）的過程（或者説函數）的類型推導造成了限制；</li><li>還有大量的測試需要進行，以儘可能減少錯誤；</li><li>通過一些參數限制了涉及遞歸函數的類型推斷以減少操作間隔感，但是這就在類型推斷的可靠性上有了一些問題。</li></ol><p>Scheme-langserver 同時是「2022 中國互聯網發展創新與投資大賽公益項目暨 2022 年中國開源創新大賽」二等獎項目。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 16:49:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267508</guid>
+            <link>https://www.oschina.net/news/267508</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[「X」Embedding in NLP｜初識自然語言處理（NLP）]]>
@@ -255,6 +272,36 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };
         </item>
         <item>
             <title>
+                <![CDATA[OpenAI 超 700 名員工簽署聯名信，要求董事會集體辭職]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>據紐約時報等媒體統計數據，目前 OpenAI 至少有 743 名員工已簽署聯名信逼迫董事會集體辭職，同時恢復 Sam Altman 和 Greg Brockman 在董事會的職位。<strong>否則所有簽名者集體跳槽微軟</strong>，而且這一人數正在持續增加中（昨晚還只有&nbsp;500 人左右）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b5ce54499e3d9390d7173b0cacee47dfbc.png" referrerpolicy="no-referrer"></p><p>出乎意料的是，被認為是 OpenAI&nbsp;此次「政變」組織者的首席科學家 Ilya Sutskever 也簽署了這一聯名信。在這之前，Ilya Sutskever <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Filyasut%2Fstatus%2F1726590052392956028" target="_blank">發表推文稱</a></u>：</p><blockquote><p>「我對自己參與董事會的行動深感遺憾。我從來沒有想過要傷害 OpenAI。我熱愛我們共同建立的一切，我將盡一切努力讓公司重新團結起來。」</p><p><img src="https://oscimg.oschina.net/oscnet/up-498cd7551f25f7cc120902eb390081941de.png" referrerpolicy="no-referrer"></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-08e0a2b4d71953d511d7c02b0bc333b91bf.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65a525945aa136b1379d133093172eaa368.png" referrerpolicy="no-referrer"></p><p>同時，多位消息人士告訴 The Verge，<strong>如果解僱他的其餘董事會成員下台，Sam Altman&nbsp;和聯合創始人&nbsp;Greg Brockman&nbsp;仍然願意重返 OpenAI。</strong></p><p>公開資料顯示&nbsp;OpenAI 員工人數為 770 名，這批「逼宮」的人佔據了員工總數超 96% 之多。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 02:17:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267364</guid>
+            <link>https://www.oschina.net/news/267364</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[修完這個 Bug 後，MySQL 性能提升了 300%]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>最近 MySQL 官方在 8.0.35 上修復了一個 bug：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3d378f6a5fb5f8dff83d14e5ff72cab3b1b.png" alt="file" referrerpolicy="no-referrer"></p><p>這個 bug 是由 Mark Callaghan 發現的。Mark 早年在 Google MySQL 團隊，後來去了 Meta MySQL，也主導了 RocksDB 的開發。</p><p><img src="https://oscimg.oschina.net/oscnet/up-378864937e5b51e7e3eccce11e141140199.png" alt="file" referrerpolicy="no-referrer"></p><p>Mark 在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugs.mysql.com%2Fbug.php%3Fid%3D109595" target="_blank">#109595</a> 的 bug report 給出了非常詳細的復現步驟</p><p><img src="https://oscimg.oschina.net/oscnet/up-8b85b0e3e90e67e4818aa415877ce952032.png" alt="file" referrerpolicy="no-referrer"></p><p>在官方修復後，Mark 在他的讀寫 benchmark 上驗證有 300% 的提升 (4x)。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b04bfe95f38c366667868bb63f5182862a1.png" alt="file" referrerpolicy="no-referrer"></p><p>這樣的性能提升在 Hacker News 上也引起了討論，評論區也呈現了 HN 一貫的嘲諷風格。</p><p><img src="https://oscimg.oschina.net/oscnet/up-0dbfce2e26833c161f1e3a3441c51d78a92.png" alt="file" referrerpolicy="no-referrer"></p><p>其實 infra 層這種性能提升的空間並不少。業界缺少的是像 Mark 這樣躬身入局，抽絲剝繭的鑽研態度。之前 Jeff Dean 在 Google 內部也做過一個分享，講了通過優化一小段代碼，就給 Google 一年省了十幾萬核。</p><p>畫根線很容易，難的永遠是知道在哪兒畫。</p><hr><p>💡 更多資訊，請關注 Bytebase 公號：Bytebase</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 21 Nov 2023 02:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10143821</guid>
+            <link>https://my.oschina.net/u/6148470/blog/10143821</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[目標導向主義失效了？前 OpenAI 科學家現身説法]]>
             </title>
             <description>
@@ -476,51 +523,6 @@ import * as foo from "./foo.js" with { type: "fluffy bunny" };
             <link>https://www.oschina.net/news/267286/oracle-linux-9-update-3</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[雲原生週刊：Istio 1.20.0 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>開源項目推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Floft-sh%2Fdevpod" target="_blank">DevPod</a></h3><p>DevPod 是一款純客戶端工具，可在任何後端基於 devcontainer.json 創建可重現的開發人員環境。每個開發者環境都在一個容器中運行，並通過 devcontainer.json 進行指定。通過 DevPod 提供商，這些環境可以在任何後端創建，如本地計算機、Kubernetes 集羣、任何可訪問的遠程機器或雲中的虛擬機。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FFairwindsOps%2Fgemini" target="_blank">Gemini</a></h3><p>Gemini 是用於管理卷快照的 Kubernetes CRD 和 operator。可以定期為 PersistentVolumes 上的數據創建快照，清空舊快照，並以最少的停機時間恢復快照。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fr0binak%2FMTKPI" target="_blank">MTKPI</a></h3><p>MTKPI - 多工具 Kubernetes 滲透測試鏡像。該 docker 映像包含 Kubernetes 滲透測試所需的所有最常用工具。</p><h2>文章推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-alert-and-monitoring-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 個最佳告警和監控工具</a></h3><p>這篇文章介紹了針對 Kubernetes 的前五個告警和監控工具。文章指出，Kubernetes 作為容器運行應用程序的首選選擇，具有可伸縮性、靈活性和彈性等優勢。然而，管理和監控 Kubernetes 可能會相當困難。因此，對於保證應用程序平穩可靠運行的關鍵是監控和告警。監控和告警是有效運營 Kubernetes 集羣的實踐方法，它們使您能夠收集集羣、節點、Pod、容器、服務和應用程序的指標、日誌和跟蹤數據，並使用儀錶板、圖表和表格對數據進行可視化和分析。通過規則、閾值和通知對異常、錯誤、故障和 SLA 違規進行告警，並通過調查根本原因、解決問題或升級到適當的團隊來採取行動。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-machine-learning-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 大機器學習工具</a></h3><p>這篇文章介紹了在 Kubernetes 上進行機器學習的五個頂級工具。文章介紹了每個工具的特點、優勢和使用案例，以及選擇這些工具的標準，如功能性、易用性、流行度和創新性。通過使用這些工具，用戶可以更輕鬆地在 Kubernetes 上進行機器學習任務，並提高其工作流程的效率和可靠性。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspacelift.io%2Fblog%2Fkubernetes-deployment-strategies" target="_blank">8 種不同類型的 Kubernetes 部署策略</a></h3><p>這篇文章介紹了 Kubernetes 的八種不同部署策略，包括 Recreating、Rolling、Blue/Green、Canary、A/B、Ramped Slow Rollout、Best-Effort Controlled Rollout 和 Shadow Deployment。它解釋了每種策略的優點和用途，幫助讀者在應用程序部署和升級時做出明智的選擇。</p><h2>雲原生動態</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkubescape.io%2Fblog%2F2023%2F09%2F19%2Fintroducing-kubescape-3%2F" target="_blank">Kubescape 3.0 發佈</a></h3><p>Kubescape 是 CNCF Kubernetes 安全姿態管理工具的下一代，日前發佈了 v3.0。</p><p>Kubescape 3.0 新增以下功能：</p><ul><li>將合規性和容器掃描結果存儲為 Kubernetes 集羣內的資源</li><li>通過命令行界面掃描容器鏡像的漏洞</li><li>報告集羣中所有鏡像的漏洞情況</li><li>全新的概覽安全掃描，幫助你為集羣安全設置基線</li><li>突出顯示高風險工作負載：那些如果受到損害可能造成最大危害的工作負載</li><li>改進的顯示輸出</li><li>新的基於能力的 Helm chart</li><li>每個工作負載、命名空間和集羣的 Prometheus 指標</li><li>通過 Prometheus Alertmanager 進行告警</li><li>將數據發送到集羣外的託管服務</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.opencost.io%2Fblog%2Faks-cost-analysis" target="_blank">OpenCost 宣佈與 Microsoft AKS 成本分析工具集成</a></h3><p>OpenCost 正在與 Microsoft 的新 Azure Kubernetes Service（AKS）成本分析工具集成，以實現使用度量收集。Microsoft Azure 的客戶現在可以根據 Kubernetes 特定的結構，原生地瞭解成本分配的可見性。</p><p>AKS 成本分析是針對標準和高級 AKS 羣集的附加組件，向客戶提供免費的服務。它直接在 Azure 門戶中提供成本分配報告。AKS 客戶現在可以輕鬆地可視化其 Kubernetes 成本分配，作為進一步優化和異常檢測的基礎。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fistio.io%2Flatest%2Fnews%2Freleases%2F1.20.x%2Fannouncing-1.20%2F" target="_blank">Istio 1.20.0 發佈</a></h3><p>Istio 1.20.0 發佈，這是 2023 年最後一個 Istio 版本，以下是該版本主要變化：</p><ul><li>網關 API</li><li>改進的外部名稱服務支持</li><li>一致的 Envoy 過濾器排序</li><li>對網絡 WasmPlugin 的擴展支持</li><li>TCP 元數據交換增強</li><li>插入根證書輪換</li><li>流量鏡像現在支持多個目標</li><li>...</li></ul><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 10:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10149219</guid>
-            <link>https://my.oschina.net/u/4197945/blog/10149219</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[OpenAI 超 700 名員工簽署聯名信，要求董事會集體辭職]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>據紐約時報等媒體統計數據，目前 OpenAI 至少有 743 名員工已簽署聯名信逼迫董事會集體辭職，同時恢復 Sam Altman 和 Greg Brockman 在董事會的職位。<strong>否則所有簽名者集體跳槽微軟</strong>，而且這一人數正在持續增加中（昨晚還只有&nbsp;500 人左右）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3b5ce54499e3d9390d7173b0cacee47dfbc.png" referrerpolicy="no-referrer"></p><p>出乎意料的是，被認為是 OpenAI&nbsp;此次「政變」組織者的首席科學家 Ilya Sutskever 也簽署了這一聯名信。在這之前，Ilya Sutskever <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Filyasut%2Fstatus%2F1726590052392956028" target="_blank">發表推文稱</a></u>：</p><blockquote><p>「我對自己參與董事會的行動深感遺憾。我從來沒有想過要傷害 OpenAI。我熱愛我們共同建立的一切，我將盡一切努力讓公司重新團結起來。」</p><p><img src="https://oscimg.oschina.net/oscnet/up-498cd7551f25f7cc120902eb390081941de.png" referrerpolicy="no-referrer"></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-08e0a2b4d71953d511d7c02b0bc333b91bf.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65a525945aa136b1379d133093172eaa368.png" referrerpolicy="no-referrer"></p><p>同時，多位消息人士告訴 The Verge，<strong>如果解僱他的其餘董事會成員下台，Sam Altman&nbsp;和聯合創始人&nbsp;Greg Brockman&nbsp;仍然願意重返 OpenAI。</strong></p><p>公開資料顯示&nbsp;OpenAI 員工人數為 770 名，這批「逼宮」的人佔據了員工總數超 96% 之多。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 02:17:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267364</guid>
-            <link>https://www.oschina.net/news/267364</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[修完這個 Bug 後，MySQL 性能提升了 300%]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>最近 MySQL 官方在 8.0.35 上修復了一個 bug：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3d378f6a5fb5f8dff83d14e5ff72cab3b1b.png" alt="file" referrerpolicy="no-referrer"></p><p>這個 bug 是由 Mark Callaghan 發現的。Mark 早年在 Google MySQL 團隊，後來去了 Meta MySQL，也主導了 RocksDB 的開發。</p><p><img src="https://oscimg.oschina.net/oscnet/up-378864937e5b51e7e3eccce11e141140199.png" alt="file" referrerpolicy="no-referrer"></p><p>Mark 在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugs.mysql.com%2Fbug.php%3Fid%3D109595" target="_blank">#109595</a> 的 bug report 給出了非常詳細的復現步驟</p><p><img src="https://oscimg.oschina.net/oscnet/up-8b85b0e3e90e67e4818aa415877ce952032.png" alt="file" referrerpolicy="no-referrer"></p><p>在官方修復後，Mark 在他的讀寫 benchmark 上驗證有 300% 的提升 (4x)。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b04bfe95f38c366667868bb63f5182862a1.png" alt="file" referrerpolicy="no-referrer"></p><p>這樣的性能提升在 Hacker News 上也引起了討論，評論區也呈現了 HN 一貫的嘲諷風格。</p><p><img src="https://oscimg.oschina.net/oscnet/up-0dbfce2e26833c161f1e3a3441c51d78a92.png" alt="file" referrerpolicy="no-referrer"></p><p>其實 infra 層這種性能提升的空間並不少。業界缺少的是像 Mark 這樣躬身入局，抽絲剝繭的鑽研態度。之前 Jeff Dean 在 Google 內部也做過一個分享，講了通過優化一小段代碼，就給 Google 一年省了十幾萬核。</p><p>畫根線很容易，難的永遠是知道在哪兒畫。</p><hr><p>💡 更多資訊，請關注 Bytebase 公號：Bytebase</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 20 Nov 2023 02:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10143821</guid>
-            <link>https://my.oschina.net/u/6148470/blog/10143821</link>
-            <author>
-                <![CDATA[原創]]>
             </author>
         </item>
     </channel>
