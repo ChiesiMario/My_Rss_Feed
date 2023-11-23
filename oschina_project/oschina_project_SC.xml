@@ -16,8 +16,230 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 22 Nov 2023 23:50:27 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 23 Nov 2023 03:58:38 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[PHP 8.3 GA]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>PHP 8.3 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.php.net%2Freleases%2F8.3%2Fzh.php" target="_blank">已正式发布</a></u>。主要变化包括：</p><ul><li>类常量显式类型 (Typed class constants)</li><li>只读属性深拷贝</li><li>新增<code>#[\Override]</code>属性</li><li>新增<code>json_validate()</code>函数</li><li>添加<code>Randomizer::getBytesFromString()</code>方法</li><li>添加<code>Randomizer::getFloat()</code>和<code>Randomizer::nextFloat()</code>方法</li><li>以及更好的性能、更好的语法、改进类型安全</li></ul><p><img height="1114" src="https://static.oschina.net/uploads/space/2023/1123/110607_AwYL_2720166.png" width="2552" referrerpolicy="no-referrer"></p><p>下面介绍部分语法的变化。</p><ul><li><strong>类型化类常量</strong></li></ul><p>PHP &lt; 8.3</p><pre><code class="language-php">interface I {
+    // We may naively assume that the PHP constant is always a string.
+    const PHP = 'PHP 8.2';
+}
+
+class Foo implements I {
+    // But implementing classes may define it as an array.
+    const PHP = [];
+}</code></pre><p>PHP 8.3</p><pre><code class="language-php">interface I {
+    const string PHP = 'PHP 8.3';
+}
+
+class Foo implements I {
+    const string PHP = [];
+}
+
+// Fatal error: Cannot use array as value for class constant
+// Foo::PHP of type string</code></pre><ul><li><strong>动态获取类常量</strong></li></ul><p>PHP &lt; 8.3</p><pre><code class="language-php">class Foo {
+    const PHP = 'PHP 8.2';
+}
+
+$searchableConstant = 'PHP';
+
+var_dump(constant(Foo::class . "::{$searchableConstant}"));</code></pre><p>PHP 8.3</p><pre><code class="language-php">class Foo {
+    const PHP = 'PHP 8.3';
+}
+
+$searchableConstant = 'PHP';
+
+var_dump(Foo::{$searchableConstant});</code></pre><ul><li><strong>只读属性深拷贝</strong></li></ul><p><code>readonly</code>属性现在可以在魔术方法<code>__clone</code>中被修改一次，以此实现只读属性的深拷贝。</p><p>PHP &lt; 8.3</p><pre><code class="language-php">class PHP {
+    public string $version = '8.2';
+}
+
+readonly class Foo {
+    public function __construct(
+        public PHP $php
+    ) {}
+
+    public function __clone(): void {
+        $this-&gt;php = clone $this-&gt;php;
+    }
+}
+
+$instance = new Foo(new PHP());
+$cloned = clone $instance;
+
+// Fatal error: Cannot modify readonly property Foo::$php</code></pre><p>PHP 8.3</p><pre><code class="language-php">class PHP {
+    public string $version = '8.2';
+}
+
+readonly class Foo {
+    public function __construct(
+        public PHP $php
+    ) {}
+
+    public function __clone(): void {
+        $this-&gt;php = clone $this-&gt;php;
+    }
+}
+
+$instance = new Foo(new PHP());
+$cloned = clone $instance;
+
+$cloned-&gt;php-&gt;version = '8.3';</code></pre><ul><li><strong>新增<code>#[\Override]</code>属性</strong></li></ul><p>通过给方法添加<code>#[\Override]</code>属性，PHP 将确保在父类或实现的接口中存在同名的方法。<br> 添加该属性表示明确说明复盖父方法是有意为之，并且简化了重构过程，因为删除被覆盖的父方法将被检测出来。</p><p>PHP &lt; 8.3</p><pre><code class="language-php">use PHPUnit\Framework\TestCase;
+
+final class MyTest extends TestCase {
+    protected $logFile;
+
+    protected function setUp(): void {
+        $this-&gt;logFile = fopen('/tmp/logfile', 'w');
+    }
+
+    protected function taerDown(): void {
+        fclose($this-&gt;logFile);
+        unlink('/tmp/logfile');
+    }
+}
+
+// The log file will never be removed, because the
+// method name was mistyped (taerDown vs tearDown).</code></pre><p>PHP 8.3</p><pre><code class="language-php">use PHPUnit\Framework\TestCase;
+
+final class MyTest extends TestCase {
+    protected $logFile;
+
+    protected function setUp(): void {
+        $this-&gt;logFile = fopen('/tmp/logfile', 'w');
+    }
+
+    #[\Override]
+    protected function taerDown(): void {
+        fclose($this-&gt;logFile);
+        unlink('/tmp/logfile');
+    }
+}
+
+// Fatal error: MyTest::taerDown() has #[\Override] attribute,
+// but no matching parent method exists</code></pre><ul><li><strong>新增<code>json_validate()</code>函数</strong></li></ul><p><code>json_validate()</code>可以检查一个字符串是否为语法正确的 JSON，比<code>json_decode()</code>更有效。</p><p>PHP &lt; 8.3</p><pre><code class="language-php">function json_validate(string $string): bool {
+    json_decode($string);
+
+    return json_last_error() === JSON_ERROR_NONE;
+}
+
+var_dump(json_validate('{ "test": { "foo": "bar" } }')); // true</code></pre><p>PHP 8.3</p><pre><code class="language-php">var_dump(json_validate('{ "test": { "foo": "bar" } }')); // true</code></pre><hr><p>此外，PHP 8.0 的生命周期即将结束。早在 2022 年 11 月 26 日，PHP 8.0 结束了积极支持，而安全支持也将在 PHP 8.3 正式发布三天后——2023 年 11 月 26 日停止。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 03:12:31 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267734/php-8-3-ga</guid>
+            <link>https://www.oschina.net/news/267734/php-8-3-ga</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Node.js v20.10.0 (LTS)]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Node.js v20.10.0 已正式发布，代号 'Iron'。根据发布时间表，由于上月&nbsp;Node.js 21 已正式发布，因此&nbsp;Node.js 20 就变成了长期支持版本 (LTS)。</p><p><strong>新版本主要变化</strong></p><ul><li>引入新的<code>--experimental-default-type</code>flag，用于快速启用 module 默认值</li><li>引入新的<code>--experimental-detect-module</code>flag，支持检测不明确的 JavaScript 中的 ESM 语法</li><li>为文件系统函数引入新的&nbsp;<code>flush</code>&nbsp;选项</li><li>新增实验性的 WebSocket 客户端</li><li>修复 vm.Script 的 V8 编译缓存支持</li></ul><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnodejs.org%2Fen%2Fblog%2Frelease%2Fv20.10.0" target="_blank">详情查看发布公告</a></u>。</p><p>延伸阅读：<u><em><a href="https://www.oschina.net/news/262268/nodejs-v21-release-released" target="news">Node.js 21 正式发布</a></em></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 02:59:31 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267730/nodejs-v20-10-0-lts</guid>
+            <link>https://www.oschina.net/news/267730/nodejs-v20-10-0-lts</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[RuoYi 4.7.8 发布，更多细节优化]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">若依管理系统 v4.7.8&nbsp;已发布，更新日志：</span></p><ul><li>用户列表新增抽屉效果详细信息</li><li>操作日志列表新增 IP 地址查询</li><li>定时任务新增页去除状态选项</li><li>系统管理角色列表显示数据权限</li><li>通用排序属性 orderBy 参数限制长度</li><li>新增 isScrollToTop 页签切换滚动到顶部</li><li>Excel 自定义数据处理器增加单元格/工作簿对象</li><li>新增表格参数（数据值为空时显示的内容     Text）</li><li>升级 oshi 到最新版本 6.4.7</li><li>升级 shiro 到最新版本 1.13.0</li><li>升级 druid 到最新版本 1.2.20</li><li>升级 pagehelper 到最新版 1.4.7</li><li>升级 spring-boot 到最新版本 2.5.15</li><li>升级 jquery 到最新版 v3.7.1</li><li>升级 layer 到最新版本 v3.7.0</li><li>升级 layui 到最新版本 v2.8.18</li><li>升级 x-editable 到最新版本 1.5.3</li><li>修复自定义字典样式不生效的问题</li><li>修复弹窗按钮启用禁用方法无效问题</li><li>修复横向菜单关闭最后一个页签状态问题</li><li>修复 Excel 导入数据临时文件无法删除问题</li><li>修复表格行内编辑启用翻页记住选择无效问题</li><li>修复 Excels 导入时无法获取到 dictType 字典值问题</li><li>优化重置密码鼠标按下显示密码</li><li>优化参数键值文本框改为文本域</li><li>优化表格重置默认返回到第一页</li><li>优化菜单管理类型为按钮状态可选</li><li>优化数字金额大写转换精度丢失问题</li><li>优化树表查询无数据时清除分页信息</li><li>优化通用 detail 详细信息弹窗不显示按钮</li><li>其他细节优化</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">RuoYi（若依）是一个基于 Java EE 企业级快速开发平台，提供前后端分离与不分离、微服务，移动端版本。主要目的让开发者注重专注业务，降低技术难度，从而节省人力成本，缩短项目周期，提高软件安全质量，并且毫无保留全部开源给个人及企业免费使用（都可以免费商用无需授权）。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">下载地址<span>&nbsp;</span><a href="https://gitee.com/y_project/RuoYi">RuoYi</a></p><blockquote><p style="margin-left:0; margin-right:0">如需分离版本，请移步&nbsp;<a href="https://gitee.com/y_project/RuoYi-Vue">RuoYi-Vue</a>&nbsp;，如需微服务版本，请移步&nbsp;<a href="https://gitee.com/y_project/RuoYi-Cloud" target="_blank">RuoYi-Cloud</a>&nbsp; &nbsp;，如需移动端版本，请移步&nbsp;<a href="https://gitee.com/y_project/RuoYi-App" target="_blank">RuoYi-App</a>&nbsp;</p></blockquote><h4>内置功能</h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1. &nbsp;用户管理：用户是系统操作者，该功能主要完成系统用户配置。<br> 2. &nbsp;部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持权限。<br> 3. &nbsp;岗位管理：配置系统用户所属担任职务。<br> 4. &nbsp;菜单管理：配置系统菜单，操作权限，按钮权限标识等。<br> 5. &nbsp;角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。<br> 6. &nbsp;字典管理：对系统中经常使用的一些较为固定的数据进行维护。<br> 7. &nbsp;参数管理：对系统动态配置常用参数。<br> 8. &nbsp;通知公告：系统通知公告信息发布维护。<br> 9. &nbsp;操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。<br> 10. &nbsp;登录日志：系统登录日志记录查询包含登录异常。<br> 11. 在线用户：当前系统中活跃用户状态监控。<br> 12. 定时任务：在线（添加、修改、删除) 任务调度包含执行结果日志。<br> 13. 代码生成：前后端代码的生成（java、html、xml、sql) 支持 CRUD 下载 。<br> 14. 系统接口：根据业务代码自动生成相关的 api 接口文档。<br> 15. 服务监控：监视当前系统 CPU、内存、磁盘、堆栈等相关信息。<br> 16. 缓存监控：对系统的缓存查询，删除、清空等操作。<br> 17. 在线构建器：拖动表单元素生成相应的 HTML 代码。<br> 18. 连接池监视：监视当前系统数据库连接池状态，可进行分析 SQL 找出系统性能瓶颈。</p><h3>系统演示 &nbsp;<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.ruoyi.vip%2F" target="_blank">http://www.ruoyi.vip</a></h3><table cellspacing="0" style="--darkreader-inline-bgcolor:#181a1b; --darkreader-inline-border-bottom:currentcolor; --darkreader-inline-border-left:currentcolor; --darkreader-inline-border-right:currentcolor; --darkreader-inline-border-top:currentcolor; --darkreader-inline-color:#bdb7af; -webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:medium none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-indent:0px; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-42e518aa72a24d228427a1261cb3679f395.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-7f20dd0edba25e5187c5c4dd3ec7d3d9797.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-2dae3d87f6a8ca05057db059cd9a411d51d.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-ea4d98423471e55fba784694e45d12bd4bb.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-7f6c6e9f5873efca09bd2870ee8468b8fce.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-c708b65f2c382a03f69fe1efa8d341e6cff.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-9ab586c47dd5c7b92bca0d727962c90e3b8.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-ef954122a2080e02013112db21754b955c6.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-088edb4d531e122415a1e2342bccb1a9691.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-f886fe19bd820c0efae82f680223cac196c.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-c7a2eb71fa65d6e660294b4bccca613d638.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-e60137fb0787defe613bd83331dc4755a70.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-7c51c1b5758f0a0f92ed3c60469b7526f9f.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-15181aed45bb2461aa97b594cbf2f86ea5f.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-83326ad52ea63f67233d126226738054d98.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-3bd6d31e913b70df00107db51d64ef81df7.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-70a2225836bc82042a6785edf6299e2586a.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-0184d6ab01fdc6667a14327fcaf8b46345d.png" referrerpolicy="no-referrer"></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-64d8086dc2c02c8f71170290482f7640098.png" referrerpolicy="no-referrer"></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png" referrerpolicy="no-referrer"></td></tr></tbody></table></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 02:50:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267727/ruoyi-4-7-8-released</guid>
+            <link>https://www.oschina.net/news/267727/ruoyi-4-7-8-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[🍃 layui-vue v2.12.0 发布，一个 Vue 3 UI 框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>更新内容：</p><p>[新增] layer 组件 resizeStart 属性，拉伸开始回调。<br> [新增] layer 组件 resizing 属性，拉伸中回调。<br> [新增] layer 组件 resizeEnd 属性，拉伸结束回调。<br> [新增] form 组件 mode 属性，全局设置表单项布局模式，block 与 inline 未可选值。<br> [新增] table 组件 empty 插槽，提供自定义空状态的能力。<br> [新增] table 组件 empty-description 属性，设置没有数据时的默认文本。<br> [修复] avatar 组件 class 错误，导致内容不垂直水平居中的问题。<br> [修复] slider 组件 max 属性响应式特性失效的问题。<br> [修复] select 组件 allowClear 属性在文档缺失的问题。<br> [升级] layer 组件 2.2.0 版本。</p><p>更多详情：<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.layui-vue.com" target="_blank">http://www.layui-vue.com</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 02:45:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267725/layui-vue-2-12-0-released</guid>
+            <link>https://www.oschina.net/news/267725/layui-vue-2-12-0-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Spring Integration 6.2 GA]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Spring Integration 6.2<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F05%2F18%2Fspring-integration-6-1-goes-ga" target="_blank">已正式 GA</a>。</p><blockquote><p style="margin-left:0; margin-right:0">Spring Integration 在基于 Spring 的应用程序中启用轻量级消息传递，并支持通过声明性适配器与外部系统集成。这些适配器提供了比 Spring 对远程处理、消息传递和调度的支持更高级别的抽象。 Spring Integration 的主要目标是为构建企业集成解决方案提供一个简单的模型，同时保持关注点分离，这对于生成可维护、可测试的代码至关重要。</p></blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>更新亮点如下：</strong></p><ul><li><span><span>文档已迁移到 Antora 站点生成器，并与其他迁移的 Spring 项目一起托管<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-integration%2Freference%2F6.2%2Findex.html" target="_blank">在此处</a></span></span></li><li><span><span>Project CrAC 支持，对关闭组件停止时的资源进行了一些内部修改</span></span></li><li><span><span>虚拟线程支持，并注入了相应的<code>TaskExecutor</code>和 Synchronized Block to Lock</span></span></li><li><span><span>项目构建生命周期现已连接到&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fge.spring.io%2Fscans%3Fsearch.rootProjectNames%3Dspring-integration" target="_blank">Gradle Enterprise</a>，因此每个贡献者现在都可以从 Gradle tasks 的远程共享缓存中受益</span></span></li><li><span><span><code>LockRegistry</code>接口提供了类似模板的<code>executeLocked()</code>API：</span></span></li></ul><pre><code>COPY registry.executeLocked("someLockKey", () -&gt; someExclusiveResourceCall());</code></pre><ul><li><span><span>现在可以使用其特定<code>AbstractLastModifiedFileListFilter&lt;F&gt;</code>实现来配置远程文件通道适配器（(S)FTP、SMB）</span></span></li><li><span><span>现在可通过重载<code>createSftpClient()</code>方法在<code>DefaultSftpSessionFactory</code>的扩展中配置自定义<code>SftpClient</code></span></span></li><li><span><span>Debezium Inbound Channel Adapter&nbsp;用于跟踪数据库中的事务日志</span></span></li><li><span><span><code>spring-integration-security</code>模块已完全弃用，转而使用<code>spring-security-messaging</code>模块中的相应实用程序。更多信息可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-integration%2Freference%2Fsecurity.html" target="_blank">参阅 Spring Integration Security 文档</a>。</span></span></li></ul><p>详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F22%2Fspring-integration-6-2-goes-ga" target="_blank">查看发布公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 02:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267723/spring-integration-6-2-ga</guid>
+            <link>https://www.oschina.net/news/267723/spring-integration-6-2-ga</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Python 3.13.0 alpha 2]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Python 3.13.0 第 2 个 alpha 已发布，目前处于非常早期的开发阶段。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-830317f825f86fd0fff29be2fcf18a93961.png" referrerpolicy="no-referrer"></p></blockquote><p>公告写道，Python 3.13 的许多新功能仍在规划和编写中（<a href="https://www.oschina.net/news/251454/steering-council-notice-about-pep-703">包括备受关注的 no-GIL</a>）。</p><p>下面是该版本的主要变化：</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0594%2F" target="_blank">PEP 594</a>（从标准库中删除已弃用的模块）：aifc、audioop、chunk、cgi、cgitb、crypt、imghdr、mailcap、msilib、nis、nntplib、ossaudiodev、pipes、sndhdr、spwd、sunau、 telnetlib、uu、xdrlib、lib2to3。</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2Fdev%2Fwhatsnew%2F3.13.html%23removed" target="_blank">删除</a>多个标准库模块中已被弃用的类、函数和方法</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2Fdev%2Fwhatsnew%2F3.13.html%23deprecated" target="_blank">新的弃用内容</a>，其中大部分计划从 Python 3.15 或 3.16 中删除</li><li>针对 C API 的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2Fdev%2Fwhatsnew%2F3.13.html%23id10" target="_blank">删除</a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.python.org%2Fdev%2Fwhatsnew%2F3.13.html%23id9" target="_blank">弃用</a>（alpha 1 中存在的一些删除已在 alpha 2 中恢复，因为此时删除被认为过于破坏兼容性）</li></ul><p>Python 3.13 的下一个更新是 3.13.0a3，目前计划于 2023 年 12 月 19 日发布。</p><p>详情查看 Python 3.13 发布日程（将于明年 10 月 1 日正式发布）：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpeps.python.org%2Fpep-0719%2F">https://peps.python.org/pep-0719/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 02:21:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267717/python-3-13-0-alpha-2</guid>
+            <link>https://www.oschina.net/news/267717/python-3-13-0-alpha-2</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[新一代基于 mybatis 的 orm：mybatis-mp 1.1.4 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">全新一代基于 mybatis 扩展的 orm 框架，拥有良好的性能和扩展性。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1：基于注解，映射数据库；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">2：支持多表 join 和返回；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">3：api 采用 lambda 和 stream 流式设计；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">4：内置分页以及超强的 sql 优化功能；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">5：稳定且性能极优;</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">6：轻量级封装 mybatis，几乎没有侵入；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">7：api 丰富，支持数据库函数、多表、乐观锁、多租户，等众多功能；零学习成本，和写 sql 一样方便。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">8：内置代码生成器，通过配置，可定制自身规范；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">9：全新的框架，全新的设计理念，新的就是好！</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本次 1.1.4 更新，内容：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1：优化底层代码</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">2：集成数据库函数近 70 个</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">优化不影响上层 api，敬请使用！</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 23 Nov 2023 01:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267686</guid>
+            <link>https://www.oschina.net/news/267686</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[无鱼 0.10 发布，项目工时系统]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>无鱼 0.10 已经发布，项目工时系统。</p><p>此版本更新内容包括：</p><p>v0.10: 增加了移动版 1、增加了移动端功能，包括填报工时/查看工时/查看我的项目</p><p>2、优化了日报的查看界面。</p><p>3、修复一些其他 bug。</p><h2>fix</h2><p>#I7TR2K</p><h2>功能预览</h2><p><img alt="登录" src="https://foruda.gitee.com/images/1700661178298462247/63e2ec4c_4008.png" referrerpolicy="no-referrer"><img alt="首页" src="https://foruda.gitee.com/images/1700661165467036184/0bb119b8_4008.png" referrerpolicy="no-referrer"><img alt="我的工时" src="https://foruda.gitee.com/images/1700661188462374526/3238afa2_4008.png" referrerpolicy="no-referrer"><img alt="填报工时" src="https://foruda.gitee.com/images/1700661195619199222/2c0c064a_4008.png" referrerpolicy="no-referrer"><img alt="查看工时" src="https://foruda.gitee.com/images/1700661262601873539/2c2d81b1_4008.png" referrerpolicy="no-referrer"></p><h1>使用方法</h1><p>新搭建建议使用 compose 方式部署。 老版本需要替换后台程序、前端程序。（不需要更新数据库）</p><p>更新方法： 该版本需要更新前端文件、后端文件。</p><p>详情查看：<a href="https://gitee.com/wy-soft/wyproject/releases/0.10">https://gitee.com/wy-soft/wyproject/releases/0.10</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 22 Nov 2023 13:55:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267661</guid>
+            <link>https://www.oschina.net/news/267661</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Jeepay v2.2.2 正式发布：计全支付-让支付接入更简单]]>
@@ -99,21 +321,6 @@
             <link>https://www.oschina.net/news/267555/freebsd-14-0</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[支持 .NET 8，SunnyUI V3.6.0 发布啦，C# WinForm 开源控件库]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><h1><img alt="SunnyUI" src="https://images.gitee.com/uploads/images/2021/0324/213615_54240ba9_416720.png" referrerpolicy="no-referrer"></h1></div><div><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/yhuse/SunnyUI/stargazers"><img alt="star" src="https://gitee.com/yhuse/SunnyUI/badge/star.svg?theme=gvp" referrerpolicy="no-referrer"></a><span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI/members"><img alt="fork" src="https://gitee.com/yhuse/SunnyUI/badge/fork.svg?theme=gvp" referrerpolicy="no-referrer"></a></p><ul><li>帮助文档:<span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI/wikis/pages">https://gitee.com/yhuse/SunnyUI/wikis/pages</a></li><li>Gitee:<span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI">https://gitee.com/yhuse/SunnyUI</a></li><li>GitHub:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2Fyhuse%2FSunnyUI">https://github.com/yhuse/SunnyUI</a></li><li>Nuget:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FSunnyUI%2F">https://www.nuget.org/packages/SunnyUI/</a></li><li>Blog:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.cnblogs.com%2Fyhuse">https://www.cnblogs.com/yhuse</a></li></ul><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff; color:#40485b">SunnyUI.Net 是基于.Net Framework 4.0~4.8、.Net 6 框架的 C# WinForm 开源控件库、工具类库、扩展类库、多页面开发框架。</span></p><p style="margin-left:0; margin-right:0"><img height="768" src="https://oscimg.oschina.net/oscnet/up-1c3c587dbd99a478ed62523f94ad0d7ccbf.png" width="1100" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff; color:#333333">此版本更新内容为：</span></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">+ 增加 * 修改 - 删除</p></div><h4>2023-11-21 V3.6.0</h4><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><strong>注意：大版本更新，重构主题</strong><br> 建议新项目使用此版本，如果 3.6.0 以下版本需要升级参照文档比较差异：<br><a href="https://gitee.com/yhuse/SunnyUI/wikis/%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/3.5.2--%3E3.6.0">升级指南/3.5.2--&gt;3.6.0</a><br> + 增加.Net8 支持<br> * 重构主题<br> * 修改点阵字体数字显示<br> * UIForm: 修改默认 ShowShadow 边框阴影打开，ShowRadius 显示圆角关闭<br> * UIRadioButtonGroup: 重写 UIRadioButtonGroup<br> * UICheckBoxGroup: 重写 UICheckBoxGroup<br> * UIRadioButton: 增加修改图标大小<br> * UIEditForm: 代码生成增加 ComboDataGridView 类型<br> * 修改几个进度弹窗的关闭标志<br> * 重构 GDI 一些方法</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 22 Nov 2023 02:02:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267552</guid>
-            <link>https://www.oschina.net/news/267552</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
         <item>
@@ -374,179 +581,15 @@
         </item>
         <item>
             <title>
-                <![CDATA[HandBrake 1.7.0 发布，多功能视频转码工具]]>
+                <![CDATA[支持 .NET 8，SunnyUI V3.6.0 发布啦，C# WinForm 开源控件库]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">HandBrake 1.7.0 现已发布。HandBrake 是一款适用于 Linux、Mac 和 Windows 的开源视频转码器。</p><h4 style="margin-left:0; margin-right:0; text-align:left"><strong>Upgrade Notice</strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span><span><span style="color:#24292f"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在更新 HandBrake 之前，请确保队列中没有待处理的编码，并确保备份你拥有的任何自定义预设和应用首选项，因为它们可能与新版本不兼容。Windows 用户，请确保安装&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdotnet.microsoft.com%2Fen-us%2Fdownload%2Fdotnet%2F6.0" target="_blank">Microsoft .NET Desktop Runtime version 6.0.x</a><span><span><span style="color:#24292f"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>。Read carefully：你需要&nbsp;<strong>DESKTOP&nbsp;</strong>runtime。即使你已经安装了 .NET 7，也必须安装 .NET 6。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><h4 style="margin-left:0px; margin-right:0px; text-align:start"><strong>HandBrake 1.7.0</strong></h4><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:start"><strong>General</strong></p><ul><li>添加了 Apple VideoToolbox hardware presets</li><li>更新了 Creator presets 
-  <ul><li>禁用隔行检测和删除；假设创作者默认使用&nbsp;progressive sources</li></ul></li><li>更新了&nbsp;Social preset 
-  <ul><li>在更短的时间内实现更高的质量和帧速率，无需隔行检测和删除</li><li>更适合实时社交短片和屏幕/游戏捕获的现代社交共享</li></ul></li><li>删除了 Email presets，以支持修订后的 Social presets 
-  <ul><li>停止通过电子邮件发送视频或使用新的 Social presets</li></ul></li><li>各种错误修复和改进</li></ul><p><strong>Video</strong></p><ul><li>添加 AMD VCN AV1 编码器</li><li>添加了 NVIDIA NVENC AV1 编码器</li><li>添加了对 SVT-AV1 multi-pass ABR 模式的支持</li><li>添加了 QSV Rotate 和 Format filters</li><li>改进了 arm64 / aarch64 / Apple Silicon 架构的性能 
-  <ul><li>最新的 FFmpeg 提供更快的 HEVC 解码，bwdif 过滤器速度提高 30%</li><li>新的 SVT-AV1 assembly&nbsp;优化可将性能提高 4 倍</li></ul></li><li>通过删除不需要的 frame copies 以提高内存效率来提高视频转换速度</li><li>改进的杜比视界动态范围元数据传递 
-  <ul><li>支持的编码器：x265 10 位</li><li>支持的配置文件和交叉兼容性 ID：8.4、8.1、7.6（仅限 base layer，转换为 8.1）、5.0</li></ul></li><li>改进的 HDR10+ 动态范围元数据传递 
-  <ul><li>支持的编码器：x265 10 位、SVT-AV1</li></ul></li><li>改进了 Linux 上的 QSV 支持 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Fpull%2F4958" target="_blank">#4958</a>&nbsp;)</li><li>更新了 NVENC，默认情况下不使用 multi-pass；用户可配置的高级选项</li><li>将 2-pass 编码选项重命名为 multi-pass (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Fpull%2F5019" target="_blank">#5019</a>&nbsp;)</li><li>修复了英特尔 QSV 编码器在某些情况下输出 green video 的问题（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Fissues%2F4842" target="_blank">#4842</a>、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Fpull%2F4876" target="_blank">#4876</a>）</li><li>修复了使用 10 位硬件编码器时像素格式转换会稍微改变颜色的问题 (&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Fissues%2F5011" target="_blank">#5011</a>&nbsp;)</li><li>修复了当源分辨率不是 mod 2 时使用 swscale 而不是 zscale 的扫描失败问题</li><li>修复了从变形 AV1 视频轨道读取时 PAR 不正确的问题</li><li>删除了 VP9 CQ 模式的人为比特率限制</li></ul><p>更多详情可查看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FHandBrake%2FHandBrake%2Freleases%2Ftag%2F1.7.0" target="_blank">https://github.com/HandBrake/HandBrake/releases/tag/1.7.0</a></p></div>
+                <![CDATA[<div class="content"><div><h1><img alt="SunnyUI" src="https://images.gitee.com/uploads/images/2021/0324/213615_54240ba9_416720.png" referrerpolicy="no-referrer"></h1></div><div><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/yhuse/SunnyUI/stargazers"><img alt="star" src="https://gitee.com/yhuse/SunnyUI/badge/star.svg?theme=gvp" referrerpolicy="no-referrer"></a><span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI/members"><img alt="fork" src="https://gitee.com/yhuse/SunnyUI/badge/fork.svg?theme=gvp" referrerpolicy="no-referrer"></a></p><ul><li>帮助文档:<span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI/wikis/pages">https://gitee.com/yhuse/SunnyUI/wikis/pages</a></li><li>Gitee:<span>&nbsp;</span><a href="https://gitee.com/yhuse/SunnyUI">https://gitee.com/yhuse/SunnyUI</a></li><li>GitHub:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2Fyhuse%2FSunnyUI">https://github.com/yhuse/SunnyUI</a></li><li>Nuget:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FSunnyUI%2F">https://www.nuget.org/packages/SunnyUI/</a></li><li>Blog:<span>&nbsp;</span><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.cnblogs.com%2Fyhuse">https://www.cnblogs.com/yhuse</a></li></ul><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff; color:#40485b">SunnyUI.Net 是基于.Net Framework 4.0~4.8、.Net 6 框架的 C# WinForm 开源控件库、工具类库、扩展类库、多页面开发框架。</span></p><p style="margin-left:0; margin-right:0"><img height="768" src="https://oscimg.oschina.net/oscnet/up-1c3c587dbd99a478ed62523f94ad0d7ccbf.png" width="1100" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff; color:#333333">此版本更新内容为：</span></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">+ 增加 * 修改 - 删除</p></div><h4>2023-11-21 V3.6.0</h4><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><strong>注意：大版本更新，重构主题</strong><br> 建议新项目使用此版本，如果 3.6.0 以下版本需要升级参照文档比较差异：<br><a href="https://gitee.com/yhuse/SunnyUI/wikis/%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97/3.5.2--%3E3.6.0">升级指南/3.5.2--&gt;3.6.0</a><br> + 增加.Net8 支持<br> * 重构主题<br> * 修改点阵字体数字显示<br> * UIForm: 修改默认 ShowShadow 边框阴影打开，ShowRadius 显示圆角关闭<br> * UIRadioButtonGroup: 重写 UIRadioButtonGroup<br> * UICheckBoxGroup: 重写 UICheckBoxGroup<br> * UIRadioButton: 增加修改图标大小<br> * UIEditForm: 代码生成增加 ComboDataGridView 类型<br> * 修改几个进度弹窗的关闭标志<br> * 重构 GDI 一些方法</p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 21 Nov 2023 06:42:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267405/handbrake-1-7-0-released</guid>
-            <link>https://www.oschina.net/news/267405/handbrake-1-7-0-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Gitee 推荐 | 物联网边缘计算网关 FreeIOE]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>FreeIOE 是用于快速构建工业物联网边缘计算网关的开源框架。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 06:39:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267402</guid>
-            <link>https://www.oschina.net/news/267402</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Git for Windows 2.43.0 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Git for Windows v2.43.0 现已发布，具体更新内容包括：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong style="color:#333333">New Features</strong></p><ul><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit%2Fgit%2Fblob%2Fv2.43.0%2FDocumentation%2FRelNotes%2F2.43.0.txt" target="_blank">Git v2.43.0</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcygwin%2Fcygwin%2Freleases%2Ftag%2Fcygwin-3.4.9" target="_blank">MSYS2 runtime v3.4.9</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flists.gnupg.org%2Fpipermail%2Fgnutls-help%2F2023-August%2F004834.html" target="_blank">GNU TLS v3.8.1</a>。</li><li>当安装到启用了 Mandatory Address Space Layout Randomization (ASLR) 的 Windows 设置时（该功能与支持 Git Bash、SSH 和一些其他随 Git for Windows 分发的程序的 MSYS2 运行时不兼容），Git for Windows 安装程序现在提供添加例外<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fbuild-extra%2Fpull%2F513" target="_blank">情况</a>：将允许这些程序按预期工作。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopenssh%2Fopenssh-portable%2Freleases%2Ftag%2FV_9_5_P1" target="_blank">OpenSSH v9.5.P1</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcurl%2Fcurl%2Freleases%2Ftag%2Fcurl-8_4_0" target="_blank">cURL v8.4.0</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopenssl%2Fopenssl%2Freleases%2Ftag%2Fopenssl-3.1.4" target="_blank">OpenSSL v3.1.4</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-ecosystem%2Fgit-credential-manager%2Freleases%2Ftag%2Fv2.4.1" target="_blank">Git Credential Manager v2.4.1</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgit.savannah.gnu.org%2Fcgit%2Fbash.git%2Fcommit%2F%3Fid%3D2bb3cbefdb8fd019765b1a9cc42ecf37ff22fec6" target="_blank">Bash v5.2.21</a>。</li><li>附带&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmintty%2Fmintty%2Freleases%2Ftag%2F3.7.0" target="_blank">MinTTY v3.7.0</a>。</li></ul><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Bug 修复</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>target&nbsp;为不带驱动器前缀的绝对路径的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fgit%2Fissues%2F4586" target="_blank">符号链接在 checked out 时意外添加了驱动器前缀</a>，导致其「eternally modified」。此错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fgit%2Fpull%2F4592" target="_blank">已得到修复</a>。</li><li>Git for Windows 的安装程序<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fbuild-extra%2Fpull%2F529" target="_blank">不再被全局<code>GIT_*</code>环境变量</a>所困扰。</li><li>安装程序<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fbuild-extra%2Fpull%2F498" target="_blank">不再声称「fast-forward or merge」是默认的<code>git pull</code>行为</a>：Git 中的默认行为不久前已更改为「fast-forward only」。</li></ul><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#1f2328; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,&quot;Noto Sans&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:0px !important; margin-top:0px; max-width:100%; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:max-content; word-spacing:0px"><thead><tr><th>Filename</th><th>SHA-256</th></tr></thead><tbody><tr><td style="border-style:solid; border-width:1px">Git-2.43.0-64-bit.exe</td><td style="border-style:solid; border-width:1px">a6058d7c4c16bfa5bcd6fde051a92de8c68535fd7ebade55fc0ab1c41be3c8d5</td></tr><tr><td style="border-style:solid; border-width:1px">Git-2.43.0-32-bit.exe</td><td style="border-style:solid; border-width:1px">aee1587a4004c6a57b614c81fdc2ae1fa33de0daaf6b650cf6467e4253e024a9</td></tr><tr><td style="border-style:solid; border-width:1px">PortableGit-2.43.0-64-bit.7z.exe</td><td style="border-style:solid; border-width:1px">c76216d032685fa972d129eca30f8c9fb957eb9f46ccbce954e70e07d6211961</td></tr><tr><td style="border-style:solid; border-width:1px">PortableGit-2.43.0-32-bit.7z.exe</td><td style="border-style:solid; border-width:1px">c33f9aa7bf9c59e24db71b65e9d75b1e8532562175afef380119aa1eee90afd1</td></tr><tr><td style="border-style:solid; border-width:1px">MinGit-2.43.0-64-bit.zip</td><td style="border-style:solid; border-width:1px">1905d93068e986258fafc69517df8fddff829bb2a289c1fa4dcc6cdf720ddf36</td></tr><tr><td style="border-style:solid; border-width:1px">MinGit-2.43.0-32-bit.zip</td><td style="border-style:solid; border-width:1px">d46fac9c17b55627f714aefa36c3b00d81651d2bb4076a12b4455b5f841f1a9e</td></tr><tr><td style="border-style:solid; border-width:1px">MinGit-2.43.0-busybox-64-bit.zip</td><td style="border-style:solid; border-width:1px">2bd705f2c378ccbbf25a9095432aada3ac9dd2d963eff51421944beaccdc3e0c</td></tr><tr><td style="border-style:solid; border-width:1px">MinGit-2.43.0-busybox-32-bit.zip</td><td style="border-style:solid; border-width:1px">70799d1f5b9d2469f44299ff33461efd7814531dd9bfb7ae912d1cbf83478162</td></tr><tr><td style="border-style:solid; border-width:1px">Git-2.43.0-64-bit.tar.bz2</td><td style="border-style:solid; border-width:1px">4c19cc73003e55ec71d6f1ce4a961ab32ca22f9c57217d224982535161123f79</td></tr><tr><td style="border-style:solid; border-width:1px">Git-2.43.0-32-bit.tar.bz2</td><td style="border-style:solid; border-width:1px">192f58080247f1eea2845fb61e37e91c05a89b44260c7e045b936ca3e45ac7f6</td></tr></tbody></table><p><span style="background-color:#ffffff; color:#333333">详情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgit-for-windows%2Fgit%2Freleases%2Ftag%2Fv2.43.0.windows.1" target="_blank">查看更新说明</a><span style="background-color:#ffffff; color:#333333">。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 06:18:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267400/git-for-windows-2-43-0-released</guid>
-            <link>https://www.oschina.net/news/267400/git-for-windows-2-43-0-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[企业级快速开发框架 nbsaas-boot 1.1.3-2023 发布了]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><div><pre><code><span><span><span>&lt;</span></span><span><span><span><span><span>parent</span></span></span></span></span><span><span>&gt;</span></span></span><span><span><span>&lt;</span></span><span><span><span><span><span>groupId</span></span></span></span></span><span><span>&gt;</span></span></span>com.nbsaas.boot<span><span><span>&lt;/</span></span><span><span><span><span><span>groupId</span></span></span></span></span><span><span>&gt;</span></span></span><span><span><span>&lt;</span></span><span><span><span><span><span>artifactId</span></span></span></span></span><span><span>&gt;</span></span></span>nbsaas-boot<span><span><span>&lt;/</span></span><span><span><span><span><span>artifactId</span></span></span></span></span><span><span>&gt;</span></span></span><span><span><span>&lt;</span></span><span><span><span><span><span>version</span></span></span></span></span><span><span>&gt;</span></span></span>1.1.3-2023<span><span><span>&lt;/</span></span><span><span><span><span><span>version</span></span></span></span></span><span><span>&gt;</span></span></span><span><span><span>&lt;/</span></span><span><span><span><span><span>parent</span></span></span></span></span><span><span>&gt;</span></span></span></code></pre><p><img alt="" src="https://foruda.gitee.com/images/1692714554881768744/cdda40bc_1029.png" referrerpolicy="no-referrer"></p><p><strong>本次更新内容</strong></p><p>1. 升级 spring-boot 版本，升级 shiro 版本 1.13.0</p><p>2. 增加 SearchData 注解，方便在搜索的适合通过 aop 进行数据拦截</p><p>3. 增加控制操作区域是否显示属性</p><p>4. 新增<span><span>ExtResourceCommand</span> ，处理生成代码的时候生成扩展模块文件夹。</span></p><p>5. 搜索模块支持 or 条件搜索。</p><p>6. 修改通过注解提取模型数据。</p><p><strong>nbsaas-boot 具有以下特点：</strong></p><p>自动建表：nbsaas-boot 提供了自动建表功能，根据用户定义的数据模型自动生成数据库表结构，减少手动操作，提高开发效率。</p><p>开发规范：nbsaas-boot 提供一套开发规范，包括代码风格、命名规范、注释规范等，使团队开发更加规范化和高效化。</p><p>代码生成器：nbsaas-boot 提供代码生成器，根据数据模型自动生成前端和后端代码，提高开发效率和代码质量。</p><p>多租户支持：nbsaas-boot 支持多租户，为不同客户提供独立的数据存储空间和访问权限，保证数据安全性和隔离性</p><p><strong>通过 Command 处理复杂的业务</strong></p><pre><code>InputRequestObject context = <span><span><span><span>new</span></span></span></span> InputRequestObject();
-context.setConfig(config);
-context.setFormBean(formBean);
-
- 
-
-    <span><span><span><span>new</span></span></span></span> DomainCommand()
-        .after(<span><span><span><span>new</span></span></span></span> ApiCommand())
-        .after(<span><span><span><span>new</span></span></span></span> ConvertCommand())
-        .after(<span><span><span><span>new</span></span></span></span> ControllerFrontCommand())
-        .after(<span><span><span><span>new</span></span></span></span> RestCommand())
-        .after(<span><span><span><span>new</span></span></span></span> ExtApiCommand())
-        .after(<span><span><span><span>new</span></span></span></span> RepositoryCommand())
-        .after(<span><span><span><span>new</span></span></span></span> FieldCommand())
-        .after(<span><span><span><span>new</span></span></span></span> FinishCommand()).execute(context);</code></pre><p><strong>模型构建</strong></p><pre><code><span><span><span><span>@CatalogClass</span></span></span></span><span><span><span><span>@FormAnnotation</span></span></span></span>(title = <span><span><span><span>"组织架构管理"</span></span></span></span>, model = <span><span><span><span>"组织架构"</span></span></span></span>, menu = <span><span><span><span>"1,27,88"</span></span></span></span>)
-<span><span><span><span>@Data</span></span></span></span><span><span><span><span>@Entity</span></span></span></span><span><span><span><span>@Table</span></span></span></span>(name = <span><span><span><span>"sys_structure"</span></span></span></span>)
-public class Structure extends CatalogEntity {
-
-    <span><span><span><span>@FormField</span></span></span></span>(title = <span><span><span><span>"父分类名称"</span></span></span></span>)
-    <span><span><span><span>@Comment</span></span></span></span>(<span><span><span><span>"父分 id"</span></span></span></span>)
-    <span><span><span><span>@FieldName</span></span></span></span><span><span><span><span>@FieldConvert</span></span></span></span>(classType = <span><span><span><span>"Integer"</span></span></span></span>)
-    <span><span><span><span>@ManyToOne</span></span></span></span>(fetch = FetchType.LAZY)
-    private Structure parent;
-
-    <span><span><span><span>@OneToMany</span></span></span></span>(fetch = FetchType.LAZY, mappedBy = <span><span><span><span>"parent"</span></span></span></span>)
-    private List&lt;Structure&gt; children;
-
-}</code></pre><p>通过模型数据提取，然后通过代码生成器生成后端代码 + vue3 后端管理代码</p><p>基础功能项目 https://gitee.com/cng1985/nbsaas-boot-starter<br> 项目脚手架 https://gitee.com/cng1985/nbsaas-admin<br> vue3 后台管理脚手架 https://gitee.com/cng1985/nbsaas-admin-vue3</p></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 05:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267394/nbsaas-boot-1-1-3-2023</guid>
-            <link>https://www.oschina.net/news/267394/nbsaas-boot-1-1-3-2023</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[wechat-app-mall 14.14.2 发布，微信小程序商城]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">微信小程序商城 wechat-app-mall 已经升级至 version 14.14.2 ，具体详情请查看码云项目主页更新</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本次更新功能如下：</p><ol><li>保存小程序码到手机相册，用户拒绝后给你提示并引导用户打开设置去开启权限；</li><li>上传文件接口升级；</li><li>关于我们，帮助中心页面，增加转发及分享朋友圈；</li><li>客服支持配置成企业微信；</li><li>提现后台控制开关；</li><li>增加 IoT 控制；</li><li>按天定价、时段定价页面示例；</li><li>vant，apifm-sdk 升级到最新版；</li><li>核销开关系统参数可控制，核销码改为小程序码，支持直接用微信扫一扫进行核销；</li><li>申请发票增加订阅消息；</li><li>好评率计算方式调整；</li><li>增加设置暱称头像弹框，引导用户完善资料;三级分销抢客支持在 config.js 配置；</li><li>系统设置增加调试开关，以及打开小程序设置;</li><li>秒杀样式美化;</li><li>增加转发朋友圈功能;</li><li>vant 升级到最新版;</li><li>增加动态会员码功能;</li><li>编辑资料页面优化;</li><li>提现超过 2000 增加填写真实姓名;</li></ol></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 03:41:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267383/wechat-app-mall-14-14-2-released</guid>
-            <link>https://www.oschina.net/news/267383/wechat-app-mall-14-14-2-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[TypeScript 5.3 正式发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>TypeScript 5.3 已正式发布。</p><p><strong>主要变化</strong></p><ul><li><p>支持&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a>&nbsp;提案的最近更新</p></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">在 Import Types</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23stable-support-resolution-mode-in-import-types" target="_blank">中提供对<code>resolution-mode</code>的稳定支持</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">为所有 Module Modes</a>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank">提供</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F%23resolution-mode-supported-in-all-module-modes" target="_blank"><code>resolution-mode</code>支持</a></li><li><p><code>switch (true)</code>Narrowing</p></li><li><p>Narrowing On Comparisons to Booleans</p></li><li><p>检查对实例字段的<code>super</code>属性访问</p></li><li><p>针对类型的交互式嵌套提示 (Interactive Inlay Hints)</p></li><li><p>跳过 JSDoc 解析以进行优化</p></li><li><p>合并<code>tsserverlibrary.js</code>和<code>typescript.js</code></p></li></ul><hr><p><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftc39%2Fproposal-import-attributes">import attributes</a></strong></p><p>import attributes 的一个用例是向运行时提供有关模块预期格式的信息。</p><pre><code class="language-javascript">// We only want this to be interpreted as JSON,
-// not a runnable/malicious JavaScript file with a `.json` extension.
-import obj from "./something.json" with { type: "json" };
-</code></pre><p>TypeScript 不会检查这些属性的内容，因为它们是特定于主机的，因此不会对它们进行检查，只是让浏览器和运行时处理它们（可能会出错）。</p><pre><code class="language-javascript">// TypeScript is fine with this.
-// But your browser? Probably not.
-import * as foo from "./foo.js" with { type: "fluffy bunny" };
-</code></pre><p>动态 import () 调用也可以通过第二个参数使用 import 属性。</p><pre><code class="language-javascript">const obj = await import("./something.json", {
-    with: { type: "json" }
-});
-</code></pre><p>第二个参数的预期类型由一个名为<code>ImportCallOptions</code>的类型定义，默认情况下，该类型只期望调用一个属性<code>with</code>。</p><p>请注意，导入属性是从早期的 "导入断言"（import assertions）提案演变而来的，该提案已在 TypeScript 4.5 中实现。最明显的区别是使用了<code>with</code>关键字而非<code>assert</code>关键字。但不太明显的区别是，运行时现在可以自由使用属性来指导导入路径的解析和解释，而导入断言只能在加载模块后断言某些特性。</p><p>随着时间的推移，TypeScript 将淘汰旧的导入断言语法，转而使用建议的导入属性语法。使用 assert 的现有代码应迁移到 with 关键字。需要导入属性的新代码应只使用<code>with</code>关键字。</p><p><strong><code>switch (true)</code>Narrowing</strong></p><p>TypeScript 5.3 可以根据<code>switch (true)</code>中每个<code>case</code>子句的条件执行 narrowing。</p><pre><code class="language-javascript">function f(x: unknown) {
-    switch (true) {
-        case typeof x === "string":
-            // 'x' is a 'string' here
-            console.log(x.toUpperCase());
-            // falls through...
-
-        case Array.isArray(x):
-            // 'x' is a 'string | any[]' here.
-            console.log(x.length);
-            // falls through...
-
-        default:
-          // 'x' is 'unknown' here.
-          // ...
-    }
-}
-</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Ftypescript%2Fannouncing-typescript-5-3%2F" target="_blank">详情查看发布公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 03:39:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267382/typescript-5-3-ga</guid>
-            <link>https://www.oschina.net/news/267382/typescript-5-3-ga</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Spring Security 6.2 GA]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Spring Security 6.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">已正式 GA</a>。</p><p>Spring Security 是一个能够为基于 Spring 的企业应用系统提供声明式的安全访问控制解决方案的安全框架。它提供了一组可以在 Spring 应用上下文中配置的 Bean，充分利用了 Spring IoC，DI（控制反转 Inversion of Control ,DI:Dependency Injection 依赖注入）和 AOP（面向切面编程）功能，为应用系统提供声明式的安全访问控制功能，减少了为企业系统安全控制编写大量重复代码的工作。</p><p>Spring Security 6.2 将 Spring Framework baseline&nbsp;与 Project Reactor 2023.0.0 和 Micrometer 1.12.0 一起升级到了 6.1，同时要求将 Java 17 作为最低平台版本，并支持高达 Java 21 的虚拟线程支持。该版本将包含在即将发布的 Spring Boot 3.2 GA 版本中。</p><p>一些版本更新亮点内容如下：</p><p><strong>Configuration</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F5011" target="_blank">gh-5011 - (docs)</a>&nbsp;如果存在<code>CorsConfigurationSource</code> bean ，则自动启用<code>.cors()</code></p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13204" target="_blank">gh-13204 - (docs)</a>&nbsp;添加<code>AbstractConfiguredSecurityBuilder.with(…​)</code>方法以应用返回构建器的配置器</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13587" target="_blank">gh-13587 - blog post</a>&nbsp;简化 OAuth2 客户端组件模型的配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F13857" target="_blank">gh-13857 - docs</a>&nbsp;将 servlet 模式支持添加到 AuthorizeHttpRequests</p></li></ul><p><strong>OAuth 2.0/OIDC</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F7845" target="_blank">gh-7845 - docs</a>&nbsp;添加 OIDC Back-channel Logout&nbsp;支持</li></ul><p><strong>Messaging</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12532" target="_blank">gh-12532</a>&nbsp;- 添加安全上下文传播支持</li></ul><p><strong>Web</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fpull%2F12817" target="_blank">gh-12817</a>&nbsp;- 使 RedirectStrategy status code 可配置</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13988" target="_blank">gh-13988</a>&nbsp;- 可配置 HTTP Basic 请求解析</p></li></ul><p><strong>Documentation</strong></p><ul><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F13784" target="_blank">gh-13784 - docs</a>- 使用示例更新 OAuth2 文档登录页面</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-security%2Fissues%2F11926" target="_blank">gh-11926 - docs</a>&nbsp;记录如何在没有<code>WebSecurityConfigurerAdapter</code>的情况下发布<code>AuthenticationManager</code>&nbsp;<code>@Bean</code></p></li></ul><p>详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F11%2F20%2Fspring-security-6-2-goes-ga" target="_blank">查看官方公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 02:32:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267367/spring-security-6-2-ga</guid>
-            <link>https://www.oschina.net/news/267367/spring-security-6-2-ga</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[XL-LightHouse 1.1.4 发布，零门槛轻松实现大数据实时统计]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h4><strong>升级内容：</strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#1f2328">1、优化系统统计工程管理模块；</span><br><span style="background-color:#ffffff; color:#1f2328">2、insights 模块功能初始化；</span><br><span style="background-color:#ffffff; color:#1f2328">3、项目文档优化；</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong><em>一键部署，一行代码接入，无需大数据研发运维经验，轻松实现海量数据实时统计，使用 XL-LightHouse 后：</em></strong></p><ul><li><span style="color:#0033b3">&nbsp;1、</span>再也不需要用 Flink、Spark、ClickHouse 或者基于 Redis 这种臃肿笨重的方案跑数了；</li><li><span style="color:#0033b3">&nbsp;</span>2、再也不需要疲于应付对个人价值提升没有多大益处的数据统计需求了，能够帮助您从琐碎反复的数据统计需求中抽身出来，从而专注于对个人提升、对企业发展更有价值的事情；</li><li><span style="color:#0033b3">&nbsp;</span>3、轻松帮您实现任意细粒度的监控指标，是您监控服务运行状况，排查各类业务数据波动、指标异常类问题的好帮手；</li><li><span style="color:#0033b3">&nbsp;</span>4、培养数据思维，辅助您将所从事的工作建立数据指标体系，量化工作产出，做专业严谨的职场人，创造更大的个人价值；</li></ul><h4><em><strong>概述</strong></em></h4><ul><li>XL-LightHouse 是针对互联网领域繁杂的流式数据统计需求而开发的一套集成了数据写入、数据运算、数据存储和数据可视化等一系列功能，支持超大数据量，支持超高并发的【通用型流式大数据统计平台】。</li><li>XL-LightHouse 目前已基本涵盖了常见的流式数据统计场景，包括 count、sum、max、min、avg、distinct、topN/lastN 等多种运算，支持多维度计算，支持分钟级、小时级、天级多个时间粒度的统计，支持自定义统计周期的配置。</li><li>XL-LightHouse 内置丰富的转化类函数、支持表达式解析，可以满足各种复杂的条件筛选和逻辑判断。</li><li>XL-LightHouse 是一套功能完备的流式大数据统计领域的数据治理解决方案，它提供了比较友好和完善的可视化查询功能，并对外提供 API 查询接口，此外还包括数据指标管理、权限管理、统计限流等多种功能。</li><li>XL-LightHouse 支持时序性数据的存储和查询。</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong><em>产品优势</em></strong></p><ul><li>XL-LightHouse 面向企业繁杂的流式数据统计需求，可以帮助企业在极短时间内快速实现数以万计、数十万计的数据指标，而这是 Flink、ClickHouse 之类技术所远不能比拟的，XL-LightHouse 帮助企业低成本实现数据化运营，数据指标体系可遍布企业运转的方方面面；</li><li>对单个流式统计场景的数据量无限制，可以非常庞大，也可以非常稀少，您既可以使用它完成十亿级用户量 APP 的 DAU 统计、十几万台服务器的运维监控、一线互联网大厂数据量级的日志统计、也可以用它来统计一天只有零星几次的接口调用量、耗时状况；</li><li>支持高并发查询统计结果；</li><li>一键部署、一行代码接入，无需专业的大数据研发人员，普通工程人员就可以轻松驾驭；</li><li>有完善的数据指标可视化以及数据指标管理维护等功能；</li></ul><h4><strong><em>收益</em></strong></h4><ul><li>XL-LightHouse 可以帮助企业更快速的搭建起一套较为完善的、稳定可靠的数据化运营体系，节省企业在数据化运营方面的投入，主要体现在以下几个方面：</li><li>减少企业在流式大数据统计方面的研发成本和数据维护成本。</li><li>帮助企业节省时间成本，辅助互联网产品的快速迭代。</li><li>为企业节省较为可观的服务器运算资源。</li><li>便于数据在企业内部的共享和互通。</li><li>此外，XL-LightHouse 对中小企业友好，它大大降低了中小企业使用流式大数据统计的技术门槛，通过简单的页面配置和数据接入即可应对繁杂的流式数据统计需求。&nbsp;</li></ul><h4><strong><em>项目地址</em></strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxl-xueling%2Fxl-lighthouse.git" target="_blank">https://github.com/xl-xueling/xl-lighthouse.git</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/xl-xueling/xl-lighthouse.git">https://gitee.com/xl-xueling/xl-lighthouse.git</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 21 Nov 2023 01:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267354/xl-lighthouse-1-1-4</guid>
-            <link>https://www.oschina.net/news/267354/xl-lighthouse-1-1-4</link>
+            <pubDate>Tue, 21 Nov 2023 02:02:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/267552</guid>
+            <link>https://www.oschina.net/news/267552</link>
             <author>
                 <![CDATA[来源: 投稿]]>
             </author>
