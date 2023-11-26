@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 25 Nov 2023 21:36:01 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 26 Nov 2023 01:42:16 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【店滴雲】茶室應用增加物聯網事件反饋機制]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="text-align:center">【店滴雲】茶室應用增加物聯網事件反饋機制</p><p>&nbsp; &nbsp; &nbsp; 事件反饋機制，類似與 mqtt 的訂閲機制，在物聯網通信裏面做到觸發，響應，反饋，確保操作的可靠性方面非常有意義。</p><p>&nbsp; &nbsp; &nbsp; &nbsp;目前支持的事件包含了：</p><p>&nbsp; &nbsp; 1、設備實時狀態數據反饋</p><p>&nbsp;&nbsp;&nbsp;&nbsp;2、房間綁定門鎖</p><p>&nbsp;&nbsp;&nbsp;&nbsp;3、設備綁定網關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;4、門鎖接觸綁定樓棟</p><p>&nbsp;&nbsp;&nbsp;&nbsp;5、刪除門鎖、</p><p>&nbsp;&nbsp;&nbsp;&nbsp;6、門鎖解除網關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;7、門鎖綁定網關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;8、新增電錶</p><p>&nbsp;&nbsp;&nbsp;&nbsp;9、電錶接觸網關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;10、刪除零火開關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;11、解綁零火開關</p><p>&nbsp;&nbsp;&nbsp;&nbsp;12、零火開關綁定</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 24 Nov 2023 11:35:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268128</guid>
+            <link>https://www.oschina.net/news/268128</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[LibreOffice 7.6.3 社區版發佈]]>
@@ -61,48 +76,6 @@
             <link>https://www.oschina.net/news/268028</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Rust Web 框架 Rocket 發佈 v0.5：支持異步、SSE、WebSockets 等]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>歷經四年多，四個 RC 版本、一千次 commit、一千多個 issue、討論和 PR 之後，<strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frocket.rs%2Fv0.5%2Fnews%2F2023-11-17-version-0.5%2F" target="_blank">Rocket v0.5 正式發佈了</a></u></strong>。</p><blockquote><p>Rocket 是支持異步的後端 Rust Web 框架，專注於可用性、安全性、可擴展性和性能。它使編寫安全的 Web 應用程序變得簡單，而不會犧牲生產力或性能。</p></blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-749db50b650e7b26e57cb9b7f418e05b004.png" referrerpolicy="no-referrer"></p><p>Rocket v0.5 部分重要新功能包括：</p><ol><li><p><strong>支持穩定的 Rust 編譯器</strong>：Rocket v0.5 基於 Rust 穩定版本進行編譯和構建，開發者現在可以使用穩定發佈通道中的<code>rustc</code>編譯和構建 Rocket 應用程序，不再需要使用<code>#![feature(..)]</code>crate<strong>&nbsp;</strong>屬性。<br> &nbsp;</p><pre><code>#[macro_use] extern crate rocket;
-
-#[get("/&lt;name&gt;/&lt;age&gt;")]
-fn hello(name: &amp;str, age: u8) -&gt; String {
-    format!("Hello, {} year old named {}!", age, name)
-}
-
-#[launch]
-fn rocket() -&gt; _ {
-    rocket::build().mount("/hello", routes![hello])
-}</code></pre><p>&nbsp;</p></li><li><p><strong>支持異步 I/O</strong>：Rocket v0.5 重新構建了核心請求處理部分，利用了 Rust 中最新的異步網絡功能。Rocket 現在可以自動在機器上的所有可用核心上多路複用請求處理，使路由處理程序可以聲明為異步並使用 await 語法。<br> &nbsp;</p><pre><code>use rocket::tokio;
-use rocket::data::{Data, ToByteUnit};
-
-#[post("/debug", data = "&lt;data&gt;")]
-async fn debug(data: Data&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
-    // Stream at most 512KiB all of the body data to stdout.
-    data.open(512.kibibytes())
-        .stream_to(tokio::io::stdout())
-        .await?;
-
-    Ok(())
-}</code></pre><p>&nbsp;</p></li><li><p><strong>支持 Sentinels</strong>：Rocket v0.5 引入了 Sentinels，這是 Rocket 框架獨有的功能。Sentinels 提供了一種自動的最後防線，可以在出現無效條件時中止應用程序的啓動。Sentinels 可以在 Rocket 之外實現，並且應該儘可能地使用它們。<br> &nbsp;</p><pre><code>use rocket::{Rocket, Ignite, Sentinel};
-
-impl Sentinel for MyResponder {
-    fn abort(r: &amp;Rocket&lt;Ignite&gt;) -&gt; bool {
-        r.state::&lt;T&gt;().is_none() || !r.catchers().any(|c| c.code == Some(400))
-    }
-}</code></pre><p>&nbsp;</p></li><li><p><strong>支持流和 SSE</strong>：Rocket v0.5 引入了實時的、類型化的異步流。Rocket 的新異步流部分包含了更多詳細信息，我們鼓勵所有感興趣的人查看新的實時、多房間聊天示例。</p></li><li><p><strong>支持 WebSockets</strong>：Rocket v0.5 通過新的升級 API 引入了對 HTTP 連接升級的支持。這個 API 允許響應器在現有的 HTTP 連接中控制與客户端的原始 I/O，從而允許將 HTTP 連接升級到任何協議，包括 WebSockets。</p></li><li><p><strong>全面的表單功能支持</strong>：Rocket v0.5 完全改進了表單支持，支持多部分上傳、任意嵌套的集合、即時驗證等。Rocket 的新表單協議允許應用程序表達任何結構，任意嵌套和集合，無需任何自定義代碼。</p></li></ol><p>除了上述功能之外，Rocket v0.5 還引入了其他 40 多個新功能和重大改進，包括安全和隱私頭、優雅的關閉、靈活的配置系統、類型系統強制的數據限制等。</p><p>Rocket v0.5 的發佈是一個重要的里程碑，為 Rust 開發者提供了一個強大而易用的 Web 框架。我們鼓勵所有用户升級到 Rocket v0.5，並<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Frwf2%2FRocket%2Fblob%2Fv0.5.0%2FCHANGELOG.md" target="_blank">查看完整的 CHANGELOG</a></u>以瞭解所有新功能和改進。</p><p>請注意，Rocket v0.4 仍然會得到支持和安全更新，直到 Rocket v0.6 發佈為止。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 23 Nov 2023 11:04:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267838/rocketrs-0-5-released</guid>
-            <link>https://www.oschina.net/news/267838/rocketrs-0-5-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
