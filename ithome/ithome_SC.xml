@@ -16,8 +16,38 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 26 Nov 2023 22:46:04 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2023 02:47:29 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【千人平台工程炼成记 Part 3】业务决策和工程创新让网购周业绩暴增后，聚焦开发者体验优化也再次拥抱 SRE]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/960-ri_chu_ping_tai_-tu_pian_lai_yuan_-zalando.jpg?itok=E_U9nGyH" width="960" height="420" alt="" title="为了解决开发者工作流程破碎化的问题，Zalando 建置部门打造了一套开发者入口网站 Sunrise（日出平台），作为开发者每天上班时打开的第一个网站。（图片来源／Zalando）" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 为了解决开发者工作流程破碎化的问题，Zalando 建置部门打造了一套开发者入口网站 Sunrise（日出平台），作为开发者每天上班时打开的第一个网站。（图片来源／Zalando） </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2019 年，Zalando 遇到了创立以来最大规模的黑色星期五网购周。光在 2019 年那一周，Zalando 就增加了 84 万名新顾客，每分钟的订单量峰值更达到 7,200 张，比 2018 年每分钟 4,200 张，足足多了 7 成订单量。为何在 2019 年的网购周，可以有这么大幅度的业绩成长？关键就是业务决策和工程创新双管齐下的成果。</p><p>因为网购周年年都有，每到网购周期间，顾客的行为格外不同，会成为狂热的购物者。在 2019 年网购周之前，Zalando 决定在网购周期间，推出一些新功能，让顾客感到新奇也更兴奋，来带动买气。</p><p>可是，过去几年，Zalando 每逢网购周时，总会遇到现有系统某项功能因爆量而出状况，现在却要在网购周前几周，上线全新的功能，如何确保新功能可以撑得住黑色星期五的人潮，维持顾客对网站的信赖感呢？这个业务决策，是一个很大的工程挑战。</p><p>所以，Zalando 采取了一个大胆的作法，提前在平日的正式环境中，重现网购周的爆量负载来实测新功能。</p><p>一方面，Zalando 没有停下 SRE 的发展，在 2018 年时建立了两个 SRE 辅助团队，一个是数位基础部门下设置了 SRE 启动团队，负责辅导产品团队采用 SRE 作法，另一个团队则是负责改善 SRE 体验的开发团队，打造各种 SRE 工具。</p><p>这两个团队一起参与全公司的 SRE 推动计划，建立了一套分散式 SRE 追踪机制，导入到所有团队，并开始善用这些搜集来的维运数据，支援各平台网页优化及产品基础架构的优化。这个追踪机制，后来在 2019 年的网购周因应上，发挥了很大的助力。</p><p>Zalando 从历史资料中，找出了网购周期间的主要顾客旅程，模拟重建出了一整套顾客在网购周期间，与所有系统互动的一系列行为，来进行网购周负载测试的准备。</p><p>这个网购周负载测试就是由 SRE 计划成员负责，甚至在黑色星期五促销活动期间，SRE 辅导团队也得在活动战情室中待命。</p><p>提前在网购周之前的平日，在正式环境中模拟网购周的负载测试，「这个作法是用顾客体验作为代价，来进行这些负载测试，必须承担起影响真实顾客的风险。」参与 Zalando 最近 4 年 SRE 战略发展的第一线工程主管、Zalando 前工程经理 Andrew Howden 进一步强调，但是，提早知道可能的出错风险，就能在网购周前，先修补好这些问题。</p><p>另一方面，Zalando 格外谨慎地控制这些网购周负载实测，设定了一组实测放弃标准，一旦负载测试对真实顾客产生了影响，就立刻中断实测，回复到正常状态的运作状态。</p><p>后续几年，Zalando 甚至可以做到故意打坏一整套系统，来实测系统复原功能在庞大网购周负载下的运作情况。</p><p>透过这个负载实测机制，就算在网购周前 3 周上线新功能，也能透过负载测试验证新功能对整体平台体验的影响。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/%E5%9C%963-%E6%8A%80%E8%A1%93%E9%9B%B7%E9%81%94-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-Zalando.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong><span style="color:#696969;">Zalando 技术发展迈入了成熟期后，技术决策时不再像刚推激进敏捷时的自由，转而由资深工程社群来主导，发展出技术雷达图（Tech Radar）协助上百团队的技术决策。要求各团队都要参考这一份共用的技术推荐清单，作为新专案挑选出技术的参考，不用每次发起新专案时就得从头进行技术评估，直接参考清单推荐来选择。正因为每个团队都参考了同一份技术雷达图来挑选，Zalando 就能够确保不同专案所用的技术，都在这份共用技术清单的范围内，来达到全公司技术面的聚焦。</span></strong><span style="font-size: 14px;"><span style="color: rgb(105, 105, 105);">图片来源／Zalando</span></span></p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>技术发展进入成熟期，靠技术雷达聚焦上百团队技术决策</strong></span></span></p><p>从 2009 到 2019 年，Zalando 组织面历经了多次变革，技术面也发展出一个超大规模的分散式微服务架构。根据 Zalando 在 2022 年柏林 DevOpsCon 上揭露了数字，2019 年当时的微服务数量多达四、五千支。</p><p>这时候的 Zalando 的技术发展迈入了成熟期，技术决策时不再像刚推激进敏捷时的自由，转而由一个资深工程社群来主导，发展出技术雷达图（Tech Radar）来协助 2 百个团队的技术决策。</p><p>这一份技术雷达图的设计参考了 ThoughtWorks 顾问公司的作法，但发展成 Zalando 自己的专属版本。</p><p>这家顾问公司将近百项项涵盖技术、工具、平台、框架和语言这四大类的技术名词，按照推荐采用的程度分为四级，排列在一张圆形又分为四象限的雷达图上。在这张技术雷达图，会列出不同类型技术的推荐采用程度，用不同的环来代表不同推荐程度，越靠近核心的环，代表这项技术的推荐程度越高。</p><p>Zalando 盘点了自己的需求，最后聚焦在软体开发相关技术，包括了资料储存，资料管理、基础架构和开发语言等四大类。推荐采用程度分为四级，形成四个环，每一环代表了不同的推荐等级。这四级包括：Adopt（推荐采用）、Trial（推荐试用）、Assess（评估阶段）、Hold（保留不推）。</p><p>推荐试用类技术则是是指已经在内部有成功专案的技术，而且至少用于真实问题而非模拟情境的处理，而且重视采用广泛度，属于高层有意愿长期投资的技术才会列入这个推荐等级。而列入评估阶段的技术，这是指一群有明显潜在价值，且值得投资的技术，还透过自动分析在所有产品中的试验计划的资料，找出已经试验中且值得列入 Trial 阶段的技术。。最后一类保留不推的等级，则是不推荐但会继续提供维护的技术，而且不只新专案不能用，也不鼓励用于推广性服务上，要逐渐缩小这类技术的应用广度。</p><p>每一项技术还会附上一份技术说明文件，列出这项技术的优点，缺点，限制，使用情况和使用后学到的经验，每一项技术都有一份文件，全部的技术文件集结成了一份技术知识库。Zalando 也整理技术雷达图的这些推荐技术的采用范本和指南，在指南上会提供使用时常见问题说明，或是已经采用团队的使用案例，甚至是不同替代技术间的比较等。</p><p>每隔一段时间，进行技术推荐等级的调整，首席工程师会搜集了现有技术雷达上每一项技术的真实使用数据，包括了使用量，出事纪录，采用经验（例如这项技术在 Zalando 导入多少年）的数据，再进行评分，由指定维护的首席工程师先建立一份新技术评分的试算表，再开放给首席工程师社群进行投票，决定要「升级」或「降级」</p><p>Zalando 要求各团队都要参考这一份共用的技术清单，作为新专案挑选出技术的参考，不用每次发起新专案时就得从头进行技术评估，工程师直接参考清单推荐来选择。正因为每个团队都参考了同一份技术雷达图来挑选，Zalando 就能够确保不同专案所用的技术，都在这份共用技术清单的范围内，来达到技术方向的聚焦。</p><p>Zalando 将原本的数位基础部门改名为建置部门（Build），继续负责打造和改善开发者平台，专门服务开发者这一群人。建置部门开始研究开发者的顾客旅程，也就是开发者日常的工作旅程，发现开发者所用的开发平台相当分散，每个团队都以各自的方式，与各自成员沟通，更缺乏全公司共同的沟通语言。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>解决开发者流程破碎化问题，打造开发者入口网站</strong></span></span></p><p>为了解决开发者工作流程破碎化的问题，建置部门打造了一套开发者入口网站 Sunrise（日出平台），作为开发者每天上班时打开的第一个网站。这个平台的使用者包括了软体工程师，资料工程师，技术主管，资料科学家，专案经理，设计师等。</p><p>建置部门以 Spotify 开源的 ML 管理平台专案 Backstage 为基础，整合了许多 Zalando 内部技术工具、开发元件、实作范本和技术文件，设计出了这个内部专用的自助式开发者平台（Internal Developer Platform），介面操作如同商用企业级协作平台一样的流畅，讲究 UX 设计细节，就是为了引导开发者自己就能上手操作。甚至开发者可以在日出平台上直接看到负责 AP 的常见监控数据。</p><p>开发者打开日出平台看到的第一页，将他们常用的资讯点都集中到这一夜，让他们很容易就可以搜寻到所负责的特定应用和常用的 API，也能很快地看到每一个应用或 API 的专责拥有人是谁，若有需要可以直接在这一页提出需求单（Ticket）来寻求帮助，不用像过去得到另一个系统来申请。日出平台首页也整合了所有开发者所负责的 AP 的所有事件资讯以及可订阅的参考文件。</p><p>工程师或其他使用者，可以检查产品生命周期的每个阶段的进度或状态，而且是即，时监控，还能与团队和其他个人协作，对 CI/CD 流程上的问题进行故障排除。 Zalando 团队成员甚至可以使用 Sunrise 引导和部署新应用程序。</p><p>为了打造出这个方便好用的内部开发者平台，Zalando 曾公开分享过有几个关键。</p><p>例如他们直接动手修改 K8s 原始码来解决问题，让 K8s 变成他们自己能够掌控的系统，来发展自己的云原生平台。 例如日出平台就使用了自行开发客制的 kubectl 封装函式</p><p>当遇到紧急事件，要快速建立临时存取的 k8s 丛集，这个封装函示就可以派上用场，不，用按照原本标准封装函式来执行，进一步缩短了不少部署时间。另一个关键是，Zalando 也将「开发体验」数据化，也就是得量测开发平台对开发者体验和生产力的成效。</p><p>Zalando 参考了一本书的建议 《Accelerate:The Science of Lean Software and DevOps 》&nbsp; （台湾中译版的名称「精益软体&amp;DevOps 背后的科学」，来定义了 4 个开发者效能矩阵的指标。</p><p>包括了事前准备时间（Lead Time）、发布频率（Release Frequency）、平均复原时间（Time to Restore Service）、变更失败率（Change Fail Rate），这也正是知名 DevOps 成效指标 DORA 中四指标所用的概念。</p><p>不过 Zalando 具体量测四个指标的作法略有不同，事前准备时间是从 Commit 到正式上线环境的时间。而发布频率:每一个开发者每一周的部署次数。平均复原时间则以事件发生开始计算到服务复原（而非服务当机开始起算）。最后一项变更失败率则是看在所有部署次数中有多少次失败来计算。</p><p>日出这个开发者平台最大的好处，就是让所有开发者保持在相同的轨道上，另外也能满足不同步部门各自组织分工的需求来提供弹性，最后，这个单一平台也整合了 Zalando 他们所设计的技术雷达图和所有的参考技术实践经验，验证小组的测试文件档，甚至还有成熟作法和流程的相关范本。可以透过单一平台来聚焦，推荐开发团队使用特别想要加码的技术。</p><p>Zalando 日出网站的设计目标是「要让开发者既快乐，又有生产力！」，提供最顶级的开发者体验，尽可能地降低技术团队和开发团队的认知负担，来提高开发速度和生产力。这是 Zalando 在去年平台工程大会上，首度公开日出平台开发过程时，Zalando 高阶首席工程师 Henning Jacobs 格外强调这件事。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/%E5%9C%964-1-%E6%97%A5%E5%87%BA%E5%B9%B3%E8%87%BA-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-Zalando.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="color:#696969;"><strong>为了解决开发者工作流程破碎化的问题，Zalando 建置部门打造了一套开发者入口网站 Sunrise（日出平台），作为开发者每天上班时打开的第一个网站。</strong><span style="font-size:14px;">图片来源／Zalando</span></span></p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/%E5%9C%964-2-%E6%97%A5%E5%87%BA%E5%B9%B3%E8%87%BA2-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-Zalando.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="color:#696969;"><strong>Sunrise（日出平台）采用 Spotify 开源的 ML 管理平台专案 Backstage 为基础，整合了许多 Zalando 内部技术工具、开发元件、实作范本和技术文件，设计出了这个内部专用的自助式开发者平台（Internal Developer Platform）。Zalando 的开发人员可以在日出平台上，取得全公司不同部门、产品团队所打造的各种工具、服务的资讯，还能一站式取得所有支援服务。</strong><span style="font-size:14px;">图片来源／Zalando</span></span></p><p class="rtecenter"><span style="color:#696969;"><span style="font-size:14px;"><img alt="" src="https://s4.itho.me/sites/default/files/images/%E5%9C%964-3-%E6%97%A5%E5%87%BA%E5%B9%B3%E8%87%BA3-%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90-Zaladno.png" style="width: 600px;" referrerpolicy="no-referrer"></span></span></p><p><span style="color:#696969;"><strong>Zalando 的开发人员可以在日出平台上，快速检视和管理所负责产品专案的进展。</strong></span><span style="font-size:14px;"><span style="color:#696969;">图片来源／Zalando</span></span></p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>再次积极拥抱 SRE，甚至成立专责 SRE 部门</strong></span></span></p><p>另一方面，前面谈到网购周时就提到，Zalando 再度设立了 SRE 辅助团队，2019 年更直接成立了专责 SRE 部门，这个部门包括了 Log 纪录团队、追踪矩阵团队、事件应变团队和启动辅导团队组合，透过同一套 KPI 让这群人聚焦在相同的愿景和目标。</p><p>Andrew Howden 指出：「SRE 部门的目标是要建立一套关键业务维运的模式，聚焦在顾客体验，解决跨部门对齐的课题。」他一路参与了 Zalando 过去 4 年来的 SRE 发展历程。</p><p>关键业务维运就是一项聚焦顾客体验的服务水准目标（SLO），透过测量顾客与网站的互动，可以将开发者、管理者和顾客的观点，整合到同一组数据中，并且用这些数据来改善可靠度。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>成立嵌入 SRE 团队，专门解决特定维运难题</strong></span></span></p><p>有了专责的 SRE 部门还不够，Zalando 更设立了一个新的 SRE 团队，称为嵌入 SRE 团队（Embedded SRE），专门要解决结帐过程的特殊挑战。例如有些疯狂买家会突然锁定特定商品进行大扫货，带来一些系统问题。这类结帐流程的难题，涉及了十几只应用程式、4、5 个部门、上百位工程师之间的沟通和协作。Andrew Howden 就是这个团队的负责人，带领了 2 名工程师。</p><p>Andrew Howden 先分析不同结帐异常背后相关产品系统的影响，一一找出解决作法。他处理过的问题，像是因为大量请求造成系统过载而无法回应后，促发丛集管理软体自动重启，却造成了整套系统停摆。</p><p>因为结帐系统是一个大规模的分散式微服务架构，原本采取了断路器模式的设计，来避免不断呼叫到同样出错的服务，但因为断路器的设计太敏感，一个系统失效后，开始影响到其他系统断路器的错误率判断，带来连锁性的影响。</p><p>或者另一次的问题是，为了确保可靠度，结帐系统设计了许多自动扩充机制，一发现有顾客结帐请求的回应速度变僈，就会自动扩充，但这导致云端费用暴增，后来发现，少部分顾客因为扫货行为产生大量请求，造成这一小群人的回应速度变慢，而不是所有顾客都有同样的问题，只要以能涵盖 99.9% 的一般顾客的标准，来定义出每一名顾客的请求数量上限，就能减少特定顾客疯狂行为对自动扩充机制的影响。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>将维运难题解决经验融入日常维运</strong></span></span></p><p>因为解决一个问常常只需要 3 周，但是得花上 3 个月，把这个异常问题的处理经验，交接给平台团队，以及涉及的不同产品负责团队。嵌入 SRE 团队最后一个挑战是，如何将这些维运问题的解决经验，变成日常维运的一环。</p><p>Zalando 每周都会举办一个维运回顾周会（Weekly operational review meetings，简称 WORMs），首席工程师社群透过这个会议来查看事后分析报告，检视各种维运问题。但是这些分析报告的品质落差很大，工程师为了准备这些文件也花了很多力气。</p><p>嵌入 SRE 团队协助将这样的分析报告产出过程自动化，甚至增加了相关 SRE 作法的调整建议，可以自动发送报告给这个团队，也将报告自动发送给工程管理团队每周检视之用。</p><p>2023 年中，嵌入 SRE 团队完成了最初设立时所要解决的课题，结束了这个团队的任务，Andrew Howden 也在 8 月结束了他在 Zalando 的旅程，转而成为提供 SRE 培训的顾问。</p><p>但是，Zalando 平台工程没有停下变革的脚步，仍旧持续进化中。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160003</guid>
+            <link>https://www.ithome.com.tw/news/160003</link>
+            <author>
+                <![CDATA[王宏仁]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[变革现场：我在 Zalando 学到的第一堂课]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1157-cover4-960.jpg?itok=4BHN2DiH" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>「技术本身没有价值！」担任今年台湾开发者大会 MWC 2023 主题讲者的 Zalando 前工程经理 Andrew Howden，当著满屋子技术人的面前，再三强调，「除非技术帮助人们完成任务，才能从任务做到多好，看出技术的价值。」</p><p>Andrew Howden 在 Zalando 这家欧洲电商巨头 SRE 团队待了四年，一路见证了 Zalando 最近四年的技术转型历程。他也是 Zalando 设立嵌入 SRE 团队的主管，负责解决结帐流程中的特殊难题。</p><p>不单看技术，而是从人获得的结果，来看技术的价值，这是他认为，自己在 Zalando 四年学到的第一件事，也是最根本的一个教训。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1157-cover4-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>所有的技术必须对准企业的商业需求，但是企业需求又会受到许多因素和限制的影响。所以，技术人员必须深入了解业务面的各种权衡，和采取不同改变背后的考量，有时得快速对症下药，有时则得安静低调的默默改变。</p><p>想要打造杰出的开发者旅程，不能少了与业务团队的合作，也必须考虑打造这些服务背后，那一些与业务无关的工程产出，才能确保技术团队能够符合业务需求，又可以让业务团队发挥技术团队的新能力。如果技术团队没有做好自己的工作，对业务团队来说，就是一种不可靠的供应商，业务团队会另外设法找到出路。</p><p>从 Zalando 的故事，可以看到他们如何因应不同的企业发展需求、限制，来做出不同的技术选择和配套的组织变革。</p><p>想要从 Zalando 技术变革的演化经验中取经，关键不是看 Zalando 选择了什么技术，而是要看 Zalando 在「什么时间」选择了什么技术。Zalando 在不同发展阶段，各有不同业务面和工程面的考量。</p><p>成立初期，技术全力支援业务，甚至技术团队将业务可靠性视为必要需求，这个高度追求稳定的技术选择，反而让技术成了业务创新的绊脚石。</p><p>后来，Zalando 转而拥抱激进敏捷作法，也改采用了激进的全新所有权模式（指定专责所有权人的角色），这个所有权模式赋予了工程师高度的自主性，技术团队可以有时不用对齐到业务需求，例如可以尝试一下一个看起来很酷，但可能不太业务正确的新技术。</p><p>Zalando 做得最好的一点是，从技术和业务面提出了一个清楚的愿景：打造出可以长久经营的全球性时尚平台。所有员工都对齐这个愿景，来做到最好。</p><p>决策之前，必须先了解这项决策所身处的脉络，像 Zalando 所做的每一项独特的技术决策，对其他企业而言，可能是好的参考范例，但也可能是作为不良范例的负面参考教材。</p><p>Andrew Howden 建议，好好思考 Zalando 技术决策背后的考量，例如想一想，同一时期，这项技术决定有没有替代选择？产业常见做法是什么？Zalando 又是如何善用这个技术决定的能力，来发挥竞争优势？</p><p>要选择最适合自己的技术，而不是最理想的技术，不要拿到 CNCF 技术蓝图，就开始挑技术，而是要回头思考自家企业需要什么。</p><p>一个典型的例子是，不能因为 Zalando 现在大力拥抱 Kubernetes，就理所当然的想说，我也直接可以采用 Kubernetes。</p><p>Zalando 早在选择 Kubernetes 之前，在 AWS 提供容器管理平台选择之前，自己也打造了一套 Docker 管理平台，后来发现这么做的成效不彰。若是在今天，Kubernetes 发展成熟的情况下，Zalando 遇到同样的抉择，不见得会想要自己从头开发一套。</p><p>将 Zalando 经验套用到自家企业时，不要问这是不是一个最理想的作法？而要问自己，这是不是「对企业来说是最理想」的选择？考虑技术采用时，得选择业务需要的技术，而不是看起来很酷的技术。</p><p>Zalando 很幸运地拥有一群资深、在业界待了很久的技术老手，当决定拥抱激进敏捷模式和对应技术时，可以透过部落格、社群媒体、工作坊等各种管道的曝光，吸引到大量优秀的技术人才。这也是让 Zalando 可以在那个当下做出那样决定的背景因素之一。</p><p>Zalando 平台演变的故事听起来很厉害，用了不少看起来很酷的技术，关键是得了解这个故事的背后，Zalando 这些技术策略是为了回应这项业务面目标：商业需要快速创新。想要实现这一点，技术团队的规模必须倍增再倍增，这又需要将技术能力平台化，以及对应架构的配套。</p><p>你的企业若想要复制 Zalando 的经验，必须清楚知道自家企业处于 Zalando 的哪一个发展阶段。如果不匹配，就得回头聚焦自己的工程团队，将他们视为自家平台的顾客来思考。思考工程团队的能力，而非他们的期望，以及对他们未来发展的期望，最后再决定，如何为自家工程团队来打造平台，不要只为了有一套「现代软体开发」流程而打造平台。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160004</guid>
+            <link>https://www.ithome.com.tw/news/160004</link>
+            <author>
+                <![CDATA[王宏仁]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[窃资软体 Lumma 开发者声称能复原 Google 帐号的连线阶段，挟持受害者帐号]]>
@@ -52,7 +82,7 @@ Costa Coffee 利用销售数据预测排班情况，增加大幅提升单位人�
             <author>
                 <![CDATA[郭又华]]>
             </author>
-            <category></category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -231,7 +261,7 @@ Costa Coffee 利用销售数据预测排班情况，增加大幅提升单位人�
             <![CDATA[【千人平台工程炼成记 Part 2】因应开发人力暴增到 2 千，Zalando 以激进敏捷模式展开组织大变革]]>
         </title>
         <description>
-            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1157-cover2-960.jpg?itok=bpiMH-tE" width="960" height="420" alt="" title="Zalando 曾公布过 2019 年时的微服务数量已经超过了 4 千支，这些微服务之间的关联可以画出一张复杂的关联图（如图左），它们自嘲说这看起来像是一张死亡之星图，任何一条线断了，就可能代表某个服务出状况。随著微服务的数量增加到数千只，「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Zalando 前工程经理 Andrew Howden 指出。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Zalando 曾公布过 2019 年时的微服务数量已经超过了 4 千支，这些微服务之间的关联可以画出一张复杂的关联图（如图左），它们自嘲说这看起来像是一张死亡之星图，任何一条线断了，就可能代表某个服务出状况。随著微服务的数量增加到数千只，「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Zalando 前工程经理 Andrew Howden 指出。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 2015 年时，欧洲大型电商 Zalando 拥有 1 万名员工，超过 1 千名工程师，200 个开发团队。甚至，开发人力在 2015 年时只有 600 人，到了 2018 年，暴增到 2,000 人的庞大规模。</p><p>再一次的开发人力倍增，也让 Zalando 再一次遇到了挑战更大的开发复杂性协调课题。但这一次，Zalando 决定找出一种够安全，又能让庞大团队更敏捷的根本解法。</p><p>Zalando 找来 30 名最资深的工程师聚在一起，多次讨论后归纳出 Zalando 所面对的三大问题。</p><p>第一个问题是<strong>庞大的系统</strong>。随著业务成长和多国据点的扩张，Zalando 的程式码越来越多，程式码间的关联也越来越复杂。新手工程师很难快速了解这套系统，得花上好几个月熟悉后，才能开始有生产力。而且，程式码数量越多，伴随的程式臭虫也越多，为了确保系统运作的安全，衍生了更多检查，再度拖慢了整体的开发速度。</p><p>第二个问题是<strong>系统间高度互联</strong>（Interconnected Systems）。过去，Zalando 开发团队的目标是尽可能地优化每一个功能的执行速度，而不是简化系统。这么做的结果是，这些系统之间的相依性越来越高，也越来越难以预期和不直觉。任何一个系统的变动，都可能对其他系统产生连带的影响，增加了整体系统的脆弱性。</p><p>最后一项，30 位资深工程师们共同提出的大问题是，Zalando 用了「<strong>无聊技术</strong>」。当他们所用的技术越稳定、可靠，也代表了这些技术越老旧，就越让工程师感觉到无聊。</p><p>「这听起来不像是问题，但从人员招募角度来看，这是一个大问题。」参与 Zalando 最近 4 年 SRE 战略发展的第一线工程主管、Zalando 前工程经理 Andrew Howden 如此坦言。</p><p>刚从大学毕业的年经工程师，兴奋地拜读了所有 Google 最新的部落格文章，上面介绍了最新的 K8s、容器等云原生新兴技术，可是 Zalando 用的却是十年前的 Java 技术架构，很难引起年轻工程师的兴趣。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>展开组织大变革，决定拥抱激进敏捷模式</strong></span></span></p><p>「Zalando 需要改变，需要彻底改变，我们将这种变革称为激进敏捷（Radical Agility）。」Andrew Howden 表示，这真的是一次组织面的结构性变革。</p><p>这项变革策略的核心是，不再由单一大型业务单位主导决策，改由多个平行小单位，可以各自协调来决策。换句话说，等于是从序列式的决策流程，改为由平行的相关团队自己决定，不用照会其他无关的业务部门。这意味著，可以尽可能减少需要参与的沟通对象，来推出新的业务功能。</p><p>为了提高团队平行运作的能力，Zalando 采取了新的所有权制度，定义了一种新的角色，称为专责所有权人（Dedicated owner），或者可用台湾社群熟悉的俗称「炉主」来形容，由这个人来负责一项业务的所有产品、成果、技术的主要决策，也由他负责监督所有状况的回报。</p><p>在供应端、需求端、数位体验、用户介面、数位基础设施的部门中都可以设立炉主这类角色。炉主有很大的自主权能选择要采取什么样的作法，但他得要对这个作法的成败负起全责。</p><p>炉主带领的团队采取了跨部门混合编组，找来这项业务上线所需的相关人力，包括开发人员、产品人员、法务、监控人力等。这些人背后都有各自所属部门的主管。例如开发人员背后还有开发部门的经理。</p><p>「以这种方式重组运作方式，就等于是重新组合沟通流程，立即遇到的问题就是，所开发的软体会受到什么影响？」Andrew Howden 指出。</p><p>敏捷领域常参考的康威定律（Conway's Law）提到一个观点，软体架构会受制于企业内部的沟通架构。Andrew Howden 从另一个角度来看，他指出：「想要重新改变企业的沟通方式，就必须重新改变软体架构，否则它会自行发生。」</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>大力拥抱微服务，从 100 只到 4 千只微服务</strong></span></span></p><p>所以，Zalando 在技术上决定拥抱微服务架构，而在组织面，也将人员分为五、六人规模的小组，由每个小组负责一项微服务。对这个小组说，只需要负责这个微服务，其他的微服务不是你们的问题。</p><p>Zalando 大力推动各项微服务的开发，从一百个服务，暴增到数千只，而且持续增加。Zalando 曾公开过，在 2019 年，微服务总数足足超过了 4 千支。</p><p>新的挑战是，不能再靠人工团队的测试来确保软体发布的正常，而是得依赖大量的自动化测试，来验证相关系统的边界是否如常运作。</p><p>Zalando 决定采取全新技术架构和组织架构之后，一开始还建立了一群待命值班团队，当时有 3 个待命团队来确保正式环境的运作。</p><p>一开始只有 100 项服务时，这个作法运作得相当好。但是，随著微服务的数量，增加到数千只，还要考量这些微服务间的互动，以及追踪这些服务随时间的演变，单靠 3 个值班团队，就没有能力应付了。「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Andrew Howden 指出。</p><p>打造这只软体的开发人员需要负责这只软体的待命、维护基础设施、订定 CI/CD 流程等，任何将这只应用程式送到正式环境所需的一切事务，都由打造软体的团队来负责。</p><p>但这个决定，也让待命值班作法更加分散，开始影响到待命支援的品质。尤其有些协作经验不足的团队，遇到跨团队的工作时，就会出现责任推来推去，「这是你的问题」或「这不是你的问题」的争执。</p><p>另外，在基础架构管理上，也遇到新的挑战，为了让炉主负起全责，Zalando 的作法是让每一个炉主有一个专属的 AWS 帐号，这就像是对他们说，「这个帐号就是你的信用卡，你可以做你认为对的事。」这种放权，有助于让开发人员打造了杰出、复杂又有趣的架构，但是，基础架构管理是一种专业，不能让擅长软体开发的工程师自己乱尝试。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>打造集中式平台，让技术知识民主化，人人都能取得维运经验</strong></span></span></p><p>尤其，Zalando 的挑战是 2 千名工程师，超过 1 千套系统的规模，因此，「Zalando 需要发展出一种做法，可以大规模地将知识民主化（Democratization of knowledge ），让人人可以取得正式系统运作的经验。」Andrew Howden 表示，唯一的方法就是建立一个集中式的平台来分享知识，这正是平台团队可以发挥之处。</p><p>Zalando 有一个「数位基础（Digital Foundation）部门」，为其他各单位提供一套通用的能力。</p><p>在 2014 年到 2018 年之间，这个数位基础团队发布了一些重要的内部产品，包括了像是应用程式注册表（Application Registry）、容器化平台服务（Docker-base platform as a service）、CI/CD 机制、API 探索及验证工具、开发者控制枱等。</p><p>这个 AP 注册表服务的名称是 Kio，开发团队在将自己打造的程式部署到正式环境之前，要先到这个集中式的 AP 注册表上登记，没有登记到 Kio 上的 AP 就不能部署。Kio 服务也会提供一套指南，涵盖了各单位部署 AP 的相关指引。这个注册表提供了工程师详细查看各种业务和功能的索引，也有助于处理资安问题。</p><p>而容器化平台服务则用来执行容器、提供服务、保管映像档、支援部署、授权、凭证派发、产品存取控管、稽核和 Log 管理等。另外也用 Jenkins 伺服器建立了一系列 CI/CD 机制，后来更在 Docker 平台上，发展出了一套持续部署平台（Continuous Deliver Platform，简称 CDP），负责处理在正式上线前的发布阶段的任务，像是映像档和二进位档验证、合规检查等。</p><p>另外还有一款 API 探索和验证工具，因为 Zalando 采取 API 优先（API First）的策略，开发工程师得采取 Swagger 工具来建立符合标准的 API，在 RESTful API 和事件指南提供了相关 API 定义和验证。</p><p>最后一项的开发者控制枱（Developer Console），这是一个内部网站，可以让开发人员查看自己的 CI/CD 工作流。</p><p>积极发展这些工具和平台，反映出，「这是 Zalando 第一次意识到开发者平台的重要性。」Andrew Howden 指出。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>2016 年开始拥抱 SRE</strong></span></span></p><p>Zalando 在 2016 年时，决定开始拥抱 SRE（网站可靠性工程），成立了 SRE 团队。这一年也是 Google 发表《Site Reliability Engineering: How Google Runs Production Systems》 这本书的那一年。</p><p>Zalando 先进行内部问卷调查，了解各团队对于 SRE 角色的期待，来凝聚所有人对 SRE 定位的共识，归纳出 5 项 SRE 的能力：SRE 具有软体工程能力、维运思维、系统工程能力、软体架构技能和问题解决能力。这五大能力也成了 Zalando 建立内部人才库的重要方向，不只 SRE，更用来要求各种技术角色的工程师，都要具备这五大能力。</p><p>接著，Zalando 成立了第一个 SRE 团队后，第一件事就是设计 SLI（服务水准指标） ，并且订出想达成的 SLO（服务水准目标），还开发出一款 SLO 报表工具。同步也举办工作坊，对内部上百团队的产品 PM 和工程师介绍 SRE，还在一年一度的网路购物周准备计划中，举办 SRE 工作坊，来讨论购物潮的各项网站可靠性设计。不过，第一次拥抱 SRE，最后没有发挥原本预期的作用。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>第一次导入 SRE 失利的原因</strong></span></span></p><p>Zalando 曾在工程部落格上公开了第一次 SRE 导入失败的主因，虽然搜集到大量的 SLI 指标维运数据，但是空有 SRE 数据， SRE 团队没有善用这些维运数据来改善开发，也无法解决原本待命支援不足的问题。SRE 导入一段时间后不如预期，Zalando 高层决定暂时喊停。</p><p>原本 Zalando 按照产品丛集来建立 SRE 团队，一个团队负责一个丛集，一个 SRE 团队负责同一个产品网域下的所有维运责任。</p><p>后来，Zalando 高层取消了原本在各产品下所设置的 SRE 团队，改将 SRE 工作交给各产品团队中的交付小组（Delivery Team）接手，让他们接手自己产品中关键服务的维运，要求产品交付团队必须具备 SRE 能力，来负责各自所负责的关键产品的待命工作。</p><p>虽然裁撤了 SRE 团队，但是 Zalando 没有停止采用 SRE 的实践，Zalando 开始改良 SRE 工具和 SRE 做法，例如从产品管理层级来管理 SLO 的达成情况，而非监控微服务工程层级的庞大 SLI 指标数据，也不再用当机事件的指标数据，改用事件征兆来设计警示机制，还设计了新的事件处理流程，进一步区分不同的改善做法对顾客或是业务能带来的效益，优先采取更有利的做法。</p><p>Zalando 也开始认真累积 SRE 维运指标的成效数据，来衡量这些指标是否符合指标设计的目标。</p><p>「当年，整体组织还没有准备好要以 SRE 方式来思考可靠性。」Andrew Howden 事后回顾当年的考验。但他认为，更重要的一点是，「数位基础部门的设立，代表了 Zalando 真正开始重视开发者体验，成为企业优先考量的事。」</p></div></div></div><div></div></div></div></div>]]>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1157-cover2-960.jpg?itok=bpiMH-tE" width="960" height="420" alt="" title="Zalando 曾公布过 2019 年时的微服务数量已经超过了 4 千支，这些微服务之间的关联可以画出一张复杂的关联图（如图左），它们自嘲说这看起来像是一张死亡之星图，任何一条线断了，就可能代表某个服务出状况。随著微服务的数量增加到数千只，「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Zalando 前工程经理 Andrew Howden 指出。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Zalando 曾公布过 2019 年时的微服务数量已经超过了 4 千支，这些微服务之间的关联可以画出一张复杂的关联图（如图左），它们自嘲说这看起来像是一张死亡之星图，任何一条线断了，就可能代表某个服务出状况。随著微服务的数量增加到数千只，「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Zalando 前工程经理 Andrew Howden 指出。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 2015 年时，欧洲大型电商 Zalando 拥有 1 万名员工，超过 1 千名工程师，200 个开发团队。甚至，开发人力在 2015 年时只有 600 人，到了 2018 年，暴增到 2,000 人的庞大规模。</p><p>再一次的开发人力倍增，也让 Zalando 再一次遇到了挑战更大的开发复杂性协调课题。但这一次，Zalando 决定找出一种够安全，又能让庞大团队更敏捷的根本解法。</p><p>Zalando 找来 30 名最资深的工程师聚在一起，多次讨论后归纳出 Zalando 所面对的三大问题。</p><p>第一个问题是<strong>庞大的系统</strong>。随著业务成长和多国据点的扩张，Zalando 的程式码越来越多，程式码间的关联也越来越复杂。新手工程师很难快速了解这套系统，得花上好几个月熟悉后，才能开始有生产力。而且，程式码数量越多，伴随的程式臭虫也越多，为了确保系统运作的安全，衍生了更多检查，再度拖慢了整体的开发速度。</p><p>第二个问题是<strong>系统间高度互联</strong>（Interconnected Systems）。过去，Zalando 开发团队的目标是尽可能地优化每一个功能的执行速度，而不是简化系统。这么做的结果是，这些系统之间的相依性越来越高，也越来越难以预期和不直觉。任何一个系统的变动，都可能对其他系统产生连带的影响，增加了整体系统的脆弱性。</p><p>最后一项，30 位资深工程师们共同提出的大问题是，Zalando 用了「<strong>无聊技术</strong>」。当他们所用的技术越稳定、可靠，也代表了这些技术越老旧，就越让工程师感觉到无聊。</p><p>「这听起来不像是问题，但从人员招募角度来看，这是一个大问题。」参与 Zalando 最近 4 年 SRE 战略发展的第一线工程主管、Zalando 前工程经理 Andrew Howden 如此坦言。</p><p>刚从大学毕业的年经工程师，兴奋地拜读了所有 Google 最新的部落格文章，上面介绍了最新的 K8s、容器等云原生新兴技术，可是 Zalando 用的却是十年前的 Java 技术架构，很难引起年轻工程师的兴趣。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>展开组织大变革，决定拥抱激进敏捷模式</strong></span></span></p><p>「Zalando 需要改变，需要彻底改变，我们将这种变革称为激进敏捷（Radical Agility）。」Andrew Howden 表示，这真的是一次组织面的结构性变革。</p><p>这项变革策略的核心是，不再由单一大型业务单位主导决策，改由多个平行小单位，可以各自协调来决策。换句话说，等于是从序列式的决策流程，改为由平行的相关团队自己决定，不用照会其他无关的业务部门。这意味著，可以尽可能减少需要参与的沟通对象，来推出新的业务功能。</p><p>为了提高团队平行运作的能力，Zalando 采取了新的所有权制度，定义了一种新的角色，称为专责所有权人（Dedicated owner），或者可用台湾社群熟悉的俗称「炉主」来形容，由这个人来负责一项业务的所有产品、成果、技术的主要决策，也由他负责监督所有状况的回报。</p><p>在供应端、需求端、数位体验、用户介面、数位基础设施的部门中都可以设立炉主这类角色。炉主有很大的自主权能选择要采取什么样的作法，但他得要对这个作法的成败负起全责。</p><p>炉主带领的团队采取了跨部门混合编组，找来这项业务上线所需的相关人力，包括开发人员、产品人员、法务、监控人力等。这些人背后都有各自所属部门的主管。例如开发人员背后还有开发部门的经理。</p><p>「以这种方式重组运作方式，就等于是重新组合沟通流程，立即遇到的问题就是，所开发的软体会受到什么影响？」Andrew Howden 指出。</p><p>敏捷领域常参考的康威定律（Conway's Law）提到一个观点，软体架构会受制于企业内部的沟通架构。Andrew Howden 从另一个角度来看，他指出：「想要重新改变企业的沟通方式，就必须重新改变软体架构，否则它会自行发生。」</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>大力拥抱微服务，从 100 只到 4 千只微服务</strong></span></span></p><p>所以，Zalando 在技术上决定拥抱微服务架构，而在组织面，也将人员分为五、六人规模的小组，由每个小组负责一项微服务。对这个小组说，只需要负责这个微服务，其他的微服务不是你们的问题。</p><p>Zalando 大力推动各项微服务的开发，从一百个服务，暴增到数千只，而且持续增加。Zalando 曾公开过，在 2019 年，微服务总数足足超过了 4 千支。</p><p>新的挑战是，不能再靠人工团队的测试来确保软体发布的正常，而是得依赖大量的自动化测试，来验证相关系统的边界是否如常运作。</p><p>Zalando 决定采取全新技术架构和组织架构之后，一开始还建立了一群待命值班团队，当时有 3 个待命团队来确保正式环境的运作。</p><p>一开始只有 100 项服务时，这个作法运作得相当好。但是，随著微服务的数量，增加到数千只，还要考量这些微服务间的互动，以及追踪这些服务随时间的演变，单靠 3 个值班团队，就没有能力应付了。「当时的管理层，做出了一个影响应用程式开发后的日常维运，非常重要的决定，那就是『自己打造的程式自己管。』（You build it,you run it.）。」Andrew Howden 指出。</p><p>打造这只软体的开发人员需要负责这只软体的待命、维护基础设施、订定 CI/CD 流程等，任何将这只应用程式送到正式环境所需的一切事务，都由打造软体的团队来负责。</p><p>但这个决定，也让待命值班作法更加分散，开始影响到待命支援的品质。尤其有些协作经验不足的团队，遇到跨团队的工作时，就会出现责任推来推去，「这是你的问题」或「这不是你的问题」的争执。</p><p>另外，在基础架构管理上，也遇到新的挑战，为了让炉主负起全责，Zalando 的作法是让每一个炉主有一个专属的 AWS 帐号，这就像是对他们说，「这个帐号就是你的信用卡，你可以做你认为对的事。」这种放权，有助于让开发人员打造了杰出、复杂又有趣的架构，但是，基础架构管理是一种专业，不能让擅长软体开发的工程师自己乱尝试。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>打造集中式平台，让技术知识民主化，人人都能取得维运经验</strong></span></span></p><p>尤其，Zalando 的挑战是 2 千名工程师，超过 1 千套系统的规模，因此，「Zalando 需要发展出一种做法，可以大规模地将知识民主化（Democratization of knowledge ），让人人可以取得正式系统运作的经验。」Andrew Howden 表示，唯一的方法就是建立一个集中式的平台来分享知识，这正是平台团队可以发挥之处。</p><p>Zalando 有一个「数位基础（Digital Foundation）部门」，为其他各单位提供一套通用的能力。</p><p>在 2014 年到 2018 年之间，这个数位基础团队发布了一些重要的内部产品，包括了像是应用程式注册表（Application Registry）、容器化平台服务（Docker-base platform as a service）、CI/CD 机制、API 探索及验证工具、开发者控制枱等。</p><p>这个 AP 注册表服务的名称是 Kio，开发团队在将自己打造的程式部署到正式环境之前，要先到这个集中式的 AP 注册表上登记，没有登记到 Kio 上的 AP 就不能部署。Kio 服务也会提供一套指南，涵盖了各单位部署 AP 的相关指引。这个注册表提供了工程师详细查看各种业务和功能的索引，也有助于处理资安问题。</p><p>而容器化平台服务则用来执行容器、提供服务、保管映像档、支援部署、授权、凭证派发、产品存取控管、稽核和 Log 管理等。另外也用 Jenkins 伺服器建立了一系列 CI/CD 机制，后来更在 Docker 平台上，发展出了一套持续部署平台（Continuous Deliver Platform，简称 CDP），负责处理在正式上线前的发布阶段的任务，像是映像档和二进位档验证、合规检查等。</p><p>另外还有一款 API 探索和验证工具，因为 Zalando 采取 API 优先（API First）的策略，开发工程师得采取 Swagger 工具来建立符合标准的 API，在 RESTful API 和事件指南提供了相关 API 定义和验证。</p><p>最后一项的开发者控制枱（Developer Console），这是一个内部网站，可以让开发人员查看自己的 CI/CD 工作流。</p><p>积极发展这些工具和平台，反映出，「这是 Zalando 第一次意识到开发者平台的重要性。」Andrew Howden 指出。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>2016 年开始拥抱 SRE</strong></span></span></p><p>Zalando 在 2016 年时，决定开始拥抱 SRE（网站可靠性工程），成立了 SRE 团队。这一年也是 Google 发表《Site Reliability Engineering: How Google Runs Production Systems》 这本书的那一年。</p><p>Zalando 先进行内部问卷调查，了解各团队对于 SRE 角色的期待，来凝聚所有人对 SRE 定位的共识，归纳出 5 项 SRE 的能力：SRE 具有软体工程能力、维运思维、系统工程能力、软体架构技能和问题解决能力。这五大能力也成了 Zalando 建立内部人才库的重要方向，不只 SRE，更用来要求各种技术角色的工程师，都要具备这五大能力。</p><p>接著，Zalando 成立了第一个 SRE 团队后，第一件事就是设计 SLI（服务水准指标） ，并且订出想达成的 SLO（服务水准目标），还开发出一款 SLO 报表工具。同步也举办工作坊，对内部上百团队的产品 PM 和工程师介绍 SRE，还在一年一度的网路购物周准备计划中，举办 SRE 工作坊，来讨论购物潮的各项网站可靠性设计。不过，第一次拥抱 SRE，最后没有发挥原本预期的作用。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>第一次导入 SRE 失利的原因</strong></span></span></p><p>Zalando 曾在工程部落格上公开了第一次 SRE 导入失败的主因，虽然搜集到大量的 SLI 指标维运数据，但是空有 SRE 数据， SRE 团队没有善用这些维运数据来改善开发，也无法解决原本待命支援不足的问题。SRE 导入一段时间后不如预期，Zalando 高层决定暂时喊停。</p><p>原本 Zalando 按照产品丛集来建立 SRE 团队，一个团队负责一个丛集，一个 SRE 团队负责同一个产品网域下的所有维运责任。</p><p>后来，Zalando 高层取消了原本在各产品下所设置的 SRE 团队，改将 SRE 工作交给各产品团队中的交付小组（Delivery Team）接手，让他们接手自己产品中关键服务的维运，要求产品交付团队必须具备 SRE 能力，来负责各自所负责的关键产品的待命工作。</p><p>虽然裁撤了 SRE 团队，但是 Zalando 没有停止采用 SRE 的实践，Zalando 开始改良 SRE 工具和 SRE 做法，例如从产品管理层级来管理 SLO 的达成情况，而非监控微服务工程层级的庞大 SLI 指标数据，也不再用当机事件的指标数据，改用事件征兆来设计警示机制，还设计了新的事件处理流程，进一步区分不同的改善做法对顾客或是业务能带来的效益，优先采取更有利的做法。</p><p>Zalando 也开始认真累积 SRE 维运指标的成效数据，来衡量这些指标是否符合指标设计的目标。</p><p>「当年，整体组织还没有准备好要以 SRE 方式来思考可靠性。」Andrew Howden 事后回顾当年的考验。但他认为，更重要的一点是，「数位基础部门的设立，代表了 Zalando 真正开始重视开发者体验，成为企业优先考量的事。」</p><h3><strong>未完，继续阅读</strong></h3><h3><strong><a href="https://www.ithome.com.tw/news/160003"><span style="color:#FF8C00;">【千人平台工程炼成记 Part 3】业务决策和工程创新让网购周业绩暴增后，聚焦开发者体验优化也再次拥抱 SRE</span></a></strong></h3></div></div></div><div></div></div></div></div>]]>
         </description>
         <pubDate>Thu, 23 Nov 2023 16:00:00 GMT</pubDate>
         <guid isPermaLink="false">https://www.ithome.com.tw/news/160000</guid>
@@ -332,236 +362,4 @@ Costa Coffee 利用销售数据预测排班情况，增加大幅提升单位人�
         </author>
         <category>新闻</category>
     </item>
-    <item>
-        <title>
-            <![CDATA[【资安日报】11 月 23 日，讯连科技遭北韩骇客发动供应链攻击，骇客于该公司更新伺服器部署恶意软体，台湾及多个国家出现受害者]]>
-        </title>
-        <description>
-            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231123.png?itok=PV7fed4u" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">针对台湾厂商的供应链攻击事故，<a href="https://www.ithome.com.tw/news/129597">4 年前华硕更新伺服器遭骇的事故曾引起高度关注</a>，供应链攻击成为台湾 IT 制造厂商不能忽视的资安威胁，而最近，又有其他软体供应商遭遇类似攻击，骇客利用其更新基础设施，散布恶意程式。</p><p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;"><span style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">微软威胁情报团队披露自 10 月底针对台湾多媒体应用程式开发商讯连科技而来的攻击行动，骇客窜改该公司的软体安装档案，并上传到讯连的更新伺服器，至于攻击者的目的，仍有待进一步厘清。</span></p><p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">&nbsp;</p><h3 style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;"><strong>【攻击与威胁】</strong></h3><p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;"><a href="https://www.ithome.com.tw/news/159983"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">台湾多媒体软体业者讯连科技遭北韩骇客 Lazarus 发动供应链攻击</span></strong></a></p>
-            <!-- notionvc: 272c0962-2bd6-4e52-87e2-673060ecc0a6 -->
-            <p></p>
-            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">微软威胁情报团队揭露北韩骇客组织 Lazarus 旗下团体 Zinc（亦称 Diamond Sleet）发起的供应链攻击，这些骇客约从 10 月 20 日开始，窜改台湾多媒体应用程式开发商讯连科技（CyberLink）应用程式安装档案，植入恶意功能，一旦执行将会于受害电脑下载、解密、载入攻击第 2 阶段的恶意程式码。</p>
-            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">值得留意的是，骇客的档案不仅透过讯连的凭证签章，本身也存放在该公司所有的软体更新基础设施上。再者，这个恶意程式也借由检查执行时间间隔的限制，来回避防毒软体侦测。这起事故造成那些灾情？目前至少有 100 台装置受害，坐落在台湾、日本、加拿大、美国等多个国家。但究竟这些骇客的目的是什么？研究人员表示仍有待确认，但他们发现这些骇客曾入侵软体开发环境、窃取机密资料，他们不排除向供应链下游移动、攻击更多组织的可能。</p>
-            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">研究人员将此恶意安装档称为 LambLoad，并指出攻击活动会刻意避开特定资安组态的电脑，例如部署 FireEye、CrowdStrike、Tanium 等厂牌端点防护系统的电脑，并企图于受害电脑下载伪装成 PNG 图档的第 2 阶段恶意酬载，从而在记忆体内解密并执行另一个可执行档，尝试从 C2 接收骇客的命令。今日下午，
-                <a href="http://tw.cyberlink.com/support-center/faq/content?id=28412">讯连科技发布公告指出，在其产品「Promeo」的安装程式中发现恶意软体，已经移除问题，后续并将更新软体安全凭证。</a>
-            </p>
-            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                <a href="https://www.ithome.com.tw/news/160011">
-                    <strong style="font-size: 22px;">
-                        <span style="color: rgb(0, 0, 0);">窃资软体 Lumma 开发者声称能复原 Google 帐号的连线阶段，挟持受害者帐号</span>
-                    </strong>
-                </a>
-            </p>
-            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                <a href="https://s4.itho.me/sites/default/files/images/lumma-cookies.png">
-                    <img alt="" src="https://s4.itho.me/sites/default/files/images/lumma-cookies.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                    </a>资安业者 Hudson Rock 指出，他们近期看到打造窃资软体 Lumma（亦称 LummaC2）的开发人员标榜特殊攻击伎俩，这些骇客表示，能从受害电脑窃取与 Google 服务有关的 cookie，之后再进行滥用，并强调使用者就算更换密码，这类 cookie 仍然有效，不会过期或是遭到撤销。
-                </p>
-                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">资安新闻网站 Bleeping Computer 指出，该恶意软体的经营者在 11 月 14 日提供新功能，让买家能透过金钥复原已经失效的 cookie，此功能仅适用 Google 帐号，且由于该金钥只能使用 2 次，因此，买家仅有一次复原 cookie 的机会，不过，倘若卖家标榜功能确实存在，足以对企业组织造成严重威胁。此外，这项特殊新功能也并非人人可用，经营者只提供每个月付费 1 千美元的企业订阅方案用户。</p>
-                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">上述的功能，虽然未得到研究人员或是 Google 的验证，但这种挟持受害者 Google 帐号的能力，似乎并非特例，传出有其他骇客掌握类似技术。</p>
-                <p>
-                    <span style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">因为，事隔 3 天之后，另一名研究人员 g0njxa 发现，经营窃资软体 Rhadamanthys 的骇客也宣称提供类似的功能，所以，上述 Bleeping Computer 取得 Lumma 开发者的说法，很有可能是竞争对手从他们的窃资软体复制而得。</span>
-                </p>
-                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">资料来源</p>
-                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">1.&nbsp;
-                    <a href="https://www.linkedin.com/posts/alon-gal-utb_an-upcoming-update-to-lumma-infostealer-is-activity-7128433924380213248-hcEG/">https://www.linkedin.com/posts/alon-gal-utb_an-upcoming-update-to-lumma-infostealer-is-activity-7128433924380213248-hcEG/</a>
-                    <br>
-2.&nbsp;
-                        <a href="https://www.linkedin.com/posts/alon-gal-utb_infostealer-cybercrime-activity-7129468853574598656-gboo/">https://www.linkedin.com/posts/alon-gal-utb_infostealer-cybercrime-activity-7129468853574598656-gboo/</a>
-                        <br>
-3.&nbsp;
-                            <a href="https://twitter.com/g0njxa/status/1725486960750284847">https://twitter.com/g0njxa/status/1725486960750284847</a>
-                            <br>
-                                <span style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">4.&nbsp;</span>
-                                <a href="https://www.bleepingcomputer.com/news/security/malware-dev-says-they-can-revive-expired-google-auth-cookies/">https://www.bleepingcomputer.com/news/security/malware-dev-says-they-can-revive-expired-google-auth-cookies/</a>
-                            </p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                <a href="https://blackwinghq.com/blog/posts/a-touch-of-pwn-part-i/">
-                                    <strong style="font-size: 22px;">
-                                        <span style="color: rgb(0, 0, 0);">研究人员揭露绕过笔电 Windows Hello 指纹验证机制的手法，多个厂牌的电脑曝险</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 6a54d868-f418-48e6-821a-c3a01f9b13c5 -->
-                            <p></p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">采用生物辨识技术来强化身分安全，如今相当常见，然而，仍有可能攻击者会找出旁门左道，从而绕过这类身分验证机制。威胁情报业者 Blackwing Intelligence 揭露在 Windows 笔电上发现的指纹辨识器弱点，从而绕过 Windows Hello 的身分验证机制。</p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">研究人员在今年 10 月下旬微软举办的资安会议 BlueHat，首度展示成果，并利用微软 Surface Pro X、联想 ThinkPad T14、Dell Inspiron 15 进行验证。这些笔电搭配的指纹感应器，分别由 ELAN、Synaptics、Goodix 制造，都具备「于晶片进行辨识（Match on Chip，MOC）」的感应器，以提供较为严谨的指纹比对流程，微软也开发安全设备连线协定（SDCP），防范指纹辨识器与笔电之间的中间人攻击（MitM），按理来说，应该无机可乘。</p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">但研究人员透过逆向工程，发现感测器实作的缺陷，从而突破上述的防护机制，他们利用自制的 Raspberry Pi 4 装置进行中间人攻击，从而成功达到目的。</p>
-                            <p>
-                                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/gjvu-l6vKFE?si=rweGEkWxw1M02ldn" title="YouTube video player" width="560" referrerpolicy="no-referrer"></iframe>
-                            </p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                <a href="https://cofense.com/blog/are-darkgate-and-pikabot-the-new-qakbot/">
-                                    <strong style="font-size: 22px;">
-                                        <span style="color: rgb(0, 0, 0);">恶意软体 DarkGate 及 PikaBot 透过网钓攻击散布，攻击者很可能是曾经利用 QBot 的骇客</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 634402c4-75aa-494c-afd0-cc226f26a919 -->
-                            <p></p>
-                            <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                <a href="https://s4.itho.me/sites/default/files/images/QBot-Figure-3.png">
-                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/QBot-Figure-3.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                    </a>8 月恶意软体 QBot 遭到欧美多个执法单位围勦，清除 70 万台电脑上的恶意程式，没收 860 万美元加密货币，但这些骇客近期有东山再起的迹象。
-                                </p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">电子邮件安全业者 Cofense 指出，他们分析了近期的恶意软体 DarkGate 和 PikaBot 攻击行动，发现攻击者所发起的网路钓鱼攻击策略，与使用 QBot 的骇客相同，这些共通点包含：使用电子邮件回复串来进行初期感染、具备独有特征的 URL 限制使用者存取，将恶意软体传送到受害电脑的方式也几乎雷同。研究人员推测，这一波恶意软体的攻击者身分，就是原本使用 QBot 的骇客。</p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">究竟骇客如何掌握特定的电子邮件，以便用于攻击？研究人员推测，很有可能是透过 ProxyLogon 漏洞（CVE-2021-26855，CVSS 风险评分 9.8）入侵 Exchange 伺服器来达成目的。值得留意的是，骇客于受害电脑部署恶意软体的手法，大部分是利用 JavaScript Dropper，但也有透过 Excel-DNA Loader，以及 VBS 或 LNK 下载工具的情况。</p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                    <a href="https://www.gdatasoftware.com/blog/2023/11/37822-agent-tesla-zpaq">
-                                        <strong style="font-size: 22px;">
-                                            <span style="color: rgb(0, 0, 0);">透过将 1GB 资料压缩为 6KB 的 ZPAQ 档案突破防毒软体上限，Agent Tesla 散布窃资软体</span>
-                                        </strong>
-                                    </a>
-                                </p>
-                                <!-- notionvc: 70d69fac-58e8-4237-8cef-4149f6ad75a6 -->
-                                <p></p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">防毒业者 G Data 揭露最新一波的窃资软体 Agent Tesla 攻击行动，其特殊之处在于骇客利用 ZPAQ 格式的压缩档来散布恶意软体。</p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">在其中一起攻击行动里，骇客寄送带有 Purchase Order pdf.zpaq 附件的钓鱼邮件，研究人员使用命令列进行解压缩，结果这个仅有 6 KB 的压缩档，解开之后，竟是一个 1 GB 的大型档案，原因很可能是骇客想要突破防毒软体扫描档案的大小上限。一旦电脑感染该窃资软体，此恶意程式就会与架设于 Telegram 的 C2 进行连线，然后进行窃取机密资料的工作。</p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">值得留意的是，支援这种格式的压缩软体并不多，但为何骇客要采用？研究人员认为，很有可能是因为相较于常见的 ZIP、RAR 格式，ZPAQ 档案更小，且有可能被防毒软体放行。</p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                    <a href="https://www.malwarebytes.com/blog/threat-intelligence/2023/11/atomic-stealer-distributed-to-mac-users-via-fake-browser-updates">
-                                        <strong style="font-size: 22px;">
-                                            <span style="color: rgb(0, 0, 0);">攻击行动 ClearFake 锁定 Mac 电脑用户，散布窃资软体 Atomic Stealer</span>
-                                        </strong>
-                                    </a>
-                                </p>
-                                <!-- notionvc: ecc52ba2-6d8d-49dd-8520-c2e83d3fc608 -->
-                                <p></p>
-                                <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                    <a href="https://s4.itho.me/sites/default/files/images/safari.png">
-                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/safari.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                        </a>资安业者 Malwarebytes 揭露新一波的恶意软体攻击行动 ClearFake，骇客先是入侵 WordPress 网站，假借浏览器更新的名义来散布恶意程式。这起攻击行动大约从 8 月出现，当时针对 Windows 使用者而来，但 11 月 17 日研究人员 Ankit Anubhav 提出警告，骇客的攻击范围如今也扩及 Mac 电脑的用户，散布窃资软体 Atomic Stealer。
-                                    </p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">该资安业者进一步调查指出，对方制作冒牌的苹果、Google 网站，声称提供 Safari 17.1 更新档案，或是要求使用者更新 Chrome 才能存取网站的内容，一旦使用者依照指示操作，电脑就有可能被植入窃资软体。</p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://mops.twse.com.tw/mops/web/ajax_t05sr01_1?firstin=true&amp;stp=1&amp;step=1&amp;SEQ_NO=1&amp;SPOKE_TIME=201402&amp;SPOKE_DATE=20231120&amp;COMPANY_ID=1314">
-                                            <strong style="font-size: 22px;">
-                                                <span style="color: rgb(0, 0, 0);">中石化遭受网路攻击事件</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 75a463d6-42b7-4c44-8ad9-de8151e7bf59 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">11 月 20 日中国石油化学工业开发（中石化）于股市公开观测站发布重大讯息，表示该公司遭遇网路攻击，资安团队察觉异状即启动相关防御机制，并委请外部资安业者、技术专家共同处理，通报相关执法机关。而对于营运是否造成冲击，该公司初步评估尚无重大影响。</p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">&nbsp;</p>
-                                    <h3 style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <strong>【资安防御措施】</strong>
-                                    </h3>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://docs.fcc.gov/public/attachments/DOC-398483A1.pdf">
-                                            <strong style="font-size: 22px;">
-                                                <span style="color: rgb(0, 0, 0);">为防范 SIM 卡挟持攻击，美国 FCC 对电信业者祭出新规定</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">为了防范民众遭遇 SIM 卡挟持（SIM Swapping）攻击，11 月 15 日美国联邦通讯委员会（FCC）针对电信业者祭出新的规定，当中提及客户专属的网路资讯（Customer Proprietary Network Information，CPNI）、市话可携（ Local Number Portability，LNP）的部分，要求电信业者将客户的电话号码移转至新装置或是新的电信业者，必须采用严谨的方式来验证客户身分，例如。立即通知用户，并采取额外的防护措施，来防堵这类攻击行动。</p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">&nbsp;</p>
-                                    <h3 style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <strong>【其他新闻】</strong>
-                                    </h3>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.fortinet.com/blog/threat-research/konni-campaign-distributed-via-malicious-document">
-                                            <strong>
-                                                <span style="font-size: 20px;">
-                                                    <span style="color: rgb(0, 0, 0);">恶意软体 Konni RAT 利用 Word 文件感染 Windows 电脑，窃取电脑资料</span>
-                                                </span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 83ae929f-63a9-4783-96d8-21c5d73b3884 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.akamai.com/blog/security-research/new-rce-botnet-spreads-mirai-via-zero-days">
-                                            <strong>
-                                                <span style="font-size: 20px;">
-                                                    <span style="color: rgb(0, 0, 0);">Mirai 僵尸网路变种利用零时差漏洞感染路由器、视讯监控装置</span>
-                                                </span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 5029f5ff-3b9d-45dd-9a33-2af03445ee84 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://securityaffairs.com/154598/hacktivism/siegedsec-hacked-idaho-national-laboratory.html">
-                                            <strong>
-                                                <span style="font-size: 20px;">
-                                                    <span style="color: rgb(0, 0, 0);">美国爱达荷实验室传出遭到骇客组织 SiegedSec 入侵</span>
-                                                </span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: f5c3645e-06f5-44a8-a548-993366030802 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.theregister.com/2023/11/20/moveit_victim_77m_medical/">
-                                            <strong>
-                                                <span style="font-size: 20px;">
-                                                    <span style="color: rgb(0, 0, 0);">MOVEit Transfer 零时差漏洞受影响人数突破 7700 万</span>
-                                                </span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: b0548b19-0d95-463a-892d-92f009381835 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.cisa.gov/sites/default/files/2023-11/HPH-Sector-Mitigation-Guide-TLP-CLEAR_508c.pdf">
-                                            <strong>
-                                                <span style="font-size: 20px;">
-                                                    <span style="color: rgb(0, 0, 0);">CISA 发布医疗保健产业的网路安全指南</span>
-                                                </span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: aef11ef3-4a41-4c49-8cba-a33f704cb676 -->
-                                    <p></p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">&nbsp;</p>
-                                    <h3 style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <strong>近期资安日报</strong>
-                                    </h3>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.ithome.com.tw/news/159948">
-                                            <strong>【11 月 22 日】&nbsp;勒索软体 Phobos 打著资安社群的名义，锁定 Windows 电脑发动攻击，声称受害者复原档案要找社群</strong>
-                                        </a>
-                                    </p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.ithome.com.tw/news/159939">
-                                            <strong>【11 月 21 日】&nbsp;中国骇客组织 Mustang Panda 锁定东南亚发动数起网钓攻击，起因疑与 8 月发生的菲律宾海上军事冲突有关</strong>
-                                        </a>
-                                    </p>
-                                    <p style="font-family: sans-serif, Arial, Verdana, &quot;Trebuchet MS&quot;;">
-                                        <a href="https://www.ithome.com.tw/news/159921">
-                                            <strong>【11 月 20 日】&nbsp;骇客近半年散布逾 30 款恶意 PyPI 套件，利用 PNG 图档埋藏攻击意图，美国、中国、法国皆有开发者受害</strong>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-                </div></div>]]>
-            </description>
-            <pubDate>Wed, 22 Nov 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159980</guid>
-            <link>https://www.ithome.com.tw/news/159980</link>
-            <author>
-                <![CDATA[周峻佑]]>
-            </author>
-            <category>资安 </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【厂商永续支援度盘点：思科】力推两大类仪表板管理工具，不只能监测伺服器设备每日能耗变化，就连网通产品能耗和碳排放数据都能掌控]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1_12.png?itok=xmASPtmB" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>思科</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>思科今年开始瞄准永续 IT 商机，目前推出两类仪表板管理工具，用于监控及管理 IT 产品能耗，其中，Nexus Dashboard 仪表板主要应用于网路交换器设备，不仅能监控网路设备能耗，还具备有碳排放数据的监测功能。另一方面，云端 IT 维运管理平台 Intersight 提供了 Energy &amp; Power 仪表板工具，则可用于 UCS 伺服器以及 HyperFlex 超融合基础架构等产品使用的能源监控。值得注意的是，此仪表板尚未包含碳排放使用资讯，而且目前仅为 Beta 版本，明年才会推出正式版。此外，思科目前只开放 Intersight Essentials 版或以上的订阅方案，才能加购该仪表板功能。</p><p>随著永续议题越来越受到企业所重视，不仅各大伺服器厂商纷纷推出各种管理工具和平台，协助企业有效搜集和管理 IT 设备所产生的碳排放数据，网通大厂思科近来也积极投入，抢进永续 IT 市场，不只承诺 2040 年实现整体价值链的净零碳目标，还针对企业永续资料中心的建立，推出新工具和平台，以提高其 IT 产品的透明度，包括伺服器、超融合和网路交换器等，协助企业优化其设备使用效率，进而降低其碳排放。</p><p>思科目前提供了两类仪表板管理工具，用于监控和管理自家伺服器、网通产品的使用能耗，分别为 Intersight 的 Energy &amp; Power 仪表板和 Nexus Dashboard 仪表板工具，前者可用于监控 UCS 系列伺服器及 HyperFlex 超融合产品在内的能源使用情况，后者则可用于管理和监测网路交换器的能耗及费用成本，并提供碳排放监控功能。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/1(66).png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong style="color: rgb(105, 105, 105);">从思科 Intersight 仪表板管理工具中，企业可以迅速察看其在不同营运环境中使用思科伺服器的整体 IT 能耗和功耗，包括每日、每周到每月的能源数据变化都能掌握。</strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源_思科</span></p><p>进一步来看，思科的 Intersight 是以 SaaS 形式提供的管理及服务平台，在 2017 年正式推出，可涵盖 UCS 系列伺服器以及 HyperFlex 超融合基础架构系统。除了提供远端部署、配置和持续维护功能外，该平台内建了 My Dashboard 仪表板工具，经过几年的发展，于今年新增了 Energy &amp;Power 功能，可用于管理和监控相关产品的能耗和功耗情况。</p><p>从思科 Intersight 仪表板管理工具中，企业可以迅速察看其在不同营运环境中使用思科伺服器的整体 IT 能耗和功耗，包括每日、每周到每月的能源数据变化都能掌握，此外，仪表板还提供了可依机箱型态呈现各自能耗的功能，包括机架式伺服器、刀锋伺服器等，同时，企业还可依不同刀锋伺服器设备能耗多寡进行排名，优先改善高能耗的刀锋伺服器，来降低其耗能。</p><p>思科在每台伺服器设备中皆内建感测器，可侦测设备能耗使用的相关数据，并可经由 API 的方式将这些资料传至云端的 Intersight 平台，以资料视觉化呈现。该仪表板，也提供异常告警功能。企业除了可以透过 SaaS 服务使用 Intersight 的仪表板管理工具，也能以虚拟设备形式将其部署到自建环境中来运用。</p><p>不过，企业得特别留意，思科目前只开放 Intersight Essentials 版或以上的订阅方案，才能加购仪表板功能，而不包含在免费的 Base 版的功能中，提供给每台 UCS 伺服器、HyperFlex 系统使用，意谓著，企业需要支付额外费用购买才能开通。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/2(59).png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong style="color: rgb(105, 105, 105);">思科目前还提供另一类的资料中心网路仪表板工具 Nexus Dashboard，可以用于网路交换器设备的能源监控，在其最新的 3.0 版本中，新增了永续数据报告功能，让使用者不只能够用来追踪和管理 Nexus 网路交换器设备使用的能耗和成本，还能提供每月碳排放量的详细资讯。</strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源_思科</span></p><p>思科台湾技术长冯志良指出，根据思科产品发展蓝图，未来 Intersight 不仅可以对伺服器等产品的能源使用进行监控，还能在仪表板中呈现网路交换器设备的能耗和碳排使用资讯，提供更全面且一致的管理，进而提高产品透明度。</p><p>思科目前还提供另一类的资料中心网路仪表板工具 Nexus Dashboard，可以用于网路交换器设备的能源监控，在其最新的 3.0 版本中，新增了永续数据报告功能，让使用者不只能够用来追踪和管理 Nexus 网路交换器设备使用的能耗和成本，还能提供每月碳排放量的详细资讯，让企业可以针对碳排放量较高的设备进行更有效的管理和改善。</p><p>该工具也提供碳排成本预估功能。企业除了可以根据每月成本预估，比较在不同营运据点使用能耗的成本费用，还可以提供每月碳排放的成本预估，快速了解目前在所有碳排放设备中使用低碳的能源占比，作为未来改善的依据。此外，该仪表板还提供关键的永续指标，可供企业根据这些指标了解机房整体网路的电力利用效率，未来还将推出耗电指标 PUE 的功能。</p><p>冯志良表示，预计将在 2024 年第一季度推出的 3.1 版本中，将支援 Panduit 的永续报告，而在下半年 3.2 版中，将扩大支援 Vertiv 的永续报告功能。</p><p>Nexus Dashboard Insights 工具目前仅提供本地部署方案，不过思科计划在 Networking Cloud 平台中整合 Nexus Dashboard Insights 工具，让企业未来也能透过云端平台来取得该工具的功能，还计划在明年推出新的功能，包括能源洞察的功能。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/3(54).png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>此外，思科还为所有 Webex 服务和装置推出协作管理的中央仪表板 Webex Control Hub。它是一个可以用来管理使用者、权限、通话、会议、传讯及装置的单一仪表板。在这个仪表板中最新提供即时碳排放的洞察功能，可以透过硬体和软体分析，来计算整体的碳排放的情况，不仅提供云端服务使用碳排放和装置使用的碳排放，还能提供减碳建议。</p><p>近年来，思科在硬体产品设计方面也积极强化减碳和节能设计，以 UCS 整合运算伺服器系统为例，思科不仅持续在设计上进行优化，改进机箱设计达到更佳的空气流动，进而提高散热效率，降低整体能耗。根据思科的产品路线图，他们计划在明年初推出水冷散热的方案。</p><p>在晶片设计方面，思科也进行了改良，以进一步提高能源效率。举例来说，Cisco Nexus 9800 系列在电力耗损方面优于 Nexus 7000 系列，仅为其六十分之一，每 1GB 的传输，平均仅需 0.23 瓦的能耗。</p><div class="notranslate" style="all: initial;">&nbsp;</div></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 22 Nov 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/159928</guid>
-            <link>https://www.ithome.com.tw/news/159928</link>
-            <author>
-                <![CDATA[余至浩]]>
-            </author>
-            <category>新闻</category>
-        </item>
-    </channel>
-</rss>
+</channel>    </rss>
