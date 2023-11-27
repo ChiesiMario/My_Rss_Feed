@@ -16,8 +16,119 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 27 Nov 2023 02:53:33 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2023 07:01:02 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[LG 成立 webOS 开发小组]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>LG 电子宣布改革组织架构，并成立 webOS 开发小组。</p><p>11 月 24 日，LG 电子<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.lgnewsroom.com%2F2023%2F11%2Flg-electronics-announces-organizational-restructuring-for-future-growth%2F" target="_blank">发布公告</a></u>称将改革组织架构，以提升竞争力、促进增长。重组计划包括为国际业务建立一个新的销售和营销公司，由 LG 电子北美公司前总裁兼首席执行官 Thomas Yoon 负责，管理世界各地的销售子公司，以及直接面向消费者（D2C）的销售业务集团。</p><p>此外，LG 家庭娱乐公司将成立 webOS 软件开发小组，提高这一智能电视操作系统的实力，由该公司总裁直接领导；还将设立总部直属的 XR 事业部。家电和空气解决方案公司将增设工程销售部门，并入其他部门的家居业务，以与家庭空间现有的产品阵容产生协同效应。车辆零部件解决方案公司将设立总部直属的全球客户战略部。</p><blockquote><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-cdf9a79048dc46240b393d4e2278760273b.png" width="1728" referrerpolicy="no-referrer"></p></blockquote><p>webOS 是基于 Linux 内核的智能电视操作系统，其前身是由&nbsp;Palm&nbsp;所开发的智能手机操作系统，最早于 2009 年面向公众发布。2010 年惠普收购 Palm，但之后终止了 Palm 手机和操作系统项目，并在 2011 年<u><a href="https://www.oschina.net/news/23908/hp-make-webos-opensource">决定开源</a></u>&nbsp;webOS。</p><p>2013 年，LG 宣布收购惠普 webOS 部门，包括系统源代码和雇员等。此后该操作系统被 LG 用于智能电视和电冰箱等产品。</p><p><img alt="080830_QqVe_2720166.png" src="https://static.oschina.net/uploads/space/2021/0302/080830_QqVe_2720166.png" referrerpolicy="no-referrer"></p><hr><p>延伸阅读</p><ul><li><a href="https://www.oschina.net/news/131577/lg-says-it-will-license-webos-to-other-tv-mak">LG 将授权 webOS 给其他电视厂商使用</a></li><li><a href="https://www.oschina.net/news/94374/lg-webos-open-source-edition">LG 宣布推出 webOS 开源版本，仍寻求将其商业化</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 06:01:03 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268346</guid>
+            <link>https://www.oschina.net/news/268346</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[三个月写了个短信平台，开源出来！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><img src="https://oscimg.oschina.net/oscnet/up-e82e722c7dca4558ca6271436d0dcfe9665.png" alt="" referrerpolicy="no-referrer"></p><h1>1 初心</h1><p>大家好，我是勇哥。花了三个月的时间，我手写了个短信平台服务 <code>platform-sms</code>，今天开源出来 Beta 版本。</p><p>写这个开源项目的初心其实很简单："<strong>帮助初中级研发工程师入门架构设计，提升他们的技术认知</strong>"。</p><p>2018 年，作为架构师，我参与一个短信平台的重构。发送短信的场景包括还款业务、CRM、促销业务等。</p><p>不同的技术团队都是使用客户端模式发送短信，但并不统一，大概分为四种 ：</p><ul><li>使用阿里云提供的短信 SDK 发送短信 。</li><li>根据亿美提供的样例直接发送短信 。</li><li>使用绿城提供的短信 SDK 发送短信。</li><li>架构团队短信 SDK ，类似于 <code>SMS4J</code>的设计方式，支持亿美、绿城短信发送 。</li></ul><p>客户端的模式在多团队协作场景中，缺点还是很明显：</p><ul><li><p><strong>维护成本</strong></p><p>假如运营不再使用某一个短信渠道，那么很多团队将会收到影响，不得不配合重新修改配置，重新上线，耗费的时间成本很高。</p></li><li><p><strong>无法支持高级功能</strong></p><p>客户端实现某些功能比较麻烦，比如：客户端因为偶发情况（网络原因）通过三方渠道发送短信超时，此时需要将短信发送到备份渠道，从而确保短信发送的成功率。</p></li></ul><p>因此，多团队协作的场景中，短信服务的模式应该是<strong>服务端模式</strong>。</p><p><img src="https://javayong.cn/pics/sms/server.png?a=23212" alt="服务端模式" referrerpolicy="no-referrer"></p><p>我参考了腾讯云的短信服务的设计思路 ：</p><ol><li>模仿腾讯云的 SDK 设计，提供简单易用的发送短信方法 （单发，群发，营销单发，营销群发，模板单发，模板群发） ；</li><li>设计短信服务 API 端，接收发短信请求，发送短信信息到消息队列；</li><li>worker 服务消费消息，按照负载均衡的算法，调用不同渠道商的短信接口；</li><li>控制枱可以查看短信发送记录，配置渠道商信息、模版信息等。</li></ol><p><img src="https://oscimg.oschina.net/oscnet/up-a7b05e5217cc92a8d6b17b9741ebb961d66.png" alt="" referrerpolicy="no-referrer"></p><p>短信平台研发完成之后，满足了当时的业务需求，因为短信的管理也归于统一，提升了业务接入短信服务的效率，所以各个技术团队也比较认可。</p><p>随着经验的累积，我见过了不少公司的短信服务，核心问题不外乎两点：</p><ol><li><p>短信服务与业务服务边界问题。</p><p>为了满足业务服务需求，在短信平台中添加过多的业务功能，导致短信服务功能臃肿，也不经意的加入了隐藏的风险 。</p></li><li><p>切换三方渠道非常不方便。</p><p>当运营端需要从三方短信渠道 A 切换到 B 时，因为代码不够抽象，增加三方渠道代码时维护成本较高。</p></li></ol><p>基于这些原因，我想写一个<strong>迷你版</strong>的短信服务，它应该包含如下的功能：</p><ol><li><p>简单的短信 SDK 支持按照模版发送短信 。</p><p>业务服务对于短信是从哪一个三方短信渠道发送出来的并不在乎，只需要确保发送短信的成功率即可。</p><p>因此，SDK 提供的核心接口是：<strong>按照模版编号发送短信</strong>。</p><p>阿里云、腾讯云、华为云提供的都是按照模版发送短信的接口，为了统一管理模版，我们也只提供按照模版发送短信的接口。</p><p>短信平台需要提供业务服务的<code>appKey</code> 和<code>appSecret</code> , SDK 与服务端之间通过固定协议交互。</p></li><li><p>短信平台支持模版的管理 。</p><p>阿里云、腾讯云、华为云都提供签名、模版管理的接口，因此从产品设计层面，理论上，我们可以通过短信平台管理所有的签名和模版。</p><p>短信平台当前提供了手工绑定的短信模版的功能，也就是我们需要先在阿里云或者腾讯云先申请签名和模版，然后绑定到我们在平台创建的模版。</p></li><li><p>适配器模式维护三方短信渠道。</p><p>参考了开源项目<code>canal</code>的适配器模块，将三方短信渠道的 API 独立成模块单独维护，这样可以大大提升代码的可维护性。</p></li></ol><h1>2 架构</h1><p>项目的设计应该设计得简单，因为它的目标首先是让<strong>初中级工程师快速入门架构设计</strong>。</p><p>所以，我将短信平台设计成<strong>单体应用</strong>的模式，架构图如下：</p><p><img src="https://javayong.cn/pics/sms/smsjiagou.png" alt="" referrerpolicy="no-referrer"></p><p>短信平台分为两个部分，<strong>这两部分可以独立部署，也可以将前端文件放置在后端中，生成单部署包。</strong></p><p><strong>1、前端：admin-ui</strong></p><p>控制枱模块是 vue 项目，管理员登录之后可以进行应用管理、渠道管理、短信管理、模版管理。</p><p><strong>2、后端：admin-web</strong></p><p>后端模块按照功能依次分为五个模块：请求控制层、业务服务层、命令处理器、三方渠道适配器插件、数据库访问层。</p><h1>3 演示</h1><h2>3.1 环境准备</h2><p><strong>1、创建数据库以及相关表</strong></p><p>创建数据库<code>tech_platform</code> ，执行<code> doc/sql</code> 目录下的 <code> tech_platform.sql</code>。</p><p>执行后效果如下：</p><p><img src="https://javayong.cn/pics/sms/tables.png" alt="" referrerpolicy="no-referrer"></p><p><strong>2、修改部署包配置</strong></p><p>从 Release 下载 <code>platform-sms-admin.tar.gz</code> ，解压缩后，进入 <code>conf </code>目录 。</p><p><img src="https://javayong.cn/pics/sms//adminconfdir.png" alt="" referrerpolicy="no-referrer"></p><p>编辑 <code>application.yml </code> 文件：</p><p><img src="https://javayong.cn/pics/sms//prepare.png" alt="" referrerpolicy="no-referrer"></p><p>进入 bin 目录，启动服务：</p><pre><code class="language-sh">bin/startup.sh
+</code></pre><h2>3.2 操作流程</h2><p><strong>1、登录页面</strong></p><p>服务启动后，访问地址：<code>http://localhost:8089</code> 。 <img src="https://javayong.cn/pics/sms/login.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>用户名和密码存储在 <code>conf</code> 目录的 <code>application.yml</code>，默认用户名密码分别是：admin/admin1984 。</p></blockquote><p><strong>2、新建应用</strong><img src="https://javayong.cn/pics/sms/createapp.png" alt="" referrerpolicy="no-referrer"></p><p>应用信息包含应用名称、应用 <code>appKey</code> , <code>应用秘钥</code>，<code>备注</code>。其中，应用 key 和，密钥在使用客户端 SDK 时需要配置 。</p><p><strong>3、新建三方短信渠道</strong><img src="https://javayong.cn/pics/sms/createchannel.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>注意：因为腾讯云的 SDK 请求，中需要携带 APPID ，所以 Beta 版中将 appId 存储在，附件属性中。</p></blockquote><p><strong>4、创建模版</strong> 在<code>模版管理</code>模块，点击<code>新建模版</code>按钮。</p><p><img src="https://javayong.cn/pics/sms/createtemplate.png" alt="" referrerpolicy="no-referrer"></p><p><strong>新建模版时，签名名称必须和渠道申请的签名必须一致。</strong></p><p>下图展示了笔者的腾讯云申请的签名，笔者创建的模版必须和腾讯云账号的签名保持一致。</p><p><img src="https://javayong.cn/pics/sms/tencentsign.png" alt="" referrerpolicy="no-referrer"></p><p>创建完模版之后，需要绑定渠道，我们需要在三方渠道先创建短信模版，然后提交绑定。</p><ol><li>三方渠道先创建短信模版</li></ol><p><img src="https://javayong.cn/pics/sms/applytencenttemplate.png" alt="" referrerpolicy="no-referrer"></p><p>如上图，笔者创建了编号为 1955325 的短信模版，因为我们需要在绑定界面绑定该渠道的模版，理论上在短信平台创建的模版可以绑定多个渠道。</p><ol start="2"><li><strong>绑定渠道</strong></li></ol><p><img src="https://javayong.cn/pics/sms/bingdingtemplate.png" alt="" referrerpolicy="no-referrer"></p><p>绑定完成之后，可以在模版管理页面查看模版列表 。</p><p><img src="https://javayong.cn/pics/sms/templatelist.png" alt="" referrerpolicy="no-referrer"></p><h2>3.3 发送短信</h2><p>发送短信可以参考 DEMO 模块：</p><p><img src="https://javayong.cn/pics/sms/demoproject.png" alt="" referrerpolicy="no-referrer"></p><p><strong>1、添加依赖</strong></p><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.courage&lt;/groupId&gt;
+    &lt;artifactId&gt;platform-sms-client&lt;/artifactId&gt;
+    &lt;version&gt;${parent.version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p><strong>2、客户端配置</strong></p><p>首先在 <code>application.yml </code>中配置如下：</p><pre><code class="language-yaml">sms:
+  smsServerUrl: http://localhost:8089
+  appKey: qQjEiFzn80v8VM4h
+  appSecret: 9c465ece754bd26a9be77f3d0e2606bd
+</code></pre><p>然后编写配置类：</p><pre><code class="language-java">@Configuration
+public class SmsConfiguration {
+
+    @Value("${sms.smsServerUrl}")
+    private String smsServerUrl;
+
+    @Value("${sms.appKey}")
+    private String appKey;
+
+    @Value("${sms.appSecret}")
+    private String appSecret;
+
+    @Bean
+    public SmsSenderClient createClient() {
+        SmsConfig smsConfig = new SmsConfig();
+        smsConfig.setAppKey(appKey);
+        smsConfig.setSmsServerUrl(smsServerUrl);
+        smsConfig.setAppSecret(appSecret);
+        SmsSenderClient smsSenderClient = new SmsSenderClient(smsConfig);
+        return smsSenderClient;
+    }
+
+}
+
+</code></pre><p><strong>3、单发短信</strong></p><pre><code class="language-java">@Autowired
+private SmsSenderClient smsSenderClient;
+
+@GetMapping("/test")
+public String test() {
+    // 手机号
+    String mobile = "15011319235";
+    // 短信平台模版编号
+    String templateId = "555829270636703745";
+    // 模版参数
+    Map&lt;String, String&gt; param = new HashMap&lt;String, String&gt;();
+    param.put("code", "1234");
+    param.put("time", "10");
+    SmsSenderResult senderResult = smsSenderClient.sendSmsByTemplateId(mobile, templateId, param);
+    System.out.println("senderResult:" + JSON.toJSONString(senderResult));
+    return "hello , first short message !";
+}
+</code></pre><p>调用接口之后，用户就会收到如下的短信：</p><p><img src="https://javayong.cn/pics/sms/sendsmssucceed.png?b" alt="" referrerpolicy="no-referrer"></p><h1>4 开源</h1><p><img src="https://javayong.cn/pics/sms/platformsmsgithub.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>代码库地址：</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmakemyownlife%2Fplatform-sms" target="_blank">https://github.com/makemyownlife/platform-sms</a></p></blockquote><p>勇哥想把这个项目做为架构入门的教学项目，您可以从中学到 ：</p><ol><li>设计一个精简的客户端 SDK 。</li><li>理解 SPI 机制以及适配器模式。</li><li>配置合理的线程模型。</li></ol><hr><p>如果我的文章对你有所帮助，还请帮忙<strong>点赞、在看、转发</strong>一下，你的支持会激励我输出更高质量的文章，非常感谢！</p><p><img src="https://javayong.cn/pics/shipinhao/gongzhonghaonew.png" alt="" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:44:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/makemyownlife/blog/10243610</guid>
+            <link>https://my.oschina.net/makemyownlife/blog/10243610</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[报告：16% 的 AI 工作者正在使用开源模型]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">O'Reilly 发布的一份"<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">2023 Generative AI in the Enterprise</a>"报告<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.infoworld.com%2Farticle%2F3711380%2Fgenerative-ai-adoption-speed-unprecedented-oreilly-survey-says.html" target="_blank">指出</a>，由 OpenAI 的 GPT 大型语言模型和 ChatGPT 引领的生成式 AI 浪潮正在经历前所未有的快速普及。</span></p><p><span style="color:#000000">报告基于 2013 年 9 月 14 日至 9 月 23 日期间收到的共 4782 份回复。其中有 2857 名受访者回答了所有问题。74% 的受访者来自北美或欧洲。</span></p><p><img height="415" src="https://static.oschina.net/uploads/space/2023/1127/114145_aRHK_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">有三分之二的受访者表示，他们已经在使用生成式 AI。"我们从未见过一项技术能像生成式 AI 一样被如此快速地采用 -- 很难相信 ChatGPT 才诞生不到一年。"</span></p><p><span style="color:#000000">但与此同时，生成式 AI 技术在采用过程中仍存在一些问题。报告发现，难以找到商业用例以及对法律问题的担忧阻碍了 AI 的发展。AI 解决方案的构思和实施不当可能会造成损害，而使用生成式 AI 的法律后果仍是未知数，例如存在谁拥有 AI 生成结果的版权等问题。</span></p><p><span style="color:#000000">并且一些公司文化还会制约 AI 的应用。另一方面，构建生成式 AI 建设基础设施的难度和高成本也是一个令人担忧的问题。</span></p><p><span style="color:#000000">报告的一些其他发现包括：</span></p><ul><li><span style="color:#000000">54% 的 AI 用户预计 AI 的最大好处是提高生产力。</span></li><li><span style="color:#000000">77% 的受访者使用 AI 来辅助编程。其中提到的具体应用包括欺诈检测、教学和客户关系管理。</span></li><li><span style="color:#000000">AI 用户表示，AI 编程（66%）和数据分析（59%）是最需要的技能。</span></li><li><span style="color:#000000">许多 AI 采用者仍处于早期阶段：26% 的人使用 AI 不到一年，而 18% 的人已经在生产中进行了应用。</span></li><li><span style="color:#000000">16% 的从事 AI 工作的受访者表示正在使用开源模型。</span></li><li><span style="color:#000000">意外结果、安全性、公平性、偏见和隐私是采用者测试的最大风险。</span></li></ul><p><span style="color:#000000">详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">查看完整报告</a>。&nbsp;</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</guid>
+            <link>https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Fish Shell 采用 Rust 重写会导致性能下降]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>fish 是适用于 Linux、macOS 的命令行 Shell，其名字取于 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的简称，最大特点就是方便易用、功能强大、智能并且用户友好。很多其他 Shell 需要配置才有的功能，fish 默认提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>项目维护者 Fabian Boehm 今天在 GitHub 回应了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重写 Fish Shell</a></u>&nbsp;的进度，称已几乎完成。</p><p>根据开发者的说法，他们已经完成了从 C++ 到 Rust 的大部分移植工作，但还有一些剩余的组件需要进行翻译。目前，他们正在处理与输入系统相关的读取器、屏幕处理、输入和分页器等强耦合组件。一旦这些组件完成翻译，剩下的工作就是一些零散的部分和去除构建系统的 C++ 依赖。</p><p>开发者表示，<strong>这不是一个适合临时贡献的项目</strong>，因为还有很多工作要做。</p><p>此外，开发者还回答了一些关于移植的问题和误解。<strong>他们表示不会删除所有的 C++ 代码</strong>，也没有计划移植到 Windows 平台。他们还表示不会更改 Fish Shell 的名称或吉祥物，并且对于最终移植的性能，他们表示早期结果是令人鼓舞的，<strong>但可能在某些情况下会比现有版本慢约 20%</strong>。</p><p>最后，他们提到即使完成了初始移植工作，项目也还有很多工作要做。</p><p>来源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:19:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
+            <link>https://www.oschina.net/news/268315</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[精选网站流量分析工具]]>
@@ -25,9 +136,33 @@
             <description>
                 <![CDATA[精选网站流量分析工具]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:41:30 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
             <link>https://www.oschina.net/project/awesome?columnId=65</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Dromara 社区新晋开源项目 dbswitch，异构数据库迁移同步工具！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1>一个适用于异构数据库迁移同步的简单工具 dbswitch</h1><h2>作者介绍</h2><ul><li>网名：三胖 (inrgihc)</li><li>dromara 开源组织成员，项目 dromara/dbswitch 作者</li><li>项目地址：<a href="https://gitee.com/dromara/dbswitch">https://gitee.com/dromara/dbswitch</a></li></ul><p>&nbsp;</p><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-6c79b909dbfad7a428286eebe6fd1c2f82b.png" width="400" referrerpolicy="no-referrer"></p><h2>dbswitch 的诞生</h2><p>你需要<strong>将 Oracle 等老牌数据库中的数据一键搞到 MySQL 或 PostgreSQL 中</strong>么？你需要<strong>将 MySQL 等关系型数据库中的数据一键搞到 Greenplum/ClickHouse 等 OLAP 数据库中进行分析</strong>么？</p><p>如果你在工作中遇到与我同样的需求，那么不妨体验下 dbswitch 工具。</p><p>dbswitch 是在<strong>数据库间数据搬迁</strong>和<strong>数据入仓入湖</strong>这两大背景环境下诞生的，虽然目标路程还很长，但是<strong>dbswitch 作为一款开源工具</strong>会一直再努力坚持着（也许各个数据库厂商都有自己的专业迁移工具）。</p><h2>dbswitch 的功能</h2><p>简言之，dbswitch 提供源端数据库向目的端数据库的批量迁移同步功能：</p><ul><li>结构迁移：</li></ul><p>(1) 支持字段类型、主键信息、建表语句等的转换，并生成建表 SQL 语句。</p><p>(2) 支持基于正则表达式转换的表名与字段名映射转换。</p><ul><li>数据同步：</li></ul><p>(1) 基于 JDBC 的分批次读取源端数据库数据，并基于 jdbc(insert/copy 方式) 将数据分批次写入目的数据库。</p><p>(2) 支持有主键表（基于数据比对变化计算原理的）增量变更 (insert/update/delete) 同步功能</p><h2>dbswitch 支持的数据库</h2><p>当前基于<strong>驱动隔离</strong>已经集成支持<strong>多版本的数据库</strong>产品如下：</p><ul><li>甲骨文的 Oracle</li><li>微软的 Microsoft SQLServer</li><li>MySQL/MariaDB</li><li>PostgreSQL</li><li>Greenplum(需使用 PostgreSQL 类型)</li><li>IBM 的 DB2</li><li>Sybase 数据库</li><li>国产达梦数据库 DMDB</li><li>国产人大金仓数据库 Kingbase8</li><li>国产翰高数据库 HighGo</li><li>国产神通数据库 Oscar</li><li>国产南大通用数据库 GBase8a</li><li>Apache Hive(基于 JdbcStorageHandler)</li><li>SQLite3</li><li>OpenGuass</li><li>ClickHouse</li><li>MongoDB</li></ul><h2>dbswitch 的部署体验</h2><h3>1.一键部署</h3><ul><li>基于 docker-compose 的一键安装 (或升级):</li></ul><pre><code>curl -sSL https://gitee.com/inrgihc/dbswitch/attach_files/1551962/download | sh
+</code></pre><ul><li>基于 docker 的一键安装：</li></ul><p>假设已经部署好的 MySQL 数据库地址为 192.168.31.57，端口为 3306，账号为 test，密码为 123456</p><pre><code>docker run -d --name dbswitch \\
+ -e MYSQLDB_HOST=192.168.31.57 \\
+ -e MYSQLDB_PORT=3306 \\
+ -e MYSQLDB_USERNAME=test \\
+ -e MYSQLDB_PASSWORD='123456' \\
+ -v /tmp:/tmp \\
+ -p 9088:9088 \\
+ registry.cn-hangzhou.aliyuncs.com/inrgihc/dbswitch:1.8.2
+</code></pre><h2>2.部分截图</h2><p><img height="992" src="https://oscimg.oschina.net/oscnet/up-248a80912f903336faae60ac7147a23fbde.png" width="1842" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="991" src="https://oscimg.oschina.net/oscnet/up-23ac44c99d40214512e2fe4506c63c69c32.png" width="1827" referrerpolicy="no-referrer"></p><ul><li>二次集成开发</li></ul><p>dbswitch 也支持 java 下二次集成开发，具体可查看 dbswitch 项目中的文档说明。</p><h2>关注 dbswitch</h2><p>欢迎体验使用 dbswitch 工具，同时项目中也提供了 dbswitch 相关的实现原理。</p><h2>友情项目</h2><p>[1] <a href="https://gitee.com/inrgihc/greenplum_installer">Greenplum 一键安装</a></p><p>[2] <a href="https://gitee.com/inrgihc/libnpce">新闻文章正文抽取正文抽取组件</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 02:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268303</guid>
+            <link>https://www.oschina.net/news/268303</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
         </item>
         <item>
             <title>
@@ -73,7 +208,7 @@
     = 1.87855 eV    [Energy]</code></pre></div>
                                                                 ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:26:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:25:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
             <link>https://www.oschina.net/p/numbat</link>
         </item>
@@ -85,7 +220,7 @@
                 <![CDATA[<div class="content"><p>此前网传阿里巴巴达摩院由于预算及盈利等原因，已经撤裁旗下量子实验室。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-f56d238fc4cd0472484cff8074725c56bb7.png" referrerpolicy="no-referrer"></p></blockquote><p>对此，阿里巴巴达摩院相关人士回应九派财经称，为了进一步推动量子科技协同发展，达摩院联合浙江大学发展量子科技，<strong>达摩院将量子实验室及可移交的量子实验仪器设备捐赠予浙江大学</strong>，并向其他高校和科研机构进行开放。</p><p>目前，达摩院量子实验室网站已撤下之前的所有内容 (<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdamo.alibaba.com%2Flabs%2Fquantum%2F%3Flang%3Dzh" target="_blank">https://damo.alibaba.com/labs/quantum/?lang=zh</a></u>)。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1fe3290832247ef64372a3cecccec9e368c.png" referrerpolicy="no-referrer"></p><p>「中国科学院-阿里巴巴量子计算实验室（AQL）」于 2015 年 7 月 30 日揭牌成立，计划在量子信息科学领域开展前瞻性研究，研制量子计算机。根据该联合实验室的研究计划：</p><ul><li><p>预计到 2025 年，量子模拟将达到当今世界最快的超级计算机的水平；</p></li><li><p>到 2030 年，研制具有 50—100 个量子比特的通用量子计算原型机，突破大规模量子计算机的芯片工艺，从物理层设计、制造，到算法运行实现自主研发，全面实现通用量子计算功能，并应用于大数据处理等重大实际问题。</p></li></ul><p>达摩院此前在该领域进行了长期投入，配置了国际领先的量子实验专用仪器设备，建成 Lab-1、Lab-2 两座硬件实验室，具备量子计算软硬件全栈开发能力。</p><p>除此之外，达摩院在芯片制备、比特相干时长、门操控、量子纠错，量子计算控制架构等领域取得了多个重要成果，包括高精度、多比特超导量子芯片，量子电路经典模拟器「太章」等。</p><hr><p><strong>延伸阅读</strong></p><ul><li><a href="https://www.oschina.net/news/259545" target="news">百度发布首个量子领域大模型</a></li><li><a href="https://www.oschina.net/news/203591/cirq-1-0-released" target="news">谷歌发布量子编程框架 Cirq 1.0 版本</a></li><li><a href="https://www.oschina.net/news/180254/mit-new-language-quantum-computing-twist" target="news">MIT 推出用于量子计算的编程语言 Twist</a></li><li><a href="https://www.oschina.net/news/124369/alibaba-open-source-taizhang-2-0" target="news">阿里开源量子模拟器 「太章 2.0」</a></li><li><a href="https://www.oschina.net/news/122471/china-quantum-hegemony" target="news">中国「量子霸权」成果：比最快超级计算机快一百万亿倍</a></li><li><a href="https://www.oschina.net/news/117459/us-plans-quantum-internet" target="news">美国发布量子互联网蓝图：十年内建成</a></li><li><a href="https://www.oschina.net/news/116574/silq-programming-language-for-quantum-computers" target="news">量子计算机领域内第一种高级编程语言 Silq 诞生</a></li><li><a href="https://www.oschina.net/news/108172/microsoft-quantum-oss-available-github" target="news">微软宣布开源量子开发工具包</a></li><li><a href="https://www.oschina.net/news/98474/google-opensource-cirq" target="news">拥抱新时代，Google 开源量子算法框架 CIRQ</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:22:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:21:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268299</guid>
             <link>https://www.oschina.net/news/268299</link>
             <author>
@@ -97,9 +232,9 @@
                 <![CDATA[Gitee 推荐 | 轻量级本地化热点检测/降级框架 Akali]]>
             </title>
             <description>
-                <![CDATA[<p align="center"><a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com%2F"><img src="https://gitee.com/dromara/Akali/raw/master/static/img/logo-main.svg" height="auto" alt="logo" referrerpolicy="no-referrer"></a></p><h3><a id="官网 httpsakaliyomahubcom" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AE%98%E7%BD%91httpsakaliyomahubcom"></a>官网：<a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com">https://akali.yomahub.com</a></h3><h3><a id="介绍" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BB%8B%E7%BB%8D"></a>介绍</h3><p>Akali（阿卡丽）是一个轻量级本地化热点检测/降级框架，适用于大流量场景，可轻松解决业务中超高流量的并发查询等场景。并且接入和使用极其简单，10 秒钟即可接入使用！</p><p>Akali 框架的理念就是小巧，实用，来无影去无踪，丝血团战，满血退场，所到之处，皆为虚无。</p><h3><a id="使用" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BD%BF%E7%94%A8"></a>使用</h3><p>引入依赖：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;dependency&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;groupId&gt;</span>org.dromara<span class="nt">&lt;/groupId&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;artifactId&gt;</span>akali<span class="nt">&lt;/artifactId&gt;</span></span><span id="LC4" class="line"><span class="nt">&lt;version&gt;</span>1.1.2<span class="nt">&lt;/version&gt;</span></span><span id="LC5" class="line"><span class="nt">&lt;/dependency&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h4><a id="对任意方法进行热点处理" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E7%83%AD%E7%82%B9%E5%A4%84%E7%90%86"></a>对任意方法进行热点处理</h4><p>只需要加上<code>@AkaliHot</code>这个标注，任意方法均可以获得热点检测，并在热点期间用热点数据进行返回，在热点过后，又会自动调用原本业务逻辑。</p><p>举例：比如有一个商品查询的业务，传入 SkuCode，返回商品信息。当某个商品进行促销时，访问的量就会增加，但是对于相同的 SkuCode 而言，其短时间窗口内返回的 SkuInfo 是一致的，我们的目标是当某个商品 sku 被大量查询时，框架能够在短时间内把这个商品 sku 提为热点数据，并通过对其进行缓存返回来降低对下游业务的压力。而当热点值过后，框架又能够自动摘除这个热点值，使其按照原有方式进行查询。</p><p>其本质相当于实时的监测了热点，并对其热点数据做了一个短时间内的缓存。</p><p>以下示例代表了：当相同的 skuCode 在 5 秒内超过 50 次调用时，会自动把这个 skuCode 的值提为热点，并用最后一次的返回值直接返回。当调用低于 5 秒 50 次调用时，框架会自动的摘除掉这个热点。使其正常的调用你原有代码进行逻辑计算并返回。这一切都是自动的。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_QPS</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>其中<code>grade</code>参数除了有以<code>QPS</code>作为维度统计，还有以<code>Thread</code>个数作为维度统计。比如：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>这就代表了，如果某个 skuCode 在 5 秒之内有超过 50 个线程正在运行，那么就提为热点，并用热点数据直接返回。</p><p>对开源项目比较熟悉的同学看到这肯定想到了京东的框架-<code>hotkey</code>，<code>Akali</code>不同于<code>hotkey</code>，完全是本地运行的，不依赖于服务端，而且接入比<code>hotkey</code> 方便多了。性能完全相当于<code>hotkey</code>。</p><h4><a id="对任意方法进行降级" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BA%A7"></a>对任意方法进行降级</h4><p>只需要加上<code>@AkaliFallback</code>注解。任意方法均可获得降级功能。</p><p>举例：某一个方法需要调用外部的接口，但是外部的接口性能不佳，耗时高。当并发一高时，线程池就会吃满，线程池队列也会逐渐堆积从而导致超时，或者丢弃，严重时会拖垮整个系统。</p><p>这时，我们只要对这个方法加上<code>@AkaliFallback</code>标注，即可解决。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliFallback</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHi</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC3" class="line"><span class="k">return</span><span class="s">"hi,"</span><span class="o">+</span><span class="n">name</span><span class="o">;</span></span><span id="LC4" class="line"><span class="o">}</span></span><span id="LC5" class="line"></span><span id="LC6" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHiFallback</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC7" class="line"><span class="k">return</span><span class="s">"fallback str"</span><span class="o">;</span></span><span id="LC8" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>以上注解表示了，当这个方法的同时运行的线程超过 100 个时，触发降级，降级会自动调用<code>原方法名+Fallback</code>方法名 (并且参数要一致)，当降级触发后会直接返回<code>fallback str</code>，当线程数小于 100 时，框架也会自动摘除降级，还是输出<code>hi,xxxx</code>。</p><p>如果你的类中没有定义 fallback 方法，那么触发降级时会报错，当然你可以在降级方法中去抛错，来让上游系统知道你这个方法已经达到了瓶颈。</p><h3><a id="注意事项" class="anchor" href="https://gitee.com/dromara/Akali#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"></a>注意事项</h3><p>Akali 只针对于 Springboot，Spring 环境，并且所有标注了<code>@AkaliHot</code>或者<code>@AkaliFallback</code>的类一定得注册到 spring 上下文中。</p><p>Akali 在 springboot 中会自动扫描所有标注的类，您无需做任何配置，在 spring 中，你需要配置：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.FallbackStrategy"</span><span class="nt">/&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.MethodHotspotStrategy"</span><span class="nt">/&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.spring.AkaliScanner"</span><span class="nt">/&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h3><a id="交流群" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BA%A4%E6%B5%81%E7%BE%A4"></a>交流群</h3><img src="https://gitee.com/dromara/Akali/raw/master/static/img/chat.png" referrerpolicy="no-referrer">]]>
+                <![CDATA[<p align="center"><a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com%2F"><img src="https://gitee.com/dromara/Akali/raw/master/static/img/logo-main.svg" height="auto" alt="logo" referrerpolicy="no-referrer"></a></p><h3><a id="user-content-官网 httpsakaliyomahubcom" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AE%98%E7%BD%91httpsakaliyomahubcom"></a>官网：<a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com">https://akali.yomahub.com</a></h3><h3><a id="user-content-介绍" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BB%8B%E7%BB%8D"></a>介绍</h3><p>Akali（阿卡丽）是一个轻量级本地化热点检测/降级框架，适用于大流量场景，可轻松解决业务中超高流量的并发查询等场景。并且接入和使用极其简单，10 秒钟即可接入使用！</p><p>Akali 框架的理念就是小巧，实用，来无影去无踪，丝血团战，满血退场，所到之处，皆为虚无。</p><h3><a id="user-content-使用" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BD%BF%E7%94%A8"></a>使用</h3><p>引入依赖：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;dependency&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;groupId&gt;</span>org.dromara<span class="nt">&lt;/groupId&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;artifactId&gt;</span>akali<span class="nt">&lt;/artifactId&gt;</span></span><span id="LC4" class="line"><span class="nt">&lt;version&gt;</span>1.1.2<span class="nt">&lt;/version&gt;</span></span><span id="LC5" class="line"><span class="nt">&lt;/dependency&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h4><a id="user-content-对任意方法进行热点处理" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E7%83%AD%E7%82%B9%E5%A4%84%E7%90%86"></a>对任意方法进行热点处理</h4><p>只需要加上<code>@AkaliHot</code>这个标注，任意方法均可以获得热点检测，并在热点期间用热点数据进行返回，在热点过后，又会自动调用原本业务逻辑。</p><p>举例：比如有一个商品查询的业务，传入 SkuCode，返回商品信息。当某个商品进行促销时，访问的量就会增加，但是对于相同的 SkuCode 而言，其短时间窗口内返回的 SkuInfo 是一致的，我们的目标是当某个商品 sku 被大量查询时，框架能够在短时间内把这个商品 sku 提为热点数据，并通过对其进行缓存返回来降低对下游业务的压力。而当热点值过后，框架又能够自动摘除这个热点值，使其按照原有方式进行查询。</p><p>其本质相当于实时的监测了热点，并对其热点数据做了一个短时间内的缓存。</p><p>以下示例代表了：当相同的 skuCode 在 5 秒内超过 50 次调用时，会自动把这个 skuCode 的值提为热点，并用最后一次的返回值直接返回。当调用低于 5 秒 50 次调用时，框架会自动的摘除掉这个热点。使其正常的调用你原有代码进行逻辑计算并返回。这一切都是自动的。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_QPS</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>其中<code>grade</code>参数除了有以<code>QPS</code>作为维度统计，还有以<code>Thread</code>个数作为维度统计。比如：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>这就代表了，如果某个 skuCode 在 5 秒之内有超过 50 个线程正在运行，那么就提为热点，并用热点数据直接返回。</p><p>对开源项目比较熟悉的同学看到这肯定想到了京东的框架-<code>hotkey</code>，<code>Akali</code>不同于<code>hotkey</code>，完全是本地运行的，不依赖于服务端，而且接入比<code>hotkey</code> 方便多了。性能完全相当于<code>hotkey</code>。</p><h4><a id="user-content-对任意方法进行降级" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BA%A7"></a>对任意方法进行降级</h4><p>只需要加上<code>@AkaliFallback</code>注解。任意方法均可获得降级功能。</p><p>举例：某一个方法需要调用外部的接口，但是外部的接口性能不佳，耗时高。当并发一高时，线程池就会吃满，线程池队列也会逐渐堆积从而导致超时，或者丢弃，严重时会拖垮整个系统。</p><p>这时，我们只要对这个方法加上<code>@AkaliFallback</code>标注，即可解决。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliFallback</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHi</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC3" class="line"><span class="k">return</span><span class="s">"hi,"</span><span class="o">+</span><span class="n">name</span><span class="o">;</span></span><span id="LC4" class="line"><span class="o">}</span></span><span id="LC5" class="line"></span><span id="LC6" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHiFallback</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC7" class="line"><span class="k">return</span><span class="s">"fallback str"</span><span class="o">;</span></span><span id="LC8" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>以上注解表示了，当这个方法的同时运行的线程超过 100 个时，触发降级，降级会自动调用<code>原方法名+Fallback</code>方法名 (并且参数要一致)，当降级触发后会直接返回<code>fallback str</code>，当线程数小于 100 时，框架也会自动摘除降级，还是输出<code>hi,xxxx</code>。</p><p>如果你的类中没有定义 fallback 方法，那么触发降级时会报错，当然你可以在降级方法中去抛错，来让上游系统知道你这个方法已经达到了瓶颈。</p><h3><a id="user-content-注意事项" class="anchor" href="https://gitee.com/dromara/Akali#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"></a>注意事项</h3><p>Akali 只针对于 Springboot，Spring 环境，并且所有标注了<code>@AkaliHot</code>或者<code>@AkaliFallback</code>的类一定得注册到 spring 上下文中。</p><p>Akali 在 springboot 中会自动扫描所有标注的类，您无需做任何配置，在 spring 中，你需要配置：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.FallbackStrategy"</span><span class="nt">/&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.MethodHotspotStrategy"</span><span class="nt">/&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.spring.AkaliScanner"</span><span class="nt">/&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h3><a id="user-content-交流群" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BA%A4%E6%B5%81%E7%BE%A4"></a>交流群</h3><img src="https://gitee.com/dromara/Akali/raw/master/static/img/chat.png" referrerpolicy="no-referrer">]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:12:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:11:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/dromara/Akali</guid>
             <link>https://gitee.com/dromara/Akali</link>
         </item>
@@ -235,7 +370,7 @@
     </section></li></ul><span id="OSC_h2_12"></span><h2 data-tool="mdnice 编辑器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">下一步</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 编辑器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">@patrickvonplaten 建了一个非常酷的，笔记本，以展示如何在 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">trivia-qa</code> 数据集上评估 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">BigBirdForQuestionAnswering</code> 。你可以随意用这个笔记本来玩玩 BigBird。</p><p data-tool="mdnice 编辑器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);"><strong style="color: black;">BigBird 版的 Pegasus</strong> 模型很快就会面世，你可将它们用于 <strong style="color: black;">长文档摘要</strong> 💥。</p><span id="OSC_h2_13"></span><h2 data-tool="mdnice 编辑器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">尾注</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 编辑器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">你可在，此处，找到 <strong style="color: black;">块稀疏注意力矩阵</strong> 的原始实现。🤗 版的实现在，这儿。</p><blockquote data-tool="mdnice 编辑器" style="border-top: none;border-right: none;border-bottom: none;font-size: 0.9em;overflow: auto;color: rgb(106, 115, 125);padding: 10px 10px 10px 20px;margin-bottom: 20px;margin-top: 20px;border-left-color: rgb(255, 177, 27);background: rgb(255, 245, 227);"><p style="font-size: 16px;line-height: 26px;color: rgb(89, 89, 89);">🤗 宝子们可以戳 <strong style="color: black;">阅读原文</strong> 查看文中所有的外部链接哟！</p></blockquote><hr data-tool="mdnice 编辑器" style="height: 1px;border-right: none;border-bottom: none;border-left: none;border-top-style: solid;border-top-color: rgb(249, 191, 69);margin-top: 20px;margin-bottom: 20px;"><blockquote data-tool="mdnice 编辑器" style="border-top: none;border-right: none;border-bottom: none;color: rgb(91, 91, 91);background: rgba(158, 158, 158, 0.1);padding-top: 1px;padding-bottom: 1px;padding-left: 5px;margin-top: 0px;margin-bottom: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">英文原文:&nbsp;<span style="color: rgb(136, 136, 136);letter-spacing: 0px;">https://hf.co/blog/big-bird</span></p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">原文作者: Vasudev Gupta</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">译者: Matrix Yao (姚伟峰)，英特尔深度学习工程师，工作方向为 transformer-family 模型在各模态数据上的应用及大规模模型的训练推理。</p></blockquote></blockquote></blockquote></blockquote></section><p style="display: none;"><mp-style-type data-value="3"></mp-style-type></p></div><p style="color: #858585; font-size: 13px;">本文分享自微信公众号 - Hugging Face（gh_504339124f0f）。<br>如有侵权，请联系 support@oschina.cn 删除。<br>本文参与「<a href="https://www.oschina.net/sharing-plan" target="_blank">OSC 源创计划</a>」，欢迎正在阅读的你也加入，一起分享。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:09:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:08:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10150964</guid>
             <link>https://my.oschina.net/HuggingFace/blog/10150964</link>
             <author>
@@ -250,7 +385,7 @@
                 <![CDATA[<div class="content"><p>Mozilla 官方博客最近<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhacks.mozilla.org%2F2023%2F10%2Fdown-and-to-the-right-firefox-got-faster-for-real-users-in-2023%2F">发表文章</a>，称 2023 年 Firefox 在提升用户体验方面取得了显著的进展，真实用户使用 Firefox 能感受到速度更快。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-48c6863ad3edd6c093cc619549ed7f30c35.png" referrerpolicy="no-referrer"></p><p>据介绍，Firefox 通过收集与<strong>页面加载、响应速度、启动</strong>等浏览器性能相关的匿名化时间度量指标来衡量用户体验。文章分享了一些对用户浏览器体验至关重要的指标在一年中是如何改进的。</p><ul><li><h4><strong>优化页面加载速度</strong></h4></li></ul><p>Firefox 使用 "First Contentful Paint (FCP)" 这个指标来衡量用户感知的性能。FCP 指的是从网络接收到第一个字节到页面显示内容的时间。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-16ba708b843784921085bfebb7aede81380.png" referrerpolicy="no-referrer"></p><p>数据显示，从年初的大约 250 毫秒，到十月份的 215 毫秒，<strong>页面加载速度提高了约 15%</strong>。这意味着用户能够更快地收到页面加载的反馈信息。</p><ul><li><h4><strong>优化 JavaScript 执行时间</strong></h4></li></ul><p>Firefox 还关注页面加载过程中 JavaScript 代码的执行时间。</p><p>数据显示，95% 的页面中 JavaScript 执行时间从年初的约 1560 毫秒，到十月份的约 1260 毫秒，速度提升了约 20%。这对于减少页面加载时间起到了重要作用。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-180320b8057907172e172bf066f77cc7c79.png" referrerpolicy="no-referrer"></p><ul><li><h4><strong>优化键盘响应速度</strong></h4></li></ul><p>Firefox 还关注页面加载后的响应速度。更具体来说，它关注键盘按下后到屏幕上显示结果的时间。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-19618b78169525abf4262e888f93daec3dc.png" referrerpolicy="no-referrer"></p><p>数据显示，95% 的页面中键盘响应速度从年初的约 65 毫秒，到八月份的约 59 毫秒，速度提升了约 10%。这意味着用户在键入时能够更快地得到反馈，减少了打字时的延迟。</p><p>Firefox 团队表示，通过这些数据可以看出 Firefox 在 2023 年取得了用户体验方面的显著改善。这些改进是通过优化浏览器的性能和 JavaScript 引擎实现的。Firefox 团队还表示他们将继续努力进行更多的优化，并在未来的文章中分享更多细节和进展。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 12:16:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 12:16:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</guid>
             <link>https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</link>
             <author>
@@ -265,7 +400,7 @@
                 <![CDATA[<div class="content"><p>GNOME 基金会本月从「Sovereign Tech Fund」获得了 <u><a href="https://www.oschina.net/news/265839/gnome-sovereign-tech-fund">100 万欧元投资</a></u>，用于帮助 GNOME 实现平台现代化、改进工具和可访问性，并支持符合公共利益的功能。</p><p>目前，围绕 systemd-homed 和其他功能集成的新工作正在进行中，通过将 systemd-homed 集成到 GNOME 的 AccountService 中，用户可以为他们的 Home 目录创建加密卷，确保个人数据的安全性。</p><p>本周 GNOME 开发工作的部分亮点包括：</p><ol><li>通过 XDG Desktop Portal，使沙盒应用程序支持文件夹的拖放功能</li><li>改进 GNOME Shell 和合成器的性能，并集成 Tracy 分析器<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-a4ae5a9624f158104c73a6cd332f2a7b75f.png" referrerpolicy="no-referrer"><p>&nbsp;</p></li><li>提升硬件加速屏幕录制和改进 Linux 蓝牙协议堆栈</li><li>正在开发 Mutter 中对 OpenGL KHR_robustness 扩展的支持，以帮助 GNOME 会话从 GPU 驱动程序崩溃中恢复</li><li>Fractal Matrix 消息应用程序在 Fractal 5 中进行了全面重写，现在使用 GTK 4、libadwaita 和 Matrix Rust SDK。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-aa30c942344821d70d7dffa1d26d5fcf6bf.png" referrerpolicy="no-referrer"></li></ol><p>有关这些最新 GNOME 工作的更多详细信息，请参见本周 GNOME 动态：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fthisweek.gnome.org%2Fposts%2F2023%2F11%2Ftwig-123%2F" target="_blank">https://thisweek.gnome.org/posts/2023/11/twig-123/</a></em></u></p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 02:53:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 02:53:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268167</guid>
             <link>https://www.oschina.net/news/268167</link>
             <author>
@@ -280,9 +415,54 @@
                 <![CDATA[<div class="content"><p>根据 Firefox 最近的提交信息，Firefox 121 计划在现代 Linux 桌面上默认启用 Wayland 支持，而不是回退到 XWayland。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-af58e5b492ff8f046886d946f3b112b8abc.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f1786452d74604703605a8963620fd4491.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugzilla.mozilla.org%2Fshow_bug.cgi%3Fid%3D1752398" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=1752398</a></u></em>、<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhg.mozilla.org%2Fmozilla-central%2Frev%2F5ea5f3e31d58" target="_blank">https://hg.mozilla.org/mozilla-central/rev/5ea5f3e31d58</a></em></u></p><p>本周发布了 <u><a href="https://www.oschina.net/news/267557/firefox-120-0-released">Firefox 120 </a></u>稳定版，Firefox 121 现在处于测试阶段 —— Wayland 支持已默认启用，并且截至昨天的 beta 3 版本仍然开启，有望在稳定版中保持该状态。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6256943e2a71993b6018e4b3e5f2199fa60.png" referrerpolicy="no-referrer"></p><p>原生 Firefox Wayland 支持可实现触摸板和触摸屏手势、滑动导航、每个显示器的 DPI 设置、更好的图形性能等等。随着时间的推移，Firefox Wayland 支持已经相当成熟，并且现在处于稳健状态。用户表示在 Firefox 121 beta 测试中，它的表现非常好。</p><p>Firefox 121 计划于 12 月 19 日发布，如果默认启用 Wayland 支持，这将是一个很好的圣诞礼物。随着 KDE Plasma 6.0 默认切换到 Wayland 会话，以及其他地方达到的 Wayland 采用里程碑，2024 年可能成为 Wayland 主导 Linux 桌面的一年。</p><hr><p>延伸阅读</p><ul><li><a href="https://www.oschina.net/news/261201/gnome-mr-drop-x11-session">GNOME 移除对 X.Org 会话支持</a></li><li><a href="https://www.oschina.net/news/263917/linux-mint-wayland-progress">Linux Mint "Cinnamon" 开始支持 Wayland</a></li><li><a href="https://www.oschina.net/news/256249/intellij-based-ide-wayland-support">JetBrains 为基于 IntelliJ 的 IDE 提供 Wayland 支持</a></li><li><a href="https://www.oschina.net/news/241063/asahi-linux-stop-x-org">Asahi Linux 致用户：停止使用 X.Org，Wayland 才是未来</a></li><li><a href="https://www.oschina.net/news/227050/xfce-4-20-wayland-support">Xfce 4.20 将正式支持 Wayland</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 01:26:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 01:26:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</guid>
             <link>https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[LibreOffice Viewer 重新上架 Google Play 商店]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/news/268085/libreoffice-7-6-3-and-android-viewer-app">LibreOffice 7.6.3</a>&nbsp;于昨日更新，与其同时发布的还有 Android 版 LibreOffice Viewer——已重新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.documentfoundation.libreoffice" target="_blank">上架至 Google Play 商店</a>。</p><p>LibreOffice Viewer 是 LibreOffice 的轻量级版本，专为 Android 智能手机和平板电脑设计，用于查看 OpenDocument 和 Microsoft Office 格式文档。具体包括：</p><p>• 开放文档格式（odt、ods、odp、odg）<br> • Microsoft Office 2007–365（docx、xlsx 和 pptx）<br> • Microsoft Office 97–2003（doc、xls 和 ppt）</p><p>它与适用于 Windows、macOS 和 Linux 的 LibreOffice 桌面基于相同的 LibreOffice 技术构建，因此它以完全相同的方式显示文档。</p><p><strong>LibreOffice Viewer&nbsp; 运行截图</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-15b7f109e6f110504216473c4672024e086.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3679fd58f40a452c8afc18ff4d22d3e811f.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.documentfoundation.org%2Fblog%2F2023%2F11%2F24%2Flibreoffice-viewer-app-for-android%2F" target="_blank">LibreOffice Viewer 此前曾上架 Google Play 商店</a>，但由于缺乏维护，于 2020 年被下架。此后，开发团队通过 200 多项变更来改进该应用程序，提升其稳定性和可用性，支持当前的 Android 版本并更好地与系统集成。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 05:07:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</guid>
+            <link>https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[英伟达推迟发布中国特供版 AI 芯片]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.reuters.com%2Ftechnology%2Fnvidia-delays-launch-new-china-focused-ai-chip-sources-2023-11-24%2F" target="_blank">根据路透社的独家报道</a></u>，两名知情人士透露，英伟达已通知中国客户，<strong>其为遵守美国出口规定而设计的新款 AI 芯片将推迟到明年第一季度发布</strong>。</p><blockquote><p>前情提要：<strong><em><u><a href="https://www.oschina.net/news/265728">英伟达或将推出针对中国区的最新改良版 AI 芯片</a></u></em></strong></p></blockquote><p>英伟达将特供三款 AI 芯片 <strong>HGX H20、L20 PCle 和 L2 PCle</strong>，它们全都由 H100 改良而来，<strong>推迟发布的是其中最强大的 H20，有可能延迟到明年 2 月或 3 月</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-edecf0f4b0f979b064fa454bfd31a0ec4e3.png" referrerpolicy="no-referrer"></p><p>知情人士称，推迟的原因被告知是服务器制造商在集成芯片上遇到问题。另外两款芯片中 L20 不会延期， 按照原定计划供货，L2 情况未知。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 03:33:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268075</guid>
+            <link>https://www.oschina.net/news/268075</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[GIMP 3.0 预计明年 5 月发布，下月中旬冻结功能]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>今年年初，GIMP 开发团队表示会在 2023 年发布 GIMP 3.0，或者至少发布 RC 版本，但不幸的是这个计划没有实现。</p><blockquote><p>相关阅读：<br><strong><em><u><a href="https://www.oschina.net/news/247312/gimp-3-0-rc-in-2023" target="_blank">GIMP 3.0 计划今年发布首个 RC</a></u></em><br><u><em><a href="https://www.oschina.net/news/226425/gimp-3-0-plans-in-2023">GIMP 3.0 计划今年推出，GTK+3 移植已基本完成</a><br><a href="https://www.oschina.net/news/250125/gimp-dev-completes-gtk3-port">GIMP 最新开发版已完成 GTK3 移植</a></em></u></strong></p></blockquote><p>GIMP 核心开发者和维护者 Jehan Pages&nbsp;<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.patreon.com%2Fposts%2Ffinale-countdown-93295511" target="_blank">本周宣布</a></u>了在明年 5 月的<em>« Libre Graphics Meeting »</em>会议上发布 GIMP 3.0 的新计划。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-5d66d782cdcf2e652456c9f1eb96d8155f6.png" referrerpolicy="no-referrer"></p></blockquote><p>按照他们公布的计划，GIMP 开发团队会在今年 12 月发布最终的 <strong>GIMP 2.99.xx 开发版</strong>，然后在几个月后发布 RC 版本，最终在明年五月完成 GIMP 3.0 的开发。</p><p>为了确保 GIMP 稳定性，<strong>其开发团队计划 12 月中旬开始冻结功能，然后用大约 5 个月集中精力修复 bug</strong>。据称，该软件现存的 bug 已经超过 4000 个，其中有 624 个是关于导致崩溃的。</p><p>在即将发布的 3.0 版本中，该软件将迎来「非破坏编辑」功能：允许用户对图像进行更改，而不会覆盖原始图像数据，原始图像数据将保持可用状态，以便用户在需要时恢复。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e25676c183a4c3051eab67adf7266d77e49.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-020dab40bdbb8b6195a42610503e1db1a62.png" referrerpolicy="no-referrer"></p><p>GIMP 3.0 使用 GTK3 进行重构，并且支持 Wayland，同时还有许多其他的改进和功能增强。对于这个版本，广大用户已经期待了十年，希望 GIMP 3.0 能够在明年春天如期发布。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 03:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</guid>
+            <link>https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
             </author>
@@ -401,148 +581,6 @@ ret</code></pre></div><p style="color:#121212; margin-left:0; margin-right:0; te
             <link>https://my.oschina.net/u/5407571/blog/10150775</link>
             <author>
                 <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[中国科学院软件所在开源自动驾驶平台建设方面取得进展]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">中国科学院软件研究所可信智能系统团队在开源自动驾驶（Self-driving System）平台建设方面取得进展，构建了一个开放易用且自主可控的自动驾驶算法开发、测试、仿真与验证平台 ISS。该成果得到中国科学院稳定支持基础研究领域青年团队计划「开放环境下的可信智能算法」项目支持。</span></p><p><span style="color:#000000">根据介绍，ISS 平台基于模块化的框架并以依赖库较少的方式实现了涵盖自动驾驶全流程（包括感知、建图、定位、预测、规划与控制等）的几十种基准算法（如图 1 所示），使用简单、易于扩展，可以为科研人员开展自动驾驶相关研究提供基础平台支撑。</span></p><p><img alt="" height="329" src="https://oscimg.oschina.net/oscnet/up-bf752988659c49e05377c82e311313f3fb6.png" width="500" referrerpolicy="no-referrer"></p><p><em><span style="color:#000000">图 1. ISS 平台架构</span></em></p><p><span style="color:#000000">ISS 平台具体实现了以下六大模块功能。</span></p><ul><li><span style="color:#000000">传感器模块：基于 CARLA 仿真器支持了常用的传感器；</span></li><li><span style="color:#000000">感知模块：基于深度学习方法实现了 2D 检测、2D 语义分割、Bev 地图生成、3D 目标检测等感知任务；</span></li><li><span style="color:#000000">预测模块：实现了匀速运动预测和基于 Motion Transformer 的预测；</span></li><li><span style="color:#000000">定位模块：实现了基于激光雷达、惯性测量单位、全球定位系统等的单传感器定位和基于卡尔曼滤波器等过滤器的多传感器融合定位；</span></li><li><span style="color:#000000">规划模块：实现了基于 Lanelet2 的 FloodFill 路线规划算法、基于规则的行为规划算法、基于 Lattice Planner 和 EM Planner 的运动规划算法；</span></li><li><span style="color:#000000">控制模块：实现了经典的 PID 和 MPC 控制算法。</span></li></ul><p><img alt="" height="191" src="https://oscimg.oschina.net/oscnet/up-67074db82f46cb368c7d1d3418d532cc664.png" width="500" referrerpolicy="no-referrer"></p><p><em><span style="color:#000000">图 2. ISS 平台在 CARLA 仿真平台的 2D、3D 感知效果</span></em></p><p><span style="color:#000000">目前，已有来自国防科技大学、西南大学、奥地利数字安全实验室、德国萨尔大学等国内外知名高校的科研团队利用 ISS 平台进行研究。</span></p><p><span style="color:#000000">软件所可信智能系统团队后续将对 ISS 平台各个模块的功能继续进行扩展完善，包括加入自动驾驶可解释性分析、安全性验证、物理小车及联合仿真等功能。ISS 平台有望成为该领域有影响力的开源基础支撑平台，为国内外自动驾驶与可信人工智能等方向的研究团队提供支持。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 09:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268000</guid>
-            <link>https://www.oschina.net/news/268000</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Blender 连续 5 天遭受大规模 DDoS 攻击]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">Blender 发布<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.blender.org%2Fnews%2Fcyberattack-november-2023%2F" target="_blank">公告称</a>，blender.org 网站在 2023 年 11 月 18 日至 23 日期间持续受到 DDoS 攻击，攻击者通过不断发送请求致使网站服务器超载而瘫痪，导致网站运营严重中断。除了 blender.org 主网站外，其他一些服务也无法使用。</span></p><p><span style="color:#000000">该攻击由具有数百个 IP 地址的僵尸网络执行，发送超过 15 亿个恶意请求，峰值速率为 10 万 rps（每秒请求）。网站断断续续的可用了几天，但即使在攻击者暂停攻击的短时间内，Blender 的基础设施仍然因大量待处理的合法请求而超载，导致服务器难以跟上。</span></p><p><span style="color:#000000">在经过四天的抵御攻击之后 (11 月 21 日) 后，Blender 决定将其网站转移到了 CloudFlare，以减少攻击的影响。目前尚未有人声称对这次袭击负责，动机也未知。</span></p><p><span style="color:#000000">Blender 方面表示，此次攻击的重点是拒绝服务，项目和用户数据未受影响。</span></p><p><span style="color:#000000">攻击事件的具体时间线如下：</span></p><blockquote><ul><li><span style="color:#000000"><strong>2023-11-18&nbsp;</strong>blender.org 网站上初步展现出恶意流量的迹象，通过阻止违规地址得到缓解。</span></li><li><span style="color:#000000"><strong>2023-11-19 </strong>恶意流量加剧，导致 blender.org 网站的可用性间歇性中断。</span></li><li><span style="color:#000000"><strong>2023-11-20 </strong>由于流量过大，blender.org 的一些服务（开发者论坛、维基等）无法使用。屏蔽 IP 范围不再有效。</span></li><li><span style="color:#000000"><strong>2023-11-21 </strong>攻击达到全面规模，需要完全停止 blender.org 服务。决定转而使用专门的 DDoS 缓解服务。当日结束时，blender.org 网站恢复正常运行。</span></li><li><span style="color:#000000"><strong>2023-11-22 01:30 </strong>攻击仍在持续，峰值为每分钟超过 500 万个请求。虽然 www.blender.org 的大部分功能已恢复正常，但仍存在一些问题：</span><ul><li><span style="color:#000000">用户在访问网站之前可能会面临一个「challenge」，以验证自己不是机器人</span></li><li><span style="color:#000000">由于技术原因，blender.org（不带 www）仍然无法访问。用户想访问 Blender.org，需确保正确输入 www.blender.org</span></li><li><span style="color:#000000">有几个站点仍然不可用（代码、开发人员、文档、devtalk、下载、wiki 等），开发人员继续努力恢复。 </span></li></ul></li><li><span style="color:#000000"><strong>2023-11-22 10:30&nbsp;</strong>攻击已经停止。blender 继续致力于恢复所有其他受影响站点。</span></li><li><span style="color:#000000"><strong>2023-11-22 20:30 </strong>所有 blender.org 站点均已恢复在线并正常运行。但以此同时，另一次攻击又已经开始。</span></li><li><span style="color:#000000"><strong>2023-11-23 20:30</strong> 攻击已经停止。总共有超过 2.1B 个请求 (高达 100K rps) 得到了缓解。blender 认为该问题已解决，并且只有在 blender.org 上的用户体验受到影响时才会进一步报告。</span>&nbsp;</li></ul></blockquote><p><img alt="" height="288" src="https://oscimg.oschina.net/oscnet/up-affc1ae024c2e2724c7542ba5f0d983081b.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">Blender 是一款免费开源的跨平台 3D 创作套件。使用 Blender，你可以创建 3D 可视化效果，例如静止图像，3D 动画，VFX 快照和视频编辑。它非常适合那些受益于其统一管线和响应式开发过程的个人和小型工作室。与其他 3D 建模工具相比，Blender 对内存和驱动的需求更低。其界面使用 OpenGL，在所有支持的硬件与平台都能提供一致的用户体验。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 08:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267990/blender-cyberattack-2023</guid>
-            <link>https://www.oschina.net/news/267990/blender-cyberattack-2023</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[LibreOffice Viewer 重新上架 Google Play 商店]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/news/268085/libreoffice-7-6-3-and-android-viewer-app">LibreOffice 7.6.3</a>&nbsp;于昨日更新，与其同时发布的还有 Android 版 LibreOffice Viewer——已重新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.documentfoundation.libreoffice" target="_blank">上架至 Google Play 商店</a>。</p><p>LibreOffice Viewer 是 LibreOffice 的轻量级版本，专为 Android 智能手机和平板电脑设计，用于查看 OpenDocument 和 Microsoft Office 格式文档。具体包括：</p><p>• 开放文档格式（odt、ods、odp、odg）<br> • Microsoft Office 2007–365（docx、xlsx 和 pptx）<br> • Microsoft Office 97–2003（doc、xls 和 ppt）</p><p>它与适用于 Windows、macOS 和 Linux 的 LibreOffice 桌面基于相同的 LibreOffice 技术构建，因此它以完全相同的方式显示文档。</p><p><strong>LibreOffice Viewer&nbsp; 运行截图</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-15b7f109e6f110504216473c4672024e086.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3679fd58f40a452c8afc18ff4d22d3e811f.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.documentfoundation.org%2Fblog%2F2023%2F11%2F24%2Flibreoffice-viewer-app-for-android%2F" target="_blank">LibreOffice Viewer 此前曾上架 Google Play 商店</a>，但由于缺乏维护，于 2020 年被下架。此后，开发团队通过 200 多项变更来改进该应用程序，提升其稳定性和可用性，支持当前的 Android 版本并更好地与系统集成。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 05:07:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</guid>
-            <link>https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[eBPF 的发展演进 --- 从石器时代到成为神（一）]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><span id="OSC_h2_1"></span><h2><span><span>1. 前言</span></span></h2><div><div><span><span>技术的发展往往是积跬步而至千里的。Linux 从 92 年诞生，发展至今已经覆盖大小各类的信息基础设施。是什么样的力量，让 Linux 能够始终保持发展活力，又如何看待 Linux 之上出现的新的技术趋势？</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>本文试图通过梳理 eBPF 的演进过程，探索 Linux 内核的发展动力来源与发展轨迹，与大家一同畅想 eBPF 给内核技术、Linux 生态带来的全新变局。</span></span></div><div>
-   &nbsp; 
- </div></div><span id="OSC_h2_2"></span><h2><span><span>2. eBPF 概览</span></span></h2><div><span><span>2.1. </span></span><strong><span>实现原理</span></strong></div><div>
-  &nbsp; 
-</div><div><div><span><span>大家可能都知道图灵机，这是一个可计算理论模型，可以用来判断计算机的计算能力。图灵机是目前有可能实现的计算能力最强的理论模型，目前我们常用的计算机，理论上都是等价于图灵机的。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>BPF 的出现，是对计算能力的渴求，其原理就是通过 IR 模拟一台 RISC 指令集的计算机嵌入到内核中，将内核内部的静态编译逻辑转变为更加灵活的动态编译逻辑，使内核获得近似于图灵机的动态逻辑定制能力。而从 classic BPF 到 extended BPF 的发展，是将这一计算方式进一步夯实和通用化。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>BPF 的出现乃至到 eBPF 的进一步发展，为内核带来了巨大的改变，使内核具备了更加强大、可编程的动态变化的能力。这种能力在各种需要定制化的应用场景中，将发挥巨大的价值，既可以用于扩展功能，也可以用于优化性能。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>在实现上，为适应不同业务场景的需求，使 eBPF 具备等价于一台 RISC 指令集计算机的计算能力，通过输入参数、Map 数据存储、Helper 帮助函数，构成了 eBPF 程序与内核交互的运行环境。eBPF 指令集的计算和控制能力、运行环境与内核的交互能力，两者叠加构成了 eBPF 程序强大的处理能力。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>在安全方面，通过 Verifier 严格检查 eBPF 程序的可完成性、数据访问的合法性等，保证了 eBPF 程序与内核交互过程中内核不被挂起、核心数据不会被破坏。</span></span></div></div><div><div><span><span>BPF 发展过程中，由 cBPF 发展成为 eBPF 是一次大的技术升级。eBPF 在 cBPF 的基础上重新设计了指令集、引入了 JIT、增加了辅助函数，大大扩展了复杂逻辑的设计能力。虽然 eBPF 有巨大的进步，但是基本的底层设计还是一致的，因此两者统称为 BPF。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>由于 eBPF 兼容 cBPF，在未指定时，BPF 更多指 eBPF 所定义的内涵。后文用 BPF 泛指整个 BPF 相关的基础机制，eBPF 特指最新的 BPF 标准。</span></span></div><div>
-   &nbsp; 
- </div></div><div><span><span>2.2. </span></span><strong><span>技术特点</span></strong></div><div><div><span><span>BPF 还在快速发展，它的计算能力和完备性也在迅速提高，前景无限。但就具体的版本而言，却又呈现具体技术特点，主要是其支持的能力和受到的约束两个方面。以最新的 BPF 的技术标准 (v6.1) 为蓝本，介绍 BPF 的主要技术特点。</span></span></div><div>
-   &nbsp; 
- </div></div><ul><li><div><span><span>RISC 指令集</span></span></div></li></ul><div><div><span><span>BPF 的核心是一个虚拟计算机，它采用类 RISC 指令集，支持跳转、算数运算、尾调用等基本操作。在运行 BPF 程序的计算机上，BPF 指令会被内核的 JIT 编译器动态编译为物理机原生指令，实现运行效率的「零」损耗。在支持 BPF 卸载的设备上，BPF 程序也可以卸载到设备上执行。在 BPF 的指令集中还支持伪调用指令，可以调用到内核帮助函数。</span></span></div></div><div><div><span><span>同时，BPF 的指令的编码空间中还有大量的储备，未来根据需要一定还会继续增加指令，提升 BPF 实现复杂逻辑的能力。</span></span></div></div><ul><li><div><span><span>Map</span></span></div></li></ul><div><div><span><span>基于键值对的数据存储机制，可用于实现内核、用户态的数据存储和交换。</span></span></div></div><ul><li><div><span><span>Helper 函数</span></span></div></li></ul><div><div><span><span>专用于 BPF 程序调用的函数接口，用于封装内核中的功能，使 BPF 程序可以和内核互操作，同时保持 BPF 程序和内核的安全隔离。</span></span></div></div><ul><li><div><span><span>BPF 子程序</span></span></div></li></ul><div><div><span><span>实现了 BPF 程序之间的调用。</span></span></div></div><ul><li><div><span><span>上下文</span></span></div></li></ul><div><div><span><span>BPF 程序的语境和运行上下文，是一种内部透明的数据结构。只有在明确 BPF 程序的类型时，上下文的定义和内部数据结构才是确定的。不同的 BPF 程序类型，上下文也各不相同。</span></span></div></div><ul><li><div><span><span>CO-RE</span></span></div></li></ul><div><div><span><span>通过运行时类型支持，实现一次编译、随处运行。</span></span></div></div><ul><li><div><span><span>支持特权和非特权级两类运行模式</span></span></div></li></ul><div><div><span><span>分为特权级（百万 ins）和非特权级（4096ins）两类运行方式。</span></span></div></div><div><div><span><span>特权级模式下 BPF 程序可以获得更宽的权限，实现更复杂的逻辑功能。</span></span></div></div><ul><li><div><span><span>保证向后兼容</span></span></div></li></ul><div><div><span><span>这一原则对于 BPF 的推广应用非常重要，可以保证旧标准的 BPF 程序在新标准下也可以正确执行。但同时，也对未来 BPF 发展带来了约束，只有把握好 BPF 的发展方向，做好底层设计，才能两者得到兼顾。</span></span></div></div><div><div><span><span>比如，从老版本遗留下来的 cBPF 程序在 eBPF 中都会被 JIT 正确翻译和执行。</span></span></div></div><ul><li><div><span><span>稳定的 ABI</span></span></div></li></ul><div><div><span><span>BPF 稳定的 ABI 包括，BPF 程序类型对应的输入参数定义，可调用的内核帮助函数定义，返回值定义等。使用稳定的 ABI 的 BPF 程序，可保证与不同版本的内核都是兼容的。</span></span></div></div><div><div><span><span>另外，BPF 还在快速发展中，它的功能特性需要逐步释放，因此目前还有诸多限制，其中有些是基于安全、可靠性考虑，有些是没有超出范围的应用需求的保守设计等等。随着安全机制的完善、应用程序的扩展、生态体系的成熟，相应的限制也会逐步的改变。</span></span></div></div><div><div><span><span>目前的实现中，有如下限制：</span></span></div></div><ul><li><div><span><span>总运行时间有界</span></span></div></li></ul><div><div><span><span>有界性这是基本原则，应该在比较长的时间内都不会改变。但是，在不改变有界性的前提下，根据具体需要适当调整更合理的上限，这是存在极大可能的。</span></span></div></div><ul><li><div><span><span>指令总数限制</span></span></div></li></ul><div><div><span><span>非特权用户最大指令数 4096，特权用户最大指令数 1 百万。</span></span></div></div><ul><li><div><span><span>分支数限制</span></span></div></li><li><div><span><span>BPF 调用嵌套层次限制</span></span></div></li><li><div><span><span>Map 实例数限制</span></span></div></li><li><div><span><span>验证状态数限制</span></span></div></li><li><div><span><span>最大分支数限制</span></span></div></li><li><div><span><span>堆栈长度限制</span></span></div></li></ul><div><div><span><span>目前支持的堆栈最大长度为 512 字节。</span></span></div></div><ul><li><div><span><span>上下文限制</span></span></div></li></ul><div><div><span><span>每一种类型的 BPF 程序，都有其对应输入参数定义，彼此不同。也就是说，BPF 程序只能接受特定的输入并进行处理，不能访问内核的全部状态空间。</span></span></div></div><ul><li><div><span><span>辅助函数限制</span></span></div></li></ul><div><div><span><span>每一个 BPF 程序类，都有其对应的辅助函数集合。这些辅助函数，由内核各子系统提供，是 BPF 程序类上下文的一部分。它们帮助 BPF 程序与内核各子系统交互，同时又保护内核不会被破坏。</span></span></div></div><div><div><span><span>上面赘述了很多特性，大家可能会有很多疑问，比如：</span></span></div></div><div><div><span><span>为什么采用精简指令集呢？因为这是目前最主流的指令集类型，相对于复杂指令集，精简指令集更有利于实现更高密度、更高吞吐量、更高主频的处理器。因此 x86 之后出现的新型指令集系统，绝大多数都是精简指令集，包括现在的开源指令集 RISC-V。</span></span></div></div><div><div><span><span>为什么不采用原生的指令集呢？</span></span></div></div><div><div><span><span>为什么 5 个参数寄存器呢？</span></span></div></div><div><div><span><span>本篇暂不深入讨论，后续主题涉及到的时候再详细讲解。</span></span></div><div>
-   &nbsp; 
- </div></div><div><span><span>2.3. </span></span><strong><span>应用价值</span></strong></div><div><div><span><span>BPF 的应用价值与其动态和可定制特性强相关。</span></span></div></div><div><div><span><span>内核研发中一直坚守的原则是：「机制与策略分离」，即：内核负责提供机制，将策略开放给上层。在机制与策略之间需要一层界面来进行交互。</span></span></div></div><div><div><span><span>系统调用是最初方案。它是单向发起的，缺少事件模型。</span></span></div></div><div><div><span><span>虚拟文件系统，提供了双向的交互方式，但难以灵活定制复杂的逻辑。</span></span></div></div><div><div><span><span>由于软件功能越来越复杂，无法用简单规则来表达，软件的基础功能设施与业务逻辑，需要进行解偶。而业务逻辑部分，需要根据业务定制，因此很适合用 BPF 实现。比如：</span></span></div></div><ul><li><div><span><span>过滤器</span></span></div></li><li><div><span><span>权限检查</span></span></div></li><li><div><span><span>模糊测试</span></span></div></li></ul><div><div><span><span>等类型的功能，比较适合用 BPF 实现。另外，视具体问题，也可以应用于：</span></span></div></div><ul><li><div><span><span>调度算法</span></span></div></li><li><div><span><span>用户态交互（替代系统调用，实现更加可变的服务逻辑）</span></span></div></li><li><div><span><span>加载器、模拟器、兼容层</span></span></div></li><li><div><span><span>轻量化内核</span></span></div></li><li><div><span><span>多态内核</span></span></div></li><li><div><span><span>启动方式</span></span></div></li></ul><div><div><span><span>每一种业务类型都有其独具特征的逻辑模型，通过更形式化地定义这些业务模型，可以更好地理解它们和 BPF 的结合性，找到更好的实现方案，充分发挥 BPF 带来的强大能力。后续篇章，我们会对典型的应用模型进行更深入的讨论，以及 BPF 在这些应用场景中，应该在哪些特性方面进行加强或改进。</span></span></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 04:27:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4450925/blog/8685883</guid>
-            <link>https://my.oschina.net/u/4450925/blog/8685883</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Bytebase 2.11.1 - 数据脱敏支持语义类型和脱敏算法]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>🚀 新功能</h2><ul><li>数据脱敏支持自定义脱敏算法和语义类型。 <img src="https://oscimg.oschina.net/oscnet/up-1585b72201b92b51627496f6baf9671402c.png" alt="file" referrerpolicy="no-referrer"></li></ul><h2>🔔 重大变更</h2><ul><li>用户页面的 URL 由 <code>/u/{uid}</code> 变更为 <code>/users/{email}</code>。</li><li>工作空间的所有者和开发者分别更名为：管理员和成员。 <img src="https://oscimg.oschina.net/oscnet/up-82d69e61f7501b0b1e11ac2bbd6e2f231e4.png" alt="file" referrerpolicy="no-referrer"></li></ul><h2>🎄 改进</h2><ul><li><p>SQL 编辑器支持显示表的 DDL 语句（MySQL, PostgreSQL 和 TiDB）。 <img src="https://oscimg.oschina.net/oscnet/up-d913361c2eae9e174893e134b791ad8493b.png" alt="file" referrerpolicy="no-referrer"></p></li><li><p>提升了启用数据脱敏时的查询速度。</p></li><li><p>支持在工单<strong>待发布</strong>或<strong>审批通过</strong>的时候发送 webhook 通知。</p></li><li><p>改进了 Oracle Parser 用以支持存储过程和分区表。</p></li><li><p>优化了工单过滤功能。</p></li><li><p>优化了工单指派人功能。</p></li><li><p>优化了 Schema 编辑器的性能。</p></li></ul><p>📕 安装及升级，参考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fbytebase%2Fbytebase%23installation" target="_blank">升级指南</a>。如果从之前版本升级，获取新版本后，重新启动升级即可。</p><hr><p>💡 更多资讯，请关注 Bytebase 公号：Bytebase</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:41:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10150991</guid>
-            <link>https://my.oschina.net/u/6148470/blog/10150991</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[谷歌员工离职后抨击大老板，曾深度参与 Flutter 项目、制定 HTML 相关标准]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>伊恩·希克森 (Ian Hickson) 是在谷歌工作了 18 年的老员工，他于 2005 年 10 月加入谷歌，18 年后递交了辞职信。上周是他在谷歌的最后一周。</p><p>离职后，希克森在个人博客发表了一封措辞严厉的批评信，虽然标题为<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fln.hixie.ch%2F%3Fstart%3D1700627373" target="_blank">《回顾在 Google 的 18 年》</a></em></u>，但内容主要是抨击谷歌「腐化的文化」，并指责首席执行官桑达尔·皮查伊 (Sundar Pichai) 「缺乏远见」。</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1124/111037_IJjJ_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fln.hixie.ch%2F%3Fstart%3D1700627373" target="_blank">https://ln.hixie.ch/?start=1700627373</a></u></em></p><p>希克森表示，他「非常幸运地」经历了公司的早期成长历程，那时的高管对员工坦诚，鼓励他们去做雄心勃勃的实验，但如今这家搜索巨头的文化已经「腐化」。</p><p>希克森在谷歌的职业生涯可以分为两部分，在头九年里，他致力于 HTML 和相关标准的研究，任务是打造最好的 Web——因为任何对 Web 有利的事情都会对谷歌有利；在最后九年里<strong>，他一直致力于打造跨平台应用程序开发框架 Flutter</strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a03893271e334eda0f60bd821d7ca0fd33c.png" referrerpolicy="no-referrer"></p><p>希克森写道，Flutter 是「老谷歌人」最后推出的项目之一，属于 Larry Page 在 Alphabet 创建前不久发起的一系列雄心勃勃的实验的一部分。Flutter 团队基本上也像一家初创公司一样运作，而且在很大程度上是建立在年轻的谷歌文化基础上。例如<strong>优先考虑内部透明度、工作/生活平衡和数据驱动决策</strong>。所以整个团队从一开始就非常开放，这使得他们能够积极构建一个健康的开源项目。</p><p>与此同时，谷歌的高速发展让其公司文化受到了侵蚀。</p><p>希克森表示：「透明度消失了。以前我会迫不及待地参加每一次公司全体会议，以便了解情况。现在，我发现自己甚至能够预测高管们所给出的每一个答案。今天，我不知道在谷歌还有谁能解释它的愿景，员工士气也空前低落。如果你和湾区的治疗师交谈，他们会告诉你，他们所有的谷歌客户都对谷歌感到不满意。」</p><p>对于今年 1 月份的<u><a href="https://www.oschina.net/news/226273/google-open-source">「大裁员」</a></u>，希克森称这是公司非常短视的决策——目的只是为了确保股价保持季度增长，而不是遵循谷歌以前的战略，即优先考虑长期成功，即使这会导致短期损失。</p><p>而且自那以来，谷歌一直在进行规模更小、更低调的裁员，以至于员工们现在都在一份内部文件中追踪裁员情况。</p><p>希克森说，这些裁员对公司文化产生了「潜在」影响，可能导致员工「大幅减少冒险行为」。他写道：「我现在在谷歌看到了很多负面现象，比如员工对管理层缺乏信任，而管理层也不再信任员工，公司制定的政策也越来越显得空洞。」</p><p>此前曾有媒体报道称，谷歌的普通员工和管理层之间关系紧张。比如，谷歌要求高管为员工表现进行绩效打分。</p><p>希克森建议，应该努力将权力从首席财务官办公室转移到这样一个人手中——他应该对如何利用谷歌广泛的资源为用户创造价值有清晰长期的愿景。</p><p>至于谷歌的文化是否可以挽救，希克森认为可以，但他称「时间紧迫」。他写道：「谷歌文化的腐化最终将变得不可逆转，因为它需要充当道德指南针的那种人，而这类人在没有道德指南针的情况下不会愿意加入谷歌。」</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:38:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267932</guid>
-            <link>https://www.oschina.net/news/267932</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[英伟达推迟发布中国特供版 AI 芯片]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.reuters.com%2Ftechnology%2Fnvidia-delays-launch-new-china-focused-ai-chip-sources-2023-11-24%2F" target="_blank">根据路透社的独家报道</a></u>，两名知情人士透露，英伟达已通知中国客户，<strong>其为遵守美国出口规定而设计的新款 AI 芯片将推迟到明年第一季度发布</strong>。</p><blockquote><p>前情提要：<strong><em><u><a href="https://www.oschina.net/news/265728">英伟达或将推出针对中国区的最新改良版 AI 芯片</a></u></em></strong></p></blockquote><p>英伟达将特供三款 AI 芯片 <strong>HGX H20、L20 PCle 和 L2 PCle</strong>，它们全都由 H100 改良而来，<strong>推迟发布的是其中最强大的 H20，有可能延迟到明年 2 月或 3 月</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-edecf0f4b0f979b064fa454bfd31a0ec4e3.png" referrerpolicy="no-referrer"></p><p>知情人士称，推迟的原因被告知是服务器制造商在集成芯片上遇到问题。另外两款芯片中 L20 不会延期， 按照原定计划供货，L2 情况未知。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:33:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268075</guid>
-            <link>https://www.oschina.net/news/268075</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GIMP 3.0 预计明年 5 月发布，下月中旬冻结功能]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>今年年初，GIMP 开发团队表示会在 2023 年发布 GIMP 3.0，或者至少发布 RC 版本，但不幸的是这个计划没有实现。</p><blockquote><p>相关阅读：<br><strong><em><u><a href="https://www.oschina.net/news/247312/gimp-3-0-rc-in-2023" target="_blank">GIMP 3.0 计划今年发布首个 RC</a></u></em><br><u><em><a href="https://www.oschina.net/news/226425/gimp-3-0-plans-in-2023">GIMP 3.0 计划今年推出，GTK+3 移植已基本完成</a><br><a href="https://www.oschina.net/news/250125/gimp-dev-completes-gtk3-port">GIMP 最新开发版已完成 GTK3 移植</a></em></u></strong></p></blockquote><p>GIMP 核心开发者和维护者 Jehan Pages&nbsp;<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.patreon.com%2Fposts%2Ffinale-countdown-93295511" target="_blank">本周宣布</a></u>了在明年 5 月的<em>« Libre Graphics Meeting »</em>会议上发布 GIMP 3.0 的新计划。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-5d66d782cdcf2e652456c9f1eb96d8155f6.png" referrerpolicy="no-referrer"></p></blockquote><p>按照他们公布的计划，GIMP 开发团队会在今年 12 月发布最终的 <strong>GIMP 2.99.xx 开发版</strong>，然后在几个月后发布 RC 版本，最终在明年五月完成 GIMP 3.0 的开发。</p><p>为了确保 GIMP 稳定性，<strong>其开发团队计划 12 月中旬开始冻结功能，然后用大约 5 个月集中精力修复 bug</strong>。据称，该软件现存的 bug 已经超过 4000 个，其中有 624 个是关于导致崩溃的。</p><p>在即将发布的 3.0 版本中，该软件将迎来「非破坏编辑」功能：允许用户对图像进行更改，而不会覆盖原始图像数据，原始图像数据将保持可用状态，以便用户在需要时恢复。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e25676c183a4c3051eab67adf7266d77e49.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-020dab40bdbb8b6195a42610503e1db1a62.png" referrerpolicy="no-referrer"></p><p>GIMP 3.0 使用 GTK3 进行重构，并且支持 Wayland，同时还有许多其他的改进和功能增强。对于这个版本，广大用户已经期待了十年，希望 GIMP 3.0 能够在明年春天如期发布。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</guid>
-            <link>https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
     </channel>
