@@ -16,8 +16,119 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 27 Nov 2023 02:53:33 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2023 07:01:02 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[LG 成立 webOS 開發小組]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>LG 電子宣佈改革組織架構，併成立 webOS 開發小組。</p><p>11 月 24 日，LG 電子<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.lgnewsroom.com%2F2023%2F11%2Flg-electronics-announces-organizational-restructuring-for-future-growth%2F" target="_blank">發佈公告</a></u>稱將改革組織架構，以提升競爭力、促進增長。重組計劃包括為國際業務建立一個新的銷售和營銷公司，由 LG 電子北美公司前總裁兼首席執行官 Thomas Yoon 負責，管理世界各地的銷售子公司，以及直接面向消費者（D2C）的銷售業務集團。</p><p>此外，LG 家庭娛樂公司將成立 webOS 軟件開發小組，提高這一智能電視操作系統的實力，由該公司總裁直接領導；還將設立總部直屬的 XR 事業部。家電和空氣解決方案公司將增設工程銷售部門，併入其他部門的家居業務，以與家庭空間現有的產品陣容產生協同效應。車輛零部件解決方案公司將設立總部直屬的全球客戶戰略部。</p><blockquote><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-cdf9a79048dc46240b393d4e2278760273b.png" width="1728" referrerpolicy="no-referrer"></p></blockquote><p>webOS 是基於 Linux 內核的智能電視操作系統，其前身是由&nbsp;Palm&nbsp;所開發的智能手機操作系統，最早於 2009 年面向公眾發佈。2010 年惠普收購 Palm，但之後終止了 Palm 手機和操作系統項目，並在 2011 年<u><a href="https://www.oschina.net/news/23908/hp-make-webos-opensource">決定開源</a></u>&nbsp;webOS。</p><p>2013 年，LG 宣佈收購惠普 webOS 部門，包括系統源代碼和僱員等。此後該操作系統被 LG 用於智能電視和電冰箱等產品。</p><p><img alt="080830_QqVe_2720166.png" src="https://static.oschina.net/uploads/space/2021/0302/080830_QqVe_2720166.png" referrerpolicy="no-referrer"></p><hr><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/131577/lg-says-it-will-license-webos-to-other-tv-mak">LG 將授權 webOS 給其他電視廠商使用</a></li><li><a href="https://www.oschina.net/news/94374/lg-webos-open-source-edition">LG 宣佈推出 webOS 開源版本，仍尋求將其商業化</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 06:01:03 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268346</guid>
+            <link>https://www.oschina.net/news/268346</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[三個月寫了個短信平台，開源出來！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><img src="https://oscimg.oschina.net/oscnet/up-e82e722c7dca4558ca6271436d0dcfe9665.png" alt="" referrerpolicy="no-referrer"></p><h1>1 初心</h1><p>大家好，我是勇哥。花了三個月的時間，我手寫了個短信平台服務 <code>platform-sms</code>，今天開源出來 Beta 版本。</p><p>寫這個開源項目的初心其實很簡單："<strong>幫助初中級研發工程師入門架構設計，提升他們的技術認知</strong>"。</p><p>2018 年，作為架構師，我參與一個短信平台的重構。發送短信的場景包括還款業務、CRM、促銷業務等。</p><p>不同的技術團隊都是使用客戶端模式發送短信，但並不統一，大概分為四種 ：</p><ul><li>使用阿里雲提供的短信 SDK 發送短信 。</li><li>根據億美提供的樣例直接發送短信 。</li><li>使用綠城提供的短信 SDK 發送短信。</li><li>架構團隊短信 SDK ，類似於 <code>SMS4J</code>的設計方式，支持億美、綠城短信發送 。</li></ul><p>客戶端的模式在多團隊協作場景中，缺點還是很明顯：</p><ul><li><p><strong>維護成本</strong></p><p>假如運營不再使用某一個短信渠道，那麼很多團隊將會收到影響，不得不配合重新修改配置，重新上線，耗費的時間成本很高。</p></li><li><p><strong>無法支持高級功能</strong></p><p>客戶端實現某些功能比較麻煩，比如：客戶端因為偶發情況（網絡原因）通過三方渠道發送短信超時，此時需要將短信發送到備份渠道，從而確保短信發送的成功率。</p></li></ul><p>因此，多團隊協作的場景中，短信服務的模式應該是<strong>服務端模式</strong>。</p><p><img src="https://javayong.cn/pics/sms/server.png?a=23212" alt="服務端模式" referrerpolicy="no-referrer"></p><p>我參考了騰訊雲的短信服務的設計思路 ：</p><ol><li>模仿騰訊雲的 SDK 設計，提供簡單易用的發送短信方法 （單發，羣發，營銷單發，營銷羣發，模板單發，模板羣發） ；</li><li>設計短信服務 API 端，接收發短信請求，發送短信信息到消息隊列；</li><li>worker 服務消費消息，按照負載均衡的算法，調用不同渠道商的短信接口；</li><li>控制枱可以查看短信發送記錄，配置渠道商信息、模版信息等。</li></ol><p><img src="https://oscimg.oschina.net/oscnet/up-a7b05e5217cc92a8d6b17b9741ebb961d66.png" alt="" referrerpolicy="no-referrer"></p><p>短信平台研發完成之後，滿足了當時的業務需求，因為短信的管理也歸於統一，提升了業務接入短信服務的效率，所以各個技術團隊也比較認可。</p><p>隨着經驗的累積，我見過了不少公司的短信服務，核心問題不外乎兩點：</p><ol><li><p>短信服務與業務服務邊界問題。</p><p>為了滿足業務服務需求，在短信平台中添加過多的業務功能，導致短信服務功能臃腫，也不經意的加入了隱藏的風險 。</p></li><li><p>切換三方渠道非常不方便。</p><p>當運營端需要從三方短信渠道 A 切換到 B 時，因為代碼不夠抽象，增加三方渠道代碼時維護成本較高。</p></li></ol><p>基於這些原因，我想寫一個<strong>迷你版</strong>的短信服務，它應該包含如下的功能：</p><ol><li><p>簡單的短信 SDK 支持按照模版發送短信 。</p><p>業務服務對於短信是從哪一個三方短信渠道發送出來的並不在乎，只需要確保發送短信的成功率即可。</p><p>因此，SDK 提供的核心接口是：<strong>按照模版編號發送短信</strong>。</p><p>阿里雲、騰訊雲、華為雲提供的都是按照模版發送短信的接口，為了統一管理模版，我們也只提供按照模版發送短信的接口。</p><p>短信平台需要提供業務服務的<code>appKey</code> 和<code>appSecret</code> , SDK 與服務端之間通過固定協議交互。</p></li><li><p>短信平台支持模版的管理 。</p><p>阿里雲、騰訊雲、華為雲都提供簽名、模版管理的接口，因此從產品設計層面，理論上，我們可以通過短信平台管理所有的簽名和模版。</p><p>短信平台當前提供了手工綁定的短信模版的功能，也就是我們需要先在阿里雲或者騰訊雲先申請簽名和模版，然後綁定到我們在平台創建的模版。</p></li><li><p>適配器模式維護三方短信渠道。</p><p>參考了開源項目<code>canal</code>的適配器模塊，將三方短信渠道的 API 獨立成模塊單獨維護，這樣可以大大提升代碼的可維護性。</p></li></ol><h1>2 架構</h1><p>項目的設計應該設計得簡單，因為它的目標首先是讓<strong>初中級工程師快速入門架構設計</strong>。</p><p>所以，我將短信平台設計成<strong>單體應用</strong>的模式，架構圖如下：</p><p><img src="https://javayong.cn/pics/sms/smsjiagou.png" alt="" referrerpolicy="no-referrer"></p><p>短信平台分為兩個部分，<strong>這兩部分可以獨立部署，也可以將前端文件放置在後端中，生成單部署包。</strong></p><p><strong>1、前端：admin-ui</strong></p><p>控制枱模塊是 vue 項目，管理員登錄之後可以進行應用管理、渠道管理、短信管理、模版管理。</p><p><strong>2、後端：admin-web</strong></p><p>後端模塊按照功能依次分為五個模塊：請求控制層、業務服務層、命令處理器、三方渠道適配器插件、數據庫訪問層。</p><h1>3 演示</h1><h2>3.1 環境準備</h2><p><strong>1、創建數據庫以及相關表</strong></p><p>創建數據庫<code>tech_platform</code> ，執行<code> doc/sql</code> 目錄下的 <code> tech_platform.sql</code>。</p><p>執行後效果如下：</p><p><img src="https://javayong.cn/pics/sms/tables.png" alt="" referrerpolicy="no-referrer"></p><p><strong>2、修改部署包配置</strong></p><p>從 Release 下載 <code>platform-sms-admin.tar.gz</code> ，解壓縮後，進入 <code>conf </code>目錄 。</p><p><img src="https://javayong.cn/pics/sms//adminconfdir.png" alt="" referrerpolicy="no-referrer"></p><p>編輯 <code>application.yml </code> 文件：</p><p><img src="https://javayong.cn/pics/sms//prepare.png" alt="" referrerpolicy="no-referrer"></p><p>進入 bin 目錄，啓動服務：</p><pre><code class="language-sh">bin/startup.sh
+</code></pre><h2>3.2 操作流程</h2><p><strong>1、登錄頁面</strong></p><p>服務啓動後，訪問地址：<code>http://localhost:8089</code> 。 <img src="https://javayong.cn/pics/sms/login.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>用戶名和密碼存儲在 <code>conf</code> 目錄的 <code>application.yml</code>，默認用戶名密碼分別是：admin/admin1984 。</p></blockquote><p><strong>2、新建應用</strong><img src="https://javayong.cn/pics/sms/createapp.png" alt="" referrerpolicy="no-referrer"></p><p>應用信息包含應用名稱、應用 <code>appKey</code> , <code>應用祕鑰</code>，<code>備註</code>。其中，應用 key 和，密鑰在使用客戶端 SDK 時需要配置 。</p><p><strong>3、新建三方短信渠道</strong><img src="https://javayong.cn/pics/sms/createchannel.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>注意：因為騰訊雲的 SDK 請求，中需要攜帶 APPID ，所以 Beta 版中將 appId 存儲在，附件屬性中。</p></blockquote><p><strong>4、創建模版</strong> 在<code>模版管理</code>模塊，點擊<code>新建模版</code>按鈕。</p><p><img src="https://javayong.cn/pics/sms/createtemplate.png" alt="" referrerpolicy="no-referrer"></p><p><strong>新建模版時，簽名名稱必須和渠道申請的簽名必須一致。</strong></p><p>下圖展示了筆者的騰訊雲申請的簽名，筆者創建的模版必須和騰訊雲賬號的簽名保持一致。</p><p><img src="https://javayong.cn/pics/sms/tencentsign.png" alt="" referrerpolicy="no-referrer"></p><p>創建完模版之後，需要綁定渠道，我們需要在三方渠道先創建短信模版，然後提交綁定。</p><ol><li>三方渠道先創建短信模版</li></ol><p><img src="https://javayong.cn/pics/sms/applytencenttemplate.png" alt="" referrerpolicy="no-referrer"></p><p>如上圖，筆者創建了編號為 1955325 的短信模版，因為我們需要在綁定界面綁定該渠道的模版，理論上在短信平台創建的模版可以綁定多個渠道。</p><ol start="2"><li><strong>綁定渠道</strong></li></ol><p><img src="https://javayong.cn/pics/sms/bingdingtemplate.png" alt="" referrerpolicy="no-referrer"></p><p>綁定完成之後，可以在模版管理頁面查看模版列表 。</p><p><img src="https://javayong.cn/pics/sms/templatelist.png" alt="" referrerpolicy="no-referrer"></p><h2>3.3 發送短信</h2><p>發送短信可以參考 DEMO 模塊：</p><p><img src="https://javayong.cn/pics/sms/demoproject.png" alt="" referrerpolicy="no-referrer"></p><p><strong>1、添加依賴</strong></p><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.courage&lt;/groupId&gt;
+    &lt;artifactId&gt;platform-sms-client&lt;/artifactId&gt;
+    &lt;version&gt;${parent.version}&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p><strong>2、客戶端配置</strong></p><p>首先在 <code>application.yml </code>中配置如下：</p><pre><code class="language-yaml">sms:
+  smsServerUrl: http://localhost:8089
+  appKey: qQjEiFzn80v8VM4h
+  appSecret: 9c465ece754bd26a9be77f3d0e2606bd
+</code></pre><p>然後編寫配置類：</p><pre><code class="language-java">@Configuration
+public class SmsConfiguration {
+
+    @Value("${sms.smsServerUrl}")
+    private String smsServerUrl;
+
+    @Value("${sms.appKey}")
+    private String appKey;
+
+    @Value("${sms.appSecret}")
+    private String appSecret;
+
+    @Bean
+    public SmsSenderClient createClient() {
+        SmsConfig smsConfig = new SmsConfig();
+        smsConfig.setAppKey(appKey);
+        smsConfig.setSmsServerUrl(smsServerUrl);
+        smsConfig.setAppSecret(appSecret);
+        SmsSenderClient smsSenderClient = new SmsSenderClient(smsConfig);
+        return smsSenderClient;
+    }
+
+}
+
+</code></pre><p><strong>3、單發短信</strong></p><pre><code class="language-java">@Autowired
+private SmsSenderClient smsSenderClient;
+
+@GetMapping("/test")
+public String test() {
+    // 手機號
+    String mobile = "15011319235";
+    // 短信平台模版編號
+    String templateId = "555829270636703745";
+    // 模版參數
+    Map&lt;String, String&gt; param = new HashMap&lt;String, String&gt;();
+    param.put("code", "1234");
+    param.put("time", "10");
+    SmsSenderResult senderResult = smsSenderClient.sendSmsByTemplateId(mobile, templateId, param);
+    System.out.println("senderResult:" + JSON.toJSONString(senderResult));
+    return "hello , first short message !";
+}
+</code></pre><p>調用接口之後，用戶就會收到如下的短信：</p><p><img src="https://javayong.cn/pics/sms/sendsmssucceed.png?b" alt="" referrerpolicy="no-referrer"></p><h1>4 開源</h1><p><img src="https://javayong.cn/pics/sms/platformsmsgithub.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>代碼庫地址：</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmakemyownlife%2Fplatform-sms" target="_blank">https://github.com/makemyownlife/platform-sms</a></p></blockquote><p>勇哥想把這個項目做為架構入門的教學項目，您可以從中學到 ：</p><ol><li>設計一個精簡的客戶端 SDK 。</li><li>理解 SPI 機制以及適配器模式。</li><li>配置合理的線程模型。</li></ol><hr><p>如果我的文章對你有所幫助，還請幫忙<strong>點贊、在看、轉發</strong>一下，你的支持會激勵我輸出更高質量的文章，非常感謝！</p><p><img src="https://javayong.cn/pics/shipinhao/gongzhonghaonew.png" alt="" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:44:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/makemyownlife/blog/10243610</guid>
+            <link>https://my.oschina.net/makemyownlife/blog/10243610</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[報告：16% 的 AI 工作者正在使用開源模型]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">O'Reilly 發佈的一份"<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">2023 Generative AI in the Enterprise</a>"報告<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.infoworld.com%2Farticle%2F3711380%2Fgenerative-ai-adoption-speed-unprecedented-oreilly-survey-says.html" target="_blank">指出</a>，由 OpenAI 的 GPT 大型語言模型和 ChatGPT 引領的生成式 AI 浪潮正在經歷前所未有的快速普及。</span></p><p><span style="color:#000000">報告基於 2013 年 9 月 14 日至 9 月 23 日期間收到的共 4782 份回覆。其中有 2857 名受訪者回答了所有問題。74% 的受訪者來自北美或歐洲。</span></p><p><img height="415" src="https://static.oschina.net/uploads/space/2023/1127/114145_aRHK_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">有三分之二的受訪者表示，他們已經在使用生成式 AI。"我們從未見過一項技術能像生成式 AI 一樣被如此快速地採用 -- 很難相信 ChatGPT 才誕生不到一年。"</span></p><p><span style="color:#000000">但與此同時，生成式 AI 技術在採用過程中仍存在一些問題。報告發現，難以找到商業用例以及對法律問題的擔憂阻礙了 AI 的發展。AI 解決方案的構思和實施不當可能會造成損害，而使用生成式 AI 的法律後果仍是未知數，例如存在誰擁有 AI 生成結果的版權等問題。</span></p><p><span style="color:#000000">並且一些公司文化還會制約 AI 的應用。另一方面，構建生成式 AI 建設基礎設施的難度和高成本也是一個令人擔憂的問題。</span></p><p><span style="color:#000000">報告的一些其他發現包括：</span></p><ul><li><span style="color:#000000">54% 的 AI 用戶預計 AI 的最大好處是提高生產力。</span></li><li><span style="color:#000000">77% 的受訪者使用 AI 來輔助編程。其中提到的具體應用包括欺詐檢測、教學和客戶關係管理。</span></li><li><span style="color:#000000">AI 用戶表示，AI 編程（66%）和數據分析（59%）是最需要的技能。</span></li><li><span style="color:#000000">許多 AI 採用者仍處於早期階段：26% 的人使用 AI 不到一年，而 18% 的人已經在生產中進行了應用。</span></li><li><span style="color:#000000">16% 的從事 AI 工作的受訪者表示正在使用開源模型。</span></li><li><span style="color:#000000">意外結果、安全性、公平性、偏見和隱私是採用者測試的最大風險。</span></li></ul><p><span style="color:#000000">詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">查看完整報告</a>。&nbsp;</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</guid>
+            <link>https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Fish Shell 採用 Rust 重寫會導致性能下降]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>fish 是適用於 Linux、macOS 的命令行 Shell，其名字取於 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的簡稱，最大特點就是方便易用、功能強大、智能並且用戶友好。很多其他 Shell 需要配置才有的功能，fish 默認提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>項目維護者 Fabian Boehm 今天在 GitHub 迴應了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重寫 Fish Shell</a></u>&nbsp;的進度，稱已幾乎完成。</p><p>根據開發者的説法，他們已經完成了從 C++ 到 Rust 的大部分移植工作，但還有一些剩餘的組件需要進行翻譯。目前，他們正在處理與輸入系統相關的讀取器、屏幕處理、輸入和分頁器等強耦合組件。一旦這些組件完成翻譯，剩下的工作就是一些零散的部分和去除構建系統的 C++ 依賴。</p><p>開發者表示，<strong>這不是一個適合臨時貢獻的項目</strong>，因為還有很多工作要做。</p><p>此外，開發者還回答了一些關於移植的問題和誤解。<strong>他們表示不會刪除所有的 C++ 代碼</strong>，也沒有計劃移植到 Windows 平台。他們還表示不會更改 Fish Shell 的名稱或吉祥物，並且對於最終移植的性能，他們表示早期結果是令人鼓舞的，<strong>但可能在某些情況下會比現有版本慢約 20%</strong>。</p><p>最後，他們提到即使完成了初始移植工作，項目也還有很多工作要做。</p><p>來源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 03:19:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
+            <link>https://www.oschina.net/news/268315</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[精選網站流量分析工具]]>
@@ -25,9 +136,33 @@
             <description>
                 <![CDATA[精選網站流量分析工具]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:41:30 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
             <link>https://www.oschina.net/project/awesome?columnId=65</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Dromara 社區新晉開源項目 dbswitch，異構數據庫遷移同步工具！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1>一個適用於異構數據庫遷移同步的簡單工具 dbswitch</h1><h2>作者介紹</h2><ul><li>網名：三胖 (inrgihc)</li><li>dromara 開源組織成員，項目 dromara/dbswitch 作者</li><li>項目地址：<a href="https://gitee.com/dromara/dbswitch">https://gitee.com/dromara/dbswitch</a></li></ul><p>&nbsp;</p><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-6c79b909dbfad7a428286eebe6fd1c2f82b.png" width="400" referrerpolicy="no-referrer"></p><h2>dbswitch 的誕生</h2><p>你需要<strong>將 Oracle 等老牌數據庫中的數據一鍵搞到 MySQL 或 PostgreSQL 中</strong>麼？你需要<strong>將 MySQL 等關係型數據庫中的數據一鍵搞到 Greenplum/ClickHouse 等 OLAP 數據庫中進行分析</strong>麼？</p><p>如果你在工作中遇到與我同樣的需求，那麼不妨體驗下 dbswitch 工具。</p><p>dbswitch 是在<strong>數據庫間數據搬遷</strong>和<strong>數據入倉入湖</strong>這兩大背景環境下誕生的，雖然目標路程還很長，但是<strong>dbswitch 作為一款開源工具</strong>會一直再努力堅持着（也許各個數據庫廠商都有自己的專業遷移工具）。</p><h2>dbswitch 的功能</h2><p>簡言之，dbswitch 提供源端數據庫向目的端數據庫的批量遷移同步功能：</p><ul><li>結構遷移：</li></ul><p>(1) 支持字段類型、主鍵信息、建表語句等的轉換，並生成建表 SQL 語句。</p><p>(2) 支持基於正則表達式轉換的表名與字段名映射轉換。</p><ul><li>數據同步：</li></ul><p>(1) 基於 JDBC 的分批次讀取源端數據庫數據，並基於 jdbc(insert/copy 方式) 將數據分批次寫入目的數據庫。</p><p>(2) 支持有主鍵表（基於數據比對變化計算原理的）增量變更 (insert/update/delete) 同步功能</p><h2>dbswitch 支持的數據庫</h2><p>當前基於<strong>驅動隔離</strong>已經集成支持<strong>多版本的數據庫</strong>產品如下：</p><ul><li>甲骨文的 Oracle</li><li>微軟的 Microsoft SQLServer</li><li>MySQL/MariaDB</li><li>PostgreSQL</li><li>Greenplum(需使用 PostgreSQL 類型)</li><li>IBM 的 DB2</li><li>Sybase 數據庫</li><li>國產達夢數據庫 DMDB</li><li>國產人大金倉數據庫 Kingbase8</li><li>國產翰高數據庫 HighGo</li><li>國產神通數據庫 Oscar</li><li>國產南大通用數據庫 GBase8a</li><li>Apache Hive(基於 JdbcStorageHandler)</li><li>SQLite3</li><li>OpenGuass</li><li>ClickHouse</li><li>MongoDB</li></ul><h2>dbswitch 的部署體驗</h2><h3>1.一鍵部署</h3><ul><li>基於 docker-compose 的一鍵安裝 (或升級):</li></ul><pre><code>curl -sSL https://gitee.com/inrgihc/dbswitch/attach_files/1551962/download | sh
+</code></pre><ul><li>基於 docker 的一鍵安裝：</li></ul><p>假設已經部署好的 MySQL 數據庫地址為 192.168.31.57，端口為 3306，賬號為 test，密碼為 123456</p><pre><code>docker run -d --name dbswitch \\
+ -e MYSQLDB_HOST=192.168.31.57 \\
+ -e MYSQLDB_PORT=3306 \\
+ -e MYSQLDB_USERNAME=test \\
+ -e MYSQLDB_PASSWORD='123456' \\
+ -v /tmp:/tmp \\
+ -p 9088:9088 \\
+ registry.cn-hangzhou.aliyuncs.com/inrgihc/dbswitch:1.8.2
+</code></pre><h2>2.部分截圖</h2><p><img height="992" src="https://oscimg.oschina.net/oscnet/up-248a80912f903336faae60ac7147a23fbde.png" width="1842" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="991" src="https://oscimg.oschina.net/oscnet/up-23ac44c99d40214512e2fe4506c63c69c32.png" width="1827" referrerpolicy="no-referrer"></p><ul><li>二次集成開發</li></ul><p>dbswitch 也支持 java 下二次集成開發，具體可查看 dbswitch 項目中的文檔説明。</p><h2>關注 dbswitch</h2><p>歡迎體驗使用 dbswitch 工具，同時項目中也提供了 dbswitch 相關的實現原理。</p><h2>友情項目</h2><p>[1] <a href="https://gitee.com/inrgihc/greenplum_installer">Greenplum 一鍵安裝</a></p><p>[2] <a href="https://gitee.com/inrgihc/libnpce">新聞文章正文抽取正文抽取組件</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 02:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268303</guid>
+            <link>https://www.oschina.net/news/268303</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
         </item>
         <item>
             <title>
@@ -73,7 +208,7 @@
     = 1.87855 eV    [Energy]</code></pre></div>
                                                                 ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:26:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:25:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
             <link>https://www.oschina.net/p/numbat</link>
         </item>
@@ -85,7 +220,7 @@
                 <![CDATA[<div class="content"><p>此前網傳阿里巴巴達摩院由於預算及盈利等原因，已經撤裁旗下量子實驗室。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-f56d238fc4cd0472484cff8074725c56bb7.png" referrerpolicy="no-referrer"></p></blockquote><p>對此，阿里巴巴達摩院相關人士迴應九派財經稱，為了進一步推動量子科技協同發展，達摩院聯合浙江大學發展量子科技，<strong>達摩院將量子實驗室及可移交的量子實驗儀器設備捐贈予浙江大學</strong>，並向其他高校和科研機構進行開放。</p><p>目前，達摩院量子實驗室網站已撤下之前的所有內容 (<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdamo.alibaba.com%2Flabs%2Fquantum%2F%3Flang%3Dzh" target="_blank">https://damo.alibaba.com/labs/quantum/?lang=zh</a></u>)。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1fe3290832247ef64372a3cecccec9e368c.png" referrerpolicy="no-referrer"></p><p>「中國科學院-阿里巴巴量子計算實驗室（AQL）」於 2015 年 7 月 30 日揭牌成立，計劃在量子信息科學領域開展前瞻性研究，研製量子計算機。根據該聯合實驗室的研究計劃：</p><ul><li><p>預計到 2025 年，量子模擬將達到當今世界最快的超級計算機的水平；</p></li><li><p>到 2030 年，研製具有 50—100 個量子比特的通用量子計算原型機，突破大規模量子計算機的芯片工藝，從物理層設計、製造，到算法運行實現自主研發，全面實現通用量子計算功能，並應用於大數據處理等重大實際問題。</p></li></ul><p>達摩院此前在該領域進行了長期投入，配置了國際領先的量子實驗專用儀器設備，建成 Lab-1、Lab-2 兩座硬件實驗室，具備量子計算軟硬件全棧開發能力。</p><p>除此之外，達摩院在芯片製備、比特相干時長、門操控、量子糾錯，量子計算控制架構等領域取得了多個重要成果，包括高精度、多比特超導量子芯片，量子電路經典模擬器「太章」等。</p><hr><p><strong>延伸閲讀</strong></p><ul><li><a href="https://www.oschina.net/news/259545" target="news">百度發佈首個量子領域大模型</a></li><li><a href="https://www.oschina.net/news/203591/cirq-1-0-released" target="news">谷歌發佈量子編程框架 Cirq 1.0 版本</a></li><li><a href="https://www.oschina.net/news/180254/mit-new-language-quantum-computing-twist" target="news">MIT 推出用於量子計算的編程語言 Twist</a></li><li><a href="https://www.oschina.net/news/124369/alibaba-open-source-taizhang-2-0" target="news">阿里開源量子模擬器 「太章 2.0」</a></li><li><a href="https://www.oschina.net/news/122471/china-quantum-hegemony" target="news">中國「量子霸權」成果：比最快超級計算機快一百萬億倍</a></li><li><a href="https://www.oschina.net/news/117459/us-plans-quantum-internet" target="news">美國發布量子互聯網藍圖：十年內建成</a></li><li><a href="https://www.oschina.net/news/116574/silq-programming-language-for-quantum-computers" target="news">量子計算機領域內第一種高級編程語言 Silq 誕生</a></li><li><a href="https://www.oschina.net/news/108172/microsoft-quantum-oss-available-github" target="news">微軟宣佈開源量子開發工具包</a></li><li><a href="https://www.oschina.net/news/98474/google-opensource-cirq" target="news">擁抱新時代，Google 開源量子算法框架 CIRQ</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:22:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:21:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268299</guid>
             <link>https://www.oschina.net/news/268299</link>
             <author>
@@ -97,9 +232,9 @@
                 <![CDATA[Gitee 推薦 | 輕量級本地化熱點檢測/降級框架 Akali]]>
             </title>
             <description>
-                <![CDATA[<p align="center"><a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com%2F"><img src="https://gitee.com/dromara/Akali/raw/master/static/img/logo-main.svg" height="auto" alt="logo" referrerpolicy="no-referrer"></a></p><h3><a id="官網 httpsakaliyomahubcom" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AE%98%E7%BD%91httpsakaliyomahubcom"></a>官網：<a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com">https://akali.yomahub.com</a></h3><h3><a id="介紹" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BB%8B%E7%BB%8D"></a>介紹</h3><p>Akali（阿卡麗）是一個輕量級本地化熱點檢測/降級框架，適用於大流量場景，可輕鬆解決業務中超高流量的併發查詢等場景。並且接入和使用極其簡單，10 秒鐘即可接入使用！</p><p>Akali 框架的理念就是小巧，實用，來無影去無蹤，絲血團戰，滿血退場，所到之處，皆為虛無。</p><h3><a id="使用" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BD%BF%E7%94%A8"></a>使用</h3><p>引入依賴：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;dependency&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;groupId&gt;</span>org.dromara<span class="nt">&lt;/groupId&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;artifactId&gt;</span>akali<span class="nt">&lt;/artifactId&gt;</span></span><span id="LC4" class="line"><span class="nt">&lt;version&gt;</span>1.1.2<span class="nt">&lt;/version&gt;</span></span><span id="LC5" class="line"><span class="nt">&lt;/dependency&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h4><a id="對任意方法進行熱點處理" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E7%83%AD%E7%82%B9%E5%A4%84%E7%90%86"></a>對任意方法進行熱點處理</h4><p>只需要加上<code>@AkaliHot</code>這個標註，任意方法均可以獲得熱點檢測，並在熱點期間用熱點數據進行返回，在熱點過後，又會自動調用原本業務邏輯。</p><p>舉例：比如有一個商品查詢的業務，傳入 SkuCode，返回商品信息。當某個商品進行促銷時，訪問的量就會增加，但是對於相同的 SkuCode 而言，其短時間窗口內返回的 SkuInfo 是一致的，我們的目標是當某個商品 sku 被大量查詢時，框架能夠在短時間內把這個商品 sku 提為熱點數據，並通過對其進行緩存返回來降低對下游業務的壓力。而當熱點值過後，框架又能夠自動摘除這個熱點值，使其按照原有方式進行查詢。</p><p>其本質相當於實時的監測了熱點，並對其熱點數據做了一個短時間內的緩存。</p><p>以下示例代表了：當相同的 skuCode 在 5 秒內超過 50 次調用時，會自動把這個 skuCode 的值提為熱點，並用最後一次的返回值直接返回。當調用低於 5 秒 50 次調用時，框架會自動的摘除掉這個熱點。使其正常的調用你原有代碼進行邏輯計算並返回。這一切都是自動的。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_QPS</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>其中<code>grade</code>參數除了有以<code>QPS</code>作為維度統計，還有以<code>Thread</code>個數作為維度統計。比如：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>這就代表了，如果某個 skuCode 在 5 秒之內有超過 50 個線程正在運行，那麼就提為熱點，並用熱點數據直接返回。</p><p>對開源項目比較熟悉的同學看到這肯定想到了京東的框架-<code>hotkey</code>，<code>Akali</code>不同於<code>hotkey</code>，完全是本地運行的，不依賴於服務端，而且接入比<code>hotkey</code> 方便多了。性能完全相當於<code>hotkey</code>。</p><h4><a id="對任意方法進行降級" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BA%A7"></a>對任意方法進行降級</h4><p>只需要加上<code>@AkaliFallback</code>註解。任意方法均可獲得降級功能。</p><p>舉例：某一個方法需要調用外部的接口，但是外部的接口性能不佳，耗時高。當併發一高時，線程池就會吃滿，線程池隊列也會逐漸堆積從而導致超時，或者丟棄，嚴重時會拖垮整個系統。</p><p>這時，我們只要對這個方法加上<code>@AkaliFallback</code>標註，即可解決。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliFallback</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHi</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC3" class="line"><span class="k">return</span><span class="s">"hi,"</span><span class="o">+</span><span class="n">name</span><span class="o">;</span></span><span id="LC4" class="line"><span class="o">}</span></span><span id="LC5" class="line"></span><span id="LC6" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHiFallback</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC7" class="line"><span class="k">return</span><span class="s">"fallback str"</span><span class="o">;</span></span><span id="LC8" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>以上註解表示了，當這個方法的同時運行的線程超過 100 個時，觸發降級，降級會自動調用<code>原方法名+Fallback</code>方法名 (並且參數要一致)，當降級觸發後會直接返回<code>fallback str</code>，當線程數小於 100 時，框架也會自動摘除降級，還是輸出<code>hi,xxxx</code>。</p><p>如果你的類中沒有定義 fallback 方法，那麼觸發降級時會報錯，當然你可以在降級方法中去拋錯，來讓上游系統知道你這個方法已經達到了瓶頸。</p><h3><a id="注意事項" class="anchor" href="https://gitee.com/dromara/Akali#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"></a>注意事項</h3><p>Akali 只針對於 Springboot，Spring 環境，並且所有標註了<code>@AkaliHot</code>或者<code>@AkaliFallback</code>的類一定得註冊到 spring 上下文中。</p><p>Akali 在 springboot 中會自動掃描所有標註的類，您無需做任何配置，在 spring 中，你需要配置：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.FallbackStrategy"</span><span class="nt">/&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.MethodHotspotStrategy"</span><span class="nt">/&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.spring.AkaliScanner"</span><span class="nt">/&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h3><a id="交流羣" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BA%A4%E6%B5%81%E7%BE%A4"></a>交流羣</h3><img src="https://gitee.com/dromara/Akali/raw/master/static/img/chat.png" referrerpolicy="no-referrer">]]>
+                <![CDATA[<p align="center"><a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com%2F"><img src="https://gitee.com/dromara/Akali/raw/master/static/img/logo-main.svg" height="auto" alt="logo" referrerpolicy="no-referrer"></a></p><h3><a id="user-content-官網 httpsakaliyomahubcom" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AE%98%E7%BD%91httpsakaliyomahubcom"></a>官網：<a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com">https://akali.yomahub.com</a></h3><h3><a id="user-content-介紹" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BB%8B%E7%BB%8D"></a>介紹</h3><p>Akali（阿卡麗）是一個輕量級本地化熱點檢測/降級框架，適用於大流量場景，可輕鬆解決業務中超高流量的併發查詢等場景。並且接入和使用極其簡單，10 秒鐘即可接入使用！</p><p>Akali 框架的理念就是小巧，實用，來無影去無蹤，絲血團戰，滿血退場，所到之處，皆為虛無。</p><h3><a id="user-content-使用" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BD%BF%E7%94%A8"></a>使用</h3><p>引入依賴：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;dependency&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;groupId&gt;</span>org.dromara<span class="nt">&lt;/groupId&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;artifactId&gt;</span>akali<span class="nt">&lt;/artifactId&gt;</span></span><span id="LC4" class="line"><span class="nt">&lt;version&gt;</span>1.1.2<span class="nt">&lt;/version&gt;</span></span><span id="LC5" class="line"><span class="nt">&lt;/dependency&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h4><a id="user-content-對任意方法進行熱點處理" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E7%83%AD%E7%82%B9%E5%A4%84%E7%90%86"></a>對任意方法進行熱點處理</h4><p>只需要加上<code>@AkaliHot</code>這個標註，任意方法均可以獲得熱點檢測，並在熱點期間用熱點數據進行返回，在熱點過後，又會自動調用原本業務邏輯。</p><p>舉例：比如有一個商品查詢的業務，傳入 SkuCode，返回商品信息。當某個商品進行促銷時，訪問的量就會增加，但是對於相同的 SkuCode 而言，其短時間窗口內返回的 SkuInfo 是一致的，我們的目標是當某個商品 sku 被大量查詢時，框架能夠在短時間內把這個商品 sku 提為熱點數據，並通過對其進行緩存返回來降低對下游業務的壓力。而當熱點值過後，框架又能夠自動摘除這個熱點值，使其按照原有方式進行查詢。</p><p>其本質相當於實時的監測了熱點，並對其熱點數據做了一個短時間內的緩存。</p><p>以下示例代表了：當相同的 skuCode 在 5 秒內超過 50 次調用時，會自動把這個 skuCode 的值提為熱點，並用最後一次的返回值直接返回。當調用低於 5 秒 50 次調用時，框架會自動的摘除掉這個熱點。使其正常的調用你原有代碼進行邏輯計算並返回。這一切都是自動的。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_QPS</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>其中<code>grade</code>參數除了有以<code>QPS</code>作為維度統計，還有以<code>Thread</code>個數作為維度統計。比如：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>這就代表了，如果某個 skuCode 在 5 秒之內有超過 50 個線程正在運行，那麼就提為熱點，並用熱點數據直接返回。</p><p>對開源項目比較熟悉的同學看到這肯定想到了京東的框架-<code>hotkey</code>，<code>Akali</code>不同於<code>hotkey</code>，完全是本地運行的，不依賴於服務端，而且接入比<code>hotkey</code> 方便多了。性能完全相當於<code>hotkey</code>。</p><h4><a id="user-content-對任意方法進行降級" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BA%A7"></a>對任意方法進行降級</h4><p>只需要加上<code>@AkaliFallback</code>註解。任意方法均可獲得降級功能。</p><p>舉例：某一個方法需要調用外部的接口，但是外部的接口性能不佳，耗時高。當併發一高時，線程池就會吃滿，線程池隊列也會逐漸堆積從而導致超時，或者丟棄，嚴重時會拖垮整個系統。</p><p>這時，我們只要對這個方法加上<code>@AkaliFallback</code>標註，即可解決。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliFallback</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHi</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC3" class="line"><span class="k">return</span><span class="s">"hi,"</span><span class="o">+</span><span class="n">name</span><span class="o">;</span></span><span id="LC4" class="line"><span class="o">}</span></span><span id="LC5" class="line"></span><span id="LC6" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHiFallback</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC7" class="line"><span class="k">return</span><span class="s">"fallback str"</span><span class="o">;</span></span><span id="LC8" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>以上註解表示了，當這個方法的同時運行的線程超過 100 個時，觸發降級，降級會自動調用<code>原方法名+Fallback</code>方法名 (並且參數要一致)，當降級觸發後會直接返回<code>fallback str</code>，當線程數小於 100 時，框架也會自動摘除降級，還是輸出<code>hi,xxxx</code>。</p><p>如果你的類中沒有定義 fallback 方法，那麼觸發降級時會報錯，當然你可以在降級方法中去拋錯，來讓上游系統知道你這個方法已經達到了瓶頸。</p><h3><a id="user-content-注意事項" class="anchor" href="https://gitee.com/dromara/Akali#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"></a>注意事項</h3><p>Akali 只針對於 Springboot，Spring 環境，並且所有標註了<code>@AkaliHot</code>或者<code>@AkaliFallback</code>的類一定得註冊到 spring 上下文中。</p><p>Akali 在 springboot 中會自動掃描所有標註的類，您無需做任何配置，在 spring 中，你需要配置：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.FallbackStrategy"</span><span class="nt">/&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.MethodHotspotStrategy"</span><span class="nt">/&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.spring.AkaliScanner"</span><span class="nt">/&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h3><a id="user-content-交流羣" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BA%A4%E6%B5%81%E7%BE%A4"></a>交流羣</h3><img src="https://gitee.com/dromara/Akali/raw/master/static/img/chat.png" referrerpolicy="no-referrer">]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:12:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:11:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/dromara/Akali</guid>
             <link>https://gitee.com/dromara/Akali</link>
         </item>
@@ -235,7 +370,7 @@
     </section></li></ul><span id="OSC_h2_12"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">下一步</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">@patrickvonplaten 建了一個非常酷的，筆記本，以展示如何在 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">trivia-qa</code> 數據集上評估 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">BigBirdForQuestionAnswering</code> 。你可以隨意用這個筆記本來玩玩 BigBird。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);"><strong style="color: black;">BigBird 版的 Pegasus</strong> 模型很快就會面世，你可將它們用於 <strong style="color: black;">長文檔摘要</strong> 💥。</p><span id="OSC_h2_13"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">尾註</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">你可在，此處，找到 <strong style="color: black;">塊稀疏注意力矩陣</strong> 的原始實現。🤗 版的實現在，這兒。</p><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;font-size: 0.9em;overflow: auto;color: rgb(106, 115, 125);padding: 10px 10px 10px 20px;margin-bottom: 20px;margin-top: 20px;border-left-color: rgb(255, 177, 27);background: rgb(255, 245, 227);"><p style="font-size: 16px;line-height: 26px;color: rgb(89, 89, 89);">🤗 寶子們可以戳 <strong style="color: black;">閲讀原文</strong> 查看文中所有的外部鏈接喲！</p></blockquote><hr data-tool="mdnice 編輯器" style="height: 1px;border-right: none;border-bottom: none;border-left: none;border-top-style: solid;border-top-color: rgb(249, 191, 69);margin-top: 20px;margin-bottom: 20px;"><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;color: rgb(91, 91, 91);background: rgba(158, 158, 158, 0.1);padding-top: 1px;padding-bottom: 1px;padding-left: 5px;margin-top: 0px;margin-bottom: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">英文原文:&nbsp;<span style="color: rgb(136, 136, 136);letter-spacing: 0px;">https://hf.co/blog/big-bird</span></p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">原文作者: Vasudev Gupta</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">譯者: Matrix Yao (姚偉峯)，英特爾深度學習工程師，工作方向為 transformer-family 模型在各模態數據上的應用及大規模模型的訓練推理。</p></blockquote></blockquote></blockquote></blockquote></section><p style="display: none;"><mp-style-type data-value="3"></mp-style-type></p></div><p style="color: #858585; font-size: 13px;">本文分享自微信公眾號 - Hugging Face（gh_504339124f0f）。<br>如有侵權，請聯繫 support@oschina.cn 刪除。<br>本文參與「<a href="https://www.oschina.net/sharing-plan" target="_blank">OSC 源創計劃</a>」，歡迎正在閲讀的你也加入，一起分享。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:09:08 GMT</pubDate>
+            <pubDate>Mon, 27 Nov 2023 02:08:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10150964</guid>
             <link>https://my.oschina.net/HuggingFace/blog/10150964</link>
             <author>
@@ -250,7 +385,7 @@
                 <![CDATA[<div class="content"><p>Mozilla 官方博客最近<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhacks.mozilla.org%2F2023%2F10%2Fdown-and-to-the-right-firefox-got-faster-for-real-users-in-2023%2F">發表文章</a>，稱 2023 年 Firefox 在提升用戶體驗方面取得了顯著的進展，真實用戶使用 Firefox 能感受到速度更快。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-48c6863ad3edd6c093cc619549ed7f30c35.png" referrerpolicy="no-referrer"></p><p>據介紹，Firefox 通過收集與<strong>頁面加載、響應速度、啓動</strong>等瀏覽器性能相關的匿名化時間度量指標來衡量用戶體驗。文章分享了一些對用戶瀏覽器體驗至關重要的指標在一年中是如何改進的。</p><ul><li><h4><strong>優化頁面加載速度</strong></h4></li></ul><p>Firefox 使用 "First Contentful Paint (FCP)" 這個指標來衡量用戶感知的性能。FCP 指的是從網絡接收到第一個字節到頁面顯示內容的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-16ba708b843784921085bfebb7aede81380.png" referrerpolicy="no-referrer"></p><p>數據顯示，從年初的大約 250 毫秒，到十月份的 215 毫秒，<strong>頁面加載速度提高了約 15%</strong>。這意味着用戶能夠更快地收到頁面加載的反饋信息。</p><ul><li><h4><strong>優化 JavaScript 執行時間</strong></h4></li></ul><p>Firefox 還關注頁面加載過程中 JavaScript 代碼的執行時間。</p><p>數據顯示，95% 的頁面中 JavaScript 執行時間從年初的約 1560 毫秒，到十月份的約 1260 毫秒，速度提升了約 20%。這對於減少頁面加載時間起到了重要作用。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-180320b8057907172e172bf066f77cc7c79.png" referrerpolicy="no-referrer"></p><ul><li><h4><strong>優化鍵盤響應速度</strong></h4></li></ul><p>Firefox 還關注頁面加載後的響應速度。更具體來説，它關注鍵盤按下後到屏幕上顯示結果的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-19618b78169525abf4262e888f93daec3dc.png" referrerpolicy="no-referrer"></p><p>數據顯示，95% 的頁面中鍵盤響應速度從年初的約 65 毫秒，到八月份的約 59 毫秒，速度提升了約 10%。這意味着用戶在鍵入時能夠更快地得到反饋，減少了打字時的延遲。</p><p>Firefox 團隊表示，通過這些數據可以看出 Firefox 在 2023 年取得了用戶體驗方面的顯著改善。這些改進是通過優化瀏覽器的性能和 JavaScript 引擎實現的。Firefox 團隊還表示他們將繼續努力進行更多的優化，並在未來的文章中分享更多細節和進展。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 12:16:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 12:16:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</guid>
             <link>https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</link>
             <author>
@@ -265,7 +400,7 @@
                 <![CDATA[<div class="content"><p>GNOME 基金會本月從「Sovereign Tech Fund」獲得了 <u><a href="https://www.oschina.net/news/265839/gnome-sovereign-tech-fund">100 萬歐元投資</a></u>，用於幫助 GNOME 實現平台現代化、改進工具和可訪問性，並支持符合公共利益的功能。</p><p>目前，圍繞 systemd-homed 和其他功能集成的新工作正在進行中，通過將 systemd-homed 集成到 GNOME 的 AccountService 中，用戶可以為他們的 Home 目錄創建加密卷，確保個人數據的安全性。</p><p>本週 GNOME 開發工作的部分亮點包括：</p><ol><li>通過 XDG Desktop Portal，使沙盒應用程序支持文件夾的拖放功能</li><li>改進 GNOME Shell 和合成器的性能，並集成 Tracy 分析器<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-a4ae5a9624f158104c73a6cd332f2a7b75f.png" referrerpolicy="no-referrer"><p>&nbsp;</p></li><li>提升硬件加速屏幕錄製和改進 Linux 藍牙協議堆棧</li><li>正在開發 Mutter 中對 OpenGL KHR_robustness 擴展的支持，以幫助 GNOME 會話從 GPU 驅動程序崩潰中恢復</li><li>Fractal Matrix 消息應用程序在 Fractal 5 中進行了全面重寫，現在使用 GTK 4、libadwaita 和 Matrix Rust SDK。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-aa30c942344821d70d7dffa1d26d5fcf6bf.png" referrerpolicy="no-referrer"></li></ol><p>有關這些最新 GNOME 工作的更多詳細信息，請參見本週 GNOME 動態：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fthisweek.gnome.org%2Fposts%2F2023%2F11%2Ftwig-123%2F" target="_blank">https://thisweek.gnome.org/posts/2023/11/twig-123/</a></em></u></p></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 02:53:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 02:53:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268167</guid>
             <link>https://www.oschina.net/news/268167</link>
             <author>
@@ -280,9 +415,54 @@
                 <![CDATA[<div class="content"><p>根據 Firefox 最近的提交信息，Firefox 121 計劃在現代 Linux 桌面上默認啓用 Wayland 支持，而不是回退到 XWayland。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-af58e5b492ff8f046886d946f3b112b8abc.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f1786452d74604703605a8963620fd4491.png" referrerpolicy="no-referrer"></p><p>來源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugzilla.mozilla.org%2Fshow_bug.cgi%3Fid%3D1752398" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=1752398</a></u></em>、<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhg.mozilla.org%2Fmozilla-central%2Frev%2F5ea5f3e31d58" target="_blank">https://hg.mozilla.org/mozilla-central/rev/5ea5f3e31d58</a></em></u></p><p>本週發佈了 <u><a href="https://www.oschina.net/news/267557/firefox-120-0-released">Firefox 120 </a></u>穩定版，Firefox 121 現在處於測試階段 —— Wayland 支持已默認啓用，並且截至昨天的 beta 3 版本仍然開啓，有望在穩定版中保持該狀態。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6256943e2a71993b6018e4b3e5f2199fa60.png" referrerpolicy="no-referrer"></p><p>原生 Firefox Wayland 支持可實現觸摸板和觸摸屏手勢、滑動導航、每個顯示器的 DPI 設置、更好的圖形性能等等。隨着時間的推移，Firefox Wayland 支持已經相當成熟，並且現在處於穩健狀態。用戶表示在 Firefox 121 beta 測試中，它的表現非常好。</p><p>Firefox 121 計劃於 12 月 19 日發佈，如果默認啓用 Wayland 支持，這將是一個很好的聖誕禮物。隨着 KDE Plasma 6.0 默認切換到 Wayland 會話，以及其他地方達到的 Wayland 採用里程碑，2024 年可能成為 Wayland 主導 Linux 桌面的一年。</p><hr><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/261201/gnome-mr-drop-x11-session">GNOME 移除對 X.Org 會話支持</a></li><li><a href="https://www.oschina.net/news/263917/linux-mint-wayland-progress">Linux Mint "Cinnamon" 開始支持 Wayland</a></li><li><a href="https://www.oschina.net/news/256249/intellij-based-ide-wayland-support">JetBrains 為基於 IntelliJ 的 IDE 提供 Wayland 支持</a></li><li><a href="https://www.oschina.net/news/241063/asahi-linux-stop-x-org">Asahi Linux 致用戶：停止使用 X.Org，Wayland 才是未來</a></li><li><a href="https://www.oschina.net/news/227050/xfce-4-20-wayland-support">Xfce 4.20 將正式支持 Wayland</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 25 Nov 2023 01:26:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 01:26:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</guid>
             <link>https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[LibreOffice Viewer 重新上架 Google Play 商店]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/news/268085/libreoffice-7-6-3-and-android-viewer-app">LibreOffice 7.6.3</a>&nbsp;於昨日更新，與其同時發佈的還有 Android 版 LibreOffice Viewer——已重新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.documentfoundation.libreoffice" target="_blank">上架至 Google Play 商店</a>。</p><p>LibreOffice Viewer 是 LibreOffice 的輕量級版本，專為 Android 智能手機和平板電腦設計，用於查看 OpenDocument 和 Microsoft Office 格式文檔。具體包括：</p><p>• 開放文檔格式（odt、ods、odp、odg）<br> • Microsoft Office 2007–365（docx、xlsx 和 pptx）<br> • Microsoft Office 97–2003（doc、xls 和 ppt）</p><p>它與適用於 Windows、macOS 和 Linux 的 LibreOffice 桌面基於相同的 LibreOffice 技術構建，因此它以完全相同的方式顯示文檔。</p><p><strong>LibreOffice Viewer&nbsp; 運行截圖</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-15b7f109e6f110504216473c4672024e086.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3679fd58f40a452c8afc18ff4d22d3e811f.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.documentfoundation.org%2Fblog%2F2023%2F11%2F24%2Flibreoffice-viewer-app-for-android%2F" target="_blank">LibreOffice Viewer 此前曾上架 Google Play 商店</a>，但由於缺乏維護，於 2020 年被下架。此後，開發團隊通過 200 多項變更來改進該應用程序，提升其穩定性和可用性，支持當前的 Android 版本並更好地與系統集成。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 05:07:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</guid>
+            <link>https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[英偉達推遲發佈中國特供版 AI 芯片]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.reuters.com%2Ftechnology%2Fnvidia-delays-launch-new-china-focused-ai-chip-sources-2023-11-24%2F" target="_blank">根據路透社的獨家報道</a></u>，兩名知情人士透露，英偉達已通知中國客戶，<strong>其為遵守美國出口規定而設計的新款 AI 芯片將推遲到明年第一季度發佈</strong>。</p><blockquote><p>前情提要：<strong><em><u><a href="https://www.oschina.net/news/265728">英偉達或將推出針對中國區的最新改良版 AI 芯片</a></u></em></strong></p></blockquote><p>英偉達將特供三款 AI 芯片 <strong>HGX H20、L20 PCle 和 L2 PCle</strong>，它們全都由 H100 改良而來，<strong>推遲發佈的是其中最強大的 H20，有可能延遲到明年 2 月或 3 月</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-edecf0f4b0f979b064fa454bfd31a0ec4e3.png" referrerpolicy="no-referrer"></p><p>知情人士稱，推遲的原因被告知是服務器製造商在集成芯片上遇到問題。另外兩款芯片中 L20 不會延期， 按照原定計劃供貨，L2 情況未知。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 03:33:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268075</guid>
+            <link>https://www.oschina.net/news/268075</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[GIMP 3.0 預計明年 5 月發佈，下月中旬凍結功能]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>今年年初，GIMP 開發團隊表示會在 2023 年發佈 GIMP 3.0，或者至少發佈 RC 版本，但不幸的是這個計劃沒有實現。</p><blockquote><p>相關閲讀：<br><strong><em><u><a href="https://www.oschina.net/news/247312/gimp-3-0-rc-in-2023" target="_blank">GIMP 3.0 計劃今年發佈首個 RC</a></u></em><br><u><em><a href="https://www.oschina.net/news/226425/gimp-3-0-plans-in-2023">GIMP 3.0 計劃今年推出，GTK+3 移植已基本完成</a><br><a href="https://www.oschina.net/news/250125/gimp-dev-completes-gtk3-port">GIMP 最新開發版已完成 GTK3 移植</a></em></u></strong></p></blockquote><p>GIMP 核心開發者和維護者 Jehan Pages&nbsp;<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.patreon.com%2Fposts%2Ffinale-countdown-93295511" target="_blank">本週宣佈</a></u>了在明年 5 月的<em>« Libre Graphics Meeting »</em>會議上發佈 GIMP 3.0 的新計劃。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-5d66d782cdcf2e652456c9f1eb96d8155f6.png" referrerpolicy="no-referrer"></p></blockquote><p>按照他們公佈的計劃，GIMP 開發團隊會在今年 12 月發佈最終的 <strong>GIMP 2.99.xx 開發版</strong>，然後在幾個月後發佈 RC 版本，最終在明年五月完成 GIMP 3.0 的開發。</p><p>為了確保 GIMP 穩定性，<strong>其開發團隊計劃 12 月中旬開始凍結功能，然後用大約 5 個月集中精力修復 bug</strong>。據稱，該軟件現存的 bug 已經超過 4000 個，其中有 624 個是關於導致崩潰的。</p><p>在即將發佈的 3.0 版本中，該軟件將迎來「非破壞編輯」功能：允許用戶對圖像進行更改，而不會覆蓋原始圖像數據，原始圖像數據將保持可用狀態，以便用戶在需要時恢復。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e25676c183a4c3051eab67adf7266d77e49.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-020dab40bdbb8b6195a42610503e1db1a62.png" referrerpolicy="no-referrer"></p><p>GIMP 3.0 使用 GTK3 進行重構，並且支持 Wayland，同時還有許多其他的改進和功能增強。對於這個版本，廣大用戶已經期待了十年，希望 GIMP 3.0 能夠在明年春天如期發佈。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 03:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</guid>
+            <link>https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -401,148 +581,6 @@ ret</code></pre></div><p style="color:#121212; margin-left:0; margin-right:0; te
             <link>https://my.oschina.net/u/5407571/blog/10150775</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[中國科學院軟件所在開源自動駕駛平台建設方面取得進展]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">中國科學院軟件研究所可信智能系統團隊在開源自動駕駛（Self-driving System）平台建設方面取得進展，構建了一個開放易用且自主可控的自動駕駛算法開發、測試、仿真與驗證平台 ISS。該成果得到中國科學院穩定支持基礎研究領域青年團隊計劃「開放環境下的可信智能算法」項目支持。</span></p><p><span style="color:#000000">根據介紹，ISS 平台基於模塊化的框架並以依賴庫較少的方式實現了涵蓋自動駕駛全流程（包括感知、建圖、定位、預測、規劃與控制等）的幾十種基準算法（如圖 1 所示），使用簡單、易於擴展，可以為科研人員開展自動駕駛相關研究提供基礎平台支撐。</span></p><p><img alt="" height="329" src="https://oscimg.oschina.net/oscnet/up-bf752988659c49e05377c82e311313f3fb6.png" width="500" referrerpolicy="no-referrer"></p><p><em><span style="color:#000000">圖 1. ISS 平台架構</span></em></p><p><span style="color:#000000">ISS 平台具體實現了以下六大模塊功能。</span></p><ul><li><span style="color:#000000">傳感器模塊：基於 CARLA 仿真器支持了常用的傳感器；</span></li><li><span style="color:#000000">感知模塊：基於深度學習方法實現了 2D 檢測、2D 語義分割、Bev 地圖生成、3D 目標檢測等感知任務；</span></li><li><span style="color:#000000">預測模塊：實現了勻速運動預測和基於 Motion Transformer 的預測；</span></li><li><span style="color:#000000">定位模塊：實現了基於激光雷達、慣性測量單位、全球定位系統等的單傳感器定位和基於卡爾曼濾波器等過濾器的多傳感器融合定位；</span></li><li><span style="color:#000000">規劃模塊：實現了基於 Lanelet2 的 FloodFill 路線規劃算法、基於規則的行為規劃算法、基於 Lattice Planner 和 EM Planner 的運動規劃算法；</span></li><li><span style="color:#000000">控制模塊：實現了經典的 PID 和 MPC 控制算法。</span></li></ul><p><img alt="" height="191" src="https://oscimg.oschina.net/oscnet/up-67074db82f46cb368c7d1d3418d532cc664.png" width="500" referrerpolicy="no-referrer"></p><p><em><span style="color:#000000">圖 2. ISS 平台在 CARLA 仿真平台的 2D、3D 感知效果</span></em></p><p><span style="color:#000000">目前，已有來自國防科技大學、西南大學、奧地利數字安全實驗室、德國薩爾大學等國內外知名高校的科研團隊利用 ISS 平台進行研究。</span></p><p><span style="color:#000000">軟件所可信智能系統團隊後續將對 ISS 平台各個模塊的功能繼續進行擴展完善，包括加入自動駕駛可解釋性分析、安全性驗證、物理小車及聯合仿真等功能。ISS 平台有望成為該領域有影響力的開源基礎支撐平台，為國內外自動駕駛與可信人工智能等方向的研究團隊提供支持。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 09:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268000</guid>
-            <link>https://www.oschina.net/news/268000</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Blender 連續 5 天遭受大規模 DDoS 攻擊]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">Blender 發佈<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.blender.org%2Fnews%2Fcyberattack-november-2023%2F" target="_blank">公告稱</a>，blender.org 網站在 2023 年 11 月 18 日至 23 日期間持續受到 DDoS 攻擊，攻擊者通過不斷髮送請求致使網站服務器超載而癱瘓，導致網站運營嚴重中斷。除了 blender.org 主網站外，其他一些服務也無法使用。</span></p><p><span style="color:#000000">該攻擊由具有數百個 IP 地址的殭屍網絡執行，發送超過 15 億個惡意請求，峯值速率為 10 萬 rps（每秒請求）。網站斷斷續續的可用了幾天，但即使在攻擊者暫停攻擊的短時間內，Blender 的基礎設施仍然因大量待處理的合法請求而超載，導致服務器難以跟上。</span></p><p><span style="color:#000000">在經過四天的抵禦攻擊之後 (11 月 21 日) 後，Blender 決定將其網站轉移到了 CloudFlare，以減少攻擊的影響。目前尚未有人聲稱對這次襲擊負責，動機也未知。</span></p><p><span style="color:#000000">Blender 方面表示，此次攻擊的重點是拒絕服務，項目和用戶數據未受影響。</span></p><p><span style="color:#000000">攻擊事件的具體時間線如下：</span></p><blockquote><ul><li><span style="color:#000000"><strong>2023-11-18&nbsp;</strong>blender.org 網站上初步展現出惡意流量的跡象，通過阻止違規地址得到緩解。</span></li><li><span style="color:#000000"><strong>2023-11-19 </strong>惡意流量加劇，導致 blender.org 網站的可用性間歇性中斷。</span></li><li><span style="color:#000000"><strong>2023-11-20 </strong>由於流量過大，blender.org 的一些服務（開發者論壇、維基等）無法使用。屏蔽 IP 範圍不再有效。</span></li><li><span style="color:#000000"><strong>2023-11-21 </strong>攻擊達到全面規模，需要完全停止 blender.org 服務。決定轉而使用專門的 DDoS 緩解服務。當日結束時，blender.org 網站恢復正常運行。</span></li><li><span style="color:#000000"><strong>2023-11-22 01:30 </strong>攻擊仍在持續，峯值為每分鐘超過 500 萬個請求。雖然 www.blender.org 的大部分功能已恢復正常，但仍存在一些問題：</span><ul><li><span style="color:#000000">用戶在訪問網站之前可能會面臨一個「challenge」，以驗證自己不是機器人</span></li><li><span style="color:#000000">由於技術原因，blender.org（不帶 www）仍然無法訪問。用戶想訪問 Blender.org，需確保正確輸入 www.blender.org</span></li><li><span style="color:#000000">有幾個站點仍然不可用（代碼、開發人員、文檔、devtalk、下載、wiki 等），開發人員繼續努力恢復。 </span></li></ul></li><li><span style="color:#000000"><strong>2023-11-22 10:30&nbsp;</strong>攻擊已經停止。blender 繼續致力於恢復所有其他受影響站點。</span></li><li><span style="color:#000000"><strong>2023-11-22 20:30 </strong>所有 blender.org 站點均已恢復在線並正常運行。但以此同時，另一次攻擊又已經開始。</span></li><li><span style="color:#000000"><strong>2023-11-23 20:30</strong> 攻擊已經停止。總共有超過 2.1B 個請求 (高達 100K rps) 得到了緩解。blender 認為該問題已解決，並且只有在 blender.org 上的用戶體驗受到影響時才會進一步報告。</span>&nbsp;</li></ul></blockquote><p><img alt="" height="288" src="https://oscimg.oschina.net/oscnet/up-affc1ae024c2e2724c7542ba5f0d983081b.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">Blender 是一款免費開源的跨平台 3D 創作套件。使用 Blender，你可以創建 3D 可視化效果，例如靜止圖像，3D 動畫，VFX 快照和視頻編輯。它非常適合那些受益於其統一管線和響應式開發過程的個人和小型工作室。與其他 3D 建模工具相比，Blender 對內存和驅動的需求更低。其界面使用 OpenGL，在所有支持的硬件與平台都能提供一致的用戶體驗。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 08:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267990/blender-cyberattack-2023</guid>
-            <link>https://www.oschina.net/news/267990/blender-cyberattack-2023</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[LibreOffice Viewer 重新上架 Google Play 商店]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/news/268085/libreoffice-7-6-3-and-android-viewer-app">LibreOffice 7.6.3</a>&nbsp;於昨日更新，與其同時發佈的還有 Android 版 LibreOffice Viewer——已重新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.documentfoundation.libreoffice" target="_blank">上架至 Google Play 商店</a>。</p><p>LibreOffice Viewer 是 LibreOffice 的輕量級版本，專為 Android 智能手機和平板電腦設計，用於查看 OpenDocument 和 Microsoft Office 格式文檔。具體包括：</p><p>• 開放文檔格式（odt、ods、odp、odg）<br> • Microsoft Office 2007–365（docx、xlsx 和 pptx）<br> • Microsoft Office 97–2003（doc、xls 和 ppt）</p><p>它與適用於 Windows、macOS 和 Linux 的 LibreOffice 桌面基於相同的 LibreOffice 技術構建，因此它以完全相同的方式顯示文檔。</p><p><strong>LibreOffice Viewer&nbsp; 運行截圖</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-15b7f109e6f110504216473c4672024e086.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3679fd58f40a452c8afc18ff4d22d3e811f.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.documentfoundation.org%2Fblog%2F2023%2F11%2F24%2Flibreoffice-viewer-app-for-android%2F" target="_blank">LibreOffice Viewer 此前曾上架 Google Play 商店</a>，但由於缺乏維護，於 2020 年被下架。此後，開發團隊通過 200 多項變更來改進該應用程序，提升其穩定性和可用性，支持當前的 Android 版本並更好地與系統集成。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 05:07:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</guid>
-            <link>https://www.oschina.net/news/268087/libreoffice-viewer-app-for-android</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[eBPF 的發展演進 --- 從石器時代到成為神（一）]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><span id="OSC_h2_1"></span><h2><span><span>1. 前言</span></span></h2><div><div><span><span>技術的發展往往是積跬步而至千里的。Linux 從 92 年誕生，發展至今已經覆蓋大小各類的信息基礎設施。是什麼樣的力量，讓 Linux 能夠始終保持發展活力，又如何看待 Linux 之上出現的新的技術趨勢？</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>本文試圖通過梳理 eBPF 的演進過程，探索 Linux 內核的發展動力來源與發展軌跡，與大家一同暢想 eBPF 給內核技術、Linux 生態帶來的全新變局。</span></span></div><div>
-   &nbsp; 
- </div></div><span id="OSC_h2_2"></span><h2><span><span>2. eBPF 概覽</span></span></h2><div><span><span>2.1. </span></span><strong><span>實現原理</span></strong></div><div>
-  &nbsp; 
-</div><div><div><span><span>大家可能都知道圖靈機，這是一個可計算理論模型，可以用來判斷計算機的計算能力。圖靈機是目前有可能實現的計算能力最強的理論模型，目前我們常用的計算機，理論上都是等價於圖靈機的。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>BPF 的出現，是對計算能力的渴求，其原理就是通過 IR 模擬一台 RISC 指令集的計算機嵌入到內核中，將內核內部的靜態編譯邏輯轉變為更加靈活的動態編譯邏輯，使內核獲得近似於圖靈機的動態邏輯定製能力。而從 classic BPF 到 extended BPF 的發展，是將這一計算方式進一步夯實和通用化。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>BPF 的出現乃至到 eBPF 的進一步發展，為內核帶來了巨大的改變，使內核具備了更加強大、可編程的動態變化的能力。這種能力在各種需要定製化的應用場景中，將發揮巨大的價值，既可以用於擴展功能，也可以用於優化性能。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>在實現上，為適應不同業務場景的需求，使 eBPF 具備等價於一台 RISC 指令集計算機的計算能力，通過輸入參數、Map 數據存儲、Helper 幫助函數，構成了 eBPF 程序與內核交互的運行環境。eBPF 指令集的計算和控制能力、運行環境與內核的交互能力，兩者疊加構成了 eBPF 程序強大的處理能力。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>在安全方面，通過 Verifier 嚴格檢查 eBPF 程序的可完成性、數據訪問的合法性等，保證了 eBPF 程序與內核交互過程中內核不被掛起、核心數據不會被破壞。</span></span></div></div><div><div><span><span>BPF 發展過程中，由 cBPF 發展成為 eBPF 是一次大的技術升級。eBPF 在 cBPF 的基礎上重新設計了指令集、引入了 JIT、增加了輔助函數，大大擴展了複雜邏輯的設計能力。雖然 eBPF 有巨大的進步，但是基本的底層設計還是一致的，因此兩者統稱為 BPF。</span></span></div><div>
-   &nbsp; 
- </div></div><div><div><span><span>由於 eBPF 兼容 cBPF，在未指定時，BPF 更多指 eBPF 所定義的內涵。後文用 BPF 泛指整個 BPF 相關的基礎機制，eBPF 特指最新的 BPF 標準。</span></span></div><div>
-   &nbsp; 
- </div></div><div><span><span>2.2. </span></span><strong><span>技術特點</span></strong></div><div><div><span><span>BPF 還在快速發展，它的計算能力和完備性也在迅速提高，前景無限。但就具體的版本而言，卻又呈現具體技術特點，主要是其支持的能力和受到的約束兩個方面。以最新的 BPF 的技術標準 (v6.1) 為藍本，介紹 BPF 的主要技術特點。</span></span></div><div>
-   &nbsp; 
- </div></div><ul><li><div><span><span>RISC 指令集</span></span></div></li></ul><div><div><span><span>BPF 的核心是一個虛擬計算機，它採用類 RISC 指令集，支持跳轉、算數運算、尾調用等基本操作。在運行 BPF 程序的計算機上，BPF 指令會被內核的 JIT 編譯器動態編譯為物理機原生指令，實現運行效率的「零」損耗。在支持 BPF 卸載的設備上，BPF 程序也可以卸載到設備上執行。在 BPF 的指令集中還支持偽調用指令，可以調用到內核幫助函數。</span></span></div></div><div><div><span><span>同時，BPF 的指令的編碼空間中還有大量的儲備，未來根據需要一定還會繼續增加指令，提升 BPF 實現複雜邏輯的能力。</span></span></div></div><ul><li><div><span><span>Map</span></span></div></li></ul><div><div><span><span>基於鍵值對的數據存儲機制，可用於實現內核、用戶態的數據存儲和交換。</span></span></div></div><ul><li><div><span><span>Helper 函數</span></span></div></li></ul><div><div><span><span>專用於 BPF 程序調用的函數接口，用於封裝內核中的功能，使 BPF 程序可以和內核互操作，同時保持 BPF 程序和內核的安全隔離。</span></span></div></div><ul><li><div><span><span>BPF 子程序</span></span></div></li></ul><div><div><span><span>實現了 BPF 程序之間的調用。</span></span></div></div><ul><li><div><span><span>上下文</span></span></div></li></ul><div><div><span><span>BPF 程序的語境和運行上下文，是一種內部透明的數據結構。只有在明確 BPF 程序的類型時，上下文的定義和內部數據結構才是確定的。不同的 BPF 程序類型，上下文也各不相同。</span></span></div></div><ul><li><div><span><span>CO-RE</span></span></div></li></ul><div><div><span><span>通過運行時類型支持，實現一次編譯、隨處運行。</span></span></div></div><ul><li><div><span><span>支持特權和非特權級兩類運行模式</span></span></div></li></ul><div><div><span><span>分為特權級（百萬 ins）和非特權級（4096ins）兩類運行方式。</span></span></div></div><div><div><span><span>特權級模式下 BPF 程序可以獲得更寬的權限，實現更復雜的邏輯功能。</span></span></div></div><ul><li><div><span><span>保證向後兼容</span></span></div></li></ul><div><div><span><span>這一原則對於 BPF 的推廣應用非常重要，可以保證舊標準的 BPF 程序在新標準下也可以正確執行。但同時，也對未來 BPF 發展帶來了約束，只有把握好 BPF 的發展方向，做好底層設計，才能兩者得到兼顧。</span></span></div></div><div><div><span><span>比如，從老版本遺留下來的 cBPF 程序在 eBPF 中都會被 JIT 正確翻譯和執行。</span></span></div></div><ul><li><div><span><span>穩定的 ABI</span></span></div></li></ul><div><div><span><span>BPF 穩定的 ABI 包括，BPF 程序類型對應的輸入參數定義，可調用的內核幫助函數定義，返回值定義等。使用穩定的 ABI 的 BPF 程序，可保證與不同版本的內核都是兼容的。</span></span></div></div><div><div><span><span>另外，BPF 還在快速發展中，它的功能特性需要逐步釋放，因此目前還有諸多限制，其中有些是基於安全、可靠性考慮，有些是沒有超出範圍的應用需求的保守設計等等。隨着安全機制的完善、應用程序的擴展、生態體系的成熟，相應的限制也會逐步的改變。</span></span></div></div><div><div><span><span>目前的實現中，有如下限制：</span></span></div></div><ul><li><div><span><span>總運行時間有界</span></span></div></li></ul><div><div><span><span>有界性這是基本原則，應該在比較長的時間內都不會改變。但是，在不改變有界性的前提下，根據具體需要適當調整更合理的上限，這是存在極大可能的。</span></span></div></div><ul><li><div><span><span>指令總數限制</span></span></div></li></ul><div><div><span><span>非特權用戶最大指令數 4096，特權用戶最大指令數 1 百萬。</span></span></div></div><ul><li><div><span><span>分支數限制</span></span></div></li><li><div><span><span>BPF 調用嵌套層次限制</span></span></div></li><li><div><span><span>Map 實例數限制</span></span></div></li><li><div><span><span>驗證狀態數限制</span></span></div></li><li><div><span><span>最大分支數限制</span></span></div></li><li><div><span><span>堆棧長度限制</span></span></div></li></ul><div><div><span><span>目前支持的堆棧最大長度為 512 字節。</span></span></div></div><ul><li><div><span><span>上下文限制</span></span></div></li></ul><div><div><span><span>每一種類型的 BPF 程序，都有其對應輸入參數定義，彼此不同。也就是説，BPF 程序只能接受特定的輸入並進行處理，不能訪問內核的全部狀態空間。</span></span></div></div><ul><li><div><span><span>輔助函數限制</span></span></div></li></ul><div><div><span><span>每一個 BPF 程序類，都有其對應的輔助函數集合。這些輔助函數，由內核各子系統提供，是 BPF 程序類上下文的一部分。它們幫助 BPF 程序與內核各子系統交互，同時又保護內核不會被破壞。</span></span></div></div><div><div><span><span>上面贅述了很多特性，大家可能會有很多疑問，比如：</span></span></div></div><div><div><span><span>為什麼採用精簡指令集呢？因為這是目前最主流的指令集類型，相對於複雜指令集，精簡指令集更有利於實現更高密度、更高吞吐量、更高主頻的處理器。因此 x86 之後出現的新型指令集系統，絕大多數都是精簡指令集，包括現在的開源指令集 RISC-V。</span></span></div></div><div><div><span><span>為什麼不採用原生的指令集呢？</span></span></div></div><div><div><span><span>為什麼 5 個參數寄存器呢？</span></span></div></div><div><div><span><span>本篇暫不深入討論，後續主題涉及到的時候再詳細講解。</span></span></div><div>
-   &nbsp; 
- </div></div><div><span><span>2.3. </span></span><strong><span>應用價值</span></strong></div><div><div><span><span>BPF 的應用價值與其動態和可定製特性強相關。</span></span></div></div><div><div><span><span>內核研發中一直堅守的原則是：「機制與策略分離」，即：內核負責提供機制，將策略開放給上層。在機制與策略之間需要一層界面來進行交互。</span></span></div></div><div><div><span><span>系統調用是最初方案。它是單向發起的，缺少事件模型。</span></span></div></div><div><div><span><span>虛擬文件系統，提供了雙向的交互方式，但難以靈活定製複雜的邏輯。</span></span></div></div><div><div><span><span>由於軟件功能越來越複雜，無法用簡單規則來表達，軟件的基礎功能設施與業務邏輯，需要進行解偶。而業務邏輯部分，需要根據業務定製，因此很適合用 BPF 實現。比如：</span></span></div></div><ul><li><div><span><span>過濾器</span></span></div></li><li><div><span><span>權限檢查</span></span></div></li><li><div><span><span>模糊測試</span></span></div></li></ul><div><div><span><span>等類型的功能，比較適合用 BPF 實現。另外，視具體問題，也可以應用於：</span></span></div></div><ul><li><div><span><span>調度算法</span></span></div></li><li><div><span><span>用戶態交互（替代系統調用，實現更加可變的服務邏輯）</span></span></div></li><li><div><span><span>加載器、模擬器、兼容層</span></span></div></li><li><div><span><span>輕量化內核</span></span></div></li><li><div><span><span>多態內核</span></span></div></li><li><div><span><span>啓動方式</span></span></div></li></ul><div><div><span><span>每一種業務類型都有其獨具特徵的邏輯模型，通過更形式化地定義這些業務模型，可以更好地理解它們和 BPF 的結合性，找到更好的實現方案，充分發揮 BPF 帶來的強大能力。後續篇章，我們會對典型的應用模型進行更深入的討論，以及 BPF 在這些應用場景中，應該在哪些特性方面進行加強或改進。</span></span></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 04:27:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4450925/blog/8685883</guid>
-            <link>https://my.oschina.net/u/4450925/blog/8685883</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Bytebase 2.11.1 - 數據脫敏支持語義類型和脫敏算法]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>🚀 新功能</h2><ul><li>數據脫敏支持自定義脫敏算法和語義類型。 <img src="https://oscimg.oschina.net/oscnet/up-1585b72201b92b51627496f6baf9671402c.png" alt="file" referrerpolicy="no-referrer"></li></ul><h2>🔔 重大變更</h2><ul><li>用戶頁面的 URL 由 <code>/u/{uid}</code> 變更為 <code>/users/{email}</code>。</li><li>工作空間的所有者和開發者分別更名為：管理員和成員。 <img src="https://oscimg.oschina.net/oscnet/up-82d69e61f7501b0b1e11ac2bbd6e2f231e4.png" alt="file" referrerpolicy="no-referrer"></li></ul><h2>🎄 改進</h2><ul><li><p>SQL 編輯器支持顯示錶的 DDL 語句（MySQL, PostgreSQL 和 TiDB）。 <img src="https://oscimg.oschina.net/oscnet/up-d913361c2eae9e174893e134b791ad8493b.png" alt="file" referrerpolicy="no-referrer"></p></li><li><p>提升了啓用數據脫敏時的查詢速度。</p></li><li><p>支持在工單<strong>待發布</strong>或<strong>審批通過</strong>的時候發送 webhook 通知。</p></li><li><p>改進了 Oracle Parser 用以支持存儲過程和分區表。</p></li><li><p>優化了工單過濾功能。</p></li><li><p>優化了工單指派人功能。</p></li><li><p>優化了 Schema 編輯器的性能。</p></li></ul><p>📕 安裝及升級，參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fbytebase%2Fbytebase%23installation" target="_blank">升級指南</a>。如果從之前版本升級，獲取新版本後，重新啓動升級即可。</p><hr><p>💡 更多資訊，請關注 Bytebase 公號：Bytebase</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:41:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/10150991</guid>
-            <link>https://my.oschina.net/u/6148470/blog/10150991</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[谷歌員工離職後抨擊大老闆，曾深度參與 Flutter 項目、制定 HTML 相關標準]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>伊恩·希克森 (Ian Hickson) 是在谷歌工作了 18 年的老員工，他於 2005 年 10 月加入谷歌，18 年後遞交了辭職信。上週是他在谷歌的最後一週。</p><p>離職後，希克森在個人博客發表了一封措辭嚴厲的批評信，雖然標題為<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fln.hixie.ch%2F%3Fstart%3D1700627373" target="_blank">《回顧在 Google 的 18 年》</a></em></u>，但內容主要是抨擊谷歌「腐化的文化」，並指責首席執行官桑達爾·皮查伊 (Sundar Pichai) 「缺乏遠見」。</p><blockquote><p><img src="https://static.oschina.net/uploads/space/2023/1124/111037_IJjJ_2720166.png" referrerpolicy="no-referrer"></p></blockquote><p>來源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fln.hixie.ch%2F%3Fstart%3D1700627373" target="_blank">https://ln.hixie.ch/?start=1700627373</a></u></em></p><p>希克森表示，他「非常幸運地」經歷了公司的早期成長曆程，那時的高管對員工坦誠，鼓勵他們去做雄心勃勃的實驗，但如今這家搜索巨頭的文化已經「腐化」。</p><p>希克森在谷歌的職業生涯可以分為兩部分，在頭九年裏，他致力於 HTML 和相關標準的研究，任務是打造最好的 Web——因為任何對 Web 有利的事情都會對谷歌有利；在最後九年裏<strong>，他一直致力於打造跨平台應用程序開發框架 Flutter</strong>。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a03893271e334eda0f60bd821d7ca0fd33c.png" referrerpolicy="no-referrer"></p><p>希克森寫道，Flutter 是「老谷歌人」最後推出的項目之一，屬於 Larry Page 在 Alphabet 創建前不久發起的一系列雄心勃勃的實驗的一部分。Flutter 團隊基本上也像一家初創公司一樣運作，而且在很大程度上是建立在年輕的谷歌文化基礎上。例如<strong>優先考慮內部透明度、工作/生活平衡和數據驅動決策</strong>。所以整個團隊從一開始就非常開放，這使得他們能夠積極構建一個健康的開源項目。</p><p>與此同時，谷歌的高速發展讓其公司文化受到了侵蝕。</p><p>希克森表示：「透明度消失了。以前我會迫不及待地參加每一次公司全體會議，以便了解情況。現在，我發現自己甚至能夠預測高管們所給出的每一個答案。今天，我不知道在谷歌還有誰能解釋它的願景，員工士氣也空前低落。如果你和灣區的治療師交談，他們會告訴你，他們所有的谷歌客戶都對谷歌感到不滿意。」</p><p>對於今年 1 月份的<u><a href="https://www.oschina.net/news/226273/google-open-source">「大裁員」</a></u>，希克森稱這是公司非常短視的決策——目的只是為了確保股價保持季度增長，而不是遵循谷歌以前的戰略，即優先考慮長期成功，即使這會導致短期損失。</p><p>而且自那以來，谷歌一直在進行規模更小、更低調的裁員，以至於員工們現在都在一份內部文件中追蹤裁員情況。</p><p>希克森説，這些裁員對公司文化產生了「潛在」影響，可能導致員工「大幅減少冒險行為」。他寫道：「我現在在谷歌看到了很多負面現象，比如員工對管理層缺乏信任，而管理層也不再信任員工，公司制定的政策也越來越顯得空洞。」</p><p>此前曾有媒體報道稱，谷歌的普通員工和管理層之間關係緊張。比如，谷歌要求高管為員工表現進行績效打分。</p><p>希克森建議，應該努力將權力從首席財務官辦公室轉移到這樣一個人手中——他應該對如何利用谷歌廣泛的資源為用戶創造價值有清晰長期的願景。</p><p>至於谷歌的文化是否可以挽救，希克森認為可以，但他稱「時間緊迫」。他寫道：「谷歌文化的腐化最終將變得不可逆轉，因為它需要充當道德指南針的那種人，而這類人在沒有道德指南針的情況下不會願意加入谷歌。」</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:38:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/267932</guid>
-            <link>https://www.oschina.net/news/267932</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[英偉達推遲發佈中國特供版 AI 芯片]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.reuters.com%2Ftechnology%2Fnvidia-delays-launch-new-china-focused-ai-chip-sources-2023-11-24%2F" target="_blank">根據路透社的獨家報道</a></u>，兩名知情人士透露，英偉達已通知中國客戶，<strong>其為遵守美國出口規定而設計的新款 AI 芯片將推遲到明年第一季度發佈</strong>。</p><blockquote><p>前情提要：<strong><em><u><a href="https://www.oschina.net/news/265728">英偉達或將推出針對中國區的最新改良版 AI 芯片</a></u></em></strong></p></blockquote><p>英偉達將特供三款 AI 芯片 <strong>HGX H20、L20 PCle 和 L2 PCle</strong>，它們全都由 H100 改良而來，<strong>推遲發佈的是其中最強大的 H20，有可能延遲到明年 2 月或 3 月</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-edecf0f4b0f979b064fa454bfd31a0ec4e3.png" referrerpolicy="no-referrer"></p><p>知情人士稱，推遲的原因被告知是服務器製造商在集成芯片上遇到問題。另外兩款芯片中 L20 不會延期， 按照原定計劃供貨，L2 情況未知。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:33:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268075</guid>
-            <link>https://www.oschina.net/news/268075</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GIMP 3.0 預計明年 5 月發佈，下月中旬凍結功能]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>今年年初，GIMP 開發團隊表示會在 2023 年發佈 GIMP 3.0，或者至少發佈 RC 版本，但不幸的是這個計劃沒有實現。</p><blockquote><p>相關閲讀：<br><strong><em><u><a href="https://www.oschina.net/news/247312/gimp-3-0-rc-in-2023" target="_blank">GIMP 3.0 計劃今年發佈首個 RC</a></u></em><br><u><em><a href="https://www.oschina.net/news/226425/gimp-3-0-plans-in-2023">GIMP 3.0 計劃今年推出，GTK+3 移植已基本完成</a><br><a href="https://www.oschina.net/news/250125/gimp-dev-completes-gtk3-port">GIMP 最新開發版已完成 GTK3 移植</a></em></u></strong></p></blockquote><p>GIMP 核心開發者和維護者 Jehan Pages&nbsp;<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.patreon.com%2Fposts%2Ffinale-countdown-93295511" target="_blank">本週宣佈</a></u>了在明年 5 月的<em>« Libre Graphics Meeting »</em>會議上發佈 GIMP 3.0 的新計劃。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-5d66d782cdcf2e652456c9f1eb96d8155f6.png" referrerpolicy="no-referrer"></p></blockquote><p>按照他們公佈的計劃，GIMP 開發團隊會在今年 12 月發佈最終的 <strong>GIMP 2.99.xx 開發版</strong>，然後在幾個月後發佈 RC 版本，最終在明年五月完成 GIMP 3.0 的開發。</p><p>為了確保 GIMP 穩定性，<strong>其開發團隊計劃 12 月中旬開始凍結功能，然後用大約 5 個月集中精力修復 bug</strong>。據稱，該軟件現存的 bug 已經超過 4000 個，其中有 624 個是關於導致崩潰的。</p><p>在即將發佈的 3.0 版本中，該軟件將迎來「非破壞編輯」功能：允許用戶對圖像進行更改，而不會覆蓋原始圖像數據，原始圖像數據將保持可用狀態，以便用戶在需要時恢復。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e25676c183a4c3051eab67adf7266d77e49.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-020dab40bdbb8b6195a42610503e1db1a62.png" referrerpolicy="no-referrer"></p><p>GIMP 3.0 使用 GTK3 進行重構，並且支持 Wayland，同時還有許多其他的改進和功能增強。對於這個版本，廣大用戶已經期待了十年，希望 GIMP 3.0 能夠在明年春天如期發佈。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 24 Nov 2023 03:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</guid>
-            <link>https://www.oschina.net/news/268067/gimp-3-0-may-2024-schedule</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
