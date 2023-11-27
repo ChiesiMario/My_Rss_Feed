@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 27 Nov 2023 15:00:36 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2023 19:06:48 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -65,51 +65,6 @@
         </item>
         <item>
             <title>
-                <![CDATA[What's new in dubbo-go-pixiu v1.0.0]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>dubbo 原生網關 dubbo-go-pixiu v1.0 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Freleases%2Ftag%2Fv1.0.0-rc2" target="_blank">https://github.com/apache/dubbo-go-pixiu/releases/tag/v1.0.0-rc2</a> 正式發版了，項目從 2019 年一路走來，四年磨劍，感謝從，鐵城、張天，到 呂夢超，三位負責人。</p><p>目前，dubbo-go-pixiu 可作為 dubbo/dubbogo 服務網關，也可作為 dubbo/dubbogo 服務的 sidecar，還額外基於 Istio v1.14.3 實現了 dubbo 的控制面。</p><p>dubbo-go 和 dubbo-go-pixiu 在 2023 年初被螞蟻集團採用內部容器 PAAS HCS(Hyper Container Service) 超級容器平台的微服務技術底座， v1.0.0 集成了螞蟻集團使用過程中的提交的很多改進和優化。感謝本次版本的主要貢獻者，胡瀟晗、樊凡、龔娜、張國強、【阿里】遠雲、【螞蟻】多航、王虓雄、望哥、於雨，等社區同學。</p><h1>1 New Features In v1.0.0</h1><h2>1.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F548" target="_blank">Triple 支持傳遞 Header 和引入 PB 定義</a></h2><p>Triple 代理現在可以正確傳遞 header 到 Triple 服務，且支持通過引入 protoset 文件來支持未開啓 Proto 反射或不支持反射的特定 proto，例如使用舊版本編譯的或 gogoproto 編譯的服務。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftriple" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/triple</a></p><h2>1.2 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F554" target="_blank">負載均衡 Maglev hashing</a></h2><p>負載均衡支持新算法：Maglev hashing。Maglev 是 Google 開發的基於 kernal bypass 技術實現的 4 層負載均衡，它具有非常強大的負載性能，承載了 Google 絕大部分接入流量。Maglev 在負載均衡算法上採用自行開發的一致性哈希算法被稱為 Maglev Hashing，該哈希算法在節點變化時能夠儘量少的影響其他幾點，且儘可能的保證負載的均衡，是一個非常優秀的一致性哈希算法。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.3 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F565" target="_blank">Router 支持 Header 路由</a></h2><p>Router 支持通過 header 路由，可以更方便的管理流量。</p><pre><code class="language-yaml">              http_filters:
-                  - name: dgp.filter.http.traffic
-                    config:
-                      traffics:
-                        - name: "user-v1"
-                          router: "/user"
-                          canary-by-header: v1
-                          canary-weight: 0
-                        - name: "user-v2"
-                          router: "/user"
-                          canary-by-header: v2
-                          canary-weight: 100
-</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.4 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F571" target="_blank">錯誤注入</a></h2><p>支持對特定 API 做錯誤注入，例如返回固定的響應，施加隨機性的延時/錯誤等。</p><pre><code class="language-yaml">                http_filters:
-                  - name: dgp.filter.http.faultinjection
-                    config:
-                      fail_inject_rules:
-                        "/UserService/com.dubbogo.pixiu.UserService/GetUserByCode":
-                          type: delay
-                          trigger_type: random
-                          status_code: 500
-                          body: 'error'
-                          delay: 5s
-                          odds: 30
-</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fblob%2Fdevelop%2Fdocs%2Fsample%2Fothers%2Ffail-inject.md" target="_blank">https://github.com/apache/dubbo-go-pixiu/blob/develop/docs/sample/others/fail-inject.md</a></p><h2>1.5 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F522" target="_blank">Add GracefulShutdown Signal For Windows</a></h2><p>支持 Windows 優雅下線，Pixiu 關閉時避免流量損失。</p><pre><code class="language-yaml">static_resources:
-.......
-.......
-  shutdown_config:
-    timeout: "60s"
-    step_timeout: "10s"
-    reject_policy: "immediacy"
-</code></pre><p>配置方式參考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fshutdown" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/shutdown</a></p><h1>2 Enhancement in v1.0.0</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F573" target="_blank">優化 Prometheus 指標上報</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F530" target="_blank">修復一致性 Hash 數組越界</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F521" target="_blank">優化 Timeout 時的 http status code</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F528" target="_blank">優化 Metric 推拉模式</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F524" target="_blank">優化 Nacos 客户端啓動時的參數配置</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F517" target="_blank">修復特定 Filter 配置為空時的 NPE 問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F515" target="_blank">升級 wasmer-go v1.0.4 以支持 Mac ARM 版本</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F506" target="_blank">fix sample url using github.com/apache/dubbo-go-pixiu-samples</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F507" target="_blank">修復流量管理路由權重計算錯誤的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F513" target="_blank">修復負載均衡在特定情況下無法正常工作的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F574" target="_blank">移除無用的 imports</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F575" target="_blank">chore: unnecessary use of fmt.Sprintf</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F567" target="_blank">chore:use wasm filter build tags add wasm</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F556" target="_blank">修復無法錯誤的 samples 鏈接等</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F557" target="_blank">revert gatewayCmd to Run dubbo go pixiu</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F516" target="_blank">升級 hessian2 依賴到 v1.11.3</a></li></ul><h1>3 參考文檔</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FRwIA7TitRfUMU8rTI4JsBg" target="_blank">What's new in dubbo-go-pixiu v0.6.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5syzT64koPV77aRh04Izsw" target="_blank">What's new in dubbo-go-pixiu 0.5.1</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fdok42ssPJqazjeSRYaifVw" target="_blank">What's new in dubbo-go-pixiu 0.4.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FC7TxU0Zbee7EZ_6SJOLK8w" target="_blank">Dubbo 跨語言調用神獸：dubbo-go-pixiu</a></li></ul><h1>4 社區</h1><p>歡迎釘釘掃碼加入 dubbogo 社區釘釘羣【釘釘羣號 23331795】進行交流。</p><p><img src="https://oscimg.oschina.net/oscnet/up-ff09984b6821a6da40dcdb6db415fcca4b8.png" alt="" referrerpolicy="no-referrer"></p><p>以及 dubbogo 社區微信公眾號：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8feb2024cbf754333e9d7564cd0316dbb71.jpg" alt="" referrerpolicy="no-referrer"></p><p>從今年開始，除了以往負責的 dubbogo 社區項目外，於雨還負責了 pika 項目 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika" target="_blank">https://github.com/OpenAtomFoundation/pika</a>)，如果對該項目感興趣，請掃碼：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3e900aa69386ac2190edb8035f4abb68415.png" alt="" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 27 Nov 2023 09:16:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/dubbogo/blog/10294380</guid>
-            <link>https://my.oschina.net/dubbogo/blog/10294380</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[Linux 內核開發人員爭論基於優先級的 Shutdown 支持]]>
             </title>
             <description>
@@ -136,21 +91,6 @@
             <link>https://www.oschina.net/news/268346</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[龍芯發佈 .NET 8 SDK 8.0.100-ea1（試用版）]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>龍芯 .NET 編譯器團隊發佈了龍芯 .NET 8 SDK-8.0.100-ea1（試用版）。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ad83ed3331e20d86735205af7cae82b757f.png" referrerpolicy="no-referrer"></p></blockquote><p>2023 年 11 月 21 日龍芯發佈 LoongArch64 架構的 .NET 8.0-SDK 基於上游社區 .NET 8.0-SDK 製作，在生命週期維護範圍內，會持續進行更新升級。</p><ul><li><p>龍芯 LoongArch64 版 .NET 8 下載地址：<u><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.loongnix.cn%2Fzh%2Fapi%2Fdotnet" target="_blank">http://www.loongnix.cn/zh/api/dotnet</a></u></p></li><li><p>開發過程中可能需要依賴一些平台相關的 nupkg 資源，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnuget.loongnix.cn%2F" target="_blank">可在龍芯 Nuget 源搜索下載</a></u>。</p></li><li><p>相關配置方法見<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.loongnix.cn%2Fdotnet%2Fsupport%2Flist%2F01.%25E5%25B8%25B8%25E8%25A7%2581%25E9%2597%25AE%25E9%25A2%2598-FAQ.html" target="_blank">龍芯 Nuget 源配置方法</a></u>。</p></li></ul><p>特性更新：</p><ul><li>同步上游社區 v8.0.100&nbsp;新特性。</li></ul><p>關鍵更新:</p><ul><li><p>同步上游社區 v8.0.100&nbsp;更新。</p></li><li><p>默認開啓&nbsp;<code>DOTNET_TC_QuickJitForLoops</code>，支持 OSR 堆棧替換特性。</p></li><li><p>默認集成 PE32 + 格式 System.Private.CoreLib.dll 核心庫文件，提升了 .NET8.0 SDK 在 LoongArch64 平台上的性能表現。</p></li><li><p>支持 crossgen2 特性。</p></li></ul><p>龍芯平台 .NET 是龍芯公司基於開源社區 .NET 獨立研發適配的龍芯版本，官方稱會長期進行安全更新和錯誤修復，並持續進行性能優化。</p><p>社區 .NET 7 版本開始已經原生支持 LoongArch64 架構源碼，具備如下特性：</p><ul><li><p>跟進社區最新版本，獲取及時的安全更新和問題修復</p></li><li><p>支持多 OS：Loongnix、Loongnix-Server、統信 UOS、銀河麒麟等 64 位操作系統</p></li><li><p>支持 LoongArch 架構</p></li><li><p>明確的、多版本的產品維護計劃</p></li><li><p>專業團隊支持</p></li></ul><p>從龍芯 2019 年啓動 .NET 的研發工作，2022 年完成了 LoongArch64 架構代碼合併到 .NET 社區主幹分支上，2023 年 LoongArch64 架構代碼的開發完全和社區同步，從而保證了同時發佈 LoongArch64 的 .NET 8。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 27 Nov 2023 03:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268322</guid>
-            <link>https://www.oschina.net/news/268322</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -233,80 +173,6 @@ public String test() {
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Fish Shell 採用 Rust 重寫會導致性能下降]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>fish 是適用於 Linux、macOS 的命令行 Shell，其名字取於 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的簡稱，最大特點就是方便易用、功能強大、智能並且用户友好。很多其他 Shell 需要配置才有的功能，fish 默認提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>項目維護者 Fabian Boehm 今天在 GitHub 迴應了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重寫 Fish Shell</a></u>&nbsp;的進度，稱已幾乎完成。</p><p>根據開發者的説法，他們已經完成了從 C++ 到 Rust 的大部分移植工作，但還有一些剩餘的組件需要進行翻譯。目前，他們正在處理與輸入系統相關的讀取器、屏幕處理、輸入和分頁器等強耦合組件。一旦這些組件完成翻譯，剩下的工作就是一些零散的部分和去除構建系統的 C++ 依賴。</p><p>開發者表示，<strong>這不是一個適合臨時貢獻的項目</strong>，因為還有很多工作要做。</p><p>此外，開發者還回答了一些關於移植的問題和誤解。<strong>他們表示不會刪除所有的 C++ 代碼</strong>，也沒有計劃移植到 Windows 平台。他們還表示不會更改 Fish Shell 的名稱或吉祥物，並且對於最終移植的性能，他們表示早期結果是令人鼓舞的，<strong>但可能在某些情況下會比現有版本慢約 20%</strong>。</p><p>最後，他們提到即使完成了初始移植工作，項目也還有很多工作要做。</p><p>來源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 27 Nov 2023 03:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
-            <link>https://www.oschina.net/news/268315</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[精選網站流量分析工具]]>
-            </title>
-            <description>
-                <![CDATA[精選網站流量分析工具]]>
-            </description>
-            <pubDate>Mon, 27 Nov 2023 02:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
-            <link>https://www.oschina.net/project/awesome?columnId=65</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Numbat —— 用於科學計算的靜態類型編程語言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Numbat 是一種用於科學計算的靜態類型編程語言，對物理尺寸和單位具有一流的支持。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>可以使用它進行簡單的數學計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 1920/16*9
-
-    = 1080
-
-&gt;&gt;&gt; 2^32
-
-    = 4294967296
-
-&gt;&gt;&gt; sqrt(1.4^2 + 1.5^2) * cos(pi/3)^2
-
-    = 0.512957</code></pre><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>然而，Numbat 的真正優勢在於使用物理單位執行計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 8 km / (1 h + 25 min)
-
-  8 kilometer / (1 hour + 25 minute)
-
-    = 5.64706 km/h    [Velocity]
-
-&gt;&gt;&gt; 140 € -&gt; GBP
-
-  140 euro ➞ british_pound
-
-    = 120.768 £    [Money]
-
-&gt;&gt;&gt; atan2(30 cm, 1 m) -&gt; deg
-
-  atan2(30 centimeter, 1 meter) ➞ degree
-
-    = 16.6992°
-
-&gt;&gt;&gt; let ω = 2π c / 660 nm
-
-  let ω: Frequency = 2 π × c / 660 nanometer
-
-&gt;&gt;&gt; ℏ ω -&gt; eV
-
-  ℏ × ω ➞ electronvolt
-
-    = 1.87855 eV    [Energy]</code></pre></div>
-                                                                ]]>
-            </description>
-            <pubDate>Mon, 27 Nov 2023 02:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
-            <link>https://www.oschina.net/p/numbat</link>
         </item>
         <item>
             <title>
@@ -490,6 +356,81 @@ public String test() {
         </item>
         <item>
             <title>
+                <![CDATA[What's new in dubbo-go-pixiu v1.0.0]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>dubbo 原生網關 dubbo-go-pixiu v1.0 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Freleases%2Ftag%2Fv1.0.0-rc2" target="_blank">https://github.com/apache/dubbo-go-pixiu/releases/tag/v1.0.0-rc2</a> 正式發版了，項目從 2019 年一路走來，四年磨劍，感謝從，鐵城、張天，到 呂夢超，三位負責人。</p><p>目前，dubbo-go-pixiu 可作為 dubbo/dubbogo 服務網關，也可作為 dubbo/dubbogo 服務的 sidecar，還額外基於 Istio v1.14.3 實現了 dubbo 的控制面。</p><p>dubbo-go 和 dubbo-go-pixiu 在 2023 年初被螞蟻集團採用內部容器 PAAS HCS(Hyper Container Service) 超級容器平台的微服務技術底座， v1.0.0 集成了螞蟻集團使用過程中的提交的很多改進和優化。感謝本次版本的主要貢獻者，胡瀟晗、樊凡、龔娜、張國強、【阿里】遠雲、【螞蟻】多航、王虓雄、望哥、於雨，等社區同學。</p><h1>1 New Features In v1.0.0</h1><h2>1.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F548" target="_blank">Triple 支持傳遞 Header 和引入 PB 定義</a></h2><p>Triple 代理現在可以正確傳遞 header 到 Triple 服務，且支持通過引入 protoset 文件來支持未開啓 Proto 反射或不支持反射的特定 proto，例如使用舊版本編譯的或 gogoproto 編譯的服務。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftriple" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/triple</a></p><h2>1.2 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F554" target="_blank">負載均衡 Maglev hashing</a></h2><p>負載均衡支持新算法：Maglev hashing。Maglev 是 Google 開發的基於 kernal bypass 技術實現的 4 層負載均衡，它具有非常強大的負載性能，承載了 Google 絕大部分接入流量。Maglev 在負載均衡算法上採用自行開發的一致性哈希算法被稱為 Maglev Hashing，該哈希算法在節點變化時能夠儘量少的影響其他幾點，且儘可能的保證負載的均衡，是一個非常優秀的一致性哈希算法。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.3 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F565" target="_blank">Router 支持 Header 路由</a></h2><p>Router 支持通過 header 路由，可以更方便的管理流量。</p><pre><code class="language-yaml">              http_filters:
+                  - name: dgp.filter.http.traffic
+                    config:
+                      traffics:
+                        - name: "user-v1"
+                          router: "/user"
+                          canary-by-header: v1
+                          canary-weight: 0
+                        - name: "user-v2"
+                          router: "/user"
+                          canary-by-header: v2
+                          canary-weight: 100
+</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.4 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F571" target="_blank">錯誤注入</a></h2><p>支持對特定 API 做錯誤注入，例如返回固定的響應，施加隨機性的延時/錯誤等。</p><pre><code class="language-yaml">                http_filters:
+                  - name: dgp.filter.http.faultinjection
+                    config:
+                      fail_inject_rules:
+                        "/UserService/com.dubbogo.pixiu.UserService/GetUserByCode":
+                          type: delay
+                          trigger_type: random
+                          status_code: 500
+                          body: 'error'
+                          delay: 5s
+                          odds: 30
+</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fblob%2Fdevelop%2Fdocs%2Fsample%2Fothers%2Ffail-inject.md" target="_blank">https://github.com/apache/dubbo-go-pixiu/blob/develop/docs/sample/others/fail-inject.md</a></p><h2>1.5 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F522" target="_blank">Add GracefulShutdown Signal For Windows</a></h2><p>支持 Windows 優雅下線，Pixiu 關閉時避免流量損失。</p><pre><code class="language-yaml">static_resources:
+.......
+.......
+  shutdown_config:
+    timeout: "60s"
+    step_timeout: "10s"
+    reject_policy: "immediacy"
+</code></pre><p>配置方式參考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fshutdown" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/shutdown</a></p><h1>2 Enhancement in v1.0.0</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F573" target="_blank">優化 Prometheus 指標上報</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F530" target="_blank">修復一致性 Hash 數組越界</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F521" target="_blank">優化 Timeout 時的 http status code</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F528" target="_blank">優化 Metric 推拉模式</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F524" target="_blank">優化 Nacos 客户端啓動時的參數配置</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F517" target="_blank">修復特定 Filter 配置為空時的 NPE 問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F515" target="_blank">升級 wasmer-go v1.0.4 以支持 Mac ARM 版本</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F506" target="_blank">fix sample url using github.com/apache/dubbo-go-pixiu-samples</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F507" target="_blank">修復流量管理路由權重計算錯誤的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F513" target="_blank">修復負載均衡在特定情況下無法正常工作的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F574" target="_blank">移除無用的 imports</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F575" target="_blank">chore: unnecessary use of fmt.Sprintf</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F567" target="_blank">chore:use wasm filter build tags add wasm</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F556" target="_blank">修復無法錯誤的 samples 鏈接等</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F557" target="_blank">revert gatewayCmd to Run dubbo go pixiu</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F516" target="_blank">升級 hessian2 依賴到 v1.11.3</a></li></ul><h1>3 參考文檔</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FRwIA7TitRfUMU8rTI4JsBg" target="_blank">What's new in dubbo-go-pixiu v0.6.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5syzT64koPV77aRh04Izsw" target="_blank">What's new in dubbo-go-pixiu 0.5.1</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fdok42ssPJqazjeSRYaifVw" target="_blank">What's new in dubbo-go-pixiu 0.4.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FC7TxU0Zbee7EZ_6SJOLK8w" target="_blank">Dubbo 跨語言調用神獸：dubbo-go-pixiu</a></li></ul><h1>4 社區</h1><p>歡迎釘釘掃碼加入 dubbogo 社區釘釘羣【釘釘羣號 23331795】進行交流。</p><p><img src="https://oscimg.oschina.net/oscnet/up-ff09984b6821a6da40dcdb6db415fcca4b8.png" alt="" referrerpolicy="no-referrer"></p><p>以及 dubbogo 社區微信公眾號：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8feb2024cbf754333e9d7564cd0316dbb71.jpg" alt="" referrerpolicy="no-referrer"></p><p>從今年開始，除了以往負責的 dubbogo 社區項目外，於雨還負責了 pika 項目 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika" target="_blank">https://github.com/OpenAtomFoundation/pika</a>)，如果對該項目感興趣，請掃碼：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3e900aa69386ac2190edb8035f4abb68415.png" alt="" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 09:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/dubbogo/blog/10294380</guid>
+            <link>https://my.oschina.net/dubbogo/blog/10294380</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[龍芯發佈 .NET 8 SDK 8.0.100-ea1（試用版）]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>龍芯 .NET 編譯器團隊發佈了龍芯 .NET 8 SDK-8.0.100-ea1（試用版）。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ad83ed3331e20d86735205af7cae82b757f.png" referrerpolicy="no-referrer"></p></blockquote><p>2023 年 11 月 21 日龍芯發佈 LoongArch64 架構的 .NET 8.0-SDK 基於上游社區 .NET 8.0-SDK 製作，在生命週期維護範圍內，會持續進行更新升級。</p><ul><li><p>龍芯 LoongArch64 版 .NET 8 下載地址：<u><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.loongnix.cn%2Fzh%2Fapi%2Fdotnet" target="_blank">http://www.loongnix.cn/zh/api/dotnet</a></u></p></li><li><p>開發過程中可能需要依賴一些平台相關的 nupkg 資源，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnuget.loongnix.cn%2F" target="_blank">可在龍芯 Nuget 源搜索下載</a></u>。</p></li><li><p>相關配置方法見<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.loongnix.cn%2Fdotnet%2Fsupport%2Flist%2F01.%25E5%25B8%25B8%25E8%25A7%2581%25E9%2597%25AE%25E9%25A2%2598-FAQ.html" target="_blank">龍芯 Nuget 源配置方法</a></u>。</p></li></ul><p>特性更新：</p><ul><li>同步上游社區 v8.0.100&nbsp;新特性。</li></ul><p>關鍵更新:</p><ul><li><p>同步上游社區 v8.0.100&nbsp;更新。</p></li><li><p>默認開啓&nbsp;<code>DOTNET_TC_QuickJitForLoops</code>，支持 OSR 堆棧替換特性。</p></li><li><p>默認集成 PE32 + 格式 System.Private.CoreLib.dll 核心庫文件，提升了 .NET8.0 SDK 在 LoongArch64 平台上的性能表現。</p></li><li><p>支持 crossgen2 特性。</p></li></ul><p>龍芯平台 .NET 是龍芯公司基於開源社區 .NET 獨立研發適配的龍芯版本，官方稱會長期進行安全更新和錯誤修復，並持續進行性能優化。</p><p>社區 .NET 7 版本開始已經原生支持 LoongArch64 架構源碼，具備如下特性：</p><ul><li><p>跟進社區最新版本，獲取及時的安全更新和問題修復</p></li><li><p>支持多 OS：Loongnix、Loongnix-Server、統信 UOS、銀河麒麟等 64 位操作系統</p></li><li><p>支持 LoongArch 架構</p></li><li><p>明確的、多版本的產品維護計劃</p></li><li><p>專業團隊支持</p></li></ul><p>從龍芯 2019 年啓動 .NET 的研發工作，2022 年完成了 LoongArch64 架構代碼合併到 .NET 社區主幹分支上，2023 年 LoongArch64 架構代碼的開發完全和社區同步，從而保證了同時發佈 LoongArch64 的 .NET 8。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 03:46:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268322</guid>
+            <link>https://www.oschina.net/news/268322</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Fish Shell 採用 Rust 重寫會導致性能下降]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>fish 是適用於 Linux、macOS 的命令行 Shell，其名字取於 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的簡稱，最大特點就是方便易用、功能強大、智能並且用户友好。很多其他 Shell 需要配置才有的功能，fish 默認提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>項目維護者 Fabian Boehm 今天在 GitHub 迴應了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重寫 Fish Shell</a></u>&nbsp;的進度，稱已幾乎完成。</p><p>根據開發者的説法，他們已經完成了從 C++ 到 Rust 的大部分移植工作，但還有一些剩餘的組件需要進行翻譯。目前，他們正在處理與輸入系統相關的讀取器、屏幕處理、輸入和分頁器等強耦合組件。一旦這些組件完成翻譯，剩下的工作就是一些零散的部分和去除構建系統的 C++ 依賴。</p><p>開發者表示，<strong>這不是一個適合臨時貢獻的項目</strong>，因為還有很多工作要做。</p><p>此外，開發者還回答了一些關於移植的問題和誤解。<strong>他們表示不會刪除所有的 C++ 代碼</strong>，也沒有計劃移植到 Windows 平台。他們還表示不會更改 Fish Shell 的名稱或吉祥物，並且對於最終移植的性能，他們表示早期結果是令人鼓舞的，<strong>但可能在某些情況下會比現有版本慢約 20%</strong>。</p><p>最後，他們提到即使完成了初始移植工作，項目也還有很多工作要做。</p><p>來源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 03:19:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
+            <link>https://www.oschina.net/news/268315</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[GNOME 拿到 100 萬歐元投資後，積極改進基礎設施]]>
             </title>
             <description>
@@ -502,6 +443,65 @@ public String test() {
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[精選網站流量分析工具]]>
+            </title>
+            <description>
+                <![CDATA[精選網站流量分析工具]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 02:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
+            <link>https://www.oschina.net/project/awesome?columnId=65</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Numbat —— 用於科學計算的靜態類型編程語言]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Numbat 是一種用於科學計算的靜態類型編程語言，對物理尺寸和單位具有一流的支持。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>可以使用它進行簡單的數學計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 1920/16*9
+
+    = 1080
+
+&gt;&gt;&gt; 2^32
+
+    = 4294967296
+
+&gt;&gt;&gt; sqrt(1.4^2 + 1.5^2) * cos(pi/3)^2
+
+    = 0.512957</code></pre><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>然而，Numbat 的真正優勢在於使用物理單位執行計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 8 km / (1 h + 25 min)
+
+  8 kilometer / (1 hour + 25 minute)
+
+    = 5.64706 km/h    [Velocity]
+
+&gt;&gt;&gt; 140 € -&gt; GBP
+
+  140 euro ➞ british_pound
+
+    = 120.768 £    [Money]
+
+&gt;&gt;&gt; atan2(30 cm, 1 m) -&gt; deg
+
+  atan2(30 centimeter, 1 meter) ➞ degree
+
+    = 16.6992°
+
+&gt;&gt;&gt; let ω = 2π c / 660 nm
+
+  let ω: Frequency = 2 π × c / 660 nanometer
+
+&gt;&gt;&gt; ℏ ω -&gt; eV
+
+  ℏ × ω ➞ electronvolt
+
+    = 1.87855 eV    [Energy]</code></pre></div>
+                                                                ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 02:25:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
+            <link>https://www.oschina.net/p/numbat</link>
         </item>
         <item>
             <title>
