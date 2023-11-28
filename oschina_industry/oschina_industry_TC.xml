@@ -16,8 +16,47 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 27 Nov 2023 19:10:29 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2023 23:13:51 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Dromara 社區新晉開源項目 dbswitch，異構數據庫遷移同步工具！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1>一個適用於異構數據庫遷移同步的簡單工具 dbswitch</h1><h2>作者介紹</h2><ul><li>網名：三胖 (inrgihc)</li><li>dromara 開源組織成員，項目 dromara/dbswitch 作者</li><li>項目地址：<a href="https://gitee.com/dromara/dbswitch">https://gitee.com/dromara/dbswitch</a></li></ul><p>&nbsp;</p><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-6c79b909dbfad7a428286eebe6fd1c2f82b.png" width="400" referrerpolicy="no-referrer"></p><h2>dbswitch 的誕生</h2><p>你需要<strong>將 Oracle 等老牌數據庫中的數據一鍵搞到 MySQL 或 PostgreSQL 中</strong>麼？你需要<strong>將 MySQL 等關係型數據庫中的數據一鍵搞到 Greenplum/ClickHouse 等 OLAP 數據庫中進行分析</strong>麼？</p><p>如果你在工作中遇到與我同樣的需求，那麼不妨體驗下 dbswitch 工具。</p><p>dbswitch 是在<strong>數據庫間數據搬遷</strong>和<strong>數據入倉入湖</strong>這兩大背景環境下誕生的，雖然目標路程還很長，但是<strong>dbswitch 作為一款開源工具</strong>會一直再努力堅持着（也許各個數據庫廠商都有自己的專業遷移工具）。</p><h2>dbswitch 的功能</h2><p>簡言之，dbswitch 提供源端數據庫向目的端數據庫的批量遷移同步功能：</p><ul><li>結構遷移：</li></ul><p>(1) 支持字段類型、主鍵信息、建表語句等的轉換，並生成建表 SQL 語句。</p><p>(2) 支持基於正則表達式轉換的表名與字段名映射轉換。</p><ul><li>數據同步：</li></ul><p>(1) 基於 JDBC 的分批次讀取源端數據庫數據，並基於 jdbc(insert/copy 方式) 將數據分批次寫入目的數據庫。</p><p>(2) 支持有主鍵表（基於數據比對變化計算原理的）增量變更 (insert/update/delete) 同步功能</p><h2>dbswitch 支持的數據庫</h2><p>當前基於<strong>驅動隔離</strong>已經集成支持<strong>多版本的數據庫</strong>產品如下：</p><ul><li>甲骨文的 Oracle</li><li>微軟的 Microsoft SQLServer</li><li>MySQL/MariaDB</li><li>PostgreSQL</li><li>Greenplum(需使用 PostgreSQL 類型)</li><li>IBM 的 DB2</li><li>Sybase 數據庫</li><li>國產達夢數據庫 DMDB</li><li>國產人大金倉數據庫 Kingbase8</li><li>國產翰高數據庫 HighGo</li><li>國產神通數據庫 Oscar</li><li>國產南大通用數據庫 GBase8a</li><li>Apache Hive(基於 JdbcStorageHandler)</li><li>SQLite3</li><li>OpenGuass</li><li>ClickHouse</li><li>MongoDB</li></ul><h2>dbswitch 的部署體驗</h2><h3>1.一鍵部署</h3><ul><li>基於 docker-compose 的一鍵安裝 (或升級):</li></ul><pre><code>curl -sSL https://gitee.com/inrgihc/dbswitch/attach_files/1551962/download | sh
+</code></pre><ul><li>基於 docker 的一鍵安裝：</li></ul><p>假設已經部署好的 MySQL 數據庫地址為 192.168.31.57，端口為 3306，賬號為 test，密碼為 123456</p><pre><code>docker run -d --name dbswitch \\
+ -e MYSQLDB_HOST=192.168.31.57 \\
+ -e MYSQLDB_PORT=3306 \\
+ -e MYSQLDB_USERNAME=test \\
+ -e MYSQLDB_PASSWORD='123456' \\
+ -v /tmp:/tmp \\
+ -p 9088:9088 \\
+ registry.cn-hangzhou.aliyuncs.com/inrgihc/dbswitch:1.8.2
+</code></pre><h2>2.部分截圖</h2><p><img height="992" src="https://oscimg.oschina.net/oscnet/up-248a80912f903336faae60ac7147a23fbde.png" width="1842" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="991" src="https://oscimg.oschina.net/oscnet/up-23ac44c99d40214512e2fe4506c63c69c32.png" width="1827" referrerpolicy="no-referrer"></p><ul><li>二次集成開發</li></ul><p>dbswitch 也支持 java 下二次集成開發，具體可查看 dbswitch 項目中的文檔説明。</p><h2>關注 dbswitch</h2><p>歡迎體驗使用 dbswitch 工具，同時項目中也提供了 dbswitch 相關的實現原理。</p><h2>友情項目</h2><p>[1] <a href="https://gitee.com/inrgihc/greenplum_installer">Greenplum 一鍵安裝</a></p><p>[2] <a href="https://gitee.com/inrgihc/libnpce">新聞文章正文抽取正文抽取組件</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 27 Nov 2023 02:39:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268303</guid>
+            <link>https://www.oschina.net/news/268303</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Firefox 在 2023 變得更快了]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Mozilla 官方博客最近<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhacks.mozilla.org%2F2023%2F10%2Fdown-and-to-the-right-firefox-got-faster-for-real-users-in-2023%2F">發表文章</a>，稱 2023 年 Firefox 在提升用戶體驗方面取得了顯著的進展，真實用戶使用 Firefox 能感受到速度更快。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-48c6863ad3edd6c093cc619549ed7f30c35.png" referrerpolicy="no-referrer"></p><p>據介紹，Firefox 通過收集與<strong>頁面加載、響應速度、啓動</strong>等瀏覽器性能相關的匿名化時間度量指標來衡量用戶體驗。文章分享了一些對用戶瀏覽器體驗至關重要的指標在一年中是如何改進的。</p><ul><li><h4><strong>優化頁面加載速度</strong></h4></li></ul><p>Firefox 使用 "First Contentful Paint (FCP)" 這個指標來衡量用戶感知的性能。FCP 指的是從網絡接收到第一個字節到頁面顯示內容的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-16ba708b843784921085bfebb7aede81380.png" referrerpolicy="no-referrer"></p><p>數據顯示，從年初的大約 250 毫秒，到十月份的 215 毫秒，<strong>頁面加載速度提高了約 15%</strong>。這意味着用戶能夠更快地收到頁面加載的反饋信息。</p><ul><li><h4><strong>優化 JavaScript 執行時間</strong></h4></li></ul><p>Firefox 還關注頁面加載過程中 JavaScript 代碼的執行時間。</p><p>數據顯示，95% 的頁面中 JavaScript 執行時間從年初的約 1560 毫秒，到十月份的約 1260 毫秒，速度提升了約 20%。這對於減少頁面加載時間起到了重要作用。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-180320b8057907172e172bf066f77cc7c79.png" referrerpolicy="no-referrer"></p><ul><li><h4><strong>優化鍵盤響應速度</strong></h4></li></ul><p>Firefox 還關注頁面加載後的響應速度。更具體來説，它關注鍵盤按下後到屏幕上顯示結果的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-19618b78169525abf4262e888f93daec3dc.png" referrerpolicy="no-referrer"></p><p>數據顯示，95% 的頁面中鍵盤響應速度從年初的約 65 毫秒，到八月份的約 59 毫秒，速度提升了約 10%。這意味着用戶在鍵入時能夠更快地得到反饋，減少了打字時的延遲。</p><p>Firefox 團隊表示，通過這些數據可以看出 Firefox 在 2023 年取得了用戶體驗方面的顯著改善。這些改進是通過優化瀏覽器的性能和 JavaScript 引擎實現的。Firefox 團隊還表示他們將繼續努力進行更多的優化，並在未來的文章中分享更多細節和進展。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 12:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</guid>
+            <link>https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[浪潮發佈基礎大模型「源 2.0」，千億參數全面開源]]>
@@ -26,7 +65,7 @@
                 <![CDATA[<div class="content"><p><strong>浪潮信息<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FrjnsUS83TT7aEN3r2i0IPQ" target="_blank">發佈</a></u>「源 2.0」基礎大模型，並宣佈全面開源</strong>。</p><p>據介紹，源 2.0 基礎大模型包括 1026 億、518 億、21 億等三種參數規模的模型，在編程、推理、邏輯等方面展示出了先進的能力。</p><p><strong>算法方面</strong>，源 2.0 提出並採用了一種新型的注意力算法結構：局部注意力過濾增強機制 (LFA：Localized Filtering-based Attention)。LFA 通過先學習相鄰詞之間的關聯性，然後再計算全局關聯性的方法，能夠更好地學習到自然語言的局部和全局的語言特徵，對於自然語言的關聯語義理解更準確、更人性，提升了模型的自然語言表達能力，進而提升了模型精度。</p><p><img src="https://static.oschina.net/uploads/space/2023/1127/184848_muAm_2720166.png" referrerpolicy="no-referrer"></p><p><strong>數據方面</strong>，源 2.0 通過使用中英文書籍、百科、論文等高質量中英文資料，降低了互聯網語料內容佔比，結合高效的數據清洗流程，為大模型訓練提供了高質量的專業數據集和邏輯推理數據集。</p><p>據稱，為了更高效地獲得相對匱乏的高質量中文數學及代碼數據集，源 2.0 採用了基於大模型的數據生產及過濾方法，在保證數據的多樣性的同時也在每一個類別上提升數據質量，獲取了一批高質量的數學與代碼預訓練數據。</p><p><img src="https://static.oschina.net/uploads/space/2023/1127/184918_iLAq_2720166.png" referrerpolicy="no-referrer"></p><p><strong>算力方面</strong>，源 2.0 採用了非均勻流水並行的方法，綜合運用流水線並行+優化器參數並行+數據並行的策略，讓模型在流水並行各階段的顯存佔用量分佈更均衡，避免出現顯存瓶頸導致的訓練效率降低的問題，該方法顯著降低了大模型對芯片間 P2P 帶寬的需求，為硬件差異較大訓練環境提供了一種高性能的訓練方法。</p><p><img src="https://static.oschina.net/uploads/space/2023/1127/184932_0UiQ_2720166.png" referrerpolicy="no-referrer"></p><p>源 2.0 在業界公開的評測上進行了代碼生成、數學問題求解、事實問答方面的能力測試，下面是測試結果：</p><p><img src="https://static.oschina.net/uploads/space/2023/1127/184945_PzyP_2720166.png" referrerpolicy="no-referrer"></p><p><strong>源 2.0 採用全面開源策略，全系列模型參數和代碼均可免費下載使用</strong>。</p><ul><li>代碼開源鏈接：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FIEIT-Yuan%2FYuan-2.0" target="_blank">https://github.com/IEIT-Yuan/Yuan-2.0</a></em></u></li><li>論文鏈接：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FIEIT-Yuan%2FYuan-2.0%2Fblob%2Fmain%2Fdocs%2FYuan2.0_paper.pdf" target="_blank">https://github.com/IEIT-Yuan/Yuan-2.0/blob/main/docs/Yuan2.0_paper.pdf</a></em></u></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 10:50:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 10:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268384</guid>
             <link>https://www.oschina.net/news/268384</link>
             <author>
@@ -41,7 +80,7 @@
                 <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">36 氪報道稱，</span><span style="background-color:#ffffff; color:#222222">字節跳動近期成立了一個新 AI 部門 Flow，技術負責人為字節跳動技術副總裁洪定坤。</span></p><p><span style="background-color:#ffffff; color:#222222">一位知情人士表示，這一新部門的業務帶頭人，為字節大模型團隊的負責人朱文佳。Flow 主要聚焦在 AI 應用層。在字節圈內，Flow 近期發佈了活水招聘帖，社會招聘也已經開始一段時間。</span></p><p><span style="background-color:#ffffff; color:#222222">在帖中，其表示是字節跳動旗下 AI 創新業務團隊，「目前已經在國內和海外分別上線豆包和 Cici 兩款產品，有多個 AI 相關創新產品孵化中」。截止發稿前，字節跳動尚無迴應。</span></p><p style="color:#262626; margin-left:0; margin-right:0; text-align:justify">在 11 月初，字節各個事業部都進行了不少業務和架構調整，這些調整仍在進行中，當前 Flow 的架構和彙報線未完全確定。且多位知情人士透露，在此次調整中，字節也從飛書、抖音等各個 BU 抽調人選，到這一部門做一款新的 C 端產品。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 10:50:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 10:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268383</guid>
             <link>https://www.oschina.net/news/268383</link>
             <author>
@@ -56,9 +95,54 @@
                 <![CDATA[<div class="content"><h2>開源項目推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fyonahd%2Forphaned-configmaps" target="_blank">Orphaned ConfigMaps</a></h3><p>該版本庫包含一個腳本，用於識別 Kubernetes 命名空間中的孤立的配置映射。孤立的配置映射是指那些未被命名空間中的任何活動 Pod 或容器引用的配置映射。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmarvasgit%2Fkubernetes-multicooker" target="_blank">Kubernetes Multi Cooker</a></h3><p>該項目包含一個小型 Kubernetes 控制器，用於監視每個節點的 CPU 壓力；當超過某個閾值時，節點將被污染（這樣就不會在已經超載的節點上調度額外的工作負載），最後控制器將開始從該節點驅逐 Pod。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Femberstack%2Fkubernetes-reflector" target="_blank">Reflector</a></h3><p>Reflector 是一個 Kubernetes 插件，旨在監視資源（祕密和配置映射）的更改並反映相同或其他命名空間中鏡像資源的更改。</p><h2>文章推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkubernetes.io%2Fblog%2F2023%2F11%2F16%2Fkubernetes-1-29-upcoming-changes%2F" target="_blank">Kubernetes 1.29 中的刪除、棄用和主要更改</a></h3><p>和其他每次發佈一樣，Kubernetes v1.29 將棄用和移除一些特性。一貫以來生成高質量發佈版本的能力是開發週期穩健和社區健康的證明。本文列舉即將發佈的 Kubernetes 1.29 中的一些棄用和移除事項。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcollabnix.com%2Ftop-5-storage-provider-tools-for-kubernetes%2F" target="_blank">Kubernetes 的 5 大存儲提供商工具</a></h3><p>這篇文章介紹了 Kubernetes 的五個存儲提供者工具：SeaweedFS、Vitess、TiKV、Rook 和 OpenEBS。這些工具幫助管理 Kubernetes 上的數據工作負載，包括卷供應、複製、備份、加密、壓縮和性能調優等功能。它們與 Kubernetes API 和概念無縫集成，並支持持久卷（PV）、持久卷聲明（PVC）和存儲類（Storage Class）。這篇文章詳細介紹了每個工具的工作機制、優勢以及在實際使用中的案例和成功故事。通過閲讀這篇文章，讀者可以瞭解 Kubernetes 上可用的存儲提供者選項，並根據自己的需求選擇最合適的工具。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.atatus.com%2Fblog%2Ftroubleshooting-kubernetes-deployment%2F" target="_blank">對各個級別的 Kubernetes 部署進行故障排除</a></h3><p>這篇文章是關於在各個層面上解決 Kubernetes 部署問題的指南。文章首先介紹了 Kubernetes 作為容器編排的事實標準，並提到了它自動化部署、擴展和管理容器化應用程序的能力。然而，即使遵循最佳實踐並具備專業知識，Kubernetes 部署有時也是一個複雜而具有挑戰性的過程。文章探討了從應用代碼到基礎設施和 Kubernetes 組件的各個層面上的部署故障排除過程，並介紹了一些常見問題和挑戰，如容器鏡像拉取錯誤、Pod 調度問題、網絡連接問題和存儲問題。文章還討論了一些診斷和解決這些問題的最佳實踐和工具。通過閲讀這篇文章，讀者將更好地瞭解如何在 Kubernetes 部署的每個層面上進行故障排除，並更好地管理其應用程序。</p><h2>雲原生動態</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cncf.io%2Fblog%2F2023%2F11%2F20%2Fannouncing-the-platform-engineering-maturity-model%2F" target="_blank">CNCF 平台工程成熟度模型出爐</a></h3><p>CNCF（Cloud Native Computing Foundation）的平台工程成熟度模型首次發佈。該模型提供了對平台工程成熟度的具體應用，是今年 4 月份發佈的備受歡迎的白皮書的延伸。該模型將平台工程定義為通過在構建平台和其能力的各個方面（包括人員、流程、策略和技術）進行投資，提供內部平台作為產品的實踐，從而推動業務結果。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcloudnativenow.com%2Ftopics%2Fcloudnativedevelopment%2Fmicrosoft-expands-scope-of-azure-kubernetes-services%2F" target="_blank">微軟擴大 Azure Kubernetes 服務範圍</a></h3><p>Microsoft 已普遍推出 Azure Kubernetes Fleet Manager，以便更輕鬆地集中管理多個集羣，並可與一組用於優化成本的工具一起分階段進行。</p><p>與此同時，除了預覽 Azure 容器應用程序平台的擴展以增加對事件的支持之外，微軟還使用 Kubernetes AI 工具鏈運算符簡化在 Azure Kubernetes 服務 (AKS) 上部署大型語言模型 (LLM) 的過程用於訓練 AI 模型的驅動框架，同時支持開源 Qdrant、Milvus 和 Weaviate 矢量數據庫。</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 09:22:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 09:22:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/10293895</guid>
             <link>https://my.oschina.net/u/4197945/blog/10293895</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[What's new in dubbo-go-pixiu v1.0.0]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>dubbo 原生網關 dubbo-go-pixiu v1.0 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Freleases%2Ftag%2Fv1.0.0-rc2" target="_blank">https://github.com/apache/dubbo-go-pixiu/releases/tag/v1.0.0-rc2</a> 正式發版了，項目從 2019 年一路走來，四年磨劍，感謝從，鐵城、張天，到 呂夢超，三位負責人。</p><p>目前，dubbo-go-pixiu 可作為 dubbo/dubbogo 服務網關，也可作為 dubbo/dubbogo 服務的 sidecar，還額外基於 Istio v1.14.3 實現了 dubbo 的控制面。</p><p>dubbo-go 和 dubbo-go-pixiu 在 2023 年初被螞蟻集團採用內部容器 PAAS HCS(Hyper Container Service) 超級容器平台的微服務技術底座， v1.0.0 集成了螞蟻集團使用過程中的提交的很多改進和優化。感謝本次版本的主要貢獻者，胡瀟晗、樊凡、龔娜、張國強、【阿里】遠雲、【螞蟻】多航、王虓雄、望哥、於雨，等社區同學。</p><h1>1 New Features In v1.0.0</h1><h2>1.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F548" target="_blank">Triple 支持傳遞 Header 和引入 PB 定義</a></h2><p>Triple 代理現在可以正確傳遞 header 到 Triple 服務，且支持通過引入 protoset 文件來支持未開啓 Proto 反射或不支持反射的特定 proto，例如使用舊版本編譯的或 gogoproto 編譯的服務。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftriple" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/triple</a></p><h2>1.2 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F554" target="_blank">負載均衡 Maglev hashing</a></h2><p>負載均衡支持新算法：Maglev hashing。Maglev 是 Google 開發的基於 kernal bypass 技術實現的 4 層負載均衡，它具有非常強大的負載性能，承載了 Google 絕大部分接入流量。Maglev 在負載均衡算法上採用自行開發的一致性哈希算法被稱為 Maglev Hashing，該哈希算法在節點變化時能夠儘量少的影響其他幾點，且儘可能的保證負載的均衡，是一個非常優秀的一致性哈希算法。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.3 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F565" target="_blank">Router 支持 Header 路由</a></h2><p>Router 支持通過 header 路由，可以更方便的管理流量。</p><pre><code class="language-yaml">              http_filters:
+                  - name: dgp.filter.http.traffic
+                    config:
+                      traffics:
+                        - name: "user-v1"
+                          router: "/user"
+                          canary-by-header: v1
+                          canary-weight: 0
+                        - name: "user-v2"
+                          router: "/user"
+                          canary-by-header: v2
+                          canary-weight: 100
+</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.4 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F571" target="_blank">錯誤注入</a></h2><p>支持對特定 API 做錯誤注入，例如返回固定的響應，施加隨機性的延時/錯誤等。</p><pre><code class="language-yaml">                http_filters:
+                  - name: dgp.filter.http.faultinjection
+                    config:
+                      fail_inject_rules:
+                        "/UserService/com.dubbogo.pixiu.UserService/GetUserByCode":
+                          type: delay
+                          trigger_type: random
+                          status_code: 500
+                          body: 'error'
+                          delay: 5s
+                          odds: 30
+</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fblob%2Fdevelop%2Fdocs%2Fsample%2Fothers%2Ffail-inject.md" target="_blank">https://github.com/apache/dubbo-go-pixiu/blob/develop/docs/sample/others/fail-inject.md</a></p><h2>1.5 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F522" target="_blank">Add GracefulShutdown Signal For Windows</a></h2><p>支持 Windows 優雅下線，Pixiu 關閉時避免流量損失。</p><pre><code class="language-yaml">static_resources:
+.......
+.......
+  shutdown_config:
+    timeout: "60s"
+    step_timeout: "10s"
+    reject_policy: "immediacy"
+</code></pre><p>配置方式參考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fshutdown" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/shutdown</a></p><h1>2 Enhancement in v1.0.0</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F573" target="_blank">優化 Prometheus 指標上報</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F530" target="_blank">修復一致性 Hash 數組越界</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F521" target="_blank">優化 Timeout 時的 http status code</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F528" target="_blank">優化 Metric 推拉模式</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F524" target="_blank">優化 Nacos 客戶端啓動時的參數配置</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F517" target="_blank">修復特定 Filter 配置為空時的 NPE 問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F515" target="_blank">升級 wasmer-go v1.0.4 以支持 Mac ARM 版本</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F506" target="_blank">fix sample url using github.com/apache/dubbo-go-pixiu-samples</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F507" target="_blank">修復流量管理路由權重計算錯誤的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F513" target="_blank">修復負載均衡在特定情況下無法正常工作的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F574" target="_blank">移除無用的 imports</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F575" target="_blank">chore: unnecessary use of fmt.Sprintf</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F567" target="_blank">chore:use wasm filter build tags add wasm</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F556" target="_blank">修復無法錯誤的 samples 鏈接等</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F557" target="_blank">revert gatewayCmd to Run dubbo go pixiu</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F516" target="_blank">升級 hessian2 依賴到 v1.11.3</a></li></ul><h1>3 參考文檔</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FRwIA7TitRfUMU8rTI4JsBg" target="_blank">What's new in dubbo-go-pixiu v0.6.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5syzT64koPV77aRh04Izsw" target="_blank">What's new in dubbo-go-pixiu 0.5.1</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fdok42ssPJqazjeSRYaifVw" target="_blank">What's new in dubbo-go-pixiu 0.4.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FC7TxU0Zbee7EZ_6SJOLK8w" target="_blank">Dubbo 跨語言調用神獸：dubbo-go-pixiu</a></li></ul><h1>4 社區</h1><p>歡迎釘釘掃碼加入 dubbogo 社區釘釘羣【釘釘羣號 23331795】進行交流。</p><p><img src="https://oscimg.oschina.net/oscnet/up-ff09984b6821a6da40dcdb6db415fcca4b8.png" alt="" referrerpolicy="no-referrer"></p><p>以及 dubbogo 社區微信公眾號：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8feb2024cbf754333e9d7564cd0316dbb71.jpg" alt="" referrerpolicy="no-referrer"></p><p>從今年開始，除了以往負責的 dubbogo 社區項目外，於雨還負責了 pika 項目 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika" target="_blank">https://github.com/OpenAtomFoundation/pika</a>)，如果對該項目感興趣，請掃碼：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3e900aa69386ac2190edb8035f4abb68415.png" alt="" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 09:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/dubbogo/blog/10294380</guid>
+            <link>https://my.oschina.net/dubbogo/blog/10294380</link>
             <author>
                 <![CDATA[原創]]>
             </author>
@@ -71,7 +155,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">Pengutronix 嵌入式 Linux 諮詢公司的 Oleksij Rempel 上週五發布了一系列<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F2023112403-laxative-lustiness-6a7f%40gregkh%2FT%2F" target="_blank">補丁</a>，提出了針<span style="background-color:#ffffff">對驅動程序/硬件的</span>基於優先級的 shutdown 支持。</span></p><p><span style="color:#000000">主要目的是<span style="background-color:#ffffff">在主線 Linux 內核提供優先關閉</span><span style="background-color:#ffffff">特定設備的功能</span>，「這在 power loss&nbsp;等情況下尤為重要，如果處理不當，可能會造成硬件損壞」。</span></p><p><span style="color:#000000">其內容<span style="background-color:#ffffff">重點在於，在</span>意外/<span style="background-color:#ffffff">即時&nbsp;shutdown&nbsp;</span>事件（例如電源/電壓下降或完全斷電）期間正確關閉關鍵設備。作為補丁系列的一部分，Oleksij Rempel&nbsp;還提出在 shutdown 階段將 (e)MMC 存儲設備設置為更高優先級，以幫助確保數據完整性/損壞。</span></p><p><img height="334" src="https://oscimg.oschina.net/oscnet/up-4ea11ce65c8b13c903a1f017372e8425e3b.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">Oleksij Rempel 的這一想法引發了 Linux 內核開發人員間的激烈討論，並形成了<span style="background-color:#ffffff">兩極分化的看法。</span><span style="background-color:#ffffff">Greg Kroah-Hartman&nbsp;</span>首先對這種基於優先級的<span style="background-color:#ffffff">&nbsp;shutdown&nbsp;</span>支持提出了質疑。他指出，這一做法會導致驅動程序和子系統之間出現優先級的爭奪：</span></p><blockquote><p><span style="color:#000000">每個驅動程序和子系統都堅持認為自己是最重要的！</span></p><p><span style="color:#000000">總之，從長遠來看，這樣做會帶來很多問題，這些硬件有什麼特別之處能使得其不可以按照現有順序 shutdown，而必須比其他人"優先"？這樣做究竟是為了防止什麼，哪些設備需要這樣做？</span></p><p><span style="color:#000000">最重要的是，在過去的 20 多年中，有什麼變化導致突然需要這種新功能，其他操作系統是如何處理的？</span></p></blockquote><p><span style="color:#000000">觀點雙方就<span style="background-color:#ffffff">主線 Linux 內核是否應該具有這樣的功能，以有效解決有問題的硬件設計做出了很多討論。最後事實證明，一些用於汽車行業的外層 Linux 內核版本已經提供了這種優先 shutdown 支持。Oleksij Rempel 將這一需求總結為：</span></span></p><blockquote><p><span style="color:#000000">它能防止硬件損壞。在典型的汽車欠壓測試中，通常可以在 Y 個欠壓週期內重現 X 個損壞的 eMMC 或 NAND（我現在沒有確切的數字）。即使在人工測試中出現的數量不是很多（有時一個月的測試中就會出現一個損壞的設備），但現場的回報率也很高，足以讓我們關心這個問題的軟件解決方案。</span></p><p><span style="color:#000000">同樣的問題不僅出現在汽車設備上，也出現在工業或農業設備上。換句話説，這個問題非常重要，必須要有某種解決方案。</span></p></blockquote><p><span style="color:#000000">對此，<span style="background-color:#ffffff">Greg 則用反問的語氣調侃稱，「這麼説的話，硬件試圖依靠軟件來防止同一硬件遭到破壞？硬件設計師肯定沒那麼瘋狂吧？」</span></span></p><p><span style="color:#000000">科技網站 Phoronix <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.phoronix.com%2Fnews%2FLinux-Priority-Based-Shutdown" target="_blank">評論</a>稱，從較高層次上來看，如果設備/驅動程序有充分的理由希望優先為設備 shutdown&nbsp;做好準備，例如可以防止數據丟失或獲得其他重大優勢，那麼這種基於優先級的 shutdown&nbsp;支持似乎沒有問題。但在實踐中，如果有多個驅動程序聲稱在 shutdown&nbsp;過程中擁有"優先權"，並且在確保設計可靠且能妥善解決實際問題方面存在其他障礙，那麼具體的實現就會存在一些困難。</span></p><p><span style="color:#000000">目前為止，大家對這種方法的意見還很不統一。現階段能否設計出一種既能為主線所接受，又能滿足汽車和更廣泛的嵌入式/工業領域需求的適當解決方案，還有待觀察。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 09:02:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 09:02:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268371/linux-priority-based-shutdown</guid>
             <link>https://www.oschina.net/news/268371/linux-priority-based-shutdown</link>
             <author>
@@ -86,7 +170,7 @@
                 <![CDATA[<div class="content"><p>LG 電子宣佈改革組織架構，併成立 webOS 開發小組。</p><p>11 月 24 日，LG 電子<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.lgnewsroom.com%2F2023%2F11%2Flg-electronics-announces-organizational-restructuring-for-future-growth%2F" target="_blank">發佈公告</a></u>稱將改革組織架構，以提升競爭力、促進增長。重組計劃包括為國際業務建立一個新的銷售和營銷公司，由 LG 電子北美公司前總裁兼首席執行官 Thomas Yoon 負責，管理世界各地的銷售子公司，以及直接面向消費者（D2C）的銷售業務集團。</p><p>此外，LG 家庭娛樂公司將成立 webOS 軟件開發小組，提高這一智能電視操作系統的實力，由該公司總裁直接領導；還將設立總部直屬的 XR 事業部。家電和空氣解決方案公司將增設工程銷售部門，併入其他部門的家居業務，以與家庭空間現有的產品陣容產生協同效應。車輛零部件解決方案公司將設立總部直屬的全球客戶戰略部。</p><blockquote><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-cdf9a79048dc46240b393d4e2278760273b.png" width="1728" referrerpolicy="no-referrer"></p></blockquote><p>webOS 是基於 Linux 內核的智能電視操作系統，其前身是由&nbsp;Palm&nbsp;所開發的智能手機操作系統，最早於 2009 年面向公眾發佈。2010 年惠普收購 Palm，但之後終止了 Palm 手機和操作系統項目，並在 2011 年<u><a href="https://www.oschina.net/news/23908/hp-make-webos-opensource">決定開源</a></u>&nbsp;webOS。</p><p>2013 年，LG 宣佈收購惠普 webOS 部門，包括系統源代碼和僱員等。此後該操作系統被 LG 用於智能電視和電冰箱等產品。</p><p><img alt="080830_QqVe_2720166.png" src="https://static.oschina.net/uploads/space/2021/0302/080830_QqVe_2720166.png" referrerpolicy="no-referrer"></p><hr><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/131577/lg-says-it-will-license-webos-to-other-tv-mak">LG 將授權 webOS 給其他電視廠商使用</a></li><li><a href="https://www.oschina.net/news/94374/lg-webos-open-source-edition">LG 宣佈推出 webOS 開源版本，仍尋求將其商業化</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 06:00:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 06:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268346</guid>
             <link>https://www.oschina.net/news/268346</link>
             <author>
@@ -152,7 +236,7 @@ public String test() {
 </code></pre><p>調用接口之後，用戶就會收到如下的短信：</p><p><img src="https://javayong.cn/pics/sms/sendsmssucceed.png?b" alt="" referrerpolicy="no-referrer"></p><h1>4 開源</h1><p><img src="https://javayong.cn/pics/sms/platformsmsgithub.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p>代碼庫地址：</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmakemyownlife%2Fplatform-sms" target="_blank">https://github.com/makemyownlife/platform-sms</a></p></blockquote><p>勇哥想把這個項目做為架構入門的教學項目，您可以從中學到 ：</p><ol><li>設計一個精簡的客戶端 SDK 。</li><li>理解 SPI 機制以及適配器模式。</li><li>配置合理的線程模型。</li></ol><hr><p>如果我的文章對你有所幫助，還請幫忙<strong>點贊、在看、轉發</strong>一下，你的支持會激勵我輸出更高質量的文章，非常感謝！</p><p><img src="https://javayong.cn/pics/shipinhao/gongzhonghaonew.png" alt="" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 03:44:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 03:44:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/makemyownlife/blog/10243610</guid>
             <link>https://my.oschina.net/makemyownlife/blog/10243610</link>
             <author>
@@ -167,12 +251,86 @@ public String test() {
                 <![CDATA[<div class="content"><p><span style="color:#000000">O'Reilly 發佈的一份"<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">2023 Generative AI in the Enterprise</a>"報告<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.infoworld.com%2Farticle%2F3711380%2Fgenerative-ai-adoption-speed-unprecedented-oreilly-survey-says.html" target="_blank">指出</a>，由 OpenAI 的 GPT 大型語言模型和 ChatGPT 引領的生成式 AI 浪潮正在經歷前所未有的快速普及。</span></p><p><span style="color:#000000">報告基於 2013 年 9 月 14 日至 9 月 23 日期間收到的共 4782 份回覆。其中有 2857 名受訪者回答了所有問題。74% 的受訪者來自北美或歐洲。</span></p><p><img height="415" src="https://static.oschina.net/uploads/space/2023/1127/114145_aRHK_4252687.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">有三分之二的受訪者表示，他們已經在使用生成式 AI。"我們從未見過一項技術能像生成式 AI 一樣被如此快速地採用 -- 很難相信 ChatGPT 才誕生不到一年。"</span></p><p><span style="color:#000000">但與此同時，生成式 AI 技術在採用過程中仍存在一些問題。報告發現，難以找到商業用例以及對法律問題的擔憂阻礙了 AI 的發展。AI 解決方案的構思和實施不當可能會造成損害，而使用生成式 AI 的法律後果仍是未知數，例如存在誰擁有 AI 生成結果的版權等問題。</span></p><p><span style="color:#000000">並且一些公司文化還會制約 AI 的應用。另一方面，構建生成式 AI 建設基礎設施的難度和高成本也是一個令人擔憂的問題。</span></p><p><span style="color:#000000">報告的一些其他發現包括：</span></p><ul><li><span style="color:#000000">54% 的 AI 用戶預計 AI 的最大好處是提高生產力。</span></li><li><span style="color:#000000">77% 的受訪者使用 AI 來輔助編程。其中提到的具體應用包括欺詐檢測、教學和客戶關係管理。</span></li><li><span style="color:#000000">AI 用戶表示，AI 編程（66%）和數據分析（59%）是最需要的技能。</span></li><li><span style="color:#000000">許多 AI 採用者仍處於早期階段：26% 的人使用 AI 不到一年，而 18% 的人已經在生產中進行了應用。</span></li><li><span style="color:#000000">16% 的從事 AI 工作的受訪者表示正在使用開源模型。</span></li><li><span style="color:#000000">意外結果、安全性、公平性、偏見和隱私是採用者測試的最大風險。</span></li></ul><p><span style="color:#000000">詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fae.oreilly.com%2FGenerative_AI_in_the_Enterprise" target="_blank">查看完整報告</a>。&nbsp;</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 03:40:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 03:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</guid>
             <link>https://www.oschina.net/news/268318/generative-ai-in-the-enterprise</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Fish Shell 採用 Rust 重寫會導致性能下降]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>fish 是適用於 Linux、macOS 的命令行 Shell，其名字取於 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的簡稱，最大特點就是方便易用、功能強大、智能並且用戶友好。很多其他 Shell 需要配置才有的功能，fish 默認提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>項目維護者 Fabian Boehm 今天在 GitHub 迴應了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重寫 Fish Shell</a></u>&nbsp;的進度，稱已幾乎完成。</p><p>根據開發者的説法，他們已經完成了從 C++ 到 Rust 的大部分移植工作，但還有一些剩餘的組件需要進行翻譯。目前，他們正在處理與輸入系統相關的讀取器、屏幕處理、輸入和分頁器等強耦合組件。一旦這些組件完成翻譯，剩下的工作就是一些零散的部分和去除構建系統的 C++ 依賴。</p><p>開發者表示，<strong>這不是一個適合臨時貢獻的項目</strong>，因為還有很多工作要做。</p><p>此外，開發者還回答了一些關於移植的問題和誤解。<strong>他們表示不會刪除所有的 C++ 代碼</strong>，也沒有計劃移植到 Windows 平台。他們還表示不會更改 Fish Shell 的名稱或吉祥物，並且對於最終移植的性能，他們表示早期結果是令人鼓舞的，<strong>但可能在某些情況下會比現有版本慢約 20%</strong>。</p><p>最後，他們提到即使完成了初始移植工作，項目也還有很多工作要做。</p><p>來源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 03:19:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
+            <link>https://www.oschina.net/news/268315</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[精選網站流量分析工具]]>
+            </title>
+            <description>
+                <![CDATA[精選網站流量分析工具]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 02:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
+            <link>https://www.oschina.net/project/awesome?columnId=65</link>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Numbat —— 用於科學計算的靜態類型編程語言]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Numbat 是一種用於科學計算的靜態類型編程語言，對物理尺寸和單位具有一流的支持。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>可以使用它進行簡單的數學計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 1920/16*9
+
+    = 1080
+
+&gt;&gt;&gt; 2^32
+
+    = 4294967296
+
+&gt;&gt;&gt; sqrt(1.4^2 + 1.5^2) * cos(pi/3)^2
+
+    = 0.512957</code></pre><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>然而，Numbat 的真正優勢在於使用物理單位執行計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 8 km / (1 h + 25 min)
+
+  8 kilometer / (1 hour + 25 minute)
+
+    = 5.64706 km/h    [Velocity]
+
+&gt;&gt;&gt; 140 € -&gt; GBP
+
+  140 euro ➞ british_pound
+
+    = 120.768 £    [Money]
+
+&gt;&gt;&gt; atan2(30 cm, 1 m) -&gt; deg
+
+  atan2(30 centimeter, 1 meter) ➞ degree
+
+    = 16.6992°
+
+&gt;&gt;&gt; let ω = 2π c / 660 nm
+
+  let ω: Frequency = 2 π × c / 660 nanometer
+
+&gt;&gt;&gt; ℏ ω -&gt; eV
+
+  ℏ × ω ➞ electronvolt
+
+    = 1.87855 eV    [Energy]</code></pre></div>
+                                                                ]]>
+            </description>
+            <pubDate>Sun, 26 Nov 2023 02:25:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
+            <link>https://www.oschina.net/p/numbat</link>
         </item>
         <item>
             <title>
@@ -182,7 +340,7 @@ public String test() {
                 <![CDATA[<div class="content"><p>此前網傳阿里巴巴達摩院由於預算及盈利等原因，已經撤裁旗下量子實驗室。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-f56d238fc4cd0472484cff8074725c56bb7.png" referrerpolicy="no-referrer"></p></blockquote><p>對此，阿里巴巴達摩院相關人士迴應九派財經稱，為了進一步推動量子科技協同發展，達摩院聯合浙江大學發展量子科技，<strong>達摩院將量子實驗室及可移交的量子實驗儀器設備捐贈予浙江大學</strong>，並向其他高校和科研機構進行開放。</p><p>目前，達摩院量子實驗室網站已撤下之前的所有內容 (<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdamo.alibaba.com%2Flabs%2Fquantum%2F%3Flang%3Dzh" target="_blank">https://damo.alibaba.com/labs/quantum/?lang=zh</a></u>)。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1fe3290832247ef64372a3cecccec9e368c.png" referrerpolicy="no-referrer"></p><p>「中國科學院-阿里巴巴量子計算實驗室（AQL）」於 2015 年 7 月 30 日揭牌成立，計劃在量子信息科學領域開展前瞻性研究，研製量子計算機。根據該聯合實驗室的研究計劃：</p><ul><li><p>預計到 2025 年，量子模擬將達到當今世界最快的超級計算機的水平；</p></li><li><p>到 2030 年，研製具有 50—100 個量子比特的通用量子計算原型機，突破大規模量子計算機的芯片工藝，從物理層設計、製造，到算法運行實現自主研發，全面實現通用量子計算功能，並應用於大數據處理等重大實際問題。</p></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ab648e496bed5f27f8694b13032b63f27da.png" referrerpolicy="no-referrer"></p><p>達摩院此前在該領域進行了長期投入，配置了國際領先的量子實驗專用儀器設備，建成 Lab-1、Lab-2 兩座硬件實驗室，具備量子計算軟硬件全棧開發能力。</p><p>除此之外，達摩院在芯片製備、比特相干時長、門操控、量子糾錯，量子計算控制架構等領域取得了多個重要成果，包括高精度、多比特超導量子芯片，量子電路經典模擬器「太章」等。</p><hr><p><strong>延伸閲讀</strong></p><ul><li><a href="https://www.oschina.net/news/259545" target="news">百度發佈首個量子領域大模型</a></li><li><a href="https://www.oschina.net/news/203591/cirq-1-0-released" target="news">谷歌發佈量子編程框架 Cirq 1.0 版本</a></li><li><a href="https://www.oschina.net/news/180254/mit-new-language-quantum-computing-twist" target="news">MIT 推出用於量子計算的編程語言 Twist</a></li><li><a href="https://www.oschina.net/news/124369/alibaba-open-source-taizhang-2-0" target="news">阿里開源量子模擬器 「太章 2.0」</a></li><li><a href="https://www.oschina.net/news/122471/china-quantum-hegemony" target="news">中國「量子霸權」成果：比最快超級計算機快一百萬億倍</a></li><li><a href="https://www.oschina.net/news/117459/us-plans-quantum-internet" target="news">美國發布量子互聯網藍圖：十年內建成</a></li><li><a href="https://www.oschina.net/news/116574/silq-programming-language-for-quantum-computers" target="news">量子計算機領域內第一種高級編程語言 Silq 誕生</a></li><li><a href="https://www.oschina.net/news/108172/microsoft-quantum-oss-available-github" target="news">微軟宣佈開源量子開發工具包</a></li><li><a href="https://www.oschina.net/news/98474/google-opensource-cirq" target="news">擁抱新時代，Google 開源量子算法框架 CIRQ</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:21:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 02:21:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268299</guid>
             <link>https://www.oschina.net/news/268299</link>
             <author>
@@ -196,7 +354,7 @@ public String test() {
             <description>
                 <![CDATA[<p align="center"><a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com%2F"><img src="https://gitee.com/dromara/Akali/raw/master/static/img/logo-main.svg" height="auto" alt="logo" referrerpolicy="no-referrer"></a></p><h3><a id="user-content-官網 httpsakaliyomahubcom" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AE%98%E7%BD%91httpsakaliyomahubcom"></a>官網：<a href="https://gitee.com/link?target=https%3A%2F%2Fakali.yomahub.com">https://akali.yomahub.com</a></h3><h3><a id="user-content-介紹" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BB%8B%E7%BB%8D"></a>介紹</h3><p>Akali（阿卡麗）是一個輕量級本地化熱點檢測/降級框架，適用於大流量場景，可輕鬆解決業務中超高流量的併發查詢等場景。並且接入和使用極其簡單，10 秒鐘即可接入使用！</p><p>Akali 框架的理念就是小巧，實用，來無影去無蹤，絲血團戰，滿血退場，所到之處，皆為虛無。</p><h3><a id="user-content-使用" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BD%BF%E7%94%A8"></a>使用</h3><p>引入依賴：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;dependency&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;groupId&gt;</span>org.dromara<span class="nt">&lt;/groupId&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;artifactId&gt;</span>akali<span class="nt">&lt;/artifactId&gt;</span></span><span id="LC4" class="line"><span class="nt">&lt;version&gt;</span>1.1.3<span class="nt">&lt;/version&gt;</span></span><span id="LC5" class="line"><span class="nt">&lt;/dependency&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h4><a id="user-content-對任意方法進行熱點處理" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E7%83%AD%E7%82%B9%E5%A4%84%E7%90%86"></a>對任意方法進行熱點處理</h4><p>只需要加上<code>@AkaliHot</code>這個標註，任意方法均可以獲得熱點檢測，並在熱點期間用熱點數據進行返回，在熱點過後，又會自動調用原本業務邏輯。</p><p>舉例：比如有一個商品查詢的業務，傳入 SkuCode，返回商品信息。當某個商品進行促銷時，訪問的量就會增加，但是對於相同的 SkuCode 而言，其短時間窗口內返回的 SkuInfo 是一致的，我們的目標是當某個商品 sku 被大量查詢時，框架能夠在短時間內把這個商品 sku 提為熱點數據，並通過對其進行緩存返回來降低對下游業務的壓力。而當熱點值過後，框架又能夠自動摘除這個熱點值，使其按照原有方式進行查詢。</p><p>其本質相當於實時的監測了熱點，並對其熱點數據做了一個短時間內的緩存。</p><p>以下示例代表了：當相同的 skuCode 在 5 秒內超過 50 次調用時，會自動把這個 skuCode 的值提為熱點，並用最後一次的返回值直接返回。當調用低於 5 秒 50 次調用時，框架會自動的摘除掉這個熱點。使其正常的調用你原有代碼進行邏輯計算並返回。這一切都是自動的。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_QPS</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>其中<code>grade</code>參數除了有以<code>QPS</code>作為維度統計，還有以<code>Thread</code>個數作為維度統計。比如：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliHot</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">50</span><span class="o">,</span><span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">SkuInfo</span><span class="nf">getSkuInfo</span><span class="o">(</span><span class="nc">String</span><span class="n">skuCode</span><span class="o">){</span></span><span id="LC3" class="line"><span class="c1">//do your biz and return sku info</span></span><span id="LC4" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>這就代表了，如果某個 skuCode 在 5 秒之內有超過 50 個線程正在運行，那麼就提為熱點，並用熱點數據直接返回。</p><p>對開源項目比較熟悉的同學看到這肯定想到了京東的框架-<code>hotkey</code>，<code>Akali</code>不同於<code>hotkey</code>，完全是本地運行的，不依賴於服務端，而且接入比<code>hotkey</code> 方便多了。性能完全相當於<code>hotkey</code>。</p><h4><a id="user-content-對任意方法進行降級" class="anchor" href="https://gitee.com/dromara/Akali#%E5%AF%B9%E4%BB%BB%E6%84%8F%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BA%A7"></a>對任意方法進行降級</h4><p>只需要加上<code>@AkaliFallback</code>註解。任意方法均可獲得降級功能。</p><p>舉例：某一個方法需要調用外部的接口，但是外部的接口性能不佳，耗時高。當併發一高時，線程池就會吃滿，線程池隊列也會逐漸堆積從而導致超時，或者丟棄，嚴重時會拖垮整個系統。</p><p>這時，我們只要對這個方法加上<code>@AkaliFallback</code>標註，即可解決。</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nd">@AkaliFallback</span><span class="o">(</span><span class="n">grade</span><span class="o">=</span><span class="nc">FlowGradeEnum</span><span class="o">.</span><span class="na">FLOW_GRADE_THREAD</span><span class="o">,</span><span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="o">)</span></span><span id="LC2" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHi</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC3" class="line"><span class="k">return</span><span class="s">"hi,"</span><span class="o">+</span><span class="n">name</span><span class="o">;</span></span><span id="LC4" class="line"><span class="o">}</span></span><span id="LC5" class="line"></span><span id="LC6" class="line"><span class="kd">public</span><span class="nc">String</span><span class="nf">sayHiFallback</span><span class="o">(</span><span class="nc">String</span><span class="n">name</span><span class="o">){</span></span><span id="LC7" class="line"><span class="k">return</span><span class="s">"fallback str"</span><span class="o">;</span></span><span id="LC8" class="line"><span class="o">}</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><p>以上註解表示了，當這個方法的同時運行的線程超過 100 個時，觸發降級，降級會自動調用<code>原方法名+Fallback</code>方法名 (並且參數要一致)，當降級觸發後會直接返回<code>fallback str</code>，當線程數小於 100 時，框架也會自動摘除降級，還是輸出<code>hi,xxxx</code>。</p><p>如果你的類中沒有定義 fallback 方法，那麼觸發降級時會報錯，當然你可以在降級方法中去拋錯，來讓上游系統知道你這個方法已經達到了瓶頸。</p><h3><a id="user-content-注意事項" class="anchor" href="https://gitee.com/dromara/Akali#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"></a>注意事項</h3><p>Akali 只針對於 Springboot，Spring 環境，並且所有標註了<code>@AkaliHot</code>或者<code>@AkaliFallback</code>的類一定得註冊到 spring 上下文中。</p><p>Akali 在 springboot 中會自動掃描所有標註的類，您無需做任何配置，在 spring 中，你需要配置：</p><div class="white"><div class="highlight markdown-code-block"><pre><span id="LC1" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.FallbackStrategy"</span><span class="nt">/&gt;</span></span><span id="LC2" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.strategy.MethodHotspotStrategy"</span><span class="nt">/&gt;</span></span><span id="LC3" class="line"><span class="nt">&lt;bean</span><span class="na">class=</span><span class="s">"org.dromara.akali.spring.AkaliScanner"</span><span class="nt">/&gt;</span></span></pre><div class="markdown-code-block-copy-btn"></div></div></div><h3><a id="user-content-交流羣" class="anchor" href="https://gitee.com/dromara/Akali#%E4%BA%A4%E6%B5%81%E7%BE%A4"></a>交流羣</h3><img src="https://gitee.com/dromara/Akali/raw/master/static/img/chat.png" referrerpolicy="no-referrer">]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:11:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 02:11:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/dromara/Akali</guid>
             <link>https://gitee.com/dromara/Akali</link>
         </item>
@@ -332,199 +490,11 @@ public String test() {
     </section></li></ul><span id="OSC_h2_12"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">下一步</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">@patrickvonplaten 建了一個非常酷的，筆記本，以展示如何在 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">trivia-qa</code> 數據集上評估 <code style="font-size: 14px;border-radius: 4px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;word-break: break-all;color: rgb(155, 110, 35);background-color: rgb(255, 245, 227);padding: 3px;margin: 3px;">BigBirdForQuestionAnswering</code> 。你可以隨意用這個筆記本來玩玩 BigBird。</p><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);"><strong style="color: black;">BigBird 版的 Pegasus</strong> 模型很快就會面世，你可將它們用於 <strong style="color: black;">長文檔摘要</strong> 💥。</p><span id="OSC_h2_13"></span><h2 data-tool="mdnice 編輯器" style="font-weight: bold;font-size: 22px;line-height: 1.2em;margin-top: 2em;margin-bottom: 35px;color: rgb(255, 157, 0);"><span style="font-size: 18px;color: rgb(255, 157, 11);padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;display: none;"></span><span style="color: rgb(255, 157, 11);visibility: visible;display: inline-block;border-left: 5px solid rgb(255, 157, 0);padding: 2px 13px;margin-right: 3px;height: 50%;font-size: 18px;">尾註</span><span style="font-size: 18px;color: rgb(255, 157, 11);display: inline-block;padding-left: 10px;border-left: 5px solid rgb(255, 157, 11);visibility: visible;"></span></h2><p data-tool="mdnice 編輯器" style="margin-bottom: 20px;line-height: 1.8em;color: rgb(58, 58, 58);">你可在，此處，找到 <strong style="color: black;">塊稀疏注意力矩陣</strong> 的原始實現。🤗 版的實現在，這兒。</p><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;font-size: 0.9em;overflow: auto;color: rgb(106, 115, 125);padding: 10px 10px 10px 20px;margin-bottom: 20px;margin-top: 20px;border-left-color: rgb(255, 177, 27);background: rgb(255, 245, 227);"><p style="font-size: 16px;line-height: 26px;color: rgb(89, 89, 89);">🤗 寶子們可以戳 <strong style="color: black;">閲讀原文</strong> 查看文中所有的外部鏈接喲！</p></blockquote><hr data-tool="mdnice 編輯器" style="height: 1px;border-right: none;border-bottom: none;border-left: none;border-top-style: solid;border-top-color: rgb(249, 191, 69);margin-top: 20px;margin-bottom: 20px;"><blockquote data-tool="mdnice 編輯器" style="border-top: none;border-right: none;border-bottom: none;color: rgb(91, 91, 91);background: rgba(158, 158, 158, 0.1);padding-top: 1px;padding-bottom: 1px;padding-left: 5px;margin-top: 0px;margin-bottom: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><blockquote style="border-width: initial;border-style: none;border-color: initial;margin-top: 0px;margin-bottom: 0em;padding-top: 0px;padding-left: 0px;"><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">英文原文:&nbsp;<span style="color: rgb(136, 136, 136);letter-spacing: 0px;">https://hf.co/blog/big-bird</span></p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">原文作者: Vasudev Gupta</p><p style="color: rgb(63, 63, 63);line-height: 1.5;font-size: 14px;margin: 10px;">譯者: Matrix Yao (姚偉峯)，英特爾深度學習工程師，工作方向為 transformer-family 模型在各模態數據上的應用及大規模模型的訓練推理。</p></blockquote></blockquote></blockquote></blockquote></section><p style="display: none;"><mp-style-type data-value="3"></mp-style-type></p></div><p style="color: #858585; font-size: 13px;">本文分享自微信公眾號 - Hugging Face（gh_504339124f0f）。<br>如有侵權，請聯繫 support@oschina.cn 刪除。<br>本文參與「<a href="https://www.oschina.net/sharing-plan" target="_blank">OSC 源創計劃</a>」，歡迎正在閲讀的你也加入，一起分享。</p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 27 Nov 2023 02:08:00 GMT</pubDate>
+            <pubDate>Sun, 26 Nov 2023 02:08:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/HuggingFace/blog/10150964</guid>
             <link>https://my.oschina.net/HuggingFace/blog/10150964</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Firefox 在 2023 變得更快了]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Mozilla 官方博客最近<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhacks.mozilla.org%2F2023%2F10%2Fdown-and-to-the-right-firefox-got-faster-for-real-users-in-2023%2F">發表文章</a>，稱 2023 年 Firefox 在提升用戶體驗方面取得了顯著的進展，真實用戶使用 Firefox 能感受到速度更快。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-48c6863ad3edd6c093cc619549ed7f30c35.png" referrerpolicy="no-referrer"></p><p>據介紹，Firefox 通過收集與<strong>頁面加載、響應速度、啓動</strong>等瀏覽器性能相關的匿名化時間度量指標來衡量用戶體驗。文章分享了一些對用戶瀏覽器體驗至關重要的指標在一年中是如何改進的。</p><ul><li><h4><strong>優化頁面加載速度</strong></h4></li></ul><p>Firefox 使用 "First Contentful Paint (FCP)" 這個指標來衡量用戶感知的性能。FCP 指的是從網絡接收到第一個字節到頁面顯示內容的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-16ba708b843784921085bfebb7aede81380.png" referrerpolicy="no-referrer"></p><p>數據顯示，從年初的大約 250 毫秒，到十月份的 215 毫秒，<strong>頁面加載速度提高了約 15%</strong>。這意味着用戶能夠更快地收到頁面加載的反饋信息。</p><ul><li><h4><strong>優化 JavaScript 執行時間</strong></h4></li></ul><p>Firefox 還關注頁面加載過程中 JavaScript 代碼的執行時間。</p><p>數據顯示，95% 的頁面中 JavaScript 執行時間從年初的約 1560 毫秒，到十月份的約 1260 毫秒，速度提升了約 20%。這對於減少頁面加載時間起到了重要作用。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-180320b8057907172e172bf066f77cc7c79.png" referrerpolicy="no-referrer"></p><ul><li><h4><strong>優化鍵盤響應速度</strong></h4></li></ul><p>Firefox 還關注頁面加載後的響應速度。更具體來説，它關注鍵盤按下後到屏幕上顯示結果的時間。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-19618b78169525abf4262e888f93daec3dc.png" referrerpolicy="no-referrer"></p><p>數據顯示，95% 的頁面中鍵盤響應速度從年初的約 65 毫秒，到八月份的約 59 毫秒，速度提升了約 10%。這意味着用戶在鍵入時能夠更快地得到反饋，減少了打字時的延遲。</p><p>Firefox 團隊表示，通過這些數據可以看出 Firefox 在 2023 年取得了用戶體驗方面的顯著改善。這些改進是通過優化瀏覽器的性能和 JavaScript 引擎實現的。Firefox 團隊還表示他們將繼續努力進行更多的優化，並在未來的文章中分享更多細節和進展。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 12:16:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</guid>
-            <link>https://www.oschina.net/news/268242/firefox-got-faster-for-real-users-in-2023</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[What's new in dubbo-go-pixiu v1.0.0]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>dubbo 原生網關 dubbo-go-pixiu v1.0 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Freleases%2Ftag%2Fv1.0.0-rc2" target="_blank">https://github.com/apache/dubbo-go-pixiu/releases/tag/v1.0.0-rc2</a> 正式發版了，項目從 2019 年一路走來，四年磨劍，感謝從，鐵城、張天，到 呂夢超，三位負責人。</p><p>目前，dubbo-go-pixiu 可作為 dubbo/dubbogo 服務網關，也可作為 dubbo/dubbogo 服務的 sidecar，還額外基於 Istio v1.14.3 實現了 dubbo 的控制面。</p><p>dubbo-go 和 dubbo-go-pixiu 在 2023 年初被螞蟻集團採用內部容器 PAAS HCS(Hyper Container Service) 超級容器平台的微服務技術底座， v1.0.0 集成了螞蟻集團使用過程中的提交的很多改進和優化。感謝本次版本的主要貢獻者，胡瀟晗、樊凡、龔娜、張國強、【阿里】遠雲、【螞蟻】多航、王虓雄、望哥、於雨，等社區同學。</p><h1>1 New Features In v1.0.0</h1><h2>1.1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F548" target="_blank">Triple 支持傳遞 Header 和引入 PB 定義</a></h2><p>Triple 代理現在可以正確傳遞 header 到 Triple 服務，且支持通過引入 protoset 文件來支持未開啓 Proto 反射或不支持反射的特定 proto，例如使用舊版本編譯的或 gogoproto 編譯的服務。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftriple" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/triple</a></p><h2>1.2 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F554" target="_blank">負載均衡 Maglev hashing</a></h2><p>負載均衡支持新算法：Maglev hashing。Maglev 是 Google 開發的基於 kernal bypass 技術實現的 4 層負載均衡，它具有非常強大的負載性能，承載了 Google 絕大部分接入流量。Maglev 在負載均衡算法上採用自行開發的一致性哈希算法被稱為 Maglev Hashing，該哈希算法在節點變化時能夠儘量少的影響其他幾點，且儘可能的保證負載的均衡，是一個非常優秀的一致性哈希算法。</p><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.3 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F565" target="_blank">Router 支持 Header 路由</a></h2><p>Router 支持通過 header 路由，可以更方便的管理流量。</p><pre><code class="language-yaml">              http_filters:
-                  - name: dgp.filter.http.traffic
-                    config:
-                      traffics:
-                        - name: "user-v1"
-                          router: "/user"
-                          canary-by-header: v1
-                          canary-weight: 0
-                        - name: "user-v2"
-                          router: "/user"
-                          canary-by-header: v2
-                          canary-weight: 100
-</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fshawnh2%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fdubbogo%2Fsimple%2Ftraffic" target="_blank">https://github.com/shawnh2/dubbo-go-pixiu-samples/tree/main/dubbogo/simple/traffic</a></p><h2>1.4 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F571" target="_blank">錯誤注入</a></h2><p>支持對特定 API 做錯誤注入，例如返回固定的響應，施加隨機性的延時/錯誤等。</p><pre><code class="language-yaml">                http_filters:
-                  - name: dgp.filter.http.faultinjection
-                    config:
-                      fail_inject_rules:
-                        "/UserService/com.dubbogo.pixiu.UserService/GetUserByCode":
-                          type: delay
-                          trigger_type: random
-                          status_code: 500
-                          body: 'error'
-                          delay: 5s
-                          odds: 30
-</code></pre><p>samples： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fblob%2Fdevelop%2Fdocs%2Fsample%2Fothers%2Ffail-inject.md" target="_blank">https://github.com/apache/dubbo-go-pixiu/blob/develop/docs/sample/others/fail-inject.md</a></p><h2>1.5 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F522" target="_blank">Add GracefulShutdown Signal For Windows</a></h2><p>支持 Windows 優雅下線，Pixiu 關閉時避免流量損失。</p><pre><code class="language-yaml">static_resources:
-.......
-.......
-  shutdown_config:
-    timeout: "60s"
-    step_timeout: "10s"
-    reject_policy: "immediacy"
-</code></pre><p>配置方式參考： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu-samples%2Ftree%2Fmain%2Fshutdown" target="_blank">https://github.com/apache/dubbo-go-pixiu-samples/tree/main/shutdown</a></p><h1>2 Enhancement in v1.0.0</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F573" target="_blank">優化 Prometheus 指標上報</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F530" target="_blank">修復一致性 Hash 數組越界</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F521" target="_blank">優化 Timeout 時的 http status code</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F528" target="_blank">優化 Metric 推拉模式</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F524" target="_blank">優化 Nacos 客戶端啓動時的參數配置</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F517" target="_blank">修復特定 Filter 配置為空時的 NPE 問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F515" target="_blank">升級 wasmer-go v1.0.4 以支持 Mac ARM 版本</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F506" target="_blank">fix sample url using github.com/apache/dubbo-go-pixiu-samples</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F507" target="_blank">修復流量管理路由權重計算錯誤的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F513" target="_blank">修復負載均衡在特定情況下無法正常工作的問題</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F574" target="_blank">移除無用的 imports</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F575" target="_blank">chore: unnecessary use of fmt.Sprintf</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F567" target="_blank">chore:use wasm filter build tags add wasm</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F556" target="_blank">修復無法錯誤的 samples 鏈接等</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F557" target="_blank">revert gatewayCmd to Run dubbo go pixiu</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdubbo-go-pixiu%2Fpull%2F516" target="_blank">升級 hessian2 依賴到 v1.11.3</a></li></ul><h1>3 參考文檔</h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FRwIA7TitRfUMU8rTI4JsBg" target="_blank">What's new in dubbo-go-pixiu v0.6.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5syzT64koPV77aRh04Izsw" target="_blank">What's new in dubbo-go-pixiu 0.5.1</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fdok42ssPJqazjeSRYaifVw" target="_blank">What's new in dubbo-go-pixiu 0.4.0</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FC7TxU0Zbee7EZ_6SJOLK8w" target="_blank">Dubbo 跨語言調用神獸：dubbo-go-pixiu</a></li></ul><h1>4 社區</h1><p>歡迎釘釘掃碼加入 dubbogo 社區釘釘羣【釘釘羣號 23331795】進行交流。</p><p><img src="https://oscimg.oschina.net/oscnet/up-ff09984b6821a6da40dcdb6db415fcca4b8.png" alt="" referrerpolicy="no-referrer"></p><p>以及 dubbogo 社區微信公眾號：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8feb2024cbf754333e9d7564cd0316dbb71.jpg" alt="" referrerpolicy="no-referrer"></p><p>從今年開始，除了以往負責的 dubbogo 社區項目外，於雨還負責了 pika 項目 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika" target="_blank">https://github.com/OpenAtomFoundation/pika</a>)，如果對該項目感興趣，請掃碼：</p><p><img src="https://oscimg.oschina.net/oscnet/up-3e900aa69386ac2190edb8035f4abb68415.png" alt="" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 09:16:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/dubbogo/blog/10294380</guid>
-            <link>https://my.oschina.net/dubbogo/blog/10294380</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Fish Shell 採用 Rust 重寫會導致性能下降]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>fish 是適用於 Linux、macOS 的命令行 Shell，其名字取於 "the&nbsp;<strong>f</strong>riendly&nbsp;<strong>i</strong>nteractive&nbsp;<strong>sh</strong>ell" 的簡稱，最大特點就是方便易用、功能強大、智能並且用戶友好。很多其他 Shell 需要配置才有的功能，fish 默認提供，不需要任何配置。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ac37b9a595ea6b4d16839034fa3b00e68f.png" referrerpolicy="no-referrer"></p><p>項目維護者 Fabian Boehm 今天在 GitHub 迴應了<u><a href="https://www.oschina.net/news/226616/fish-shell-be-rewritten-rust">使用 Rust 重寫 Fish Shell</a></u>&nbsp;的進度，稱已幾乎完成。</p><p>根據開發者的説法，他們已經完成了從 C++ 到 Rust 的大部分移植工作，但還有一些剩餘的組件需要進行翻譯。目前，他們正在處理與輸入系統相關的讀取器、屏幕處理、輸入和分頁器等強耦合組件。一旦這些組件完成翻譯，剩下的工作就是一些零散的部分和去除構建系統的 C++ 依賴。</p><p>開發者表示，<strong>這不是一個適合臨時貢獻的項目</strong>，因為還有很多工作要做。</p><p>此外，開發者還回答了一些關於移植的問題和誤解。<strong>他們表示不會刪除所有的 C++ 代碼</strong>，也沒有計劃移植到 Windows 平台。他們還表示不會更改 Fish Shell 的名稱或吉祥物，並且對於最終移植的性能，他們表示早期結果是令人鼓舞的，<strong>但可能在某些情況下會比現有版本慢約 20%</strong>。</p><p>最後，他們提到即使完成了初始移植工作，項目也還有很多工作要做。</p><p>來源：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffish-shell%2Ffish-shell%2Fdiscussions%2F10123">https://github.com/fish-shell/fish-shell/discussions/10123</a></u></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 03:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268315</guid>
-            <link>https://www.oschina.net/news/268315</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GNOME 拿到 100 萬歐元投資後，積極改進基礎設施]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>GNOME 基金會本月從「Sovereign Tech Fund」獲得了 <u><a href="https://www.oschina.net/news/265839/gnome-sovereign-tech-fund">100 萬歐元投資</a></u>，用於幫助 GNOME 實現平台現代化、改進工具和可訪問性，並支持符合公共利益的功能。</p><p>目前，圍繞 systemd-homed 和其他功能集成的新工作正在進行中，通過將 systemd-homed 集成到 GNOME 的 AccountService 中，用戶可以為他們的 Home 目錄創建加密卷，確保個人數據的安全性。</p><p>本週 GNOME 開發工作的部分亮點包括：</p><ol><li>通過 XDG Desktop Portal，使沙盒應用程序支持文件夾的拖放功能</li><li>改進 GNOME Shell 和合成器的性能，並集成 Tracy 分析器<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-a4ae5a9624f158104c73a6cd332f2a7b75f.png" referrerpolicy="no-referrer"><p>&nbsp;</p></li><li>提升硬件加速屏幕錄製和改進 Linux 藍牙協議堆棧</li><li>正在開發 Mutter 中對 OpenGL KHR_robustness 擴展的支持，以幫助 GNOME 會話從 GPU 驅動程序崩潰中恢復</li><li>Fractal Matrix 消息應用程序在 Fractal 5 中進行了全面重寫，現在使用 GTK 4、libadwaita 和 Matrix Rust SDK。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-aa30c942344821d70d7dffa1d26d5fcf6bf.png" referrerpolicy="no-referrer"></li></ol><p>有關這些最新 GNOME 工作的更多詳細信息，請參見本週 GNOME 動態：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fthisweek.gnome.org%2Fposts%2F2023%2F11%2Ftwig-123%2F" target="_blank">https://thisweek.gnome.org/posts/2023/11/twig-123/</a></em></u></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 02:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268167</guid>
-            <link>https://www.oschina.net/news/268167</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[精選網站流量分析工具]]>
-            </title>
-            <description>
-                <![CDATA[精選網站流量分析工具]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 02:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/project/awesome?columnId=65</guid>
-            <link>https://www.oschina.net/project/awesome?columnId=65</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Dromara 社區新晉開源項目 dbswitch，異構數據庫遷移同步工具！]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>一個適用於異構數據庫遷移同步的簡單工具 dbswitch</h1><h2>作者介紹</h2><ul><li>網名：三胖 (inrgihc)</li><li>dromara 開源組織成員，項目 dromara/dbswitch 作者</li><li>項目地址：<a href="https://gitee.com/dromara/dbswitch">https://gitee.com/dromara/dbswitch</a></li></ul><p>&nbsp;</p><p><img height="400" src="https://oscimg.oschina.net/oscnet/up-6c79b909dbfad7a428286eebe6fd1c2f82b.png" width="400" referrerpolicy="no-referrer"></p><h2>dbswitch 的誕生</h2><p>你需要<strong>將 Oracle 等老牌數據庫中的數據一鍵搞到 MySQL 或 PostgreSQL 中</strong>麼？你需要<strong>將 MySQL 等關係型數據庫中的數據一鍵搞到 Greenplum/ClickHouse 等 OLAP 數據庫中進行分析</strong>麼？</p><p>如果你在工作中遇到與我同樣的需求，那麼不妨體驗下 dbswitch 工具。</p><p>dbswitch 是在<strong>數據庫間數據搬遷</strong>和<strong>數據入倉入湖</strong>這兩大背景環境下誕生的，雖然目標路程還很長，但是<strong>dbswitch 作為一款開源工具</strong>會一直再努力堅持着（也許各個數據庫廠商都有自己的專業遷移工具）。</p><h2>dbswitch 的功能</h2><p>簡言之，dbswitch 提供源端數據庫向目的端數據庫的批量遷移同步功能：</p><ul><li>結構遷移：</li></ul><p>(1) 支持字段類型、主鍵信息、建表語句等的轉換，並生成建表 SQL 語句。</p><p>(2) 支持基於正則表達式轉換的表名與字段名映射轉換。</p><ul><li>數據同步：</li></ul><p>(1) 基於 JDBC 的分批次讀取源端數據庫數據，並基於 jdbc(insert/copy 方式) 將數據分批次寫入目的數據庫。</p><p>(2) 支持有主鍵表（基於數據比對變化計算原理的）增量變更 (insert/update/delete) 同步功能</p><h2>dbswitch 支持的數據庫</h2><p>當前基於<strong>驅動隔離</strong>已經集成支持<strong>多版本的數據庫</strong>產品如下：</p><ul><li>甲骨文的 Oracle</li><li>微軟的 Microsoft SQLServer</li><li>MySQL/MariaDB</li><li>PostgreSQL</li><li>Greenplum(需使用 PostgreSQL 類型)</li><li>IBM 的 DB2</li><li>Sybase 數據庫</li><li>國產達夢數據庫 DMDB</li><li>國產人大金倉數據庫 Kingbase8</li><li>國產翰高數據庫 HighGo</li><li>國產神通數據庫 Oscar</li><li>國產南大通用數據庫 GBase8a</li><li>Apache Hive(基於 JdbcStorageHandler)</li><li>SQLite3</li><li>OpenGuass</li><li>ClickHouse</li><li>MongoDB</li></ul><h2>dbswitch 的部署體驗</h2><h3>1.一鍵部署</h3><ul><li>基於 docker-compose 的一鍵安裝 (或升級):</li></ul><pre><code>curl -sSL https://gitee.com/inrgihc/dbswitch/attach_files/1551962/download | sh
-</code></pre><ul><li>基於 docker 的一鍵安裝：</li></ul><p>假設已經部署好的 MySQL 數據庫地址為 192.168.31.57，端口為 3306，賬號為 test，密碼為 123456</p><pre><code>docker run -d --name dbswitch \\
- -e MYSQLDB_HOST=192.168.31.57 \\
- -e MYSQLDB_PORT=3306 \\
- -e MYSQLDB_USERNAME=test \\
- -e MYSQLDB_PASSWORD='123456' \\
- -v /tmp:/tmp \\
- -p 9088:9088 \\
- registry.cn-hangzhou.aliyuncs.com/inrgihc/dbswitch:1.8.2
-</code></pre><h2>2.部分截圖</h2><p><img height="992" src="https://oscimg.oschina.net/oscnet/up-248a80912f903336faae60ac7147a23fbde.png" width="1842" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="991" src="https://oscimg.oschina.net/oscnet/up-23ac44c99d40214512e2fe4506c63c69c32.png" width="1827" referrerpolicy="no-referrer"></p><ul><li>二次集成開發</li></ul><p>dbswitch 也支持 java 下二次集成開發，具體可查看 dbswitch 項目中的文檔説明。</p><h2>關注 dbswitch</h2><p>歡迎體驗使用 dbswitch 工具，同時項目中也提供了 dbswitch 相關的實現原理。</p><h2>友情項目</h2><p>[1] <a href="https://gitee.com/inrgihc/greenplum_installer">Greenplum 一鍵安裝</a></p><p>[2] <a href="https://gitee.com/inrgihc/libnpce">新聞文章正文抽取正文抽取組件</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 02:39:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268303</guid>
-            <link>https://www.oschina.net/news/268303</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Numbat —— 用於科學計算的靜態類型編程語言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Numbat 是一種用於科學計算的靜態類型編程語言，對物理尺寸和單位具有一流的支持。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>可以使用它進行簡單的數學計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 1920/16*9
-
-    = 1080
-
-&gt;&gt;&gt; 2^32
-
-    = 4294967296
-
-&gt;&gt;&gt; sqrt(1.4^2 + 1.5^2) * cos(pi/3)^2
-
-    = 0.512957</code></pre><p style="text-align:start"><span><span><span><span style="color:#000000"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>然而，Numbat 的真正優勢在於使用物理單位執行計算：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre><code>&gt;&gt;&gt; 8 km / (1 h + 25 min)
-
-  8 kilometer / (1 hour + 25 minute)
-
-    = 5.64706 km/h    [Velocity]
-
-&gt;&gt;&gt; 140 € -&gt; GBP
-
-  140 euro ➞ british_pound
-
-    = 120.768 £    [Money]
-
-&gt;&gt;&gt; atan2(30 cm, 1 m) -&gt; deg
-
-  atan2(30 centimeter, 1 meter) ➞ degree
-
-    = 16.6992°
-
-&gt;&gt;&gt; let ω = 2π c / 660 nm
-
-  let ω: Frequency = 2 π × c / 660 nanometer
-
-&gt;&gt;&gt; ℏ ω -&gt; eV
-
-  ℏ × ω ➞ electronvolt
-
-    = 1.87855 eV    [Energy]</code></pre></div>
-                                                                ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 02:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/numbat</guid>
-            <link>https://www.oschina.net/p/numbat</link>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Firefox 121 默認啓用 Wayland 支持]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>根據 Firefox 最近的提交信息，Firefox 121 計劃在現代 Linux 桌面上默認啓用 Wayland 支持，而不是回退到 XWayland。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-af58e5b492ff8f046886d946f3b112b8abc.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f1786452d74604703605a8963620fd4491.png" referrerpolicy="no-referrer"></p><p>來源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugzilla.mozilla.org%2Fshow_bug.cgi%3Fid%3D1752398" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=1752398</a></u></em>、<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhg.mozilla.org%2Fmozilla-central%2Frev%2F5ea5f3e31d58" target="_blank">https://hg.mozilla.org/mozilla-central/rev/5ea5f3e31d58</a></em></u></p><p>本週發佈了 <u><a href="https://www.oschina.net/news/267557/firefox-120-0-released">Firefox 120 </a></u>穩定版，Firefox 121 現在處於測試階段 —— Wayland 支持已默認啓用，並且截至昨天的 beta 3 版本仍然開啓，有望在穩定版中保持該狀態。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6256943e2a71993b6018e4b3e5f2199fa60.png" referrerpolicy="no-referrer"></p><p>原生 Firefox Wayland 支持可實現觸摸板和觸摸屏手勢、滑動導航、每個顯示器的 DPI 設置、更好的圖形性能等等。隨着時間的推移，Firefox Wayland 支持已經相當成熟，並且現在處於穩健狀態。用戶表示在 Firefox 121 beta 測試中，它的表現非常好。</p><p>Firefox 121 計劃於 12 月 19 日發佈，如果默認啓用 Wayland 支持，這將是一個很好的聖誕禮物。隨着 KDE Plasma 6.0 默認切換到 Wayland 會話，以及其他地方達到的 Wayland 採用里程碑，2024 年可能成為 Wayland 主導 Linux 桌面的一年。</p><hr><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/261201/gnome-mr-drop-x11-session">GNOME 移除對 X.Org 會話支持</a></li><li><a href="https://www.oschina.net/news/263917/linux-mint-wayland-progress">Linux Mint "Cinnamon" 開始支持 Wayland</a></li><li><a href="https://www.oschina.net/news/256249/intellij-based-ide-wayland-support">JetBrains 為基於 IntelliJ 的 IDE 提供 Wayland 支持</a></li><li><a href="https://www.oschina.net/news/241063/asahi-linux-stop-x-org">Asahi Linux 致用戶：停止使用 X.Org，Wayland 才是未來</a></li><li><a href="https://www.oschina.net/news/227050/xfce-4-20-wayland-support">Xfce 4.20 將正式支持 Wayland</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 26 Nov 2023 01:26:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</guid>
-            <link>https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -553,6 +523,36 @@ public String test() {
             <pubDate>Sat, 25 Nov 2023 03:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268075</guid>
             <link>https://www.oschina.net/news/268075</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[GNOME 拿到 100 萬歐元投資後，積極改進基礎設施]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>GNOME 基金會本月從「Sovereign Tech Fund」獲得了 <u><a href="https://www.oschina.net/news/265839/gnome-sovereign-tech-fund">100 萬歐元投資</a></u>，用於幫助 GNOME 實現平台現代化、改進工具和可訪問性，並支持符合公共利益的功能。</p><p>目前，圍繞 systemd-homed 和其他功能集成的新工作正在進行中，通過將 systemd-homed 集成到 GNOME 的 AccountService 中，用戶可以為他們的 Home 目錄創建加密卷，確保個人數據的安全性。</p><p>本週 GNOME 開發工作的部分亮點包括：</p><ol><li>通過 XDG Desktop Portal，使沙盒應用程序支持文件夾的拖放功能</li><li>改進 GNOME Shell 和合成器的性能，並集成 Tracy 分析器<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-a4ae5a9624f158104c73a6cd332f2a7b75f.png" referrerpolicy="no-referrer"><p>&nbsp;</p></li><li>提升硬件加速屏幕錄製和改進 Linux 藍牙協議堆棧</li><li>正在開發 Mutter 中對 OpenGL KHR_robustness 擴展的支持，以幫助 GNOME 會話從 GPU 驅動程序崩潰中恢復</li><li>Fractal Matrix 消息應用程序在 Fractal 5 中進行了全面重寫，現在使用 GTK 4、libadwaita 和 Matrix Rust SDK。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-aa30c942344821d70d7dffa1d26d5fcf6bf.png" referrerpolicy="no-referrer"></li></ol><p>有關這些最新 GNOME 工作的更多詳細信息，請參見本週 GNOME 動態：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fthisweek.gnome.org%2Fposts%2F2023%2F11%2Ftwig-123%2F" target="_blank">https://thisweek.gnome.org/posts/2023/11/twig-123/</a></em></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 02:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268167</guid>
+            <link>https://www.oschina.net/news/268167</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Firefox 121 默認啓用 Wayland 支持]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>根據 Firefox 最近的提交信息，Firefox 121 計劃在現代 Linux 桌面上默認啓用 Wayland 支持，而不是回退到 XWayland。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-af58e5b492ff8f046886d946f3b112b8abc.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f1786452d74604703605a8963620fd4491.png" referrerpolicy="no-referrer"></p><p>來源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbugzilla.mozilla.org%2Fshow_bug.cgi%3Fid%3D1752398" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=1752398</a></u></em>、<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhg.mozilla.org%2Fmozilla-central%2Frev%2F5ea5f3e31d58" target="_blank">https://hg.mozilla.org/mozilla-central/rev/5ea5f3e31d58</a></em></u></p><p>本週發佈了 <u><a href="https://www.oschina.net/news/267557/firefox-120-0-released">Firefox 120 </a></u>穩定版，Firefox 121 現在處於測試階段 —— Wayland 支持已默認啓用，並且截至昨天的 beta 3 版本仍然開啓，有望在穩定版中保持該狀態。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6256943e2a71993b6018e4b3e5f2199fa60.png" referrerpolicy="no-referrer"></p><p>原生 Firefox Wayland 支持可實現觸摸板和觸摸屏手勢、滑動導航、每個顯示器的 DPI 設置、更好的圖形性能等等。隨着時間的推移，Firefox Wayland 支持已經相當成熟，並且現在處於穩健狀態。用戶表示在 Firefox 121 beta 測試中，它的表現非常好。</p><p>Firefox 121 計劃於 12 月 19 日發佈，如果默認啓用 Wayland 支持，這將是一個很好的聖誕禮物。隨着 KDE Plasma 6.0 默認切換到 Wayland 會話，以及其他地方達到的 Wayland 採用里程碑，2024 年可能成為 Wayland 主導 Linux 桌面的一年。</p><hr><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/261201/gnome-mr-drop-x11-session">GNOME 移除對 X.Org 會話支持</a></li><li><a href="https://www.oschina.net/news/263917/linux-mint-wayland-progress">Linux Mint "Cinnamon" 開始支持 Wayland</a></li><li><a href="https://www.oschina.net/news/256249/intellij-based-ide-wayland-support">JetBrains 為基於 IntelliJ 的 IDE 提供 Wayland 支持</a></li><li><a href="https://www.oschina.net/news/241063/asahi-linux-stop-x-org">Asahi Linux 致用戶：停止使用 X.Org，Wayland 才是未來</a></li><li><a href="https://www.oschina.net/news/227050/xfce-4-20-wayland-support">Xfce 4.20 將正式支持 Wayland</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 25 Nov 2023 01:26:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</guid>
+            <link>https://www.oschina.net/news/268164/firefox-121-enable-wayland-support-by-default-on-linux</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
