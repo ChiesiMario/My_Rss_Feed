@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 Nov 2023 20:19:03 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 29 Nov 2023 00:25:59 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【re:Invent 2023】AWS 资料库、快取、资料仓储迈向真正无伺服器化与新量子晶片]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/reinvent2023_desantis_keynote.png?itok=Rm6cVihx" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>AWS</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>【美国拉斯维加斯现场报导】AWS re:Invent 2023 今日（27）在美国拉斯维加斯展开，其公用运算部门（Utility Computing）资深副总裁 Peter DeSantis 在晚间首场主题演讲中，首度揭露旗下三款云端服务在无伺服器功能方面皆有新的进展，包括 Aurora 资料库服务、ElastiCache 快取服务与 Redshift 资料仓储服务，终于在技术持续精进之下，达到他们心目中真正无伺服器化的里程碑；同时亦如过往发表硬体晶片的惯例，首度揭露错误率仅 0.1% 的新量子晶片。</p><p>Amazon Aurora 是相容于 MySQL 与 PostgreSQL 的云端资料库服务，AWS 在 2018 年推出 Aurora 的首款无伺服版本，接著在去年 2022 年推出 Aurora Serverless V2 第二版，赋予云端资料库服务更大的线上扩充能力，不过虽然诉求资料库用户可在服务不中断的情况下扩充资料库，但仍有一定容量的限制。</p><p>Aurora Serverless 资料库服务之所以能实现线上扩充容量，DeSantis 表示，主要是仰赖虚拟化技术。AWS 开发了一个称之为 Caspian 的虚拟层，由 Caspian Heat Management System 来管理实体主机如何分配虚拟记忆体给资料库。Aurora 所使用的每一台实体主机配置容量 256GB 的记忆体，虽然 Aurora 资料库开启服务可以使用 256GB 记忆体，但实体主机的记忆体并不会因此而被完全占用，Caspian 管理软体会依据每个 Aurora 资料库服务运作所需配置适当的实体记忆体容量，因此每台实体主机皆可承载多个 Aurora 资料库服务，如此就可以极大化利用运算资源。</p><p>在上述机制下，当一台实体主机所承载的 Aurora 运作所需记忆体超过 256GB，迫于记忆体物理限制就必须转移到另一台主机。DeSantis 指出，如此机制尚无法达到无伺服器化可以自动扩充调整的最高境界，因此 AWS 继而运用资料库分区（Sharding）技术，将单一资料库分配到不同主机，以达到水平扩充的能力。</p><p>资料库分区并不难实现，DeSantis 表示，但要达到自动分配的境界，最难突破的关键在于资料路由与资料库分区弹性扩充的设计。为此 AWS 开发出一个资料请求路由层（Request Routing Layer），它采取轻量化设计，具有快速反应扩充的特性，加诸分区弹性扩充设计，则可达到跨区域执行资料库切片与重组，并确保资料库的可靠度。</p><p>由于上述两项技术的创新突破，DeSantis 指出，AWS 终于能在今年推出真正无伺服器化的 Aurora 资料库服务，称之为 Amazon Aurora Limitless Database，意指可不受单一资料库的容量限制，皆可自动扩充配置而不影响资料库运作。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_0399%20(1)(1).png" style="width: 700px; height: 453px;" referrerpolicy="no-referrer"></p><p>除了 Aurora Limitless Database，AWS 今天也推出快取服务无伺服器版本 ElastiCache Serverless。DeSantis 表示，这有赖于第三项创新技术突破，也就是减少时钟误差范围（Reducing Clock Error Bounds）。分散式运算系统的资料同步需要仰赖同步计时，他指出主要的三种作法，分别为 Wall Clock（现实世界时间）、Logical Clock（逻辑时间）与单一 TimeKeeper 伺服器，其中 Wall Clock 方式会因不同时钟的差异而导致计时同步不可靠。</p><p>为了提供准确的同步计时，AWS 在 2017 年推出 Amazon Time Sync Service，结合衞星通讯与原子钟参照，提供与世界协调时间（UTC）误差仅 1 毫秒（millisecond）的同步计时。但是，DeSantis 指出，时间误差 1 毫秒代表著总延迟时间是 2 毫秒，亦即每秒 500 次交易的延迟速度，而这对于快取的同步来说太慢了。为此，AWS 以 Nitro 网路加速晶片为基础设计一个分散式计时网路，并搭配备援电力模组与原子钟，安装在一个标准 48U 机柜，终于将同步计时误差由毫秒缩短至微秒（microsecond）等级，其 ElastiCache Serverless p50 的延迟仅 500 微秒，并可支援最大 5TB 记忆体容量。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_0427%20(1)(1).png" style="width: 700px; height: 325px;" referrerpolicy="no-referrer"></p><p>至于在 2021 年推出的资料库仓储服务无伺服器版本 Redshift Serverless，也有更进一步的精进。DeSantis 表示，资料库仓储不只是要应付资料量，也得因应运算任务多样化的需求。Redshift Serverless 是由请求管理（Request Management）系统来判断实体主机的负荷量，如果有运算需求较大的 ETL（Extract, Transform, Load）任务产生，若既有的主机无法承担，请求管理系统就会将其分配到新的主机，但若既有的主机可以承担，虽然该 ETL 任务可以分配到既有主机，但由于运算需求大，完成运算的时间较久，也会因此牵累该主机的其他运算任务，导致时间拖延。</p><p>为了解决 Redshift Serverless 上述问题，AWS 在请求管理系统导入机器学习预测功能，DeSantis 指出，其实资料分析任务有 80% 是雷同的，因此先以机器学习建立好这 80% 任务的模型，将其内建在请求管理系统的快取，加速其快速分析任务类型，同时，有另一个模型用来学习属于各别企业组织惯用习惯的另外 20% 任务，让请求管理层可以在接到任务时分析与预测其类型，据以分配合适的运算资源。而有了这项 AI 功能后，Amazon Redshift Serverless Next-generation AI-driven scaling and optimizations 也提供用户自行设定机器学习的政策，以在资料分析运算时间与运算成本之间有所取舍。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_0543%20(1)(1).png" style="width: 700px; height: 454px;" referrerpolicy="no-referrer"></p><p>此外，AWS 历年来皆会利用 re:Invent 的首日晚间主题演讲发表其在硬体晶片的著墨，今年也不例外，DeSantis 首度公开发表新的量子晶片，他表示，Aamzon 量子运算团队在量子纠错有重大的进展，以逻辑量子位元的方式，将位元翻转（Bit-flip）与相位翻译（Phase-flip）错误分开，DeSantis 指出，借由被动纠错方法，已可将错误率降低 100 倍，达到 0.1%，亦即千分之一的错误率，而硬体过热也预期可减少 6 倍。不过，他也说，虽然新晶片在量子纠错方面有重大的进展，但现在尚于量子运算发展非常早期的阶段。</p><p>Amazon ElastiCache Serverless 目前已可提供服务，Amazon Aurora Limitless Database 与 Amazon Redshift Serverless Next-generation AI-driven scaling and optimizations 则提供预览。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 28 Nov 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160059</guid>
+            <link>https://www.ithome.com.tw/news/160059</link>
+            <author>
+                <![CDATA[吴其勋]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[【资安日报】11 月 28 日，美国医疗保健服务业者 Henry Schein 传出二度遭遇勒索软体 BlackCat 攻击，导致电子商务平台遭到瘫痪]]>
@@ -194,7 +209,7 @@
 <author>
     <![CDATA[李建兴]]>
 </author>
-<category>资安 </category>    </item>    <item>
+<category>新闻</category>    </item>    <item>
 <title>
     <![CDATA[欧盟寄出 Amazon 并购 iRobot 的反对声明]]>
 </title>
@@ -246,7 +261,7 @@
 <author>
     <![CDATA[李建兴]]>
 </author>
-<category>AI</category>    </item>    <item>
+<category>新闻</category>    </item>    <item>
 <title>
     <![CDATA[AWS 推出 195 美元的虚拟桌面存取装置 WorkSpaces Thin Client]]>
 </title>
@@ -505,7 +520,7 @@
     <author>
         <![CDATA[罗正汉]]>
     </author>
-    <category></category>
+    <category>资安 </category>
 </item>
 <item>
     <title>
@@ -519,21 +534,6 @@
     <link>https://www.ithome.com.tw/news/160014</link>
     <author>
         <![CDATA[陈晓莉]]>
-    </author>
-    <category>资安 </category>
-</item>
-<item>
-    <title>
-        <![CDATA[Canonical 推出适用于云端部署的轻量 Chiselled Ubuntu 容器映像档]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/untitled-presentation-1.jpg?itok=eFXraZ_V" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Canonical<a href="https://canonical.com/blog/chiselled-ubuntu-ga">发布</a>Chiselled Ubuntu 容器，这是一个超小型 OCI 映像档，仅提供应用程式和执行环境相依项目，而不包含其他作业系统层级的套件、公用程式或是函式库，以提高容器的安全性并减少整体容量大小。Canonical 提供了 Java 和 Python 预先建置 Chiselled Ubuntu 容器映像档，并且透过与<a href="https://devblogs.microsoft.com/dotnet/announcing-dotnet-chiseled-containers/#comment-20066">微软</a>的合作，也推出适用于.NET 6、.NET 7 与.NET 8 开发用 Chiselled Ubuntu 容器映像档。</p><p>Chiselled Ubuntu 容器是一种特殊的容器映像档，其设计理念是去除一般 Ubuntu 容器映像档中非必要的元件，只保留应用程式执行所必须的核心部分。Chiselled Ubuntu 容器映像档缺少壳层和套件管理器，大幅限制了攻击面，而且因为映像档不含 curl 和 wget，因此攻击者也无法下载并执行控制伺服器上的壳层脚本。</p><p>另外，这些映像档以非根用户身分执行，进一步限制了映像档中允许的操作，因为非根使用者仅有应用程式的读取和执行权限。这样的设计使容器映像档变得更小更安全，非常适合用于云端应用程式部署，既减少了容量需求同时也降低资安风险。</p><p>预建置结合.NET 和 Java 等开发工具链的 Chiselled 映像档，提供开发者简单且安全的生产环境，包含 Java 执行环境引擎的 Chiselled 映像档，在不影响吞吐量和启动效能的情况下，容量比 Eclipse Temurin Java 17 执行环境映像档小了约 51％。</p><p>.NET 8.0 的 Chiselled 容器映像档也只包含 7 个元件，仅有被高频率使用如 OpenSSL 等相依项目才会被包进映像档中。未经压缩的 aspnet Chiselled 映像档仅约 110 MB，相较于现有 Ubuntu 映像档减少超过 100 MB，大小与 Alpine 映像档相当，是微软目前发布含 glibc 体积最小、元件最少的映像档。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Sun, 26 Nov 2023 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/160010</guid>
-    <link>https://www.ithome.com.tw/news/160010</link>
-    <author>
-        <![CDATA[李建兴]]>
     </author>
     <category>资安 </category>
 </item>    </channel>    </rss>
