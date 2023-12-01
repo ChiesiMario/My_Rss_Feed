@@ -16,8 +16,219 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 30 Nov 2023 21:20:17 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 01 Dec 2023 15:45:32 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[擁抱 SSH 隧道技術，數據庫管理客戶端 ATOMDB 0.5.3 版本發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>大家好，很高興在這裏宣佈 ATOMDB v0.5.3 正式發佈，經過近一個月的迭代開發，本次更新給大家帶來了期待已久的 SSH 隧道組件。</p><p><strong>📚 新增基礎功能</strong></p><ol><li>可擴展的配置子系統，支持動態掛載配置對象同時支持配置對象可單獨複製。</li><li>重構多線程查詢引擎，根據查詢任務種類實現相應的查詢可執行任務對象。</li><li>新增 SSH 隧道底層組件，實現所有支持的數據源無縫使用底層隧道連接。</li><li>實現可動態掛載配置樹的配置窗口組件。</li><li>MySQL 數據源新增 SSL 證書登錄</li><li>新增全局查詢監測組件，防止查詢還沒完成但是 UI 組件被銷燬導致系統崩潰。</li></ol><p><strong>🐳 功能優化</strong></p><ol><li>優化連接測試按鈕，將之前文字的展現方式修改成按鈕模式。</li><li>優化數據庫查詢報錯機制，查詢引擎通過異常的方式將錯誤信息傳遞給 Promise 子系統。</li><li>優化本地密碼本，默認使用系統內置的密碼管理子系統，再也沒有打開一個數據源需要輸入一次密碼的煩惱了。</li><li>優化數據查詢表格，條件查詢出錯不更新表格。</li><li>規範系統查詢，所有的查詢都有 connection 對象去完成，避免直接調用底層執行引擎。</li></ol><p><strong>🐞 BUG 修復</strong></p><ol><li>修復 BootupSplash 隱藏過早的問題。</li><li>修復項目重命名菜單項不能彈出修改窗口的問題。</li><li>修復執行引擎關閉時候不能正常結束查詢線程的問題。</li><li>修復數據源結構爬蟲執行語句語法錯誤的問題。</li></ol><p><strong>📚 新功能部分運行效果</strong></p><p><strong>創建數據源，可以配置選擇 SSH 隧道</strong><img alt="輸入圖片説明" src="https://foruda.gitee.com/images/1701066322776268197/cf18a014_10457681.png" referrerpolicy="no-referrer"></p><p><strong>SSH 隧道配置，按照自己的需求進行創建或者刪除 SSH 隧道信息</strong><img alt="輸入圖片説明" src="https://foruda.gitee.com/images/1701066338203725622/eac6f3c7_10457681.png" referrerpolicy="no-referrer"></p><p>PS: 隨着 ATOMDB 功能逐漸成熟，我們為 ATOMDB 設計了全新的 LOGO，我們為這個 LOGO 賦予的意義是：融合、貫通、交叉、獨立，整個設計採用的不對稱的設計方式，體現了 ATOMDB 追求創新的理念。 <img alt="輸入圖片説明" height="300" src="https://foruda.gitee.com/images/1701066367973391884/5d12654b_10457681.jpeg" width="300" referrerpolicy="no-referrer"></p><p>因為開發資源有限，目前僅支持 macOS 系統（版本大於等於 11，代號 <code>Big Sur</code>） 如果您對 ATOMDB 感興趣，可以移步到產品下載頁面進行下載： 🌎 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.atomdb.com%2Fproduct%2Fdownload.html" target="_blank">最新版本下載</a></p><p>感謝 GITEE 提供軟件包託管服務。</p><p><strong>🍮 軟件安裝説明</strong></p><p>目前 ATOMDB 正處於功能迭代的過程，所以配置文件和項目元信息結構在每一次發佈預覽版的時候都可能變化，所以安裝新的版本的時候需要對配置文件進行清空，防止出現運行時錯誤，等功能穩定之後，我們會自動處理配置變更。 ATOMDB 安裝之後會創建下面的目錄： &lt;pre&gt;&lt;code class="language-plaintext"&gt;~/Library/Application Support/Pulsarware/ATOMDB ~/Library/Logs/Pulsarware/ATOMDB &lt;/code&gt;&lt;/pre&gt; 配置信息目錄和運行時日誌目錄，每次安裝前您需要刪除 <code>~/Library/Logs/Pulsarware/</code> 同時 ATOMDB 會在您指定的文件夾下面創建項目元信息，以<code>~/workspace/db_project</code>為例，如果您在此目錄下創建了項目，系統會在此目錄下創建一個 <code>.atomdb</code> 的隱藏目錄，項目和數據源相關信息都存在此目錄下，您需要在安裝之前對此目錄<strong>進行刪除</strong>。</p><p>如果您在使用過程中發現任何軟件 BUG 🐞 歡迎反饋給我們，您可以在 GITEE 上創建一個 ISSUE 🌎 <a href="https://gitee.com/pulsarware/atomdb-proposals/issues">創建一個新 ISSUE</a> ATOMDB 的完善離不開您的支持，祝您使用 ATOMDB 愉快。</p><p><strong>📚 產品介紹</strong></p><p>ATOMDB® 數據庫管理客戶端是一款服務廣大開發者的工具軟件。可以讓開發者方便地執行查詢，創建和管理數據庫，支持管理市場上主流的數據庫管理系統。例如： TIDB, PolarDB, GreatDB, 人大金倉, 神舟通用, TDengine, MySQL, PostgreSQL, Microsoft SQL Server, Oracle 等等。軟件設計支持 Windows、MacOS、Linux 等操作系統，軟件採用插件擴展的方式對多數據庫進行支持。 軟件支持如下主要功能：</p><ol><li>多數據庫系統支持</li><li>項目化管理數據庫鏈接會話實例</li><li>SQL 語法高亮和自動代碼補全</li><li>數據導入導出</li><li>現代的用戶設計界面</li><li>版本控制軟件支持</li></ol><p><strong>🌲 秦派軟件介紹</strong></p><p><img alt="輸入圖片説明" height="157" src="https://foruda.gitee.com/images/1701066413094928018/b391b9f9_10457681.png" width="300" referrerpolicy="no-referrer"></p><p>北京秦派軟件科技有限公司 (Pulsarware® Technologies Ltd.) 是一家致力於開發生產力工具軟件的技術公司，成立之初立志要在工具軟件領域深耕，踐行精益求精的研發精神，努力推出優質的生產力工具軟件服務國內外的開發者，提升開發者的工作效率，同時創造出商業價值和社會價值。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 10:49:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269093/atomdb-0-5-3-released</guid>
+            <link>https://www.oschina.net/news/269093/atomdb-0-5-3-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[KCL v0.7.0 重磅發佈 - 面向雲原生場景更完善的生態模型、語言和工具鏈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>簡介<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E7%25AE%2580%25E4%25BB%258B" target="_blank">​</a></h2><p style="color:#1c1e21; text-align:start">KCL 團隊很高興地宣佈<span>&nbsp;</span><strong>KCL v0.7.0 新版本現在已經可用</strong>！本次發佈為大家帶來了三方面的重點更新：<strong>語言</strong>、<strong>工具鏈</strong>、<strong>社區集成 &amp; 擴展支持</strong>。</p><ul><li><em>使用功能更完善錯誤更少的 KCL 語言、工具鏈和 IDE 提升代碼編寫體驗和效率</em></li><li><em>全新的 KCL 命令行工具，集成 KCL 包管理，doc, test 周邊工具鏈生態，包羅萬象，一鍵直達</em></li><li><em>豐富的 KCL 三方庫市場 artifacthub.io, 提供了超過 200 種 KCL 三方庫，盡情挑選，無限可能</em></li></ul><p style="color:#1c1e21; text-align:start">進一步您可以在<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Freleases%2Ftag%2Fv0.7.0" target="_blank">KCL v0.7.0 發佈頁面</a><span>&nbsp;</span>或者<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2F" target="_blank">KCL 官方網站</a><span>&nbsp;</span>獲得下載安裝指南和詳細發佈信息。</p><p style="color:#1c1e21; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl" target="_blank">KCL</a><span>&nbsp;</span>是一個 CNCF 基金會託管的面向雲原生領域開源的基於約束的記錄及函數編程語言，期望通過成熟的編程語言技術和實踐來改進對大量繁雜配置比如雲原生 Kubernetes 配置場景的編寫，致力於圍繞配置的模塊化、擴展性和穩定性，打造更簡單的邏輯編寫體驗，構建更簡單的自動化和生態集成路徑。</p><p style="color:#1c1e21; text-align:start">本文重點介紹 KCL v0.7.0 版本的更新內容以及 KCL 社區的近期動態。</p><h2>語言更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E8%25AF%25AD%25E8%25A8%2580%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h2><h3>⭐️ 全新的 KCL 命令行工具<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25EF%25B8%258F-%25E5%2585%25A8%25E6%2596%25B0%25E7%259A%2584-kcl-%25E5%2591%25BD%25E4%25BB%25A4%25E8%25A1%258C%25E5%25B7%25A5%25E5%2585%25B7" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">在新版本中提供了全新的 KCL 命令行工具, 目標是將 KCL 周邊生態囊括在一起，為您提供統一簡明的操作頁面，包羅萬象，一鍵直達。</p><p style="color:#1c1e21; text-align:start">新的 KCL 命令行工具將會以繼續 kcl 作為命令前綴，目前提供包含編譯，包管理，格式化工具等多個子命令。</p><h3><img alt="cli-help" src="https://kcl-lang.io/zh-CN/assets/images/cli-help-ac296258bd181406f51407cb459d3aed.png" referrerpolicy="no-referrer"></h3><h3>🔧 診斷信息的優化<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23-%25E8%25AF%258A%25E6%2596%25AD%25E4%25BF%25A1%25E6%2581%25AF%25E7%259A%2584%25E4%25BC%2598%25E5%258C%2596" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">在 KCL 新版本中，在部分代碼錯誤信息中增加了修復建議，比如變量名稱寫錯或者查找不到 import 的代碼包</p><div><div><pre><code><span style="color:#393a34"><span style="color:#00009f">import</span><span> sub </span><span style="color:#00009f">as</span><span> s1</span></span><span style="color:#393a34"><span>The_first_kcl_program </span><span style="color:#393a34">=</span><span> s</span><span style="color:#393a34">.</span><span>The_first_kcl_program</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><p style="color:#1c1e21; text-align:start"><img alt="did you mean" height="186" src="https://kcl-lang.io/zh-CN/assets/images/did-you-mean-c2cb0ea05c662fa22633d564216676b5.png" width="1134" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start"><img alt="try-kcl-mod-add" height="284" src="https://kcl-lang.io/zh-CN/assets/images/try-kcl-mod-add-465bb8082896a1c61c1ec9e698bf9222.png" width="1048" referrerpolicy="no-referrer"></p><h3>🚀 語言編寫體驗優化<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23-%25E8%25AF%25AD%25E8%25A8%2580%25E7%25BC%2596%25E5%2586%2599%25E4%25BD%2593%25E9%25AA%258C%25E4%25BC%2598%25E5%258C%2596" target="_blank">​</a></h3><h4>去掉了部分代碼塊中的縮進檢查<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E5%258E%25BB%25E6%258E%2589%25E4%25BA%2586%25E9%2583%25A8%25E5%2588%2586%25E4%25BB%25A3%25E7%25A0%2581%25E5%259D%2597%25E4%25B8%25AD%25E7%259A%2584%25E7%25BC%25A9%25E8%25BF%259B%25E6%25A3%2580%25E6%259F%25A5" target="_blank">​</a></h4><p style="color:#1c1e21; text-align:start">在 KCL 新版本中，我們取消了配置代碼塊的嚴格縮進檢查，如果 KCL 代碼寫成這樣</p><div><div><pre><code><span style="color:#393a34"><span>schema TestIndent</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span>    name</span><span style="color:#393a34">:</span><span></span><span>str</span></span><span style="color:#393a34"><span>    msg</span><span style="color:#393a34">:</span><span></span><span>str</span></span><span style="color:#393a34"><span></span><span>id</span><span style="color:#393a34">:</span><span></span><span>int</span></span><span style="color:#393a34"><span>test_indent </span><span style="color:#393a34">=</span><span> TestIndent </span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>                    name </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"test"</span></span><span style="color:#393a34"><span>  msg </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"test"</span></span><span style="color:#393a34"><span></span><span>id</span><span></span><span style="color:#393a34">=</span><span></span><span style="color:#36acaa">1</span></span><span style="color:#393a34"><span style="color:#393a34">}</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><p style="color:#1c1e21; text-align:start">使用 kcl fmt 命令會可以一鍵格式化</p><p style="color:#1c1e21; text-align:start"><img alt="kcl-fmt" height="834" src="https://kcl-lang.io/zh-CN/assets/images/kclfmt-d4f2588cc56651010ca6444150529d55.gif" width="942" referrerpolicy="no-referrer"></p><h4>函數類型註解<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E5%2587%25BD%25E6%2595%25B0%25E7%25B1%25BB%25E5%259E%258B%25E6%25B3%25A8%25E8%25A7%25A3" target="_blank">​</a></h4><p style="color:#1c1e21; text-align:start">在 KCL 新版本中，新增了函數類型註解，您可以在新版本的 KCL 中編寫如下帶有類型註解的 lambda。</p><div><div><pre><code><span style="color:#393a34"><span>schema Test</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span>    name</span><span style="color:#393a34">:</span><span></span><span>str</span></span><span style="color:#393a34"><span>identity</span><span style="color:#393a34">:</span><span></span><span style="color:#393a34">(</span><span>Test</span><span style="color:#393a34">)</span><span></span><span style="color:#393a34">-</span><span style="color:#393a34">&gt;</span><span></span><span>bool</span><span></span><span style="color:#393a34">=</span><span></span><span style="color:#00009f">lambda</span><span> res</span><span style="color:#393a34">:</span><span> Test </span><span style="color:#393a34">-</span><span style="color:#393a34">&gt;</span><span></span><span>bool</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>    res</span><span style="color:#393a34">.</span><span>name </span><span style="color:#393a34">==</span><span></span><span style="color:#e3116c">"hello"</span></span><span style="color:#393a34"><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>c </span><span style="color:#393a34">=</span><span> identity</span><span style="color:#393a34">(</span><span>Test </span><span style="color:#393a34">{</span><span> name </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"hello"</span><span></span><span style="color:#393a34">}</span><span style="color:#393a34">)</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><h3>🏄 API 更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23-api-%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h3><ul><li>新增 KCL 單元測試 API:<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F904" target="_blank">https://github.com/kcl-lang/kcl/pull/904</a></em></li><li>KCL Schema 模型解析 API 增強版 GetFullSchemaType 支持獲取帶有三方庫的 KCL 包相關信息和 Schema 屬性默認值<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F906" target="_blank">https://github.com/kcl-lang/kcl/pull/906</a></em></li><li>新增 KCL 符號重命名 API:<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F890" target="_blank">https://github.com/kcl-lang/kcl/pull/890</a></em></li></ul><h3>🐞 其他更新及錯誤修復<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23-%25E5%2585%25B6%25E4%25BB%2596%25E6%259B%25B4%25E6%2596%25B0%25E5%258F%258A%25E9%2594%2599%25E8%25AF%25AF%25E4%25BF%25AE%25E5%25A4%258D" target="_blank">​</a></h3><ul><li>KCL 命令行工具支持輸入文件通配符進行編譯<span>&nbsp;</span><code>kcl path/to/*.k</code></li><li>修復部分場景字典類型的類型推導錯誤<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F900" target="_blank">https://github.com/kcl-lang/kcl/pull/900</a></li><li>修復 Schema 參數的檢查<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F877%2Ffiles" target="_blank">https://github.com/kcl-lang/kcl/pull/877/files</a></li><li>修復了帶有三方庫的 KCL 程序編譯緩存失效的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F841" target="_blank">https://github.com/kcl-lang/kcl/pull/841</a></li><li>錯誤信息中補全缺失的 lambda 的類型信息<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F771" target="_blank">https://github.com/kcl-lang/kcl/pull/771</a></li><li>修復了診斷信息中單數和複數的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F769" target="_blank">https://github.com/kcl-lang/kcl/pull/769</a></li><li>修復了帶有類型註解賦值語句中類型檢查失效的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F757" target="_blank">https://github.com/kcl-lang/kcl/pull/757</a></li><li>增加了檢查，禁止同名的 import 語句<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F727" target="_blank">https://github.com/kcl-lang/kcl/pull/727</a></li></ul><h2>IDE &amp; 工具鏈更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23ide--%25E5%25B7%25A5%25E5%2585%25B7%25E9%2593%25BE%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h2><h3>IDE 更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23ide-%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h3><h4>KCL IDE 插件支持了對符號的引用跳轉及重命名功能<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-ide-%25E6%258F%2592%25E4%25BB%25B6%25E6%2594%25AF%25E6%258C%2581%25E4%25BA%2586%25E5%25AF%25B9%25E7%25AC%25A6%25E5%258F%25B7%25E7%259A%2584%25E5%25BC%2595%25E7%2594%25A8%25E8%25B7%25B3%25E8%25BD%25AC%25E5%258F%258A%25E9%2587%258D%25E5%2591%25BD%25E5%2590%258D%25E5%258A%259F%25E8%2583%25BD" target="_blank">​</a></h4><p style="color:#1c1e21; text-align:start">IDE 增加了對符號的引用跳轉支持，使用<code>轉到引用</code>或<code>查找所有引用</code>：</p><p style="color:#1c1e21; text-align:start"><img alt="find-ref" height="880" src="https://kcl-lang.io/zh-CN/assets/images/FindRefs-8770a657ab949aae7dd82f9e52fc5090.png" width="1682" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">對符號進行<code>重命名</code>：</p><p style="color:#1c1e21; text-align:start"><img alt="rename" height="513" src="https://kcl-lang.io/zh-CN/assets/images/Rename-82061ac2cb03a77c542d5a4474797228.gif" width="832" referrerpolicy="no-referrer"></p><h4>IDE 支持對引用語句和聯合類型的格式化<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23ide-%25E6%2594%25AF%25E6%258C%2581%25E5%25AF%25B9%25E5%25BC%2595%25E7%2594%25A8%25E8%25AF%25AD%25E5%258F%25A5%25E5%2592%258C%25E8%2581%2594%25E5%2590%2588%25E7%25B1%25BB%25E5%259E%258B%25E7%259A%2584%25E6%25A0%25BC%25E5%25BC%258F%25E5%258C%2596" target="_blank">​</a></h4><p style="color:#1c1e21; text-align:start">優化了引用語句與其他代碼塊之間的空行行為（格式化為一個空行）和聯合類型的空格行為（多個類型之間格式化為以<span>&nbsp;</span><code>|</code><span>&nbsp;</span>間隔）：</p><p style="color:#1c1e21; text-align:start"><img alt="fmt" height="269" src="https://kcl-lang.io/zh-CN/assets/images/Format-bacf4e759fcb2a5a29f0f219b4dfa8ec.gif" width="590" referrerpolicy="no-referrer"></p><h4>KCL IDE 插件基於新增了大量補全提示<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-ide-%25E6%258F%2592%25E4%25BB%25B6%25E5%259F%25BA%25E4%25BA%258E%25E6%2596%25B0%25E5%25A2%259E%25E4%25BA%2586%25E5%25A4%25A7%25E9%2587%258F%25E8%25A1%25A5%25E5%2585%25A8%25E6%258F%2590%25E7%25A4%25BA" target="_blank">​</a></h4><p style="color:#1c1e21; text-align:start">針對<strong>配置定義</strong>這一核心環節，簡化用戶基於模型編寫配置的心智、提升配置編輯的效率。此外，增強了調用內置函數時參數補全。talk is cheap，我們直接來看效果：</p><p style="color:#1c1e21; text-align:start"><img alt="func-completion" height="401" src="https://kcl-lang.io/zh-CN/assets/images/module-function-completion-bee0f3843b5a931de523f25776bbb7a6.gif" width="850" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start"><img alt="conf-completion" height="302" src="https://kcl-lang.io/zh-CN/assets/images/config-completion-99e49bbda5b33f7ff7fb3ecb54050d82.gif" width="640" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">而對於<strong>模型設計</strong>環節，也新增了對 docstring 的快速生成，減少手敲 boilerplate：</p><p style="color:#1c1e21; text-align:start"><img alt="gen-docstring" height="728" src="https://kcl-lang.io/zh-CN/assets/images/docstring-gen-882f1ecbd5845a659b1f0623b58ccb13.gif" width="1023" referrerpolicy="no-referrer"></p><h4>性能提升<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E6%2580%25A7%25E8%2583%25BD%25E6%258F%2590%25E5%258D%2587" target="_blank">​</a></h4><ul><li>KCL 設計並重構了新的語義模型以及支持最近符號查找和符號語義信息查詢 API</li><li>IDE 補全，跳轉和懸停等功能實現遷移至新語義模型，顯著降低 IDE 功能開發難度和代碼量</li><li>KCL 編譯器支持語法增量解析以及語義增量檢查，大部分場景提升 KCL 編譯構建和 IDE 插件使用性能<span>&nbsp;</span><strong>5-10 倍</strong></li></ul><h4>其他更新和錯誤修復<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E5%2585%25B6%25E4%25BB%2596%25E6%259B%25B4%25E6%2596%25B0%25E5%2592%258C%25E9%2594%2599%25E8%25AF%25AF%25E4%25BF%25AE%25E5%25A4%258D" target="_blank">​</a></h4><ul><li>KCL IntelliJ 插件適配 2023.2+ 版本</li><li>支持對標準庫和內置函數的懸停提示，支持對 KCL 代碼錯誤的快速修復</li><li>優化了對引用語句和 union 類型的格式化輸出。</li><li>修復了語言服務虛擬文件系統相關的 bug：文件維度的變更引發會語言服務崩潰，必須重啓 IDE 恢復，現已修復。</li><li>支持包管理工具引入的外部包依賴 import 語句補全</li><li>修復函數參數未定義類型錯誤顯示位置</li></ul><h3>測試工具更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E6%25B5%258B%25E8%25AF%2595%25E5%25B7%25A5%25E5%2585%25B7%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">擔心您的 KCL 程序寫錯了，要不來測測 ？本次更新提供了全新的 KCL 測試工具，代碼好壞，一測便知 ！新的 KCL 測試工具支持使用 KCL 函數編寫單元測試並使用工具執行測試。</p><p style="color:#1c1e21; text-align:start">您可以在後綴名為 「_test.k」 文件中通過 lambda 表達式來編寫您的測試用例。</p><div><div><pre><code><span style="color:#393a34"><span style="color:#00009f">import</span><span></span><span style="color:#393a34">.</span><span>app</span></span><span style="color:#393a34"><em># Convert the `App` model into Kubernetes Deployment and Service Manifests</em></span><span style="color:#393a34"><span>test_kubernetesRender </span><span style="color:#393a34">=</span><span></span><span style="color:#00009f">lambda</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>    a </span><span style="color:#393a34">=</span><span> app</span><span style="color:#393a34">.</span><span>App </span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>        name </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"app"</span></span><span style="color:#393a34"><span>        containers</span><span style="color:#393a34">.</span><span>ngnix </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>            image </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"ngnix"</span></span><span style="color:#393a34"><span>            ports </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">[</span><span style="color:#393a34">{</span><span>containerPort </span><span style="color:#393a34">=</span><span></span><span style="color:#36acaa">80</span><span style="color:#393a34">}</span><span style="color:#393a34">]</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>        service</span><span style="color:#393a34">.</span><span>ports </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">[</span><span style="color:#393a34">{</span><span> port </span><span style="color:#393a34">=</span><span></span><span style="color:#36acaa">80</span><span></span><span style="color:#393a34">}</span><span style="color:#393a34">]</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>    deployment_got </span><span style="color:#393a34">=</span><span> kubernetesRender</span><span style="color:#393a34">(</span><span>a</span><span style="color:#393a34">)</span></span><span style="color:#393a34"><span></span><span style="color:#00009f">assert</span><span> deployment_got</span><span style="color:#393a34">[</span><span style="color:#36acaa">0</span><span style="color:#393a34">]</span><span style="color:#393a34">.</span><span>kind </span><span style="color:#393a34">==</span><span></span><span style="color:#e3116c">"Deployment"</span></span><span style="color:#393a34"><span></span><span style="color:#00009f">assert</span><span> deployment_got</span><span style="color:#393a34">[</span><span style="color:#36acaa">1</span><span style="color:#393a34">]</span><span style="color:#393a34">.</span><span>kind </span><span style="color:#393a34">==</span><span></span><span style="color:#e3116c">"Service"</span></span><span style="color:#393a34"><span style="color:#393a34">}</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><p style="color:#1c1e21; text-align:start">通過 kcl test 命令可以運行這個測試用例並查看測試結果。</p><p style="color:#1c1e21; text-align:start">測試通過會將得到如下結果：</p><p style="color:#1c1e21; text-align:start"><img alt="test-pass" height="132" src="https://kcl-lang.io/zh-CN/assets/images/test-pass-6a4552ce41be999dfcc5ce13207545c5.png" width="1138" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">如果測試失敗了，kcl test 會將輸出錯誤信息進行輸出。</p><p style="color:#1c1e21; text-align:start"><img alt="test-failed" height="180" src="https://kcl-lang.io/zh-CN/assets/images/test-failed-c371087c0b1b18b877fd3b38fa98ab8f.png" width="1152" referrerpolicy="no-referrer"></p><h3>KCL 包管理工具<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586%25E5%25B7%25A5%25E5%2585%25B7" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">新增 update 命令用於自動更新本地依賴，使用<span>&nbsp;</span><code>kcl mod update</code><span>&nbsp;</span>將會自動下載本地缺失的三方庫。具體參考:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkpm%2Fpull%2F212" target="_blank">https://github.com/kcl-lang/kpm/pull/212</a></p><h3>KCL 導入工具發佈<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-%25E5%25AF%25BC%25E5%2585%25A5%25E5%25B7%25A5%25E5%2585%25B7%25E5%258F%2591%25E5%25B8%2583" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">支持從 YAML/JSON/CRD/Terraform Schema 一鍵生成 KCL 配置/模型，實現自動化遷移。</p><p style="color:#1c1e21; text-align:start">如果您有如下 yaml 文件：</p><div><div><pre><code><span style="color:#393a34"><span style="color:#00a4db">apiVersion</span><span style="color:#393a34">:</span><span> apps/v1</span></span><span style="color:#393a34"><span style="color:#00a4db">kind</span><span style="color:#393a34">:</span><span> Deployment</span></span><span style="color:#393a34"><span style="color:#00a4db">metadata</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">name</span><span style="color:#393a34">:</span><span> nginx</span><span style="color:#393a34">-</span><span>deployment</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">labels</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">app</span><span style="color:#393a34">:</span><span> nginx</span></span><span style="color:#393a34"><span style="color:#00a4db">spec</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">replicas</span><span style="color:#393a34">:</span><span></span><span style="color:#36acaa">3</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">selector</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">matchLabels</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">app</span><span style="color:#393a34">:</span><span> nginx</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">template</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">metadata</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">labels</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">app</span><span style="color:#393a34">:</span><span> nginx</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">spec</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">containers</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">-</span><span></span><span style="color:#00a4db">name</span><span style="color:#393a34">:</span><span> nginx</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">image</span><span style="color:#393a34">:</span><span> nginx</span><span style="color:#393a34">:</span><span>1.14.2</span></span><span style="color:#393a34"><span></span><span style="color:#00a4db">ports</span><span style="color:#393a34">:</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">-</span><span></span><span style="color:#00a4db">containerPort</span><span style="color:#393a34">:</span><span></span><span style="color:#36acaa">80</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><p style="color:#1c1e21; text-align:start">通過命令<span>&nbsp;</span><code>kcl import test.yaml</code><span>&nbsp;</span>您可以將其轉換為 KCL 程序。</p><div><div><pre><code><span style="color:#393a34"><span style="color:#e3116c">"""</span></span><span style="color:#393a34"><span style="color:#e3116c">This file was generated by the KCL auto-gen tool. DO NOT EDIT.</span></span><span style="color:#393a34"><span style="color:#e3116c">Editing this file might prove futile when you re-run the KCL auto-gen generate command.</span></span><span style="color:#393a34"><span style="color:#e3116c">"""</span></span><span style="color:#393a34"><span>apiVersion </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"apps/v1"</span></span><span style="color:#393a34"><span>kind </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"Deployment"</span></span><span style="color:#393a34"><span>metadata </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>    name </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx-deployment"</span></span><span style="color:#393a34"><span>    labels </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>        app </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx"</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>spec </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>    replicas </span><span style="color:#393a34">=</span><span></span><span style="color:#36acaa">3</span></span><span style="color:#393a34"><span>    selector </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>        matchLabels </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>            app </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx"</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>    template </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>        metadata </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>            labels </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>                app </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx"</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span>        spec </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>            containers </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">[</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>                    name </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx"</span></span><span style="color:#393a34"><span>                    image </span><span style="color:#393a34">=</span><span></span><span style="color:#e3116c">"nginx:1.14.2"</span></span><span style="color:#393a34"><span>                    ports </span><span style="color:#393a34">=</span><span></span><span style="color:#393a34">[</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">{</span></span><span style="color:#393a34"><span>                            containerPort </span><span style="color:#393a34">=</span><span></span><span style="color:#36acaa">80</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">]</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">]</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span></span><span style="color:#393a34">}</span></span><span style="color:#393a34"><span style="color:#393a34">}</span></span></code></pre><div>
+   &nbsp;
+  </div></div></div><p style="color:#1c1e21; text-align:start">更多詳細內容請參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fdocs%2Fuser_docs%2Fguides%2Fworking-with-k8s%2Fadopt-from-kubernetes" target="_blank">一鍵從 Kubernetes 生態遷移到 KCL</a></p><h2>社區集成 &amp; 擴展更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E7%25A4%25BE%25E5%258C%25BA%25E9%259B%2586%25E6%2588%2590--%25E6%2589%25A9%25E5%25B1%2595%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h2><h3>KCL 三方庫市場 ArtifactHub<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-%25E4%25B8%2589%25E6%2596%25B9%25E5%25BA%2593%25E5%25B8%2582%25E5%259C%25BA-artifacthub" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">通過集成 artifacthub.io 我們構建了一個 KCL 三方庫市場，在這裏您儘可以大展您的才華，與我們一同分享您對 KCL 程序的獨特理解，您也可以盡情挑選，找到適合您自己的 KCL 三方庫 ！</p><p style="color:#1c1e21; text-align:start">打開首頁，直接搜索您需要的關鍵字，就能看到關於 KCL 三方庫的相關內容 ！</p><p style="color:#1c1e21; text-align:start"><img alt="artifachub-index" height="694" src="https://kcl-lang.io/zh-CN/assets/images/artifachub-index-aa5f2faa8ee5f265e3ff0b10531408ff.png" width="1114" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">在三方庫首頁，可以查看關於三方庫的詳細內容和相關文檔。</p><p style="color:#1c1e21; text-align:start"><img alt="pkg-page" height="694" src="https://kcl-lang.io/zh-CN/assets/images/pkg-page-7cb869241bab5d297ba22d1aa9b9d3de.png" width="1084" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">如果您不知道該如何使用這些三方庫，右側的按鈕可以為您喚起安裝頁面。</p><p style="color:#1c1e21; text-align:start"><img alt="install-pkg" height="664" src="https://kcl-lang.io/zh-CN/assets/images/install-pkg-80641923d4cf4b6972f6fb1857846446.png" width="1102" referrerpolicy="no-referrer"></p><p style="color:#1c1e21; text-align:start">歡迎大家來 artifacthub.io 為 KCL 社區貢獻您的三方庫，讓 KCL 社區變得更加豐富多彩！</p><p style="color:#1c1e21; text-align:start">貢獻指南：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fdocs%2Fuser_docs%2Fguides%2Fpackage-management%2Fhow-to%2Fpublish_pkg_to_ah" target="_blank">https://kcl-lang.io/docs/user_docs/guides/package-management/how-to/publish_pkg_to_ah</a></p><h2>其他更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E5%2585%25B6%25E4%25BB%2596%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h2><p style="color:#1c1e21; text-align:start">完整更新和錯誤修復列表詳見:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fcompare%2Fv0.6.0...v0.7.0" target="_blank">https://github.com/kcl-lang/kcl/compare/v0.6.0...v0.7.0</a></p><h2>文檔更新<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E6%2596%2587%25E6%25A1%25A3%25E6%259B%25B4%25E6%2596%25B0" target="_blank">​</a></h2><p style="color:#1c1e21; text-align:start">KCL 網站新增 KCL v0.7.0 文檔內容並支持版本化語義選項，目前支持 v0.4.x, v0.5.x, v0.6.x 和 v0.7.0 版本選擇，同時歡迎社區同學進行文檔共建。</p><h2>社區動態<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E7%25A4%25BE%25E5%258C%25BA%25E5%258A%25A8%25E6%2580%2581" target="_blank">​</a></h2><h3>KCL 正式成為 CNCF 沙箱項目<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23kcl-%25E6%25AD%25A3%25E5%25BC%258F%25E6%2588%2590%25E4%25B8%25BA-cncf-%25E6%25B2%2599%25E7%25AE%25B1%25E9%25A1%25B9%25E7%259B%25AE" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">🎉 🎉 🎉 2023 年 9 月 20 日，KCL 項目通過了全球頂級開源基金會雲原生計算基金會（CNCF）技術監督委員會評定，正式成為 CNCF 沙箱項目。</p><p style="color:#1c1e21; text-align:start">更多詳情詳見:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fblog%2F2023-09-19-kcl-joining-cncf-sandbox%2F" target="_blank">https://kcl-lang.io/blog/2023-09-19-kcl-joining-cncf-sandbox/</a></p><h3>特別鳴謝<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E7%2589%25B9%25E5%2588%25AB%25E9%25B8%25A3%25E8%25B0%25A2" target="_blank">​</a></h3><p style="color:#1c1e21; text-align:start">感謝社區的小夥伴在 KCL v0.7.0 版本中的貢獻，以下排名不分先後</p><ul><li>感謝 @jakezhu9 對 KCL Import 工具 Terraform Schema 到 KCL Schema 轉換的貢獻 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-go%2Fpull%2F152" target="_blank">https://github.com/kcl-lang/kcl-go/pull/152</a></em></li><li>感謝 @jakezhu9 對 kpm 集成 Import 工具的貢獻 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkpm%2Fpull%2F194" target="_blank">https://github.com/kcl-lang/kpm/pull/194</a></em></li><li>感謝 @zwpaper 對 KCL 文檔和 Tree Sitter Grammar 做出的貢獻 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Ftree-sitter-kcl%2Fpull%2F1" target="_blank">https://github.com/kcl-lang/tree-sitter-kcl/pull/1</a></em><span>&nbsp;</span>等</li><li>感謝 @jakezhu9 對 KCL 語法解析單元測試的改進，將部分測試用例統一遷移到使用 snaptest 框架 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F794" target="_blank">https://github.com/kcl-lang/kcl/pull/794</a></em><span>&nbsp;</span>等</li><li>感謝 @opsnull 對 KCL 官網文檔中代碼示例的糾錯和貢獻 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F182" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/182</a></em></li><li>感謝 @prahaladramji 對 KCL IntelliJ 插件格式化功能的糾錯和優化 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fintellij-kcl%2Fpull%2F15" target="_blank">https://github.com/kcl-lang/intellij-kcl/pull/15</a></em></li><li>感謝 @jakezhu9 對 KCL benchmark 由單線程 Rc 到 Arc 的改進，對 KCL 導入工具中關於引用路徑的 bug 修復 🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-go%2Fpull%2F170" target="_blank">https://github.com/kcl-lang/kcl-go/pull/170</a></em><span>&nbsp;</span>等</li><li>感謝 @liangyuanpeng 為 KCL 模型貢獻 karmada 模型包，歡迎！🙌<span>&nbsp;</span><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fartifacthub%2Fpull%2F48%2Ffiles" target="_blank">https://github.com/kcl-lang/artifacthub/pull/48/files</a></em></li><li>感謝 @cr7258 對 KCL 模型庫以及 KCL 文檔的貢獻 🙌 
+  <ul><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F203" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/203</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F209" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/209</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F210" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/210</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F211" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/211</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fmodules%2Fpull%2F67" target="_blank">https://github.com/kcl-lang/modules/pull/67</a></em></li></ul></li><li>感謝 @XiaoK29 為 KCL IDE 的懸停和引用查找功能代碼架構重構以及 KCL 文檔的貢獻 🙌 
+  <ul><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F887" target="_blank">https://github.com/kcl-lang/kcl/pull/887</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fpull%2F899" target="_blank">https://github.com/kcl-lang/kcl/pull/899</a></em></li><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl-lang.io%2Fpull%2F205" target="_blank">https://github.com/kcl-lang/kcl-lang.io/pull/205</a></em></li></ul></li><li>感謝 @MeenuyD, @negz 對 Crossplane KCL Composition Functions 集成的討論與支持 🙌 
+  <ul><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fissues%2F885" target="_blank">https://github.com/kcl-lang/kcl/issues/885</a></em></li></ul></li><li>感謝 @kolloch 對 Bazel KCL 構建規則腳本的寶貴反饋 🙌 
+  <ul><li><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Frules_kcl%2Fpull%2F2" target="_blank">https://github.com/kcl-lang/rules_kcl/pull/2</a></em></li></ul></li></ul><h2>下一步計劃<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2Fzh-CN%2Fblog%2F2023-11-30-kcl-0.7.0-release%2F%23%25E4%25B8%258B%25E4%25B8%2580%25E6%25AD%25A5%25E8%25AE%25A1%25E5%2588%2592" target="_blank">​</a></h2><p style="color:#1c1e21; text-align:start">感謝所有 KCL 用戶和社區小夥伴在此次版本更新過程中提出的寶貴反饋與建議。預計 2024 年 2 月，我們將發佈 KCL v0.8.0 版本，更多詳情請參考 KCL 2024 路線規劃，和 KCL v0.8.0 Milestone，如果您有更多的想法和需求，歡迎在 KCL Github 倉庫發起 Issues 或討論，也歡迎加入我們的社區進行交流 🙌 🙌 🙌</p><p style="color:#1c1e21; text-align:start">更多其他資源請參考：</p><ul><li><p>KCL 網站:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkcl-lang.io%2F" target="_blank">https://kcl-lang.io/</a></p></li><li><p>Kusion 網站:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkusionstack.io%2F" target="_blank">https://kusionstack.io/</a></p></li><li><p>KCL GitHub 倉庫:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl" target="_blank">https://github.com/kcl-lang/kcl</a></p></li><li><p>Kusion GitHub 倉庫:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKusionStack%2Fkusion" target="_blank">https://github.com/KusionStack/kusion</a></p></li><li><p>KCL v0.8.0 Milestone:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fmilestone%2F8" target="_blank">https://github.com/kcl-lang/kcl/milestone/8</a></p></li><li><p>KCL 2024 路線規劃:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fkcl%2Fissues%2F882" target="_blank">https://github.com/kcl-lang/kcl/issues/882</a></p></li><li><p>KCL 社區:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkcl-lang%2Fcommunity" target="_blank">https://github.com/kcl-lang/community</a></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 09:52:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269079/kcl-0-7-0-released</guid>
+            <link>https://www.oschina.net/news/269079/kcl-0-7-0-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[SQL 質量管理 | SQLE 2.2311.0 來啦！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1><span style="color:#2584b5">什麼是 SQLE？</span></h1><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>SQLE 是一款全方位的 SQL 質量管理平台，覆蓋開發至生產環境的 SQL 審核和管理。支持主流的開源、商業、國產數據庫，為開發和運維提供流程自動化能力，提升上線效率，提高數據質量。</span></p><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>更多功能特性及使用場景：《</span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2NzgwMTg0MA%3D%3D%26mid%3D2247511712%26idx%3D1%26sn%3D6919bd72d338367b49af6eabcf8f30cb%26chksm%3Dfc954c3fcbe2c529696cc3a779e8baf74646830ad9ef6a83a78d8664f5e2b8ec2d2d7b450a61%26scene%3D21%23wechat_redirect" target="_blank"><span>讓所有人不再為 SQL 問題頭疼</span></a><span>》</span></p><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>以下是 SQLE 2.2311.0&nbsp;正式版的主要功能介紹和 Release Notes。</span></p><h1><span style="color:#2584b5">主要功能介紹</span></h1><h2><span style="color:#2584b5">社區版</span></h2><h3><span style="color:#2584b5">1、工單支持上傳 ZIP 文件</span></h3><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">本週我們進一步優化了工單審核的文件支持範圍！</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><span>現在，您可以通過上傳 ZIP 格式文件的方式，輕鬆審核壓縮包中包含的 SQL 語句。</span></span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" height="1606" src="https://oscimg.oschina.net/oscnet/up-8f3cd765173485d3bada1369cc80177eb6b.png" width="2940" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><span style="color:#000000">ZIP 文件上傳</span></p><h3><span style="color:#2584b5">2、新增 6&nbsp;條 MySQL 規則</span></h3><ul><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">禁止 CHAR，VARCHAR 類型字段字符長度總和超過閾值</span></p></li><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">禁止使用空間字段和空間索引</span></p></li><li><p><span>禁止使用全文索引</span></p></li><li><p><span>SQL 執行計劃中 type 字段建議滿足規定的級別（可幫助用戶避免出現全表掃描）</span></p></li><li><p><span>WHERE 子句禁止出現 NULL 值計算 COLUMN_A=NULL，可以寫成 COLUMN_A IS NULL</span></p></li><li><p><span>禁止使用 EVENT</span></p></li></ul><h3><span style="color:#2584b5">3、JetBrains 插件支持快捷切換數據源</span></h3><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">本次更新針對 JetBrains 插件審核流程進行了改進，以提升用戶體驗。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">現在，用戶可以更便捷地切換待審核的數據源和模式。在之前的版本中，待審核的數據源需要通過全局配置進行設置，對於研發人員在日常工作中涉及多個項目或多個環境（例如測試、預生產）的情況，每次都需要在配置文件中手動設置待審核的數據源，這給操作帶來了不便。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">通過本次優化，<strong>我們將待審核數據源的管理集成到右下角，使用戶能夠輕鬆查看和更改當前的數據源，省去了繁瑣的全局配置步驟。</strong>這一改進將為用戶提供更直觀、高效的審核體驗。</span></p><h2><span style="color:#2584b5">企業版</span></h2><h3><span style="color:#2584b5">1、新增公告欄</span></h3><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><strong><span>本期我們發佈了一個令人期待的新功能：公告欄！</span></strong></span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span>現在，您可以通過這個便捷渠道傳遞重要信息。無論是公司內部通知、重要事件的通告還是團隊動態，公告欄都能幫助您實現高效的信息傳遞和溝通。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d0c787726c5971dee3f673630fd9ad42d01.png" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><span>公告欄效果</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center">&nbsp;</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span>下面是簡單的使用方式預覽：</span></p><ol><li><p style="margin-left:0; margin-right:0"><span>在登錄後，系統將通過彈窗方式展示系統公告。</span></p></li><li><p style="margin-left:0; margin-right:0"><span>彈窗關閉後，您仍可以通過點擊右上角的小喇叭標誌來查看系統公告。</span></p></li><li><p style="margin-left:0; margin-right:0"><span>平台管理員具有編輯系統公告的權限，可以隨時編輯和更新公告的內容。</span></p></li></ol><h3><span style="color:#2584b5">2、新增達夢慢日誌掃描</span></h3><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span>本期在達夢插件上新增了慢日誌掃描任務功能，您可以通過這個功能輕鬆地掃描和分析數據庫中的慢日誌，以便及時發現和解決潛在的性能問題。</span></p><h3><span style="color:#2584b5">3、管控列表支持按 SQL 發送端過濾來源</span></h3><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span>如果您通過慢日誌記錄了各種執行的 SQL（如開發調試、測試和業務執行的 SQL 等），但只想關注特定的 SQL，如應用程序執行的業務 SQL 時。可以利用慢日誌記錄的 IP 進行過濾，排除其他不相關的 SQL 審核記錄。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-f7313ab62e7939f80070bb56e413ef01887.png" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><span>IP 過濾</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left">&nbsp;</p><h1><span style="color:#2584b5">Release 信息</span></h1><h2><span style="color:#2584b5">社區版</span></h2><p><u>新特性：</u></p><ul><li><p style="color:#000000; margin-left:0; margin-right:0"><span>[#2049] 新增 6 條 MySQL 規則</span></p></li><li><p style="color:#000000; margin-left:0; margin-right:0"><span>[#2078] 智能掃描支持華為 RDS MySQL 類型（V3）</span></p></li><li><p style="color:#000000; margin-left:0; margin-right:0"><span>[#2080] JetBrains 插件支持快捷切換數據源</span></p></li><li><p style="color:#000000; margin-left:0; margin-right:0"><span>[#1969] 工單支持上傳&nbsp;ZIP&nbsp;文件</span></p></li></ul><p><u>優化：</u></p><ul><li><p><span>[#1973] 優化 UI 交互，解決使用 SQL 審核時容易重複觸發的問題</span></p></li><li><p><span>[#2067] 進行 SQL 審核時，SQL 輸入框增加空值判斷</span></p></li><li><p><span>[#2022] 優化規則建議描述</span></p></li><li><p><span>[#2090] 優化 SQL 管控頁面的 pass sql 的標籤和審核結果列的寬度</span></p></li></ul><p><u>Bug 修復：</u></p><ul><li><p><span>[#1983][#1980][#1955][#2027][#1994][#2018][#2028][#2043][#2089] 修復審核規則缺陷</span></p></li><li><p><span>[#1977] 修復 SQL 審核頁面的「重置」按鈕不生效的問題</span></p></li><li><p><span>[#2074] 修復數據源頁面切到非第一分頁時，搜索任意數據源，結果為空的問題</span></p></li><li><p><span>[#2015] 修復審核創建或修改索引的 SQL 語句時，報錯獲取索引選擇性失敗的問題</span></p></li><li><p><span>[#2031] 解決創建工單頁面「重置所有內容」按鈕功能異常的問題</span></p></li><li><p><span>[#2053] 修復獲取 SQL 審核記錄列表，解析空的 tag 報錯的問題</span></p></li></ul><h2><span style="color:#2584b5">企業版</span></h2><h3>&nbsp;</h3><p><u>新特性：</u></p><ul><li><p><span>[actiontech/sqle-ee/issues/1122] 增加系統公告</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1149] SQL 管控列表支持對觸發規則進行篩選</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1215] 支持 TDSQL 透傳 SQL</span></p></li></ul><p><u>優化：</u></p><ul><li><p><span>[actiontech/sqle-ee/issues/1151] scannerd 增加查看版本號的子命令</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1188] 優化 SQL 管控頁面審核等級過濾方式</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1191] SQL 管控列表新增 SQL 發起端信息篩選功能</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1210] 調整 SQL 管控列表的默認排序設</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1241] 調整 SQL 管控界面的問題 SQL 計算方式，僅包含 error，warn 級別</span></p></li></ul><p><u>Bug 修復：</u></p><ul><li><p><span>[actiontech/sqle-ee/issues/1179] 解決智能掃描中 SQL 指紋過長無法保存的問題</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1175] 解決在 JetBrains 插件中使用帶特殊字符的密碼時報錯的問題</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1037] 解決使用飛書審核時發生 panic 的問題</span></p></li><li><p><span>[actiontech/sqle-ee/issues/1182] 修復 MySQL 慢日誌掃描任務和一鍵 SQL 審核結果不一致的問題</span></p></li><li><p><span>[actiontech/sqle-ee/issues/979] 修復 SQL Server 審核時，預檢查失敗的問題</span></p></li></ul><p>&nbsp;</p><p style="color:black; margin-left:0; margin-right:0; text-align:left">&nbsp;</p><h1><span style="color:#2584b5">體驗環境</span></h1><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>我們同時提供了 SQLE 社區版和企業版的線上 DEMO 環境，可以通過訪問社區官網獲取入口，<strong>目前已更新為 SQLE 3.0 版本。</strong></span></p><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>社區版：http://demo.sqle.actionsky.com/</span></p><p style="color:black; margin-left:0; margin-right:0; text-align:left"><span>企業版：http://demo.sqle.actionsky.com:8889/</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:left"><span>登錄信息：用戶名 admin 密碼 admin。登錄後您可以輕鬆體驗 SQLE 的豐富功能。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:left"><span>部署文檔：https://actiontech.github.io/sqle-docs/docs/deploy-manual/intro</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:left"><span>🤗 請將任何 SQLE 的 Bug、問題和需求提交到 SQLE GitHub Issue。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:left">&nbsp;</p><p style="color:#000000; margin-left:0; margin-right:0; text-align:center"><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2NzgwMTg0MA%3D%3D%26mid%3D2247512337%26idx%3D2%26sn%3Df2ce8f12aeed0d8e710179074d11e07f%26chksm%3Dfc95538ecbe2da98b9e116bc8b11861f2a99d70849d74dc2052f06a8f6570ab6b3008dc16f1f%26scene%3D21%23wechat_redirect" target="_blank"><span style="color:#000000"><span style="background-color:#ffffff; color:#000000">🎁</span>&nbsp;</span>SQL 質量提升官獲獎名單已公佈，點擊查看</a></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:center"><strong><span>投稿文章會在本月排期發佈敬請期待！</span></strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 09:46:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269076/sqle-2-2311-0-released</guid>
+            <link>https://www.oschina.net/news/269076/sqle-2-2311-0-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[企業微信 Java WECOM-SDK 1.2.4 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#363c42; text-align:start"><span><a href="https://gitee.com/felord/wecom-sdk"><span><strong><span>WECOM-SDK</span></strong></span></a></span><span> 是開源的企業微信開放 API 的 Java 實現，是目前最完整的 Java 實現。目前已經實現了企業微信通訊錄管理、客戶管理、上下游、微信客服、素材管理、消息推送、企微機器人、身份驗證、應用管理、彙報、收集表、考勤等相關接口，開發人員不需要很高的學習成本就能快速優雅地接入企業微信。</span></p><p style="color:#363c42; text-align:start"><span>本次更新支持企業微信 4.1.12 版本新特性，實現了直播 API，同時修復了一些 BUG，具體參見</span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffelord.cn%2Fwecom%2Fchangelog.html%231-2-x" target="_blank"><span>更新説明</span></a></span><span>。</span></p><p style="color:#363c42; text-align:start"><span><strong><span>倉庫地址</span></strong></span></p><p style="color:#363c42; text-align:start"><span>gitee: </span><span><a href="https://gitee.com/felord/wecom-sdk"><span><strong><span>https://gitee.com/felord/wecom-sdk</span></strong></span></a></span></p><p style="color:#363c42; text-align:start"><span>github: </span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FNotFound403%2Fwecom-sdk" target="_blank"><span><strong><span>https://github.com/NotFound403/wecom-sdk</span></strong></span></a></span></p><p style="color:#363c42; text-align:start"><span><strong><span>開發文檔</span></strong></span></p><p style="color:#363c42; text-align:start"><span>文檔：</span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffelord.cn%2Fwecom%2Foverview.html" target="_blank"><span>https://felord.cn/wecom/overview.html</span></a></span></p><p style="color:#363c42; text-align:start"><span><strong><span>特性</span></strong></span></p><ul><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>支持多企業微信同時配置作業</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>支持響應式，高性能</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>集成方便，適用於各種 Java 生態</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>學習成本低</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>目前實現企業微信接口</span><span><strong><span>200</span></strong></span><span>多個，能滿足大部分企業微信業務場景的需求</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>全參數封裝，入參、出參高度語義化封裝，再也不擔心組織參數、解析參數的問題</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>實現統一回調，所有回調事件可集中異步處理，開發者只需要關心業務邏輯的開發</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>由 SDK 接管 AccessToken 生命週期，開發者無需關心 AccessToken 的管理。</span></p></li></ul><p style="color:#363c42; text-align:start"><span><strong><span>Maven 中央倉庫座標</span></strong></span></p><ul><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>普通版本</span></p></li></ul><pre><span><span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">dependency</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">groupId</span><span style="color:#80cbc4">&gt;</span>cn.felord<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">groupId</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">artifactId</span><span style="color:#80cbc4">&gt;</span>wecom-sdk<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">artifactId</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">version</span><span style="color:#80cbc4">&gt;</span>1.2.4<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">version</span><span style="color:#80cbc4">&gt;</span></span><span><span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">dependency</span><span style="color:#80cbc4">&gt;</span></span></pre><ul><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>響應式版本</span></p></li></ul><pre><span><span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">dependency</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">groupId</span><span style="color:#80cbc4">&gt;</span>cn.felord<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">groupId</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">artifactId</span><span style="color:#80cbc4">&gt;</span>rx-wecom-sdk<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">artifactId</span><span style="color:#80cbc4">&gt;</span></span><span> &nbsp;<span style="color:#80cbc4">&lt;</span><span style="color:#80cbc4">version</span><span style="color:#80cbc4">&gt;</span>1.2.4<span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">version</span><span style="color:#80cbc4">&gt;</span></span><span><span style="color:#80cbc4">&lt;/</span><span style="color:#80cbc4">dependency</span><span style="color:#80cbc4">&gt;</span></span></pre><p style="color:#363c42; text-align:start"><span><strong><span>採用技術棧</span></strong></span></p><ul><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>Retrofit2</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>Rxjava3</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>Okhttp4</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>Jackson2</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>XStream</span></p></li></ul><p style="color:#363c42; text-align:start"><span><strong><span>🚀1.2.4 更新</span></strong></span></p><ul><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>獲取客戶羣詳情接口，支持返回羣成員版本號</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>文件防泄漏的記錄，支持返回可信設備的設備編碼</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>新增二次驗證接口</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>獲取打卡日報/月報數據接口，支持返回工作日/休息日/節假日的加班時長，以及對應的加班費/調休數據</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>獲取審批申請詳情接口，對於新提交的補卡審批單，在補卡控件中返回打卡日期</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>增加獲取 launch_code 接口</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>增加創建和修改打卡規則接口</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>實現直播 API</span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>修復更正標籤參數錯誤的問題 </span><span><a href="https://gitee.com/felord/wecom-sdk/issues/I8HRXH"><span>#I8HRXH</span></a></span></p></li><li><p style="color:var(--text-color); margin-left:.5rem; margin-right:0"><span>修復打卡接口下 getcheckinschedulist 返回錯誤的問題 </span><span><a href="https://gitee.com/felord/wecom-sdk/issues/I8H34C"><span>#I8H34C</span></a></span></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 08:13:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269054/wecom-sdk-1-2-4-released</guid>
+            <link>https://www.oschina.net/news/269054/wecom-sdk-1-2-4-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[kunlun-admin v1.4.0 發佈，崑崙管理系統]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">崑崙管理系統 v1.4.0 發佈了！</p><h4>更新日誌</h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1、升級 Umi 版本至 4.x；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">2、升級 Antd 版本至 5.x，並更新其他組件版本；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">3、登錄頁面調整；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">4、優化並修復前端及後台若干問題&nbsp;。</span></p><h4><strong>系統介紹</strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">崑崙管理系統是一套基於前後端分離架構的後台管理系統。kunlun-web 基於 React + Umi (烏米) + Ant Design (螞蟻金服) 構建開發，提供前端解決方案；kunlun-service 基於 SpringBoot 與 Spring Cloud 構建開發，提供後端基於微服務架構的解決方案。系統通過 Apache Shiro 與 Jwt 組件，用 token 進行數據交互認證，可快速開發並獨立進行 Docker 容器化部署。</p><h4>使用説明</h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1. &nbsp;npm 安裝前端依賴庫，並啓動 kunlun-home-web 與 kunlun-system-web 服務；<br> 2.&nbsp; 安裝並啓動 PostgreSQL；<br> 3.&nbsp; 安裝並啓動 RabbitMQ 和 Redis；<br> 4. &nbsp;啓動註冊中心服務 kunlun-register-service；<br> 5. &nbsp;依次啓動 kunlun-gateway-service、kunlun-basedata-service 與 kunlun-system-service 服務；<br> 6. &nbsp;訪問 URL：http://localhost:8000；<br> 7. &nbsp;輸入賬號：admin，密碼：admin 及驗證碼。</p><h4><strong>工具插件</strong></h4><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="up-80ade19e0fc813d73816b77c0f706a4dc07.png" height="300" src="https://oscimg.oschina.net/oscnet/up-80ade19e0fc813d73816b77c0f706a4dc07.png" width="359" referrerpolicy="no-referrer"></p><h4>頁面截圖</h4><p><img height="964" src="https://oscimg.oschina.net/oscnet/up-b7d2d49fc827a71697929b8b61b83dd0e8c.png" width="1918" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://oscimg.oschina.net/oscnet/up-cce01fbb8b8359e7b6c54f93ec5b4cbf8d1.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="937" src="https://oscimg.oschina.net/oscnet/up-814bbf60c4d4235dc562f0c9df214fe79c4.png" width="1920" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="934" src="https://oscimg.oschina.net/oscnet/up-d2167a0ae231dd61d9c0f5316a18c98259e.png" width="1920" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="935" src="https://oscimg.oschina.net/oscnet/up-69247d2af95f8644ac18c65f7cc6fac4874.png" width="1920" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="935" src="https://oscimg.oschina.net/oscnet/up-a1e572e6341a27114707bbfe0f5053f350c.png" width="1920" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="937" src="https://oscimg.oschina.net/oscnet/up-2389c610721734c66277a54a2a62a1fecd4.png" width="1920" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 07:47:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269048/kunlun-admin-1-4-0-released</guid>
+            <link>https://www.oschina.net/news/269048/kunlun-admin-1-4-0-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Node.js 21.3.0 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">Node.js 是能夠在服務器端運行 JavaScript 的開放源代碼、跨平台 JavaScript 運行環境，採用 Google 開發的 V8 運行代碼，使用事件驅動、非阻塞和異步輸入輸出模型等技術來提高性能。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Node.js 21.3.0 現已發佈，具體更新內容如下：</p><h4 style="text-align:start">Notable Changes</h4><p style="text-align:start"><span><strong><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>新的<code>--disable-warning</code>flag</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>此版本添加了一個新<code>--disable-warning</code>選項，允許用戶通過 code（即 DEP0025）或 type（即 DeprecationWarning、ExperimentalWarning）禁用特定警告。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>此選項與現有的<code>--warnings</code>和<code>--no-warnings</code>一起使用。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>例如，使用<code>node --disable-warning=DEP0025</code>執行以下腳本時，將不會發出 DEP0025<code>require('node:sys')</code>：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><pre style="text-align:start"><code><span><span style="color:#81a1c1">import</span><span style="color:#8fbcbb"> sys</span><span style="color:#81a1c1"> from</span><span style="color:#eceff4"> '</span><span style="color:#a3be8c">node:sys</span><span style="color:#eceff4">'</span><span style="color:#81a1c1">;</span></span></code></pre><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnodejs%2Fnode%2Fpull%2F50661" target="_blank">#50661</a></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><strong><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>將 </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></span>Root Certificates&nbsp;<span><strong><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>更新到 NSS 3.95</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>於 2023-11-16 發佈的 NSS 3.95 中的&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhg.mozilla.org%2Fprojects%2Fnss%2Fraw-file%2FNSS_3_95_RTM%2Flib%2Fckfw%2Fbuiltins%2Fcertdata.txt" target="_blank">certdata.txt。</a></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>以及將於 2023 年 12 月 19 日在 Firefox 121 中發佈的 NSS 版本。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>已添加證書：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>TrustAsia Global Root CA G3</li><li>TrustAsia Global Root CA G4</li><li>CommScope Public Trust ECC Root-01</li><li>CommScope Public Trust ECC Root-02</li><li>CommScope Public Trust RSA Root-01</li><li>CommScope Public Trust RSA Root-02</li></ul><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>已刪除的證書：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>Autoridad de Certificacion Firmaprofesional CIF A62634068</li></ul><p style="text-align:start"><strong><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Fast fs.writeFileSync with UTF-8 Strings</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>通過主要用 C++ 實現 UTF8 編碼字符串數據的高效快速路徑，增強了 writeFileSync 功能。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>此外，還利用改進後的<code>writeFileSync</code>功能優化了<code>appendFileSync</code>方法。出於簡單性和性能考慮，當前實現僅支持字符串數據，因為基準測試結果引起了人們對使用 Buffer 實現此目的的功效的擔憂。未來可能會探索優化和擴展，但目前的重點是最大限度地提高字符串數據操作的效率。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnodejs%2Fnode%2Fpull%2F49884" target="_blank">#49884</a></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><div style="text-align:start"><div><div style="text-align:left"><p style="margin-left:0; margin-right:0">詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnodejs.org%2Fen%2Fblog%2Frelease%2Fv21.3.0" target="_blank">查看發佈公告</a><span style="background-color:#ffffff; color:#333333">。</span></p></div></div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 06:10:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/269020/nodejs-21-3-0-released</guid>
+            <link>https://www.oschina.net/news/269020/nodejs-21-3-0-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Godot 4.2 發佈，提升穩定性、優化渲染功能]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Godot 4.2 已正式<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgodotengine.org%2Farticle%2Fgodot-4-2-arrives-in-style%2F" target="_blank">發佈</a></u>，它在穩定性提升、渲染優化和 AMD FSR 2.2 等方面有了更多的改進。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-c688a997f749b5f8ebbdad5801ac39b7e23.png" referrerpolicy="no-referrer"></p><p><strong>主要變化</strong></p><ul><li>提升穩定性</li><li>支持強制整數縮放 (<span style="background-color:#ffffff; color:#121212">forced integer scaling</span>)</li><li>支持 AMD FidelityFX Super Resolution 2.2（FSR 2.2）</li><li>為新的 XR 功能進行持續準備</li><li><strong>Wayland 支持即將到來</strong></li><li>新的光照貼圖去噪方法</li><li>渲染優化</li><li>改進的遊戲手柄支持</li><li>提供針對 ARM Linux 的官方構建</li></ul><p>下載地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgodotengine.org%2Fdownload%2Farchive%2F4.2-stable%2F" target="_blank">https://godotengine.org/download/archive/4.2-stable/</a></u></em></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 03:47:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268993/godot-4-2-arrives-in-style-stable</guid>
+            <link>https://www.oschina.net/news/268993/godot-4-2-arrives-in-style-stable</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[OpenResty 1.21.4.3 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>OpenResty 1.21.4.3 已於月前<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenresty.org%2Fen%2Fann-1021004003.html" target="_blank">發佈</a>，這是基於 nginx 1.21.4 core 的第三個 OpenResty 版本。</p><p>1.21.4.3 是一個補丁版本，解決了 NGINX HTTP/2 處理中的安全漏洞，攻擊者可以通過快速創建和取消大量 HTTP/2 streams 來利用該漏洞。</p><p>此漏洞被稱為 HTTP/2 Rapid Reset Attack，它繞過了服務器對併發流的限制，因為重置流的處理速度比新流的建立速度快，因此可能允許攻擊者使服務器過載。(CVE-2023-4487)</p><blockquote><p>OpenResty 是一個基於 Nginx 與 Lua 的高性能 Web 平台，其內部集成了大量精良的 Lua 庫、第三方模塊以及大多數的依賴項。用於方便地搭建能夠處理超高併發、擴展性極高的動態 Web 應用、Web 服務和動態網關。</p></blockquote><p>下載頁面提供了（可移植的）源代碼發行版、Win32/Win64 二進制發行版，以及適用於 Ubuntu、Debian、Fedora、CentOS、RHEL、OpenSUSE 和 Amazon Linux 的預構建二進制 Linux 軟件包。</p><p><strong>下載地址：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenresty.org%2Fen%2Fdownload.html" target="_blank">https://openresty.org/en/download.html</a></p><p>更多詳情可查看<span style="background-color:#f9fcf9; color:#3e423e"><span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenresty.org%2Fen%2Fchangelog-1021004.html" target="_blank">Change Log</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 03:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268985/openresty-1-21-4-3-released</guid>
+            <link>https://www.oschina.net/news/268985/openresty-1-21-4-3-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Android Studio Hedgehog (2023.1.1) 穩定版發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Android Studio 2023.1.1&nbsp;<span>穩定版</span><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F11%2Fandroid-studio-hedgehog-is-stable.html" target="_blank">已發佈</a></u><span>，代號 "</span>Hedgehog<span>"。</span></p><p>下載地址：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.android.com%2Fstudio%3Fhl%3Dzh-cn" target="_blank">https://developer.android.com/studio</a></u></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-fb7ce431349064dcf0ec711ab407e8f5cc7.png" referrerpolicy="no-referrer"></p><p>Android Studio Hedgehog 將底層 IntelliJ 平台升級到了 2023.1，添加了新功能，旨在提高應用程序性能和電池壽命，使升級到最新 Android 版本的應用程序更容易，並且提升使用 Jetpack Compose 的開發速度，以提高開發者的生產力。</p><p>以下是一些主要的功能和改進：</p><ol><li><p><strong>應用程序性能</strong>：Android Studio Hedgehog 提供了 App Quality Insights 工具，其中包括 Android vitals 數據。通過 Android vitals，開發者可以查看在 Google Play 商店發佈的任何應用程序的崩潰報告，無需在應用程序中進行額外的儀器化。開發者可以查看 Android vitals 問題、篩選它們，並從 Play 中查看崩潰的原因，從堆棧跟蹤跳轉到代碼，快速瞭解和解決崩潰。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-abcd5ef88e1fb351967ac0d35d842b2130a.png" referrerpolicy="no-referrer"><br> &nbsp;</p></li><li><p><strong>電源分析器</strong>：新的 Power Profiler 可以顯示設備上的電源消耗情況。它將電源消耗信息按子系統（稱為「Power Rails」）進行分段。這有助於開發者可視化電源消耗與應用程序中發生的操作之間的關聯。通過瞭解這些信息，開發者可以通過運行 A/B 測試來比較不同算法、功能甚至應用程序的不同版本的功耗，從而可能識別和修復應用程序中的功耗問題。優化功耗較低的應用程序可以改善電池和熱性能，最終提供更好的用戶體驗。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-3ebcd51b6c8babaede19a4faa95fb8d39d0.png" referrerpolicy="no-referrer"><br> &nbsp;</p></li><li><p><strong>編碼生產力</strong>：Android Studio Hedgehog 引入了 Android SDK Upgrade Assistant，它提供了一個逐步向導流程，幫助開發者升級到目標 SDK 版本。它將文檔直接引入 IDE，節省時間和精力。Hedgehog 版本還添加了額外的相關性過濾器，以刪除不必要的步驟，並且在某些情況下，升級助手將準確指出需要進行更改的代碼位置。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-f3c9eb53c6f9692cca6fe995cb22f8f0415.png" referrerpolicy="no-referrer"></p><p>&nbsp;</p></li><li><p><strong>新的用戶界面</strong>：在 Giraffe 版本中，我們推出了一個全新的用戶界面。這個重新設計的主題減少了視覺複雜性，提供了更容易訪問的基本功能，使界面看起來更加現代和清晰。在 Hedgehog 版本中，我們根據用戶的反饋進行了更新，添加了緊湊模式、垂直和水平分割以及 Mac OS 的項目選項卡。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-ec74c1d250255dab48c8691f8f1a467d857.png" referrerpolicy="no-referrer"></p><p>&nbsp;</p></li><li><p><strong>設備鏡像</strong>：您現在可以在 Android Studio 的 Running Devices 窗口中鏡像您的物理 Android 設備。通過通過 ADB 通過 USB 或 Wi-Fi 直接在 Android Studio 中鏡像設備的顯示屏，您可以執行常見操作，如啓動和與應用程序交互、旋轉屏幕、摺疊和展開手機、調整音量等。這樣可以方便地在 Android Studio 內部完成這些操作，而無需切換到設備上進行操作。<br><img src="https://oscimg.oschina.net/oscnet/up-e948c8fe967e8a8edccd6df3a0c819f7fed.gif" referrerpolicy="no-referrer"></p></li></ol><p>詳情查看<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F11%2Fandroid-studio-hedgehog-is-stable.html" target="_blank">發佈公告</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 03:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268979/android-studio-hedgehog-stable</guid>
+            <link>https://www.oschina.net/news/268979/android-studio-hedgehog-stable</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[袋鼠數據庫工具 v3.99.2 已發佈，第一個完成 GTK4 升級的大型應用]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>重點特性介紹</h2><ol><li>這是兩個版本（3.99.1 / 3.99.2）的合併新聞稿</li><li>連接管理頁面支持分組和添加機構；</li><li>起始頁支持自定義默認頁面</li><li>對象瀏覽器全字段過濾支持</li><li>App 實現激活支持</li></ol><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">袋鼠從第一行代碼到成長為 GTK3 應用中的頂流槓把子，又經過兩年多夜以繼日的升級開發，成為第一個完成 GTK4 升級的大型 GTK 應用，開發團隊為此付出了艱苦卓絕的努力，克服了重重困難。數據庫引擎從 libgda 5.0 到 libgda 6.0，然後升級到 ODBC，再升級為 DirectAccess；SQLite 支持從 SQLite 到 SQLCiphper，再到 SQLite3MC。。。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">如果您能體驗到袋鼠的生產力和絲滑功能，也請您為袋鼠團隊加油，謝謝。</p><h2>新特性或修復的缺陷列表</h2><ul><li>起始頁支持自定義默認首頁</li><li>更新模塊文件屬性</li><li>調整數據網格列寬度</li><li>重構執行行為支持多語句執行</li><li>數據庫連接添加分組和機構支持</li><li>改進對象瀏覽器全字段過濾支持</li><li>更新數據網格當前單元格背景顏色</li><li>App 實現激活支持</li><li>添加多模型視圖支持</li><li>工作台關閉時添加提示和確認支持</li><li>SQLite: 替換 SQLCipher 為 SQLite3MC</li><li>SQLite: 增加兼容性支持提示</li><li>SQLite: 調整表設計界面字段類型</li><li>PostgreSQL: 隱藏模板和臨時數據庫</li><li>更新中文語言支持 (zh-CN/zh-TW/zh-SG/zh-HK)</li><li>改進，空值 (NULL) 支持</li><li>修復: MySQL/MariaDB 導出崩潰問題</li><li>修復: 快速打開並關閉連接空間時崩潰問題</li><li>修復: 導出表結構和數據到文件時崩潰問題</li><li>修復: 源碼編輯器顯示樣式問題</li><li>修復: SQL 格式化和縮微化丟失內容問題</li><li>修復: 連接空間視圖佈局加載問題</li><li>修復: App 關閉時無法保存空間佈局問題</li><li>修復: 實體關係模型視圖關閉時崩潰問題</li><li>修復: 使用錯誤的類型封裝用戶數據</li></ul><h2>下載與安裝</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.datatable.online%2Fzh%2Fdownload%2Fv3.99.2.231201.html" target="_blank">袋鼠數據庫管理工具 3.99.1</a></p><h2>新版本功能快照</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.datatable.online%2Fzh%2Fdownload%2F" target="_blank"><img alt="連接分組" src="https://oscimg.oschina.net/oscnet/up-bae7af3d082e6a4a7194345022123e1606f.gif" referrerpolicy="no-referrer"></a><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.datatable.online%2Fzh%2Fdownload%2F" target="_blank"><img alt="首頁默認頁定製" src="https://oscimg.oschina.net/oscnet/up-5e72dbe9eda442c20c3aef0fa33d34c1412.png" referrerpolicy="no-referrer"></a><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.datatable.online%2Fzh%2Fdownload%2Fv3.93.1.230928.html" target="_blank"><img alt="袋鼠數據庫工具 v3.93.1 快照" src="https://oscimg.oschina.net/oscnet/up-e0853214711ebcdc88b4aa8ddeff6e5f7c6.png" referrerpolicy="no-referrer"></a></p><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 02:57:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268976/kangaroo-3-99-2-released</guid>
+            <link>https://www.oschina.net/news/268976/kangaroo-3-99-2-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[go-carbon v2.2.14 發佈，輕量級、語義化、對開發者友好的 Golang 時間處理庫]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">carbon 是一個輕量級、零依賴、語義化、對開發者友好的 Golang 時間處理庫，支持鏈式調用、農曆和 gorm、xorm 等主流 orm</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">目前已被<span><span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fyinggaozhen%2Fawesome-go-cn%23%25E6%2597%25A5%25E6%259C%259F%25E5%2592%258C%25E6%2597%25B6%25E9%2597%25B4" target="_blank">awesome-go-cn</a><span><span>&nbsp;</span></span>收錄，如果您覺得不錯，請給個 star 吧</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang-module%2Fcarbon" target="_blank">github.com/golang-module/carbon</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/golang-module/carbon" target="_blank">gitee.com/golang-module/carbon</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>更新日誌</strong></p><ul><li>修復<span>&nbsp;</span><code>ToWeekString</code><span>&nbsp;</span>和<span>&nbsp;</span><code>ToShortWeekString</code><span>&nbsp;</span>方法忽略<span>&nbsp;</span><code>SetWeekStartsAt</code><span>&nbsp;</span>設置的 bug</li><li>增加<span>&nbsp;</span><code>Parse</code><span>&nbsp;</span>方法更多解析格式的支持</li><li>將<span>&nbsp;</span><code>timezone[len(timezone)-1]</code><span>&nbsp;</span>更改為<span>&nbsp;</span><code>timezone[0]</code></li><li>提高<span>&nbsp;</span><code>Fastest</code><span>&nbsp;</span>方法的單元測試覆蓋率</li><li>修復文檔拼寫錯誤</li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 01:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268945/go-carbon-2-2-14-released</guid>
+            <link>https://www.oschina.net/news/268945/go-carbon-2-2-14-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[私域管理平台，LinkWeChat V5.0.1 版本發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><p style="margin-left:0em; margin-right:0em"><span style="background-color:#ffffff; color:#333333">LinkWeChat 是國內首個基於企業微信的開源 SCRM，在集成了企微強大的開放能力的基礎上，進一步升級拓展靈活高效的客戶運營能力及多元化精準營銷能力，讓客戶與企業之間建立強鏈接，幫助企業提高客戶運營效率，強化營銷能力，拓展盈利空間，是企業私域流量管理與營銷的綜合解決方案，目前已經受到企業微信的官方推薦和國家級木蘭開源社區進行孵化，同時也是國家工信部重點扶持項目，同時也獲得 2022 年中國開源創新大賽二等獎。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>LinkWeChat v5.0.1 主要的升級內容如下：</strong></p><ol><li>企微羣發：我們重新設計了企為羣發功能，使其更加高效和易於使用。您現在可以更方便地批量發送消息給您的客戶，從而提高工作效率和客戶滿意度。</li><li>任務裂變客戶篩選：我們對任務裂變客戶篩選功能進行了優化，以提高其準確性和可靠性。現在，您可以更準確地篩選出適合進行任務裂變的客戶，從而提高任務的轉化率和成功率。</li></ol><p style="margin-left:0; margin-right:0">同時，我們還修復了以下 BUG：</p><ol><li>羣裂變條件為全部時任務通知循環發送相關 BUG：修復了一個可能導致任務通知無限循環發送的問題，提高了系統的穩定性和安全性。</li><li>系統其他功能相關 BUG 修復：我們還修復了一些其他的功能 BUG，包括一些可能導致系統崩潰或數據丟失的問題，以進一步提高系統的可靠性和穩定性。</li></ol><p style="margin-left:0em; margin-right:0em">感謝您對我們產品的支持和信任，我們會繼續努力，為您提供更好的產品和服務。</p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 01 Dec 2023 00:36:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268935/linkwechat-5-0-1released</guid>
+            <link>https://www.oschina.net/news/268935/linkwechat-5-0-1released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源 MQTT 圖形客戶端 MqttInsight 發佈 v1.0.3]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>本次發佈重點是新增了消息數量、消息負載、消息內容提取等統計圖表的功能，可以靈活的從主題和消息內容中通過通配符、正則表達式、JsonPath、XPath 來匹配和提取需要的內容生成相應的圖表。</p><p><img alt="" height="752" src="https://gitee.com/ptma/mqtt-insight/raw/master/screenshots/chart1.png" width="984" referrerpolicy="no-referrer"></p><p><img alt="" src="https://gitee.com/ptma/mqtt-insight/raw/master/screenshots/chart2.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://gitee.com/ptma/mqtt-insight/raw/master/screenshots/chart3.png" referrerpolicy="no-referrer"></p><p><strong>本次詳細更新信息如下：</strong></p><ul><li><strong>新增 ✨</strong><ul><li>新增消息數量、消息負載、消息內容等統計圖表</li><li>消息時間顯示格式可在選項中設置</li><li>發佈歷史記憶（相同主題的保留最後發送的載荷）</li><li>增加消息導出為 CSV 格式文件</li></ul></li><li><strong>優化 🙌</strong><ul><li>退出時清除臨時文件夾</li><li>優化消息導出</li><li>優化消息發佈面板高亮語法支持</li><li>優化菜單，屏蔽被非鼠標左鍵點擊執行</li><li>允許未訂閲而收到的消息</li><li>變更已收藏的訂閲的格式時可自動保存訂閲的格式</li></ul></li><li><strong>修復 🐛</strong><ul><li>修復與 Broker 斷開後不能重連的問題</li><li>修復通過腳本訂閲的主題未出現在訂閲面板的問題</li><li>修復日誌標籤頁關閉後不再輸出日誌的問題</li><li>修復發佈 QoS&gt;0 的消息時如果 Broker 未回覆 PUBACK 導致卡死的問題</li><li>修復關閉訂閲後列表未及時刷新的問題</li><li>修復取色下拉麪板佈局錯亂的問題</li><li>修復訂閲列表不能及時刷新的問題</li><li>修復消息搜索欄輸入搜索文本後直接點擊過濾按鈕不能啓動搜索和過濾的問題</li></ul></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 30 Nov 2023 13:50:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/268905/mqttinsight%20-1-0-3-released</guid>
+            <link>https://www.oschina.net/news/268905/mqttinsight%20-1-0-3-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Furion 商業化探索得罪了誰？v4.9.1.8]]>
@@ -119,507 +330,6 @@
             <pubDate>Thu, 30 Nov 2023 04:51:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/268818</guid>
             <link>https://www.oschina.net/news/268818</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【店滴雲】後台 diy 表單生成增強，滿足多種輸入要求]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:center">【店滴雲】後台 diy 表單生成增強，滿足多種輸入要求</p><p>1、輸入框輸入，輸入框類型處理</p><p>2、二級聯動處理</p><p>3、編輯器初始化</p><p>4、數據聯動顯示處理</p><pre><code class="language-bash">
-export const form = {
-    'blocs': {
-        'type': 'cascader-store',
-        'label': '選擇公司'
-    },
-    'ishot': {
-        'type': 'radio',
-        'label': '是否熱門',
-        isOptions: true,
-        options: [{
-            text: '是',
-            value: 1
-        },
-            {
-                text: '否',
-                value: 2
-            }
-        ]
-    },
-    pcate: {
-        label: '一級分類',
-        // 只需要在這裏指定為 tree-select 即可
-        type: 'tree-select',
-        // 屬性參考: https://vue-treeselect.js.org/
-        attrs: {
-            multiple: false,
-            clearable: true
-        },
-        options: async data =&gt; {
-            console.log('編，號', data.name)
-
-            const res = await initCate(0)
-            console.log('編，號', res.data)
-            const arr = [{
-                id: 0,
-                label: '一級分類'
-            }]
-            console.log('父級菜單', res.data)
-            return arr.concat(res.data)
-        }
-
-    },
-    ccate: {
-        label: '二級分類',
-        // 只需要在這裏指定為 tree-select 即可
-        type: 'tree-select',
-        // 屬性參考: https://vue-treeselect.js.org/
-        attrs: {
-            multiple: false,
-            clearable: true
-        },
-        vif: data =&gt; data.pcate,
-        // 這裏必須制定 optionsLinkageFields 做為關聯字段，當次字段值發生變化時，會重新出發請求
-        optionsLinkageFields: ['pcate'],
-        options: async data =&gt; {
-            console.log('編，號', data.name)
-            if (data.pcate) {
-                const res = await initCate(data.pcate)
-                console.log('編，號', res.data)
-                const arr = [{
-                    id: 0,
-                    label: '二級分類'
-                }]
-                console.log('父級菜單', res.data)
-                return arr.concat(res.data)
-            }
-        }
-    },
-    'page': {
-        'type': 'select',
-        'label': '頁面標識',
-        'isOptions': true,
-        'options': [{
-            text: '手機端-首頁',
-            value: 'mobileHome'
-        },
-            {
-                text: '手機端-會展服務',
-                value: 'mobileService'
-            },
-            {
-                text: '電腦端-首頁',
-                value: 'pc-index'
-            },
-            {
-                text: '電腦端-行業資訊',
-                value: 'pc-Industry'
-            }
-        ]
-    },
-    'page1': {
-        'type': 'select',
-        'label': '頁面標識',
-        'isOptions': true,
-        'options': async data =&gt; {
-            console.log('編，號', data.name)
-            if (data.pcate) {
-                const res = await initCate(data.pcate)
-                console.log('編，號', res.data)
-                const arr = [{
-                    id: 0,
-                    label: '二級分類'
-                }]
-                console.log('父級菜單', res.data)
-                return arr.concat(res.data)
-            }
-        }
-    },
-    'title': {
-        'type': 'input',
-        'label': '標題'
-    },
-    'description': {
-        'type': 'textarea',
-        'label': '簡介'
-    },
-    'content': {
-        'type': 'fire-editor',
-        'label': '詳情'
-    },
-    'thumb': {
-        'type': 'image-uploader',
-        'label': '圖片'
-    },
-    'source': {
-        'type': 'input',
-        'label': '來源'
-    },
-    'author': {
-        'type': 'input',
-        'label': '作者'
-    },
-    'displayorder': {
-        'type': 'input',
-        'label': '排序'
-    },
-    'linkurl': {
-        'type': 'input',
-        'label': '鏈接地址'
-    },
-    'is_top': {
-        'type': 'radio',
-        'label': '是否置頂',
-        'isOptions': true,
-        'options': [{
-            'text': '是',
-            'value': 1
-        },
-            {
-                'text': '否',
-                'value': 2
-            }
-        ]
-    },
-    'name': {
-        'type': 'input',
-        'label': '卡券名'
-    },
-    num_sort: {
-        type: 'input',
-        label: '排序',
-        attrs: {
-            type: 'number'
-        }
-    },
-    meal_type: {
-        type: 'radio',
-        label: '默認套餐類型',
-        isOptions: true,
-        options: [
-            {
-                text: '1 小時',
-                value: 1
-            },
-            {
-                text: '2 小時',
-                value: 2
-            },
-            {
-                text: '4 小時',
-                value: 4
-            }
-        ]
-    },
-    type: {
-        type: 'radio',
-        label: '卡券類型',
-        isOptions: true,
-        options: [
-            {
-                text: '代金券',
-                value: 1
-            },
-            {
-                text: '時長卡',
-                value: 2
-            },
-            {
-                text: '次卡',
-                value: 3
-            },
-            {
-                text: '折扣券',
-                value: 4
-            },
-            {
-                text: '體驗券',
-                value: 5
-            }
-        ],
-        on: {
-            input: (data) =&gt; {
-                console.log(data)
-                this.showNum = data
-            }
-        }
-    },
-    explain: {
-        type: 'input',
-        label: '卡券説明'
-    },
-    price: {
-        type: 'input',
-        label: '卡券金額 (元)',
-        attrs: {
-            type: 'number'
-        }
-    },
-    use_start: {
-        type: 'time',
-        label: '時間限制-開始時間',
-        attrs: {
-            pickerOptions: {
-                start: '00:30',
-                step: '00:30',
-                end: '24:00'
-            }
-        }
-    },
-    use_end: {
-        type: 'time',
-        label: '時間限制-結束時間',
-        attrs: {
-            pickerOptions: {
-                start: '00:30',
-                step: '00:30',
-                end: '24:00'
-            }
-        }
-    },
-    enable_start: {
-        type: 'datetime',
-        label: '有效期開始時間',
-        attrs: {
-            valueFormat: 'yyyy-MM-dd HH🇲🇲ss'
-        }
-    },
-    coupon_img: {
-        label: '卡券主圖',
-        type: 'image-uploader' // 只需要在這裏指定為 image-uploader 即可
-        // attrs: {
-        //   multiple: true,
-        //   limit: 10
-        // }
-    },
-    background: {
-        label: '卡券背景',
-        type: 'image-uploader' // 只需要在這裏指定為 image-uploader 即可
-    },
-    parent: {
-        label: "父級菜單",
-        // 只需要在這裏指定為 tree-select 即可
-        type: "tree-select",
-        // 屬性參考: https://vue-treeselect.js.org/
-        attrs: {
-            multiple: false,
-            clearable: true,
-        },
-        vif: (data) =&gt; data.module_name,
-        // 這裏必須制定 optionsLinkageFields 做為關聯字段，當次字段值發生變化時，會重新出發請求
-        optionsLinkageFields: ["module_name"],
-        options: async (data) =&gt; {
-            if (data.name || data.module_name) {
-                const obj = {};
-                this.$set(obj, "Menu[module_name]", data.module_name);
-                const res = await fetchList(obj);
-                const arr = [
-                    {
-                        id: 0,
-                        label: "一級菜單",
-                    },
-                ];
-                return arr.concat(res.data.list);
-            }
-        },
-    },
-}</code></pre></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 04:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268816</guid>
-            <link>https://www.oschina.net/news/268816</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Gradle 8.5 發佈，支持 Java 21]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Gradle 8.5&nbsp;現已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html" target="_blank">發佈</a>。Gradle&nbsp;是一個基於&nbsp;Apache Ant&nbsp;和&nbsp;Apache Maven&nbsp;概念的項目自動化構建工具，支持依賴管理和多項目，類似&nbsp;Maven，但比之簡單輕便。它使用一種基於&nbsp;Groovy&nbsp;的特定領域語言來聲明項目設置，而不是傳統的&nbsp;XML。</span></p><p><span style="background-color:#ffffff; color:#333333">Gradle&nbsp;</span>現在支持<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23java-21" target="_blank">在 Java 21 上運行</a>。<span><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span><span><span>此版本對&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23kotlin-dsl" target="_blank">Kotlin DSL 進行了改進</a>，包括<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23faster-first-use" target="_blank">更快的 first use</a>&nbsp;以及<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23catalog-precompiled" target="_blank">預編譯 Kotlin 腳本插件中的版本目錄支持</a>。此外還提供了更多有用的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23error-reporting" target="_blank">錯誤和告警消息</a>、改進了&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23build-init" target="_blank">build&nbsp;init </a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23dependency-verification" target="_blank">依賴項驗證</a>，以及為構建和插件作者提供的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html%23build-authoring-improvements" target="_blank">幾個新 API</a>。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><strong><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>完整的 Java 21 支持</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Gradle 8.4 支持使用 Java 工具鏈編譯和測試 Java 21，但還不支持在 Java 21 上運行 Gradle 本身。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>新版本發佈後，Gradle 現在完全支持在 Java 21&nbsp;上編譯、測試和運行。</p><p style="text-align:start">詳情可參閲完整的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Fuserguide%2Fcompatibility.html%23java" target="_blank">兼容性文檔</a>。</p><p style="text-align:start"><strong><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Kotlin DSL 改進</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>與傳統的 Groovy DSL 相比，Gradle 的 Kotlin DSL 在支持的 IDE 中提供了更好的編輯體驗：自動完成、智能內容輔助、快速訪問文檔、源代碼導航和上下文感知重構。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>首次使用速度更快：首次使用 Gradle 版本時，Gradle 會比以前更快地開始編譯構建邏輯。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li></ul><p style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><img alt="" height="309" src="https://oscimg.oschina.net/oscnet/up-b000b4fa01dd3c0116148a5be5e8bf560a1.png" width="500" referrerpolicy="no-referrer"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>預編譯腳本中的版本目錄 API：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><code>versionCatalogs</code>擴展訪問器現在可用於 Kotlin DSL 預編譯腳本。</li></ul><pre style="text-align:start"><code class="language-kotlin">// buildSrc/src/main/kotlin/my-convention-plugin.gradle.kts
-versionCatalogs                   // This is the extension now available
-    .named("libs")                // Assumes there is a libs catalog, throws exception otherwise
-    .findLibrary("assertj-core")  // Search the catalog for an assertj-core entry
-    .ifPresent { assertjCore -&gt;   // If there is one ... 
-        dependencies {            // ... Add a dependency to it 
-            testImplementation(assertjCore) 
-        }
-    }
-</code></pre><ul><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>能夠為腳本編譯啓用 Kotlin 元數據版本檢查</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li></ul><p style="text-align:start"><strong><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>錯誤和告警報告改進</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>改進了使用 reserved names 創建配置時的棄用消息。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span style="background-color:#ffffff; color:#02303a">棄用警告示例：</span></li></ul><pre style="text-align:start"><span><span><span><span style="background-color:#f7f7f8"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span><code> Configure project : The configuration customCompileOnly was created explicitly. This configuration name is reserved for creation by Gradle. This behavior has been deprecated. This behavior is scheduled to be removed in Gradle 9.0. Do not create a configuration with the name customCompileOnly. Consult the upgrading guide for further information: https://docs.gradle.org/8.5/userguide/upgrading_version_8.html#configurations_allowed_usage When creating configurations during sourceSet custom setup, Gradle found that configuration customCompileOnly already exists with permitted usage(s): Consumable - this configuration can be selected by another project as a dependency Resolvable - this configuration can be resolved by this project to a set of files Declarable - this configuration can have dependencies added to it Yet Gradle expected to create it with the usage(s): Declarable - this configuration can have dependencies added to it Gradle will mutate the usage of configuration customCompileOnly to match the expected usage. This may cause unexpected behavior. Creating configurations with reserved names has been deprecated. This will fail with an error in Gradle 9.0. Create source set custom prior to creating or accessing the configurations associated with it. For more information, please refer to https://docs.gradle.org/8.5/userguide/building_java_projects.html#sec:implicit_sourceset_configurations in the Gradle documentation. </code></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre><ul><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>改進了運行測試時對封裝斷言錯誤的處理</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li><li style="text-align:start"><span><span><span><span style="color:#02303a"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>無法刪除文件時提供更好的診斷：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>當 Gradle 無法刪除文件時，它現在將提供擴展診斷。這有助於解決鎖定文件、併發寫入等問題。</li></ul><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.gradle.org%2F8.5%2Frelease-notes.html" target="_blank">查看發佈公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 03:28:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268809/gradle-8-5-released</guid>
-            <link>https://www.oschina.net/news/268809/gradle-8-5-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟發佈跨平台機器學習框架 ML.NET 3.0]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>微軟近日<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fdotnet%2Fannouncing-ml-net-3-0%2F" target="_blank">正式發佈</a></u> ML.NET 3.0，帶來了許多新功能和改進。</p><blockquote><p>ML.NET 是一個開源、跨平台的機器學習框架，專為 .NET 開發者設計，可以將自定義的機器學習模型集成到 .NET 應用程序中。</p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-375e72816abb7630cd510c6acc58fe425c3.png" referrerpolicy="no-referrer"></p><p>在這個版本中，深度學習方案得到了大幅擴展——引入了目標檢測 (Object Detection)、命名實體識別 (Named Entity Recognition) 和問答 (Question Answering) 等新功能。這些功能得以實現，得益於與 TorchSharp 和 ONNX 模型的集成和互操作性。同時，該版本還將集成的 LightGBM 升級到了最新版本。</p><p>數據處理方面也有很大的改進，DataFrame 引入了一系列增強和錯誤修復，使得數據的加載、檢查、轉換和可視化等步驟更加強大。</p><p>在 ML.NET 3.0 中，開發者可以利用這些先進的功能來處理深度學習、自然語言處理等機器學習任務。例如，可以使用 ML.NET 的目標檢測 API 來定位和分類圖像中的實體，還可以使用 ML.NET 的命名實體識別和問答訓練器來處理自然語言處理任務。</p><p>此外，ML.NET 3.0 還引入了 Intel oneDAL 的訓練加速功能，可以加快訓練過程。Intel oneDAL 是一個用於數據分析的庫，通過提供高度優化的算法構建塊，加速數據分析和機器學習過程。它通過利用 64 位架構中的 SIMD 擴展，支持 Intel 和 AMD 的 CPU。</p><p>自動機器學習 (AutoML) 也是 ML.NET 3.0 的一個重要功能。AutoML 可以自動化應用機器學習到數據的過程，簡化了模型構建的流程。ML.NET 3.0 的 AutoML 針對多個新功能進行了增強，包括支持判斷句子相似性、問答和目標檢測等任務。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdotnet%2Fmachinelearning%2Fblob%2Fmain%2Fdocs%2Frelease-notes%2F3.0%2Frelease-3.0.0.md" target="_blank">詳情查看 Release Notes</a></u>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 03:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268807/ml-net-3-0</guid>
-            <link>https://www.oschina.net/news/268807/ml-net-3-0</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[zorm 1.7.4 發佈, Go 輕量 ORM]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span>Go 輕量 ORM, 零依賴，零侵入分佈式事務，支持達夢 (dm), 金倉 (kingbase), 神通 (shentong), 南通 (gbase),TDengine,mysql,postgresql,oracle,mssql,sqlite,db2,clickhouse...</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">源碼:<a href="https://gitee.com/chunanyong/zorm" target="_blank">https://gitee.com/chunanyong/zorm</a><br> 官網:<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzorm.cn" target="_blank">https://zorm.cn</a></p><ul><li>基於原生 sql 語句<span style="background-color:#ffffff; color:#40485b">，</span>學習成本更低<span style="background-color:#ffffff; color:#40485b">，性能更優</span></li><li><a href="https://gitee.com/zhou-a-xing/zorm-generate-struct" target="_blank">代碼生成器</a></li><li><span style="background-color:#ffffff; color:#40485b">代碼精簡，主體 3000 行，零依賴 5000 行，註釋詳細，方便定製修改</span></li><li><span style="color:#c0392b"><strong>支持事務傳播，這是 zorm 誕生的主要原因</strong></span></li><li>支持 mysql,postgresql,oracle,mssql,sqlite,db2,<strong><span style="color:#c0392b">dm (達夢),kingbase (金倉),shentong (神通),gbase (南通),TDengine,clickhouse</span></strong></li><li>支持多庫和讀寫分離</li><li>不支持聯合主鍵，變通認為無主鍵，業務控制實現 (艱難取捨)</li><li>集成 seata-go,hptx,dbpack 支持全局託管，不修改業務代碼，零侵入分佈式事務</li><li>支持 clickhouse, 更新和刪除語句使用 SQL92 標準語法</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>更新:</strong></p><ol><li>增加 GetContextDataSourceConfig 方法,獲取 ctx 綁定的數據源配置展</li><li>感謝@CDS 的反饋,修復 Config 取值錯誤</li><li>完善文檔，註釋</li></ol></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 03:07:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268805/zorm-1-7-4-released</guid>
-            <link>https://www.oschina.net/news/268805/zorm-1-7-4-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Diboot 3.1.2 發佈，帶來系列優化與升級]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff">Diboot 是為開發人員打造的低代碼開發平台，將複雜的工作簡單化、重複的工作自動化，提高質量、效率、可維護性。</span></p><p><span style="background-color:#ffffff">我們秉承&nbsp;</span><span style="background-color:#ffffff">寫的更少, 性能更好，的理念。全平台主要涉及 Mybatis-plus 關聯查詢，關聯無 SQL，性能高 10 倍，前後端基礎項目，前後端代碼本地可視化生成，flowable 工作流，spring cloud 微服務，以及強大的無代碼模型表單頁面流程設計能力等，為您帶來全方位的賦能與提升。</span></p><p><img alt="Diboot v3.x 體系架構圖（單體版）" src="https://www.diboot.com/img/diboot_structure.png" referrerpolicy="no-referrer"></p><p>Diboot 3.1.2 已於近期發佈，將帶來如下的系列更新與優化：</p><h3><span><strong><span>內核 diboot-core &amp; core starter v3.1.2</span></strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">新增：序列號生成器 SerialNumberGenerator 接口及工廠類</p></li><li><p style="margin-left:0; margin-right:0"><span>優化：數據加解密 (DataEncryptHandler)、</span>數據脫敏<span>(DataMaskHandler) 的接口命名與實現</span></p></li><li><p style="margin-left:0; margin-right:0">優化：數據範圍權限相關接口命名 (DataAccessInterface -&gt; DataScopeManager) 及實現</p></li><li><p style="margin-left:0; margin-right:0">優化：BindCount 賦值邏輯，無 count 值時設置為 0&nbsp;</p></li><li><p style="margin-left:0; margin-right:0">優化：select 字段簡化邏輯，適配遠程數據綁定</p></li><li><p style="margin-left:0; margin-right:0">優化：select 列名加入 order 字段以適配多庫</p></li><li><p style="margin-left:0; margin-right:0">優化：copyProperties 返回值為 target 範型，避免強轉型</p></li><li><p style="margin-left:0; margin-right:0">優化：數據綁定緩存為懶初始化</p></li><li><p style="margin-left:0; margin-right:0"><span>優化：deleteEntities(queryWrapper) 支持 beforeDelete 前置檢查</span></p></li><li><p style="margin-left:0; margin-right:0"><span>Bug fix：修復 getValuesOfField 方法泛型標記錯誤</span></p></li><li><p style="margin-left:0; margin-right:0"><span>升級依賴版本至最新：</span>spring boot<span><span>&nbsp;</span>至 v2.7.17，mybatis-plus 至 3.5.4</span></p></li></ul><h3><span><strong>IAM 組件 diboot-IAM starter v3.1.2</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">優化：初始化系統管理員設置有效的 orgId&nbsp;</p></li><li><p style="margin-left:0; margin-right:0">重命名 IamCacheManager -&gt; IamPermissionCacheManager 避免歧義</p></li><li><p style="margin-left:0; margin-right:0">MenuService 接口整合至 ResourceService，降低複雜度</p></li></ul><h3><span><strong>消息通知組件 diboot-notification starter v3.1.2</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">Bug fix:&nbsp;<span>消息通知字典選項初始值與枚舉值不一致的問題</span></p></li></ul><h3><span><strong>PC 前端 diboot-admin-ui v3.1.2</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">優化首屏加載性能</p></li><li><p style="margin-left:0; margin-right:0">優化夜間模式切換開關樣式</p></li><li><p style="margin-left:0; margin-right:0">完善圖片支持格式</p></li><li><p style="margin-left:0; margin-right:0">升級 element-plus 版本至 v2.3.9</p></li></ul><h3><span><strong>Mobile 前端 diboot-mobile-ui v3.1.2</strong></span></h3><ul><li><span>Bug fix: 修復 tabbar 點擊報錯問題</span></li></ul><h3><span><strong>開發工具：diboot-devtools v3.1.2</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">配置代碼生成路徑支持../相對路徑層級定位</p></li><li><p style="margin-left:0; margin-right:0">模型設計：模型名旁附加顯示，模型編碼，便於維護查找對應表等</p></li><li><p style="margin-left:0; margin-right:0"><span>模型設計：新增「數據安全」配置頁籤，支持配置數據權限、加解密脫敏、導入 excel 字段等</span></p></li><li><p style="margin-left:0; margin-right:0">後端代碼生成：</p><ul><li><p style="margin-left:0; margin-right:0">生成代碼入口菜單始終顯示，模型未發佈時點擊提示</p></li><li><p style="margin-left:0; margin-right:0">controller 直接繼承自 BaseCrudController</p></li><li><p style="margin-left:0; margin-right:0">沒有唯一性字段，controller 中不生成 /check-unique 接口</p></li><li><p style="margin-left:0; margin-right:0">優化 devtools 生成成功的提示文件名順序</p></li></ul></li><li><p style="margin-left:0; margin-right:0">前端代碼生成：</p><ul><li><p style="margin-left:0; margin-right:0">長文本類型，表單頁中默認生成為，富文本組件</p></li><li><p style="margin-left:0; margin-right:0">生成的列表頁創建人、時間等系統字段默認指定寬度</p></li></ul></li><li><p style="margin-left:0; margin-right:0">Bug fix：</p><ul><li><p style="margin-left:0; margin-right:0"><span>修復：n-n 關聯，生成的綁定註解不對的問題</span></p></li><li><p style="margin-left:0; margin-right:0">修復：生成的前端頁面，更新表單的下拉框，選項數據無法回顯，的問題</p></li></ul></li></ul><h3><span><strong>低代碼標準版 V3.1.2 （企業版）</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0">新增：數據大屏設計能力，集成 goview，打通認證適配 diboot<span style="color:#888888">（涉及商用授權，暫僅對企業版客戶提供）</span></p></li><li><p style="margin-left:0; margin-right:0">新增：模型設計增加導入字段配置</p></li><li><p style="margin-left:0; margin-right:0"><span>優化</span>自動編號、數據範圍權限、數據加密脫敏的擴展方式與開源版統一</p></li><li><p style="margin-left:0; margin-right:0">優化零代碼運行時異步接收處理邏輯</p></li><li><p style="margin-left:0; margin-right:0">優化關聯字段、引用字段刪除前的檢查邏輯</p></li></ul><h3><strong><span>低代碼旗艦版 V3.1.2 （企業版）</span></strong></h3><ul><li><p style="margin-left:0; margin-right:0">新增：工作流支持配置&nbsp;<strong>零代碼搭建的動態表單</strong>&nbsp;與&nbsp;<strong>手寫的自定義表單。</strong></p></li><li><p style="margin-left:0; margin-right:0"><span>Bug fix：</span><span><span>修復子流程駁回能選擇節點之後</span>用戶節點<span>問題等</span></span></p></li></ul><h3><span><strong>低代碼旗艦微服務版 V3.1.2 （企業版）</strong></span></h3><ul><li><p style="margin-left:0; margin-right:0"><strong>新增：</strong></p><ul><li><p style="margin-left:0; margin-right:0">流程中心支持配置&nbsp;<strong>零代碼搭建的動態表單</strong>&nbsp;與&nbsp;<strong>手寫的自定義表單</strong></p></li><li><p style="margin-left:0; margin-right:0">新增手寫自定義表單集成示例</p></li><li><p style="margin-left:0; margin-right:0">新增通知公告發布功能</p></li><li><p style="margin-left:0; margin-right:0">模型設計增加導入字段配置</p></li><li><p style="margin-left:0; margin-right:0">支持跨模塊發佈模型，將模型發佈到所屬的業務庫下</p></li><li><p style="margin-left:0; margin-right:0">支持跨模塊生成代碼：生成後端代碼至所屬的業務模塊下</p></li><li><p style="margin-left:0; margin-right:0">支持跨模塊導入已有表，導入業務庫中的已有表到模型</p></li></ul></li><li><p style="margin-left:0; margin-right:0"><strong>優化：</strong></p><ul><li><p style="margin-left:0; margin-right:0">性能優化：優化前端，提升首屏加載速度</p></li><li><p style="margin-left:0; margin-right:0">性能優化：啓用 okhttp 優化 feign 性能</p></li><li><p style="margin-left:0; margin-right:0">性能優化：用戶接口增加緩存減少 feign 請求次數</p></li><li><p style="margin-left:0; margin-right:0">支持零代碼動態表單跨模塊數據存取</p></li><li><p style="margin-left:0; margin-right:0">優化 Portal 頁面 UI 及顯示內容</p></li><li><p style="margin-left:0; margin-right:0">優化菜單資源新增應用層級，可配置菜單歸屬應用</p></li><li><p style="margin-left:0; margin-right:0">優化模型搜索支持 label 和 key</p></li><li><p style="margin-left:0; margin-right:0">優化 file-storage,notification 服務模塊，合併至 basic-services 基礎服務</p></li><li><p style="margin-left:0; margin-right:0">優化 portal 服務模塊合併至 user-center</p></li><li><p style="margin-left:0; margin-right:0">優化 redis key 為小寫，與 spring 規範保持一致</p></li><li><p style="margin-left:0; margin-right:0">移除模塊內的初始化邏輯，統一初始化入口</p></li><li><p style="margin-left:0; margin-right:0">更新消息通知組件字典選項等初始化 sql</p></li></ul></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 02:57:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268800/diboot-3-1-2-released</guid>
-            <link>https://www.oschina.net/news/268800/diboot-3-1-2-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Mir 2.16 發佈，Ubuntu 使用的 Linux 顯示服務器]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdiscourse.ubuntu.com%2Ft%2Fmir-release-2-16-0%2F40616" target="_blank">Mir 2.16 已發佈</a></u>，它是由 Canonical 為 Ubuntu 開發的 Wayland 合成器的最新版本，用於構建基於 Wayland 的 shell。</p><p>Mir 2.16 包含對其圖形平台 API 的重新設計、集成，以便 Mir 可以提供「無縫」啓動體驗、通過大量錯誤修復改進對 X11 客戶端的支持、支持虛擬輸出顯示平台、支持 input-method-v1 Wayland 協議 maliit-keyboard，以及各種其他功能更改和錯誤修復。</p><p>此外 Mir 文檔也已遷移至&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcanonical-mir.readthedocs-hosted.com%2F">readthedocs-hosted.com 在線版</a>。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FMirServer%2Fmir%2Freleases%2Ftag%2Fv2.16.0" target="_blank">Release Notes</a></u>。</p><hr><p>據介紹，智能鏡子和其他運行 Ubuntu Linux 的邊緣 / 智能設備也使用了 Mir。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-c888d60321c54a3b4c24590757bfd03fe4f.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 02:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268794/mir-2-16-released</guid>
-            <link>https://www.oschina.net/news/268794/mir-2-16-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[信創就用 Solon，v2.6.1 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>Solon 是什麼框架？</h2><p style="color:#24292e; text-align:start"><strong>Java 新的"生態級"應用開發框架</strong>。從零開始構建，有自己的標準規範與開放生態（歷時五年，具備全球第二級別的生態規模）。Solon 生態的友商是 Spring 生態。Solon 的友商很強，所以很有意思。未來也將會在國際上照面。</p><h2>相對於 Spring，有什麼特點？</h2><ul><li>啓動快 5 ～ 10 倍。<span>&nbsp;</span><strong>（更快）</strong></li><li>qps 高 2～ 3 倍。<span>&nbsp;</span><strong>（更高）</strong></li><li>低流量內存節省 1/3 ~ 1/2。<span>&nbsp;</span><strong>（更少）</strong></li><li>打包可以縮小到 1/2 ~ 1/10；比如，300Mb 的變成了 23Mb。<span>&nbsp;</span><strong>（更小）</strong></li><li>同時支持 jdk8, jdk11, jdk17, jdk21,<span>&nbsp;</span><strong>graalvm native image</strong></li></ul><h2>入門探索視頻（用戶錄製）：</h2><p><iframe frameborder="0" height="400" scrolling="no" src="https://player.bilibili.com/player.html?aid=938467339&amp;bvid=BV1RT4y1a7U5&amp;cid=583394292&amp;page=1" style="box-sizing: border-box; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; color: rgb(36, 41, 46); font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; text-align: start; background-color: rgb(255, 255, 255);" width="700" referrerpolicy="no-referrer"></iframe></p><h2>最近更新了什麼？</h2><ul><li>新增 folkmq-solon-cloud-plugin 插件</li><li>新增 solon.luffy 插件</li><li>添加 solon.docs 全局參數支持</li><li>添加 solon.logging 配置提示文件</li><li>添加 rabbitmq-solon-cloud-plugin 消息併發處理機制</li><li>添加 RunUtil::asyncAndTry 接口</li><li>添加 WebSocket::id, attrHas 接口</li><li>添加 WebSocket::setIdleTimeout 接口</li><li>添加 NamiClient::name 支持配置表達式</li><li>調整 solon.auth 取消 AuthUtil 驗證路徑、權限、角色與登錄綁死。由用戶適配的處理器決定</li><li>調整 scheduledPoolSize 默認值多一倍</li><li>調整 solon.scheduling.simple 過濾中斷異常</li><li>調整 solon.logging 註冊日誌打印，取消不必要的打印</li><li>調整 RouterWebSocketListener 更名為 PathWebSocketListener</li><li>調整 http-server 的 idleTimeout 策略</li><li>修復 Snack3 不能反序列化 SaSession 的問題</li><li>修復 solon.logging.config 的配置文件不存在時會異常的問題</li><li>修復 solon.boot.smarthttp 獲取 queryString 會中文亂碼的問題</li><li>移除<span>&nbsp;</span><code>@Dao</code>,<code>@Service</code>,<code>@Repository</code><span>&nbsp;</span>三個註解（棄用很久了，容易帶來誤解）</li><li>snack3 升為 3.2.84</li><li>socket.d 升為 2.0.22</li><li>wood 升為 1.2.6</li><li>mysql-flex 升為 1.7.5</li><li>sqltoy 升為 5.2.82</li><li>beetlsql 升為 3.27.2-RELEASE</li><li>smartsocket 升為 1.5.38</li><li>undertow 升為 2.2.28.Final</li><li>netty 升為 4.1.86.Final</li></ul><h2>項目倉庫地址？</h2><ul><li>gitee：<a href="https://gitee.com/noear/solon">https://gitee.com/noear/solon</a></li><li>github：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fsolon" target="_blank">https://github.com/noear/solon</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 02:32:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268793/solon-2-6-1-released</guid>
-            <link>https://www.oschina.net/news/268793/solon-2-6-1-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Layui 2.9.0 發佈，收官 2023 🚀]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>自今年四月 Layui 發佈情懷迴歸 <code>2.8.0</code> 版本以來，在社區的積極推動下，Layui 又陸續發佈了 30 個版本（含預覽版），平均 7 天發佈 1 個版本，更新節奏有條不紊。這個曾經一度炙熱而又經歷了兩年低谷（2021 年曾宣佈官網下線）的國產開源項目，終於從作者賢心的個人情緒中掙脫開來，真正成為了一個具有社會責任意識的開源生產力工具。</p><p><a href="https://oscimg.oschina.net/oscnet/up-2737fbea612ecc4927179b10b2ccd161f68.png" target="_blank"><img alt="" height="536" src="https://oscimg.oschina.net/oscnet/up-2737fbea612ecc4927179b10b2ccd161f68.png" width="961" referrerpolicy="no-referrer"></a></p><p><a href="https://oscimg.oschina.net/oscnet/up-9d98b2b2f92c4bbe0770d8710386a4a1cff.png" target="_blank"><img alt="" height="536" src="https://oscimg.oschina.net/oscnet/up-9d98b2b2f92c4bbe0770d8710386a4a1cff.png" width="961" referrerpolicy="no-referrer"></a></p><p>以上折線圖來自<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Findex.baidu.com%2Fv2%2Fmain%2Findex.html%23%2Ftrend%2Felementui%3Fwords%3Delementui%2Clayui%2Cantd%2Cbootstrap" target="_blank">百度指數</a>，它記錄着 Layui 及其他幾款主流 UI 組件庫自 2016 年 10 月迄今的流行趨勢，也蘊含着開發者個體與時代背景之間的微妙關係。七年來，Layui 在跌宕起伏中前行，谷峯之間，既是符合技術發展變革的客觀規律，也呈現了事物興衰的自然週期。Layui 贏的或輸的，從來都不是同類型項目，而是時代，時代賦予了它特殊的歷史使命，不論是攀爬還是俯衝，其本質均是順應時代的需要。如今，市場趨於固化的受眾形態讓 Layui 得以在小眾的樸素格調中棲息和發育，也訴説着創作者的處世哲學。未來，Layui 仍會在時代的感召下，通過 <code>3.0</code> 或更高的版本與之對話（導讀：🌟 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flayui.dev%2Fnotes%2F3.0%2Fmilestone.html" target="_blank">Layui 3.0 版本計劃</a>）。</p><p>本次 <code>2.9.0</code> 是對 <code>2.8.18</code> 的進一步完善，旨在提供一個可長期用於生產環境的穩定版本。</p><h3>更新日誌</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flayui.dev%2Fdocs%2F2%2Fversions.html" target="_blank">https://layui.dev/docs/2/versions.html</a></p><h3>提交記錄</h3><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flayui%2Flayui%2Fpull%2F1426" target="_blank">#1426</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flayui%2Flayui%2Fpull%2F1429" target="_blank">#1429</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flayui%2Flayui%2Fpull%2F1430" target="_blank">#1430</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flayui%2Flayui%2Fpull%2F1433" target="_blank">#1433</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flayui%2Flayui%2Fpull%2F1434" target="_blank">#1434</a></li></ul><h3>本次貢獻 🎉</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsentsim" target="_blank">@sentsim</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSight-wcg" target="_blank">@Sight-wcg</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FDiyar-IT" target="_blank">@Diyar-IT</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 02:10:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268785/layui-2-9-0-released</guid>
-            <link>https://www.oschina.net/news/268785/layui-2-9-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Salvo 0.59.0 發佈，Rust Web 後端框架]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Salvo 是 Rust 實現的簡單好用且功能強大的 Web 後端框架。</p><p><strong>特色：</strong></p><p>- 有着比 axum 等更豐富的功能，但卻更易於上手。</p><p>- 跟 go 等其他語言框架更接近，比 Rust 語言各個 Web 框架更少的類型系統的煩惱。</p><p>- 支持 HTTP1, HTTP2 and <strong>HTTP3</strong>;</p><p>- 統一的中間件和 Handler 接口，無需任何複雜語言只是，輕鬆實現中間件。靈活高效。</p><p>- 內置表單處理，強大的提取器，輕鬆反序列請求數據到結構體。</p><p>- 支持 WebSocket, WebTransport</p><p>- 對 OpenAPI 最完美的支持，且內置多種開源 OpenAPI 展示界面</p><p>- 支持 Acme， 可以輕鬆獲取並自動更新免費的 TLS 證書</p><p>- 適配 Tower 生態</p><p><br><strong>本次更新：</strong></p><p>- 修復 ServeStaticDir 排除 dot files 不起效的問題。</p><p>- 為 ServeStaticDir 添加 exclude_filter 方法，可以根據需要排除任何你不想被訪問的文件。</p><p>- OpenAPI 支持的多處更新</p><p>- Extractor 自動根據請求切換解析方式</p><p>- UnixListener 添加 owner and permissions 相關支持</p><p>- 升級 <code>opentelemetry-prometheus</code> 到 0.14<br><br> 詳細更新鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsalvo-rs%2Fsalvo%2Freleases%2Ftag%2Fv0.59.0" target="_blank">https://github.com/salvo-rs/salvo/releases/tag/v0.59.0</a></p><p>本次版本依然是依賴 hyper 1.0-rc4，proxy 部分功能依賴 reqwest 庫，等它更新到 hyper 1.0 後，salvo 會第一時間更新。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 00:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268763/salvo-0-59-0-released</guid>
-            <link>https://www.oschina.net/news/268763/salvo-0-59-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[VLOOK 21！全新的「文庫」及自動排版特性上新，實用好用的 Markdown 主題插件]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>VLOOK™</strong><span><span>&nbsp;</span></span>是針對<span><span><span>&nbsp;</span></span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftypora.io%2F" target="_blank">Typora</a>（跨平台 Markdown 編輯器）的<span><span>&nbsp;</span></span><strong>主題包</strong><span><span>&nbsp;</span></span>和<span><span>&nbsp;</span></span><strong>增強插件</strong>（針對導出的 HTML 文件)，<strong>旨在與眾 Markdown 粉共創 Markdown 的自動化排版 2.0，在保持 Markdown 簡潔性的基礎上，讓編輯、閲讀 Markdown 文檔更實用，也更愉悅。</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>VLOOK™</strong><span><span>&nbsp;</span></span>屬於開源軟件（遵從<span><span>&nbsp;</span></span><strong>MIT License</strong>），也是<span><span><span>&nbsp;</span></span></span><strong><a href="https://www.oschina.net/p/vlook">OSCHINA 開源中國</a></strong><span><span>&nbsp;</span></span>推薦的國產開源產品、Typora 的首個增強插件。</p></blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>VLOOK™ 的所有特性清單，詳見快速入坑 →<span><span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmadmaxchow.github.io%2FVLOOK%2Findex.html%23%E5%BF%AB%E9%80%9F%E5%85%A5%E5%9D%91" target="_blank"><span>一鍵瞭解</span></a><span><span>&nbsp;</span></span>（<a href="https://madmaxchow.gitee.io/vlook/index.html#%E5%BF%AB%E9%80%9F%E5%85%A5%E5%9D%91">備用鏈接</a>）</strong></p><h1>🎉 — NEW 新特性 — 🎉</h1><h3>🎉 全新的「文庫」設計</h3><ul><li>與目錄大綱、工具欄集成，並支持關鍵字搜索</li><li>支持配置多個文庫，還可以在新標籤中進行打開</li><li>完善文檔內的文庫文字鏈接語法，以具備更好的易用性、兼容性<br><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmadmaxchow.github.io%2FVLOOK%2Fguide2.html%23%25E6%2596%2587%25E5%25BA%2593%25E5%25AF%25BC%25E8%2588%25AA" target="_blank">…詳細</a></li></ul><p><img height="526" src="https://oscimg.oschina.net/oscnet/up-5118e11938eca26348459a0afd96a28602f.png" width="350" referrerpolicy="no-referrer">&nbsp;&nbsp;<img height="189" src="https://oscimg.oschina.net/oscnet/up-b8b8cfcf396adfceabb9b7a980ba94b3bad.png" width="400" referrerpolicy="no-referrer"></p><h3>🎉 彩虹徽章支持三段格式</h3><p style="color:#1f2328; text-align:start">適用於更靈活的徽章排期需求，如：<code>某個數據項|&gt;=|指定值</code><br><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmadmaxchow.github.io%2FVLOOK%2Fguide2.html%23%25E5%25BD%25A9%25E8%2599%25B9%25E5%25BE%25BD%25E7%25AB%25A0" target="_blank">…詳細</a></p><p><img height="245" src="https://oscimg.oschina.net/oscnet/up-b7c24cd6bae6787128edc09ac7f1c9b715d.png" width="500" referrerpolicy="no-referrer"></p><h3>🎉 引用自動排版特性上新</h3><ul><li>首行整段加粗，即自動渲染為「引用小標題」樣式<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmadmaxchow.github.io%2FVLOOK%2Fguide.html%23%25E5%25BC%2595%25E7%2594%25A8%25E5%25B0%258F%25E6%25A0%2587%25E9%25A2%2598" target="_blank">…詳細</a></li><li>簡化引用摺疊語法，改為引用內首行設置為 6 級標題即可<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmadmaxchow.github.io%2FVLOOK%2Fguide.html%23%25E6%258A%2598%25E5%258F%25A0%25E5%25BC%2595%25E7%2594%25A8" target="_blank">…詳細</a></li></ul><p><img height="202" src="https://oscimg.oschina.net/oscnet/up-3765c046b81f63f4030a28b4bddbe50b9f9.png" width="800" referrerpolicy="no-referrer"></p><p><img height="470" src="https://oscimg.oschina.net/oscnet/up-b45b1658d1194508fc9e265a36a766621e7.png" width="800" referrerpolicy="no-referrer"></p><h2>♻️ — What's IMPROVED — ♻️</h2><h3>♻️ 主題及交互優化 ♻️</h3><ul><li>字體風格「系統默認」支持鴻蒙、OPPO、小米系統默認字體</li><li>重構工具欄、狀態欄交互操作與佈局</li><li>統一優化 Typora 編輯時對自動排版、列表分欄、大綱面板、摺疊引用、公式、公式、腳註及預覽等樣式</li><li>優化工具提示自適應顯示、圖標、插圖導航等 UI 樣式</li></ul><p style="color:#1f2328; text-align:start"><strong>其他優化：</strong></p><ul><li>優化適配打印時的樣式（非 100% 兼容 HTML 模式）</li><li>優化調整任務列表、表格列格式（複選框）樣式</li><li>優化 Mermaid 流程圖自定義的 join 結點、擴展狀態機圖等多處樣式</li><li>針對 Windows/macOS 進行適配優化</li><li>進一步優化插件包大小</li></ul><h2>⚠️<span>&nbsp;</span>— What's CHANGED —<span>&nbsp;</span>⚠️</h2><p style="color:#1f2328; text-align:start"><strong>調整：</strong></p><ul><li>文庫專用鏈接標識由<span>&nbsp;</span><code>vlook-doc-lib://</code><span>&nbsp;</span>調整為 Query 參數<span>&nbsp;</span><code>target=vdl</code></li><li>調校參數<span>&nbsp;</span><code>dl</code><span>&nbsp;</span>調整為<span>&nbsp;</span><code>vdl</code></li></ul><p style="color:#1f2328; text-align:start"><strong>移除/取消：</strong></p><ul><li>移除段落導航步進 10 個段落的特性</li><li>移除引用摺疊的舊語法「[+] 標題 [-] 標題】」的支持</li><li>移除單元格合併對兼容性語法「&lt;&lt;、^^」的支持</li><li>強製取消折疊引用內的長內容的摺疊處理</li></ul><h2>🧯— What's FIXED — 🧯</h2><ul><li>修復在 Win 版 Typora 編輯時列表分欄預覽失效問題</li><li>修復帶表格行的表格行分組中二級縮進樣式問題</li><li>修復圖片指定 Dark Mode 時反色（invert）適配的問題</li><li>修復 macOS 設置了始終顯示滾動條後屏寬小於 1280px 時 UI 適配問題</li><li>修復摺疊引用內有分欄情況下的樣式問題</li><li>修復標籤、徽章、代碼的複製功能某些情況下失敗的問題</li><li>修復任務列表只有一個下級且完成時，沒有正常識別為已完成</li><li>修復 Typora 編輯時封底在特殊情況下（文檔末未添加 h1）時大綱列表的顯示問題</li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 30 Nov 2023 00:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268760/vlook-21-released</guid>
-            <link>https://www.oschina.net/news/268760/vlook-21-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[cachego v0.5.0 已經發布，輕量級內存緩存]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>cachego v0.5.0 已經發布，輕量級內存緩存</p><p>此版本更新內容包括：</p><p>2023-11-30：</p><ul><li>調整單元測試代碼</li><li>API 進入穩定觀察期</li></ul><p>詳情查看：<a href="https://gitee.com/FishGoddess/cachego/releases/v0.5.0">https://gitee.com/FishGoddess/cachego/releases/v0.5.0</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 29 Nov 2023 16:28:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268752/cachego-0-5-0-released</guid>
-            <link>https://www.oschina.net/news/268752/cachego-0-5-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[TimescaleDB 2.13.0 發佈，基於 PostgreSQL 的時序數據庫]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">TimescaleDB 是一個開源數據庫，旨在使 SQL 可擴展到時間序列數據，基於 PostgreSQL 構建的，並打包為 PostgreSQL 擴展程序，提供跨時間和空間的自動分區，以及完整的 SQL 支持。</span></p><p>TimescaleDB 2.13.0 現已發佈，此版本包含自 2.12.2 版本以來的性能改進、改進的&nbsp;<span style="background-color:#ffffff; color:#1f2328">hypertable</span> DDL API 和錯誤修復。此外還有一些<span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>值得注意的新功能：</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>完全支持 PostgreSQL 16 所有現有功能</li><li>sum() 的向量化聚合執行</li><li>跟蹤保留/壓縮策略中使用的 chunk 創建時間</li></ul><p><strong style="color:#1f2328">棄用通知：多節點支持</strong></p><p>TimescaleDB 2.13 是包含多節點支持的最後一個版本。2.13 中的多節點支持適用於 PostgreSQL 13、14 和 15。可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftimescale%2Ftimescaledb%2Fblob%2F2.13.0%2Fdocs%2FMultiNodeDeprecation.md" target="_blank">在此處</a>瞭解更多信息。&nbsp;</p><p>如果你想從多節點 TimescaleDB 遷移到單節點 TimescaleDB，可閲讀<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.timescale.com%2Fmigrate%2Flatest%2Fmulti-node-to-timescale-service%2F" target="_blank">遷移文檔</a>。</p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>PostgreSQL 13 棄用公告</strong></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>將繼續支持 PostgreSQL 13 直至 2024 年 4 月。到那時，項目團隊將推出不再包含 PostgreSQL 13 支持的 TimescaleDB 特定版本。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><strong>從 TimescaleDB 2.13.0 開始</strong></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><ul><li>No Amazon Machine Images (AMI) 發佈。如果你之前使用過 AMI，可使用其他<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.timescale.com%2Fself-hosted%2Flatest%2Finstall%2F" target="_blank">安裝方法</a></li><li>默認情況下，<span style="background-color:#ffffff; color:#1f2328">Continuous Aggregates are materialized only (non-realtime)</span></li></ul><p>詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftimescale%2Ftimescaledb%2Freleases%2Ftag%2F2.13.0" target="_blank">查看更新説明</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 29 Nov 2023 10:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268721/timescaledb-2-13-0-released</guid>
-            <link>https://www.oschina.net/news/268721/timescaledb-2-13-0-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[OpenBlock 2023/11 已經發布，可視化塊編程語言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>OpenBlock 2023/11 已經發布，可視化塊編程語言</p><p>此版本更新內容包括：</p><p>Windows 系統本地服務器預製，支持 win7.1 以上系統，支持 32 位和 64 位</p><p>下載，獅偶 202311_httpd24x86.7z ，如果您沒有支持 7z 的解壓縮軟件可以下載 zip 的壓縮文件。內容一樣，只是壓縮比不同。</p><p>1 解壓縮壓縮包內容 2 雙擊運行 start.bat 保持黑色命令行窗口不要關閉。 3 在瀏覽器裏打開 <a href="https://gitee.com/link?target=http%3A%2F%2Flocalhost%2F" target="_blank" rel="nofollow">http://localhost/</a> 4 同網段內可以通過 http://[服務器 IP 地址]/ 訪問</p><p>新增了 start.bat ， 方便啓動。 為減小文件體積，去掉了 git 倉庫信息。需要更新的話需要從 git 上獲取 openblock 和 testing 倉庫，內容覆蓋到 htdocs 裏的同名文件夾裏。</p><h2>更新內容</h2><ul><li>開發版合併，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/292" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/292</a></li><li>合併主線，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/295" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/295</a></li><li>開發版合併，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/293" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/293</a></li><li>開發版合併，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/298" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/298</a></li><li>Fix file name typos 由 <a href="https://gitee.com/zhangdiandian" target="_blank" rel="nofollow">@zhangdiandian</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/296" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/296</a></li><li>開發版合併，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/297" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/297</a></li><li>開發版合併，由 <a href="https://gitee.com/duzc2" target="_blank" rel="nofollow">@杜天微</a> 貢獻 <a href="https://gitee.com/openblock/openblock/pulls/294" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/pulls/294</a></li></ul><p><strong>完整的更新日誌</strong>: <a href="https://gitee.com/openblock/openblock/compare/2023/9...2023/11" target="_blank" rel="nofollow">https://gitee.com/openblock/openblock/compare/2023/9...2023/11</a></p><p>詳情查看：<a href="https://gitee.com/openblock/openblock/releases/2023/11" rel="nofollow">https://gitee.com/openblock/openblock/releases/2023/11</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 29 Nov 2023 10:40:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/268720/openblock-2023-11-released</guid>
-            <link>https://www.oschina.net/news/268720/openblock-2023-11-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
