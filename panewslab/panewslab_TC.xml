@@ -16,8 +16,51 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 04 Dec 2023 23:18:18 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 05 Dec 2023 01:18:24 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[解讀 Metis PoS「排序池」：權利下放，通往去中心化 Rollup 之路]]>
+            </title>
+            <description>
+                <![CDATA[<blockquote>不僅僅是排序器，Metis 提供了一個去中心化的 Rollup 方案。</blockquote><p>作者：Gou，Foresight News</p><p>DBA 聯合創始人 Jon Charbonnea 曾表示：現在所有的 Rollup 都不是真正的 Rollup。</p><p>之所以會有這樣極端的觀點，有一個很重要的原因就是目前幾乎所有的 Rollup 網絡都採用了中心化的單排序器模式。對於採用了 Optimistic Rollup 的網絡而言，雖然項目方本身大概率不會選擇在排序器上作惡，但一旦排序器被攻擊或者被其他人控制，就可能會造成災難性的後果。即使不考慮安全性問題，單排序器也完全不具備抗審查的能力。</p><p>業內對排序器去中心化的討論和倡議由來已久，而近期 Metis 率先給出了這個問題的一種答案。</p><h3>為何排序器的去中心化如此重要？</h3><p>在詳解 Metis 的去中心化排序器方案之前，我們先要簡要了解兩個問題：排序器是什麼？為什麼排序器去中心化很重要？</p><p>以太坊之上基於 Rollup 的 Layer2 網絡本質上是由一個獨立的鏈以及以太坊上的「Rollup 合約」組成。與此同時，Layer2 網絡還需要一個鏈下的排序器來接收 Layer2 上發生的交易，決定交易的執行次序，然後把交易打包為 Batch，傳送給以太坊上的「Rollup 合約」。當以太坊上的「Rollup 合約」將傳送來的 Batch 打包進塊中，交易才會被最終確認。</p><p>本質上，Layer2 網絡上交易真正意義上的「確認」仍然在以太坊上，而排序器就起到了在這中間的信息傳遞作用。</p><p>Metis 採用了 Optimistic Rollup 的方案，顧名思義，該 Rollup 方案的特點就在於假設 Batch 中所有的交易都是真實有效的，而不會去檢查每筆交易。也正是因為此，加之交易被集中後再進行確認，基於 Optimistic Rollup 的 Layer2 網絡交易費用很低。</p><p>目前的 Layer2 網絡幾乎都由項目團隊運行，大家為了不「砸自己招牌」，極少會出現排序器中提交的交易無效的情況。雖然如此，但中心化的組建依然存在被攻擊以及被強制要求剔除某些交易的可能性。對於將「無需許可」和「無需信任」奉為至上準則的加密貨幣世界，這顯然不可接受，去中心化是必須要走的一條道路。</p><h3>Metis 的去中心化之路</h3><p>作為首批實踐去中心化排序器的 Layer2 網絡之一，Metis 為未來的道路提供了一個範本。這個範本不僅僅實現了排序器的去中心化，也同時提供了一個「去中心化 Optimistic Rollup」的解決方案。在這個範本中，實現排序器的去中心化存在着三個主要角色：管理員（Admin）、排序器和一個基於 PoS 的共識層。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com//panews/2022/12/4/images/55de5583b485194e12bd4d9c907da8f0." alt="解讀 Metis PoS「排序池」：權利下放，通往去中心化 Rollup 之路" referrerpolicy="no-referrer"></p><p><strong>管理員（Admin）：</strong>Admin 的角色就是管理該去中心化系統，主要職責包括將符合要求的排序器添加進白名單、設定單個節點的質押上限以及設置區塊獎勵的釋放速率。</p><p><strong>排序器池：</strong>排序器池由多個被添加進白名單的排序器組成。在 Metis 中，排序器包括了負責 Metis 上交易排序和區塊組建的 L2 Geth；負責與下文將提到的 PoS 共識層和其他外部模塊進行交互的適配器模塊，以及負責建立 Batch 並在多個排序器簽名後將其提交給 L1 的 Proposer。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com//panews/2022/12/4/images/45a38712eecb2f509217b3cfbfe0bb93." alt="解讀 Metis PoS「排序池」：權利下放，通往去中心化 Rollup 之路" referrerpolicy="no-referrer"></p><p><strong>PoS 共識層：</strong>Metis 設計的 PoS 共識層是獨立於 Metis 的存在，其主要職責是管理 MPC 簽名。當存在多個排序器時，需要至少 2/3 的排序器簽名才能將打包的 Batch 提交給 L1，而共識層就負責當排序器池中的排序器加入或退出時重新分片以及分配私鑰等工作。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com//panews/2022/12/4/images/67fc0743c0ec11222e101d05cd3452f4." alt="解讀 Metis PoS「排序池」：權利下放，通往去中心化 Rollup 之路" referrerpolicy="no-referrer"></p><h4><strong>機制設計</strong></h4><p>在以上三個角色的合作下，Metis 的去中心化 Optimistic Rollup 初現雛形。其中，「管理員」將對整體網絡的重要參數進行設置，並管理加入池中的排序器資格，使得協議方不再對此類事務有絕對的控制權，而是通過具體提案審定後交由管理員執行。</p><p>對於 Rollup 網絡來説，去中心化進程中最困難的點莫過於排序器的去中心化，這是由於對排序器本身的管理也必須以去中心化的方式進行，並且需要儘可能實現高效與便利。</p><p>Metis 採用了基於 TSS 的 MPC 簽名以及管理整個模塊的 PoS 網絡來實現對多個排序器簽名權限的管理。</p><p>Metis 允許任意一個排序器決定一個 Batch 並由所有的排序器參與 MPC 簽名，若簽名數量超過 2/3 則認為該 Batch 有效，可以被提交至 L1 上的 Rollup 合約中。而排序器池進行的 MPC 簽名則由 PoS 網絡控制的另一個合約進行管理，當 PoS 網絡無法檢測到 MPC 地址時，會調用 MPC 模塊觸發密鑰的生成。生成的密鑰會在分片後分發給池中的每一個排序器，由排序器則會利用持有的密鑰分片進行 MPC 簽名。該模塊的設置主要用於管理密鑰的生命週期，包括多重簽名生成、密鑰重新共享、應用簽名、刪除簽名等。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com//panews/2022/12/4/images/14ebd6ffb7d1c9e416d717e97f2e0440." alt="解讀 Metis PoS「排序池」：權利下放，通往去中心化 Rollup 之路" referrerpolicy="no-referrer"></p><p>採用 TSS 則是由於其高容錯、高靈活性的特點，TSS 不像多籤需要在鏈上對每個簽名進行校驗，只需要將所有簽名者的簽名聚合後統一校驗，提高了交易確認速率。此外，PoS 節點之間會通過單獨的 Tendermint 通道進行通信，MPC 運行時的通信則是採用了 libp2p 協議。</p><h4><strong>代幣質押</strong></h4><p>與 Optimism Rollup 的欺詐證明類似，該去中心化模型也採用了經濟激勵和懲罰機制來保證機制的運行。Metis 團隊成員表示，最初排序器池將包含 5 個排序器，未來將會逐步增加，進入排序器池的排序器運營方需要質押至少 2 萬枚 METIS。此外，上文中提到的 PoS 網絡也將需要節點運營者質押 METIS。Metis 團隊表示，此舉可以「將本已有限的 METIS 流通量進一步減少，從而產生非常積極的催化作用。」</p><p>質押的 METIS 會在欺詐證明被挑戰成功時被扣除，以保證排序器不會將無效交易包含在提交給 L1 的 Batch 中。</p><h3>「權力下放」的先行者</h3><p>Metis 的去中心化 Rollup 方案為 Layer2 向下一個階段的邁進提供了一個很好的範本，無論在機制設計上，還是在經濟機制的設計上都在保證權力下放的基礎上對項目發展起到了推動作用。</p><p>將排序器完全交予社區可以通過社區自發的推動產生大量的衍生機會。一方面，對於參與者而言，去中心化就意味着某種程度上的競爭，因為排序器參與出塊，類似於比特幣網絡中礦工的角色。各方為了爭奪記賬權會不斷提高自身節點質量，從而自發地為網絡帶來更強的活性。Metis 表示，「這將是 Layer2 領域第一個社區真正參與運營的鏈。」</p><p>此外，由於排序器的去中心化，對於交易的排序也沒有了「標準答案」，這為網絡的 MEV 基礎設施以及一系列應用的誕生與發展培育了土壤。MEV 之後，基於排序器質押的 METIS 代幣，還可以衍生出流動性質押等一系列產品，進一步釋放了 Layer2 基礎設施金融化的潛力。</p><p>機制設計方面，對於由各方運營的排序器，Metis 並沒有採用簡單的多籤，而是使用了更加方便實時添加或刪除簽名者的、基於 TSS 的 MPC 簽名方案，使得排序器池的整體靈活性得到了提升。另一方面，2/3 的有效簽名閾值、「可插拔」的簽名方案等都對安全和效率做了很好的權衡。</p><p>雖然該機制設計充分考慮了安全性和效率，但為了去中心化而新加入的多個角色相較於傳統單排序器必然會存在效率的下降，加之環節的增加可能會導致整體系統不穩定性的提高。儘管如此，Metis 作為首批提供了完整去中心化方案的 Layer2 網絡，其在設計中的考量和權衡仍值得多方借鑑，而 Metis 也表示將持續討論去中心化方案的潛在挑戰和缺陷，以進行進一步改進。</p>]]>
+            </description>
+            <pubDate>Tue, 05 Dec 2023 01:00:02 GMT</pubDate>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/s3yl2h0u.html</guid>
+            <link>https://panewslab.com/zh/articledetails/s3yl2h0u.html</link>
+            <author>
+                <![CDATA[Foresight News]]>
+            </author>
+            <category>深度</category>
+            <category>流動性質押</category>
+            <category>MEV</category>
+            <category>加密貨幣</category>
+            <category>Layer2</category>
+            <category>Optimism</category>
+            <category>去中心化</category>
+            <category>以太坊</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[專訪數碼港行政總裁任景信：數字貨幣未來會成為「聰明貨幣」]]>
+            </title>
+            <description>
+                <![CDATA[<blockquote>自去年 10 月香港發佈虛擬資產發展宣言以來，香港 Web3 行業迎來了飛速發展，作為作為香港政府的全資企業、政策的執行者，數碼港在推動香港 Web3 生態發展方面功不可沒。</blockquote><p><strong>撰文：Carl，Techub News</strong></p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com/panews/images/9RY5JQQNdk" alt="專訪數碼港行政總裁任景信：數字貨幣未來會成為「聰明貨幣」" referrerpolicy="no-referrer"></p><p>自去年 10 月香港發佈虛擬資產發展宣言以來，香港 Web3 行業迎來了飛速發展，作為作為香港政府的全資企業、政策的執行者，數碼港在推動香港 Web3 生態發展方面功不可沒。</p><p>今年 1 月，數碼港成立 Web3 基地，2 月，該基地在香港財政司預算案裏定性成為香港 Web3 基地。目前，數碼港已具備完善的 Web3 生態，有超過 210 家 Web3 企業，包括 HashKey Exchange、Animoca Brands、ZA Bank 等。</p><p>近日，Techub News 專訪了香港數碼港行政總裁任景信，他是個擁有近 40 年的信息科技行業經驗的業界領袖，曾任新意網集團執行董事及行政總裁。</p><p>任景信表示，Web3 行業的人跟 Web2 行業很不一樣，他們看到的是科技的顛覆性，要做跟傳統不一樣的事情，所以，Web3 領域未來肯定會有很多突破。</p><p>在任景信的印象裏，和 Web3 企業打交道特別具啟發性，沒有包袱，思想的領域會更寬，經常有很多不同的想法，他們是在追求他們的夢想。</p><p>對於數碼港在 Web3 方面取得的成績，任景信表示，超標完成預期，雖然有港府政策推動，但也沒想到 Web3 那麼受歡迎。同時，他希望加強 Web3 基礎建設，加強引進這方面的企業。</p><p>明年 4 月，任景信即將卸任數碼港行政總裁，他表示 Web3 世界日新月異，令我對 Web3 的興趣增無減，會想多花時間深入瞭解一下。</p><p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn-img.panewslab.com/panews/images/8Cjs71R078" alt="專訪數碼港行政總裁任景信：數字貨幣未來會成為「聰明貨幣」" referrerpolicy="no-referrer"></p><p><em>數碼港 Web3 Living Lab</em></p><h3><strong>Web3 只是個開始</strong></h3><p><strong>Techub News：</strong>你第一次接觸加密貨幣是什麼時候？</p><p><strong>任景信：</strong>大概 10 年前，看美國的情景喜劇，裏面的主角有參與加密貨幣，後來有興趣就一直關注。2015 年，有不少內地的區塊鏈技術人員來到香港，也是很好的一個機遇，那時開始就更加關注加密貨幣在香港的發展。</p><p><strong>Techub News：</strong>十年前你對加密貨幣的印象是怎樣的？</p><p><strong>任景信：</strong>當時的理解是很深的一門學問，區塊鏈技術含量比較高，是數學方面的一個產品，很有興趣。區塊鏈也包含去中心化的貨幣，也不單只是貨幣，只是以加密貨幣作為開始，來實現去中心化，數據可以由用戶自己擁有，自己有最大的控制權，這是一個很新的概念。</p><p><strong>Techub News：</strong>不只是個貨幣，還有一些背後的理念。</p><p><strong>任景信：</strong>是的，這個背後的理念還有很多不同方面的應用。。</p><p><strong>Techub News：</strong>你認為加密貨幣和 Web3 的關係是怎樣的？</p><p><strong>任景信：</strong>Web3 是通過區塊鏈技術作為基礎的一些應用，第三代互聯網或者是互聯網進入另外一個時代。你可以去中心化的完全擁有你的數據，自己有完全的控制權，不需要平台來賦予你這些能力，你生產出來的資產數據，也不是通過平台去擁有，可以通過這個技術來控制。</p><p>我們常接觸到的加密貨幣是 Web3 裏金融服務裏的其中一環節，也是數字資產的其中一種，數字資產並不只有加密貨幣。數字資產也是 Web3 應用在金融科技領域的一個方面，除了金融科技和服務以外，還有其他不少的應用。</p><p><strong>Techub News：</strong>你是從什麼時候開始意識到 Web3 的重要性的？當時有什麼契機嗎？</p><p><strong>任景信：</strong>我們一直在留意不同科技領域的發展，無論是區塊鏈、人工智能，還是網絡安全等各方面，都是數碼港在過去五六年一直很專注的發展領域。在我這個崗位上去投入資源，去跟蹤這方面的一些發展，也是在五六年前開始的。</p><h3><strong>跟 Web3 企業打交道很有啓發性</strong></h3><p><strong>Techub News：</strong>你跟 Web3 企業打交道中，你覺得 Web3 企業跟傳統的 Web2 企業有什麼不同？</p><p><strong>任景信：</strong>Web3 生態裏面的人跟 Web2 行業是很不一樣的，大家更看到的是科技的顛覆性，覺得要去做一些跟傳統不一樣的事情，這樣文化很強。這個是 Web3 生態圈裏很有特色的一個方面，也是科技領域上取得重要的突破性發展的一個基本文化，所以，大家應該不會有意外，Web3 領域肯定會有很多不同的突破，跟傳統的做法很不一樣，因為那些人就是這樣的。</p><p><strong>Techub News：</strong>因為文化不同，你跟他們打交道時有沒有產生過一些誤會？</p><p><strong>任景信：</strong>我自己其實也是這樣的，我是可以和兩邊，包括傳統和突破性發展的前沿科技都能兼容的一個人。我跟他們不但沒有不協調，反而我覺得跟他們一起特別好玩，有啓發性，讓我們有經驗的人可以有新的角度去看不同的事情，這個很重要。</p><p>沒有包袱的去看一些事情，思想的領域會更寬，產生突破性發展、顛覆性發展的機會更大。現在的世界就是這樣，在科技領域更是如此，一般行業可能要 5 年、6 年才發生的事情，在科技領域可能 3 年，在 Web3 領域可能 1 年。</p><p><strong>Techub News：</strong>你剛提到的好玩，可以展開講講嗎？</p><p><strong>任景信：</strong>我説的好玩不是説他們不認真、很隨便，意思是很有啓發性，他們經常有很多不同的想法。另外就是他們的文化特色，每一個人都非常熱情，落戶數碼港 Web3 基地裏的很多 Web3 企業人才都是如此，他們不像其他科技領域的人感覺是在打工，他們是在追求他們的夢想，很熱情，很強的興趣，所以我覺得這是好玩或者有趣的地方。</p><p>他們也可以帶給很多人啓發，跟他們談的時候你未必同意他的想法，但起碼你會很覺得很有趣，他們的想法跟傳統的做法很不一樣，這個是很有趣的。</p><p><strong>Techub News：</strong>你覺得這背後的原因是什麼？</p><p><strong>任景信：</strong>Web3 是一個相當新的領域，不停的有新的事情在發生，有不同的應用，就像剛才講到的加密貨幣，他只是整個 Web3 領域的一小部分，所以潛力很大，每天都可以創造一些新的領域發展出來。在這樣的環境裏，參與其中的人也會更開放，思維也會更活躍，每一天都接觸到新的事物，他也會更有興趣，以更大的熱情投入其中。所以跟打工每天重複做的事情很不一樣，價值感完全不一樣。</p><p><strong>Techub News：</strong>你印象最深刻的 Web3 企業有哪些，能舉幾個例子嗎？</p><p><strong>任景信：</strong>一個就是萬向，他們旗下有第一個拿到香港虛擬資產交易平台牌照的 HashKey Exchange。萬向很有熱情，有創新的文化，更重要的是，萬向的人，尤其是肖風博士，有豐富的傳統金融經驗，還有 Web3 的經驗和熱情，兩者融合在一起可以事半功倍。</p><p>另外一家是數碼港培育出來且國際化較強的 Animoca Brands，創始人蕭逸很有理想，有開放和創新的思維，可以發掘不同的新理念。他在數碼港已經多年了，差不多數碼港開始的時候已經就在這裏，發展了十幾年，從做遊戲到做區塊鏈遊戲，到做 NFT 到做元宇宙，不停的擁抱新的發展，現在估值已達到 60 億美金。</p><p><em>數碼港項目展出，Techub News 攝</em></p><p><strong>希望加強 Web3 基礎設施建設</strong></p><p><strong>Techub News：</strong>你曾講過加入數碼港的初心是回饋及貢獻社會，幫助年輕人和創業人士，為什麼？</p><p><strong>任景信：</strong>我嘗試過創業，但是一定程度上不成功，最後是賣給我的投資者，我反而進了投資者的集團成了行政總裁，這段經歷非常受用，是我最辛苦，也是感覺最好的，得到的最多的的一段時間。</p><p>所以，我非常希望可以鼓勵更多的年輕人蔘與創業。香港的創業氣氛在 70 年代很強，後來香港經濟比較成熟，年輕人沒有那麼大的創業精神了。我希望香港人多去實現自己的夢想，去創業，就算沒有達到自己預期，也會有很大的收穫，這是人生裏很精彩的一段體驗，打工是體驗不到的。</p><p>我也是受惠於香港多年在科技方面的發展，帶給我不錯的生活，有很好的人生和精彩的經歷。香港政府希望利用數碼港來發展科創生態，壯大科創生態，我是義不容辭，希望可以參與，也是回饋社會，讓年輕人可以有機會去發展自己的理想，實現他們的夢想。</p><p><strong>Techub News：</strong>在數碼港落實自己初心的時候推出過哪些政策，效果怎樣？</p><p><strong>任景信：</strong>數碼港有不錯的培育計劃，是國家級的科技企業孵化器，已經很成熟，有不同階段的培育計劃。一系列培育計劃，提供最高達到 110 萬港元資助及 2 年免費辦公空間，更重要的是讓他們進入數碼港後比在外面更容易成功，幫他們去找商機，找資金，找技術夥伴，讓他們更快的進入市場。</p><p>我們會提供一些專業服務，讓他們保障自己的知識產權，在海外發展時可以拿到稅務優惠和市場推廣，這些一般都是初創企業沒留意到但很重要的。假如一開始就保障好知識產權，數碼港也可以找到不同的應用場景來提升他們的應用，更重要的是拿到一些大企業作為他的用戶，這樣就可以吸引更多資金人才進來。</p><p>數碼港有一系列的網絡計劃，企業網絡計劃、投資者網絡計劃、科技網絡計劃、專業服務網絡計劃等，這些是企業進入數碼港之後更容易成功的原因。</p><p><strong>Techub News：</strong>數碼港有專門針對 Web3 企業的支持政策嗎？</p><p><strong>任景信：</strong>有，剛才講的基礎培育計劃，就是提供給 Web3 企業的，企業可以拿到 110 萬港幣，無償的，不需要給數碼港任何股權，還可以使用免費的孵化器辦公空間兩年，兩年畢業後可以繼續參加共享空間，或租辦公樓。這個政策證明是不錯的，今年年初數碼港正式推出 Web3 基地，現在已經超過了 210 家。</p><p><strong>Techub News：</strong>你如何看待這一年取得的成績，有沒有達到你的預期？</p><p><strong>任景信：</strong>一定程度上是超標完成，開始時是在摸索，雖然有港府政策推動，但也沒想到那麼受歡迎。不光從數字，是從這些企業的在香港的成績，希望他們可以發展出香港的 Web3 生態，讓 Web3 企業跟香港傳統經濟融合在一起，這是我最想看到的。</p><p>另一方面，我們希望加強 Web3 基礎建設。剛才講到的兩百多家 Web3 企業，大部分在應用層，也有一些工具層的，基礎設施建設企業比較少，只有十幾家。我們希望加強這方面的企業進來，這些企業一般已經有一定的體量，有實力，通過他們可以吸引更多工具層的企業進來，每一個基礎平台上面都有不少的工具。這樣的話，應用層也會更多元化，跟傳統經濟融合的機會也更大，這些是我希望可以更進一步發展好的。</p><p><em>數碼港 NFT 畫廊，Techub News 攝</em></p><p><strong>數字貨幣可以變成「聰明貨幣」</strong></p><p><strong>Techub News：</strong>記得你説過你的第一台電腦是自己組裝出來的，像砌積木一樣，很玄幻，在 40 多年前，這麼多年來，在你看來科技對人類帶來哪些改變？Web3 給人類帶來的最關鍵的改變是什麼？</p><p><strong>任景信：</strong>帶來很大的改變，不用説，大家每天都感受到，現在手機不離手，將來肯定會有很多可穿戴的電子設備。Web3 最大的改變是在數據，怎樣把我們自己產生的數據自己全權去控制，數據資產的擁有權會改變很多不同的應用。</p><p>簡單講落地的應用，比如智能合約，數字貨幣其實也是智能合約的一種，將來數字貨幣可以變成聰明貨幣，可以指定它的用途，父母給小朋友的零用錢可以指定不可以花在不健康的地方，政府發放的老人金只可以本人使用，其他人拿到了也用不了。這樣可以防止詐騙，而且實現的成本極低，行政費用監管費用將大大降低。</p><p><strong>Techub News：</strong>全球很多地方都在擁抱 Web3，你認為香港 Web3 未來的機會是什麼？</p><p><strong>任景信：</strong>香港是一個國際金融中心，頭一炮肯定就是金融科技相關的服務，數字資產會有相當不錯的發展。在產業方面，未來幾年內也會廣泛使用，這有賴於政府的推動。比如，今年 2 月，香港發行全球首單代幣化綠色政府債券，大大的降低了運營成本，將來香港還會進一步推出數字資產的運用。</p><p><strong>Techub News：</strong>你看好 Web3 哪些細分領域？</p><p><strong>任景信：</strong>除了上面講到的金融領域和政府推動的產業應用等，我覺得保險行業會有不錯的發展。一方面，越來越多的虛擬資產發展，可能有不同的保險產品出來，來降低虛擬資產的風險。另一方面，把區塊鏈技術融入到保險行業流程方面，可以把成本降低。我們數碼港準備推出一個 Web3 先導計劃，會資助企業去參與數字資產、保險等方面的服務。</p><p><strong>Techub News：</strong>你將於明年 4 月卸任數碼港行政總裁，你之後有什麼打算嗎？有沒有興趣加入 Web3 企業？</p><p><strong>任景信：</strong> Web3 世界日新月異，令我對 Web3 的興趣增無減，會想多花時間深入瞭解一下。</p>]]>
+            </description>
+            <pubDate>Tue, 05 Dec 2023 00:00:59 GMT</pubDate>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/o0974351anf5.html</guid>
+            <link>https://panewslab.com/zh/articledetails/o0974351anf5.html</link>
+            <author>
+                <![CDATA[Techub News]]>
+            </author>
+            <category>深度</category>
+            <category>香港</category>
+            <category>基礎設施</category>
+            <category>保險</category>
+            <category>去中心化</category>
+            <category>人才</category>
+            <category>安全</category>
+        </item>
         <item>
             <title>
                 <![CDATA[ArbOS V11 提案已獲超 99% 投票支持，Arbitrum 基本面將迎來重大變化？]]>
@@ -383,274 +426,5 @@
             <category>ETF</category>
             <category>比特幣</category>
         </item>
-        <item>
-            <title>
-                <![CDATA[盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……]]>
-            </title>
-            <description>
-                <![CDATA[<blockquote>下輪加密牛市或將全面開啓之際，本文預測了有望成為下一輪週期中的潛在敍事，分別是 RWA、DeSci、AI、DePIN、GameFi 和 DeFi 3.0。</blockquote><p>作者：<a href="https://twitter.com/wacy_time1/status/1730284176795115785" rel="nofollow">AlΞx Wacy</a>, 加密研究員</p><p>編譯：Felix, PANews</p><p>下輪牛市可能是加密貨幣的最後一個大範圍快速上漲階段，主要考慮到美國 SEC 對市場的幹預。監管是不可避免且最終會影響市場的，預計會發生在下一輪牛市的 ATH 時期。但監管並不意味着市場永遠不會再次增長或是加密市場徹底被拋棄，只不過收益週期會大幅加長，新項目可能會受到嚴格監管且技術可能會受到青睞。</p><p>如圖所示，比特幣在下輪牛市週期（2024-2025 年）的歷史高點，預計最早可能在 2024 年年中全面爆發:</p><ul><li>保守目標是 9.4 萬美元</li><li>平均目標是 13 萬美元</li><li>預計該週期的峯值價格為 18 萬美元</li></ul><p style="text-align: center;">
-                <!-- [if gte vml 1]>
-                <v:shapetype
- id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
- path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
-                    <v:stroke join/>
-                    <v:formulas>
-                        <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-                        <v:f eqn="sum @0 1 0"/>
-                        <v:f eqn="sum 0 0 @1"/>
-                        <v:f eqn="prod @2 1 2"/>
-                        <v:f eqn="prod @3 21600 pixelWidth"/>
-                        <v:f eqn="prod @3 21600 pixelHeight"/>
-                        <v:f eqn="sum @0 0 1"/>
-                        <v:f eqn="prod @6 1 2"/>
-                        <v:f eqn="prod @7 21600 pixelWidth"/>
-                        <v:f eqn="sum @8 21600 0"/>
-                        <v:f eqn="prod @7 21600 pixelHeight"/>
-                        <v:f eqn="sum @10 21600 0"/>
-                    </v:formulas>
-                    <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
-                    <o:lock v:ext="edit" aspectratio="t"/>
-                </v:shapetype>
-                <v:shape id="圖片_x0020_1" o:spid="_x0000_i1036" type="#_x0000_t75"
- style='width:415pt;height:225pt;visibility:visible;mso-wrap-style:square'>
-                    <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image001.jpg"
-  o:title=""/>
-                </v:shape>
-                <![endif]-->
-                <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/20Y05nJD4t.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                </p>
-                <p style="text-align: left;">下輪加密牛市或將全面開啓之際，本文預測了有望成為下一輪週期中的潛在敍事，分別是 RWA、DeSci、AI、DePIN、GameFi 和 DeFi 3.0。</p>
-                <h3>RWA</h3>
-                <p>2023 年，資產代幣化和 RWA 吸引了散戶和機構投資者的極大興趣。這可以歸因於專業管理產品和數字資產機制的融合。</p>
-                <p>高盛和摩根大通等機構正在測試數字資產產品，旨在節省成本並提高效率。這些巨頭的參與給這個行業帶來了越來越多的信心。</p>
-                <p style="text-align: center;">
-                    <!-- [if gte vml 1]>
-                    <v:shape
- id="圖片_x0020_3" o:spid="_x0000_i1035" type="#_x0000_t75" style='width:415pt;
- height:412pt;visibility:visible;mso-wrap-style:square'>
-                        <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image002.jpg"
-  o:title=""/>
-                    </v:shape>
-                    <![endif]-->
-                    <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/9P2WA91w73.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                    </p>
-                    <p>RWA 是物理世界中有形和無形資產的渠道，使其能夠以加密貨幣的方式訪問。這些資產可能包括:短期國庫券、大宗商品、房地產、私人信貸、收藏品等。</p>
-                    <p style="text-align: center;">
-                        <!-- [if gte vml 1]>
-                        <v:shape
- id="圖片_x0020_4" o:spid="_x0000_i1034" type="#_x0000_t75" style='width:415pt;
- height:261pt;visibility:visible;mso-wrap-style:square'>
-                            <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image003.jpg"
-  o:title=""/>
-                        </v:shape>
-                        <![endif]-->
-                        <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/0374q9365f.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" width="832" height="524" referrerpolicy="no-referrer">
-                        </p>
-                        <p>部分代表性項目：</p>
-                        <ul>
-                            <li>
-                                <a href="https://www.panewslab.com/zh/articledetails/dj7kxd39727i.html">Centrifuge</a>（CFG）：鏈上積分
-                            </li>
-                            <li>IX Swap（IXS）:證券型代幣交易的 DeFi 平台</li>
-                            <li>Clearpool（CPOOL）：信貸市場</li>
-                            <li>Polytrade Finance（TRADE）：基於區塊鏈的交易平台</li>
-                        </ul>
-                        <p>相關閲讀：
-                            <a href="https://www.panewslab.com/zh/articledetails/c6o6254rtewy.html">深度解析當下 RWA 的實現路徑及未來 RWA-Fi 的展望</a>
-                        </p>
-                        <h3>DeSci（去中心化科學）</h3>
-                        <p>DeSci 是一項致力於建設公共基礎設施的運動，以促進科學知識的公平和公正的資助、創建、審查、認證、存儲和傳播。</p>
-                        <p>DeSci 設想了一個生態系統，鼓勵科學家公開合作並獲得研究認可。DeSci 的驅動可能會緩解以下六個科學痛點：研究經費、獲得研究和認識、知識產權所有權、再現性和可複製性、溝通與協作、同行評審和出版。</p>
-                        <p>創新的 DeSci 有能力應對傳統科學中存在的眾多挑戰。下圖為 DeSci 對其中幾個傳統科學問題的解決。</p>
-                        <p style="text-align: center;">
-                            <!-- [if gte vml 1]>
-                            <v:shape
- id="圖片_x0020_6" o:spid="_x0000_i1033" type="#_x0000_t75" alt="圖像" style='width:415pt;
- height:429pt;visibility:visible;mso-wrap-style:square'>
-                                <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image004.jpg"
-  o:title="圖像"/>
-                            </v:shape>
-                            <![endif]-->
-                            <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/9r47L91G18.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                            </p>
-                            <p>DeSci 的發展前景實際上比想象的要大。部分代表性項目：</p>
-                            <ul>
-                                <li>Data Lake（LAKE）：採用區塊鏈技術支持醫學研究和 AI 的全球醫療數據捐贈系統</li>
-                                <li>Solve.Care（SOLVE）：用區塊鏈重新定義護理協調的醫療保健平台</li>
-                                <li>
-                                    <a href="https://www.panewslab.com/zh/articledetails/3eeu7q4t.html">VitaDAO</a>（VITA）：第一個創辦生物技術公司的 DAO，專注於資助長壽研究
-                                </li>
-                                <li>GenomesDAO（GENE）：利用 DeFi 對基因組數據進行私密且可審計的貨幣化</li>
-                            </ul>
-                            <p style="text-align: center;">
-                                <!-- [if gte vml 1]>
-                                <v:shape
- id="圖片_x0020_7" o:spid="_x0000_i1032" type="#_x0000_t75" alt="圖像" style='width:415pt;
- height:459pt;visibility:visible;mso-wrap-style:square'>
-                                    <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image005.jpg"
-  o:title="圖像"/>
-                                </v:shape>
-                                <![endif]-->
-                                <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/LUN0KqgPus.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                                </p>
-                                <p>相關閲讀：
-                                    <a href="https://www.panewslab.com/zh/articledetails/sio2ijoo.html">去中心化科學 DeSci 實踐觀察：最新進展與運作特點</a>
-                                </p>
-                                <h3>AI</h3>
-                                <p>AI 的優勢在於其識別模式的能力。雖然在加密世界中去中心化貨幣的精神令人欽佩，但目前在執行上存在缺陷。AI 應用於加密領域的潛力是無限的。雖然早在 2023 年 1 月，市場上就已經有很多 AI 概念被炒作，一些項目也取得了重大進展，但目前仍處於發展的早期階段。
-                                    <!-- [if gte vml 1]>
-                                    <v:shape
- id="圖片_x0020_8" o:spid="_x0000_i1031" type="#_x0000_t75" alt="圖像" style='width:415pt;
- height:368pt;visibility:visible;mso-wrap-style:square'>
-                                        <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image006.jpg"
-  o:title="圖像"/>
-                                    </v:shape>
-                                    <![endif]-->
-                                </p>
-                                <p>此外，正如 Coinbase 所強調的那樣，人工智能的區塊鏈有可能解決許多問題。這兩種技術的融合可以推動這兩個行業達到新的高度。值得注意的是，就在幾年前，加密貨幣和人工智能領域的機會還相當有限。</p>
-                                <p style="text-align: center;">
-                                    <!-- [if gte vml 1]>
-                                    <v:shape id="圖片_x0020_9" o:spid="_x0000_i1030"
- type="#_x0000_t75" alt="圖像" style='width:415pt;height:336pt;visibility:visible;
- mso-wrap-style:square'>
-                                        <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image007.jpg"
-  o:title="圖像"/>
-                                    </v:shape>
-                                    <![endif]-->
-                                    <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/XOxQ1M5Yp0.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                                    </p>
-                                    <p>部分代表性項目：</p>
-                                    <ul>
-                                        <li>Autonolas（OLAS）：自動化、預言機和共享 AI 的統一平台</li>
-                                        <li>
-                                            <a href="https://www.panewslab.com/zh/articledetails/p387g1wc70gn.html">ChainGPT</a>（CGPT）：區塊鏈和加密的 AI 模型
-                                        </li>
-                                        <li>
-                                            <a href="https://www.panewslab.com/zh/articledetails/o9goqsuy.html">Opentensor</a>（TAO）：由開源協議支持的基於區塊鏈的機器學習網絡
-                                        </li>
-                                    </ul>
-                                    <h3>DePIN（去中心化網絡硬件基礎設施）</h3>
-                                    <p>DePIN 利用區塊鏈允許數百萬人共同部署和管理無需信任和無需許可的基礎設施，同時是以編程的方式驅動。</p>
-                                    <p>儘管 DePIN 目前是加密行業中規模較小的新興賽道，但其增長潛力巨大。這種模式能夠在電信、能源、移動和存儲等各個行業創建更強大的網絡。
-                                        <!-- [if gte vml 1]>
-                                        <v:shape id="圖片_x0020_10" o:spid="_x0000_i1029"
- type="#_x0000_t75" alt="圖像" style='width:415pt;height:397pt;visibility:visible;
- mso-wrap-style:square'>
-                                            <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image008.jpg"
-  o:title="圖像"/>
-                                        </v:shape>
-                                        <![endif]-->
-                                    </p>
-                                    <p>DePIN 旨在使用區塊鏈、代幣激勵和互聯網來解決基本的世界性問題，其潛在市場價值約為 2.2 萬億美元（現實世界中），到 2028 年可能達到 3.5 萬億美元，遠高於目前的加密市值。</p>
-                                    <p style="text-align: center;">
-                                        <!-- [if gte vml 1]>
-                                        <v:shape id="圖片_x0020_11" o:spid="_x0000_i1028"
- type="#_x0000_t75" alt="圖像" style='width:415pt;height:239pt;visibility:visible;
- mso-wrap-style:square'>
-                                            <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image009.jpg"
-  o:title="圖像"/>
-                                        </v:shape>
-                                        <![endif]-->
-                                        <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/eRH1D6aj6A.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                                        </p>
-                                        <p>部分代表性項目：</p>
-                                        <ul>
-                                            <li>Wicrypt（WNT）：去中心化移動互聯網共享和貨幣化網絡</li>
-                                            <li>GenesysGo（SHDW）：去中心化存儲、計算和網絡編排</li>
-                                            <li>Helium（HNT）：基於 Solana 的去中心化無線基礎設施</li>
-                                        </ul>
-                                        <p>相關閲讀：
-                                            <a href="https://www.panewslab.com/zh/articledetails/u708w90705dn.html">當加密技術遇到物理世界：如何把握 DePIN 百億美金市場新機遇？</a>
-                                        </p>
-                                        <h3>GameFi</h3>
-                                        <p>遊戲行業正在經歷巨大的增長，Ubisoft、Square Enix、Activision Blizzard 等遊戲巨頭現在頻繁地表現出對基於區塊鏈的遊戲的偏好。對普通玩家來説，GameFi 或 Web3 遊戲是通往加密貨幣的門戶。</p>
-                                        <p>全球各年齡段的遊戲玩家超過 27 億，因此遊戲是如今加密貨幣不能忽視的大範圍普及領域。基於區塊鏈的遊戲不僅具有娛樂性，而且具有教育性，甚至可以從小培養兒童的金融知識。
-                                            <!-- [if gte vml 1]>
-                                            <v:shape id="圖片_x0020_12" o:spid="_x0000_i1027"
- type="#_x0000_t75" alt="圖像" style='width:415pt;height:233pt;visibility:visible;
- mso-wrap-style:square'>
-                                                <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image010.jpg"
-  o:title="圖像"/>
-                                            </v:shape>
-                                            <![endif]-->
-                                        </p>
-                                        <p>部分代表性項目：</p>
-                                        <ul>
-                                            <li>
-                                                <a href="https://www.panewslab.com/zh/articledetails/jamm9k7z.html">Echelon</a>（PRIME）：Echelon 鏈遊平台將推出兩款遊戲，分別是 Parallel TCG（卡牌遊戲）和 Parallel Colony（模擬類遊戲）
-                                            </li>
-                                            <li>Photo Finish（CROWN）：創新的虛擬賽馬生態系統</li>
-                                            <li>Epik Prime（EPIK）：目標是成為數字產品品牌整合的全球領導者</li>
-                                        </ul>
-                                        <p style="text-align: center;">
-                                            <!-- [if gte vml 1]>
-                                            <v:shape id="圖片_x0020_13" o:spid="_x0000_i1026"
- type="#_x0000_t75" alt="圖像" style='width:415pt;height:554pt;visibility:visible;
- mso-wrap-style:square'>
-                                                <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image011.jpg"
-  o:title="圖像"/>
-                                            </v:shape>
-                                            <![endif]-->
-                                            <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/xtToJ0i4Di.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                                            </p>
-                                            <p>相關閲讀：
-                                                <a href="https://www.panewslab.com/zh/articledetails/oq4e41z3wxno.html">熱門鏈遊盤點：未來的區塊鏈遊戲有哪些新可能？</a>
-                                            </p>
-                                            <h3>DeFi 3.0：借貸、Perps 和 LSD</h3>
-                                            <p>DeFi 3.0 將成為未來幾年 DeFi 行業的基礎。自上輪牛市開始以來，DeFi 市場經歷了顯著增長，催生眾多不同的生態系統，預計 Lending 和 LSD 將成為下輪牛市焦點，為用戶提供最大的資本效率。另一方面，Perps 將發揮重要作用，由於新交易者湧入該領域，將產生可觀的收入。</p>
-                                            <p style="text-align: center;">
-                                                <!-- [if gte vml 1]>
-                                                <v:shape
- id="圖片_x0020_14" o:spid="_x0000_i1025" type="#_x0000_t75" alt="圖像" style='width:415pt;
- height:338pt;visibility:visible;mso-wrap-style:square'>
-                                                    <v:imagedata src="file:////Users/nancy/Library/Group%20Containers/UBF8T346G9.Office/TemporaryItems/msohtmlclip/clip_image012.jpg"
-  o:title="圖像"/>
-                                                </v:shape>
-                                                <![endif]-->
-                                                <img src="https://cdn-img.panewslab.com/panews/2023/12/04/images/rnvSATJPpR.jpg" alt="盤點下輪牛市週期的潛力加密敍事：RWA、GameFi、DeFi 3.0……" referrerpolicy="no-referrer">
-                                                </p>
-                                                <p>部分代表性項目：</p>
-                                                <ul>
-                                                    <li>
-                                                        <a href="https://www.panewslab.com/zh/articledetails/9aq9gn59o583.html">Frax Finance</a>（FXS）：DeFi 多功能工具，產品涵蓋所有可能的利基市場
-                                                    </li>
-                                                    <li>Fluid（INST）：DeFi 3.0 的主要代表，包括整個生態系統</li>
-                                                    <li>
-                                                        <a href="https://www.panewslab.com/zh/articledetails/2ram8r9f.html">Mux Protocol</a>（MCB）：第一個 Perp DEX 聚合器
-                                                    </li>
-                                                </ul>
-                                                <p>儘管其他敍事可能會在牛市中展示其優勢，但重要的是要優先考慮哪些能促進大規模採用，並推動其進步的敍事。專注主流敍述比分散關注多個小敍事更有益。</p>
-                                                <p>相關閲讀：
-                                                    <a href="https://www.panewslab.com/zh/articledetails/puacf5b9.html">長線埋伏好時機？一文盤點值得關注的六大加密項目</a></p>]]>
-                                                </description>
-                                                <pubDate>Mon, 04 Dec 2023 03:00:30 GMT</pubDate>
-                                                <guid isPermaLink="false">https://panewslab.com/zh/articledetails/x16gfgls.html</guid>
-                                                <link>https://panewslab.com/zh/articledetails/x16gfgls.html</link>
-                                                <author>
-                                                    <![CDATA[Felix]]>
-                                                </author>
-                                                <category>深度</category>
-                                                <category>PA 原創</category>
-                                                <category>AI</category>
-                                                <category>DeFi</category>
-                                                <category>RWA</category>
-                                                <category>GameFi</category>
-                                            </item>
-                                            <item>
-                                                <title>
-                                                    <![CDATA[一覽朝鮮黑客 Lazarus Group 如何在 6 年竊取 30 億美元加密貨幣]]>
-                                                </title>
-                                                <description>
-                                                    <![CDATA[<blockquote>2016 年入侵了孟加拉國中央銀行，竊取了 8100 萬美元。2018 年攻擊日本加密貨幣交易所 Coincheck 盜走 5.3 億美元，並攻擊了馬來西亞中央銀行，竊取了 3.9 億美元。</blockquote><p>作者：碳鏈價值</p><p>近日，根據網絡安全公司 Recorded Future 發佈的一份報告顯示，與朝鮮有關的黑客組織 Lazarus Group 在過去 6 年中竊取了 30 億美元加密貨幣。</p><p>報告稱，僅在 2022 年， Lazarus Group 就掠奪了 17 億美元的加密貨幣，很可能為朝鮮項目提供資金。</p><p>區塊鏈數據分析公司 Chainalysis 表示，其中 11 億美元是從 DeFi 平台被盜的。美國國土安全部 9 月份發佈報告稱，作為其分析交換計劃 ( AEP ) 的一部分，也強調了 Lazarus 對 DeFi 協議的利用。</p><p>Lazarus Group 的專長是資金盜竊。201 6 年，他們入侵了孟加拉國中央銀行，竊取了 8100 萬美元。2018 年，他們攻擊了日本加密貨幣交易所 Coincheck ，盜走了 5.3 億美元，並攻擊了馬來西亞中央銀行，竊取了 3.9 億美元。</p><p>碳鏈價值精編報告精華部分供大家參考：</p><p>自 2017 年開始，朝鮮將加密行業作為網絡攻擊目標，竊取加密貨幣價值總計超過 30 億美元。而在此之前，朝鮮曾劫持 SWIFT 網絡，並從金融機構之間竊取資金。這種活動引起了國際機構密切關注。金融機構從而投資改善了自身網絡安全防禦。</p><p>在 2017 年，加密貨幣開始盛行成為主流時，朝鮮黑客將其竊取目標從傳統金融轉向這種新型數字金融之上，首先瞄準的是韓國加密市場，隨後在全球範圍內擴展了影響力。</p><p>僅在 2022 年，朝鮮黑客被指控竊取了價值約 17 億美元的加密貨幣，這個數字相當於朝鮮國內經濟規模的約 5%，或其軍事預算的 45%。這個數字也幾乎是朝鮮 2021 年出口價值的 10 倍，根據 OEC 網站數據顯示，當年朝鮮的出口額為 1.82 億美元。</p><p>朝鮮黑客在加密行業竊取加密貨幣的運作方式，通常與利用加密混合器、跨鏈交易和法幣 OTC 的傳統網絡犯罪的運作方式相似。然而，因為有國家在背後作為後盾，所以竊取行為能夠擴大自身運作規模。這種運作方式是傳統網絡犯罪團夥無法做到的。</p><p>根據數據追蹤，2022 年，約有 44% 被盜加密貨幣與朝鮮黑客行為有關。</p><p>朝鮮黑客的目標並不侷限於交易所，個人用戶、風投公司以及其他技術和協議都曾受到朝鮮黑客行為的攻擊。所有這些在行業運營的機構和工作的個人都有可能成為朝鮮黑客的潛在目標，從而讓朝鮮政府繼續運作和籌集資金。</p><p>任何在加密行業中任職的用戶、交易所運營商以及初創企業創始人，都應該意識到可能成為黑客攻擊的目標。</p><p>傳統金融機構也應密切關注朝鮮黑客組織的活動。一旦加密貨幣被竊取並轉換成法幣，朝鮮黑客竊取行為將在不同賬戶之間進行資金轉移以掩蓋來源。通常情況下，被盜身份以及修改後的照片被用於繞過 AML / KYC 驗證。任何成為與朝鮮黑客團隊相關入侵受害者的個人識別信息（ PII ）可能會被用來註冊賬戶，以完成竊取加密貨幣的洗錢過程。因此，經營加密貨幣和傳統金融行業以外的公司也應警惕朝鮮黑客團體活動，以及他們的數據或基礎設施是否被用作進一步入侵的跳板。</p><p>由於朝鮮黑客組織的大多數入侵都始於社會工程和網絡釣魚活動。一些組織機構應該培訓員工監控此類活動，並實施強有力的多因素身份驗證，例如，符合 FIDO2 標準的無密碼認證。</p><p>朝鮮明確將持續竊取加密貨幣視為主要收入來源，用於資助自身軍事和武器項目。雖然目前尚不清楚有多少竊取的加密貨幣直接用於資助彈道導彈發射，但很明顯，近年來被竊取的加密貨幣數量以及導彈發射數量都大幅增加。如果沒有更嚴格法規、網絡安全要求和對加密貨幣公司網絡安全的投資，朝鮮幾乎肯定會繼續以加密貨幣行業作為支持國家額外收入的來源。</p><p>2023 年 7 月 12 日，美國企業軟件公司 JumpCloud 宣佈，一名朝鮮支持的黑客已經進入其網絡。 Mandiant 研究人員隨後發佈一份報告，指出負責此次攻擊的團體是 UNC4899 ，很可能對應着「 TraderTraitor 」，一個專注於加密貨幣的朝鮮黑客組織。截至 2023 年 8 月 22 日，美國聯邦調查局（ FBI ）發佈通告稱，朝鮮黑客組織涉及 Atomic Wallet 、 Alphapo 和 CoinsPaid 的黑客攻擊，共竊取 1.97 億美元的加密貨幣。這些加密貨幣的竊取使得朝鮮政府能夠在嚴格的國際制裁下繼續運作，並資助其高達 50% 的彈道導彈計劃的成本。</p><p>2017 年，朝鮮黑客入侵了韓國的交易所 Bithumb 、 Youbit 和 Yapizon ，當時竊取的加密貨幣價值約為 8270 萬美元。還有報道稱，2017 年 7 月 Bithumb 用戶的客戶個人身份信息遭到泄露後，加密貨幣用戶也成為了攻擊目標。</p><p>除竊取加密貨幣外，朝鮮黑客還學會了加密貨幣挖礦。2017 年 4 月，卡巴斯基實驗室的研究人員發現一種 Monero 挖礦軟件，該軟件安裝在 APT38 的入侵中。</p><p>2018 年 1 月，韓國金融安全研究所研究人員宣佈，朝鮮的 Andariel 組織在 2017 年夏季入侵一家未公開的公司服務器，並用於挖掘了約 70 枚當時價值約為 25000 美元的門羅幣。</p><p>2020 年，安全研究人員繼續報告了朝鮮黑客針對加密貨幣行業的新網絡攻擊。朝鮮黑客組織 APT38 針對美國、歐洲、日本、俄羅斯和以色列的加密貨幣交易所進行攻擊，並使用 Linkedin 作為最初聯繫目標的方式。</p><p>2021 年是朝鮮針對加密貨幣行業的最高產的一年，朝鮮黑客入侵了至少 7 家加密貨幣機構，並竊取了價值 4 億美元的加密貨幣。此外，朝鮮黑客開始瞄準 Altcoins （山寨幣），包括 ERC -20 代幣，以及 NFT s 。</p><p>2022 年 1 月， Chainalysis 研究人員確認，從 2017 年以來尚有價值 1.7 億美元的加密貨幣待兌現。</p><p>2022 年歸屬於 APT38 的顯著攻擊包括 Ronin Network 跨鏈橋（損失 6 億美元）、 Harmony 橋（損失 1 億美元）、 Qubit Finance 橋（損失 8000 萬美元）和 Nomad 橋（損失 1.9 億美元）。這 4 次攻擊特別針對這些平台的跨鏈橋。跨鏈橋連接了 2 個區塊鏈，允許用戶將一種加密貨幣從一個區塊鏈發送到另一個包含不同加密貨幣的區塊鏈。</p><p>2022 年 10 月，日本警察廳宣佈 Lazarus Group 針對在日本運營的加密貨幣行業的公司進行了攻擊。雖然沒有提供具體細節，但聲明指出，一些公司遭到了成功的入侵，並且加密貨幣被竊取。</p><p>2023 年 1 月至 8 月間， APT38 據稱從 Atomic Wallet （2 次攻擊共 1 億美元損失）、 AlphaPo （2 次攻擊共 6 000 萬美元損失）和 CoinsPaid （3700 萬美元損失）竊取了 2 億美元。同樣在 1 月份，美國 FBI 證實， APT38 在竊取 Harmony 的 Horizon 橋虛擬貨幣方面損失了 1 億美元。</p><p>在 2023 年 7 月的 CoinsPaid 攻擊中， APT38 操作員可能冒充招聘者，專門針對 CoinsPaid 的員工發送了招聘電子郵件和 LinkedIn 消息。 CoinsPaid 表示， APT38 花了 6 個月的時間試圖獲得對其網絡的訪問權限。</p><h3>緩解措施</h3><p>以下是 Insikt Group 提出的防範建議，以防止朝鮮網絡攻擊針對加密貨幣用戶和公司的攻擊行為：</p><p>啓用多重身份認證（ MFA ）：為錢包和交易使用硬件設備，如 YubiKey ，以增強安全性。</p><p>為加密貨幣交易所啓用任何可用的 MFA 設置，以最大程度保護賬戶免受未經授權的登錄或竊取。</p><p>驗證已驗證的社交媒體賬戶，檢查用戶名是否包含特殊字符或數字替換字母。</p><p>確保所請求的交易是合法的，驗證任何空投或其他免費加密貨幣或 NFT 推廣活動。</p><p>在接收到類似 Uniswap 或其他大型平台的空投或其他內容時，始終檢查官方來源。</p><p>始終檢查 URL ，並在點擊鏈接後觀察重定向，確保網站是官方網站而不是釣魚網站。</p><p>以下是針對社交媒體詐騙防禦的一些提示：</p><p>在進行加密貨幣交易時格外謹慎。加密貨幣資產沒有任何機構保障來減輕「傳統」欺詐。</p><p>使用硬件錢包。硬件錢包可能比像 MetaMask 這樣始終連接到互聯網的「熱錢包」更安全。對於連接到 MetaMask 的硬件錢包，所有交易都必須通過硬件錢包批准，從而提供了額外的安全層。</p><p>僅使用可信的 dApp s （去中心化應用程序），並驗證智能合約地址以確認其真實性和完整性。真正的 NFT 鑄造交互依賴於可能是更大 dApp 的一部分的智能合約。可以使用 MetaMask 、區塊鏈瀏覽器（如 Etherscan ）或有時直接在 dApp 內部驗證合約地址。</p><p>雙重檢查官方網站的網址以避免模仿。一些加密貨幣竊取釣魚頁面可能依賴於域名拼寫錯誤來欺騙毫不知情的用戶。</p><p>對於看起來太好以至於難以置信的優惠表示懷疑。加密貨幣竊取釣魚頁面會以有利的加密貨幣交易匯率或 NFT 鑄造交互的低廉 Gas 費來吸引受害者。</p>]]>
-                                                </description>
-                                                <pubDate>Mon, 04 Dec 2023 02:01:39 GMT</pubDate>
-                                                <guid isPermaLink="false">https://panewslab.com/zh/articledetails/3j47s9p9.html</guid>
-                                                <link>https://panewslab.com/zh/articledetails/3j47s9p9.html</link>
-                                                <author>
-                                                    <![CDATA[碳鏈價值]]>
-                                                </author>
-                                                <category>深度</category>
-                                                <category>黑客</category>
-                                            </item>
-                                        </channel>
-                                    </rss>
+    </channel>
+</rss>
