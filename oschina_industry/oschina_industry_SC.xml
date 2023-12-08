@@ -16,8 +16,122 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 08 Dec 2023 03:12:24 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 08 Dec 2023 05:16:08 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[虚拟机成为 Android 的核心结构]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>安卓虚拟化框架（AVF）将出现在即将推出的部分安卓 14 设备上。AVF 于 Android 13 首次在 Pixel 设备上推出，为开发特权应用程序的平台开发人员提供了新的功能。</p><p>有了 AVF，我们将更广泛地支持安卓的虚拟化。虚拟化被广泛应用和部署，以隔离工作负载和操作系统。它可以有效地扩展基础设施、测试环境、兼容传统软件、创建虚拟桌面等。</p><p style="text-align:start">有了 AVF，虚拟机就成了安卓操作系统的核心结构，类似于安卓利用 Linux 进程的方式。开发人员可以灵活选择虚拟机的隔离级别：</p><ul><li><p>单向隔离：安卓（主机）可以控制和检查虚拟机的内容。这些虚拟机最常用于沙箱和隔离，使多个操作系统能在同一台机器/设备上运行，由一个操作系统主机（Android）控制和监视所有其他操作系统。</p></li></ul><ul><li><p>双向隔离（隔离虚拟机）：Android（主机）和虚拟机（客户机）完全相互隔离。处理或存储敏感数据的开发人员可能会受益于隔离虚拟机。隔离虚拟机具有双向屏障，主机（Android）和虚拟机都无法访问对方，除非通过明确商定的通信渠道。这有两个主要特性：</p></li></ul><blockquote><blockquote><ol><li><p>主机（Android）无法访问虚拟机内的工作负载和数据（保密）。</p></li><li><p>即使 Android 一直到（包括）主机内核都受到攻击，隔离的虚拟机也不会受到攻击。</p></li></ol></blockquote></blockquote><h3 style="text-align:start"><strong>AVF 的意义</strong></h3><h4 style="text-align:start"><strong>隔离</strong></h4><p style="text-align:start">有了隔离虚拟机，开发人员现在有了 Trustzone 之外的另一种选择，可用于需要在不升级权限的情况下与 Android 隔离的用例。</p><h4 style="text-align:start"><strong>便携性</strong></h4><p style="text-align:start">虚拟机及其内部运行的应用程序的可移植性远高于可信 applets。例如，带有 Linux 应用程序有效载荷的基于 Linux 的虚拟机可以在所有支持 AVF 的设备上运行。这意味着开发人员只需构建一次应用程序，就可以将其部署到任何地方。与移植到 Trustzone 操作系统相比，虚拟机还能无缝、轻松地移植基于 Linux 的现有应用程序。</p><h4 style="text-align:start"><strong>性能</strong></h4><p style="text-align:start">AVF 设计轻巧、高效、灵活。虚拟机可以：</p><ul><li><p>根据开发者的需要，小到一个 C 语言程序，大到整个操作系统；</p></li><li><p>做到持续性或间歇性；</p></li><li><p>根据整个系统的健康状况增加或缩小内存；</p></li><li><p>遵循 Android 的调度程序提示和低内存警告。</p></li></ul><h4 style="text-align:start"><strong>可扩展性</strong></h4><p style="text-align:start">AVF 在设计时考虑到了开发人员的需求。虚拟机可以定制，以满足特定用例的需求。只要符合 AVF 规定的某些启动和通信协议，开发人员就可以部署任何虚拟机有效载荷。</p><p style="text-align:start">除了将虚拟化的强大功能引入安卓系统，实现虚拟桌面、沙箱、AVF 使用隔离虚拟机的所有可能性外，还能使以下常见的安卓使用场景（以及更多使用场景）受益：</p><ul><li><p>生物识别：通过在隔离的虚拟机中部署生物识别可信 applets，开发人员将获得隔离保证、生物识别算法所需的更多计算能力、与 Trustzone 操作系统无关的轻松更新能力以及更简化的部署。</p></li></ul><ul><li><p>DRM：Widevine 可在安卓设备上实现流式 DRM。一旦部署在隔离的虚拟机中，无论安卓设备上部署的各种 Trustzone 操作系统的细节如何，Widevine 的更新在这些设备上都会变得更加容易。</p></li></ul><h3 style="text-align:start"><strong>AVF 使用</strong></h3><p style="text-align:start">AVF 提供了简单的应用程序接口，用于查询设备创建虚拟机的能力及其支持的类型，以及从创建虚拟机的应用程序和服务与这些虚拟机建立安全的通信渠道。</p><p style="text-align:start">例如，检查 AVF API 的可用性，以及隔离虚拟机和常规虚拟机的可用性：</p><pre><code>VirtualMachineManager manager =
+     (VirtualMachineManager)context.
+          getSystemService(VirtualMachineManager.class);
+if (manager == null) {
+    // AVF not supported
+} else {
+    int capabilities = manager.getCapabilities();
+    if ((capabilities &amp; CAPABILITY_PROTECTED_VM) != 0) {
+        // protected VM is supported
+    }
+    if ((capabilities &amp; CAPABILITY_NON_PROTECTED_VM) != 0) {
+        // non protected VM is supported
+    }
+}
+</code></pre><p style="text-align:start">有关 AVF 及其 API 的其他文档，请<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization" target="_blank">点击此处查看</a>。</p><h3 style="text-align:start"><strong>AVF 组件</strong></h3><p><img align="left" alt="AVF Component architecture" height="219" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqoflrFdKllbCL-ksao2ozMc0Vwp3eAXNadr58iaiCyd4noAKVuwaetGcVVoU1s1s_g3FA94wCHv_wg8AYbnczEY518U98tUwpYqkyLM-H2IbKpJcNY55xg6yCw5KO2Nk5HW2uAxAGNBXVdDVm8dNdG4das2y7RBWaQCWleykRilaLbd0sfFnb0JOXgC0/s1600/image1.png" width="453" referrerpolicy="no-referrer"></p><p>AVF 由框架 API、<strong>Hypervisor </strong>和虚拟机管理器组成。<strong>Hypervisor </strong>确保虚拟机（包括 Android）相互隔离，就像 Linux 内核对进程的隔离一样。不过，与 Linux 内核相比，AVF <strong>Hypervisor</strong>（pKVM）的代码量要小得多（约 50 倍）。</p><h4 style="text-align:start"><strong>Hypervisor (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Farchitecture%23hypervisor" target="_blank"><strong>pKVM</strong></a><strong>)&nbsp;</strong></h4><p style="text-align:start"><strong>Hypervisor </strong>侧重于开源可用性、安全性、虚拟机的设备分配以及虚拟机之间的隔离安全。它的攻击面较小，符合较高的安全保证级别。受保护的 KVM <strong>Hypervisor</strong>（pKVM）完全支持 AVF API 和功能。</p><p style="text-align:start">pKVM 构建在 Linux 中基于内核的虚拟机（KVM）这一行业标准之上。这意味着所有依赖基于 KVM 的虚拟机的现有操作系统和工作负载都能通过 pKVM 在安卓设备上无缝运行。</p><h4 style="text-align:start"><strong>虚拟机管理器 (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid.googlesource.com%2Fplatform%2Fexternal%2Fcrosvm%2F" target="_blank"><strong>crosvm</strong></a><strong>)</strong></h4><p style="text-align:start">crosvm 是基于 Rust 的虚拟机管理器（VMM），是 <strong>Hypervisor </strong>与 AVF 框架之间的桥梁。它负责创建、管理和销毁虚拟机。此外，它还提供了一个跨多个 <strong>Hypervisor </strong>实现的抽象层。</p><h4 style="text-align:start"><strong>隔离虚拟机</strong></h4><p style="text-align:start">隔离的虚拟机对 Android 来说是不可见的，即在 Android 中运行的任何进程都无法检查、查看或篡改此类虚拟机的内容。这一保证由 <strong>Hypervisor </strong>提供。</p><h4 style="text-align:start"><strong>虚拟机</strong></h4><p style="text-align:start">虚拟机与隔离的虚拟机相同，只是拥有正确权限的 Android 进程可以访问虚拟机。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fmicrodroid" target="_blank"><strong>Microdroid</strong></a></h4><p style="text-align:start">Microdroid 是一个经过精简的 Android 操作系统软件包，可作为启动虚拟机（VM）的模板。它为开发人员在虚拟机中构建和运行工作负载提供了熟悉的环境。Microdroid 使用熟悉的 Android 工具和库，如 Bionic、Binder IPC 和 keystore 支持。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fvirtualization-service" target="_blank"><strong>虚拟化服务</strong></a></h4><p style="text-align:start">VirtualizationService 管理所有客户虚拟机（无论是否隔离）。它主要通过管理 crosvm 实例来实现。它还公开了 AIDL API，系统服务或特权应用程序可使用该 API 启动、监控和停止虚拟机。</p><h4 style="text-align:start"><strong>RpcBinder</strong></h4><p style="text-align:start">RpcBinder 是为 Android 界面定义语言（AIDL）开发的全新后端。RpcBinder 可使用现有的 binder 线协议与虚拟机进行通信。这意味着：</p><ol><li><p>开发人员可以使用他们已经熟悉的语言和基础架构（AIDL）编写虚拟机接口。</p></li><li><p>只需继续使用现有的 AIDL 接口，即使绑定端点转移到虚拟机中也是如此。</p></li></ol><h3 style="text-align:start"><strong>Android 14 有哪些新功能？</strong></h3><p style="text-align:start">安卓 14 不仅使 AVF 可以在更多设备上使用，还提供了一个新的工具包，使用户可以使用 AVF 及其组件构建更多内容：</p><ul><li><p><strong>用于 AVF 的安卓系统应用程序接口</strong>&nbsp;</p></li></ul><blockquote><p>特权应用程序现在可以使用虚拟机来执行需要隔离的关键工作负载；</p></blockquote><ul><li><p><strong>Hypervisor DevEx 工具包</strong>&nbsp;</p></li></ul><blockquote><p>添加了跟踪功能、改进的可调试性和监控功能，以提供洞察力并协助平台开发人员在隔离虚拟机内进行开发；</p></blockquote><ul><li><p><strong>Hypervisor 供应商模块</strong></p></li></ul><blockquote><p>通过供应商模块扩展，我们的合作伙伴可以定制谷歌的 pKVM，以满足他们的特定需求，实现差异化；</p></blockquote><ul><li><p><strong>改善系统健康</strong>&nbsp;</p></li></ul><blockquote><p>安卓 14 中，基于 microdroid 的虚拟机启动速度比安卓 13 快 2 倍，而内存使用量却只有安卓 13 的一半。</p></blockquote><p>AVF 框架的其它部分可让 Android 服务和应用程序轻松使用虚拟化。例如，使用 AIDL 作为传输层抽象虚拟机之间的通信，管理虚拟机生命周期或虚拟机的创建方式。</p><blockquote><p>原文链接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F12%2Fvirtual-machines-as-core-android-primitive.html" target="_blank">https://android-developers.googleblog.com/2023/12/virtual-machines-as-core-android-primitive.html</a></p><p><em>Posted by Sandeep Patil – Principal Software Engineer, and Irene Ang – Product Manager</em></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:52:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</guid>
+            <link>https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[OpenTiny Vue 3.12.0 发布：文档大优化！增加水印和二维码两个新组件🎈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>你好，我是 Kagol。</p><p>非常高兴跟大家宣布，2023 年 11 月 30 日，OpenTiny Vue 发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Freleases%2Ftag%2Fv3.12.0" target="_blank">v3.12.0</a> 🎉。</p><p>OpenTiny 每次大版本发布，都会给大家带来一些实用的新特性，10.24 我们发布了 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Freleases%2Ftag%2Fv3.11.0" target="_blank">v3.11.0</a> 版本，增加了富文本、ColorPicker 等 4 个新组件，该版本共有 23 位贡献者参与。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjuejin.cn%2Fpost%2F7293122369610940452" target="_blank">🎊OpenTiny Vue 3.11.0 发布：增加富文本、ColorPicker 等 4 个新组件，迎来了贡献者大爆发！</a></p><p>本次 3.12.0 版本主要有以下更新：</p><ul><li>全面优化 54 个高频组件的 Demo / API 文档，让文档更加清晰易懂、符合预期</li><li>Watermark 水印组件</li><li>QrCode 二维码组件</li></ul><p>本次版本共有 21 位贡献者参与开发，其中有 8 位是新贡献者，欢迎新朋友们👏</p><p>以下是新贡献者：</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffanbingbing16" target="_blank">@fanbingbing16</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F686" target="_blank">#686</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdyh333" target="_blank">@dyh333</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F667" target="_blank">#667</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fbetavs" target="_blank">@betavs</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F719" target="_blank">#719</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fbetterdancing" target="_blank">@betterdancing</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F742" target="_blank">#742</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FDavid-TechNomad" target="_blank">@David-TechNomad</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F772" target="_blank">#772</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffalcon-jin" target="_blank">@falcon-jin</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F844" target="_blank">#844</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fwuyiping0628" target="_blank">@wuyiping0628</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F944" target="_blank">#944</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FJames-9696" target="_blank">@James-9696</a>&nbsp;made their first contribution in&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fpull%2F970" target="_blank">#970</a></li></ul><p>也感谢老朋友们对 OpenTiny 的辛苦付出！</p><p>大家可以更新 <code>@opentiny/vue@3.12.0</code> 进行体验！</p><h2>组件文档优化</h2><p>为了提升开发者阅读文档的体验，从 9 月份至今，我们花了整整三个月时间对 54 个高频组件的 demo / api 文档进行全面的优化。</p><p>希望你能喜欢这波优化，如果你在使用过程中，发现有描述不清楚、不合理、不美观之处，也希望你能给我们提交&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue%2Fissues" target="_blank">Issue</a>&nbsp;进行反馈。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjuejin.cn%2Fpost%2F7309352577146126373" target="_blank">🎉开发者的福音：TinyVue 组件库文档大优化！类型更详细，描述更清晰！</a></p><h2>Watermark 水印</h2><p>水印组件用于保护文档的版权，防止文档被非法复制或盗用，常见的使用场景有：</p><ul><li>在公司内部文档中添加水印，以防止机密信息泄露</li><li>在商业合同或法律文件中添加水印，以保护文件的真实性和完整性</li><li>在电子书籍或其他数字内容中添加水印，以防止盗版和非法传播</li><li>在社交媒体发布图片时添加水印，以保护自己的版权</li></ul><p>Watermark 使用方式很简单，只需要用水印组件包裹要添加水印的内容即可。</p><pre><code class="language-html">&lt;template&gt;
+  &lt;tiny-watermark v-bind="params"&gt;
+    &lt;div style="height: 500px"&gt;&lt;/div&gt;
+  &lt;/tiny-watermark&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { reactive } from 'vue'
+import { Watermark as TinyWatermark } from '@opentiny/vue'
+
+const params = reactive({
+  content: ['I ❤️ TinyVue', 'TinyVue is 👍'],
+})
+&lt;/script&gt;
+</code></pre><p>效果如下： <img src="https://oscimg.oschina.net/oscnet/up-562c09e08e9917cda421a6a2587e3ea3c93.png" alt="" referrerpolicy="no-referrer"></p><p>其中水印内容可以支持调整宽高、旋转角度、字体、间距等，并且支持图片水印。</p><p>图片水印效果：</p><p><img src="https://oscimg.oschina.net/oscnet/up-fd8835c16270be5786afdb4a6e2c654618c.png" alt="" referrerpolicy="no-referrer"></p><p>水印组件链接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopentiny.design%2Ftiny-vue%2Fzh-CN%2Fos-theme%2Fcomponents%2Fwatermark" target="_blank">https://opentiny.design/tiny-vue/zh-CN/os-theme/components/watermark</a></p><p>欢迎体验！</p><h2>QrCode 二维码</h2><p>二维码组件的使用场景非常丰富：</p><ul><li>线下演讲时，可以在 PPT 放个人微信的二维码，方便听众用手机扫码获得讲师的联系方式，进行进一步的沟通</li><li>商家可以在产品上印制二维码，用户通过扫描二维码来获取产品信息或说明书</li><li>用户通过扫描二维码来登录网站或应用，提高登录的安全性和便捷性</li></ul><p>QrCode 使用方式也很简单，只需要传入链接地址即可。</p><pre><code class="language-html">&lt;template&gt;
+  &lt;tiny-qr-code v-bind="params"&gt;&lt;/tiny-qr-code&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { QrCode as TinyQrCode } from '@opentiny/vue'
+
+const params = {
+  value: 'https://opentiny.design/tiny-vue'
+}
+&lt;/script&gt;
+</code></pre><p>效果如下：</p><p><img src="https://oscimg.oschina.net/oscnet/up-6cd3890d8cffa77d3bdc957eba9a64ebdf0.png" alt="" referrerpolicy="no-referrer"></p><p>可以尝试扫描上面的二维码，将会进入 TinyVue 官网。</p><p>二维码的大小、颜色、背景、间距等都支持配置，同时也支持自定义图片。</p><p>自定义图片的二维码效果：</p><p><img src="https://oscimg.oschina.net/oscnet/up-1c1ee113e783fece7810d1d2f23432dc9fd.png" alt="" referrerpolicy="no-referrer"></p><p>二维码组件链接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopentiny.design%2Ftiny-vue%2Fzh-CN%2Fos-theme%2Fcomponents%2Fqr-code" target="_blank">https://opentiny.design/tiny-vue/zh-CN/os-theme/components/qr-code</a></p><p>欢迎体验！</p><hr><p>欢迎加入 OpenTiny 开源社区。</p><p>添加微信小助手：opentiny-official，一起参与共建！</p><p>开源不易，请给&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue" target="_blank">TinyVue</a>&nbsp;点个 Star ⭐ 鼓励下，感谢你对我们 OpenTiny 的大力支持！</p><p>源码：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue" target="_blank">https://github.com/opentiny/tiny-vue</a></p><p><img src="https://oscimg.oschina.net/oscnet/up-8eccff9b756a679b6502e7d270961b07240.png" alt="" referrerpolicy="no-referrer"></p><h2>联系我们</h2><p>GitHub：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopentiny%2Ftiny-vue" target="_blank">https://github.com/opentiny/tiny-vue</a>（欢迎 Star ⭐）</p><p>官网：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopentiny.design%2Ftiny-vue" target="_blank">https://opentiny.design/tiny-vue</a></p><p>B 站：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F15284299" target="_blank">https://space.bilibili.com/15284299</a></p><p>公众号：OpenTiny</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4863191/blog/10320008</guid>
+            <link>https://my.oschina.net/u/4863191/blog/10320008</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[2023 年，再来聊聊：微服务、中台？]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>阿里巴巴市值被拼多多反超后，互联网上出现了各种对比和分析两家公司的文章，基本都是围绕组织架构、商业模式、企业愿景等宏观方面展开。</p><p>片刻之间，阿里此前的各种「战略」似乎都成了「昏招」。这不，曾经他们引以为豪的「中台」也被拿出来批判了。</p><p><img src="https://static.oschina.net/uploads/space/2023/1208/115007_40xS_2720166.png" referrerpolicy="no-referrer"></p><p><img src="https://static.oschina.net/uploads/space/2023/1208/115136_JIEp_2720166.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3b2b9bdc8dc5a4b3e10ffbfff09cc03a74d.png" referrerpolicy="no-referrer"></p><blockquote><p>阿里巴巴是中国第一个明确提出「中台战略」的企业。在 2015 年年中的时候，马云参观了芬兰游戏公司 Supercell。这家公司的员工人数非常少，还不到 200 人，但是一年的利润高达 15 亿美金。虽然开发了像《部落冲突》这样的知名游戏，但这家公司开发游戏的团队规模都很小，只有六七个人而已。</p><p>这么小规模的团队，怎么做成了这么大的业务呢？其中一个原因是他们把游戏开发过程中，要用的一些通用的游戏素材和算法整理出来，把这些作为工具提供给所有的小团队。</p><p>同一套工具，可以支持好几个小团队研发游戏。这种管理方式，就是一个「中台」的模型。</p><p>参观完之后，马云非常受启发，不久后阿里集团就正式提出了「<strong>大中台、小前台」</strong>的中台战略，通过将原本分散到各个业务的支持部门，比如技术部门、数据部门集中到一起。</p><p>这样，原本分散的支持部门聚合在一起后可以进行快速的服务迭代，更高效地支撑前线，大幅降低支持部门的重复投资建设。从此中台渐入中国企业家的视野。</p></blockquote><hr><p>说到中台，必然离不开「微服务」——这也是前几年非常火热的技术概念，但现在已经没什么话题度了。所以 2023 年，大家对微服务、中台有什么切身感受吗，一起来聊聊。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:47:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270064</guid>
+            <link>https://www.oschina.net/news/270064</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[小米澎湃 OS 首批正式版开始陆续推送]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span>小米澎湃 OS 官方微博发布动态称，小米澎湃 OS 第一批正式版正在逐步推送中。</span></p><p><span>5 款机型已于 12 月 7 日起开始陆续推送，分别为 Xiaomi 13 Pro、Xiaomi 13、Redmi K60 Pro、Redmi K60、Xiaomi Pad 6 Max 14。更多机型即将陆续推送。</span></p><p><span>Xiaomi MIX Fold 3、Xiaomi MIX Fold 2、Xiaomi Pad 6 Pro、Xiaomi Pad 6 则预计于 2024 年 1 月开始陆续推送。</span></p><p><img height="667" src="https://oscimg.oschina.net/oscnet/up-b95d11366413ac08d4ed48c93d084478d52.png" width="500" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:33:30 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270061</guid>
+            <link>https://www.oschina.net/news/270061</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[中国信通院发布《区块链白皮书（2023 年）》]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">2023 年 12 月 7 日，中国信息通信研究院（简称「中国信通院」）在「2023 年 Web3.0 创新大赛暨颁奖典礼」上<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F6_R6Mvw1xEPoTaTRoInFfQ" target="_blank">发布</a>了《区块链白皮书（2023 年）》并对白皮书进行了深度解读。</span></p><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">白皮书在之前基础上，重点融入了「2023 年区块链生态及产业发展情况调研」相关结果分析，并系统梳理了 2023 年国内外区块链技术、应用创新热点，以及产业生态发展新动态，特别是在全球 Web3.0 快速推进、数据要素价值加快释放的背景下，展望我国区块链技术应用和产业发展新趋势。</span></p><h4 style="margin-left:0px; margin-right:0px"><strong>白皮书核心观点</strong></h4><p style="margin-left:0; margin-right:0"><strong>1. 区块链技术面向高扩展、高性能和高安全持续演进。</strong>当前，区块链技术沿公有链和联盟链两大技术路线分别演进，公有链聚焦高性能、高扩展性和高安全性强化技术创新，联盟链则面向自主化、广域化、规模化应用实现持续优化。当前融合二者优势的开放联盟链也迎来快速发展，有望成为 Web3.0 时代数据价值释放和协作共享的技术底座。</p><p style="margin-left:0; margin-right:0"><strong>2. 区块链技术与公共服务、实体经济等领域深度融合。</strong>全球区块链应用范围从金融领域逐步向外延展，在实体经济、政务服务、公共服务、数字原生等领域加速落地，场景创新、模式创新层出不穷，行业生态逐步完善。此外，数字资产应用拓展了要素的发展边界，数字身份已成为数字世界的重要入口，区块链通过独特的机制正在成为促进数据要素供给流通与价值释放的重要基础设施，为构建 Web3.0 应用生态提供有力支撑。</p><p style="margin-left:0; margin-right:0"><strong>3. 多国政府积极布局 Web3.0 产业发展。</strong>全球多个国家和地区政府正在积极布局 Web3.0 发展，着力提升区块链治理及监管能力，沿不同路径持续推进区块链基础设施建设。我国区块链产业布局更加全面、协作更加紧密，标准体系日益完善，区块链基础设施建设初见成效，国产自主生态正稳步发展壮大。</p><p style="margin-left:0; margin-right:0"><strong>4. 全球加快优化区块链监管治理体系。</strong>全球范围内多个国家和地区正加快推动区块链监管治理体系优化，探索基于区块链的 Web3.0、数字资产等发展路径。我国地方政府积极开展相关布局，以政策扶持、机制创新等方式促进产业发展与监管合规同步推进，为数字经济发展提供新路径和新模式</p><p style="margin-left:0; margin-right:0"><img height="278" src="https://oscimg.oschina.net/oscnet/up-4dcdb04a180dee8c68991d52429f2a6c2cf.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="303" src="https://oscimg.oschina.net/oscnet/up-cc6a0478e95ab4852645905ddfd7661997b.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="309" src="https://oscimg.oschina.net/oscnet/up-e9d6c8a146fce01dab3e8838032809ad6f1.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="304" src="https://oscimg.oschina.net/oscnet/up-fc41d1b4f65c0ba86ad662b7019a04e50d2.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="307" src="https://oscimg.oschina.net/oscnet/up-e3b923b9f287991de935689803c56da9f6a.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="309" src="https://oscimg.oschina.net/oscnet/up-2862283eaefbd74a141207fba2634893f29.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="304" src="https://oscimg.oschina.net/oscnet/up-85f57208cc7017a701696280ab3e56b201a.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="311" src="https://oscimg.oschina.net/oscnet/up-264fed980163542fda3951f73cfafa9c9ef.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="311" src="https://oscimg.oschina.net/oscnet/up-22eb41296a9f9d624589657f9570e1a3818.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="306" src="https://oscimg.oschina.net/oscnet/up-5aec9e8e8721925137d746e323b3a4b472e.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="310" src="https://oscimg.oschina.net/oscnet/up-354bc09172ab7fb04087f99b2d259a2737c.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="313" src="https://oscimg.oschina.net/oscnet/up-d1edf6f022b4fb437c2d1ec45461338d608.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="303" src="https://oscimg.oschina.net/oscnet/up-9afaffbca935ed920989d45296f9ef7df9d.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="301" src="https://oscimg.oschina.net/oscnet/up-5d0ebfdcc4b0800d3d6aef007e153610e30.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="310" src="https://oscimg.oschina.net/oscnet/up-ef45c8ef4adcf6de0893a2b7c1585484e5e.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="310" src="https://oscimg.oschina.net/oscnet/up-7112a4582a8090126bac3344cffcd931c4b.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="306" src="https://oscimg.oschina.net/oscnet/up-4d508541738c8fc65a2f367dfeb655bda8b.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="311" src="https://oscimg.oschina.net/oscnet/up-a8bb5722b74ee290874eb54b2373cb00ff6.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="306" src="https://oscimg.oschina.net/oscnet/up-50cbdf8186a0c4335d77afaa69acda349e2.png" width="500" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:23:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270058</guid>
+            <link>https://www.oschina.net/news/270058</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[百度 Comate 荣获「2023 AIIA 人工智能十大先锋应用案例」奖]]>
@@ -41,7 +155,7 @@
                 <![CDATA[<div class="content"><p>国家互联网信息办公室就《网络安全事件报告管理办法（征求意见稿）》公开征求意见。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-c1eb5e22a141f8e4fc99760bb45a85f397d.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.cac.gov.cn%2F2023-12%2F08%2Fc_1703609634347501.htm" target="_blank">http://www.cac.gov.cn/2023-12/08/c_1703609634347501.htm</a></u></em></p></blockquote><p>征求意见稿提出，运营者在发生网络安全事件时，应当及时启动应急预案进行处置。按照《网络安全事件分级指南》，<strong>属于较大、重大或特别重大网络安全事件的，应当于 1 小时内进行报告</strong>。</p><p>其中，<strong>网络和系统归属中央和国家机关各部门及其管理的企事业单位的，运营者应当向本部门网信工作机构报告</strong>。属于重大、特别重大网络安全事件的，各部门网信工作机构在收到报告后应当于 1 小时内向国家网信部门报告。</p><p><strong>网络和系统为关键信息基础设施的，运营者应当向保护工作部门、公安机关报告</strong>。属于重大、特别重大网络安全事件的，保护工作部门在收到报告后，应当于 1 小时内向国家网信部门、国务院公安部门报告。</p><p><strong>其他网络和系统运营者应当向属地网信部门报告</strong>。属于重大、特别重大网络安全事件的，属地网信部门在收到报告后，应当于 1 小时内逐级向上级网信部门报告。</p><p>有行业主管监管部门的，<strong>运营者还应当按照行业主管监管部门要求报告</strong>。</p><p>运营者应当按照《网络安全事件信息报告表》报告事件，至少包括下列内容：</p><ul><li><p><strong>事发单位名称及发生事件的设施、系统、平台的基本情况</strong>；</p></li><li><p><strong>事件发现或发生时间、地点、事件类型、已造成的影响和危害，已采取的措施及效果</strong>。对勒索软件攻击事件，还应当包括要求支付赎金的金额、方式、日期等；</p></li><li><p>事态发展趋势及可能进一步造成的影响和危害；</p></li><li><p>初步分析的事件原因；</p></li><li><p>进一步调查分析所需的线索，包括可能的攻击者信息、攻击路径、存在的漏洞等；</p></li><li><p>拟进一步采取的应对措施以及请求支援事项；</p></li><li><p>事件现场的保护情况；</p></li><li><p>其他应当报告的情况。</p></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-c423dc28f0c5f4929c6ec12f752d357f88f.png" referrerpolicy="no-referrer"></p><p>当事件处置结束后，运营者应当于 5 个工作日内对事件原因、应急处置措施、危害、责任处理、整改情况、教训等进行全面分析总结，形成报告按照原渠道上报。</p><hr><p>附网络安全事件分级指南：</p><p><img height="1406" src="https://oscimg.oschina.net/oscnet/up-3bd9fcd558b1e34d9278bc32bdf7f4a8048.png" width="1030" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-b5c16894520b3208bea288209ff7de41132.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-66e96efeef0f4b5e2538e297a57ab5d40a8.png" referrerpolicy="no-referrer"></p><p><img height="1486" src="https://oscimg.oschina.net/oscnet/up-79b90dfeb4395d333078f97cdaff1a28129.png" width="936" referrerpolicy="no-referrer"></p><p><img height="1488" src="https://oscimg.oschina.net/oscnet/up-77f78a766c7e070b24b239150c9ec5de38f.png" width="934" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-dd98b736f8b6a5c76679267826d5058dada.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 08 Dec 2023 03:01:17 GMT</pubDate>
+            <pubDate>Fri, 08 Dec 2023 03:01:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270052</guid>
             <link>https://www.oschina.net/news/270052</link>
             <author>
@@ -56,7 +170,7 @@
                 <![CDATA[<div class="content"><p>支付宝与华为终端宣布合作，基于 HarmonyOS NEXT 启动支付宝鸿蒙原生应用开发。</p><p><img alt="" height="326" src="https://oscimg.oschina.net/oscnet/up-a9aa0abdc54a1c436a2c973752477f7b5a2.webp" width="500" referrerpolicy="no-referrer"></p><p>支付宝事业群总裁倪行军表示，双方的合作将进一步满足用户在不同终端、不同场景下享受智慧生活服务的需求；同时，华为在支付宝小程序领域的数字化布局也有利于提升商家在两个生态中的经营效率。</p><p><span style="background-color:#ffffff; color:#2b2b2b">支付宝目前服务商家已达 8000 万。通过支付宝 App，有近 400 万个商家机构小程序，扫码点单、生活缴费等超过 1000 项生活服务。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 08 Dec 2023 02:36:17 GMT</pubDate>
+            <pubDate>Fri, 08 Dec 2023 02:35:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270047</guid>
             <link>https://www.oschina.net/news/270047</link>
             <author>
@@ -86,7 +200,7 @@
                 <![CDATA[<div class="content"><p>Linux 内核开发者收到了一份提前的圣诞礼物 ——&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgit.kernel.org%2F" target="_blank">git.kernel.org</a>&nbsp;Web 界面已原生支持深色模式。对于开发者来说，深色模模式可以增强浏览官方 Linux 内核 Git 仓库，以及其他开发分支的查看体验。</p><p><img src="https://oscimg.oschina.net/oscnet/up-7e14e90ceb4a018a01f4aebacdc75e3f470.png" referrerpolicy="no-referrer"></p><p>从提交记录可以看到，几个月前就已经有补丁将 CSS 暗模式支持添加到 <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fgit.kernel.org" target="_blank">git.kernel.org</a> cgit Web 界面，现在终于上线了。</p><p><img src="https://oscimg.oschina.net/oscnet/up-514a596f11bc68a1ff4ba9c95167bba29c7.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 08 Dec 2023 02:18:17 GMT</pubDate>
+            <pubDate>Fri, 08 Dec 2023 02:17:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270043</guid>
             <link>https://www.oschina.net/news/270043</link>
             <author>
@@ -100,7 +214,7 @@
             <description>
                 <![CDATA[<p align="center"><img width="300" src="https://gitee.com/air-power/AirPower4T/raw/web/assets/img/airpower.png" referrerpolicy="no-referrer"></p><p align="center"><img src="https://svg.hamm.cn/?key=Lang&amp;value=TypeScript&amp;bg=green" referrerpolicy="no-referrer"><img src="https://svg.hamm.cn/?key=Base&amp;value=Vue3" referrerpolicy="no-referrer"><img src="https://svg.hamm.cn/?key=Build&amp;value=Vite" referrerpolicy="no-referrer"><img src="https://svg.hamm.cn/?key=UI&amp;value=ElementPlus" referrerpolicy="no-referrer"></p><p><a href="https://gitee.com/air-power/AirPower4T">Gitee</a> / <a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FHammCn%2FAirPower4T">Github</a> / <a href="https://gitee.com/air-power/AirPower4T/blob/web/CHANGELOG.md">CHANGELOG</a></p><h2><a id="user-content--这是个什么项目" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E8%BF%99%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE"></a>📖 这是个什么项目</h2><blockquote><p>你当前查看的是 <code>web</code> 分支，我们也同时提供了 <code>wechat</code>、<code>uniapp</code> 等分支：） 你可以先阅读 <a href="https://gitee.com/link?target=https%3A%2F%2Fjuejin.cn%2Fpost%2F7273290114921889807">掘金专栏</a> 的一些文章，也可以体验 <a href="https://gitee.com/link?target=https%3A%2F%2Fservice.hamm.cn">线上示例 DEMO</a>，如果你喜欢这个项目，欢迎给我们大大的 ⭐️⭐️⭐️</p></blockquote><p>为了满足前端开发标准化、工程化、系统化等等需求，我们设计并开发了一个开发组件库和常用类库和方法库的集合基础脚手架，其中包含了一些页面通用的布局、常用的弹窗和交互、提示信息以及网络请求，强类型面向对象的约束规范等，以满足日常开发的快捷、稳健、标准化等要求。</p><p><strong>AirPower</strong> 是一个基于 <code>Vue3</code><code>TypeScript</code><code>Element Plus</code><code>Vite</code> 的开发基础库，使用 <strong>装饰器</strong>、<strong>面向对象</strong>、<strong>Hook</strong> 等前端开发方式。</p><h2><a id="user-content--为何起名 airpower" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E4%B8%BA%E4%BD%95%E8%B5%B7%E5%90%8Dairpower"></a>🎈 为何起名<strong>AirPower</strong></h2><p>早期是子仓库方式的设计, 这个依赖库跟宿主项目在一起, 所以为了排前面, 选择使用<strong>A</strong>开头的单词, 后来想起 <strong>Apple</strong> 家难产了的一个产品的名称, <strong>AirPower</strong>, 作者是 Apple 十年老粉, 那就顺便致敬下 <strong>Apple</strong>.</p><h2><a id="user-content--有哪些功能设计" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1"></a>🎉 有哪些功能 (设计)</h2><ol><li><strong>Model</strong> / <strong>Entity</strong> 所有的数据交互都以数据模型实例的方式进行, 不再直接使用 JSON.</li><li><strong>Service</strong> 使用服务类对所有的网络请求进行抽象, 通过继承方式实现相似代码的复用</li><li><strong>Component</strong> 提供了很多后台管理系统常用的组件和一些反馈组件</li><li><strong>Hook</strong> 提供了与 Service 交互的一些通用的交互 Hooks</li><li><strong>Enum</strong> 提供了很多很多很多的枚举</li><li><strong>Decorator</strong> 提供了很多很多很多的装饰器</li><li>提供了类似 <strong>Java</strong> BeanCopy 相关的数据转换方式, 提供了完整的面向对象实现</li><li>......</li></ol><h2><a id="user-content--代码风格展示" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC%E5%B1%95%E7%A4%BA"></a>💻 代码风格展示</h2><p><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/1.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/2.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/3.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/4.png" referrerpolicy="no-referrer"></p><h2><a id="user-content--如何使用初始化" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%88%9D%E5%A7%8B%E5%8C%96"></a>🔑 如何使用 (初始化)?</h2><p>你可以通过我们提供的 <code>AirPower 宿主仓库</code> 项目来完成 <strong>AirPower</strong> 宿主项目的初始化:</p><p>AirPowerWebStarter via <a href="https://gitee.com/air-power/AirPowerWebStarter/blob/main/README.md">Gitee</a> / <a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FHammCn%2FAirPowerWebStarter%2Fblob%2Fmain%2FREADME.md">Github</a></p><h2><a id="user-content--我们的建议" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E6%88%91%E4%BB%AC%E7%9A%84%E5%BB%BA%E8%AE%AE"></a>🛎 我们的建议</h2><p>我们提供的 <strong>AirPower 宿主仓库</strong> 里面提供了一些 <code>ESlint 规则</code><code>路由配置</code><code>环境变量配置</code><code>tsconfig</code><code>vite.config</code>, 以及很多的 <strong>demo</strong> 代码, 你可以进行参考。</p><p>如果你有什么疑问或者问题，你也可以加入开发者交流 QQ 群 (<code>555156313</code>) 进行咨询，当然，我们更建议你发起 <a href="https://gitee.com/air-power/AirPower4T/issues/new">Gitee issue</a> / <a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FHammCn%2FAirPower4T%2Fissues%2Fnew">Github issue</a></p><h2><a id="user-content--enjoy-it" class="anchor" href="https://gitee.com/air-power/AirPower4T#-enjoy-it"></a>⏰ Enjoy it</h2><p>好了, 那么接下来你可以愉快的开发了, 如果你有什么建议或者意见, 可以在本仓库中提交你的 <strong>issues</strong>, 你可以为这个依赖库进行 <strong>添砖加瓦</strong>!</p><blockquote><p>☕️Java: 加瓦? 什么 Java?</p></blockquote><h2><a id="user-content--来点图示例" class="anchor" href="https://gitee.com/air-power/AirPower4T#-%E6%9D%A5%E7%82%B9%E5%9B%BE%E7%A4%BA%E4%BE%8B"></a>📷 来点*图 (示例)</h2><p><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/5.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/6.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/7.png" referrerpolicy="no-referrer"><img width="24%" src="https://gitee.com/air-power/AirPower4T/raw/web/docs/img/8.png" referrerpolicy="no-referrer"></p>]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 10:39:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 10:39:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/air-power/AirPower4T</guid>
             <link>https://gitee.com/air-power/AirPower4T</link>
         </item>
@@ -112,7 +226,7 @@
                 <![CDATA[<div class="content"><p>12 月 7 日，新浪科技报道称，周星驰 Web3 团队透露，周星驰旗下 Web3 初创公司 Moonbox&nbsp;最早将于明年 1 月份完成上线 Moonbox App，届时 App 将免费向用户开放。</p><p>目前，App 研发工作已经基本完成，Moonbox 团队在 NFT 玩法上下了很多功夫，已设计出基于 AI 和 NFT 聊天的互动玩法，「周星驰将以 Moonbox First Creator 身份与大家见面」。</p><p>与此同时，周星驰参与创作的 NobodyNFT 新品，也将随之发售，用户可以通过 App 和每个 Nobody NFT 角色聊天互动以了解人物性格、爱好、背景故事。</p><p>据悉，2023 年 8 月，周星驰曾公开宣布入局 Web3+AI，并第一时间与 OKX 进行互动。周星驰当时在 INS 发文称，「感恩找到一班志同道合的 Web3 伙伴，正在研究 Web3+AI 项目，希望做个我的 AI 代替我。」</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1fa24c9504d7b6c03e1cf018b165b6154e6.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 09:06:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 09:06:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269952</guid>
             <link>https://www.oschina.net/news/269952</link>
             <author>
@@ -150,7 +264,7 @@
 }</code></pre><ul><li>重新发明了标准库里已有的简单函数。</li><li><em>Realocate</em>&nbsp;这个单词拼写错误。所以说，永远不要低估创造性拼写的威力。</li><li>无缘无故地给输入缓冲区产生一个临时的副本。</li><li>无缘无故地造型。 memcpy() 里有 (void*)，这样即使我们的指针已经是 (void*) 了也要再造型一次。另外这样可以传递任何东西作为参数，加 10 分。</li><li>永远不必费力去释放临时内存空间。这样会导致缓慢的内存泄露，一开始看不出来，要程序运行一段时间才行。</li><li>把用不着的东西也从缓冲区里拷贝出来，以防万一。这样只会在 Unix 上产生 core dump，Windows 就不会。</li><li>很显然，os 和 ns 的含义分别是」old size" 和 "new size"。</li><li>给 buf 分配内存之后，memset 初始化它为 0。不要使用 calloc()，因为某些人会重写 ANSI 规范，这样将来保不齐 calloc() 往 buf 里填的就不是 0 了。（虽然我们复制过去的数据量和 buf 的大小是一样的，不需要初始化，不过这也无所谓啦）</li></ul><h4>如何修复 "unused variable" 错误</h4><p>如果你的编译器冒出了 "unused local variable" 警告，不要去掉那个变量。相反，要找个聪明的办法把它用起来。我最喜欢的方法是：<br><span style="color:#000099"><span>i = i;</span></span></p><h4>大小很关键</h4><p>差点忘了说了，函数是越大越好。跳转和 GOTO 语句越多越好。那样的话，想做任何修改都需要分析很多场景。这会让维护代码的程序员陷入千头万绪之中。如果函数真的体型庞大的话，对于维护代码的程序员就是哥斯拉怪兽了，它会在他搞清楚情况之前就残酷无情地将他们踩翻在地。</p><h4>一张图片顶 1000 句话，一个函数就是 1000 行</h4><p>把每个方法体写的尽可能的长 -- 最好是你写的任何方法或函数都没有少于 1000 行代码的，而且里边深度嵌套，这是必须的。</p><h4>少个文件</h4><p>一定要保证一个或多个关键文件是找不到的。利用 includes 里边再 includes 就能做到这一点。例如，在你的 main 模块里，你写上：</p><p>#include &lt;stdcode.h&gt;</p><p>Stdcode.h 是有的。但是在 stdcode.h 里，还有个引用：</p><p>#include "a:\\refcode.h"</p><p>然后，refcode.h 就没地方能找到了。</p><p><span>到处可写，无处可读</span></p><p>至少要把一个变量弄成这样：到处被设置，但是几乎没有哪里用到它。不幸的是，现代编译器通常会阻止你做相反的事：到处读，没处写。不过你在 C 或 C++ 里还是可以这样做的。</p><blockquote><p><em><strong>原始博文发布于：&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmindprod.com%2Funmain.html" target="_blank">Roedy Green's Mindproducts&nbsp;</a>。</strong></em></p></blockquote></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 08:44:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 08:44:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269949/unmaintainable-new-defensive-programming</guid>
             <link>https://www.oschina.net/news/269949/unmaintainable-new-defensive-programming</link>
             <author>
@@ -165,7 +279,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">美国网络安全与基础设施安全局 (CISA) 发布了一份名为「<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cisa.gov%2Fresources-tools%2Fresources%2Fcase-memory-safe-roadmaps" target="_blank">The Case for Memory Safe Roadmaps</a>」的文件，详细介绍了软件厂商应如何过渡到内存安全编程语言 (MSL)，以消除内存安全漏洞。</span></p><p><span style="color:#000000">CISA 认为，内存安全错误经常会造成重大损失，需要加以杜绝；因此敦促企业和技术领导者密切关注软件开发中的内存安全。而&nbsp;C 和 C++ 等编程语言就是内存不安全编程语言的典范；它们可能导致内存不安全代码，但仍然是当今使用最广泛的语言之一。</span></p><p><img height="339" src="https://oscimg.oschina.net/oscnet/up-5d0b5ed6634487780b08f8f39114dd5ed99.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">该指南文件由美国网络安全与基础设施安全局 (CISA)、国家安全局 (NSA)、联邦调查局 (FBI)，以及澳大利亚、加拿大、英国和新西兰的网络安全机构联合制定。旨在敦促每家软件厂商的高级管理人员通过优先考虑实施 MSL 的设计和开发实践来降低客户风险；同时敦促他们创建并发布内存安全路线图，以便客户了解所面临的内存安全风险。</span></p><blockquote><p><span style="color:#000000">「MSL 可以消除内存安全漏洞。因此，过渡到 MSL 可能会大大降低投资于旨在减少这些漏洞或将其影响降至最低的活动的必要性。此外，将不安全的代码库迁移到 MSL 的投资将以更安全的产品的形式带来长期回报--这也抵消了过渡到 MSL 的部分前期成本。」</span></p></blockquote><p><span style="color:#000000">文件指出，微软<span style="background-color:#ffffff">约 70% 的 CVE 是内存安全漏洞</span>（基于 2006-2018 年的 CVE），Mozilla 的 34 个关键/高危漏洞中有 32 个是内存安全漏洞。谷歌 Chromium 项目中所发现的漏洞，有约 70% 是内存安全漏洞；且 2021 年的零日漏洞中也有 67% 是内存安全漏洞。</span></p><p><span style="color:#000000">虽然一些组织为了减少&nbsp;<span style="background-color:#ffffff">C/C++</span> 内存不安全代码引入的风险，投入了大量资金用于开发人员培训。但 CISA 等机构认为，「虽然培训可以减少程序员可能引入的漏洞数量，但考虑到内存安全缺陷的普遍性，内存安全漏洞的出现几乎是不可避免的。」</span></p><p><span style="color:#000000">鉴于此，他们<span style="background-color:#ffffff">建议组织放弃 C/C++，转而使用 C#、Go、Java、Python、Rust 和 Swift&nbsp;等「内存安全语言」。</span></span></p><p><img height="355" src="https://oscimg.oschina.net/oscnet/up-e6e47911a81e83c6770f76378917ec074f9.png" width="300" referrerpolicy="no-referrer"></p><p><span style="color:#000000">详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.cisa.gov%2Fsites%2Fdefault%2Ffiles%2F2023-12%2FThe-Case-for-Memory-Safe-Roadmaps-508c.pdf" target="_blank">查看完整文档</a>。</span></p><hr><p><strong><span style="color:#000000">相关阅读：</span></strong></p><ul><li><a href="https://www.oschina.net/news/217425/nsa-memory-safe-programming-language" target="_blank">美国国家安全局建议从 C/C++ 切换到内存安全语言</a></li><li><a href="https://www.oschina.net/news/226780/c-plus-plus-bjarne-stroustrup-safety" target="news">C++ 之父：Rust 等内存安全语言的安全性并不优于 C++</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 07:52:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 07:52:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269933/cisa-the-case-for-memory-safe-roadmaps</guid>
             <link>https://www.oschina.net/news/269933/cisa-the-case-for-memory-safe-roadmaps</link>
             <author>
@@ -180,7 +294,7 @@
                 <![CDATA[<div class="content"><p>近期关于 Firefox 的一篇文章引起了<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D38531104" target="_blank">广泛讨论</a></u>。作者表示，Firefox 正处于危险边缘，可能很快就会被淘汰。</p><blockquote><img src="https://oscimg.oschina.net/oscnet/up-3d6519dad6718f830b4b0fc8ad29f4f8032.png" referrerpolicy="no-referrer"><p>来源 <em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.brycewray.com%2Fposts%2F2023%2F11%2Ffirefox-brink%2F" target="_blank">https://www.brycewray.com/posts/2023/11/firefox-brink/</a></u></em></p></blockquote><p>文章提到，根据美国政府网站的开发指南 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdesignsystem.digital.gov%2F" target="_blank">U.S. Web Design System</a>, USWDS)，<strong>如果 Firefox 的市场份额低于 2%</strong>（参考 <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fanalytics.usa.gov" target="_blank">analytics.usa.gov</a> 的统计使用率），那么美国政府的网站可以不再兼容 Firefox。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1df9adfb989c674f23068f0710d9ed2993c.png" referrerpolicy="no-referrer"></p><p>过去 90 天，访问 <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fanalytics.usa.gov" target="_blank">analytics.usa.gov</a> 的浏览器中 Chrome 占 49%，Safari 占 34.8%，Edge 8.5%，<strong>Firefox 只有 2.2 %</strong>——已经非常接近临界点。如果 Firefox 失去了美国政府网站的支持，这有可能在整个 Web 开发界产生涟漪效应。因为政府的决定会影响到无数企业，就像多米诺骨牌倒下一样，会有越来越多的网站跟随步伐不兼容 Firefox，导致 Firefox 处于淘汰边缘。</p><p><img src="https://oscimg.oschina.net/oscnet/up-dcc027785814f919e453f18776391477b5d.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-4df67b9659f2a95d258721fbfed00bafe07.png" referrerpolicy="no-referrer"></p><p>有人可能会问；「政府网站不兼容 Firefox 又怎样？这只是针对美国政府的举措，并不会影响任何其他网站。」但作者认为：</p><ol><li><p>一旦 Firefox 在政府的访问者分析中跌破 2% 的阈值，USWDS 就会告诉政府网站开发者他们不必再支持 Firefox。</p></li><li><p>消息传出后，不仅前端开发社区，就连一些 Web 开发者所服务的企业 IT 部门也会迅速知晓。许多企业与政府有大量业务往来，因此，政府在 IT 方面的任何举措都会影响企业。</p></li><li><p>企业会将这一变化视为<strong>降低开发成本和缩短交付时间</strong>的机会，因为它提供了一个借口，可以从开发工作流程中移除一些测试（在极少数情况下还包括特定代码）。</p></li></ol><p>下图清晰展示了浏览器三巨头从 2009 到 2023 的市场份额变化情况，Firefox 在 2009 年 11 月达到了 31.82% 的峰值，此后便是持续下滑。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a1b0aacdd134ed153115b0354c1ba76e9d4.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 06:43:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 06:43:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269923/firefox-on-the-brink</guid>
             <link>https://www.oschina.net/news/269923/firefox-on-the-brink</link>
             <author>
@@ -195,7 +309,7 @@
                 <![CDATA[<div class="content"><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">当开发人员遇到意外的错误无法修复时，他们会「添加一些防御性代码」来使代码更安全，更容易找到问题所在。有时候，仅仅这样做就能解决问题。他们会加强数据验证——确保检查输入和输出字段以及返回值。审查并改进错误处理——也许在「不可能」的情况周围添加一些检查。增加一些有用的日志记录和诊断功能。换句话说，这些<strong>本应该从一开始就存在的代码</strong>。</p><blockquote><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">防御性编程的整个目的是为了防范你意想不到的错误。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">——Steve McConnell，《代码大全》</p></blockquote><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">防御性编程的几个基本原则在 Steve McConnell 经典著作《代码大全》中有详细解释：</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start"><strong>保护你的代码免受「外部」传入的无效数据影响</strong>，无论你认为「外部」是指什么地方。这里指来自外部系统、用户、文件或模块/组件之外的任何数据。建立「壁垒」、「安全区域」或「信任边界」——边界之外的一切都是危险的，边界之内的一切都是安全的。在壁垒代码中，验证所有输入数据：检查所有输入参数的正确类型、长度和取值范围。再次检查限制和范围。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">在检查完坏数据后，决定如何处理它。<strong>防御性编程并不意味着吞没错误或隐藏错误</strong>。它是关于在健壮性（如果遇到可处理的问题则继续运行）和正确性（永远不返回错误结果）之间做出权衡。选择一种处理坏数据的策略：立即返回错误并停止运行（快速失败），返回一个中立值，替换数据值等等。确保策略明确且一致。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start"><strong>不要假设你代码之外的函数调用或方法调用会按照广告所述正常工作</strong>。确保你理解并测试了周围外部 API 和库的错误处理机制。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start"><strong>使用断言来记录假设，并突出显示「不可能」的条件</strong>，至少在开发和测试阶段如此。这对于长期由不同人维护或高可靠性代码特别重要。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">巧妙地<strong>添加诊断代码、日志记录和跟踪功能</strong>，以帮助解释运行时发生了什么问题，尤其是当遇到问题时。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start"><strong>标准化错误处理</strong>。决定如何处理「正常错误」或「预期错误」和警告，并始终保持一致。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start"><strong>只在需要时使用异常处理</strong>，并确保你对语言的异常处理机制了如指掌。将异常作为正常处理流程的一部分的程序会遭受经典意义上代码结构混乱的可读性和可维护性问题。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">Michael Nygard 在《发布！》中还提到了其他几个规则，比如永远不要无限期等待外部调用，尤其是远程调用。当出现问题时，无限期可能会很长时间。使用超时/重试逻辑以及他的断路器稳定模式来处理远程故障。</p><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">对于 C 和 C++等编程语言，防御性编程还包括使用安全函数调用来避免缓冲区溢出和常见编码错误。</p><blockquote><p style="color:#101828; margin-left:0; margin-right:0; text-align:start">原文：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fswreflections.blogspot.com%2F2012%2F03%2Fdefensive-programming-being-just-enough.html" target="_blank">https://swreflections.blogspot.com/2012/03/defensive-programming-being-just-enough.html</a></p></blockquote><p>&nbsp;</p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 06:33:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 06:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269921/defensive-programming</guid>
             <link>https://www.oschina.net/news/269921/defensive-programming</link>
             <author>
@@ -242,7 +356,7 @@
 ) <span><span style="color:var(--color-prettylights-syntax-keyword)">AS</span></span> prediction;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre></div></div>
                                                                 ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 04:19:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 04:19:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/p/postgresml</guid>
             <link>https://www.oschina.net/p/postgresml</link>
         </item>
@@ -262,7 +376,7 @@
 </div><div><div><p style="margin-left:0; margin-right:0; text-align:left"><img height="344" src="https://static.oschina.net/uploads/space/2023/1207/121450_rEcV_3820517.png" width="524" referrerpolicy="no-referrer"></p></div></div><h1><span><span><span><strong><span><span style="color:#1a1a1a"><span><span>适用场景</span></span></span></span></strong></span></span></span></h1><ul><li><span><span><span><span><span><span><span style="color:#333333"><span><span>如果你是一个全新的业务，想要快速构建美观一致的 FlutterAPP。 √</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><span><span><span style="color:#333333"><span><span>如果你使用 Flutter 系统组件构建了 APP，想要一款简单易用、可快速迁移的组件库提升开发效率。 √</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><span><span><span style="color:#333333"><span><span>如果你想客户端和 web 端使用风格统一的组件，或者后续需要支持 pc 桌面端应用。 √</span></span></span></span></span></span></span></span></span></li></ul><h1><span><span><span><strong><span><span style="color:#1a1a1a"><span><span>后续规划</span></span></span></span></strong></span></span></span></h1><ul><li><span><span><span><span><span><span><span style="color:#333333"><span><span>提供更多可靠实用的组件</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><span><span><span style="color:#333333"><span><span>适配 Flutter Web 和 PC 桌面端,支持更多应用场景</span></span></span></span></span></span></span></span></span></li><li><span><span><span><span><span><span><span style="color:#333333"><span><span>提供更完善的单元测试模块和性能检测能力，确保组件更可靠和流畅</span></span></span></span></span></span></span></span></span></li></ul><h1><span><span><span><strong><span><span style="color:#1a1a1a"><span><span>反馈和共建</span></span></span></span></strong></span></span></span></h1><p style="margin-left:0; margin-right:0; text-align:left"><span><span><span><span><span><span><span style="color:#333333"><span><span>TDesignFlutter 现已开放，欢迎广大设计师和开发者使用和反馈，参与共建通用企业级设计体系。</span></span></span></span></span></span></span></span></span></p><p style="margin-left:0; margin-right:0; text-align:left"><span><span><span><span><span><span><span style="color:#333333"><span><span>官网：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftdesign.tencent.com%2Fflutter" target="_blank">https://tdesign.tencent.com/flutter</a></span></span></span></span></span></span></span></span></span></p><p style="margin-left:0; margin-right:0; text-align:left"><span><span><span><span><span><span><span style="color:#333333"><span><span>项目地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FTencent%2Ftdesign-flutter" target="_blank">https://github.com/Tencent/tdesign-flutter</a></span></span></span></span></span></span></span></span></span></p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 04:16:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 04:16:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269901/tdesignflutter-opensource</guid>
             <link>https://www.oschina.net/news/269901/tdesignflutter-opensource</link>
             <author>
@@ -277,7 +391,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">微软发布<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftechcommunity.microsoft.com%2Ft5%2Fwindows-it-pro-blog%2Fplan-for-windows-10-eos-with-windows-11-windows-365-and-esu%2Fba-p%2F4000414" target="_blank">公告</a>称，<span style="background-color:#ffffff">Windows 10 将于 2025 年 10 月 14 日终止支持 (EOS)。</span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">当 Windows 10 终止支持时，官方将不再提供问题的错误修复、漏洞的安全修复、时区更新或可能发生的问题的技术支持。22H2 版本是 Windows 10 的最终版本。Windows 10 的所有版本 22H2 都将在 2025 年 10 月 14 日前继续支持每月安全更新。</span></span></p><p><span style="color:#000000"><span style="background-color:#ffffff">距离&nbsp;Windows 10 EOS&nbsp; 仅剩不到两年的时间，</span>微软方面敦促用户尽快向&nbsp;<span style="background-color:#ffffff">Windows 11&nbsp;</span>系统迁移，并提供了一系列的过渡指南。</span></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">「<span style="background-color:#ffffff">Windows 11 是迄今为止最安全的 Windows。其广泛的功能（包括 Windows 中的 Copilot）旨在帮助你的组织保持安全和高效。这些措施包括内置的高级加密、数据和凭据保护、强大的系统安全和网络安全，以及针对不断变化的威胁的智能防护措施。</span>」</span></p><p style="margin-left:0; margin-right:0; text-align:left"><img height="269" src="https://oscimg.oschina.net/oscnet/up-33aa42a83be38c18ba69809b1d17613b0f4.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">尽管如此，微软 Windows 服务和交付团队成员 Jason Leznek 也表示：「虽然我们强烈建议迁移到 Windows 11，但我们也理解有些情况可能会妨碍用户在 EOS&nbsp; 日期之前更换 Windows 10 设备。因此，微软将提供扩展安全更新 (Extended Security Updates)。」</span></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><span style="background-color:#ffffff">与 Windows 7 </span><span style="background-color:#ffffff">ESU&nbsp;</span><span style="background-color:#ffffff">一样，</span>Windows 10 用户可以选择购买安全更新的年度订阅，可在服务终止日期后的三年内继续接收每月的安全更新。不过，Windows 10 ESU 计划只提供<span style="background-color:#ffffff">关键和/或重要的安全更新</span>。一字儿较小缺陷的补丁、功能请求或其他更改不一定会被考虑，技术支持也仅限于安全问题。</span></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">目前有关&nbsp;<span style="background-color:#ffffff">Windows 10 ESU 的相关定价尚未公布。Windows 7 ESU 定价为： 每台 Windows 7 Pro 设备第一年的价格为 50 美元；第二年为 100 美元；第三年为 200 美元。</span><span style="background-color:#ffffff">对于 Windows Enterprise 客户，价格则仅为其一半。</span></span></p><p style="margin-left:0; margin-right:0; text-align:left"><strong><span style="color:#000000"><span style="background-color:#ffffff">相关阅读：</span></span></strong></p><ul><li style="text-align:left"><a href="https://www.oschina.net/news/264497/pigc-microsoft-extends-windows-10-support" target="_blank">公益组织请愿微软延长 Windows 10 支持</a></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 03:50:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 03:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269897</guid>
             <link>https://www.oschina.net/news/269897</link>
             <author>
@@ -292,210 +406,11 @@
                 <![CDATA[<div class="content"><p>维基媒体基金会&nbsp;<span>(Wikimedia Foundation) <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwikimediafoundation.org%2Fnews%2F2023%2F12%2F05%2Fintroducing-wikifunctions-first-wikimedia-project-to-launch-in-a-decade-creates-new-forms-of-knowledge%2F" target="_blank">宣布推出</a></u>&nbsp;</span><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wikifunctions.org%2Fwiki%2FWikifunctions%3AMain_Page" target="_blank">Wikifunctions</a></strong><span>，据称这是该组织十多年来的第一个新项目。该项目让志愿者编辑<strong>能够协作创建和维护一个函数库</strong>——用于回答问题并增强有关维基媒体项目及其他项目的知识。</span></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-304d34c058f3401b98838b2b5ccf0208c6b.png" referrerpolicy="no-referrer"></p><p>「函数」是一系列编程指令，它根据提供的数据进行计算。通过 Wikifunctions，这些函数可以以任何语言存在，因此对于许多用户来说，<strong>这将是他们首次能够用母语阅读和编写函数的项目</strong>。</p><p>Wikifunctions 的目标是使这些函数路径更加容易访问。它将提供一个单一的共享空间，简化维护人员的工作并增加函数的可访问性。最终，Wikifunctions 将与维基百科和其他维基媒体项目集成，为知识创造开辟新的机会。该项目将以维基百科的结构化数据为基础，从其他维基媒体项目中汇集不同的数据源，从而利用函数代码创建新形式的知识。</p><p><img src="https://oscimg.oschina.net/oscnet/up-eaa77a99abda8b84621cb9c8d3ccb01908a.png" referrerpolicy="no-referrer"></p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wikifunctions.org%2Fwiki%2FWikifunctions%3AMain_Page" target="_blank">https://www.wikifunctions.org/wiki/Wikifunctions:Main_Page</a></u></em></p><p>Wikifunctions 作为底层技术基础设施，将支持维基媒体基金会更广泛的举措，使人们能够在维基百科上以更多语言分享更多知识。通过该项目，用户将能够使用他们的母语创建和维护内容，其他用户可以在维基媒体项目提供的 300 多种语言中访问这些内容。</p><p>Wikifunctions 于 2020 年获得维基媒体基金会董事会的批准，今年早些时候作为只读网站上线，现在任何人、任何地方都可以使用它。Wikifunctions 得到了 Google.org、洛克菲勒基金会和维基媒体捐赠基金的资助。</p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 06 Dec 2023 03:37:00 GMT</pubDate>
+            <pubDate>Thu, 07 Dec 2023 03:37:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269893/wikifunctions-wikimedia</guid>
             <link>https://www.oschina.net/news/269893/wikifunctions-wikimedia</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[充电头也能 OTA 升级？苹果为电源适配器推送固件更新]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>苹果公司近日为 30W 和 140W 的 USB-C 电源适配器推送了固件更新。</p><p>用户通过 MagSafe 3 或者 USB-C 连接到 Mac 设备之后，系统会自动开始更新。更新之后打开「系统信息」应用，点击「电源」选项即可查看最新版本。</p><p>30W USB-C 电源适配器安装的最新版本为&nbsp;<strong>Ver.1030053</strong>（上个版本为&nbsp;<span style="background-color:#ffffff; color:#333333">Ver.1030052</span>），ID 从 0x1674 升级到&nbsp;<strong>0x7003</strong>；</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-bf26c2e7e5c248d1a0aff7b7428adbbeb91.png" referrerpolicy="no-referrer"></p><p>140W USB-C 电源适配器安装更新后版本号升级至&nbsp;<strong>Ver.1040073</strong>（上个版本为 <span style="background-color:#ffffff; color:#333333">Ver.1040068</span>）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-01b90e9cd0dcfa5ab9bcb0ef1d2ab2b4b10.png" referrerpolicy="no-referrer"></p><p>来源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.macotakara.jp%2Fetc%2Fsupport%2Fentry-45789.html" target="_blank">https://www.macotakara.jp/etc/support/entry-45789.html</a></u></em>、<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.macotakara.jp%2Fetc%2Fsupport%2Fentry-45790.html" target="_blank">https://www.macotakara.jp/etc/support/entry-45790.html</a></u></em></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Dec 2023 03:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/269879</guid>
-            <link>https://www.oschina.net/news/269879</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[SQLite 重写了 JSON 函数 —— 推出 JSONB]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>SQLite <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsqlite.org%2Fforum%2Fforumpost%2Ffa6f64e3dc1a5d97" target="_blank">宣布推出 JSONB</a></u>，这是对 SQLite JSON 函数的重写，宣称比现有 JSON 函数「快几倍」。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-7eec133035c4e37c1ac26035e420dcc9574.png" referrerpolicy="no-referrer"></p></blockquote><p>在过去几年中，SQLite 开发者为改进 JSON 数据与该 SQL 数据库的<strong>库集成</strong>做了大量工作。最新的工作是<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsqlite.org%2Fsrc%2Finfo%2F7f0c79b94e8f55e5" target="_blank">已合并的 JSONB</a></u>。JSONB 对 SQLite JSON 函数进行了重写，将 JSON 的内部使用从二进制表示形式更改改为连续的字节数组，可以作为 SQL BLOB 读取或写入。</p><p>JSONB 有助于降低解析 JSON 文本和表示用于存储的 JSON 的开销。</p><p>此外，JSONB 保留所有旧功能，并且所有 JSON 函数也可以接受 JSONB 二进制内容。如需了解有关 SQLite JSONB 功能及其更快性能潜力的更多信息，查看<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsqlite.org%2Fforum%2Fforumpost%2Ffa6f64e3dc1a5d97" target="_blank">https://sqlite.org/forum/forumpost/fa6f64e3dc1a5d97</a></u></em>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Dec 2023 02:58:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/269878/sqlite-lands-jsonb</guid>
-            <link>https://www.oschina.net/news/269878/sqlite-lands-jsonb</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[每日一博 | JDK 21 虚拟线程原理及性能分析]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><span id="OSC_h1_1"></span><h1>一、背景</h1><p style="color:#24292f; text-align:start">JDK21 在 9 月 19 号正式发布，带来了较多亮点，其中虚拟线程备受瞩目，毫不夸张的说，它改变了高吞吐代码的编写方式，只需要小小的变动就可以让目前的 IO 密集型程序的吞吐量得到提升，写出高吞吐量的代码不再困难。</p><p style="color:#24292f; text-align:start">本文将详细介绍虚拟线程的使用场景，实现原理以及在 IO 密集型服务下的性能压测效果。</p><span id="OSC_h1_2"></span><h1>二、为了提升吞吐性能，我们所做的优化</h1><p style="color:#24292f; text-align:start">在讲虚拟线程之前，我们先聊聊为了提高吞吐性能，我们所做的一些优化方案。</p><span id="OSC_h2_3"></span><h2>串行模式</h2><p style="color:#24292f; text-align:start">在当前的微服务架构下，处理一次用户/上游的请求，往往需要多次调用下游服务、数据库、文件系统等，再将所有请求的数据进行处理最终的结果返回给上游。<img alt="2.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/2.png" referrerpolicy="no-referrer"><img alt="3.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/3.png" referrerpolicy="no-referrer">在这种模式下，使用串行模式去查询数据库，下游 Dubbo/Http 接口，文件系统完成一次请求，接口整体的耗时等于各个下游的返回时间之和，这种写法虽然简单，但是接口耗时长、性能差，无法满足 C 端高 QPS 场景下的性能要求。</p><span id="OSC_h2_4"></span><h2>线程池+Future 异步调用</h2><p style="color:#24292f; text-align:start">为了解决串行调用的低性能问题，我们会考虑使用并行异步调用的方式，最简单的方式便是使用线程池 +Future 去并行调用。<img alt="4.jpeg" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/4.jpeg" referrerpolicy="no-referrer">典型代码如下：<img alt="11.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/11.png" referrerpolicy="no-referrer">这种方式虽然解决了大部分场景下的串行调用低性能问题，但是也存在着严重的弊端，由于存在 Future 的前后依赖关系，当使用场景存在大量的前后依赖时，会使得<strong>线程资源和 CPU 大量浪费在阻塞等待上</strong>，导致资源利用率低。</p><span id="OSC_h2_5"></span><h2>线程池+CompletableFuture 异步调用</h2><p style="color:#24292f; text-align:start">为了降低 CPU 的阻塞等待时间和提升资源的利用率，我们会使用 CompletableFuture 对调用流程进行编排，降低依赖之间的阻塞。</p><p style="color:#24292f; text-align:start">CompletableFuture 是由 Java8 引入的，在 Java8 之前一般通过 Future 实现异步。Future 用于表示异步计算的结果，如果存在流程之间的依赖关系，那么只能通过阻塞或者轮询的方式获取结果，同时原生的 Future 不支持设置回调方法，Java8 之前若要设置回调可以使用 Guava 的 ListenableFuture，回调的引入又会导致回调地狱，代码基本不具备可读性。</p><p style="color:#24292f; text-align:start">而 CompletableFuture 是对 Future 的扩展，原生支持通过设置回调的方式处理计算结果，同时也支持组合编排操作，一定程度解决了回调地狱的问题。</p><p style="color:#24292f; text-align:start">使用 CompletableFuture 的实现方式如下：<img alt="101.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/101.png" referrerpolicy="no-referrer">CompletableFuture 虽然一定程度上面缓解了 CPU 资源<strong>大量浪费在阻塞等待上的问题</strong>，但是只是缓解，核心的问题始终没有解决。这两个问题导致 CPU 无法充分被利用，系统吞吐量容易达到瓶颈。</p><ul><li><strong>线程资源浪费瓶颈始终在 IO 等待上</strong>，导致 CPU 资源利用率较低。目前大部分服务是 IO 密集型服务，一次请求的处理耗时大部分都消耗在等待下游 RPC，数据库查询的 IO 等待中，此时线程仍然只能阻塞等待结果返回，导致 CPU 的利用率很低。</li><li><strong>线程数量存在限制</strong>，<span>&nbsp;</span><strong>为了增加并发度，我们会给线程池配置更大的线程数</strong>，但是线程的数量是有限制的，Java 的线程模型是 1:1 映射平台线程的，导致 Java 线程创建的成本很高，不能无限增加。同时随着 CPU 调度线程数的增加，会导致更严重的资源争用，宝贵的 CPU 资源被损耗在上下文切换上。</li></ul><span id="OSC_h1_6"></span><h1>三、一请求一线程的模型</h1><p style="color:#24292f; text-align:start">在给出最终解决方案之前，我们先聊一聊 Web 应用中常见的一请求一线程的模型。</p><p style="color:#24292f; text-align:start">在 Web 中我们最常见的请求模型就是使用一请求一线程的模型，每个请求都由单独的线程处理。此模型易于理解和实现，对编码的可读性，Debug 都非常友好，但是，它有一些缺点。当线程执行阻塞操作（如连接到数据库或进行网络调用）时，线程会被阻塞，直到操作完成，这意味着线程在此期间将无法处理任何其他请求。<img alt="45.jpeg" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/45.jpeg" referrerpolicy="no-referrer">当遇到大促或突发流量等场景导致服务承受的请求数增大时，为了保证每个请求在尽可能短的时间内返回，减少等待时间，我们经常会采用以下方案：</p><ul><li><strong>扩大服务最大线程数</strong>，简单有效，由于存在下列问题，导致平台线程有最大数量限制，不能大量扩充。 
-  <ul><li>系统资源有限导致系统线程总量有限，进而导致与系统线程一一对应的平台线程有限。</li><li>平台线程的调度依赖于系统的线程调度程序，当平台线程创建过多，会消耗大量资源用于处理线程上下文切换。</li><li>每个平台线程都会开辟一块大小约 1m 私有的栈空间，大量平台线程会占据大量内存。<img alt="44.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/44.png" referrerpolicy="no-referrer"></li></ul></li><li><strong>垂直扩展，升级机器配置，水平扩展，增加服务节点</strong>，也就是俗称的升配扩容大法，效果好，也是最常见的方案，缺点是会增加成本，同时有些场景下扩容并不能 100% 解决问题。</li><li><strong>采用异步/响应式编程方案</strong>，例如 RPC NIO 异步调用，WebFlux，Rx-Java 等非阻塞的基于 Ractor 模型的框架，使用事件驱动使得少量线程即可实现高吞吐的请求处理，拥有较好的性能与优秀的资源利用，缺点是学习成本较高兼容性问题较大，编码风格与目前的一请求一线程的模型差异较大，理解难度大，同时对于代码的调试比较困难。</li></ul><p style="color:#24292f; text-align:start"><strong>那么有没有一种方法可以易于编写，方便迁移，符合日常编码习惯，同时性能很不错，CPU 资源利用率较高的方案呢?</strong></p><p style="color:#24292f; text-align:start"><strong>JDK21 中的虚拟线程可能给出了答案</strong>， JDK 提供了与 Thread 完全一致的抽象 Virtual Thread 来应对这种经常阻塞的情况，阻塞仍然是会阻塞，但是换了阻塞的对象，由昂贵的平台线程阻塞改为了成本很低的虚拟线程的阻塞，当代码调用到阻塞 API 例如 IO，同步，Sleep 等操作时，JVM 会自动把<span>&nbsp;</span><strong>Virtual Thread 从平台线程上卸载</strong>，平台线程就会去处理下一个虚拟线程，通过这种方式，提升了平台线程的利用率，让平台线程不再阻塞在等待上，<strong>从底层实现了少量平台线程就可以处理大量请求，提高了服务吞吐和 CPU 的利用率。</strong></p><span id="OSC_h1_7"></span><h1>四、虚拟线程</h1><span id="OSC_h2_8"></span><h2>线程术语定义</h2><p style="color:#24292f; text-align:start"><strong>操作系统线程（OS Thread）</strong>：由操作系统管理，是操作系统调度的基本单位。</p><p style="color:#24292f; text-align:start"><strong>平台线程（Platform Thread）</strong>：Java.Lang.Thread 类的每个实例，都是一个平台线程，是 Java 对操作系统线程的包装，与操作系统是 1:1 映射。</p><p style="color:#24292f; text-align:start"><strong>虚拟线程（Virtual Thread）</strong>：一种轻量级，由 JVM 管理的线程。对应的实例 java.lang.VirtualThread 这个类。</p><p style="color:#24292f; text-align:start"><strong>载体线程（Carrier Thread）</strong>：指真正负责执行虚拟线程中任务的平台线程。一个虚拟线程装载到一个平台线程之后，那么这个平台线程就被称为虚拟线程的载体线程。</p><span id="OSC_h2_9"></span><h2>虚拟线程定义</h2><p style="color:#24292f; text-align:start">JDK 中 java.lang.Thread 的每个实例都是一个平台线程。平台线程在底层操作系统线程上运行 Java 代码，并在代码的整个生命周期内独占操作系统线程，平台线程实例本质是由系统内核的线程调度程序进行调度，并且<strong>平台线程的数量受限于操作系统线程的数量</strong>。</p><p style="color:#24292f; text-align:start"><strong>而虚拟线程 (Virtual Thread) 它不与特定的操作系统线程相绑定</strong>。它在平台线程上运行 Java 代码，但在代码的整个生命周期内不独占平台线程。**这意味着许多虚拟线程可以在同一个平台线程上运行他们的 Java 代码，共享同一个平台线程。**同时虚拟线程的成本很低，<strong>虚拟线程的数量可以比平台线程的数量大得多。</strong><img alt="17.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/17.png" referrerpolicy="no-referrer"></p><span id="OSC_h2_10"></span><h2>虚拟线程创建</h2><p style="color:#24292f; text-align:start"><strong>方法一：直接创建虚拟线程</strong></p><pre><code>Thread vt = Thread.startVirtualThread(() -&gt; {
-    System.out.println("hello wolrd virtual thread");
-});
-</code></pre><p style="color:#24292f; text-align:start"><strong>方法二：创建虚拟线程但不自动运行，手动调用 start() 开始运行</strong></p><pre><code>Thread.ofVirtual().unstarted(() -&gt; {
-    System.out.println("hello wolrd virtual thread");
-});
-vt.start();
-</code></pre><p style="color:#24292f; text-align:start"><strong>方法三：通过虚拟线程的 ThreadFactory 创建虚拟线程</strong></p><pre><code>ThreadFactory tf = Thread.ofVirtual().factory();
-Thread vt = tf.newThread(() -&gt; {
-    System.out.println("Start virtual thread...");
-    Thread.sleep(1000);
-    System.out.println("End virtual thread. ");
-});
-vt.start();
-</code></pre><p style="color:#24292f; text-align:start"><strong>方法四：Executors.newVirtualThreadPer</strong><span>&nbsp;</span><strong>-TaskExecutor()</strong></p><pre><code>
-ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
-executor.submit(() -&gt; {
-    System.out.println("Start virtual thread...");
-    Thread.sleep(1000);
-    System.out.println("End virtual thread.");
-    return true;
-});
-</code></pre><span id="OSC_h2_11"></span><h2>虚拟线程实现原理</h2><p style="color:#24292f; text-align:start">虚拟线程是由 Java 虚拟机调度，而不是操作系统。虚拟线程占用空间小，同时使用轻量级的任务队列来调度虚拟线程，避免了线程间基于内核的上下文切换开销，因此可以极大量地创建和使用。</p><p style="color:#24292f; text-align:start"><strong>简单来看，虚拟线程实现如下：virtual thread =continuation+scheduler+runnable</strong></p><p style="color:#24292f; text-align:start">虚拟线程会把任务（java.lang.Runnable 实例）包装到一个 Continuation 实例中:</p><ul><li>当任务需要阻塞挂起的时候，会调用 Continuation 的 yield 操作进行阻塞，虚拟线程会从平台线程卸载。</li><li>当任务解除阻塞继续执行的时候，调用 Continuation.run 会从阻塞点继续执行。</li></ul><p style="color:#24292f; text-align:start">Scheduler 也就是执行器，由它将任务提交到具体的载体线程池中执行。</p><ul><li>它是 java.util.concurrent.Executor 的子类。</li><li>虚拟线程框架提供了一个默认的 FIFO 的 ForkJoinPool 用于执行虚拟线程任务。</li></ul><p style="color:#24292f; text-align:start">Runnable 则是真正的任务包装器，由 Scheduler 负责提交到载体线程池中执行。</p><p style="color:#24292f; text-align:start">JVM 把虚拟线程分配给平台线程的操作称为 mount（挂载），取消分配平台线程的操作称为 unmount（卸载）：</p><p style="color:#24292f; text-align:start"><strong>mount 操作</strong>：虚拟线程挂载到平台线程，虚拟线程中包装的 Continuation 堆栈帧数据会被拷贝到平台线程的线程栈，这是一个从堆复制到栈的过程。</p><p style="color:#24292f; text-align:start"><strong>unmount 操作</strong>：虚拟线程从平台线程卸载，此时虚拟线程的任务还没有执行完成，所以虚拟线程中包装的 Continuation 栈数据帧会会留在堆内存中。</p><p style="color:#24292f; text-align:start">从 Java 代码的角度来看，其实是看不到虚拟线程及载体线程共享操作系统线程的，会认为虚拟线程及其载体都在同一个线程上运行，因此，在同一虚拟线程上多次调用的代码可能会在每次调用时挂载的载体线程都不一样。JDK 中使用了<span>&nbsp;</span><strong>FIFO 模式的 ForkJoinPool 作为虚拟线程的调度器</strong>，从这个调度器看虚拟线程任务的执行流程大致如下：</p><ul><li>调度器（线程池）中的平台线程等待处理任务。<img alt="66.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/66.png" referrerpolicy="no-referrer"></li><li>一个虚拟线程被分配平台线程，该平台线程作为载体线程执行虚拟线程中的任务。<img alt="90.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/90.png" referrerpolicy="no-referrer"></li><li>虚拟线程运行其 Continuation，Mount(挂载) 平台线程后，最终执行 Runnable 包装的用户实际任务。<img alt="009.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/009.png" referrerpolicy="no-referrer"></li><li>虚拟线程任务执行完成，标记 Continuation 终结，标记虚拟线程为终结状态，清空上下文，等待 GC 回收，解除挂载载体线程会返还到调度器（线程池）中等待处理下一个任务。<img alt="102.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/102.png" referrerpolicy="no-referrer"></li></ul><p style="color:#24292f; text-align:start">上面是没有阻塞场景的虚拟线程任务执行情况，如果遇到了阻塞 (例如 Lock 等) 场景，会触发 Continuation 的 yield 操作让出控制权，等待虚拟线程重新分配载体线程并且执行，具体见下面的代码：</p><pre><code> ReentrantLock lock = new ReentrantLock();
-        Thread.startVirtualThread(() -&gt; {
-            lock.lock();    
-        });
-        // 确保锁已经被上面的虚拟线程持有
-        Thread.sleep(1000);  
-        Thread.startVirtualThread(() -&gt; {
-            System.out.println("first");
-            会触发 Continuation 的 yield 操作
-            lock.lock(); 
-            try {
-                System.out.println("second");
-            } finally {
-                lock.unlock();
-            }
-            System.out.println("third");
-        });
-        Thread.sleep(Long.MAX_VALUE);
-    }
-</code></pre><p>虚拟线程中任务执行时候调用 Continuation#run()<span>&nbsp;</span><strong>先执行了部分任务代码，然后尝试获取锁</strong>，该操作是阻塞操作会导致 Continuation 的 yield 操作让出控制权，如果 yield 操作成功，会从载体线程 unmount，载体线程栈数据会移动到 Continuation 栈的数据帧中，保存在堆内存中，虚拟线程任务完成，此时虚拟线程和 Continuation 还没有终结和释放，载体线程被释放到执行器中等待新的任务；如果 Continuation 的 yield 操作失败，则会对载体线程进行 Park 调用，<strong>阻塞在载体线程上，此时虚拟线程和载体线程同时会被阻塞</strong>，本地方法，Synchronized 修饰的同步方法都会导致 yield 失败。<img alt="008.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/008.png" referrerpolicy="no-referrer"></p><p>当锁持有者释放锁之后，<strong>会唤醒虚拟线程获取锁</strong>，获取锁成功后，虚拟线程会重新进行 mount，让虚拟线程任务再次执行，<strong>此时有可能是分配到另一个载体线程中执行</strong>，Continuation 栈会的数据帧会被恢复到载体线程栈中，然后再次调用 Continuation#run() 恢复任务执行。<img alt="172.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/172.png" referrerpolicy="no-referrer"></p><p>虚拟线程任务执行完成，标记 Continuation 终结，标记虚拟线程为终结状态，清空上下文变量，解除载体线程的挂载载体线程返还到调度器（线程池）中作为平台线程等待处理下一个任务。</p><p style="color:#24292f; text-align:start">Continuation 组件十分重要，<strong>它既是用户真实任务的包装器，同时提供了虚拟线程任务暂停/继续的能力，以及虚拟线程与平台线程数据转移功能，当任务需要阻塞挂起的时候，调用 Continuation 的 yield 操作进行阻塞。当任务需要解除阻塞继续执行的时候，则调用 Continuation 的 run 恢复执行。</strong></p><p style="color:#24292f; text-align:start">通过下面的代码可以看出 Continuation 的神奇之处，通过在编译参数加上--add-exports java.base/jdk.internal.vm=ALL-UNNAMED 可以在本地运行。</p><pre><code>ContinuationScope scope = new ContinuationScope("scope");
-Continuation continuation = new Continuation(scope， () -&gt; {
-    System.out.println("before yield 开始");
-    Continuation.yield(scope);
-    System.out.println("after yield 结束");
-});
-System.out.println("1 run");
-// 第一次执行 Continuation.run
-continuation.run();
-System.out.println("2 run");
-// 第二次执行 Continuation.run
-continuation.run();
-System.out.println("Done");
-</code></pre><p style="color:#24292f; text-align:start"><img alt="756.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/756.png" referrerpolicy="no-referrer">通过上述案例可以看出，<strong>Continuation 实例进行 yield 调用后，再次调用其 run 方法就可以从 yield 的调用之处继续往下执行，从而实现了程序的中断和恢复。</strong></p><span id="OSC_h2_12"></span><h2>虚拟线程内存占用评估</h2><p style="color:#24292f; text-align:start"><strong>单个平台线程的资源占用：</strong></p><ul><li>根据 JVM 规范，预留 1 MB 线程栈空间。</li><li>平台线程实例，会占据 2000+ byte 数据。</li></ul><p style="color:#24292f; text-align:start"><strong>单个虚拟线程的资源占用：</strong></p><ul><li>Continuation 栈会占用数百 byte 到数百 KB 内存空间，是作为堆栈块对象存储在 Java 堆中。</li><li>虚拟线程实例会占据 200 - 240 byte 数据。</li></ul><p style="color:#24292f; text-align:start">从对比结果来看，<strong>理论上单个平台线程占用的内存空间至少是 KB 级别的，而单个虚拟线程实例占用的内存空间是 byte 级别</strong>，两者的内存占用差距较大，这也是虚拟线程可以大批量创建的原因。</p><p style="color:#24292f; text-align:start">下面通过一段程序去测试平台线程和虚拟线程的内存占用：</p><pre><code>private static final int COUNT = 4000;
-
-/**
- *  -XX:NativeMemoryTracking=detail
- *
- * @param args args
- */
-public static void main(String[] args) throws Exception {
-    for (int i = 0; i &lt; COUNT; i++) {
-        new Thread(() -&gt; {
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }， String.valueOf(i)).start();
-    }
-    Thread.sleep(Long.MAX_VALUE);
-}
-</code></pre><p style="color:#24292f; text-align:start">上面的程序运行后启动 4000 平台线程，通过 -XX:NativeMemoryTracking=detail 参数和 JCMD 命令查看所有线程占据的内存空间如下：<img alt="890.jpeg" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/890.jpeg" referrerpolicy="no-referrer">内存占用大部分来自创建的平台线程，<strong>总线程栈空间占用约为 8096 MB，两者加起来占据总使用内存（8403MB）的 96% 以上。</strong></p><p style="color:#24292f; text-align:start">用类似的方式编写运行虚拟线程的程序：</p><pre><code>private static final int COUNT = 4000;
-
-/**
- * -XX:NativeMemoryTracking=detail
- *
- * @param args args
- */
-public static void main(String[] args) throws Exception {
-    for (int i = 0; i &lt; COUNT; i++) {
-        Thread.startVirtualThread(() -&gt; {
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-    Thread.sleep(Long.MAX_VALUE);
-}
-</code></pre><p style="color:#24292f; text-align:start">上面的程序运行后启动 4000 虚拟线程：<img alt="123.jpeg" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/123.jpeg" referrerpolicy="no-referrer">堆内存的实际占用量和总内存的实际占用量都不超过 300 MB，可以证明虚拟线程在大量创建的前提下也不会去占用过多的内存，且<strong>虚拟线程的堆栈是作为堆栈块对象存储在 Java 的堆中的，可以被 GC 回收，又降低了虚拟线程的占用。</strong></p><span id="OSC_h2_13"></span><h2>虚拟线程的局限及使用建议</h2><ul><li>虚拟线程存在 native 方法或者外部方法 (Foreign Function &amp; Memory API，jep 424 ) 调用不能进行 yield 操作，此时载体线程会被阻塞。</li><li>当运行在 synchronized 修饰的代码块或者方法时，不能进行 yield 操作，此时载体线程会被阻塞，推荐使用 ReentrantLock。</li><li><strong>ThreadLocal 相关问题</strong>，目前虚拟线程仍然是支持 ThreadLocal 的，但是由于虚拟线程的数量非常多，会导致 Threadlocal 中存的线程变量非常多，需要频繁 GC 去清理，对性能会有影响，官方建议尽量少使用 ThreadLocal，同时不要在虚拟线程的 ThreadLocal 中放大对象，目前官方是想通过 ScopedLocal 去替换掉 ThreadLocal，但是在 21 版本还没有正式发布，<strong>这个可能是大规模使用虚拟线程的一大难题</strong>。</li><li><strong>无需池化虚拟线程</strong><span>&nbsp;</span>虚拟线程占用的资源很少，因此可以大量地创建而无须考虑池化，它不需要跟平台线程池一样，平台线程的创建成本比较昂贵，所以通常选择去池化，去做共享，<strong>但是池化操作本身会引入额外开销</strong>，对于虚拟线程池化反而是得不偿失，使用虚拟线程我们抛弃池化的思维，用时创建，用完就扔。</li></ul><span id="OSC_h2_14"></span><h2>虚拟线程适用场景</h2><ul><li>大量的 IO 阻塞等待任务，例如下游 RPC 调用，DB 查询等。</li><li>大批量的处理时间较短的计算任务。</li><li>Thread-per-request (一请求一线程) 风格的应用程序，例如主流的 Tomcat 线程模型或者基于类似线程模型实现的 SpringMVC 框架 ，这些应用只需要小小的改动就可以带来巨大的吞吐提升。</li></ul><span id="OSC_h1_15"></span><h1>五、虚拟线程压测性能分析</h1><p style="color:#24292f; text-align:start">在下面的测试中，我们将模拟最常使用的场景-使用 Web 容器去处理 Http 请求。</p><p style="color:#24292f; text-align:start"><strong>场景一：</strong><span>&nbsp;</span>在 Spring Boot 中使用内嵌的 Tomcat 去处理 Http 请求，<strong>使用默认的平台线程池作为 Tomcat 的请求处理线程池。</strong></p><p style="color:#24292f; text-align:start"><strong>场景二</strong>：使用<strong>Spring -WebFlux</strong>创建基于事件循环模型的应用程序，进行响应式请求处理。</p><p style="color:#24292f; text-align:start"><strong>场景三：</strong><span>&nbsp;</span>在 Spring Boot 中使用内嵌的 Tomcat 去处理 Http 请求，<strong>使用虚拟线程池作为 Tomcat 的请求处理线程池</strong><span>&nbsp;</span>(Tomcat 已支持虚拟线程)。</p><span id="OSC_h2_16"></span><h2>测试流程</h2><ul><li>Jmeter 开启 500 个线程去并行发起请求。每个线程将等待请求响应后再发起下一次请求，单次请求超时时间为 10s，测试时间持续 60s。</li><li>测试的 Web Server 将接受 Jmeter 的请求，并调用慢速服务器获取响应并返回。</li><li>慢速服务器以随机超时响应。最大响应时间为 1000ms。平均响应时间为 500ms。<img alt="46.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/46.png" referrerpolicy="no-referrer"></li></ul><span id="OSC_h2_17"></span><h2>衡量指标</h2><p style="color:#24292f; text-align:start"><strong>吞吐量和平均响应时间</strong>，吞吐量越高，平均响应时间越低，性能就越好。</p><span id="OSC_h2_18"></span><h2>Tomcat+普通线程池</h2><p style="color:#24292f; text-align:start">默认情况下，Tomcat 使用一请求一线程模型处理请求，当 Tomcat 收到请求时，会从线程池中取一个线程去处理请求，该分配的线程将一直保持占用状态，直到请求结束才会释放。当线程池中没有线程时，请求会一直阻塞在队列中，直到有请求结束释放线程。默认队列长度为 Integer.MAX。</p><span id="OSC_h3_19"></span><h3>默认线程池</h3><p style="color:#24292f; text-align:start">默认情况下，线程池最多包含 200 个线程。这基本上意味着单个时间点最多处理 200 个请求。对于每个请求服务都会以阻塞的方式调用平均 RT500ms 的慢速服务器。因此，可以预期每秒 400 个请求的吞吐量，最终压测结果非常接近预期值，为 388 req/sec。<img alt="112.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/112.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start"><strong>增加线程池</strong></p><p style="color:#24292f; text-align:start">生产环境为了吞吐考虑,一般不会使用默认值,会把线程池增大到 server.tomcat.threads.max=500+，调整到 500+ 之后的压测结果如下：<img alt="998.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/998.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">可以看出最终的吞吐量和线程数量呈比例上升，同时由于线程数的增加，请求等待减少，平均 RT 趋向于慢速服务器的响应平均 RT。</p><p style="color:#24292f; text-align:start">但是需要注意的是，平台线程的创建受到内存和 Java 线程映射模型的限制，不能无限扩展，同时大量线程会导致 CPU 资源大量消耗在上下文切换时，整体性能反而降低。</p><span id="OSC_h2_20"></span><h2>WebFlux</h2><p style="color:#24292f; text-align:start">WebFlux 跟传统的 Tomcat 线程模型不一样，他不会为每个请求分配一个专用线程，而是使用事件循环模型通过非阻塞 I/O 操作同时处理多个请求，这使得它能够用有限的线程数量处理大量的并发请求。</p><p style="color:#24292f; text-align:start">在压测的场景下，使用 WebClient 来进行一个非阻塞的 Http 调用慢速处理器，并使用 RouterFunction 来做请求映射和处理。</p><pre><code>@Bean
-public WebClient slowServerClient() {
-    return WebClient.builder()
-            .baseUrl("http://127.0.0.1:8000")
-            .build();
-}
-
-@Bean
-public RouterFunction&lt;ServerResponse&gt; routes(WebClient slowServerClient) {
-    return route(GET("/")， (ServerRequest req) -&gt; ok()
-            .body(
-                    slowServerClient
-                            .get()
-                            .exchangeToFlux(resp -&gt; resp.bodyToFlux(Object.class))，
-                    Object.class
-            ));
-}
-
-</code></pre><p style="color:#24292f; text-align:start">WebFlux 压测结果如下：<img alt="087.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/087.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">可以看到，WebFlux 的请求完全没有阻塞，仅用了 25 个线程就达到了 964 req/sec 的吞吐。</p><span id="OSC_h2_21"></span><h2>Tomcat+虚拟线程池</h2><p style="color:#24292f; text-align:start">与平台线程相比，虚拟线程的内存占用量要低得多，运行程序大量的创建虚拟线程，而不会耗尽系统资源；同时当遇到 Thread.sleep()，CompletableFuture.await()，等待 I/O，获取锁时，虚拟线程会自动卸载，JVM 可以自动切换到另外的等待就绪的虚拟线程，提升单个平台线程的利用率，保证平台线程不会浪费在无意义的阻塞等待上。</p><p style="color:#24292f; text-align:start">要想使用虚拟线程，需要先在启动参数中加上 --enable-preview，同时 Tomcat 在 10 版本已支持虚拟线程，我们只需要替换 Tomcat 的平台线程池为虚拟线程池即可。</p><pre><code>@Bean
-public TomcatProtocolHandlerCustomizer&lt;?&gt; protocolHandler() {
-    return protocolHandler -&gt;
-            protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
-}
-
-
-private final RestTemplate restTemplate;
-
-@GetMapping
-public ResponseEntity&lt;Object&gt; callSlowServer(){
-    return restTemplate.getForEntity("http://127.0.0.1:8000"， Object.class);
-}
-</code></pre><p style="color:#24292f; text-align:start">最终压测结果如下：<img alt="665.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/665.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">可以看到虚拟线程的压测结果实际上与 WebFlux 的情况相同，<strong>但我们根本没有使用任何复杂的响应式编程技术</strong>。同时对慢速服务器的调用，也使用常规的阻塞 RestTemplate。<strong>我们所做的只是用虚拟线程执行器替换线程池就达到更复杂的 Webflux 写法相同的效果。</strong></p><p style="color:#24292f; text-align:start">总的压测结果如下：<img alt="109.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/109.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">通过以上压测结果，我们可以得出以下结论：</p><ul><li>传统的线程池模式效果差强人意，可以通过提高线程数量可以提升吞吐，但是需要考虑到系统容量和资源限制，但是对于大部分场景来说使用线程池去处理阻塞操作仍然是主流且不错的选择。</li><li>WebFlux 的效果非常好，但是考虑到需要完全按照响应式风格进行开发，成本及难度较大，同时 WebFlux 与现有的一些主流框架存在一些兼容问题，例如 Mysql 官方 IO 库不支持 NIO、Threadlocal 兼容问题等等。现有应用的迁移基本要重写所有代码，改动量和风险都不可控。</li><li><strong>虚拟线程的效果非常好，最大的优势就是我们没有修改代码或采用任何反应式技术，唯一更改是将线程池替换为虚拟线程</strong>。虽然改动较小，但与使用线程池相比，性能结果得到了显著改善。</li></ul><p style="color:#24292f; text-align:start">基于上述的压测结果，可以较为乐观的认为虚拟线程会颠覆我们目前的服务和框架中的请求处理方法。</p><span id="OSC_h1_22"></span><h1>六、总结</h1><p style="color:#24292f; text-align:start">过去很长时间，在编写服务端应用时，我们对于每个请求，都使用独占的线程来处理，请求之间是相互独立的，这就是<span>&nbsp;</span><strong>一请求一线程的模型</strong>这种方式易于理解和编程实现，也易于调试和性能调优。</p><p style="color:#24292f; text-align:start">然而，一请求一线程风格并不能简单地使用平台线程来实现，因为平台线程是操作系统中线程的封装。操作系统的线程会申请成本较高，存在数量上限。**对于一个要并发处理海量请求的服务器端应用来说，对每个请求都创建一个平台线程是不现实的。**在这种前提下，涌现出一批非阻塞 I/O 和异步编程框架，如 WebFlux ，RX-Java。当某个请求在等待 I/O 操作时，它会暂时让出线程，并在 I/O 操作完成之后继续执行。通过这种方式，可以用少量线程同时处理大量的请求。这些框架可以提升系统的吞吐量，但是要求开发人员必须熟悉所使用的底层框架，并按照响应式的风格来编写代码，响应式框架的调试困难，学习成本，兼容问题使得大部分人望而却步 。 在使用虚拟线程之后，一切都将改变，开发人员可以使用目前最习惯舒服的方式来编写代码，<strong>高性能和高吞吐由虚拟线程自动帮你完成，这极大地降低了编写高并发服务应用的难度。</strong></p><p style="color:#24292f; text-align:start"><strong>参考文档：</strong></p><p style="color:#24292f; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F444" target="_blank">https://openjdk.org/jeps/444</a></p><p style="color:#24292f; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F514719325" target="_blank">https://zhuanlan.zhihu.com/p/514719325</a></p><p style="color:#24292f; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.vlts.cn%2Fpost%2Fvirtual-thread-source-code%23%25E5%2589%258D%25E6%258F%2590" target="_blank">https://www.vlts.cn/post/virtual-thread-source-code#%E5%89%8D%E6%8F%90</a></p><p style="color:#24292f; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F499342616" target="_blank">https://zhuanlan.zhihu.com/p/499342616</a></p><p style="color:#24292f; text-align:start">*<strong>文/creed</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本文属得物技术原创，更多精彩文章请看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftech.dewu.com" target="_blank">得物技术官网</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">未经得物技术许可严禁转载，否则依法追究法律责任！</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Dec 2023 02:34:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/5783135/blog/10319533</guid>
-            <link>https://my.oschina.net/u/5783135/blog/10319533</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[苹果开源深度学习框架 MLX，专门针对 Apple Silicon 芯片优化]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>苹果开源了针对 Apple Silicon 芯片优化的 MLX 深度学习框架，并表示该框架可以简化研究人员在&nbsp;<span>Mac、iPad、iPhone 平台设计和部署模型的过程。</span></p><p><img src="https://oscimg.oschina.net/oscnet/up-5c9da56834a3118a57e83b8ae26e0181df3.png" referrerpolicy="no-referrer"></p><p>地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fml-explore%2Fmlx" target="_blank">https://github.com/ml-explore/mlx</a></u></em></p><p>根据介绍，该深度学习框架提供了与主流开发工具接轨的 API、支持延迟计算、采用动态设计并软硬结合、对研究人员较为友好，且具有统一内存优势。</p><p><strong>MLX 主要特性</strong></p><ul><li><p><strong>提供开发者熟悉的 API</strong>：MLX 具有和 NumPy 接近的 Python API，此外还拥有功能齐全的 C++ API，它与 Python API 非常相似。 MLX 具有<code>mlx.nn</code>和<code>mlx.optimizers</code>等更高级别的包，其 API 紧密贴合 PyTorch，以简化构建更复杂的模型</p></li><li><p><strong>可组合函数转换</strong>：MLX 具有用于自动微分、自动矢量化和计算图优化的可组合函数转换</p></li><li><p><strong>惰性计算 (Lazy computation)</strong>：MLX 中的计算是惰性计算。数组仅在需要时才会具体化</p></li><li><p><strong>动态图构建</strong>：MLX 中的计算图采用动态构建，更改函数参数的形状不会触发缓慢的编译，并且调试简单直观</p></li><li><p><strong>多设备：</strong>可以在任何支持的设备上运行（当前为 CPU 和 GPU），确保用户能够充分利用硬件</p></li><li><p><strong>具备统一内存优势</strong>：MLX 和其他框架的显着区别是采用统一内存模型。 MLX 中的数组位于共享内存中，可以在任何支持的设备类型上执行 MLX 阵列上的操作，而无需移动数据。</p></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Dec 2023 02:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/269870</guid>
-            <link>https://www.oschina.net/news/269870</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[麦当劳中国启动鸿蒙原生应用开发]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">麦当劳中国 12 月 6 日与华为达成鸿蒙合作协议，正式宣布麦当劳中国 APP 将基于 HarmonyOS NEXT 启动鸿蒙原生应用开发。</span></p><p><span style="color:#000000"><span style="background-color:#ffffff">中国市场已经成为了麦当劳全球的第二大市场。</span>麦当劳中国在中国市场坐拥 5500 多家餐厅，拥有超过 20 万员工，每年服务顾客超过十亿人次，成为首批启动鸿蒙原生应用开发的全球大型连锁餐饮企业。</span></p><p><span style="color:#000000"><img alt="" height="334" src="https://oscimg.oschina.net/oscnet/up-0f4b27f891e839fc65b056b51f6d64a2c7d.jpg" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">目前，美团、去哪儿、新浪、钉钉、蚂蚁集团、小红书、58 集团、哔哩哔哩、高德地图等均已启动鸿蒙原生应用开发。</span></p><p><span style="background-color:#ffffff; color:#000000">华为终端云服务开发者服务与平台部总裁望岳表示：「麦当劳中国启动鸿蒙原生应用开发，是鸿蒙生态发展在餐饮界的又一次重要突破。」</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Dec 2023 02:22:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/269869</guid>
-            <link>https://www.oschina.net/news/269869</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
