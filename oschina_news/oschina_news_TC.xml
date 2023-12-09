@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 09 Dec 2023 00:31:08 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 09 Dec 2023 02:33:57 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -61,6 +61,35 @@
             <link>https://www.oschina.net/news/270095/vs-code-1-85-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[虛擬機成為 Android 的核心結構]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>安卓虛擬化框架（AVF）將出現在即將推出的部分安卓 14 設備上。AVF 於 Android 13 首次在 Pixel 設備上推出，為開發特權應用程序的平台開發人員提供了新的功能。</p><p>有了 AVF，我們將更廣泛地支持安卓的虛擬化。虛擬化被廣泛應用和部署，以隔離工作負載和操作系統。它可以有效地擴展基礎設施、測試環境、兼容傳統軟件、創建虛擬桌面等。</p><p style="text-align:start">有了 AVF，虛擬機就成了安卓操作系統的核心結構，類似於安卓利用 Linux 進程的方式。開發人員可以靈活選擇虛擬機的隔離級別：</p><ul><li><p>單向隔離：安卓（主機）可以控制和檢查虛擬機的內容。這些虛擬機最常用於沙箱和隔離，使多個操作系統能在同一台機器/設備上運行，由一個操作系統主機（Android）控制和監視所有其他操作系統。</p></li></ul><ul><li><p>雙向隔離（隔離虛擬機）：Android（主機）和虛擬機（客戶機）完全相互隔離。處理或存儲敏感數據的開發人員可能會受益於隔離虛擬機。隔離虛擬機具有雙向屏障，主機（Android）和虛擬機都無法訪問對方，除非通過明確商定的通信渠道。這有兩個主要特性：</p></li></ul><blockquote><blockquote><ol><li><p>主機（Android）無法訪問虛擬機內的工作負載和數據（保密）。</p></li><li><p>即使 Android 一直到（包括）主機內核都受到攻擊，隔離的虛擬機也不會受到攻擊。</p></li></ol></blockquote></blockquote><h3 style="text-align:start"><strong>AVF 的意義</strong></h3><h4 style="text-align:start"><strong>隔離</strong></h4><p style="text-align:start">有了隔離虛擬機，開發人員現在有了 Trustzone 之外的另一種選擇，可用於需要在不升級權限的情況下與 Android 隔離的用例。</p><h4 style="text-align:start"><strong>便攜性</strong></h4><p style="text-align:start">虛擬機及其內部運行的應用程序的可移植性遠高於可信 applets。例如，帶有 Linux 應用程序有效載荷的基於 Linux 的虛擬機可以在所有支持 AVF 的設備上運行。這意味着開發人員只需構建一次應用程序，就可以將其部署到任何地方。與移植到 Trustzone 操作系統相比，虛擬機還能無縫、輕鬆地移植基於 Linux 的現有應用程序。</p><h4 style="text-align:start"><strong>性能</strong></h4><p style="text-align:start">AVF 設計輕巧、高效、靈活。虛擬機可以：</p><ul><li><p>根據開發者的需要，小到一個 C 語言程序，大到整個操作系統；</p></li><li><p>做到持續性或間歇性；</p></li><li><p>根據整個系統的健康狀況增加或縮小內存；</p></li><li><p>遵循 Android 的調度程序提示和低內存警告。</p></li></ul><h4 style="text-align:start"><strong>可擴展性</strong></h4><p style="text-align:start">AVF 在設計時考慮到了開發人員的需求。虛擬機可以定製，以滿足特定用例的需求。只要符合 AVF 規定的某些啓動和通信協議，開發人員就可以部署任何虛擬機有效載荷。</p><p style="text-align:start">除了將虛擬化的強大功能引入安卓系統，實現虛擬桌面、沙箱、AVF 使用隔離虛擬機的所有可能性外，還能使以下常見的安卓使用場景（以及更多使用場景）受益：</p><ul><li><p>生物識別：通過在隔離的虛擬機中部署生物識別可信 applets，開發人員將獲得隔離保證、生物識別算法所需的更多計算能力、與 Trustzone 操作系統無關的輕鬆更新能力以及更簡化的部署。</p></li></ul><ul><li><p>DRM：Widevine 可在安卓設備上實現流式 DRM。一旦部署在隔離的虛擬機中，無論安卓設備上部署的各種 Trustzone 操作系統的細節如何，Widevine 的更新在這些設備上都會變得更加容易。</p></li></ul><h3 style="text-align:start"><strong>AVF 使用</strong></h3><p style="text-align:start">AVF 提供了簡單的應用程序接口，用於查詢設備創建虛擬機的能力及其支持的類型，以及從創建虛擬機的應用程序和服務與這些虛擬機建立安全的通信渠道。</p><p style="text-align:start">例如，檢查 AVF API 的可用性，以及隔離虛擬機和常規虛擬機的可用性：</p><pre><code>VirtualMachineManager manager =
+     (VirtualMachineManager)context.
+          getSystemService(VirtualMachineManager.class);
+if (manager == null) {
+    // AVF not supported
+} else {
+    int capabilities = manager.getCapabilities();
+    if ((capabilities &amp; CAPABILITY_PROTECTED_VM) != 0) {
+        // protected VM is supported
+    }
+    if ((capabilities &amp; CAPABILITY_NON_PROTECTED_VM) != 0) {
+        // non protected VM is supported
+    }
+}
+</code></pre><p style="text-align:start">有關 AVF 及其 API 的其他文檔，請<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization" target="_blank">點擊此處查看</a>。</p><h3 style="text-align:start"><strong>AVF 組件</strong></h3><p><img align="left" alt="AVF Component architecture" height="219" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqoflrFdKllbCL-ksao2ozMc0Vwp3eAXNadr58iaiCyd4noAKVuwaetGcVVoU1s1s_g3FA94wCHv_wg8AYbnczEY518U98tUwpYqkyLM-H2IbKpJcNY55xg6yCw5KO2Nk5HW2uAxAGNBXVdDVm8dNdG4das2y7RBWaQCWleykRilaLbd0sfFnb0JOXgC0/s1600/image1.png" width="453" referrerpolicy="no-referrer"></p><p>AVF 由框架 API、<strong>Hypervisor </strong>和虛擬機管理器組成。<strong>Hypervisor </strong>確保虛擬機（包括 Android）相互隔離，就像 Linux 內核對進程的隔離一樣。不過，與 Linux 內核相比，AVF <strong>Hypervisor</strong>（pKVM）的代碼量要小得多（約 50 倍）。</p><h4 style="text-align:start"><strong>Hypervisor (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Farchitecture%23hypervisor" target="_blank"><strong>pKVM</strong></a><strong>)&nbsp;</strong></h4><p style="text-align:start"><strong>Hypervisor </strong>側重於開源可用性、安全性、虛擬機的設備分配以及虛擬機之間的隔離安全。它的攻擊面較小，符合較高的安全保證級別。受保護的 KVM <strong>Hypervisor</strong>（pKVM）完全支持 AVF API 和功能。</p><p style="text-align:start">pKVM 構建在 Linux 中基於內核的虛擬機（KVM）這一行業標準之上。這意味着所有依賴基於 KVM 的虛擬機的現有操作系統和工作負載都能通過 pKVM 在安卓設備上無縫運行。</p><h4 style="text-align:start"><strong>虛擬機管理器 (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid.googlesource.com%2Fplatform%2Fexternal%2Fcrosvm%2F" target="_blank"><strong>crosvm</strong></a><strong>)</strong></h4><p style="text-align:start">crosvm 是基於 Rust 的虛擬機管理器（VMM），是 <strong>Hypervisor </strong>與 AVF 框架之間的橋樑。它負責創建、管理和銷燬虛擬機。此外，它還提供了一個跨多個 <strong>Hypervisor </strong>實現的抽象層。</p><h4 style="text-align:start"><strong>隔離虛擬機</strong></h4><p style="text-align:start">隔離的虛擬機對 Android 來説是不可見的，即在 Android 中運行的任何進程都無法檢查、查看或篡改此類虛擬機的內容。這一保證由 <strong>Hypervisor </strong>提供。</p><h4 style="text-align:start"><strong>虛擬機</strong></h4><p style="text-align:start">虛擬機與隔離的虛擬機相同，只是擁有正確權限的 Android 進程可以訪問虛擬機。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fmicrodroid" target="_blank"><strong>Microdroid</strong></a></h4><p style="text-align:start">Microdroid 是一個經過精簡的 Android 操作系統軟件包，可作為啓動虛擬機（VM）的模板。它為開發人員在虛擬機中構建和運行工作負載提供了熟悉的環境。Microdroid 使用熟悉的 Android 工具和庫，如 Bionic、Binder IPC 和 keystore 支持。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fvirtualization-service" target="_blank"><strong>虛擬化服務</strong></a></h4><p style="text-align:start">VirtualizationService 管理所有客戶虛擬機（無論是否隔離）。它主要通過管理 crosvm 實例來實現。它還公開了 AIDL API，系統服務或特權應用程序可使用該 API 啓動、監控和停止虛擬機。</p><h4 style="text-align:start"><strong>RpcBinder</strong></h4><p style="text-align:start">RpcBinder 是為 Android 界面定義語言（AIDL）開發的全新後端。RpcBinder 可使用現有的 binder 線協議與虛擬機進行通信。這意味着：</p><ol><li><p>開發人員可以使用他們已經熟悉的語言和基礎架構（AIDL）編寫虛擬機接口。</p></li><li><p>只需繼續使用現有的 AIDL 接口，即使綁定端點轉移到虛擬機中也是如此。</p></li></ol><h3 style="text-align:start"><strong>Android 14 有哪些新功能？</strong></h3><p style="text-align:start">安卓 14 不僅使 AVF 可以在更多設備上使用，還提供了一個新的工具包，使用戶可以使用 AVF 及其組件構建更多內容：</p><ul><li><p><strong>用於 AVF 的安卓系統應用程序接口</strong>&nbsp;</p></li></ul><blockquote><p>特權應用程序現在可以使用虛擬機來執行需要隔離的關鍵工作負載；</p></blockquote><ul><li><p><strong>Hypervisor DevEx 工具包</strong>&nbsp;</p></li></ul><blockquote><p>添加了跟蹤功能、改進的可調試性和監控功能，以提供洞察力並協助平台開發人員在隔離虛擬機內進行開發；</p></blockquote><ul><li><p><strong>Hypervisor 供應商模塊</strong></p></li></ul><blockquote><p>通過供應商模塊擴展，我們的合作伙伴可以定製谷歌的 pKVM，以滿足他們的特定需求，實現差異化；</p></blockquote><ul><li><p><strong>改善系統健康</strong>&nbsp;</p></li></ul><blockquote><p>安卓 14 中，基於 microdroid 的虛擬機啓動速度比安卓 13 快 2 倍，而內存使用量卻只有安卓 13 的一半。</p></blockquote><p>AVF 框架的其它部分可讓 Android 服務和應用程序輕鬆使用虛擬化。例如，使用 AIDL 作為傳輸層抽象虛擬機之間的通信，管理虛擬機生命週期或虛擬機的創建方式。</p><blockquote><p>原文鏈接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F12%2Fvirtual-machines-as-core-android-primitive.html" target="_blank">https://android-developers.googleblog.com/2023/12/virtual-machines-as-core-android-primitive.html</a></p><p><em>Posted by Sandeep Patil – Principal Software Engineer, and Irene Ang – Product Manager</em></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:52:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</guid>
+            <link>https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
@@ -150,6 +179,21 @@ const params = {
         </item>
         <item>
             <title>
+                <![CDATA[百度 Comate 榮獲「2023 AIIA 人工智能十大先鋒應用案例」獎]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span>12 月 7-8 日，中國人工智能產業發展聯盟（AIIA）第十次全體會議暨 2023 年通用人工智能創新發展論壇在重慶召開。</span>大會圍繞軟件工程、基礎平台、科學智能、具身智能等技術創新，數據、開源開放、安全治理等產業關鍵要素，以及金融、汽車等重點行業應用等人工智能最新熱點展開。</p><p><span>作為大會重磅環節，從今年 10 月起，AIIA 啓動</span><strong>「2023 人工智能十大先鋒應用案例徵集」活動</strong><span>，旨在甄選具有高價值、標杆性、真落地的行業典型應用實踐，打造 AI 界「奧斯卡」。經過為期 2 個月的徵集評審，從百餘項入圍案例中，</span><strong>百度智能代碼助手 Comate 脫穎而出，斬獲「2023AIIA 人工智能十大先鋒應用案例」獎，也是本次十大先鋒應用案例獎中的唯一軟件工程領域 AI 應用</strong><span><strong>。</strong></span></p><p><img height="846" src="https://static.oschina.net/uploads/space/2023/1208/110825_3Ktq_3820517.png" width="1269" referrerpolicy="no-referrer"></p><p><strong>（現場頒獎）</strong></p><p>從在百度內部全面落地應用，到面向企業開發者發佈「國內首個商用全場景智能編程助手」，再到 SaaS 版全面開放，百度 Comate 厚積薄發，持續引領 AI 原生研發新範式。</p><p>目前，百度 Comate 已覆蓋 100+種編程語言，支持 10+種主流 IDE，覆蓋編程前、後、移動端，支持軟硬件不同開發場景，為研發全生命週期提供全場景智能輔助，大幅提升研發效率的同時，也提升了工程師的工作倖福感。</p><p><img height="716" src="https://static.oschina.net/uploads/space/2023/1208/110838_ghZG_3820517.png" width="1268" referrerpolicy="no-referrer"></p><p><span>在技術創新優勢上，依賴文心大模型、飛槳深度學習平台以及百度多年積累的技術經驗，Comate 智能代碼助手具備</span><strong>模型訓練、推理加速、工程實踐和安全保障四重技術創新</strong><span>，並在</span><strong>代碼續寫、代碼解釋、NL2Code、Code Debug 等能力上領先行業與競品</strong><span>。</span></p><p><img height="712" src="https://static.oschina.net/uploads/space/2023/1208/110849_LSh5_3820517.png" width="1267" referrerpolicy="no-referrer"></p><p>在應用實效上，基於模型層多種能力，百度 Comate 具有優秀的代碼推薦、單測生成、自然語言代碼生成和代碼修復等能力；並通過開放 SaaS 版和私有化部署能力，滿足個人用戶、中小企業和大型企業的不同需求。在百度內部，通過 Comate 生成代碼佔比 20%，整體採納率達 40%；SaaS 版開箱即用，註冊企業累計 4000+；涵蓋金融、汽車、互聯網、高端製造等在內的數十家大型企業已與 Comate 達成私有化部署合作。</p><p><img height="1842" src="https://static.oschina.net/uploads/space/2023/1208/192440_aMPH_3820517.png" width="3260" referrerpolicy="no-referrer"></p><p>未來，百度 Comate 還將持續強化產品能力建設，堅守安全性的同時增強開放性，為企業和個人用戶提供更智能、更高效、更便捷的代碼輔助服務，助力研發效率持續提升，加速產業創新落地。</p><p>馬上申請免費試用，還有超多限時福利！</p><p><img height="533" src="https://static.oschina.net/uploads/space/2023/1208/110911_Fwzq_3820517.png" width="300" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:10:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270054/comate-aiia-2023-news</guid>
+            <link>https://www.oschina.net/news/270054/comate-aiia-2023-news</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[網信辦發佈《網絡安全事件報告管理辦法（徵求意見稿）》]]>
             </title>
             <description>
@@ -161,6 +205,21 @@ const params = {
             <link>https://www.oschina.net/news/270052</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[支付寶啓動鴻蒙原生應用開發]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>支付寶與華為終端宣佈合作，基於 HarmonyOS NEXT 啓動支付寶鴻蒙原生應用開發。</p><p><img alt="" height="326" src="https://oscimg.oschina.net/oscnet/up-a9aa0abdc54a1c436a2c973752477f7b5a2.webp" width="500" referrerpolicy="no-referrer"></p><p>支付寶事業羣總裁倪行軍表示，雙方的合作將進一步滿足用戶在不同終端、不同場景下享受智慧生活服務的需求；同時，華為在支付寶小程序領域的數字化佈局也有利於提升商家在兩個生態中的經營效率。</p><p><span style="background-color:#ffffff; color:#2b2b2b">支付寶目前服務商家已達 8000 萬。通過支付寶 App，有近 400 萬個商家機構小程序，掃碼點單、生活繳費等超過 1000 項生活服務。</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 02:35:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270047</guid>
+            <link>https://www.oschina.net/news/270047</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
@@ -313,65 +372,6 @@ const params = {
             <pubDate>Thu, 07 Dec 2023 06:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/269921/defensive-programming</guid>
             <link>https://www.oschina.net/news/269921/defensive-programming</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[虛擬機成為 Android 的核心結構]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>安卓虛擬化框架（AVF）將出現在即將推出的部分安卓 14 設備上。AVF 於 Android 13 首次在 Pixel 設備上推出，為開發特權應用程序的平台開發人員提供了新的功能。</p><p>有了 AVF，我們將更廣泛地支持安卓的虛擬化。虛擬化被廣泛應用和部署，以隔離工作負載和操作系統。它可以有效地擴展基礎設施、測試環境、兼容傳統軟件、創建虛擬桌面等。</p><p style="text-align:start">有了 AVF，虛擬機就成了安卓操作系統的核心結構，類似於安卓利用 Linux 進程的方式。開發人員可以靈活選擇虛擬機的隔離級別：</p><ul><li><p>單向隔離：安卓（主機）可以控制和檢查虛擬機的內容。這些虛擬機最常用於沙箱和隔離，使多個操作系統能在同一台機器/設備上運行，由一個操作系統主機（Android）控制和監視所有其他操作系統。</p></li></ul><ul><li><p>雙向隔離（隔離虛擬機）：Android（主機）和虛擬機（客戶機）完全相互隔離。處理或存儲敏感數據的開發人員可能會受益於隔離虛擬機。隔離虛擬機具有雙向屏障，主機（Android）和虛擬機都無法訪問對方，除非通過明確商定的通信渠道。這有兩個主要特性：</p></li></ul><blockquote><blockquote><ol><li><p>主機（Android）無法訪問虛擬機內的工作負載和數據（保密）。</p></li><li><p>即使 Android 一直到（包括）主機內核都受到攻擊，隔離的虛擬機也不會受到攻擊。</p></li></ol></blockquote></blockquote><h3 style="text-align:start"><strong>AVF 的意義</strong></h3><h4 style="text-align:start"><strong>隔離</strong></h4><p style="text-align:start">有了隔離虛擬機，開發人員現在有了 Trustzone 之外的另一種選擇，可用於需要在不升級權限的情況下與 Android 隔離的用例。</p><h4 style="text-align:start"><strong>便攜性</strong></h4><p style="text-align:start">虛擬機及其內部運行的應用程序的可移植性遠高於可信 applets。例如，帶有 Linux 應用程序有效載荷的基於 Linux 的虛擬機可以在所有支持 AVF 的設備上運行。這意味着開發人員只需構建一次應用程序，就可以將其部署到任何地方。與移植到 Trustzone 操作系統相比，虛擬機還能無縫、輕鬆地移植基於 Linux 的現有應用程序。</p><h4 style="text-align:start"><strong>性能</strong></h4><p style="text-align:start">AVF 設計輕巧、高效、靈活。虛擬機可以：</p><ul><li><p>根據開發者的需要，小到一個 C 語言程序，大到整個操作系統；</p></li><li><p>做到持續性或間歇性；</p></li><li><p>根據整個系統的健康狀況增加或縮小內存；</p></li><li><p>遵循 Android 的調度程序提示和低內存警告。</p></li></ul><h4 style="text-align:start"><strong>可擴展性</strong></h4><p style="text-align:start">AVF 在設計時考慮到了開發人員的需求。虛擬機可以定製，以滿足特定用例的需求。只要符合 AVF 規定的某些啓動和通信協議，開發人員就可以部署任何虛擬機有效載荷。</p><p style="text-align:start">除了將虛擬化的強大功能引入安卓系統，實現虛擬桌面、沙箱、AVF 使用隔離虛擬機的所有可能性外，還能使以下常見的安卓使用場景（以及更多使用場景）受益：</p><ul><li><p>生物識別：通過在隔離的虛擬機中部署生物識別可信 applets，開發人員將獲得隔離保證、生物識別算法所需的更多計算能力、與 Trustzone 操作系統無關的輕鬆更新能力以及更簡化的部署。</p></li></ul><ul><li><p>DRM：Widevine 可在安卓設備上實現流式 DRM。一旦部署在隔離的虛擬機中，無論安卓設備上部署的各種 Trustzone 操作系統的細節如何，Widevine 的更新在這些設備上都會變得更加容易。</p></li></ul><h3 style="text-align:start"><strong>AVF 使用</strong></h3><p style="text-align:start">AVF 提供了簡單的應用程序接口，用於查詢設備創建虛擬機的能力及其支持的類型，以及從創建虛擬機的應用程序和服務與這些虛擬機建立安全的通信渠道。</p><p style="text-align:start">例如，檢查 AVF API 的可用性，以及隔離虛擬機和常規虛擬機的可用性：</p><pre><code>VirtualMachineManager manager =
-     (VirtualMachineManager)context.
-          getSystemService(VirtualMachineManager.class);
-if (manager == null) {
-    // AVF not supported
-} else {
-    int capabilities = manager.getCapabilities();
-    if ((capabilities &amp; CAPABILITY_PROTECTED_VM) != 0) {
-        // protected VM is supported
-    }
-    if ((capabilities &amp; CAPABILITY_NON_PROTECTED_VM) != 0) {
-        // non protected VM is supported
-    }
-}
-</code></pre><p style="text-align:start">有關 AVF 及其 API 的其他文檔，請<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization" target="_blank">點擊此處查看</a>。</p><h3 style="text-align:start"><strong>AVF 組件</strong></h3><p><img align="left" alt="AVF Component architecture" height="219" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjqoflrFdKllbCL-ksao2ozMc0Vwp3eAXNadr58iaiCyd4noAKVuwaetGcVVoU1s1s_g3FA94wCHv_wg8AYbnczEY518U98tUwpYqkyLM-H2IbKpJcNY55xg6yCw5KO2Nk5HW2uAxAGNBXVdDVm8dNdG4das2y7RBWaQCWleykRilaLbd0sfFnb0JOXgC0/s1600/image1.png" width="453" referrerpolicy="no-referrer"></p><p>AVF 由框架 API、<strong>Hypervisor </strong>和虛擬機管理器組成。<strong>Hypervisor </strong>確保虛擬機（包括 Android）相互隔離，就像 Linux 內核對進程的隔離一樣。不過，與 Linux 內核相比，AVF <strong>Hypervisor</strong>（pKVM）的代碼量要小得多（約 50 倍）。</p><h4 style="text-align:start"><strong>Hypervisor (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Farchitecture%23hypervisor" target="_blank"><strong>pKVM</strong></a><strong>)&nbsp;</strong></h4><p style="text-align:start"><strong>Hypervisor </strong>側重於開源可用性、安全性、虛擬機的設備分配以及虛擬機之間的隔離安全。它的攻擊面較小，符合較高的安全保證級別。受保護的 KVM <strong>Hypervisor</strong>（pKVM）完全支持 AVF API 和功能。</p><p style="text-align:start">pKVM 構建在 Linux 中基於內核的虛擬機（KVM）這一行業標準之上。這意味着所有依賴基於 KVM 的虛擬機的現有操作系統和工作負載都能通過 pKVM 在安卓設備上無縫運行。</p><h4 style="text-align:start"><strong>虛擬機管理器 (</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid.googlesource.com%2Fplatform%2Fexternal%2Fcrosvm%2F" target="_blank"><strong>crosvm</strong></a><strong>)</strong></h4><p style="text-align:start">crosvm 是基於 Rust 的虛擬機管理器（VMM），是 <strong>Hypervisor </strong>與 AVF 框架之間的橋樑。它負責創建、管理和銷燬虛擬機。此外，它還提供了一個跨多個 <strong>Hypervisor </strong>實現的抽象層。</p><h4 style="text-align:start"><strong>隔離虛擬機</strong></h4><p style="text-align:start">隔離的虛擬機對 Android 來説是不可見的，即在 Android 中運行的任何進程都無法檢查、查看或篡改此類虛擬機的內容。這一保證由 <strong>Hypervisor </strong>提供。</p><h4 style="text-align:start"><strong>虛擬機</strong></h4><p style="text-align:start">虛擬機與隔離的虛擬機相同，只是擁有正確權限的 Android 進程可以訪問虛擬機。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fmicrodroid" target="_blank"><strong>Microdroid</strong></a></h4><p style="text-align:start">Microdroid 是一個經過精簡的 Android 操作系統軟件包，可作為啓動虛擬機（VM）的模板。它為開發人員在虛擬機中構建和運行工作負載提供了熟悉的環境。Microdroid 使用熟悉的 Android 工具和庫，如 Bionic、Binder IPC 和 keystore 支持。</p><h4 style="text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsource.android.com%2Fdocs%2Fcore%2Fvirtualization%2Fvirtualization-service" target="_blank"><strong>虛擬化服務</strong></a></h4><p style="text-align:start">VirtualizationService 管理所有客戶虛擬機（無論是否隔離）。它主要通過管理 crosvm 實例來實現。它還公開了 AIDL API，系統服務或特權應用程序可使用該 API 啓動、監控和停止虛擬機。</p><h4 style="text-align:start"><strong>RpcBinder</strong></h4><p style="text-align:start">RpcBinder 是為 Android 界面定義語言（AIDL）開發的全新後端。RpcBinder 可使用現有的 binder 線協議與虛擬機進行通信。這意味着：</p><ol><li><p>開發人員可以使用他們已經熟悉的語言和基礎架構（AIDL）編寫虛擬機接口。</p></li><li><p>只需繼續使用現有的 AIDL 接口，即使綁定端點轉移到虛擬機中也是如此。</p></li></ol><h3 style="text-align:start"><strong>Android 14 有哪些新功能？</strong></h3><p style="text-align:start">安卓 14 不僅使 AVF 可以在更多設備上使用，還提供了一個新的工具包，使用戶可以使用 AVF 及其組件構建更多內容：</p><ul><li><p><strong>用於 AVF 的安卓系統應用程序接口</strong>&nbsp;</p></li></ul><blockquote><p>特權應用程序現在可以使用虛擬機來執行需要隔離的關鍵工作負載；</p></blockquote><ul><li><p><strong>Hypervisor DevEx 工具包</strong>&nbsp;</p></li></ul><blockquote><p>添加了跟蹤功能、改進的可調試性和監控功能，以提供洞察力並協助平台開發人員在隔離虛擬機內進行開發；</p></blockquote><ul><li><p><strong>Hypervisor 供應商模塊</strong></p></li></ul><blockquote><p>通過供應商模塊擴展，我們的合作伙伴可以定製谷歌的 pKVM，以滿足他們的特定需求，實現差異化；</p></blockquote><ul><li><p><strong>改善系統健康</strong>&nbsp;</p></li></ul><blockquote><p>安卓 14 中，基於 microdroid 的虛擬機啓動速度比安卓 13 快 2 倍，而內存使用量卻只有安卓 13 的一半。</p></blockquote><p>AVF 框架的其它部分可讓 Android 服務和應用程序輕鬆使用虛擬化。例如，使用 AIDL 作為傳輸層抽象虛擬機之間的通信，管理虛擬機生命週期或虛擬機的創建方式。</p><blockquote><p>原文鏈接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fandroid-developers.googleblog.com%2F2023%2F12%2Fvirtual-machines-as-core-android-primitive.html" target="_blank">https://android-developers.googleblog.com/2023/12/virtual-machines-as-core-android-primitive.html</a></p><p><em>Posted by Sandeep Patil – Principal Software Engineer, and Irene Ang – Product Manager</em></p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Dec 2023 03:52:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</guid>
-            <link>https://www.oschina.net/news/270066/virtual-machines-as-core-android-primitive</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[百度 Comate 榮獲「2023 AIIA 人工智能十大先鋒應用案例」獎]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span>12 月 7-8 日，中國人工智能產業發展聯盟（AIIA）第十次全體會議暨 2023 年通用人工智能創新發展論壇在重慶召開。</span>大會圍繞軟件工程、基礎平台、科學智能、具身智能等技術創新，數據、開源開放、安全治理等產業關鍵要素，以及金融、汽車等重點行業應用等人工智能最新熱點展開。</p><p><span>作為大會重磅環節，從今年 10 月起，AIIA 啓動</span><strong>「2023 人工智能十大先鋒應用案例徵集」活動</strong><span>，旨在甄選具有高價值、標杆性、真落地的行業典型應用實踐，打造 AI 界「奧斯卡」。經過為期 2 個月的徵集評審，從百餘項入圍案例中，</span><strong>百度智能代碼助手 Comate 脫穎而出，斬獲「2023AIIA 人工智能十大先鋒應用案例」獎，也是本次十大先鋒應用案例獎中的唯一軟件工程領域 AI 應用</strong><span><strong>。</strong></span></p><p><img height="846" src="https://static.oschina.net/uploads/space/2023/1208/110825_3Ktq_3820517.png" width="1269" referrerpolicy="no-referrer"></p><p><strong>（現場頒獎）</strong></p><p>從在百度內部全面落地應用，到面向企業開發者發佈「國內首個商用全場景智能編程助手」，再到 SaaS 版全面開放，百度 Comate 厚積薄發，持續引領 AI 原生研發新範式。</p><p>目前，百度 Comate 已覆蓋 100+種編程語言，支持 10+種主流 IDE，覆蓋編程前、後、移動端，支持軟硬件不同開發場景，為研發全生命週期提供全場景智能輔助，大幅提升研發效率的同時，也提升了工程師的工作倖福感。</p><p><img height="716" src="https://static.oschina.net/uploads/space/2023/1208/110838_ghZG_3820517.png" width="1268" referrerpolicy="no-referrer"></p><p><span>在技術創新優勢上，依賴文心大模型、飛槳深度學習平台以及百度多年積累的技術經驗，Comate 智能代碼助手具備</span><strong>模型訓練、推理加速、工程實踐和安全保障四重技術創新</strong><span>，並在</span><strong>代碼續寫、代碼解釋、NL2Code、Code Debug 等能力上領先行業與競品</strong><span>。</span></p><p><img height="712" src="https://static.oschina.net/uploads/space/2023/1208/110849_LSh5_3820517.png" width="1267" referrerpolicy="no-referrer"></p><p>在應用實效上，基於模型層多種能力，百度 Comate 具有優秀的代碼推薦、單測生成、自然語言代碼生成和代碼修復等能力；並通過開放 SaaS 版和私有化部署能力，滿足個人用戶、中小企業和大型企業的不同需求。在百度內部，通過 Comate 生成代碼佔比 20%，整體採納率達 40%；SaaS 版開箱即用，註冊企業累計 4000+；涵蓋金融、汽車、互聯網、高端製造等在內的數十家大型企業已與 Comate 達成私有化部署合作。</p><p><img height="1842" src="https://static.oschina.net/uploads/space/2023/1208/192440_aMPH_3820517.png" width="3260" referrerpolicy="no-referrer"></p><p>未來，百度 Comate 還將持續強化產品能力建設，堅守安全性的同時增強開放性，為企業和個人用戶提供更智能、更高效、更便捷的代碼輔助服務，助力研發效率持續提升，加速產業創新落地。</p><p>馬上申請免費試用，還有超多限時福利！</p><p><img height="533" src="https://static.oschina.net/uploads/space/2023/1208/110911_Fwzq_3820517.png" width="300" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Dec 2023 03:10:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270054/comate-aiia-2023-news</guid>
-            <link>https://www.oschina.net/news/270054/comate-aiia-2023-news</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[支付寶啓動鴻蒙原生應用開發]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>支付寶與華為終端宣佈合作，基於 HarmonyOS NEXT 啓動支付寶鴻蒙原生應用開發。</p><p><img alt="" height="326" src="https://oscimg.oschina.net/oscnet/up-a9aa0abdc54a1c436a2c973752477f7b5a2.webp" width="500" referrerpolicy="no-referrer"></p><p>支付寶事業羣總裁倪行軍表示，雙方的合作將進一步滿足用戶在不同終端、不同場景下享受智慧生活服務的需求；同時，華為在支付寶小程序領域的數字化佈局也有利於提升商家在兩個生態中的經營效率。</p><p><span style="background-color:#ffffff; color:#2b2b2b">支付寶目前服務商家已達 8000 萬。通過支付寶 App，有近 400 萬個商家機構小程序，掃碼點單、生活繳費等超過 1000 項生活服務。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Dec 2023 02:35:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270047</guid>
-            <link>https://www.oschina.net/news/270047</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
