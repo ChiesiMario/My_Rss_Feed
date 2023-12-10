@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 10 Dec 2023 07:34:59 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 10 Dec 2023 11:36:29 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[駭客假冒 WordPress 名義寄送資安公告，意圖推送後門程式]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/fake-wordpress-org-156.png?itok=hMChdPtE" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>鎖定 WordPress 網站的攻擊行動不時傳出，大多是針對外掛程式的漏洞而來，藉此入侵網站，並植入惡意程式進行控制，但最近有一起攻擊行動相當不同，駭客將計就計，反過來以此引誘管理者上當，他們謊稱網站有漏洞，要管理者儘快套用「修補程式」。</p><p>值得留意的是，雖然駭客煞有其事地指出網站漏洞 CVE 編號，但其實是完全不存在的漏洞，對方也未提供進一步的細節，留下破綻；然而若是網站管理者一時不察，還是很有可能落入圈套，被誘騙安裝惡意軟體。</p><h3><strong>聲稱網站有漏洞，並列出 CVE 編號</strong></h3><p>資安業者<a href="https://www.wordfence.com/blog/2023/12/psa-fake-cve-2023-45124-phishing-scam-tricks-users-into-installing-backdoor-plugin/">Wordfence</a>、<a href="https://patchstack.com/articles/fake-cve-phishing-campaign-tricks-wordpress-users-to-install-malware/">PatchStack</a>提出警告，他們發現駭客鎖定 WordPress 網站的管理者，寄送釣魚郵件，聲稱偵測到網站存在漏洞，有可能讓攻擊者遠端執行任意程式碼（RCE），導致網站及使用者的資料外流，呼籲管理者套用 CVE-2023-45124 的修補程式。</p><p><a href="https://s4.itho.me/sites/default/files/images/Fake-wordpress-org.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/Fake-wordpress-org.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>收信人若一時不察，未驗證此資訊的可信度，就傻傻地依此指示點選下載外掛程式（Plugin）的按鈕，就會被帶往冒牌 WordPress 網站 en-gb-wordpress[.]org，若是管理者將駭客提供的外掛程式部署於網站上，該外掛程式將會新增惡意管理員帳號 wpsecuritypatch，並將網站 URL 及密碼打包回傳 C2，然後於網站植入後門程式 wpgate[.]zip，使得駭客能持續控制受害網站。</p><p><a href="https://s4.itho.me/sites/default/files/images/CVE-2023-45124-1.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/CVE-2023-45124-1.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p><p>值得留意的是，上述外掛程式會隱匿惡意管理者帳號，網站管理員難以察覺其蹤跡。PatchStack 研究人員發現，駭客為了取信網站管理者，在外掛程式的留言區列出了多則假評論，並且將 Automattic 公司的知名人士列為開發人員。</p><h3><strong>擁有看似正常安裝流程的「修補程式」</strong></h3><p>PatchStack 對於駭客提供的「修補程式」進行分析，一旦網站管理者從該網站下載，將會取得帶有 CVE 編號名稱的 ZIP 壓縮檔（如 cve-2023-45124.zip），但研究人員指出，根據駭客使用的釣魚網域不同，他們也看到其他檔案名稱的 ZIP 檔。</p><p>網站管理者若是將其在網站上安裝並啟用，WordPress 的管理介面便會顯示「CVE-2023-45124 已成功修補」的訊息，駭客還「呼籲」管理者，與其他可能受到該漏洞影響人士分享「修補程式」，希望藉由上當的管理者來進一步散佈惡意軟體。</p><p>但在上述的過程背後，這個惡意外掛先是建立具有管理員權限的帳號 wpsecuritypatch，並為設置隨機密碼；接著向攻擊者的伺服器發送 HTTP GET 請求，在其中一起攻擊行動裡，對方利用包含 Base64 編碼資料的 wpgate[.]zip/wpapi，並搭配網站查詢參數，傳送網址、前述建立的管理員帳號及密碼。</p><p>攻擊者再向 wpgate[.]zip/runscan 發送 HTTP GET 請求，並得到 Base64 編碼的資料回傳，然後在惡意外掛程式裡進行解碼，企圖將其內容植入名為 wp-autoload.php 的檔案。最終此外掛程式將自己隱藏起來，並將上述產生的管理者帳號也進行隱匿。</p><p>研究人員分析了惡意程式碼的內容，並指出駭客在註解説明瞭其中的用途。</p><p>經過前述的步驟，駭客已製作名為 wp-autoload.php 的後門程式，並能將其用於後續的攻擊行動，而有可能在網站上注入廣告、將使用者重新導向惡意網站、集結其他被植入後門程式的網站發動 DDoS 攻擊、竊取帳務資訊，或是讓駭客向管理者勒索。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 09 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160247</guid>
+            <link>https://www.ithome.com.tw/news/160247</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[俄羅斯駭客 APT28 鎖定 Outlook 零時差漏洞，意圖挾持 Exchange 電子郵件信箱帳號，主要目標是北約組織成員國]]>
@@ -50,7 +65,7 @@
             <author>
                 <![CDATA[李建興]]>
             </author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -332,7 +347,7 @@
             <author>
                 <![CDATA[陳曉莉]]>
             </author>
-            <category>資安 </category>
+            <category>新聞</category>
         </item>
         <item>
             <title>
@@ -376,21 +391,6 @@
             <link>https://www.ithome.com.tw/news/160222</link>
             <author>
                 <![CDATA[餘至浩]]>
-            </author>
-            <category>Cloud </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Snyk 調查發現，高達 80％開發者為使用 AI 開發工具，繞過公司安全政策]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/snyks_2023_ai-generated_code_security_report_-_snyk_-_snyk.io_.png?itok=ow1n1xqh" width="960" height="420" alt="" title="高達 80％的開發人員承認，為了使用人工智慧程式開發輔助工具而繞過組織安全政策。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 高達 80％的開發人員承認，為了使用人工智慧程式開發輔助工具而繞過組織安全政策。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>人工智慧程式開發輔助工具已經大量參與開發人員的日常工作，<a href="https://www.ithome.com.tw/news/160023">Jetbrains 的 2023 開發者大調查</a>佐證了這個現況，77％受訪者都使用 ChatGPT，GitHub Copilot 也有 46％的開發者使用。雖然人工智慧程式開發輔助工具可以幫助開發人員更有效率地編寫程式碼，不過，也對組織帶來了一些安全挑戰。</p><p>資安公司 Snyk 對 537 名軟體工程和安全團隊成員進行調查，並在其<a href="https://snyk.io/reports/ai-code-security/">2023 年人工智慧程式碼安全報告</a>中指出，企業過於忽視人工智慧程式開發輔助工具所帶來的安全問題。</p><p>96％的受訪者團隊已使用人工智慧程式開發輔助工具，但有 56.4％的受訪者表示經常從人工智慧程式碼建議中發現安全問題，也有高達 80％的開發人員承認，為了使用人工智慧程式開發輔助工具而繞過組織安全政策。即便開發人員已大量應用人工智慧編寫程式碼，但是 Snyk 表示，少有團隊相對應調整安全流程，只有不到 10％的組織，對大部分程式碼執行自動化安全掃描。</p><p>人工智慧程式開發輔助工具所產生的安全問題不只存在於組織內，也正影響著開源工具鏈的安全，73.2% 的受訪者曾對開源專案貢獻程式碼，代表即便他們皆具備開源專案的知識，也理解人工智慧可能提供不安全的程式碼，但是隻有 24.6％的組織，使用軟體組成分析（Software composition analysis，SCA）工具驗證人工智慧的程式碼建議。Snyk 解釋，更快的開發速度可能使得組織更容易接受不安全的開源元件，而人工智慧工具使用開源程式碼作為訓練資料集，可能因此學習不安全的程式碼寫法，導致惡性循環產生更多不安全的建議。</p><p>高達 55.1％的受訪者都表示組織已經將人工智慧工具，視為軟體供應鏈的一部分，不過，Snyk 認為大多數組織並未對這種情況採取足夠應對，最常採取的行動是增加安全掃描，但實行的組織也只有 18.4％。針對這樣的現象，Snyk 猜測，可能來自於人們錯誤認為人工智慧生成的程式碼建議，比人類編寫的程式碼更安全。有 75％的受訪者認為人工智慧生成的程式碼較人類安全。</p><p>有趣的是，大多數受訪者不信任人工智慧，有 86％的受訪者對人工智慧程式開發輔助工具的安全性存在顧慮，Snyk 提到，之所以有這種認知失調的狀況出現，可能來自於從眾心理，開發人員説服自己其他人也在使用人工智慧工具，則這些工具勢必值得信任。小部分的組織限制人工智慧程式開發輔助工具的使用，主要原因包括 57％擔憂程式碼的安全性，其次有 53.8％的組織顧慮資料隱私，還有 46.4% 的組織在意程式品質（下圖）。</p><p class="rtecenter"><img alt="" src="https://www.ithome.com.tw/sites/default/files/images/2096%20-%20Snyk's%202023%20AI-Generated%20Code%20Security%20Report%20-%20Snyk%20-%20snyk_io.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>開發人員因為人工智慧程式開發輔助工具的協助，使得生產力增加，因而加快了程式碼編寫速度，而這也對應用程式安全團隊帶來更多的壓力，有五分之一的團隊在跟上軟體開發的腳步存在挑戰。</p><p>雖然已有<a href="https://arxiv.org/abs/2211.03622">研究</a>顯示人工智慧生成的程式碼建議並沒有比較安全，Snyk 提到，但人們現在普遍相信人工智慧程式開發輔助工具出錯機率比人類更低，因此組織應該透過教育糾正這樣的錯誤觀念，並且採用安全工具保護人工智慧所生成的程式碼。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 07 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160221</guid>
-            <link>https://www.ithome.com.tw/news/160221</link>
-            <author>
-                <![CDATA[李建興]]>
             </author>
             <category>新聞</category>
         </item>
