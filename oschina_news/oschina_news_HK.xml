@@ -9,14 +9,14 @@
             <![CDATA[開源中國-最新資訊]]>
         </title>
         <link>https://www.oschina.net/news/project</link>
-        <atom:link href="http://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
         <description>
             <![CDATA[開源中國-最新資訊 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
         </description>
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 10 Dec 2023 15:10:28 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 10 Dec 2023 17:10:50 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -41,140 +41,11 @@
                 <![CDATA[<div class="content"><p>有「歐洲版 OpenAI」之稱的大模型創業公司——Mistral AI 昨天發佈了一條<strong>僅包含磁力鏈接</strong>的推文：</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-6d2f1eed8e7b0598bb332db3f7da2a8db77.png" referrerpolicy="no-referrer"></p><p>來源：<u><em><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FMistralAI%2Fstatus%2F1733150512395038967" target="_blank">https://twitter.com/MistralAI/status/1733150512395038967</a></strong></em></u></p></blockquote><p>網友打開該磁力鏈接後發現居然是一個大小為 87 GB 的種子。從命名和目錄結構來看，這是一個 PyTorch 模型文件。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-f146450c2aefd9e4dd128ccf383b4348362.png" referrerpolicy="no-referrer"></p></blockquote><p>上圖的「params.json」JSON 格式文件顯然是該模型的主要參數信息，具體如下：</p><p><img src="https://oscimg.oschina.net/oscnet/up-1c197917ca03f170a988e23832ba8a2f592.png" referrerpolicy="no-referrer"></p><p>結合參數和文件名信息，Mistral AI 這次「開源」的&nbsp;<strong>mixtral-8x7b-32kseqlen&nbsp;</strong>是一個基於<strong>混合專家 (Mixture of Experts, MoE)</strong>&nbsp;的大模型，<strong>由 8 個 70 億參數規模 (8×7b) 的專家網絡組成</strong>。據稱是全球首個開源 MoE 大模型。</p><p>MoE 是用於提高大語言模型效率和準確度的技術。這種方法的核心是將複雜任務劃分為更小、更易管理的子任務，每個子任務由專門的小型模型或「專家」負責，然後根據輸入數據的特性選擇性地激活這些「專家」。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span>MoE 核心組成：</span></p><ol><li><p style="margin-left:0; margin-right:0"><span><strong>專家 (Experts)</strong>：</span><span style="background-color:#ffffff; color:#0f1419">訓練有素的小型神經網絡，擅長特定領域。</span><span>每個專家通常專注於處理一種特定類型的數據或任務。專家的設計可以是多種形式，如完全連接的網絡、卷積網絡等。</span></p></li><li><p style="margin-left:0; margin-right:0"><span><strong>門控機制 (Gating Mechanism)</strong>：</span><span style="background-color:#ffffff; color:#0f1419">MoE 架構決策者，</span><span>這是一個智能路由系統，負責決定哪些專家應該被激活來處理當前的輸入數據。門控機制基於輸入數據的特性，動態地將數據分配給不同的專家。</span></p></li></ol><p>根據 mixtral-8x7b-32kseqlen 的參數信息，該模型對每個 token 的推理使用 2 個專家進行處理（和傳聞中的 GPT-4 一樣）。</p><blockquote><p>此前<u><a href="https://www.oschina.net/news/249106/gpt-4-architecture-infrastructure" target="_blank">揭秘 GPT-4 技術細節</a></u>的文章提到，GPT-4 是由 16 個專家組成的 MoE 模型，每個專家則是一個包含 1110 億參數的大模型，每次前向傳遞路由經過 2 個專家模型。</p></blockquote><p>Mistral AI 目前仍沒公佈除模型下載鏈接外的任何信息，如果不想下載但又想體驗一把，可以訪問下面的網站：</p><ul><li><strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Freplicate.com%2Fnateraw%2Fmixtral-8x7b-32kseqlen" target="_blank">https://replicate.com/nateraw/mixtral-8x7b-32kseqlen</a></u></strong></li><li><strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapp.fireworks.ai%2Fmodels%2Ffireworks%2Fmixtral-8x7b-fw-chat" target="_blank"><span style="background-color:rgba(0, 0, 0, 0); color:inherit">https://</span>app.fireworks.ai/models/firewor<span style="background-color:rgba(0, 0, 0, 0); color:inherit">ks/mixtral-8x7b-fw-chat</span></a></u></strong></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-93dba40a2cac79b8ffbc7720a6db69dfd02.png" referrerpolicy="no-referrer"></p><p>對了，這不是 Mistral AI 第一次用「留種」的方式發佈開源大模型。Mistral AI 在 9 月底發佈的那條磁力鏈接是其開源的第一個大模型 Mistral-7B，該模型至今仍被稱為「最好的 7B 模型」，在每個基準測試中都優於 Llama-2 13B，並且在代碼、數學和推理方面優於 LLaMA-1 34B。</p><p><img src="https://oscimg.oschina.net/oscnet/up-28671bd6c309caf5b0fcc86e275681ef529.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 10 Dec 2023 07:28:00 GMT</pubDate>
+            <pubDate>Sat, 09 Dec 2023 07:28:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270317/mixtral-8x7b-32kseqlen</guid>
             <link>https://www.oschina.net/news/270317/mixtral-8x7b-32kseqlen</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[每日一博 | 從瀏覽器原理出發聊聊 Chrome 插件]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><span id="OSC_h3_1"></span><h3>瀏覽器架構演進</h3><p style="text-align:justify"><strong>單進程瀏覽器時代</strong></p><p style="text-align:justify">單進程瀏覽器是指瀏覽器的所有功能模塊都是運行在同一個進程裏，這些模塊包含了網絡、插件、JavaScript 運行環境、渲染引擎和頁面等。在 2007 年之前，市面上瀏覽器都是單進程的。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-3442db3861bb3221f7e853cfffa1ea45_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">單進程瀏覽器的架構</p><p style="text-align:justify">很多功能模塊運行在一個進程裏，是導致單進程瀏覽器不穩定、不流暢和不安全的一個主要因素。</p><ul><li><strong>不穩定：</strong>早期瀏覽器需要藉助於插件來實現諸如 Web 視頻、Web 遊戲等各種強大的功能，但是插件是最容易出問題的模塊，並且還運行在瀏覽器進程之中，所以一個插件的意外崩潰會引起整個瀏覽器的崩潰。除了插件之外，渲染引擎模塊也是不穩定的，通常一些複雜的 JavaScript 代碼就有可能引起渲染引擎模塊的崩潰。和插件一樣，渲染引擎的崩潰也會導致整個瀏覽器的崩潰。</li><li><strong>不流暢：</strong>所有頁面的渲染模塊、JavaScript 執行環境以及插件都是運行在同一個線程中的，這就意味着同一時刻只能有一個模塊可以執行。如果一個腳本非常耗時，它就會獨佔整個線程，這樣導致其他運行在該線程中的頁面沒有機會去執行任務，導致整個瀏覽器失去響應，變卡頓。</li><li><strong>不安全：</strong>當你在頁面運行一個插件時，插件可以操作系統資源，如果是個惡意插件，那麼它就可以釋放病毒、竊取你的賬號密碼，引發安全性問題。</li></ul><span id="OSC_h4_2"></span><h4><strong>多進程瀏覽器時代</strong></h4><p style="text-align:justify"><strong>早期架構</strong></p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-98f663221fa15549837f9cd878d40653_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">2008 年 Chrome 發佈時的進程架構</p><p style="text-align:justify">從圖中可以看出，早期的架構已經對瀏覽器的能力進行了拆分，主要拆分為三類：<strong>瀏覽器進程、插件進程和渲染進程。</strong>每個頁面是運行在單獨的渲染進程中的，同時頁面裏的插件也是運行在單獨的插件進程之中，進程之間是通過 IPC 機制進行通信。這就解決了單進程時代瀏覽器的各種問題：</p><ul><li><strong>解決不穩定：</strong>由於進程是相互隔離的，所以當一個頁面或者插件崩潰時，影響到的僅僅是當前的頁面進程或者插件進程，並不會影響到瀏覽器和其他頁面。</li><li><strong>解決不流暢：</strong>JavaScript 運行在渲染進程中，所以即使 JavaScript 阻塞了渲染進程，也只會影響當前的渲染頁面，並不會影響瀏覽器和其他頁面，因為其他頁面的腳本運行在它們自己的渲染進程中。</li><li><strong>解決不安全：</strong>Chrome 把插件進程和渲染進程鎖在沙箱裏面，沙箱裏面的程序可以運行，但是不能在硬盤上寫入任何數據，也不能在敏感位置讀取任何數據，這樣即使在渲染進程或者插件進程裏面執行了惡意程序，惡意程序也無法突破沙箱去獲取系統權限。</li></ul><p style="text-align:justify"><strong>近期架構</strong></p><p style="text-align:justify">相較之前，近期的架構又有了很多新的變化。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-4c1b8fc023fcd2ad0aa618575cdbc74b_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">近期 Chrome 進程架構</p><p style="text-align:justify">從圖中可以看出，最新的 Chrome 瀏覽器包括：<strong>1 個瀏覽器主進程、1 個 GPU 進程、1 個網絡進程、多個渲染進程和多個插件進程。</strong></p><ul><li><strong>瀏覽器進程：</strong>主要負責界面顯示、用户交互、子進程管理，同時提供存儲等功能。可以理解瀏覽器進程是一個統一的"<strong>調度大師</strong>"去調度其他進程，比如我們在地址欄輸入 url 時，瀏覽器進程首先會調用網絡進程。</li><li><strong>渲染進程：</strong>核心任務是將 HTML、CSS 和 JavaScript 轉換為用户可以交互的網頁，排版引擎 Blink 和 JavaScript 引擎 V8 都是運行在該進程中，默認情況下，Chrome 會為每個 Tab 標籤創建一個渲染進程。出於安全考慮，渲染進程都是運行在沙箱模式下。</li><li><strong>GPU 進程：</strong>其實，Chrome 剛開始發佈的時候是沒有 GPU 進程的。而 GPU 的使用初衷是為了實現 3D CSS 的效果，只是隨後網頁、Chrome 的 UI 界面都選擇採用 GPU 來繪製，這使得 GPU 成為瀏覽器普遍的需求。最後，Chrome 在其多進程架構上也引入了 GPU 進程。</li><li><strong>網絡進程：</strong>主要負責頁面的網絡資源加載，之前是作為一個模塊運行在瀏覽器進程裏面的，直至最近才獨立出來，成為一個單獨的進程。</li><li><strong>插件進程：</strong>主要是負責插件的運行，因插件易崩潰，所以需要通過插件進程來隔離，以保證插件進程崩潰不會對瀏覽器和頁面造成影響。</li></ul><p style="text-align:justify"><strong>當前架構</strong></p><p style="text-align:justify">目前 Chrome 瀏覽器的架構正在發生一些改變，稱為<strong>面向服務的架構 (SOA)</strong>，目的是將和瀏覽器本身（Chrome）相關的部分拆分為一個個不同的服務，服務化之後，這些功能既可以放在不同的進程裏面運行也可以合併為一個單獨的進程運行。這樣做的主要原因是讓 Chrome 在不同性能的硬件上有不同的表現。當 Chrome 運行在一些性能比較好的硬件時，瀏覽器進程相關的服務會被放在不同的進程運行以提高系統的穩定性。相反如果硬件性能不好，這些服務就會被放在同一個進程裏面執行來減少內存的佔用。</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-42fd4b754c12dcb3981338f765d81a60_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">面向服務的架構</p><span id="OSC_h3_3"></span><h3>插件運行機制</h3><p style="text-align:justify">在運行機制前，我們先來回顧一下打開頁面會發生什麼：</p><span id="OSC_h4_4"></span><h4><strong>打開頁面發生了什麼</strong></h4><ul><li>用户新增一個 tab，此時系統瀏覽器進程、渲染進程、GPU 進程、網絡進程會被創建好；</li><li>用户輸入 url，瀏覽器進程檢查 url，組裝協議，構成完整的 url；</li><li>瀏覽器進程通過進程間通信（IPC）把 url 請求發送給網絡進程；</li><li>網絡進程接收到 url 請求後檢查本地緩存是否緩存了該請求資源，如果有則將該資源返回給瀏覽器進程；</li><li>如果沒有，網絡進程向 web 服務器發起 http 請求（網絡請求）；</li><li>網絡進程解析響應流程； 
-  <ul><li>檢查狀態碼，非 200 執行狀態碼對應的處理邏輯；</li><li>200 響應處理：檢查響應類型 Content-Type，如果是字節流類型，則將該請求提交給下載管理器，不再進行後續的渲染，如果是 html 則通知瀏覽器進程準備渲染進程進行渲染；</li></ul></li><li>準備渲染進程 
-  <ul><li>瀏覽器進程檢查當前 url 是否和之前打開的渲染進程根域名是否相同，如果相同，則複用原來的進程，如果不同，則開啓新的渲染進程；</li></ul></li><li>傳輸數據、更新狀態 
-  <ul><li>渲染進程準備好後，瀏覽器向渲染進程發起「提交文檔」的消息，渲染進程接收到消息和網絡進程建立傳輸數據的「管道」；</li><li>渲染進程接收完數據後，向瀏覽器發送確認消息；</li><li>瀏覽器進程接收到確認消息後更新瀏覽器界面狀態：安全、地址欄 url、前進後退的歷史狀態、更新 web 頁面；</li></ul></li></ul><span id="OSC_h4_5"></span><h4><strong>打開插件發生了什麼</strong></h4><p style="text-align:justify">插件的運行相較於頁面會有簡化</p><p style="text-align:justify">1.我們打開瀏覽器，新增一個空白 tab 頁</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-fbdf73e0cfb877800ffc5a6b290cbee8_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">2.tab 欄空白處右鍵，選擇任務管理器，打開任務管理器面板</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-71e105d5e40961a19574affc5d405506_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">3.可以看到運行了 6 個進程，分別是瀏覽器進程、GPU 進程、網絡進程、存儲進程、渲染進程和擴展進程。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-fd99f7006599b3a820d7ffb6dbeaab0d_720w.webp" referrerpolicy="no-referrer"></p><ul><li>擴展進程中運行 Extension Page，主要包括 backgrount.html 和 popup.html； 
-  <ul><li>backgrount.html 中沒有任何內容，是通過 background.js 創建生成，當瀏覽器打開時，會自動加載插件的 background.js 文件，它獨立於網頁並且一直運行在後台，它主要通過調用瀏覽器提供的 API 和瀏覽器進行交互；</li><li>popup.html 有內容的，跟我們普通的 web 頁面一樣，由 html、css、Javascript 組成，它是按需加載的，需要用户去點擊地址欄的按鈕去觸發，才能彈出頁面；</li></ul></li><li>渲染進程主要運行 Web Page,當打開頁面時，會將 content_script.js 加載並注入到該網頁的環境中，它和網頁中引入的 Javascript 一樣，可以操作該網頁的 DOM Tree，改變頁面的展示效果；</li><li>GPU 進程主要為插件界面的渲染提供硬件能力支持；</li><li>網絡進程主要處理插件中的外部資源請求，比如 nexydy 插件依賴到一些外部 js；</li><li>存儲進程為插件提供本地存儲能力，比如使用 chrome.storage.local 進行持久化存儲；</li><li>瀏覽器進程在這裏更多起到橋樑作用，作為中轉可以實現 Extension Page 和 content_script.js 之間的消息通信。</li></ul><span id="OSC_h3_6"></span><h3>插件基本介紹</h3><span id="OSC_h4_7"></span><h4><strong>版本發展</strong></h4><p style="text-align:justify">chrome 插件存在三個版本，分別是<strong>Manifest V1、Manifest V2 和 Manifest V3</strong>。其中 MV1 版本已經被廢棄了，目前市面上存在 MV2 和 MV3 版本，以 MV2 為主流，在被 MV3 慢慢取代。時間線：</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-950393136d16d081528b01b5fbc794f1_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify"><strong>Manifest V2 新特性</strong></p><p style="text-align:justify"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv2%2FmanifestVersion%2F%253Fspm%253Da2c6h.13046898.publish-article.26.c7c96ffa7eZ9TZ%2523manifest-v1-changes" target="_blank">https://developer.chrome.com/docs/extensions/mv2/manifestVersion/#manifest-v1-changes</a></p><ul><li>設置了默認的內容安全策略`script-src 'self'; object-src 'self';`。有關內容安全策略的詳細配置，可以參考 MDN 文檔；</li><li>默認情況下，插件包內的資源不再可供外部網站使用。需要通過清單 web_accessible_resources 屬性將其顯式列入白名單；</li><li>browser action API 更改；</li><li>page action API 更改；</li><li>chrome.extension 代替 chrome.self 來指向插件本身；</li><li>chrome.extension.getTabContentses 和 chrome.extension.getExtensionTabs 廢棄，使用 extension.getViews 替代；</li><li>Port.tab 廢棄，使用 runtime.Port 替代；</li></ul><p style="text-align:justify"><strong>Manifest V3 新特性</strong></p><ul><li>Service worker 替換 Background Page；</li><li>網絡請求修改廢棄 webRequest API 使用新的 declarativentrequest API 來處理；</li><li>不再允許執行遠程託管的代碼，只能執行擴展包內包含的 JS；</li><li>Promises 已經被添加到許多方法中，但仍支持回調作為替代方法；</li><li>Browser Action API 和 Page Action API 被統一為單獨的 Action API；</li><li>Web 可訪問的資源，可以只對指定的站點和擴展可用；</li><li>內容安全策略 (CSP)，現在可以為單個對象中的不同執行上下文指定單獨的 CSP；</li><li>executeScript 的變化，不能再執行任意字符串，只能執行腳本文件和函數；</li></ul><p style="text-align:justify"><strong>切換 MV3 會帶來的問題</strong></p><ul><li>由於 background 不再支持 page 頁面配置 background.html，因此也無法調用 window 對象上的 XMLHttpRequest 來構建 ajax 請求，也就是説我們不能像 V2 版本一樣，在 background.html 中使用 XMLHttpRequest 來發送請求了，而是需要使用 fetch 來獲取接口數據；</li><li>由於 service workers 是短暫的，在不使用時會終止，這意味着它們在整個插件運行期間會不斷的啓動、運行和終止，也就是不穩定的；因此我們可能需要對 V2 中 background.js 的代碼邏輯進行一些改造，以往我們會習慣將一些數據直接存儲到全局變量，比如像下面這樣：</li></ul><pre><code>// V2 background.js
-let saveUserName = "";
-
-// 其他頁面，比如 content-script 或者 popup 中存儲數據
-chrome.runtime.onMessage.addListener(({ type, name }) =&gt; {
-  if (type === "set-name") {
-    saveUserName = name;
-  }
-});
-
-// 點擊 popup 時展示數據
-chrome.action.onClicked.addListener((tab) =&gt; {
-  // 這裏 saveUserName 可能為空字符串
-  console.log(saveUserName, "saveUserName");
-});</code></pre><ul><li>因此在 V3 中，需要對這種全局變量數據進行改造，改造的方式也很簡單，就是將數據持久化保存到 storage 中，需要用到的地方隨用隨取：</li></ul><pre><code>// V3 service worker
-chrome.runtime.onMessage.addListener(({ type, name }) =&gt; {
-  if (type === "set-name") {
-    chrome.storage.local.set({ name });
-  }
-});
-
-chrome.action.onClicked.addListener(async (tab) =&gt; {
-  const { name } = await chrome.storage.local.get(["name"]);
-  chrome.tabs.sendMessage(tab.id, { name });
-});</code></pre><ul><li>由<strong>webRequest API</strong>切換至<strong>declarativentrequest API</strong>，很多代碼邏輯需要重構；</li></ul><p style="text-align:justify"><strong>為什麼切換 MV3？</strong></p><p style="text-align:justify">從 Manifest V1 到 Manifest V2，可以看到 Chrome 想提高插件的隱私和安全，同時也優化了不少 API。而 Manifest V3 除了安全性更完善外，還在性能上下了功夫。Manifest V3 的核心非常明確，就是限制擴展對系統資源的使用。一直以來高資源佔用都是 Chrome 為人詬病的痛點，而且擴展由於在後台運行，如果出現問題，更是難以定位和管理。雖然增加了諸多限制，但 Manifest V3 還是有優點的：</p><ul><li>Service Worker 使擴展不再能常駐後台，讓擴展所佔用的資源可以被回收，降低了瀏覽器整體的開銷；</li><li>限制規則的數量，相當於控制了單一擴展在規則計算方面的資源使用上限；</li></ul><p style="text-align:justify">這些變化可以讓 Chrome 變得更加流暢，對於用户來説是好事。</p><span id="OSC_h4_8"></span><h4><strong>展示形式</strong></h4><p style="text-align:justify">Chrome 插件有以下常見的 8 中展現形式：</p><p style="text-align:justify"><strong>browserAction(瀏覽器右上角)</strong></p><p style="text-align:justify">在瀏覽器右上角擴展程序一欄顯示，包含一個圖標、名稱和 popup</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-d1c2fce69c1223a54300c9a2ea96eb9b_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">山海關插件 popup</p><p style="text-align:justify"><strong>pageAction(地址欄右側)</strong></p><p style="text-align:justify">pageAction 指的是在當某些特定頁面打開才顯示的圖標。在早些版本的 Chrome 是將 pageAction 放在地址欄的最右邊，左鍵單擊彈出 popup，右鍵單擊則彈出相關默認的選項菜單。而新版的 Chrome 更改了這一策略，pageAction 和普通的 browserAction 一樣也是放在瀏覽器右上角，只不過沒有點亮時是灰色的，點亮了才是彩色的，灰色時無論左鍵還是右鍵單擊都是彈出選項。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-00231bae7597112980d8851b90979347_720w.webp" referrerpolicy="no-referrer"></p><p><strong>右鍵菜單</strong></p><p style="text-align:justify">通過開發 Chrome 插件可以自定義瀏覽器的右鍵菜單，主要是通過 chrome.contextMenus API 實現，右鍵菜單可以出現在不同的上下文，比如普通頁面、選中的文字、圖片、鏈接，等等。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-21338dc0d8e7b00dd4bcd5ef3922e777_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">掘金插件右鍵菜單</p><p style="text-align:justify"><strong>override(覆蓋特定頁面)</strong></p><p style="text-align:justify">使用 override 可以將 Chrome 默認的一些特定頁面替換掉，改為使用擴展提供的頁面。擴展可以替代如下頁面：</p><ul><li>歷史記錄：從工具菜單上點擊歷史記錄時訪問的頁面，或者從地址欄直接輸入 chrome://history</li><li>新標籤頁：當創建新標籤的時候訪問的頁面，或者從地址欄直接輸入 chrome://newtab</li><li>書籤：瀏覽器的書籤，或者直接輸入 chrome://bookmarks</li></ul><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-c730b7492405900d5f1c3cd9131abf06_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">掘金插件替換了新標籤頁</p><p style="text-align:justify"><strong>devtools(開發者工具)</strong></p><p style="text-align:justify">Chrome 允許插件在開發者工具 (devtools) 上開發，主要表現在：</p><ul><li>自定義一個和多個和 Elements、Console、Sources 等同級別的面板；</li><li>自定義側邊欄 (sidebar)，目前只能自定義 Elements 面板的側邊欄；</li></ul><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-1dca64511239cf86d0d29e29fccc403d_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">React Developer Tools</p><p style="text-align:justify"><strong>option(選項頁)</strong></p><p style="text-align:justify">插件的設置頁面，可以在右上角入口右鍵，有一個選項標籤</p><div style="text-align:center"><img height="610" src="https://pic1.zhimg.com/80/v2-9fc5b949ed631b4718e3af633977c024_720w.webp" width="672" referrerpolicy="no-referrer"></div><div style="text-align:center">
-  &nbsp; 
-</div><div style="text-align:center"><img height="506" src="https://pic1.zhimg.com/80/v2-bb3b7e3db84d9b3f544b5fd3e1295b90_720w.webp" width="880" referrerpolicy="no-referrer"></div><p style="text-align:justify"><strong>omnibox</strong></p><p style="text-align:justify">omnibox 是向用户提供搜索建議的一種方式，可以在搜索欄輸入特定的標識然後按 Tab 進入搜索。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-670f0e06b91ac66ccda32a21a111d409_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">JSON Viewer 插件</p><p style="text-align:justify"><strong>桌面通知</strong></p><p style="text-align:justify">Chrome 提供了一個 chrome.notificationsAPI 以便插件推送桌面通知，暫未找到 chrome.notifications 和 HTML5 自帶的 Notification 的顯著區別及優勢。在後台 JS 中，無論是使用 chrome.notifications 還是 Notification 都不需要申請權限（HTML5 方式需要申請權限），直接使用即可。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-e9d3bc3ad06b822b37b4e3ba8543a8a5_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h4_9"></span><h4><strong>核心介紹</strong></h4><p style="text-align:justify"><strong>manifest.json</strong></p><p style="text-align:justify">這是一個 Chrome 插件最重要也是必不可少的文件，用來配置所有和插件相關的配置，必須放在根目錄。其中，manifest_version、name、version3 個是必不可少的。</p><p style="text-align:justify"><strong>Manifest V2</strong></p><pre><code>{
-// 清單文件的版本，這裏先使用 2 演示
-"manifest_version": 2,
-// 插件的名稱
-"name": "...",
-// 插件的版本
-"version": "1.0.0",
-// 插件描述
-"description": "...",
-// 圖標，一般偷懶全部用一個尺寸的也沒問題
-"icons": {
-"16": "img/icon.png",
-"48": "img/icon.png",
-"128": "img/icon.png"
-  },
-// 會一直常駐的後台 JS 或後台頁面
-"background": {
-"scripts": ["js/background.js"]
-  },
-// 瀏覽器右上角圖標設置，browser_action、page_action、app 必須三選一
-"browser_action": {
-"default_icon": "img/icon.png",
-"default_title": "...",
-"default_popup": "popup.html"
-  },
-// 當某些特定頁面打開才顯示的圖標
-"page_action": {
-"default_icon": "img/icon.png",
-"default_title": "...",
-"default_popup": "popup.html"
-  },
-// 需要直接注入頁面的 JS
-"content_scripts": [{
-"matches": ["&lt;all_urls&gt;"],
-"js": ["js/content-script.js"],
-"css": ["css/custom.css"],
-// 代碼注入的時機，document_start, document_end, document_idle，默認 document_idle
-"run_at": "document_start"
-    },
-  ],
-// 權限申請
-"permissions": [
-"contextMenus", // 右鍵菜單
-"tabs", // 標籤
-"notifications", // 通知
-"webRequest", // web 請求
-"webRequestBlocking",
-"storage", // 插件本地存儲
-"https://*/*" // 可以通過 executeScript 或者 insertCSS 訪問的網站
-  ],
-// 普通頁面能夠直接訪問的插件資源列表，如果不設置是無法直接訪問的
-"web_accessible_resources": ["js/inject.js"],
-"homepage_url": "...", // 插件主頁
-"chrome_url_overrides": { // 覆蓋瀏覽器默認頁面
-"newtab": "newtab.html"
-  },
-"options_ui": { // 插件選項頁
-"page": "options.html",
-"chrome_style": true
-  },
-"omnibox": { "keyword" : "..." }, // 向地址欄註冊一個關鍵字以提供搜索建議，只能設置一個關鍵字
-"default_locale": "zh_CN", // 默認語言
-"devtools_page": "devtools.html", // devtools 頁面入口，注意只能指向一個 HTML 文件，不能是 JS 文件
-"content_security_policy": "...", // 安全策略
-"web_accessible_resources": [ // 可以加載的資源
-    RESOURCE_PATHS
-  ]
-}</code></pre><p style="text-align:justify"><strong>Manifest V3（僅展示與 V2 版本的不同點）</strong></p><pre><code>{
-"manifest_version": 3,
-"background": {
-"service_worker": js/background.js"
-  },
-  "action": { //browser_action 和 page_action，統一為 Action
-    "default_icon": "img/icon.png",
-    "default_title": "這是一個示例 Chrome 插件",
-    "default_popup": "popup.html"
-  }
-  "content_security_policy": {
-    "extension_pages": "...",
-    "sandbox": "..."
-  },
-  "web_accessible_resources": [{
-    "resources": [RESOURCE_PATHS]
-  }]
-}</code></pre><p style="text-align:justify"><strong>content-scripts</strong></p><p style="text-align:justify">是 Chrome 插件中向頁面注入腳本的一種形式（雖然名為 script，其實還可以包括 css 的），藉助 content-scripts 我們可以實現通過配置的方式輕鬆向指定頁面注入 JS 和 CSS。content-scripts 和原始頁面共享 DOM，但不共享 JS。如要訪問頁面 JS（例如某個 JS 變量），只能通過 injected js 來實現。content-scripts 不能訪問絕大部分 chrome API，除了下面這 4 種：</p><ul><li>chrome.extension</li><li>chrome.i18n</li><li>chrome.runtime</li><li>chrome.storage</li></ul><p style="text-align:justify">這些 API 絕大部分時候都夠用了，有需要調用其它 API 的話，可以通過通信讓 background 或 service worker 來幫忙調用</p><p style="text-align:justify"><strong>background</strong></p><p style="text-align:justify">後台是一個常駐的頁面，它的生命週期是插件中所有類型頁面中最長的，它隨着瀏覽器的打開而打開，隨着瀏覽器的關閉而關閉，所以通常把需要一直運行的、啓動就運行的、全局的代碼放在 background 裏面。background 的權限非常高，幾乎可以調用所有的 Chrome 擴展 API（除了 devtools），而且它可以無限制跨域，可以跨域訪問任何網站而無需要求對方設置 CORS。background 的概念在 MV3 版本中變為了 service worker，區別在於生命週期變短了，service worker 是短暫的基於事件的腳本，所以不適合用來保存全局變量。</p><p style="text-align:justify"><strong>popup</strong></p><p style="text-align:justify">popup 是點擊右上角圖標時打開的一個小窗口網頁，焦點離開網頁就立即關閉，一般用來做一些臨時性的交互。權限級別和 background 差不多，就是生命週期比較短。</p><p style="text-align:justify"><strong>injected-script</strong></p><p style="text-align:justify">chrome 插件中其實沒有 injected-script 這一概念，這是開發者們在開發過程中衍生出來的一種概念，指的是通過 DOM 操作的方式向頁面注入的一種 JS。因為 content-script 無法訪問頁面中的 JS，雖然可以操作 DOM，但是 DOM 卻不能調用它，也就是無法在 DOM 中通過綁定事件的方式調用 content-script 中的代碼。但是在網頁中增加一個按鈕來調用插件的能力是一個比較常見的需求，所以誕生了 injected-script。</p><span id="OSC_h4_10"></span><h4><strong>插件通信機制</strong></h4><p style="text-align:justify">講通信機制之前，先回顧一下插件中存在的腳本類型。Chrome 插件的 JS 主要可以分為這 5 類：injected script、content-script、popup js、background js 和 devtools js。</p><p style="text-align:justify"><strong>權限對比</strong></p><table><tbody><tr><td style="text-align:justify">JS 種類</td><td style="text-align:justify">可訪問的 API</td><td style="text-align:justify">DOM 訪問情況</td><td style="text-align:justify">JS 訪問情況</td><td style="text-align:justify">直接跨域</td></tr><tr><td style="text-align:justify">injected</td><td style="text-align:justify">和普通 JS 無任何差別，不能訪問任何擴展 API</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">不可以</td></tr><tr><td style="text-align:justify">content</td><td style="text-align:justify">只能訪問 extension、runtime 等部分 API</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">不可以</td></tr><tr><td style="text-align:justify">popup</td><td style="text-align:justify">可訪問絕大部分 API，除了 devtools 系列</td><td style="text-align:justify">不可直接訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">可以</td></tr><tr><td style="text-align:justify">background</td><td style="text-align:justify">可訪問絕大部分 API，除了 devtools 系列</td><td style="text-align:justify">不可直接訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">可以</td></tr><tr><td style="text-align:justify">devtools</td><td style="text-align:justify">只能訪問 devtools、extension、runtime 等部分 API</td><td style="text-align:justify">可以</td><td style="text-align:justify">可以</td><td style="text-align:justify">不可以</td></tr></tbody></table><p style="text-align:justify">通過權限對比可以看到，每一種腳本在權限上都不相同，所以各種腳本間的相互通信就非常重要，這也是插件能夠實現眾多功能的基礎。</p><p style="text-align:justify"><strong>通信概覽</strong></p><table><tbody><tr><td style="text-align:justify">&nbsp;</td><td style="text-align:justify">injected</td><td style="text-align:justify">content</td><td style="text-align:justify">popup</td><td style="text-align:justify">background</td></tr><tr><td style="text-align:justify">injected</td><td style="text-align:justify">-</td><td style="text-align:justify">window.postMessage</td><td style="text-align:justify">-</td><td style="text-align:justify">-</td></tr><tr><td style="text-align:justify">content</td><td style="text-align:justify">window.postMessage</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.runtime.sendMessage chrome.runtime.connect</td><td style="text-align:justify">chrome.runtime.sendMessage chrome.runtime.connect</td></tr><tr><td style="text-align:justify">popup</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.tabs.sendMessage chrome.tabs.connect</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.extension. getBackgroundPage</td></tr><tr><td style="text-align:justify">background</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.tabs.sendMessage chrome.tabs.connect</td><td style="text-align:justify">chrome.extension.getViews</td><td style="text-align:justify">-</td></tr><tr><td style="text-align:justify">devtools</td><td style="text-align:justify">chrome.devtools. inspectedWindow.eval</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.runtime.sendMessage</td><td style="text-align:justify">chrome.runtime.sendMessage</td></tr></tbody></table><span id="OSC_h3_11"></span><h3>一些常見插件的實現思路</h3><span id="OSC_h4_12"></span><h4><strong>埋點日誌檢測</strong></h4><p style="text-align:justify">一般業務中都會進行一些埋點上報，埋點的本質就是發送一些帶特定參數的請求，前端本地調試的時候想實時查看埋點信息通常需要去查看上報接口的入參，或者去對應的埋點平台查看，這樣非常不方便。基於這個，我們可以使用插件來幫助我們快速的可視化查看埋點信息：</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-d9e6e16e3db7cd8922d8b437219a96e2_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h4_13"></span><h4><strong>頁面注入小工具</strong></h4><p style="text-align:justify">插件的另一個常見用法就是往頁面注入一些工具代碼，比如去除頁面廣告工具。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-0de602a3e05ff59d5e0b6f1450c44d76_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h3_14"></span><h3>總結</h3><ul><li>隨着瀏覽器不斷的發展，Chrome 逐漸把一些基礎服務獨立出來，類似於一個跨平台的線上操作系統。</li><li>Chrome 插件提供的能力很豐富，比如代碼注入、跨域請求、持久化方案、各種通信機制等，開發者可以發揮想象，組裝不同能力以適應不同場景的需求，基本可以實現現代 web 所能支持的所有功能。</li><li>Chrome 插件 MV2 版本將在 24 年 1 月全面廢棄，需要儘快遷移至 MV3 版本。</li></ul><span id="OSC_h3_15"></span><h3><strong>參考資料：</strong></h3><p>《瀏覽器工作原理與實踐》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Ftime.geekbang.org%2Fcolumn%2Fintro%2F100033601%253Fspm%253Da2c6h.13046898.publish-article.27.c7c96ffa7eZ9TZ%2526tab%253Dcatalog" target="_blank">https://time.geekbang.org/column/intro/100033601?tab=catalog</a></p><p>《Inside look at modern web browser》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fblog%2Finside-browser-part1%2F%253Fspm%253Da2c6h.13046898.publish-article.28.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/blog/inside-browser-part1/</a></p><p>《圖解瀏覽器的基本工作原理》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F47407398%3Fspm%3Da2c6h.13046898.publish-article.29.c7c96ffa7eZ9TZ" target="_blank">https://zhuanlan.zhihu.com/p/47407398</a></p><p>《Welcome to Manifest V3》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv3%2Fintro%2F%253Fspm%253Da2c6h.13046898.publish-article.30.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/docs/extensions/mv3/intro/</a></p><p>MDN 文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FHTTP%2FCSP%253Fspm%253Da2c6h.13046898.publish-article.31.c7c96ffa7eZ9TZ" target="_blank">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP</a>web_accessible_resources：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv2%2Fmanifest%2Fweb_accessible_resources%2F%253Fspm%253Da2c6h.13046898.publish-article.32.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/docs/extensions/mv2/manifest/web_accessible_resources/</a></p><p style="text-align:justify">作者｜閔子</p><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1381666%3Futm_content%3Dg_1000385322" target="_blank">原文鏈接</a></strong></p><p style="text-align:justify"><strong>本文為阿里雲原創內容，未經允許不得轉載。</strong></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 10 Dec 2023 04:44:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/10319584</guid>
-            <link>https://my.oschina.net/yunqi/blog/10319584</link>
-            <author>
-                <![CDATA[原創]]>
             </author>
         </item>
         <item>
@@ -185,7 +56,7 @@ chrome.action.onClicked.addListener(async (tab) =&gt; {
                 <![CDATA[<div class="content"><p>12 月 9 日，2023 華為花粉年會在松山湖基地舉行。華為常務董事、終端 BG CEO、智能汽車解決方案 BU 董事長餘承東在年會上表示，<strong>明年會推出非常有引領性、創新性、顛覆性的產品。</strong></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d15077f4297790d71ee33fb17fcdc27333c.png" referrerpolicy="no-referrer"></p><p><strong><strong>餘承東直言：「到時候你可以看到我們怎麼樣能夠</strong>改寫這個行業的歷史</strong>。希望能夠不斷地帶來超越大家的期待，做別人想不到的事情或者想到但做不到的事，甚至是他們不敢想的事情。」</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e2b780aafbf00c463c0e8273e50a58bead5.png" referrerpolicy="no-referrer"></p><p>餘承東還預告，華為明年將會推出鴻蒙原生應用與原生體驗的產品，「<strong>那將會是整個中國終端類操作系統裏真正的王者</strong>」。</p><p>此前，有消息稱華為可能明年推出不兼容 Android 的鴻蒙版本。11 月 20 日，據澎湃新聞報道，一華為相關人士表示，推出時間還不確定，未來 iOS、鴻蒙、Android 將為三個各自獨立的系統。</p><p>稍早前據證券時報報道，有業內人士亦表示：「華為內部確實有這計劃，就是明年推出不兼容 Android 的鴻蒙版本，但目前內部還沒有下發相關通知，所以具體何時推出暫不明確。」</p><p>在 9 月 25 日舉行的華為秋季全場景新品發佈會上，華為常務董事、終端 BG CEO、智能汽車解決方案 BU 董事長餘承東宣佈，鴻蒙原生應用全面啓動，HarmonyOS NEXT 開發者預覽版將在 2024 年第一季度面向開發者開放。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-619518ef25720c3272f8663f57f84ce9cbb.png" referrerpolicy="no-referrer"></p><p>會上，華為與近 40 家合作伙伴舉辦鴻蒙生態合作簽約儀式，包括：小紅書、招商銀行、攜程旅行、美圖、58 同城、360 瀏覽器、網易有道詞典、石墨文檔、classln 應用、洪恩識字、漢王科技、作業幫、億圖腦圖 MindMaster 應用、會見會議、2345 好壓、寶寶巴士、喜馬拉雅、訊飛聽見、浩辰 CAD、掌上生活、郵儲銀行、鈦媒體、駕考寶典、書生電子、交通銀行、中信銀行、興業證券、央廣網、搜狐新聞、蜻蜓 FM、京東健康、動卡空間、東方財富、天天基金、大智慧、深圳 CA 簽章、中軟國際、中國音像與數字出版協會等應用與服務商。</p><p>10 月 26 日，包含支付寶、小紅書、嗶哩嗶哩、滴滴出行、同程旅行、哈囉等十餘家知名互聯網企業，參加了華為在上海舉行的鴻蒙生態夥伴聯合創新會，瞭解 HarmonyOS NEXT 的能力與特性，現場達成 10+創新場景合作意向。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 10 Dec 2023 03:15:00 GMT</pubDate>
+            <pubDate>Sat, 09 Dec 2023 03:15:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270290</guid>
             <link>https://www.oschina.net/news/270290</link>
             <author>
@@ -200,69 +71,9 @@ chrome.action.onClicked.addListener(async (tab) =&gt; {
                 <![CDATA[<div class="content"><p>央視新聞報道了招聘 APP 遭黑客攻擊導致 300 萬條數據泄露的案件。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-e4acf1c1251a484866c2db701cf03469b78.png" referrerpolicy="no-referrer"></p><p>來源：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.weibo.com%2F2656274875%2FNwrWnni5v%3Fpagetype%3Dprofilefeed" target="_blank">https://www.weibo.com/2656274875/NwrWnni5v?pagetype=profilefeed</a></u></em></p></blockquote><p>根據報道，前段時間北京警方接到轄區內一家互聯網公司報案，稱該公司求職招聘類 App 的短信驗證碼接口遭受 1300 餘萬次攻擊，且成功匹配註冊賬號 30 餘萬個。北京警方迅速研判，<strong>確定這是一起黑客利用網站漏洞非法獲取賬號信息並用於違法活動的案件</strong>。</p><p>據瞭解，犯罪嫌疑人喻某交代稱，自己於 2022 年 10 月 18 日在該招聘平台註冊賬號，並數次嘗試驗證接口。<strong>他發現該網站的簽名算法相對單一，便利用該弱點編寫指令，製作黑客軟件對網站進行「撞庫」攻擊</strong>。</p><p>同時，他還利用類似方式對其他各大網站進行滲透，並伺機查詢網站漏洞，<strong>以此為誘餌向他人兜售自己編寫的惡意程序、黑客工具，從中牟利</strong>。經過民警不懈努力，專案組成功在四川成都將另一名嫌疑人焦某抓獲，<strong>現場起獲各類公司、人員數據 330 餘萬條</strong>。</p><p>犯罪嫌疑人喻某、焦某因破壞計算機信息系統罪被依法刑事拘留，案件正進一步辦理中。</p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 10 Dec 2023 02:50:00 GMT</pubDate>
+            <pubDate>Sat, 09 Dec 2023 02:50:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270288</guid>
             <link>https://www.oschina.net/news/270288</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Eclipse 4.30 正式發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Eclipse 4.30 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.eclipse.org%2Flists%2Feclipse-dev%2Fmsg12229.html" target="_blank">已正式發佈</a></u>。</p><blockquote><p>下載地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdownload.eclipse.org%2Feclipse%2Fdownloads%2Fdrops4%2FR-4.30-202312010110%2F" target="_blank">https://download.eclipse.org/</a></u></em></p></blockquote><p><strong>主要變化</strong></p><ol><li><p>支持新的 Java 語言特性：包括 JEP 440: Record Patterns 和 JEP 441: Pattern Matching for Switch</p></li><li><p>針對 Java 編輯器的快速修復功能：<span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">包括添加默認 case、移除默認 case 和插入 break 語句等。</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-329b23386ea4f45add7417bc2b198bfb628.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3db6224b26cb93f37c8b8f305527edf1eba.png" referrerpolicy="no-referrer"></p></li><li><p>清理和快速修復以替換棄用的方法調用：新增了一個清理功能，可以替換帶有 Javadoc 的棄用方法調用。</p></li><li><p>快速輔助重命名常量字段：新增了一個快速輔助功能，可以將靜態常量字段重命名為符合標準語法的形式。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-7eb8135dd37ddf8e7bb0b037efaa8257b73.png" referrerpolicy="no-referrer"></p></li><li><p>面向 JDT 開發者推動重構和建議到 jdt.manipulations：大量代碼從 org.eclipse.jdt.ui 推動到 org.eclipse.jdt.core.manipulations，這將允許這些操作在無 header 環境中使用。</p></li></ol><p>詳情查看&nbsp;<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Feclipse.dev%2Feclipse%2Fnews%2F4.30%2F" target="_blank">https://eclipse.dev/eclipse/news/4.30/</a></u></em></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 09 Dec 2023 09:38:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270231/eclipse-4-30-ga</guid>
-            <link>https://www.oschina.net/news/270231/eclipse-4-30-ga</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[systemd 新組件 systemd-bsod — 為 Linux 引入「藍屏」]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>systemd 255 近日<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsystemd%2Fsystemd%2Freleases%2Ftag%2Fv255" target="_blank">發佈了穩定版</a></u>，其新增的"<strong>systemd-bsod</strong>"實驗性組件讓人眼前一亮——沒錯，正是大名鼎鼎的「藍屏死機」（Blue Screen of Death，簡稱 BSOD）。</p><p>BSOD 是微軟 Windows 操作系統在無法從一個系統錯誤中恢復過來時，為保護電腦數據文件不被破壞而強制顯示的屏幕圖像。Windows 的藍屏死機提示已成為標誌性畫面，大部分是系統崩潰的現象。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-51d3ac36bc416abe53fe1c0517c774a1824.png" referrerpolicy="no-referrer"></p><p><em>上圖是 Windows 10 的藍屏死機畫面（版本 1607-21H2），它包含了一個悲傷的顏文字和一個用於快速排查錯誤的二維碼</em>。</p><p>簡而言之，BSOD 就是用於展示錯誤信息的診斷工具。雖然大家討厭看到藍屏界面，但這不意味着 BSOD 本身是一個壞方案。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d1cfdcf33e390c881d32ad1ef5146419e5e.png" referrerpolicy="no-referrer"></p><p>根據&nbsp;systemd 更新日誌的介紹，當日誌級別設置為"<strong>LOG_EMERG</strong>"時，如果 Linux 系統出現引導錯誤，新組件"systemd-bsod"會全屏顯示報錯信息（即 BSOD）。和 Windows 的 BSOD 類似，它也會生成二維碼，以便用户通過手機獲取啓動失敗報錯的更多信息。</p><p>"systemd-bsod" 屬於&nbsp;<span>Outreachy 項目的一部分，該項目是為開發開源工具的人員提供實習機會的組織。</span></p><p>systemd-bsod 目前處於實驗性階段，GitHub 上的更新日誌也指出它仍會有改動。但不管怎樣，不少主流 Linux 發行版如 Ubuntu、Fedora、Debian 和 Red Hat 都採用了 systemd。所以 2024 年，相信不少 Linux 發行版都會引入「藍屏」。</p><p>對了，systemd 創始人兼首席開發者 Lennart Poettering 去年<u><a href="https://www.oschina.net/news/202119/systemd-creator-microsoft" target="_blank">被微軟從 Red Hat 挖走</a></u>&nbsp;—— 繼續專注於開發 systemd。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 09 Dec 2023 05:51:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270207/systemd-255-bsod</guid>
-            <link>https://www.oschina.net/news/270207/systemd-255-bsod</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Wine 9.0 發佈首個 RC]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Wine 9.0-rc1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.winehq.org%2Fnews%2F2023120801" target="_blank">已發佈</a>，進入 RC 階段意味着已開始凍結代碼。</p><blockquote><p>Wine （「Wine Is Not an Emulator」 的首字母縮寫）是一個能夠<strong>在多種 POSIX-compliant 操作系統（諸如 Linux，macOS 及 BSD 等）上運行 Windows 應用的兼容層</strong>。它不是像虛擬機或者模擬器一樣模仿內部的 Windows 邏輯，而是將 Windows API 調用翻譯成為動態的 POSIX 調用，免除了性能和其它一些行為的內存佔用，能夠乾淨地整合 Windows 應用到桌面。</p></blockquote><p>新版本帶來了一些重要的改進，包括升級 VKD3D 和改進 Wine Wayland。這些改進將進一步提升 Wine 在 Linux 上的性能和功能。</p><p>Wine 9.0-rc1 將依賴的 VKD3D 升級到了 1.10。VKD3D 是一個用於在 Linux 上運行 Direct3D 12 應用程序的庫。通過升級 VKD3D，Wine 能夠更好地支持 Direct3D 12 應用程序，並提供更好的圖形性能和兼容性。</p><p>此版本還改進了 Wine Wayland，這意味着 Wine 在 Wayland 上的運行更加穩定和流暢，讓用户能夠在使用 Wayland 作為顯示服務器的 Linux 發行版上更好地運行 Windows 應用程序。</p><p>除了這些改進，Wine 9.0-rc1 還修復了一些 bug，以及其他小改進，進一步提升了 Wine 的穩定性和性能。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.winehq.org%2Fannounce%2F9.0-rc1" target="_blank">詳情查看發佈公告</a></u>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 09 Dec 2023 03:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270195/wine-9-rc1-released</guid>
-            <link>https://www.oschina.net/news/270195/wine-9-rc1-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[雷軍 30 年前寫的論文：《計算機病毒判定專家系統原理與設計》]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>雷軍 1992 年發表的《計算機病毒判定專家系統原理與設計》論文在網上曝光，引發熱議。</p><p>這份論文詳細地描述了計算機病毒判定專家系統的原理與具體設計方法，一定程度上解決了流行病毒的判定問題。論文結語寫道：<strong>研製解決流行病毒判定問題的專家系統，在目前具有相當大的使用價值。本文介紹的這種智能判定方法大大優於傳統的檢測方法，具有準確率高，適用性廣的有點，還可以不斷髮展和擴充。關於這種方法，目前國內外文獻上尚未提及。（參考文獻略）</strong></p><p>附論文原文：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-00e57539a1c6a07aa17cb70f341f3f2d3c1.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9babb896439e0b4a049532c7537dba1318f.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-c000968b49128269073f6f38373e6162709.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-a14bb1726495836bf7d6d463cbbefdb16a1.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-63cb2ee41ae8f0981dc0a88d94251dd61fb.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d7986af830afb49d055c14584452431d642.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-dea1bb17744fa373895687fd84a7d5520ab.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b68d4f4408348e18bba5c70dd2006a1a855.png" referrerpolicy="no-referrer"></p><p>來源：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F5714719345%2FNvR23gzWc%3Fpagetype%3Dviewer" target="_blank">https://weibo.com/5714719345/NvR23gzWc?pagetype=viewer</a></em></u></p><p>華為消費者 BG 戰略 Marketing 部副總裁李昌竹轉發了該論文的微博，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1402329495%2FNwbO90AHM%3Fpagetype%3Dprofilefeed" target="_blank">並説道</a></u>：<strong>「技術創新和前沿探索都是值得尊敬和學習的。」</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-4cbc7936df3d1ad8b4a787215eb1fbea304.png" referrerpolicy="no-referrer"></p><p>1992 年，雷軍還與求伯君合著了《深入 DOS 編程》一書。在接下來的兩年裏，雷軍涉獵廣泛，寫過加密軟件、殺毒軟件、財務軟件、CAD 軟件、中文系統以及各種實用小工具等。</p><p><img src="https://oscimg.oschina.net/oscnet/up-389de1159783b7b408cade4d27be661e412.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-d80cc19de34a8b5e73cfe14690d437a0a70.png" referrerpolicy="no-referrer"></p><p>公開資料顯示，1987 年，雷軍畢業於原沔陽中學（現湖北省仙桃中學），同年考上了武漢大學計算機系。</p><p>1992 年初，雷軍加盟金山公司。先後出任金山公司北京開發部經理、珠海公司副總經理、北京金山軟件公司總經理等職務。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 09 Dec 2023 03:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270190</guid>
-            <link>https://www.oschina.net/news/270190</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -280,6 +91,21 @@ chrome.action.onClicked.addListener(async (tab) =&gt; {
             <link>https://my.oschina.net/xlyg/blog/10320194</link>
             <author>
                 <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Eclipse 4.30 正式發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Eclipse 4.30 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.eclipse.org%2Flists%2Feclipse-dev%2Fmsg12229.html" target="_blank">已正式發佈</a></u>。</p><blockquote><p>下載地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdownload.eclipse.org%2Feclipse%2Fdownloads%2Fdrops4%2FR-4.30-202312010110%2F" target="_blank">https://download.eclipse.org/</a></u></em></p></blockquote><p><strong>主要變化</strong></p><ol><li><p>支持新的 Java 語言特性：包括 JEP 440: Record Patterns 和 JEP 441: Pattern Matching for Switch</p></li><li><p>針對 Java 編輯器的快速修復功能：<span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">包括添加默認 case、移除默認 case 和插入 break 語句等。</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-329b23386ea4f45add7417bc2b198bfb628.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3db6224b26cb93f37c8b8f305527edf1eba.png" referrerpolicy="no-referrer"></p></li><li><p>清理和快速修復以替換棄用的方法調用：新增了一個清理功能，可以替換帶有 Javadoc 的棄用方法調用。</p></li><li><p>快速輔助重命名常量字段：新增了一個快速輔助功能，可以將靜態常量字段重命名為符合標準語法的形式。<br><img alt="" src="https://oscimg.oschina.net/oscnet/up-7eb8135dd37ddf8e7bb0b037efaa8257b73.png" referrerpolicy="no-referrer"></p></li><li><p>面向 JDT 開發者推動重構和建議到 jdt.manipulations：大量代碼從 org.eclipse.jdt.ui 推動到 org.eclipse.jdt.core.manipulations，這將允許這些操作在無 header 環境中使用。</p></li></ol><p>詳情查看&nbsp;<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Feclipse.dev%2Feclipse%2Fnews%2F4.30%2F" target="_blank">https://eclipse.dev/eclipse/news/4.30/</a></u></em></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 09:38:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270231/eclipse-4-30-ga</guid>
+            <link>https://www.oschina.net/news/270231/eclipse-4-30-ga</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -308,6 +134,36 @@ chrome.action.onClicked.addListener(async (tab) =&gt; {
             <pubDate>Fri, 08 Dec 2023 06:43:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270095/vs-code-1-85-released</guid>
             <link>https://www.oschina.net/news/270095/vs-code-1-85-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[systemd 新組件 systemd-bsod — 為 Linux 引入「藍屏」]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>systemd 255 近日<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsystemd%2Fsystemd%2Freleases%2Ftag%2Fv255" target="_blank">發佈了穩定版</a></u>，其新增的"<strong>systemd-bsod</strong>"實驗性組件讓人眼前一亮——沒錯，正是大名鼎鼎的「藍屏死機」（Blue Screen of Death，簡稱 BSOD）。</p><p>BSOD 是微軟 Windows 操作系統在無法從一個系統錯誤中恢復過來時，為保護電腦數據文件不被破壞而強制顯示的屏幕圖像。Windows 的藍屏死機提示已成為標誌性畫面，大部分是系統崩潰的現象。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-51d3ac36bc416abe53fe1c0517c774a1824.png" referrerpolicy="no-referrer"></p><p><em>上圖是 Windows 10 的藍屏死機畫面（版本 1607-21H2），它包含了一個悲傷的顏文字和一個用於快速排查錯誤的二維碼</em>。</p><p>簡而言之，BSOD 就是用於展示錯誤信息的診斷工具。雖然大家討厭看到藍屏界面，但這不意味着 BSOD 本身是一個壞方案。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d1cfdcf33e390c881d32ad1ef5146419e5e.png" referrerpolicy="no-referrer"></p><p>根據&nbsp;systemd 更新日誌的介紹，當日誌級別設置為"<strong>LOG_EMERG</strong>"時，如果 Linux 系統出現引導錯誤，新組件"systemd-bsod"會全屏顯示報錯信息（即 BSOD）。和 Windows 的 BSOD 類似，它也會生成二維碼，以便用户通過手機獲取啓動失敗報錯的更多信息。</p><p>"systemd-bsod" 屬於&nbsp;<span>Outreachy 項目的一部分，該項目是為開發開源工具的人員提供實習機會的組織。</span></p><p>systemd-bsod 目前處於實驗性階段，GitHub 上的更新日誌也指出它仍會有改動。但不管怎樣，不少主流 Linux 發行版如 Ubuntu、Fedora、Debian 和 Red Hat 都採用了 systemd。所以 2024 年，相信不少 Linux 發行版都會引入「藍屏」。</p><p>對了，systemd 創始人兼首席開發者 Lennart Poettering 去年<u><a href="https://www.oschina.net/news/202119/systemd-creator-microsoft" target="_blank">被微軟從 Red Hat 挖走</a></u>&nbsp;—— 繼續專注於開發 systemd。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 05:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270207/systemd-255-bsod</guid>
+            <link>https://www.oschina.net/news/270207/systemd-255-bsod</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Wine 9.0 發佈首個 RC]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Wine 9.0-rc1 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.winehq.org%2Fnews%2F2023120801" target="_blank">已發佈</a>，進入 RC 階段意味着已開始凍結代碼。</p><blockquote><p>Wine （「Wine Is Not an Emulator」 的首字母縮寫）是一個能夠<strong>在多種 POSIX-compliant 操作系統（諸如 Linux，macOS 及 BSD 等）上運行 Windows 應用的兼容層</strong>。它不是像虛擬機或者模擬器一樣模仿內部的 Windows 邏輯，而是將 Windows API 調用翻譯成為動態的 POSIX 調用，免除了性能和其它一些行為的內存佔用，能夠乾淨地整合 Windows 應用到桌面。</p></blockquote><p>新版本帶來了一些重要的改進，包括升級 VKD3D 和改進 Wine Wayland。這些改進將進一步提升 Wine 在 Linux 上的性能和功能。</p><p>Wine 9.0-rc1 將依賴的 VKD3D 升級到了 1.10。VKD3D 是一個用於在 Linux 上運行 Direct3D 12 應用程序的庫。通過升級 VKD3D，Wine 能夠更好地支持 Direct3D 12 應用程序，並提供更好的圖形性能和兼容性。</p><p>此版本還改進了 Wine Wayland，這意味着 Wine 在 Wayland 上的運行更加穩定和流暢，讓用户能夠在使用 Wayland 作為顯示服務器的 Linux 發行版上更好地運行 Windows 應用程序。</p><p>除了這些改進，Wine 9.0-rc1 還修復了一些 bug，以及其他小改進，進一步提升了 Wine 的穩定性和性能。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.winehq.org%2Fannounce%2F9.0-rc1" target="_blank">詳情查看發佈公告</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:53:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270195/wine-9-rc1-released</guid>
+            <link>https://www.oschina.net/news/270195/wine-9-rc1-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -428,6 +284,21 @@ const params = {
         </item>
         <item>
             <title>
+                <![CDATA[雷軍 30 年前寫的論文：《計算機病毒判定專家系統原理與設計》]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>雷軍 1992 年發表的《計算機病毒判定專家系統原理與設計》論文在網上曝光，引發熱議。</p><p>這份論文詳細地描述了計算機病毒判定專家系統的原理與具體設計方法，一定程度上解決了流行病毒的判定問題。論文結語寫道：<strong>研製解決流行病毒判定問題的專家系統，在目前具有相當大的使用價值。本文介紹的這種智能判定方法大大優於傳統的檢測方法，具有準確率高，適用性廣的有點，還可以不斷髮展和擴充。關於這種方法，目前國內外文獻上尚未提及。（參考文獻略）</strong></p><p>附論文原文：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-00e57539a1c6a07aa17cb70f341f3f2d3c1.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9babb896439e0b4a049532c7537dba1318f.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-c000968b49128269073f6f38373e6162709.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-a14bb1726495836bf7d6d463cbbefdb16a1.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-63cb2ee41ae8f0981dc0a88d94251dd61fb.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d7986af830afb49d055c14584452431d642.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-dea1bb17744fa373895687fd84a7d5520ab.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b68d4f4408348e18bba5c70dd2006a1a855.png" referrerpolicy="no-referrer"></p><p>來源：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F5714719345%2FNvR23gzWc%3Fpagetype%3Dviewer" target="_blank">https://weibo.com/5714719345/NvR23gzWc?pagetype=viewer</a></em></u></p><p>華為消費者 BG 戰略 Marketing 部副總裁李昌竹轉發了該論文的微博，<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1402329495%2FNwbO90AHM%3Fpagetype%3Dprofilefeed" target="_blank">並説道</a></u>：<strong>「技術創新和前沿探索都是值得尊敬和學習的。」</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-4cbc7936df3d1ad8b4a787215eb1fbea304.png" referrerpolicy="no-referrer"></p><p>1992 年，雷軍還與求伯君合著了《深入 DOS 編程》一書。在接下來的兩年裏，雷軍涉獵廣泛，寫過加密軟件、殺毒軟件、財務軟件、CAD 軟件、中文系統以及各種實用小工具等。</p><p><img src="https://oscimg.oschina.net/oscnet/up-389de1159783b7b408cade4d27be661e412.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-d80cc19de34a8b5e73cfe14690d437a0a70.png" referrerpolicy="no-referrer"></p><p>公開資料顯示，1987 年，雷軍畢業於原沔陽中學（現湖北省仙桃中學），同年考上了武漢大學計算機系。</p><p>1992 年初，雷軍加盟金山公司。先後出任金山公司北京開發部經理、珠海公司副總經理、北京金山軟件公司總經理等職務。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Dec 2023 03:20:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270190</guid>
+            <link>https://www.oschina.net/news/270190</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[百度 Comate 榮獲「2023 AIIA 人工智能十大先鋒應用案例」獎]]>
             </title>
             <description>
@@ -469,6 +340,135 @@ const params = {
             <link>https://www.oschina.net/news/270047</link>
             <author>
                 <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[從瀏覽器原理出發聊聊 Chrome 插件]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><span id="OSC_h3_1"></span><h3>瀏覽器架構演進</h3><p style="text-align:justify"><strong>單進程瀏覽器時代</strong></p><p style="text-align:justify">單進程瀏覽器是指瀏覽器的所有功能模塊都是運行在同一個進程裏，這些模塊包含了網絡、插件、JavaScript 運行環境、渲染引擎和頁面等。在 2007 年之前，市面上瀏覽器都是單進程的。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-3442db3861bb3221f7e853cfffa1ea45_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">單進程瀏覽器的架構</p><p style="text-align:justify">很多功能模塊運行在一個進程裏，是導致單進程瀏覽器不穩定、不流暢和不安全的一個主要因素。</p><ul><li><strong>不穩定：</strong>早期瀏覽器需要藉助於插件來實現諸如 Web 視頻、Web 遊戲等各種強大的功能，但是插件是最容易出問題的模塊，並且還運行在瀏覽器進程之中，所以一個插件的意外崩潰會引起整個瀏覽器的崩潰。除了插件之外，渲染引擎模塊也是不穩定的，通常一些複雜的 JavaScript 代碼就有可能引起渲染引擎模塊的崩潰。和插件一樣，渲染引擎的崩潰也會導致整個瀏覽器的崩潰。</li><li><strong>不流暢：</strong>所有頁面的渲染模塊、JavaScript 執行環境以及插件都是運行在同一個線程中的，這就意味着同一時刻只能有一個模塊可以執行。如果一個腳本非常耗時，它就會獨佔整個線程，這樣導致其他運行在該線程中的頁面沒有機會去執行任務，導致整個瀏覽器失去響應，變卡頓。</li><li><strong>不安全：</strong>當你在頁面運行一個插件時，插件可以操作系統資源，如果是個惡意插件，那麼它就可以釋放病毒、竊取你的賬號密碼，引發安全性問題。</li></ul><span id="OSC_h4_2"></span><h4><strong>多進程瀏覽器時代</strong></h4><p style="text-align:justify"><strong>早期架構</strong></p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-98f663221fa15549837f9cd878d40653_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">2008 年 Chrome 發佈時的進程架構</p><p style="text-align:justify">從圖中可以看出，早期的架構已經對瀏覽器的能力進行了拆分，主要拆分為三類：<strong>瀏覽器進程、插件進程和渲染進程。</strong>每個頁面是運行在單獨的渲染進程中的，同時頁面裏的插件也是運行在單獨的插件進程之中，進程之間是通過 IPC 機制進行通信。這就解決了單進程時代瀏覽器的各種問題：</p><ul><li><strong>解決不穩定：</strong>由於進程是相互隔離的，所以當一個頁面或者插件崩潰時，影響到的僅僅是當前的頁面進程或者插件進程，並不會影響到瀏覽器和其他頁面。</li><li><strong>解決不流暢：</strong>JavaScript 運行在渲染進程中，所以即使 JavaScript 阻塞了渲染進程，也只會影響當前的渲染頁面，並不會影響瀏覽器和其他頁面，因為其他頁面的腳本運行在它們自己的渲染進程中。</li><li><strong>解決不安全：</strong>Chrome 把插件進程和渲染進程鎖在沙箱裏面，沙箱裏面的程序可以運行，但是不能在硬盤上寫入任何數據，也不能在敏感位置讀取任何數據，這樣即使在渲染進程或者插件進程裏面執行了惡意程序，惡意程序也無法突破沙箱去獲取系統權限。</li></ul><p style="text-align:justify"><strong>近期架構</strong></p><p style="text-align:justify">相較之前，近期的架構又有了很多新的變化。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-4c1b8fc023fcd2ad0aa618575cdbc74b_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">近期 Chrome 進程架構</p><p style="text-align:justify">從圖中可以看出，最新的 Chrome 瀏覽器包括：<strong>1 個瀏覽器主進程、1 個 GPU 進程、1 個網絡進程、多個渲染進程和多個插件進程。</strong></p><ul><li><strong>瀏覽器進程：</strong>主要負責界面顯示、用户交互、子進程管理，同時提供存儲等功能。可以理解瀏覽器進程是一個統一的"<strong>調度大師</strong>"去調度其他進程，比如我們在地址欄輸入 url 時，瀏覽器進程首先會調用網絡進程。</li><li><strong>渲染進程：</strong>核心任務是將 HTML、CSS 和 JavaScript 轉換為用户可以交互的網頁，排版引擎 Blink 和 JavaScript 引擎 V8 都是運行在該進程中，默認情況下，Chrome 會為每個 Tab 標籤創建一個渲染進程。出於安全考慮，渲染進程都是運行在沙箱模式下。</li><li><strong>GPU 進程：</strong>其實，Chrome 剛開始發佈的時候是沒有 GPU 進程的。而 GPU 的使用初衷是為了實現 3D CSS 的效果，只是隨後網頁、Chrome 的 UI 界面都選擇採用 GPU 來繪製，這使得 GPU 成為瀏覽器普遍的需求。最後，Chrome 在其多進程架構上也引入了 GPU 進程。</li><li><strong>網絡進程：</strong>主要負責頁面的網絡資源加載，之前是作為一個模塊運行在瀏覽器進程裏面的，直至最近才獨立出來，成為一個單獨的進程。</li><li><strong>插件進程：</strong>主要是負責插件的運行，因插件易崩潰，所以需要通過插件進程來隔離，以保證插件進程崩潰不會對瀏覽器和頁面造成影響。</li></ul><p style="text-align:justify"><strong>當前架構</strong></p><p style="text-align:justify">目前 Chrome 瀏覽器的架構正在發生一些改變，稱為<strong>面向服務的架構 (SOA)</strong>，目的是將和瀏覽器本身（Chrome）相關的部分拆分為一個個不同的服務，服務化之後，這些功能既可以放在不同的進程裏面運行也可以合併為一個單獨的進程運行。這樣做的主要原因是讓 Chrome 在不同性能的硬件上有不同的表現。當 Chrome 運行在一些性能比較好的硬件時，瀏覽器進程相關的服務會被放在不同的進程運行以提高系統的穩定性。相反如果硬件性能不好，這些服務就會被放在同一個進程裏面執行來減少內存的佔用。</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-42fd4b754c12dcb3981338f765d81a60_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">面向服務的架構</p><span id="OSC_h3_3"></span><h3>插件運行機制</h3><p style="text-align:justify">在運行機制前，我們先來回顧一下打開頁面會發生什麼：</p><span id="OSC_h4_4"></span><h4><strong>打開頁面發生了什麼</strong></h4><ul><li>用户新增一個 tab，此時系統瀏覽器進程、渲染進程、GPU 進程、網絡進程會被創建好；</li><li>用户輸入 url，瀏覽器進程檢查 url，組裝協議，構成完整的 url；</li><li>瀏覽器進程通過進程間通信（IPC）把 url 請求發送給網絡進程；</li><li>網絡進程接收到 url 請求後檢查本地緩存是否緩存了該請求資源，如果有則將該資源返回給瀏覽器進程；</li><li>如果沒有，網絡進程向 web 服務器發起 http 請求（網絡請求）；</li><li>網絡進程解析響應流程； 
+  <ul><li>檢查狀態碼，非 200 執行狀態碼對應的處理邏輯；</li><li>200 響應處理：檢查響應類型 Content-Type，如果是字節流類型，則將該請求提交給下載管理器，不再進行後續的渲染，如果是 html 則通知瀏覽器進程準備渲染進程進行渲染；</li></ul></li><li>準備渲染進程 
+  <ul><li>瀏覽器進程檢查當前 url 是否和之前打開的渲染進程根域名是否相同，如果相同，則複用原來的進程，如果不同，則開啓新的渲染進程；</li></ul></li><li>傳輸數據、更新狀態 
+  <ul><li>渲染進程準備好後，瀏覽器向渲染進程發起「提交文檔」的消息，渲染進程接收到消息和網絡進程建立傳輸數據的「管道」；</li><li>渲染進程接收完數據後，向瀏覽器發送確認消息；</li><li>瀏覽器進程接收到確認消息後更新瀏覽器界面狀態：安全、地址欄 url、前進後退的歷史狀態、更新 web 頁面；</li></ul></li></ul><span id="OSC_h4_5"></span><h4><strong>打開插件發生了什麼</strong></h4><p style="text-align:justify">插件的運行相較於頁面會有簡化</p><p style="text-align:justify">1.我們打開瀏覽器，新增一個空白 tab 頁</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-fbdf73e0cfb877800ffc5a6b290cbee8_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">2.tab 欄空白處右鍵，選擇任務管理器，打開任務管理器面板</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-71e105d5e40961a19574affc5d405506_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">3.可以看到運行了 6 個進程，分別是瀏覽器進程、GPU 進程、網絡進程、存儲進程、渲染進程和擴展進程。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-fd99f7006599b3a820d7ffb6dbeaab0d_720w.webp" referrerpolicy="no-referrer"></p><ul><li>擴展進程中運行 Extension Page，主要包括 backgrount.html 和 popup.html； 
+  <ul><li>backgrount.html 中沒有任何內容，是通過 background.js 創建生成，當瀏覽器打開時，會自動加載插件的 background.js 文件，它獨立於網頁並且一直運行在後台，它主要通過調用瀏覽器提供的 API 和瀏覽器進行交互；</li><li>popup.html 有內容的，跟我們普通的 web 頁面一樣，由 html、css、Javascript 組成，它是按需加載的，需要用户去點擊地址欄的按鈕去觸發，才能彈出頁面；</li></ul></li><li>渲染進程主要運行 Web Page,當打開頁面時，會將 content_script.js 加載並注入到該網頁的環境中，它和網頁中引入的 Javascript 一樣，可以操作該網頁的 DOM Tree，改變頁面的展示效果；</li><li>GPU 進程主要為插件界面的渲染提供硬件能力支持；</li><li>網絡進程主要處理插件中的外部資源請求，比如 nexydy 插件依賴到一些外部 js；</li><li>存儲進程為插件提供本地存儲能力，比如使用 chrome.storage.local 進行持久化存儲；</li><li>瀏覽器進程在這裏更多起到橋樑作用，作為中轉可以實現 Extension Page 和 content_script.js 之間的消息通信。</li></ul><span id="OSC_h3_6"></span><h3>插件基本介紹</h3><span id="OSC_h4_7"></span><h4><strong>版本發展</strong></h4><p style="text-align:justify">chrome 插件存在三個版本，分別是<strong>Manifest V1、Manifest V2 和 Manifest V3</strong>。其中 MV1 版本已經被廢棄了，目前市面上存在 MV2 和 MV3 版本，以 MV2 為主流，在被 MV3 慢慢取代。時間線：</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-950393136d16d081528b01b5fbc794f1_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify"><strong>Manifest V2 新特性</strong></p><p style="text-align:justify"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv2%2FmanifestVersion%2F%253Fspm%253Da2c6h.13046898.publish-article.26.c7c96ffa7eZ9TZ%2523manifest-v1-changes" target="_blank">https://developer.chrome.com/docs/extensions/mv2/manifestVersion/#manifest-v1-changes</a></p><ul><li>設置了默認的內容安全策略`script-src 'self'; object-src 'self';`。有關內容安全策略的詳細配置，可以參考 MDN 文檔；</li><li>默認情況下，插件包內的資源不再可供外部網站使用。需要通過清單 web_accessible_resources 屬性將其顯式列入白名單；</li><li>browser action API 更改；</li><li>page action API 更改；</li><li>chrome.extension 代替 chrome.self 來指向插件本身；</li><li>chrome.extension.getTabContentses 和 chrome.extension.getExtensionTabs 廢棄，使用 extension.getViews 替代；</li><li>Port.tab 廢棄，使用 runtime.Port 替代；</li></ul><p style="text-align:justify"><strong>Manifest V3 新特性</strong></p><ul><li>Service worker 替換 Background Page；</li><li>網絡請求修改廢棄 webRequest API 使用新的 declarativentrequest API 來處理；</li><li>不再允許執行遠程託管的代碼，只能執行擴展包內包含的 JS；</li><li>Promises 已經被添加到許多方法中，但仍支持回調作為替代方法；</li><li>Browser Action API 和 Page Action API 被統一為單獨的 Action API；</li><li>Web 可訪問的資源，可以只對指定的站點和擴展可用；</li><li>內容安全策略 (CSP)，現在可以為單個對象中的不同執行上下文指定單獨的 CSP；</li><li>executeScript 的變化，不能再執行任意字符串，只能執行腳本文件和函數；</li></ul><p style="text-align:justify"><strong>切換 MV3 會帶來的問題</strong></p><ul><li>由於 background 不再支持 page 頁面配置 background.html，因此也無法調用 window 對象上的 XMLHttpRequest 來構建 ajax 請求，也就是説我們不能像 V2 版本一樣，在 background.html 中使用 XMLHttpRequest 來發送請求了，而是需要使用 fetch 來獲取接口數據；</li><li>由於 service workers 是短暫的，在不使用時會終止，這意味着它們在整個插件運行期間會不斷的啓動、運行和終止，也就是不穩定的；因此我們可能需要對 V2 中 background.js 的代碼邏輯進行一些改造，以往我們會習慣將一些數據直接存儲到全局變量，比如像下面這樣：</li></ul><pre><code>// V2 background.js
+let saveUserName = "";
+
+// 其他頁面，比如 content-script 或者 popup 中存儲數據
+chrome.runtime.onMessage.addListener(({ type, name }) =&gt; {
+  if (type === "set-name") {
+    saveUserName = name;
+  }
+});
+
+// 點擊 popup 時展示數據
+chrome.action.onClicked.addListener((tab) =&gt; {
+  // 這裏 saveUserName 可能為空字符串
+  console.log(saveUserName, "saveUserName");
+});</code></pre><ul><li>因此在 V3 中，需要對這種全局變量數據進行改造，改造的方式也很簡單，就是將數據持久化保存到 storage 中，需要用到的地方隨用隨取：</li></ul><pre><code>// V3 service worker
+chrome.runtime.onMessage.addListener(({ type, name }) =&gt; {
+  if (type === "set-name") {
+    chrome.storage.local.set({ name });
+  }
+});
+
+chrome.action.onClicked.addListener(async (tab) =&gt; {
+  const { name } = await chrome.storage.local.get(["name"]);
+  chrome.tabs.sendMessage(tab.id, { name });
+});</code></pre><ul><li>由<strong>webRequest API</strong>切換至<strong>declarativentrequest API</strong>，很多代碼邏輯需要重構；</li></ul><p style="text-align:justify"><strong>為什麼切換 MV3？</strong></p><p style="text-align:justify">從 Manifest V1 到 Manifest V2，可以看到 Chrome 想提高插件的隱私和安全，同時也優化了不少 API。而 Manifest V3 除了安全性更完善外，還在性能上下了功夫。Manifest V3 的核心非常明確，就是限制擴展對系統資源的使用。一直以來高資源佔用都是 Chrome 為人詬病的痛點，而且擴展由於在後台運行，如果出現問題，更是難以定位和管理。雖然增加了諸多限制，但 Manifest V3 還是有優點的：</p><ul><li>Service Worker 使擴展不再能常駐後台，讓擴展所佔用的資源可以被回收，降低了瀏覽器整體的開銷；</li><li>限制規則的數量，相當於控制了單一擴展在規則計算方面的資源使用上限；</li></ul><p style="text-align:justify">這些變化可以讓 Chrome 變得更加流暢，對於用户來説是好事。</p><span id="OSC_h4_8"></span><h4><strong>展示形式</strong></h4><p style="text-align:justify">Chrome 插件有以下常見的 8 中展現形式：</p><p style="text-align:justify"><strong>browserAction(瀏覽器右上角)</strong></p><p style="text-align:justify">在瀏覽器右上角擴展程序一欄顯示，包含一個圖標、名稱和 popup</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-d1c2fce69c1223a54300c9a2ea96eb9b_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">山海關插件 popup</p><p style="text-align:justify"><strong>pageAction(地址欄右側)</strong></p><p style="text-align:justify">pageAction 指的是在當某些特定頁面打開才顯示的圖標。在早些版本的 Chrome 是將 pageAction 放在地址欄的最右邊，左鍵單擊彈出 popup，右鍵單擊則彈出相關默認的選項菜單。而新版的 Chrome 更改了這一策略，pageAction 和普通的 browserAction 一樣也是放在瀏覽器右上角，只不過沒有點亮時是灰色的，點亮了才是彩色的，灰色時無論左鍵還是右鍵單擊都是彈出選項。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-00231bae7597112980d8851b90979347_720w.webp" referrerpolicy="no-referrer"></p><p><strong>右鍵菜單</strong></p><p style="text-align:justify">通過開發 Chrome 插件可以自定義瀏覽器的右鍵菜單，主要是通過 chrome.contextMenus API 實現，右鍵菜單可以出現在不同的上下文，比如普通頁面、選中的文字、圖片、鏈接，等等。</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-21338dc0d8e7b00dd4bcd5ef3922e777_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">掘金插件右鍵菜單</p><p style="text-align:justify"><strong>override(覆蓋特定頁面)</strong></p><p style="text-align:justify">使用 override 可以將 Chrome 默認的一些特定頁面替換掉，改為使用擴展提供的頁面。擴展可以替代如下頁面：</p><ul><li>歷史記錄：從工具菜單上點擊歷史記錄時訪問的頁面，或者從地址欄直接輸入 chrome://history</li><li>新標籤頁：當創建新標籤的時候訪問的頁面，或者從地址欄直接輸入 chrome://newtab</li><li>書籤：瀏覽器的書籤，或者直接輸入 chrome://bookmarks</li></ul><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-c730b7492405900d5f1c3cd9131abf06_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">掘金插件替換了新標籤頁</p><p style="text-align:justify"><strong>devtools(開發者工具)</strong></p><p style="text-align:justify">Chrome 允許插件在開發者工具 (devtools) 上開發，主要表現在：</p><ul><li>自定義一個和多個和 Elements、Console、Sources 等同級別的面板；</li><li>自定義側邊欄 (sidebar)，目前只能自定義 Elements 面板的側邊欄；</li></ul><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-1dca64511239cf86d0d29e29fccc403d_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">React Developer Tools</p><p style="text-align:justify"><strong>option(選項頁)</strong></p><p style="text-align:justify">插件的設置頁面，可以在右上角入口右鍵，有一個選項標籤</p><div style="text-align:center"><img height="610" src="https://pic1.zhimg.com/80/v2-9fc5b949ed631b4718e3af633977c024_720w.webp" width="672" referrerpolicy="no-referrer"></div><div style="text-align:center">
+  &nbsp; 
+</div><div style="text-align:center"><img height="506" src="https://pic1.zhimg.com/80/v2-bb3b7e3db84d9b3f544b5fd3e1295b90_720w.webp" width="880" referrerpolicy="no-referrer"></div><p style="text-align:justify"><strong>omnibox</strong></p><p style="text-align:justify">omnibox 是向用户提供搜索建議的一種方式，可以在搜索欄輸入特定的標識然後按 Tab 進入搜索。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-670f0e06b91ac66ccda32a21a111d409_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:center">JSON Viewer 插件</p><p style="text-align:justify"><strong>桌面通知</strong></p><p style="text-align:justify">Chrome 提供了一個 chrome.notificationsAPI 以便插件推送桌面通知，暫未找到 chrome.notifications 和 HTML5 自帶的 Notification 的顯著區別及優勢。在後台 JS 中，無論是使用 chrome.notifications 還是 Notification 都不需要申請權限（HTML5 方式需要申請權限），直接使用即可。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-e9d3bc3ad06b822b37b4e3ba8543a8a5_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h4_9"></span><h4><strong>核心介紹</strong></h4><p style="text-align:justify"><strong>manifest.json</strong></p><p style="text-align:justify">這是一個 Chrome 插件最重要也是必不可少的文件，用來配置所有和插件相關的配置，必須放在根目錄。其中，manifest_version、name、version3 個是必不可少的。</p><p style="text-align:justify"><strong>Manifest V2</strong></p><pre><code>{
+// 清單文件的版本，這裏先使用 2 演示
+"manifest_version": 2,
+// 插件的名稱
+"name": "...",
+// 插件的版本
+"version": "1.0.0",
+// 插件描述
+"description": "...",
+// 圖標，一般偷懶全部用一個尺寸的也沒問題
+"icons": {
+"16": "img/icon.png",
+"48": "img/icon.png",
+"128": "img/icon.png"
+  },
+// 會一直常駐的後台 JS 或後台頁面
+"background": {
+"scripts": ["js/background.js"]
+  },
+// 瀏覽器右上角圖標設置，browser_action、page_action、app 必須三選一
+"browser_action": {
+"default_icon": "img/icon.png",
+"default_title": "...",
+"default_popup": "popup.html"
+  },
+// 當某些特定頁面打開才顯示的圖標
+"page_action": {
+"default_icon": "img/icon.png",
+"default_title": "...",
+"default_popup": "popup.html"
+  },
+// 需要直接注入頁面的 JS
+"content_scripts": [{
+"matches": ["&lt;all_urls&gt;"],
+"js": ["js/content-script.js"],
+"css": ["css/custom.css"],
+// 代碼注入的時機，document_start, document_end, document_idle，默認 document_idle
+"run_at": "document_start"
+    },
+  ],
+// 權限申請
+"permissions": [
+"contextMenus", // 右鍵菜單
+"tabs", // 標籤
+"notifications", // 通知
+"webRequest", // web 請求
+"webRequestBlocking",
+"storage", // 插件本地存儲
+"https://*/*" // 可以通過 executeScript 或者 insertCSS 訪問的網站
+  ],
+// 普通頁面能夠直接訪問的插件資源列表，如果不設置是無法直接訪問的
+"web_accessible_resources": ["js/inject.js"],
+"homepage_url": "...", // 插件主頁
+"chrome_url_overrides": { // 覆蓋瀏覽器默認頁面
+"newtab": "newtab.html"
+  },
+"options_ui": { // 插件選項頁
+"page": "options.html",
+"chrome_style": true
+  },
+"omnibox": { "keyword" : "..." }, // 向地址欄註冊一個關鍵字以提供搜索建議，只能設置一個關鍵字
+"default_locale": "zh_CN", // 默認語言
+"devtools_page": "devtools.html", // devtools 頁面入口，注意只能指向一個 HTML 文件，不能是 JS 文件
+"content_security_policy": "...", // 安全策略
+"web_accessible_resources": [ // 可以加載的資源
+    RESOURCE_PATHS
+  ]
+}</code></pre><p style="text-align:justify"><strong>Manifest V3（僅展示與 V2 版本的不同點）</strong></p><pre><code>{
+"manifest_version": 3,
+"background": {
+"service_worker": js/background.js"
+  },
+  "action": { //browser_action 和 page_action，統一為 Action
+    "default_icon": "img/icon.png",
+    "default_title": "這是一個示例 Chrome 插件",
+    "default_popup": "popup.html"
+  }
+  "content_security_policy": {
+    "extension_pages": "...",
+    "sandbox": "..."
+  },
+  "web_accessible_resources": [{
+    "resources": [RESOURCE_PATHS]
+  }]
+}</code></pre><p style="text-align:justify"><strong>content-scripts</strong></p><p style="text-align:justify">是 Chrome 插件中向頁面注入腳本的一種形式（雖然名為 script，其實還可以包括 css 的），藉助 content-scripts 我們可以實現通過配置的方式輕鬆向指定頁面注入 JS 和 CSS。content-scripts 和原始頁面共享 DOM，但不共享 JS。如要訪問頁面 JS（例如某個 JS 變量），只能通過 injected js 來實現。content-scripts 不能訪問絕大部分 chrome API，除了下面這 4 種：</p><ul><li>chrome.extension</li><li>chrome.i18n</li><li>chrome.runtime</li><li>chrome.storage</li></ul><p style="text-align:justify">這些 API 絕大部分時候都夠用了，有需要調用其它 API 的話，可以通過通信讓 background 或 service worker 來幫忙調用</p><p style="text-align:justify"><strong>background</strong></p><p style="text-align:justify">後台是一個常駐的頁面，它的生命週期是插件中所有類型頁面中最長的，它隨着瀏覽器的打開而打開，隨着瀏覽器的關閉而關閉，所以通常把需要一直運行的、啓動就運行的、全局的代碼放在 background 裏面。background 的權限非常高，幾乎可以調用所有的 Chrome 擴展 API（除了 devtools），而且它可以無限制跨域，可以跨域訪問任何網站而無需要求對方設置 CORS。background 的概念在 MV3 版本中變為了 service worker，區別在於生命週期變短了，service worker 是短暫的基於事件的腳本，所以不適合用來保存全局變量。</p><p style="text-align:justify"><strong>popup</strong></p><p style="text-align:justify">popup 是點擊右上角圖標時打開的一個小窗口網頁，焦點離開網頁就立即關閉，一般用來做一些臨時性的交互。權限級別和 background 差不多，就是生命週期比較短。</p><p style="text-align:justify"><strong>injected-script</strong></p><p style="text-align:justify">chrome 插件中其實沒有 injected-script 這一概念，這是開發者們在開發過程中衍生出來的一種概念，指的是通過 DOM 操作的方式向頁面注入的一種 JS。因為 content-script 無法訪問頁面中的 JS，雖然可以操作 DOM，但是 DOM 卻不能調用它，也就是無法在 DOM 中通過綁定事件的方式調用 content-script 中的代碼。但是在網頁中增加一個按鈕來調用插件的能力是一個比較常見的需求，所以誕生了 injected-script。</p><span id="OSC_h4_10"></span><h4><strong>插件通信機制</strong></h4><p style="text-align:justify">講通信機制之前，先回顧一下插件中存在的腳本類型。Chrome 插件的 JS 主要可以分為這 5 類：injected script、content-script、popup js、background js 和 devtools js。</p><p style="text-align:justify"><strong>權限對比</strong></p><table><tbody><tr><td style="text-align:justify">JS 種類</td><td style="text-align:justify">可訪問的 API</td><td style="text-align:justify">DOM 訪問情況</td><td style="text-align:justify">JS 訪問情況</td><td style="text-align:justify">直接跨域</td></tr><tr><td style="text-align:justify">injected</td><td style="text-align:justify">和普通 JS 無任何差別，不能訪問任何擴展 API</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">不可以</td></tr><tr><td style="text-align:justify">content</td><td style="text-align:justify">只能訪問 extension、runtime 等部分 API</td><td style="text-align:justify">可以訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">不可以</td></tr><tr><td style="text-align:justify">popup</td><td style="text-align:justify">可訪問絕大部分 API，除了 devtools 系列</td><td style="text-align:justify">不可直接訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">可以</td></tr><tr><td style="text-align:justify">background</td><td style="text-align:justify">可訪問絕大部分 API，除了 devtools 系列</td><td style="text-align:justify">不可直接訪問</td><td style="text-align:justify">不可以</td><td style="text-align:justify">可以</td></tr><tr><td style="text-align:justify">devtools</td><td style="text-align:justify">只能訪問 devtools、extension、runtime 等部分 API</td><td style="text-align:justify">可以</td><td style="text-align:justify">可以</td><td style="text-align:justify">不可以</td></tr></tbody></table><p style="text-align:justify">通過權限對比可以看到，每一種腳本在權限上都不相同，所以各種腳本間的相互通信就非常重要，這也是插件能夠實現眾多功能的基礎。</p><p style="text-align:justify"><strong>通信概覽</strong></p><table><tbody><tr><td style="text-align:justify">&nbsp;</td><td style="text-align:justify">injected</td><td style="text-align:justify">content</td><td style="text-align:justify">popup</td><td style="text-align:justify">background</td></tr><tr><td style="text-align:justify">injected</td><td style="text-align:justify">-</td><td style="text-align:justify">window.postMessage</td><td style="text-align:justify">-</td><td style="text-align:justify">-</td></tr><tr><td style="text-align:justify">content</td><td style="text-align:justify">window.postMessage</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.runtime.sendMessage chrome.runtime.connect</td><td style="text-align:justify">chrome.runtime.sendMessage chrome.runtime.connect</td></tr><tr><td style="text-align:justify">popup</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.tabs.sendMessage chrome.tabs.connect</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.extension. getBackgroundPage</td></tr><tr><td style="text-align:justify">background</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.tabs.sendMessage chrome.tabs.connect</td><td style="text-align:justify">chrome.extension.getViews</td><td style="text-align:justify">-</td></tr><tr><td style="text-align:justify">devtools</td><td style="text-align:justify">chrome.devtools. inspectedWindow.eval</td><td style="text-align:justify">-</td><td style="text-align:justify">chrome.runtime.sendMessage</td><td style="text-align:justify">chrome.runtime.sendMessage</td></tr></tbody></table><span id="OSC_h3_11"></span><h3>一些常見插件的實現思路</h3><span id="OSC_h4_12"></span><h4><strong>埋點日誌檢測</strong></h4><p style="text-align:justify">一般業務中都會進行一些埋點上報，埋點的本質就是發送一些帶特定參數的請求，前端本地調試的時候想實時查看埋點信息通常需要去查看上報接口的入參，或者去對應的埋點平台查看，這樣非常不方便。基於這個，我們可以使用插件來幫助我們快速的可視化查看埋點信息：</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-d9e6e16e3db7cd8922d8b437219a96e2_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h4_13"></span><h4><strong>頁面注入小工具</strong></h4><p style="text-align:justify">插件的另一個常見用法就是往頁面注入一些工具代碼，比如去除頁面廣告工具。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-0de602a3e05ff59d5e0b6f1450c44d76_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h3_14"></span><h3>總結</h3><ul><li>隨着瀏覽器不斷的發展，Chrome 逐漸把一些基礎服務獨立出來，類似於一個跨平台的線上操作系統。</li><li>Chrome 插件提供的能力很豐富，比如代碼注入、跨域請求、持久化方案、各種通信機制等，開發者可以發揮想象，組裝不同能力以適應不同場景的需求，基本可以實現現代 web 所能支持的所有功能。</li><li>Chrome 插件 MV2 版本將在 24 年 1 月全面廢棄，需要儘快遷移至 MV3 版本。</li></ul><span id="OSC_h3_15"></span><h3><strong>參考資料：</strong></h3><p>《瀏覽器工作原理與實踐》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Ftime.geekbang.org%2Fcolumn%2Fintro%2F100033601%253Fspm%253Da2c6h.13046898.publish-article.27.c7c96ffa7eZ9TZ%2526tab%253Dcatalog" target="_blank">https://time.geekbang.org/column/intro/100033601?tab=catalog</a></p><p>《Inside look at modern web browser》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fblog%2Finside-browser-part1%2F%253Fspm%253Da2c6h.13046898.publish-article.28.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/blog/inside-browser-part1/</a></p><p>《圖解瀏覽器的基本工作原理》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F47407398%3Fspm%3Da2c6h.13046898.publish-article.29.c7c96ffa7eZ9TZ" target="_blank">https://zhuanlan.zhihu.com/p/47407398</a></p><p>《Welcome to Manifest V3》：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv3%2Fintro%2F%253Fspm%253Da2c6h.13046898.publish-article.30.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/docs/extensions/mv3/intro/</a></p><p>MDN 文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FHTTP%2FCSP%253Fspm%253Da2c6h.13046898.publish-article.31.c7c96ffa7eZ9TZ" target="_blank">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP</a>web_accessible_resources：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fdeveloper.chrome.com%2Fdocs%2Fextensions%2Fmv2%2Fmanifest%2Fweb_accessible_resources%2F%253Fspm%253Da2c6h.13046898.publish-article.32.c7c96ffa7eZ9TZ" target="_blank">https://developer.chrome.com/docs/extensions/mv2/manifest/web_accessible_resources/</a></p><p style="text-align:justify">作者｜閔子</p><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1381666%3Futm_content%3Dg_1000385322" target="_blank">原文鏈接</a></strong></p><p style="text-align:justify"><strong>本文為阿里雲原創內容，未經允許不得轉載。</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 06 Dec 2023 07:07:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/10319584</guid>
+            <link>https://my.oschina.net/yunqi/blog/10319584</link>
+            <author>
+                <![CDATA[阿里云云棲號]]>
             </author>
         </item>
     </channel>
