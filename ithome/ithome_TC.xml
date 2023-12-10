@@ -16,8 +16,27 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 10 Dec 2023 03:32:47 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 10 Dec 2023 07:34:59 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[俄羅斯駭客 APT28 鎖定 Outlook 零時差漏洞，意圖挾持 Exchange 電子郵件信箱帳號，主要目標是北約組織成員國]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/word-image-131555-1-156.png?itok=TQPgLDZb" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Palo Alto Networks</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟在今年 3 月的例行更新（Patch Tuesday）當中，修補 Outlook 零時差漏洞 CVE-2023-23397（CVSS 風險評分為 9.8），當時透露與俄羅斯軍情單位 GRU 有關的駭客，在去年 4 月中旬到 12 月將其用於攻擊行動。如今研究人員透露更多細節。</p><p>由於這項漏洞利用的難度並不高，攻擊者可透過發送特製的電子郵件來觸發漏洞，導致收信程式 Outlook 搜尋和處理的過程中就有可能中招，甚至有可能在預覽窗格呈現之前就觸發。</p><p>更進一步來説，攻擊者發送的惡意郵件當中，會帶有延伸的 MAPI 屬性，當中帶有通用命名規範（Universal Naming Convention，UNC）路徑，連至攻擊者控制的 SMB 共享資料夾（即 TCP 的 445 埠）。</p><p>上述連線至遠端 SMB 伺服器的過程裡，會發送使用者的 NTLM 交握訊息，從而導致攻擊者能在其他支援 NTLM 身分驗證的系統上進行身分驗證的重放攻擊。</p><h3><strong>漏洞修補後，俄羅斯駭客組織 APT28 仍持續利用</strong></h3><p>針對這項漏洞利用攻擊，12 月 4 日<a href="https://twitter.com/msftsecintel/status/1731626192300634585">微軟威脅情報團隊提出警告</a>，俄羅斯駭客組織 APT28（亦稱 Fancy Bear、Strontium、Forest Blizzard）近期積極利用今年 3 月修補的漏洞 CVE-2023-23397，企圖存取 Exchange 伺服器上的電子郵件信箱帳號，目標是美國、歐洲、中東的政府機關、運輸業 、非政府組織。</p><p>這項漏洞最初是由微軟與烏克蘭電腦網路危機處理小組（CERT-UA）共同發現，為權限提升漏洞，攻擊者可傳送帶有特定 MAPI 屬性的惡意郵件觸發漏洞，收信人連向駭客控制的 SMB 共享資料夾，導致駭客能夠取得 Net-NTLMv2 的雜湊值，進而執行 NTLM 重放攻擊（NTLM Relay）。</p><p>而在這一波漏洞攻擊行動裡，微軟發現駭客不光利用 CVE-2023-23397，<a href="https://www.microsoft.com/en-us/security/blog/2023/03/24/guidance-for-investigating-attacks-using-cve-2023-23397/">還可能會搭配其他已知漏洞</a>，例如：WinRAR 漏洞 CVE-2023-38831，或是瀏覽器排版引擎 MSHTML 排版引擎漏洞 CVE-2021-40444。其他也有可能遭到利用的漏洞包括：CVE-2021-42292、CVE-2021-42321、CVE-2021-34473、CVE-2020-17144、CVE-2020-0688 等。</p><p>波蘭網路司令部（Polish Cyber Command，DKWOC）<a href="https://www.wojsko-polskie.pl/woc/articles/aktualnosci-w/detecting-malicious-activity-against-microsoft-exchange-servers/">也在當地察覺類似的攻擊行動</a>，並提供工具讓 IT 人員來檢查 Exchange 伺服器是否受害。</p><p>DKWOC 提出以下 5 個防範措施</p><p>（一）修補 CVE-2023-23397，以及此漏洞的繞過漏洞 CVE-2023-29324；<br>
+（二）利用微軟提供的指令碼檢查 Exchange 伺服器；<br>
+（三）對於遭到入侵的使用者重設密碼；對於所有使用者啟用多因素驗證（MFA）；<br>
+（四）封鎖來自外部 IP 位址的 135 埠、445 埠流量；<br>
+（五）停用 NTLM。</p><h3><strong>受害組織主要來自北約組織成員國，遍佈 14 個國、30 個組織</strong></h3><p>在微軟對這羣駭客利用 Outlook 零時差漏洞發動攻擊提出警告，並指出他們的目的是從 Exchange 伺服器盜取電子郵件帳號，目前也有其他研究人員揭露更多調查結果。</p><p>例如，<a href="https://unit42.paloaltonetworks.com/russian-apt-fighting-ursa-exploits-cve-2023-233397/">資安業者 Palo Alto Networks 就揭露這些駭客攻擊行動的規模</a>。這些駭客約在 20 個月裡發動 3 波攻擊行動，針對 14 個國家、逾 30 個企業組織而來。</p><p>這些駭客從俄羅斯對烏克蘭進行軍事行動之後，在 2022 年 3 月就開始利用這項漏洞攻擊烏克蘭移民署；同年 4 月中旬至 12 月，該組織將其用於入侵歐洲 15 國政府、軍事單位、能源組織、交通單位的網路環境，竊取俄羅斯入侵烏克蘭有關的軍事情報電子郵件。</p><p>而在微軟今年 3 月修補漏洞後，這些駭客仍舊透過這項漏洞竊取帳密資料，進行第 2 波攻擊行動，從而於受害組織進行橫向移動，相關的攻擊行動在 5 月另一個 MSHTML 漏洞 CVE-2023-29324（CVSS 風險評分 6.5）公佈後顯著增加。</p><p>而在今年的 9 月至 10 月，這些駭客從事第三波攻擊行動，研究人員確認目標至少涵蓋 7 個國家的 9 個組織。</p><p>Palo Alto Networks 的研究人員指出，遭到這些駭客攻擊的國家，除了烏克蘭、約旦、阿拉伯聯合大公國（UAE），其餘皆為北約組織（NATO）會員國，且有北約快速部署兵團遭到鎖定。</p><p><a href="https://s4.itho.me/sites/default/files/images/2022-Fighting-Ursa-F2.png"><img alt="" src="https://s4.itho.me/sites/default/files/images/2022-Fighting-Ursa-F2.png" style="width: 580px;" referrerpolicy="no-referrer"></a></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sat, 09 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160246</guid>
+            <link>https://www.ithome.com.tw/news/160246</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[Apple 與部分 Linux 作業系統尚未修補已公開的藍牙鍵盤注入漏洞]]>
@@ -313,7 +332,7 @@
             <author>
                 <![CDATA[陳曉莉]]>
             </author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -358,7 +377,7 @@
             <author>
                 <![CDATA[餘至浩]]>
             </author>
-            <category>新聞</category>
+            <category>Cloud </category>
         </item>
         <item>
             <title>
@@ -370,21 +389,6 @@
             <pubDate>Thu, 07 Dec 2023 16:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.ithome.com.tw/news/160221</guid>
             <link>https://www.ithome.com.tw/news/160221</link>
-            <author>
-                <![CDATA[李建興]]>
-            </author>
-            <category>Cloud </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[網頁應用框架 Django 5.0 添加多項新功能強化資料庫操作]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/the_web_framework_for_perfectionists_with_deadlines_-_django_-_www.djangoproject.com_.png?itok=9ChH9yP4" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>開源 Python 網頁應用框架 Django 推出最新第 5 個主要版本，這個版本更新集中在資料庫功能上，支援資料庫運算預設值，以及資料庫生成模型欄位，讓資料庫自動處理資料欄的內容，並且還在模板系統加入欄位羣組的概念，簡化表單欄位渲染。</p><p><a href="https://www.djangoproject.com/weblog/2023/dec/04/django-50-released/">Django 5.0</a>中的資料庫運算預設值功能，允許開發者在模型欄位中，設定由資料庫運算的預設值。這項功能可以解決需要資料庫自動生成特定資料的問題，像是當前時間戳記或是運算結果。不只可以提高資料處理的效率和準確性，也可以在更多場景自動化資料生成任務。</p><p>官方還擴展 Django 框架核心元件 ORM（Object-Relational Mapping），加入新資料庫生成模型欄位功能，允許開發者創建由資料庫生成資料的欄位。該欄位可以用於所有支援的資料庫後端，創建一個由其他欄位計算出來的欄位值。以正方形的面積欄位舉例來説，正方形面積將會由兩個邊長欄位的值相乘獲得。</p><p>這樣的功能可以讓資料庫層級自動計算並儲存結果，也同樣能提高資料處理效率，並減少應用程式的計算負擔。Django ORM 核心元件讓開發者，不需要使用 SQL，而是以 Python 程式碼定義資料庫中的資料結構，如此開發者便可以用物件導向的方法處理資料庫，提高程式碼的可讀性和可維護性。Django ORM 支援多種資料庫系統，能夠查詢和操作資料，是一個高效的資料存取方法。</p><p>另外，模板系統欄位羣組也是 Django 5.0 的新功能，能夠簡化 Django 表單欄位，像是標籤、輸入框和錯誤訊息等相關元素的渲染過程。過去這些元素都是個別獨立渲染，現在透過 as_field_group() 方法，開發者可以將相關元素以整體進行渲染，大幅降低模板的複雜性。不只是程式碼更簡潔，也提高開發效率。</p><p>隨著 Django 5.0 的發布，Django 4.2 也結束主流支援，最後一個次要錯誤修補版本是已經發布的 4.2.8 版本。不過 Django 4.2 是一個長期支援版本，因此會持續接收安全性和資料丟失修補。另外，更早的 Django 4.1 版本的延伸支援已經結束，最後一個更新版本是 11 月 1 日所釋出的 4.1.13 版本，官方呼籲 Django 4.1 用戶應該升級到 Django 4.2 以上版本。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 07 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160213</guid>
-            <link>https://www.ithome.com.tw/news/160213</link>
             <author>
                 <![CDATA[李建興]]>
             </author>
