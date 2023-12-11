@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 11 Dec 2023 10:41:54 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 11 Dec 2023 15:00:36 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -26,7 +26,7 @@
                 <![CDATA[<div class="content"><p>大模型創業公司 Mistral AI 終於<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmistral.ai%2Fnews%2Fmixtral-of-experts%2F" target="_blank">介紹了</a></u>前兩天「開源」的&nbsp;MoE 模型 <strong>Mixtral 8x7B</strong>。</p><blockquote><p><strong><em><u><a href="https://www.oschina.net/news/270317/mixtral-8x7b-32kseqlen">Mistral AI 用「磁鏈鏈接」開源了 87 GB 的 8x7B MoE 模型</a></u></em></strong></p></blockquote><p>官方稱，Mixtral 8x7B 是開放權重的高質量<strong>稀疏混合專家模型 (SMoE)</strong>，採用 Apache 2.0 License 開源。在大多數基準測試中，Mixtral 的成績都優於 Llama 2-70B，且推理速度提升了 6 倍。而且在大多數標準基準測試中超過 GPT-3.5。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-7a689c4f538b591b9744038a052717945e6.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-84fefd9ee6c091c07c894031a1af2faf2e3.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f9aaad324856028fb1e796beb2d7685020.png" referrerpolicy="no-referrer"></p><p>因此，Mistral AI 稱 Mixtral 是最強大的開放權重模型，也是成本/性能權衡方面的最佳模型。</p><p><strong>Mixtral 主要特性</strong></p><p>• 32k 上下文<br> • 支持英語、法語、意大利語、德語和西班牙語<br> • 性能超過 Llama 2 系列和 GPT-3.5<br> • 在代碼生成方面具有強勁性能<br> • 在 MT-Bench 上獲得 8.3 分</p><p>Mixtral 作為稀疏混合專家網絡，是一個純解碼器模型，其中前饋塊從 8 組不同的參數組中選擇。在每一層，對於每個 token，路由網絡選擇兩組「專家」來處理 token 並相加地結合它們的輸出。</p><p>Mixtral 總共有 45B 個參數，但每個 token 只使用 12B 個參數。因此，它以與 12B 模型相同的速度和成本處理輸入和生成輸出。</p><p>更多細節查看：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmistral.ai%2Fnews%2Fmixtral-of-experts%2F" target="_blank">https://mistral.ai/news/mixtral-of-experts/</a></u></em></p></div>
                                     ]]>
             </description>
-            <pubDate>Mon, 11 Dec 2023 10:19:09 GMT</pubDate>
+            <pubDate>Mon, 11 Dec 2023 10:18:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/270511/mixtral-of-experts</guid>
             <link>https://www.oschina.net/news/270511/mixtral-of-experts</link>
             <author>
@@ -200,25 +200,15 @@
         </item>
         <item>
             <title>
-                <![CDATA[phpy —— Python 與 PHP 互調用庫]]>
+                <![CDATA[Laravel Pulse —— 實時應用程序性能監控工具和儀錶板]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>phpy 是<code>Python</code>與<code>PHP</code>互調用庫，可以在<code>PHP</code>中使用<code>Python</code>語言的函數和類庫，或者在<code>Python</code>中使用<code>PHP</code>的包。 但不是語言內嵌。編碼依然使用各自的原生語法。</p><p><code>phpy</code>使得<code>PHP</code>可以調用所有<code>Python</code>的包，包括當下非常流行的<code>PyTorch</code>、<code>transformers</code>、<code>TensorFlow</code>等<code>AI</code>庫，以及<code>Numpy</code>、<code>Pandas</code>、<code>Scikit</code>等科學計算庫，還可以使用<code>PyQt</code>、<code>wxPython</code>等圖形界面庫。</p><ul><li>目前僅支持 Linux 平台（理論上可以支持所有操作系統，待實現）</li><li>不支持 Python 多線程、<code>async-io</code>特性</li></ul><h2>PHP 調用 Python</h2><p>編譯安裝<code>phpy.so</code>作為擴展加載，修改<code>php.ini</code>追加<code>extension=phpy.so</code>即可。</p><p>例子：</p><pre><code>$os = PyCore::import("os");
-$un = $os-&gt;uname();
-echo strval($un);</code></pre><h2>Python 中調用 PHP</h2><p>直接作為<code>C++ Mudule</code>，import 加載即可。</p><pre><code>import phpy
-
-content = phpy.call('file_get_contents', 'test.txt')
-
-o = phpy.Object('redis')
-assert o.call('connect', '127.0.0.1', 6379)
-rdata = phpy.call('uniqid')
-assert o.call('set', 'key', rdata)
-assert o.call('get', 'key') == rdata</code></pre><h2>實現原理</h2><p>在進程內同時創建了<code>ZendVM</code>和<code>CPython VM</code>，直接在進程堆棧空間內使用<code>C</code>函數互相調用， 開銷只有<code>zval &lt;-&gt; PyObject</code>結構體轉換，因此性能是非常高的。</p><h2 style="margin-left:0; margin-right:0; text-align:left">實際案例</h2><h3 style="margin-left:0; margin-right:0; text-align:left">基於<span>&nbsp;</span><code>tkinter</code><span>&nbsp;</span>實現<span>&nbsp;</span><code>GUI</code><span>&nbsp;</span>的例子</h3><div style="text-align:left"><pre style="margin-left:0; margin-right:0"><code class="language-php"><span><span><span style="color:#6a737d">&lt;?</span></span></span><span><span><span style="color:#6a737d">php</span></span></span><span></span><span style="color:#056de8"><span>$tkinter</span></span><span></span><span><span>=</span></span><span></span><span><span>PyCore</span></span><span><span>::</span></span><span style="color:#056de8"><span>import</span></span><span><span>(</span></span><span style="color:#f1403c"><span><span style="color:#032f62">'tkinter'</span></span></span><span><span>);</span></span><span></span><span style="color:#056de8"><span>$root</span></span><span></span><span><span>=</span></span><span></span><span style="color:#056de8"><span>$tkinter</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>Tk</span></span><span><span>();</span></span><span></span><span style="color:#056de8"><span>$root</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>title</span></span><span><span>(</span></span><span style="color:#f1403c"><span><span style="color:#032f62">'我的窗口'</span></span></span><span><span>);</span></span><span></span><span style="color:#056de8"><span>$root</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>geometry</span></span><span><span>(</span></span><span style="color:#f1403c"><span><span style="color:#032f62">"500x500"</span></span></span><span><span>);</span></span><span></span><span style="color:#056de8"><span>$root</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>resizable</span></span><span><span>(</span></span><span><span><span style="color:#d73a49">False</span></span></span><span><span>,</span></span><span></span><span><span><span style="color:#d73a49">False</span></span></span><span><span>);</span></span><span></span><span style="color:#056de8"><span>$button</span></span><span></span><span><span>=</span></span><span></span><span style="color:#056de8"><span>$tkinter</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>Button</span></span><span><span>(</span></span><span style="color:#056de8"><span>$root</span></span><span><span>,</span></span><span></span><span><span>text</span></span><span><span>:</span></span><span></span><span style="color:#f1403c"><span><span style="color:#032f62">"Click Me!!"</span></span></span><span><span>,</span></span><span></span><span><span>command</span></span><span><span>:</span></span><span></span><span><span>PyCore</span></span><span><span>::</span></span><span style="color:#056de8"><span>fn</span></span><span><span>(</span></span><span><span><span><span style="color:#d73a49">function</span></span></span></span><span><span></span></span><span><span><span><span>()</span></span></span></span><span><span></span></span><span><span>{</span></span><span></span><span><span>var_dump</span></span><span><span>(</span></span><span><span>func_get_args</span></span><span><span>());</span></span><span></span><span><span><span style="color:#d73a49">echo</span></span></span><span></span><span style="color:#f1403c"><span><span style="color:#032f62">'click me!!'</span></span></span><span></span><span><span>.</span></span><span></span><span><span>PHP_EOL</span></span><span><span>;</span></span><span></span><span><span>}));</span></span><span></span><span style="color:#056de8"><span>$button</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>pack</span></span><span><span>();</span></span><span></span><span style="color:#056de8"><span>$tkinter</span></span><span><span>-&gt;</span></span><span style="color:#056de8"><span>mainloop</span></span><span><span>();</span></span></code></pre></div><div style="text-align:left"><img src="https://static.oschina.net/uploads/img/202312/09171840_0Wzd.jpg" referrerpolicy="no-referrer"></div></div>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#1f2328">Laravel Pulse 是一款適用於 Laravel 應用程序的實時應用程序性能監控工具和儀錶板。</span>可讓你一目瞭然地瞭解應用程序的性能和使用情況。跟蹤緩慢的作業和端點等瓶頸，找到最活躍的用户等等。</p><p><img alt="" height="349" src="https://static.oschina.net/uploads/space/2023/1205/142731_blmT_4252687.png" width="500" referrerpolicy="no-referrer"></p><p>特性：</p><ul><li><strong>應用程序使用情況。</strong>找出在整個 Laravel 應用程序中發出最多請求、使用最慢端點和派遣最多任務的用户。</li><li><strong>服務器統計。</strong>監控服務器的 CPU、內存和磁盤使用情況。運行多個服務器？沒問題。Pulse 可以在一個地方監控所有服務器。</li><li><strong>隊列監控。</strong>在優化 queue workers 的過程中消除猜測。查看實時和歷史統計數據，瞭解有多少作業待處理、有多少作業失敗、有多少作業已成功處理。</li><li><p><strong>性能。</strong>查看應用程序性能瓶頸的高級概覽。查看影響用户的最慢端點、查詢、作業和發出請求。</p></li><li><strong>異常趨勢。</strong>概述應用程序中發生的異常。將異常情況與應用程序的完整健康狀況概覽並排顯示，有助於您發現整個堆棧中的異常情況。</li><li><strong>Bring Your Own。</strong>為自己定製卡片，或為 Laravel 社區創建可共享的卡片。你甚至可以自定義 Pulse 面板的佈局。</li></ul></div>
                                                                 ]]>
             </description>
             <pubDate>Mon, 11 Dec 2023 01:58:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/p/phpy</guid>
-            <link>https://www.oschina.net/p/phpy</link>
+            <guid isPermaLink="false">https://www.oschina.net/p/laravel-pulse</guid>
+            <link>https://www.oschina.net/p/laravel-pulse</link>
         </item>
         <item>
             <title>
