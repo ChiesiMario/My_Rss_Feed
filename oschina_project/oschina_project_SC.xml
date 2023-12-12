@@ -16,8 +16,36 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 12 Dec 2023 10:44:26 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 12 Dec 2023 14:45:38 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[DamiBus 0.56，本地多模块调用框架（1000 万/秒）]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#24292e; text-align:start">DamiBus，专为本地多模块之间通讯解耦而设计（尤其是未知模块、隔离模块、领域模块）。零依赖。</p><h3>特点</h3><p style="color:#24292e; text-align:start">结合 Bus 与 RPC 的概念，可作事件分发，可作接口调用，可作响应订阅。</p><ul><li>支持事务传导（同步分发、异常透传）</li><li>支持事件标识、拦截器（方便跟踪）</li><li>支持监听者排序、附件传递（多监听时，可相互合作）</li><li>支持 Bus 和 Api 两种体验风格</li></ul><h3>与常见的 EventBus、ApiBean 的区别</h3><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:990px; word-spacing:0px"><tbody><tr><th>&nbsp;</th><th>DamiBus</th><th>EventBus</th><th>Api</th><th>DamiBus 的情况说明</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">广播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送 (send) + 监听 (listen)<br> 以及 Api 模式</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">应答</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送并请求 (sendAndRequest) + 监听 (listen) + 答复 (reply)<br> 以及 Api 模式</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">回调</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有+</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">无</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">有-</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发送并订阅 (sendAndSubscribe) + 监听 (listen) + 答复 (reply)</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">耦合</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">弱-</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">弱+</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">强++</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr></tbody></table><p style="color:#24292e; text-align:start">如果涉及类加载器隔离：请在主程序标为编译，在其它模块标为可选。</p><h3>本次更新了什么？</h3><ul><li>添加 DamiBus::sendAndRequest 带超时的接口</li><li>solon 升为 1.6.2</li></ul><h3>性能测试？</h3><p style="color:#24292e; text-align:start">瞬发 1000 万个事件，1 秒左右可发完（基于 jdk11 测试）：</p><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">SendTest</span> {
+    <span style="color:#a626a4">static</span><span style="color:#986801">Integer</span><span style="color:#986801">count</span><span>=</span><span style="color:#986801">0</span>;
+
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span> {
+        Dami.bus().listen(<span style="color:#50a14f">"test.demo"</span>, e -&gt; { count = count + <span style="color:#986801">1</span>; });
+
+        <span style="color:#986801">long</span><span style="color:#986801">start</span><span>=</span> System.currentTimeMillis();
+        <span style="color:#a626a4">for</span> (<span style="color:#986801">int</span><span style="color:#986801">i</span><span>=</span><span style="color:#986801">0</span>; i &lt; <span style="color:#986801">10_000_000</span>; i++) {
+            Dami.bus().send(<span style="color:#50a14f">"test.demo"</span>, <span style="color:#50a14f">"1"</span>);
+        }
+        System.out.println(System.currentTimeMillis() - start + <span style="color:#50a14f">"::"</span> + count);
+    }
+}
+</code></pre><p style="color:#24292e; text-align:start">疑问： 为什么不用分布式消息队列呢？不好意思，真的是不同的维度事儿。</p><h3>项目地址</h3><ul><li><a href="https://gitee.com/noear/dami">https://gitee.com/noear/dami</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fdami" target="_blank">https://github.com/noear/dami</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 12 Dec 2023 11:02:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/270702/damibus-0-56-released</guid>
+            <link>https://www.oschina.net/news/270702/damibus-0-56-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[openKylin 1.0.1 版本 11 月更新日志]]>
@@ -475,21 +503,6 @@
             <link>https://www.oschina.net/news/270442/mink-1-11-0-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[FolkMQ 内存型消息中间件，v1.0.19 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>简介</h2><ul><li>采用 "内存运行" + "快照持久化" + "Broker 集群模式"（可选）</li><li>基于<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsocketd.noear.org%2F" target="_blank">Socket.D 网络应用协议</a><span>&nbsp;</span>开发，使用「多路复用」技术。全新设计，自主架构！</li></ul><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:960px; word-spacing:0px"><tbody><tr><th>角色</th><th>功能</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">生产端</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发布消息（Qos0、Qos1）、发布定时消息（Qos0、Qos1）、发布重试</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">消费端</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">订阅、取消订阅</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">消费端</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">消费-ACK（自动、手动）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">服务端</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">发布-Confirm、订阅-Confirm、取消订阅-Confirm、派发-Retry、派发-Delayed</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">服务端</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">内存运行、快照持久化（自动、停机、手动）</td></tr></tbody></table><h2>特点</h2><ul><li>快、是真的快（单机版，180K TPS）。有点像 Redis 之于 MySql。</li></ul><p style="color:#24292e; text-align:start"><img src="https://teamx.noear.org/img/99fe298fb31440779e0a786fe3cd958c.png" width="600" referrerpolicy="no-referrer"></p><p style="color:#24292e; text-align:start">//使用 MacBook pro 2020 + JDK8 本机测试，单客户端发与收（跑分难免有波动，我是选了好看点的）</p><h2>本次更新</h2><ul><li>添加 folkmq-server 最大消息等待时间配置（默认 180s，之前为 2h）！！！</li><li>优化 folkmq-server 快照持久化可用性，增加「临时文件」与「备份文件」概念。更加稳定可靠！！！</li><li>优化 folkmq-broker 客户端异常断连的恢复速度与性能。异常情况恢复更快！！！</li><li>调整 folkmq-broker 控制枱，会话看板合并到消息看板</li><li>调整，集群模式下消费者的订阅名字（由 consumerGroup 改为 topic#consumerGroup）！！！</li><li>调整，服务端派发改为单线程模式（更适合很多队列的情况）！！！</li><li>调整，客户端分片大小配置（之前为默认 16m，现改为 1m）</li><li>取消，发布重试功能（如有需要用户自行处理）</li></ul><h2>代码仓库</h2><ul><li><a href="https://gitee.com/noear/folkmq">https://gitee.com/noear/folkmq</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Ffolkmq" target="_blank">https://github.com/noear/folkmq</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 11 Dec 2023 03:47:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/270439/folkmq-1-0-19-released</guid>
-            <link>https://www.oschina.net/news/270439/folkmq-1-0-19-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
