@@ -16,386 +16,533 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 18 Dec 2023 06:49:11 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 18 Dec 2023 10:53:29 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[【資安週報】2023 年 12 月 11 日到 12 月 15 日]]>
+                <![CDATA[【資安日報】12 月 18 日，新型態惡意軟體 NKAbuse 濫用區塊鏈進行傳輸資料、接收 C2 命令的工作，鎖定墨西哥、哥倫比亞、越南而來]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20231216_0.jpg?itok=RMcf0VFc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在漏洞相關消息中，這個禮拜最受重視的是以色列自動化控制業者 Unitronics 的 PLC 漏洞，因為自 11 月底開始，美國賓州水利單位的工控系統傳遭駭客劫持的相關消息，持續成為各大資安新聞媒體的焦點，甚至美國佛羅裏達州自來水公司、愛爾蘭自來水公司也傳遭攻擊，後續又有更多新消息。對於防守端而言，已<a href="https://www.unitronicsplc.com/cyber_security_vision-samba/">祭出更多因應機制</a>，包括<a href="https://forum.unitronics.com/topic/9940-protect-your-vision-and-samba-systems-with-new-security-enhancements/">Unitronics 發布 VisiLogic 9.9.00 版釋出</a>，將要求變更預設密碼、要求複雜密碼，以及增加保護 Vision 與 Samba 控制器的新功能，而且，12 月初還有揭露 Unitronics 的 Vision PLC and HMI 存在不安全預設密碼漏洞<a href="https://nvd.nist.gov/vuln/detail/CVE-2023-6448">CVE-2023-6448</a>，美國 CISA 在 12 月 11 日更是<a href="https://www.cisa.gov/news-events/alerts/2023/12/11/cisa-adds-one-known-exploited-vulnerability-catalog">將此漏洞加入已知漏洞利用清單</a>，是本週資安日報尚未提及，在此補上。</p><p>此時也適逢微軟、Adobe 等每月例行安全更新釋出，需要大家關注與儘快修補，我們整理如下：<br>
-●微軟本月修補 30 多個漏洞，有 4 個屬於重大漏洞，同時針對一個 8 月已公開的 AMD 漏洞（CVE-2023-20588）修補。<br>
-●Adobe 本月修補 207 個漏洞，以網站內容管理平台 Adobe Experience Manager 受關注，因為有 185 個漏洞與之相關。<br>
-●研究人員揭露 macOS/iOS 裝置與多家 Linux 作業系統存在藍牙鍵盤注入漏洞，目前僅 ChromeOS 修補。<br>
-●Apache 基金會修補 Java 應用框架 Struts 的 RCE 漏洞，編號為 CVE-2023-50164。</p><p>其他可留意的漏洞消息，包括:SAP、開源防火牆系統 pfSense，以及 WordPress 外掛程式 Backup Migration 的漏洞修補釋出，還有高通、聯發科 5G 晶片存在 5Ghoul 漏洞的揭露（其中 10 個漏洞已公開，4 個尚未公開），以及去年 Sophos 修補 CVE-2022-3236 漏洞，近日該公司針對 EOL 產品提供破例修補程式。</p><p>在威脅態勢上，近期地下論壇時常傳出兜售我國政府、企業資料的情形，這類消息明顯比過往頻繁，原因很有可能是我國即將舉行的 2024 總統大選。例如：有賣家在地下論壇 BreachForums 聲稱兜售中華電信帳務資料，中華電信後續表示查無遭駭，研判是利用欠費查詢功能取得不具個人識別性的帳務資料，還有日前<a href="https://www.mjib.gov.tw/news/Details/1/944">法務部調查局在 12 月 7 日示警</a>（<a href="https://s4.itho.me/sites/default/files/images/2023-12-18_141407.jpg">附圖</a>），指出有不明人士於暗網販售不明資料，並散佈網路文章「國人遭監控！暗網驚見高價出售情治機關偵控數據！」的不實資訊，是意圖製造對立衝突的認知作戰。</p><p>在國際威脅焦點方面，有 4 項消息我們認為最值得關切，其中兩件與電信業相關：<br>
-（一）關於今年中國駭客組織 Volt Typhoon 持續鎖定小型路由器攻擊的狀況，有資安業者揭露最新調查，指出該集團正利用殭屍網路 KV-botnet，在今年 8 月、11 月擴大鎖定 Netgear、思科、居易路由器與 Axis 的 IP 網路攝影機等設備入侵。<br>
-（二）注意濫用各種 OAuth 應用程式的自動化攻擊！微軟 MSRC 警告，有駭客盜用具有 OAuth 應用程式權限的使用者帳號，接著將會濫用這些權限來隱藏惡意活動。<br>
-（三）多家資安業者聯手指出，駭客組織 Sandman 不僅鎖定電信業者攻擊，同時與中國駭客互通有無，研究人員推測，這兩組人馬很可能共用惡意程式開發資源。<br>
-（四）烏克蘭當地最大電信業者 Kyivstar 遭大規模網路攻擊，導致其行動通訊與網路服務中斷。</p><p>其他可留意的消息，包括，AMD 處理器新型態攻擊手法 SLAM 的揭露，俄羅斯駭客組織 Star Blizzard 新型態帳密竊盜手法的揭露，語音網釣攻擊 BazarCall 濫用 Google 表單的揭露。</p><p>在資安防禦態勢上，將生成式 AI 用於幫助資安工作已蔚為風潮，最近 Google 更是搶先宣佈這方面的技術應用特色，Duet AI in Security Operations 功能正式上線。</p><p>&nbsp;</p><h3><a href="https://www.ithome.com.tw/news/160267"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 11 日】北韓駭客組織 Lazarus 利用兩年前的重大漏洞 Log4Shell，攻擊 VMware 桌面虛擬化平台入侵受害組織</span></strong></a></h3><p>電腦、行動裝置搭配各式藍牙配備，已是相當普遍，但這種裝置配對機制存在弱點的情況，近期有多名研究人員公佈相關研究，希望敦促裝置開發者儘速改善這類問題。</p><p>最近有研究人員公佈新的漏洞 CVE-2023-45866，並指出攻擊者可藉此配對「假鍵盤」，從而操作目標裝置，影響 macOS、iOS、Linux、安卓作業系統的電腦或行動裝置，值得留意的是，研究人員今年 8 月通報後，蘋果目前尚未對此漏洞進行修補。</p><h3><a href="https://www.ithome.com.tw/news/160290"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 12 日】美國航太組織遭到駭客組織 AeroBlade 鎖定，對其發動兩波攻擊，採用隱匿手法從事網路間諜行動</span></strong></a></h3><p>隨著南北韓的關係越來越緊張，北韓駭客組織的動作頻頻，其中又以駭客組織 Lazarus 的攻擊行動相當受到研究人員的關注。</p><p>例如，在其中一起名為 Operation Blacksmith 的攻擊行動裡，這些駭客使用了兩種相當罕見的手法，首先，他們在入侵受害組織的管道裡，利用了近期鮮少駭客利用的重大漏洞 Log4Shell，再者，則是在打造作案工具的程式語言，他們採用的是 D 語言，目前幾乎沒有其他駭客以此開發惡意程式。</p><p><a href="https://www.ithome.com.tw/news/160307"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 13 日】逾 1,400 台開源防火牆系統 pfSense 存在高風險漏洞，有可能被攻擊者串連，遠端在防火牆上執行任意程式碼</span></strong></a></p><p>12 月 12 日有許多軟體開發商推出本月的例行更新，而其中相當值得留意的部分，是有關防火牆漏洞的細節揭露。其中，包含了開源防火牆系統 pfSense 的漏洞，以及 Sophos 破例提供已屆生命週期終止（EOL）修補程式的情況。</p><p>其中，比較值得留意的是 pfSense 的漏洞，原因是研究人員揭露的 3 個漏洞可被串連，而有機會讓攻擊者在防火牆上執行任意程式碼。</p><h3><a href="https://www.ithome.com.tw/news/160333"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 14 日】OAuth 應用程式身分驗證流程遭到濫用，駭客將其用於發動挖礦攻擊、商業郵件詐騙、散佈大量垃圾郵件</span></strong></a></h3><p>鎖定 OAuth 身分驗證機制的攻擊行動不時傳出，而這樣的情況也有越來越氾濫的現象，駭客很可能在多種型態的攻擊行動，運用這種身分驗證機制達到目的。</p><p>例如，近期微軟揭露針對自家雲端環境進行的 OAuth 攻擊行動裡，駭客不只建置大量的 OAuth 應用程式來從事對手中間人攻擊（AiTM），挾持電子郵件信箱來進行下一階段行動，特別的是，也有駭客藉由 OAuth 挾持 Azure 用戶帳號，並租用虛擬機器來進行挖礦。</p><h3><a href="https://www.ithome.com.tw/news/160235"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 15 日】小型路由器成中國駭客組織 Volt Typhoon 下手目標，駭客植入殭屍網路病毒，入侵受害組織進行間諜行動</span></strong></a></h3><p>半年前美國警示大家要注意中國駭客組織 Volt Typhoon 的攻擊行動，並指出下一波駭客攻擊的目標不再只是美國，還會擴及亞洲地區的關鍵基礎設施。但究竟駭客如何入侵這些環境？如今有研究人員揭露相關細節。</p><p>資安業者 Lumen 指出，這些駭客也同時運用殭屍網路 KV-botnet 來從事攻擊行動，其重要的環節便是先對家用路由器、SOHO 辦公室防火牆等網路設備下手，再存取受害組織的內部環境。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160385</guid>
-            <link>https://www.ithome.com.tw/news/160385</link>
-            <author>
-                <![CDATA[羅正漢]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟 Azure AI 再增添 AI 模型 Llama2、GPT-4 Turbo with Vision]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-azure_marketplace-models_as_a_service_for_llama_2-960.jpg?itok=kiNgpzJq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微軟</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟 Azure AI 平台持續擴增生成式 AI 模型選擇，<a href="https://techcommunity.microsoft.com/t5/ai-ai-platform-blog/continuing-to-advance-state-of-the-art-model-and-tooling-support/ba-p/4008407" target="_blank">上週再宣佈</a>Azure AI 公測 Meta 最新模型 Llama 2 及 OpenAI GPT-4 Turbo with Vision，並有 6 個模型在模型市集中上架。</p><p>雖然大手筆投資 OpenAI，但微軟的雲端 AI 市集並不獨尊 OpenAI 的模型。今年 11 月的 Ignite 大會上，微軟已為 Azure AI 模型目錄宣佈 40 種新模型、生成式 AI 開發中心 Azure AI Studio 公測，且公佈 Azure AI Studio 模型即服務（Models as a Service，MaaS）平台，合作的第三方廠商包括 Mistral AI、G24、Cohere 及 Meta。</p><p>微軟解釋 Azure AI 及 MaaS 的差別。雖然 Azure AI 中，企業已經可在雲端執行個體中建立 VM 以部署模型，但仍有企業不想處理這工作，MaaS 即為這類用戶的選項。在此模型是一種 API 端點，用戶可像用 Azure OpenAI 服務一樣呼叫模型。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Model-as-a-service-(MaaS)-Azure%20AI.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>繼 11 月宣佈之後，微軟本週再為 Azure AI 模型即服務（MaaS）增加 Meta 的 Llama 2，OpenAI GPT-4 Turbo with Vision 公測版在 Azure OpenAI Service 及 Azure AI Studio 上線，以及 Azure AI 模型目錄（model catalog）中再增加 Phi 2 小語言模型（Small Language Model，SLM）。</p><p>上週五 Azure AI 的 MaaS 以公測版提供 Meta Llama 2，當中又有 Llama-2-7b（文字生成）、Llama-2-7b-Chat （對話完成）、Llama-2-13b（文字生成）、Llama-2-13b-Chat（對話完成）、Llama-2-70b（文字生成）及 Llama-2-70b-Chat（對話完成）等模型。</p><p>微軟第二項宣佈是 OpenAI GPT-4 Turbo with Vision 現在在 Azure OpenAI Service 及 Azure AI Studio 開放公測。GPT-4 with Vision 是 OpenAI 的大多模態模型（LMM）。這模型整合了自然語言處理和視覺理解，可分析圖片並針對問題提供文字回應。</p><p>微軟強調 Azure AI 中的 GPT-4 with Vision 提供微軟雲端的安全及負責任 AI 治理。和其他 Azure AI 服務合併後，這模型又增加了影片提示、object grounding（在圖像中找到並標記文字描述的物件）、進階光學字元辨識（OCR）等功能。</p><p>此外，繼 10 月微軟開始公測 Azure AI 微調 OpenAI 模型的功能，上週五進一步把微調功能擴大到其他模型，如 GPT-35-Turbo、Babbage-002 及 Davinci-002，允許開發人員及資料科學家客製化這些模型。</p><p>最後，Azure AI 模型目錄中又有 6 個新模型將先後上架。目前已有微軟自己的小語言模型（SLM）<a href="https://www.ithome.com.tw/news/160306" target="_blank">Phi-2</a>及<a href="https://www.ithome.com.tw/news/159963" target="_blank">Orca 2</a>，各為 27 億及 70、130 億參數。其他 4 個模型，包括純 decoder-only 文字生成模型 DeciLM、擴散式文字轉圖片模型 DeciDiffusion、decoder-only 程式完成模型 DeciCoder、以及 Mistral 7B 的小型版 Mixtral 8x7b。</p><p>而有了這麼多種模型，為方便企業用戶選擇，Azure AI Studio 也提供了模型標竿測試數據，公佈在模型的標竿測試區，以協助用戶做出採購決策。</p><p class="rtecenter"><a href="https://techcommunity.microsoft.com/t5/ai-machine-learning-blog/model-benchmarks-in-azure-ai-studio/ba-p/3982282" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Model%20Benchmarks%20in%20Azure%20AI%20Studio-600-V2.png" style="width: 558px;" referrerpolicy="no-referrer"></a></p><p>這次增加新選項的時機也很微妙。11 月中 OpenAI 發生董事會開除執行長 Sam Altman，OpenAI 共同創辦人 Craig Brockman 追隨他離開公司。此事驚動微軟執行長 Satya Nadella 出馬調停，並聘請 2 人加入微軟。據説 Nadella 對此次 OpenAI 人事動盪大為不滿，雖然微軟宣稱和 OpenAI 的合作將持續，但<a href="https://www.businessinsider.com/microsoft-distancing-itself-from-openai-spreading-ai-bets-2023-12" target="_blank">Nadella 也對投資人表示</a>將多元化 AI 模型來源以分散風險。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_微軟</span></span></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160381</guid>
-            <link>https://www.ithome.com.tw/news/160381</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[研究發現 Bing Copilot 給了錯誤的歐洲選舉資訊]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0208-bing-chatgpt-960_2.jpg?itok=2Yrpt731" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微軟</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>生成式 AI 助理如 ChatGPT 用在寫信、簡述文章重點或許還不錯，但牽涉政治的問題最好還是不要問它。一項研究發現，微軟生成式 AI 助理 Bing Copilot 在回答歐洲國家選舉的問題時，卻給了不少錯的答案。</p><p>微軟、OpenAI 及 Google 等業者前後發表 AI 聊天助理 Bing Chat/ Copilot、ChatGPT、Bard 後，因應大眾對 AI 幻覺、假資訊、侵權或偏見等問題，賦予其搜尋即時網路內容、引述內容來源，也加入防護（safeguard）功能，不回應有偏見、或鼓勵暴力、種族歧視、犯罪、毒品的提問。</p><p>非營利機構 AI Forensics 以及 AlgorithmWatch 在今年 8 月 21 日到 10 月 2 日期間，<a href="https://algorithmwatch.org/en/study-microsofts-bing-chat/" target="_blank">針對微軟 Bing Copilot 或 Bing Chat 調查</a>它對德國二個邦及瑞士選舉的問題解答能力。<a href="https://algorithmwatch.org/en/bing-chat-election-2023/" target="_blank">今年 10 月該基金會第一次公佈 Bing Copilot 的研究結果</a>。上週又公佈第二次報告。研究人員詢問關於候選人、民調、投票的問題，也請它針對特定主題，如環保，建議該投給哪名候選人，最後分析 Bing Copilot 的答案。</p><p>首先，研究顯示，Bing Copilot 關於選舉的問題，1/3（31%）有事實上的錯誤，包括投票日期錯誤、列出以前的候選人、還虛構特定候選人的醜聞，但英語版的正確度（30%）還高於法語（19%）及德語版（28%）。其次，雖然 Bing Copilot 設有防護功能，但並未均等應用於所有回應，導致 40% 的問題它拒絕回答，包括關於候選人的基本問題。雖然研究人員認為這現象其實是好事，因為是防止假資訊的機制，卻也減損了 AI 聊天機器人作為可信資訊來源的價值。</p><p class="rtecenter"><a href="https://algorithmwatch.org/en/wp-content/uploads/2023/12/AlgorithmWatch_AIForensics_Bing_Chat_Report.pdf" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-algorithmwatch-bing%20chat-600.png" style="width: 500px;" referrerpolicy="no-referrer"></a></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_AlgorithmWatch</span></span></p><p>研究人員也發現，Bing Copilot 給錯誤答案的問題，並非短期現象，而是長期、系統性的問題。從 8 月到 9 月，同樣給錯誤答案的問題，還是會重覆發生，正確率並未改善。此外，研究人員觀察到，Bing Copilot 甚至給錯候選人的資訊，甚至編造出某候選人涉入醜聞，卻還能提供知名媒體作為消息來源，包括 Wikipedia、politico.edu、dawum.de 等網站，同時傷害了候選人及新聞媒體名譽。</p><p>今年 10 月研發人員向微軟通報這些問題，特別是牽涉特定候選人的錯誤資訊，微軟雖承諾解決 Copilot 的問題，但一個月後，研究人員再次測試發現 Bing Copilot 的表現並未改善。</p><p>研究人員最後呼籲，隨著 Copilot 和其他 AI 工具廣泛整合於科技產品，歐盟及各國政府應確保科技公司負責 AI 的資訊品質。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160380</guid>
-            <link>https://www.ithome.com.tw/news/160380</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[FCC 批准 SpaceX 展開 Direct to Cell 衞星電話實驗]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-starlink_by_spacex-960.jpg?itok=CQ5ekGxx" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>SpaceX</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>美國聯邦通訊委員會（Federal Communications Commission，<a href="https://www.scribd.com/document/692501543/OET-approval" target="_blank">FCC）上週四（12/14）批准</a>了 SpaceX 在今年 2 月所提出的<a href="https://apps.fcc.gov/els/GetAtt.html?id=337665&amp;x=." target="_blank">Direct to Cell 實驗申請</a>，以直接利用一般的手機連結衞星通訊網路，執行傳訊、通話或瀏覽網路等功能。</p><p>SpaceX 為科技界大佬 Elon Musk 所創辦的航太公司，正式的公司名稱為 Space Exploration Technologies Corp，除了因打造可回收的火箭而名揚全球之外，另一個著名服務為低軌通訊網路衞星星座 Starlink，迄今已部署了 5,500 顆通訊衞星，在全球擁有 200 萬訂閲用戶。</p><p>為了讓手機用戶不必添加額外的設備就能直接使用衞星網路，SpaceX 去年 10 月宣佈將與 T-Mobile 合作，於美國收不到手機訊號的偏遠地區提供衞星網路服務，但一直到今年 10 月，SpaceX 才於官網上<a href="https://direct.starlink.com/" target="_blank">行銷 Direct to Cell</a>，宣稱可允許全球的 LTE 手機透過衞星網路來傳送文字訊息、通話或瀏覽網路，亦將支援基於 LTE 標準的 IoT 裝置。</p><p>根據官網上的説明，具備 Direct to Cell 功能的 Starlink 衞星將採用先進的 eNodeB 數據機，充當是太空中的手機基地台，令一般手機無需修改就可連結，再將訊號傳送至 Starlink 的地面網路與合作夥伴的網路，提供通話、文字簡訊與資料傳送功能。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-starlink%20direct%20to%20cell-600.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>SpaceX 預計於今年 12 月展開 Direct to Cell 的測試，將以 840 顆衞星與 2,000 支手機進行實驗，實驗期間為 180 天。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Starlink</span></span></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160378</guid>
-            <link>https://www.ithome.com.tw/news/160378</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟 Xbox Cloud Gaming、PowerPoint、Excel 與 Word 正式登上 Meta Quest Store]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-meta_quest_excel-960.jpg?itok=yol5ea56" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Meta</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟與 Meta 在去年 10 月攜手宣佈，要將 Xbox Cloud Gaming、Microsoft Teams 與 Microsoft Windows 365 帶到 Meta Quest 虛擬實境裝置上，而一直到了上週三（12/13），微軟終於在 Meta Quest Store 釋出了<a href="https://www.meta.com/experiences/6096836170400630/" target="_blank">Xbox Cloud Gaming</a>，隔天便接著推出支援 Meta Quest 的<a href="https://www.meta.com/experiences/7187698601274841/" target="_blank">Word</a>、<a href="https://www.meta.com/experiences/6420558991382261/" target="_blank">Excel</a>與<a href="https://www.meta.com/experiences/24038848309063606/" target="_blank">PowerPoint</a>。</p><p>其中，Word、Excel 與 PowerPoint 支援了所有的 Meta Quest 裝置，從早期的 Meta Quest、Meta Quest 2、Meta Quest 3 到最高階的 Meta Quest Pro，Xbox Cloud Gaming 則僅支援 Meta Quest 2、Meta Quest 3 與 Meta Quest Pro。</p><p>出現在 Meta Quest Store 中的 Xbox Cloud Gaming 仍是測試版，Meta Quest 用戶下載後可先與藍牙遊戲控制器配對，之後再登入微軟帳號，透過有效的 Xbox Game Pass Ultimate 會員資格執行遊戲，或是註冊試用 Xbox Game Pass Ultimate。玩家可瀏覽與執行 Xbox Game Pass Ultimate 中的數百款遊戲，並有 4 種螢幕尺寸可供選擇。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Xbox%20Cloud%20Gaming%20(Beta)-meta%20quest-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>而 Meta Quest 裝置上所執行的 Word、Excel 與 PowerPoint 則源自於 Office 網頁程式，因此可免費使用，若要執行更複雜的功能則必須訂閲 Microsoft 365。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-meta%20quest%20word-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-meta%20quest%20powerpoint-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>根據《Android Central》的測試，在 Meta Quest 裝置執行上述 Office 程式可一次開啟多個檔案，它可追蹤使用者的手勢，也支援以藍牙連結的滑鼠及鍵盤。</p><p>隨著蘋果首款混合實境（MR）頭戴式裝置 Apple Vision Pro 即將於明年上半年問世，VR/AR/MR 裝置市場可望在明年出現新的景象，根據市場研究機構<a href="https://www.counterpointresearch.com/insights/global-xr-ar-vr-headsets-market-share/" target="_blank">Counterpoint 今年第二季的調查</a>，目前該市場由 Meta 以 50% 的市佔率領先，Sony 以 28% 居次。</p><p>對於即將面臨來自蘋果的競爭，Meta 創辦人暨執行長祖克柏（Mark Zuckerberg）曾向員工信心喊話，指出 Vision Pro 對於 Meta Quest 團隊所面臨的挑戰並沒有任何神奇的解決方案，只是配備了更高解析度的顯示器，再利用所有的技術來推動它，使得它售價高昂，也需要更多的電力，還需要電池及纜線才能使用，但 Meta 卻想確保每個人都能負擔得起該公司所推出的產品。</p><p>Apple Vision Pro 的售價為 3,499 美元，Meta 最高階的 Meta Quest Pro 為 1,499 美元，而配備 128GB 儲存空間的 Meta Quest 則是 499 美元。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Meta</span></span></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160377</guid>
-            <link>https://www.ithome.com.tw/news/160377</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟更新 DirectML 支援 NPU，以加速 Windows AI 應用]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2110_-_unlocking_intels_neural_processing_unit_with_directml_-_intel_commu_-_community.intel_.com_.png?itok=FtQIfb1_" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟<a href="https://devblogs.microsoft.com/directx/windows-directml-with-npus/">預告</a>明年將更新 DirectML 開始支援神經處理單元（NPU）。NPU 是一種專為機器學習工作負載設計的處理單元，適合用於計算密集、不需要圖型介面互動的工作負載，目前英特爾新款 Core Ultra 處理器晶片已經內建 NPU，而這也會是第一個可在 Windows 上使用 DirectML 技術的 NPU。</p><p>DirectML 是一個低階且硬體抽象化的 API，能夠直接存取 GPU 等各類加速器，執行機器學習計算。其屬於 DirectX 家族，DirectX 主要用於 Windows 平台上的圖形與遊戲開發，而 DirectML 則專注於機器學習工作負載。DirectML 也能夠和其他機器學習框架和工具整合，像是跨平台推理引擎 ONNX Runtime 和 Windows 機器學習模型最佳化工具 Olive。</p><p>Core Ultra 的 NPU 加速器直接整合到 SoC，能夠以相對較低的功耗執行人工智慧運算，釋放 CPU 和 GPU 運算資源。NPU 獲得 DirectML 支援便能夠加入 ONNX 生態系，使用諸如 ONNX Model Zoo 的模型、英特爾 Neural Compressor 與 ONNX Runtime 等工具。</p><p>DirectML 新增對 NPU 的支援，讓開發者透過 ONNX Runtime 等 API，將人工智慧模型轉移到英特爾的 NPU 上執行，提供在 Windows 上執行人工智慧工作負載另一種選擇。支援 NPU 的 DirectML 預計在 2024 年初，與最新的 ONNX Runtime 版本一起釋出。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160365</guid>
-            <link>https://www.ithome.com.tw/news/160365</link>
-            <author>
-                <![CDATA[李建興]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[有辦法控制比人類更聰明的超級 AI？OpenAI 提出最新研究，證明其可能性]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2109_-_weak-to-strong_generalization_-_openai.com_.png?itok=tbyFh1nc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>隨著人工智慧迅速發展，可預期不久的將來，會出現比人類更聰明的人工智慧，OpenAI 提出了一個人類需要迫切面對的課題，是當人工智慧比人類更聰明，人類該如何有效地進行監督？在這樣的背景，OpenAI 展開超對齊（Superalignment）研究，最新的<a href="https://openai.com/research/weak-to-strong-generalization">研究成果</a>是以小模型來監督大模型，在人類開發和管理超級人工智慧（Superhuman AI）的難題上，提供一個新視角。</p><p>OpenAI 直言比人類聰明的人工智慧在 10 年內會出現，而至今人類仍然不知道如何可靠地指導和控制超級人工智慧，唯有找到有效的控制方法，才能夠確保先進的人工智慧系統的安全性。面對這個問題，OpenAI 成立了超級對齊（Superalignment）團隊來找出解決方案。</p><p>在人工智慧領域中，對齊（Alignment）概念指的是確保人工智慧系統的行為，符合人類設定的目標和道德標準，對齊主要關注當前和短期內的人工智慧技術，使這些人工智慧系統能夠安全地服務人類。而超級對齊則是研究更前瞻的議題，針對未來可能出現超越人類智慧的人工智慧系統，確保超級人工智慧系統能夠被有效的監督，並且使其行為與人類的價值觀和利益保持一致。</p><p>目前的對齊方法主要是來自人類回饋的增強學習（RLHF），但是因為未來人工智慧系統將能夠執行極複雜和具創造性的行為，這將使得人類難以進行監督，像是超級人工智慧可能可以編寫數百萬行具有潛在危險的程式碼，即便是專家也難以完全理解。</p><p>也就是説，相對於超級人工智慧，人類成為了弱監督者，如何讓弱監督者能夠信任並控制遠比自己還要強大的模型，是人類要進入通用人工智慧時代前，必須先面對的挑戰。為瞭解決人類如何監督比自己更聰明的人工智慧這個問題，OpenAI 限縮問題類比該問題，相當於一個較小的模型監督一個較強大的模型。</p><p>研究團隊在這項研究中的初步猜想，涵蓋了兩個相對立的觀點。一方面認為強模型可能無法超越提供訓練訊號的弱監督者，因為強模型會學習並且模仿弱監督者所犯的錯誤，進而限制了表現。另一方面也希望強大的預訓練模型，只需要經過適當引導即可發揮潛在能力，即便是弱監督者提供不完整或有缺陷的訓練標籤，強模型也能根據弱監督者的意圖進行泛化，進而解決更為困難且複雜的問題。</p><p>研究團隊使用簡單的方法鼓勵模型更有自信，使強模型能夠不受弱監督者的能力限制，甚至在必要的時候反對弱監督者的意見，因此在自然語言處理任務中，以 GPT-2 模型監督 GPT-4 時，產生的模型能力通常介於 GPT-3 和 GPT-3.5，許多 GPT-4 的能力仍然可以發揮。</p><p>這項研究展現了一種可能性，也就是即便是在弱監督的指導下，強大的人工智慧模型也能超越其限制，達到更高水準的效能，這項發現替未來在超級人工智慧系統中，實現有效的對齊提供新的方向和希望。也就是説，即便人類身為弱監督者，能力和理解可能受到限制，並無法良好地評估強模型，但是身為弱監督者仍有能力引導和改善強模型的表現，揭示了人類控制更先進的人工智慧系統的可能性。</p><p>同時這項研究也證明瞭現有的對齊方法，也就是基於人類回饋的增強學習，可能需要進一步改進才能適應超級人工智慧。總而言之，儘管現階段的對齊方法仍存在挑戰，但透過創新的策略和技術，將可以有效提升人工智慧的泛化能力，這對於未來開發和管理超級人工智慧有重要的意義。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160363</guid>
-            <link>https://www.ithome.com.tw/news/160363</link>
-            <author>
-                <![CDATA[李建興]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[AI 趨勢周報第 236 期：LangChain 框架整合 Gemini Pro API 了]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/ying_mu_xie_qu_hua_mian_2023-12-18_113336.png?itok=K8VdYiwD" width="960" height="420" alt="" title="LangChain 釋出 Python 工具包，能整合 Google 最新模型 Gemini Pro API，來加速打造多模態的檢索增強生成（RAG）應用。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> LangChain 釋出 Python 工具包，能整合 Google 最新模型 Gemini Pro API，來加速打造多模態的檢索增強生成（RAG）應用。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>LangChain</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重點新聞 (1208～1214)</span></p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;LangChain &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Gemini &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; LLM &nbsp;</span></strong></span></p><p><span style="font-size: 22px;"><strong>LangChain 框架整合 Gemini Pro API，加速 RAG 應用開發</strong></span></p><p>就在 Google 釋出 Gemini Pro API 後，大型語言模型（LLM）應用開發框架<a href="https://twitter.com/LangChainAI/status/1734982565352845428?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1734982565352845428%7Ctwgr%5Eed12d765421df8d620af7916bb47d761ca52beab%7Ctwcon%5Es1_&amp;ref_url=https%3A%2F%2Fanalyticsindiamag.com%2Flangchain-integrates-gemini-pro-api-enables-multimodal-capabilities%2F">LangChain 馬上整合了 Gemini Pro API</a>，讓開發者能在開發環境中使用 Gemini 多模態功能，特別是打造檢索強化生成（RAG）類型的應用。</p><p>一般來説，RAG 常用於文字任務，比如介接客服指南資料庫，來讓 LLM 參考客服資料、生成答案。但最近，多虧 GPT-4V 這類大語言模型，RAG 也擴展到了圖片。其中，LLM 應用開發框架 LangChain 就探索不少方法，如多模態嵌入、多向量檢索器等，來從文字和圖片輸入中（例如簡報）有效地檢索與合成答案，來實現圖片類的 RAG 應用。</p><p>為進一步提高開發者體驗，LangChain 推出了 Python 整合工具包 langchain-google-genai，開發者可直接存取 Genimi API，更容易使用 LangChain 的多模態功能。同時，LangChain 還發布整合指南，來協助開發者探索 Gemini Pro API 的潛力。<a href="https://python.langchain.com/docs/integrations/chat/google_generative_ai">（詳全文）</a></p><p><img alt="" src="https://pbs.twimg.com/media/GBPlaVjaAAA_yvW?format=png&amp;name=small" referrerpolicy="no-referrer"><img alt="" src="https://pbs.twimg.com/media/GBPlaV2aUAAW9Yj?format=png&amp;name=small" referrerpolicy="no-referrer"></p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Gemini &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Google &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; GPT-4V &nbsp;</span></strong></span></p><p><span style="font-size: 22px;"><strong>DeepMind 用 LLM 和評估器來找出數學最佳解</strong></span></p><p>最近，DeepMind 研發出 FunSearch 方法，能用大型語言模型來搜尋數學和電腦科學領域問題的解法。團隊成功運用 FunSearch 解決 Cap Set 數學問題，同時還能更有效解決裝箱問題，能用來提高資料中心效率，證明 FunSearch 的實用價值。</p><p>FunSearch 是指搜尋函式（Functions）系統，由一個訓練過的大型語言模型和一個自動評估器組成。其中，大型語言模型專門提供有創意的解決方案，評估器則把關這些方案，避免出錯或任何不實想法。這兩個元件反覆迭代，初始解決方案逐漸發展為新知識。目前，DeepMind 採用 Google 的 PaLM 2 作為 FunSearch 的大語言模型。團隊發現，與其他神經網路和增強學習的 AI 方法相比，FunSearch 輸出的程式碼更易於檢查和部署，更容易整合到實際工業系統中。他們預期，在科學和工業領域各種新舊問題，都會因這個方法產生更有效的解法。<a href="https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/">（詳全文）</a></p><p><img alt="" src="https://lh3.googleusercontent.com/mIlL5zg4-gbYvIdCuBB5SmzPzbC1yUghYgIwYR89pEJpgc4f00OhDpd6SRM_MXNi1XSqJJpFe_yeFXHZShLr3syM0SFSxtuqJzdaEgX8fsvCW1SN=w1232-rw" referrerpolicy="no-referrer"></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 隱私 </span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Mozilla &nbsp; </span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; privateGPT &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Mozilla 推新專案，要保護隱私、打造更個人化 AI 體驗</strong></span></p><p>日前，Mozilla 釋出 MemoryCache 創新專案，要結合本地檔案和 Firefox 瀏覽器儲存的資料，來強化基於裝置的個人模型，要在更加隱私安全的情況下，提供更好的個人化體驗。</p><p>MemoryCache 由一組腳本和簡單工具所組成，可用來改進本地端的 privateGPT 模型運作。MemoryCache 可快速儲存瀏覽器歷史紀錄到本地裝置，再讓本地端的 AI 模型，透過處理這些資料和用戶提供的檔案，來強化內建的 privateGPT 聊天介面回應。此外，MemoryCache 專案包含 Firefox 擴充套件，能儲存網頁到本地資料夾中，另有個殼層腳本負責監控資料夾的變化，一旦有新檔案進入資料夾，就會執行 privateGPT 的 ingest.py 腳本會進一步處理。<a href="https://future.mozilla.org/blog/introducing-memorycache/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 微軟 &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Phi-2 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 小型語言模型 &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>微軟 27 億參數小語言模型 Phi-2，表現勝過 130 億參數 Llama 2</strong></span></p><p>微軟在 12 日發表一套小型語言模型 Phi-2，只有 27 億參數，但在許多測試上超越了 70 億參數的 Mistral、130 億參數的 Llama 2，以及 Google 剛發表的 32 億個參數 Gemini Nano 2。微軟在今年 6 月發表基於 Transformer 架構的 Phi-1 模型，僅 13 億參數，是為了撰寫基本 Python 程式碼而設計的小型語言模型，9 月則進一步發表 Phi-1.5，能力擴展至常識推理和語言理解。</p><p>最新的 Phi-2 則號稱媲美 25 倍參數量的模型，訓練素材同樣基於「教科書等級」概念，涵蓋科學、日常活動與心理學等，再加上篩選過、具教育價值的高品質網路內容，將參數量從 13 億擴大至 27 億。Phi-2 在 96 個 A100 GPU 上，以 1.4 兆個 Token 進行了 14 天的訓練。經各種基準測試，如評估語言模型處理複雜及具挑戰性任務的 BBH、常識推理、語言理解、數學及撰寫程式碼等，Phi-2 的表現全都優於擁有 130 億個參數的 Llama-2，也優於 70 億參數的 Mistral。<a href="https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/">（詳全文）</a></p><p><img alt="" src="https://www.microsoft.com/en-us/research/uploads/prod/2023/12/figure2_phi_comp-2048x474.png" referrerpolicy="no-referrer"></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Mixtral 8x7B &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Llama 2 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; SMoE &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Mistral AI 開源 Mixtral 8x7B 模型，效能超越 Llama 2</strong></span></p><p>Mistral AI 開源最新模型 Mixtral 8x7B，是一款 467 億參數、具開放權重的稀疏混合專家模型（SMoE），能處理 32,000 個 Token 上下文長，且大多數基準測試表現都優於 700 億參數的 Llama 2 70B 和 GPT 3.5 模型。稀疏混合專家模型是一種深度學習架構，適合用來建置大型、高效的神經網路。其核心概念是專家系統，也就是網路中特定的子模組或子網路，代表每個專家，專門處理特定類型任務。而 SMoE 的稀疏性，則是指每次輸入僅會觸發一小部分專家，來降低運算成本，因此 Mixtral 8x7B 模型在處理每個 Token 時，只會選擇並使用其中的 129 億個參數。</p><p>經測試，比起 Llama 2 70B 模型，Mixtral 8x7B 在多數基準測試中表現更好，推理速度比 Llama 2 70B 快上 6 倍，且 Mixtral 8x7B 在大多數標準基準測試中，表現也與 GPT3.5 相當，甚至更好。Mixtral 8x7B 目前能處理英文、法文、義大利文、德文和西班牙文，其生成程式碼能力也很出色，與 GPT 3.5 相當。<a href="https://code.visualstudio.com/updates/v1_59#_terminal">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; AI 法案 &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 歐盟 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 風險&nbsp;&nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>歐盟達成共識，推出人工智慧法案</strong></span></p><p>歐盟執委會（EC）日前宣佈，歐洲議會與歐盟理事會已就人工智慧法案（AI Act）達成政治協議，成為全球首個 AI 綜合法令框架，將用來規範 AI 系統供應商和使用 AI 的組織，亦可望成為全球制定 AI 法令的基準。</p><p>AI Act 將 AI 系統分類成最小風險、高風險、不可接受的風險，以及透明度風險。大多數的 AI 系統屬於最小風險，如推薦系統或垃圾郵件過濾機制等，相關供應商不必承擔義務。高風險系統則涵蓋關鍵基礎設施、執法或公領域系統、生物辨識與情緒辨識系統等，必須遵守嚴格的要求，如具備風險緩解系統、資料集、活動紀錄、詳細的文件及人工監督等。</p><p>至於不可接受風險，是指可操縱人類行為以規避自由意志的系統或程式，透明度風險則要求人們必須能辨識與之交流的對象或內容，是否源自 AI。未遵守 AI Act 的業者將被罰款，最高款項為 3,500 萬歐元或年營收的 7%。在達成政治協議後，歐盟將著手撰寫共識版的 AI Act，理論上可於本月底通過正式法令，並於兩年後生效。<a href="https://www.consilium.europa.eu/en/press/press-releases/2023/12/09/artificial-intelligence-act-council-and-parliament-strike-a-deal-on-the-first-worldwide-rules-for-ai/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Gemini Pro &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 生成式 AI &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Vertex AI &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Google 開放測試企業級 Gemini Pro 了</strong></span></p><p>繼日前發表全新的多模態大型語言模型 Gemini 後，Google 又針對開發者和企業推出 Gemini Pro，使用者可透過 Google Cloud 的 Vertex AI 平台存取。Google 將 Gemini 分為 3 種版本，分別是最強大的 Gemini Ultra，最通用的 Gemini Pro，以及可於行動裝置上執行的 Gemini Nano。其中，Gemini Pro 支援 32K 的文字脈絡長度，具備函式呼叫、嵌入、語義檢索、客製化知識基礎及聊天功能，提供各種 SDK，並支援 Python、Android（Kotlin）、Node.js、Swift 及 JavaScript 等程式語言。</p><p>基本的 Gemini Pro 僅接受文字輸入與輸出，另有一個 Gemini Pro Vision 多模態終端則可接受文字及圖像輸入，但僅會輸出文字。Gemini Pro 現可於全球逾 180 個國家使用，支援 38 種語言，開發者以 Google 帳戶登入 Google AI Studio 即可免費試用，其免費額度為每分鐘輸入 60 個請求，當需要託管環境時，也可輕易將成果遷移至 Vertex AI。Google 預計明年初推出付費服務，企業用戶亦可透過已整合 Gemini Pro 的 Vertex AI 平台來試用該服務。<a href="https://blog.google/technology/ai/gemini-api-developers-cloud/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Purple Llama &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 生成式 AI &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 可信任 &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Meta 發布 Purple Llama 專案推動開源可信的生成式 AI 應用</strong></span></p><p>隨著生成式 AI 爆紅，AI 安全規範也越發重視。Meta 最近推出 Purple Llama 新專案，要提供開放信任且安全的評估標準和工具，來讓開發者負責任地部署生成式 AI 模型和應用程式。Purple Llama 目前提供 CyberSec Eval 評估標準，以及 Llama Guard 輸入輸出安全分類器，之後會新添更多工具。</p><p>進一步來説，在網路安全方面，Purple Llama 將建立安全評估基準，包括量化大型語言模型網路安全風險的指標，以及評估不安全程式碼建議頻率的工具，還有讓生成惡意程式碼，或協助網路攻擊更加困難的大型語言評估工具。該專案在過濾輸出和輸入方面，則提供了 Llama Guard 分類器，能用來檢查和過濾大型語言模型的輸入和輸出，以符合特定應用的內容指導原則，防止大型語言模型生成具有潛在風險的輸出。Llama Guard 使用公開的資料集訓練，以偵測常見的潛在風險和違規內容，用戶可以自定義模型，以支援特定用例。<a href="https://about.fb.com/news/2023/12/purple-llama-safe-responsible-ai-development/">（詳全文）</a></p><p>圖片來源／LangChain、DeepMind、微軟</p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; AI 近期新聞&nbsp;</span></strong></span></p><p><strong>1. <a href="https://www.ithome.com.tw/news/160364">中醫大附醫採用醫療專科級 MedLM 打造 AI 輔助醫師</a></strong></p><p><strong>2. AI 新創聯手阿聯酋大學發起<a href="https://www.llm360.ai/">透明度框架 LLM360</a>，率先釋出 2 款模型 Amber-7B 和 CrystalCoder-7B</strong></p><p><strong>3. <a href="https://cloud.google.com/blog/products/ai-machine-learning/imagen-2-on-vertex-ai-is-now-generally-available">Google 發布 Imagen 2 圖片生成模型</a>，支援中英在內 7 種語言</strong></p><p><strong>4. <a href="https://blogs.microsoft.com/accessibility/seeing-ai-app-launches-on-android-including-new-and-updated-features-and-new-languages/">微軟推出幫助視障者「聽」東西的 Seeing AI App</a></strong></p><p><strong>5. Google 承認 Gemini 示範影片經剪輯</strong></p><p>資料來源：iThome 整理，2023 年 12 月</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sat, 16 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160384</guid>
-            <link>https://www.ithome.com.tw/news/160384</link>
-            <author>
-                <![CDATA[王若樸]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[中醫大附醫率先採用醫療專科級 MedLM 來打造 AI 輔助醫師，第一步從癌症治療規畫 AI 助手開始]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zhong_yi_da_fu_yi_960.jpg?itok=7lJc1524" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>中國醫藥大學附設醫院（中醫大附醫）院長周德陽今天宣佈，將採用 Google 新發表用 Med-PaLM 2 打造的 MedLM 模型，來發展 AI 輔助醫生，先從醫生用的客製化癌症治療指引 chatbot，和提供化療問答集的病患 Chatbot 開始，後續還會發展更多專科 AI 助手。中醫大附醫是亞洲第一家採用這款醫療生成式 AI 模型 Med-PaLM 2 的醫學中心。</p><p>中醫大附醫這幾年積極推動醫療 HIS 改造，今年連續獲得美國 HIMSS 數位健康指標評比的全球智慧醫院前三強，這兩年也一直投入醫療 AI 發展，例如結合敗血癥風險預測 AI、細菌抗藥性預測 AI 和個人抗菌圖譜打造出智抗菌平台。</p><p>去年 12 月，中國醫藥大學附設醫院研究副院長李光申看到 Google 研究團隊在自然雜誌發表了 Med-PaLM 的研究成果，就開始關注後續發展。今年中，李光申受邀到美國 Google 總部參訪後，雙方決定展開合作。</p><p>Google 在 2022 年發表了第一代醫療生成式 AI 模型 Med-PaLM，可以達到美國醫生認證考試 60 分及格水準，今年中更發表了第二代 Med-PaLM 2，可以達到 85 分的水準。李光申指出，這個分數代表了 Med-PaLM 2 達到哈佛醫學院前 10% 學生的能力，也相當於專科醫生能力的水準。這也是中醫大附醫採用 Google Cloud 醫療 LLM 其中一項原因。</p><p>周德陽補充，通用性 LLM，沒有辦法達到專科醫生等級的回答。例如眼瞼下垂可能是哪一條腦神經出現問題？一般通用 LLM 多半回答，可能是第三對、第四對、第六對這些與眼睛相關的腦神經有問題，但 Med-PaLM 2 可以更清楚回答，眼瞼下垂是第三對有問題。</p><p>主導 Med-PaLM 研究的 Google 研究傑出科學家既資深總監 Greg Corrado 也親自來台發表這項合作，他表示，過去沒有一款 LLM 通過美國醫生考試，Med-PaLM 是第一個，今年的第二代更達到 85.4 分的等級，「通過考試不見得代表可以執業，但可以看出這項科技的潛力，可以學習新的醫學知識，來優化它的推理能力。」</p><p>Google 的 Med-PaLM 模型訓練上，在基礎的語言模型上，使用了少量，經過授權取得的醫療專門資料進行模型微調，來強化對醫療領域的能力。Greg Corrado 強調，模型發展過程，也一再確保，「沒有運用到隱私或個人病患的資料來訓練，來兼顧實際應用時的隱私和合規考量。」</p><p>因為第一代 Med-PaLM 模型還不是立即可用的技術，所以，Google 新發展出了一項醫療生成式 AI 模型產品 MedLM，使用了 PaLM 2 等一系列的基礎模型，來打造出適合醫療產業使用的 LLM。</p><p>Greg Corrado 表示，MedLM 是一款傘型架構的產品，不會只使用一個模型，而是會整合多種模型，也需要結合實際醫療人員的知識和經驗，讓這個產品可以安全的運用到實際場所，中醫大附醫是這段旅程其中一家夥伴。</p><p>「現在是醫療 AI 的轉型時代，要勇敢大膽，但同時要負責任，這正是 Google 發展 GAI 得原則。」他強調，MedLM 的定位，不應該用於任何醫療照護的直接決策，而要是用來協助受過專業訓練的醫生，在醫護人員的監督下，用 AI 協助他們完成工作。</p><p>Google Cloud 醫療照護全球總監 Ashima Gupta 表示：「用 AI 輔助，有助於改善醫療資源不平等的問題。」她認為，要發展生成式 AI 策略，需要先有一套數據資料策略和好的基礎架構，但是，醫院往往因為法規，系統相容性，資料隱私和安全性的問題，無法快速採用新科技。Goolge 醫療 AI 產品線未來希望能提供一個世界級合規架構，不只提供雲端基礎架構、TPU 等硬體，也包括了醫療照護資料引擎，透過開放平台，協助醫院將醫療資訊標準化，讓醫院更容易採用這些基礎模型。</p><p>李光申表示，中醫大附醫在 11 月時已開始測試 MedPaLM 2 模型，也將採用 MedLM 產品，Google 新發表的 Gemini 模型未來成為 MedLM 可用模型後，也會採用。</p><p>第一階段，中醫大附醫計畫打造兩款 Chatbot，一款是給醫護人員使用的客製化癌症治療指引的專業用 Chatbot，另一款是提供病人詢問的化療問答集 Chatbot。</p><p>例如，乳癌 2 期的病人有賀爾蒙問題，如何安排治療？Med-PaLM 2 可以在幾秒鐘內提供回答，甚至提供了專業醫療文獻的參考。「速度快到讓我們的醫生非常驚訝！」李光申強調。不只如此，AI 生成的治療建議，有些甚至超乎了醫生的想像，醫生會實際確認這些文獻，作為治療安排的參考。</p><p>李光申表示，中醫大附醫治療的癌症種類很多且雜，其中不少是罕見癌症，每一個病患的情況都不同，過去，醫生得花很多時間，為病人量身打造專門的癌症治療計畫。「改用 AI 協助治療計畫的訂定，可以減少不少時間，讓醫院可以服務更多的病人。」他強調。</p><p>目前中醫大附醫先取得 Med-PaLM 2 模型的使用權，來進行文字生成式內容的測試。測試時，以檢索增強生成（Retrieval-Augmented Generation，<em>RAG</em>）作法，參考國際癌症治療指引和中醫大附醫院內的癌症治療指引，來生成治療指引的回答。未來，也考慮以指令工程的方式，將台灣健保規則輸入到 LLM，來優化回答的內容，更符合台灣情況。</p><p>中醫大附醫擁有 300 萬人次的結構化醫療資料，過去幾年打下很好的資訊基礎建設，例如採用雲原生技術、資訊中台架構設計，也導入了 Google Anthos 混合雲架構。李光申，也因 Google 在台設有機房，醫院較容易符合主管機關合規要求，而考慮採用 Google 的 AI。</p><p>李光申表示，中醫大附醫已經打下了很好的基礎建設，未來，不會建置自己的超級電腦硬體，而是會藉助雲端運算資源，來訓練自己的醫療大腦。運用中醫大附醫龐大的結構化醫療資料，來發展更多領域、科別，不只臨牀也包括門診的醫療輔助 AI。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160364</guid>
-            <link>https://www.ithome.com.tw/news/160364</link>
-            <author>
-                <![CDATA[王宏仁]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【資安日報】12 月 15 日，小型路由器成中國駭客組織 Volt Typhoon 下手目標，駭客植入殭屍網路病毒，入侵受害組織進行間諜行動]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231215.png?itok=1gnwzxJt" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>半年前美國警示大家要注意中國駭客組織 Volt Typhoon 的攻擊行動，並指出下一波駭客攻擊的目標不再只是美國，還會擴及亞洲地區的關鍵基礎設施。但究竟駭客如何入侵這些環境？如今有研究人員揭露相關細節。</p><p>資安業者 Lumen 指出，這些駭客也同時運用殭屍網路 KV-botnet 來從事攻擊行動，其重要的環節便是先對家用路由器、SOHO 辦公室防火牆等網路設備下手，再存取受害組織的內部環境。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://blog.lumen.com/routers-roasting-on-an-open-firewall-the-kv-botnet-investigation/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">中國駭客組織 Volt Typhoon 使用殭屍網路 KV-botnet 攻擊小型路由器</span></strong></a></p>
-                <!-- notionvc: 8c1ffbe6-575f-402a-a3bc-036343dd00fe -->
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231218.png?itok=9tKqVcMn" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>為了讓攻擊源頭難以被找到，駭客無所不用其極改變遠端控制惡意程式的方法，其中最常見的手段，就是濫用各式各樣合法的雲端服務來充當 C2 伺服器，讓資安系統無法直接依據流量的來源，來識別是否為攻擊行動。</p><p>但最近有人使用更隱匿的手法，他們濫用名為 New Kind of Network 的區塊鏈網路，藉此傳送檔案及下達命令。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://securelist.com/unveiling-nkabuse/111512/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">惡意軟體 NKAbuse 濫用區塊鏈隱匿攻擊行動</span></strong></a></p>
+                <!-- notionvc: 7d261778-6ca6-4dfb-8e19-101ede1220d8 -->
                 <p></p>
                 <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/KV-infection-chain-3.png">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/KV-infection-chain-3.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>今年 5 月，美國政府與微軟對中國駭客組織 Volt Typhoon 的攻擊行動提出警告，指出駭客對美國通訊基礎設施下手，很有可能接下來會鎖定美國與亞洲地區的關鍵基礎設施，現在有研究人公佈新的調查結果。
+                    <a href="https://s4.itho.me/sites/default/files/images/Unveiling_NKAbuse_01.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/Unveiling_NKAbuse_01.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>資安業者卡巴斯基揭露名為 NKAbuse 的惡意程式，此惡意程式為 Go 語言開發，鎖定墨西哥、哥倫比亞、越南而來，針對 MIPS、Arm、x86 架構的 Linux 電腦下手，一旦電腦感染 NKAbuse，駭客就有可能將其用於執行 DDoS 攻擊。
                     </p>
-                    <p>資安業者 Lumen 指出，Volt Typhoon 通常會以路由器、防火牆、VPN 設備充當代理伺服器，使得惡意流量混入合法流量，讓攻擊變得更難以察覺。而在這一波行動裡，駭客鎖定 Netgear ProSAFE 防火牆、思科 RV320 路由器、居易（DrayTek）Vigor 路由器，以及 Axis 多款 IP 網路攝影機而來，目的是入侵組織設置在網路環境邊緣的設備，然後從事網路間諜活動並收集機密資料。研究人員看到此殭屍網路的活動從 2022 年開始，並在今年 8 月、11 月顯著增加，最近一波攻擊發生於 12 月 5 日。</p>
-                    <p>上述被鎖定的設備多半為家用或是 SOHO 辦公室設計，涵蓋 Arm、MIPS、x86 等架構，其共通點是生命週期已經結束，且缺乏相關的安全防護措施。駭客利用名為 kv.sh 的 bash 指令碼，終止特定的處理程序，並刪除目標裝置上的防護工具，而殭屍網路病毒與 C2 連線的過程中，會採用隨機的連接埠進行，再者，為隱匿攻擊行動，駭客的工具都在記憶體內運作而難以察覺。</p>
+                    <p>此外，該惡意程式也具備 RAT 木馬程式的特性，攻擊者可下達命令、竊取受害電腦資料、拍下螢幕截圖。在其中一起攻擊行動裡，駭客利用 Java 應用程式框架 Apache Struts 的漏洞 CVE-2017-5638（CVSS 風險評分為 10），來攻擊金融業者。</p>
+                    <p>而這個惡意程式最特別的地方，在於攻擊者與其溝通的管道是利用名為 New Kind of Network（NKN）的去中心化網路協定，由於該網路系統採用區塊鏈技術來管理相關資源，使用者的網路行蹤更為隱密，資安人員更難找出駭客攻擊的源頭。</p>
                     <p>
-                        <a href="https://abnormalsecurity.com/blog/bazarcall-attack-leverages-google-forms">
+                        <a href="https://thehackernews.com/2023/12/mongodb-suffers-security-breach.html">
                             <strong style="font-size: 22px;">
-                                <span style="color: rgb(0, 0, 0);">語音網釣攻擊 BazarCall 濫用 Google 表單突破資安系統攔截</span>
+                                <span style="color: rgb(0, 0, 0);">資料庫系統開發商 MongoDB 傳出遭到網路攻擊，客戶資料外洩</span>
                             </strong>
                         </a>
                     </p>
-                    <!-- notionvc: 7934c186-e467-4d49-99a9-3aca18f3def0 -->
+                    <!-- notionvc: 4fbeb097-6a0c-4555-b95e-ba7d3c5eaee9 -->
                     <p></p>
                     <p>
-                        <a href="https://s4.itho.me/sites/default/files/images/BazarCall-Attack-%E2%80%93-Malicious-Google-Form-E.png">
-                            <img alt="" src="https://s4.itho.me/sites/default/files/images/BazarCall-Attack-%E2%80%93-Malicious-Google-Form-E.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                            </a>在 2021 年首度出現的語音網釣攻擊 BazarCall，當時駭客佯稱是防毒軟體廠商、電腦技術支援業者、影音串流平台，假借付款通知或是服務訂閲確認的名義，聲稱收信人信用卡即將扣款，支付高額費用，若要取消必須撥打客服電話處理，而「客服」則會誘騙收信人在電腦上安裝惡意程式，近期再度有新的攻擊行動出現。
+                        <a href="https://s4.itho.me/sites/default/files/images/GBf8V0_XwAAyr1k.jpg">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/GBf8V0_XwAAyr1k.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>根據 Bleeping Computer、SecurityWeek、Hacker News 等資安新聞網站報導，資料庫軟體開發商 MongoDB 在 12 月 16 日透過電子郵件，向用戶公告他們遭駭，表明 12 月 13 日察覺公司內部環境遭到未經授權存取的資安事故，正在著手進行調查。
                         </p>
-                        <p>郵件安全業者 Abnormal 揭露新一波 BazarCall 的攻擊行動，其手法與過往最大的不同，在於駭客濫用 Google 表單工具，對方先是建置帶有發票號碼、交易日期、付款資訊、購買產品名稱等假交易資訊的表單，並於表單啟用回應填寫者的功能，並自行填寫表單，輸入欲攻擊對象的電子郵件信箱，隨後依據此表單內容，Google 會向該名人士寄送副本，而這些來源合法釣魚郵件，資安系統通常會予以放行，且因為信件來自這類表單服務，也可能讓收信人降低警覺。</p>
-                        <p>
-                            <a href="https://www.group-ib.com/blog/gambleforce-gang">
-                                <strong style="font-size: 22px;">
-                                    <span style="color: rgb(0, 0, 0);">亞太地區企業遭到駭客組織 GambleForce 鎖定，發動 SQL 注入攻擊</span>
-                                </strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 584bbb70-d12d-4721-abd7-79e145124a97 -->
-                        <p></p>
-                        <p>
-                            <a href="https://s4.itho.me/sites/default/files/images/1-20.png">
-                                <img alt="" src="https://s4.itho.me/sites/default/files/images/1-20.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                </a>資安業者 Group-IB 揭露從今年 9 月出現的駭客組織 GambleForce，這些駭客鎖定澳洲、巴西、中國、印度、印尼、菲律賓、韓國、泰國而來，迄今已有 24 個企業組織遭到攻擊，其中有 6 起行動得逞。
+                        <p>而對於事故影響的層面，該公司起初表示，他們尚未發現用戶存放於 MongoDB Atlas 的資料曝光的跡象，但他們也呼籲使用者應防範社交工程及網路釣魚攻擊，並採用多因素驗證，且輪換 MongoDB Atlas 密碼。</p>
+                        <p>隔日該公司透過網站公告這起事故，指出他們部分企業內部系統遭到未經授權存取，包含客戶姓名、電話號碼、電子郵件信箱，以及客戶帳號其他的中繼資料，但他們尚未察覺其他客戶的系統事件記錄遭到存取的跡象。</p>
+                        <p>資料來源</p>
+                        <p>1.&nbsp;
+                            <a href="https://twitter.com/vxunderground/status/1736134217321370109">https://twitter.com/vxunderground/status/1736134217321370109</a>
+                            <br>
+2.&nbsp;
+                                <a href="https://www.mongodb.com/alerts">https://www.mongodb.com/alerts</a>
                             </p>
-                            <p>本次攻擊遭鎖定的組織，涵蓋賭場、零售業者、政府機關、求職網站、旅遊行業等領域。而駭客的攻擊手法相當基本但很有效，包含了 SQL 注入攻擊，或是挖掘內容管理系統（CMS）的弱點等，目的是竊取目標組織的敏感資料。</p>
-                            <p>研究人員指出，在不同的攻擊階段當中，這些駭客倚賴多種開源工具來進行，像是 dirsearch、sqlmap、tinyproxy、redis-rogue-getshell，此外，他們也使用滲透測試工具 Cobalt Strike，值得注意的是，研究人員在駭客的基礎設施當中，發現攻擊者曾使用中文下達命令。在其中一起鎖定巴西公司的攻擊行動裡，駭客利用了內容管理系統 Joomla 的中度風險漏洞 CVE-2023-23752，從而進行 SQL 注入攻擊。</p>
                             <p>
-                                <a href="https://www.bleepingcomputer.com/news/security/hackers-are-exploiting-critical-apache-struts-flaw-using-public-poc/">
+                                <a href="https://www.bleepingcomputer.com/news/security/qnap-viostor-nvr-vulnerability-actively-exploited-by-malware-botnet/">
                                     <strong style="font-size: 22px;">
-                                        <span style="color: rgb(0, 0, 0);">Java 應用框架 Struts 路徑穿越漏洞已被用於攻擊行動</span>
+                                        <span style="color: rgb(0, 0, 0);">威聯通網路視訊監控系統 VioStor 遭遇殭屍網路 InfectedSlurs 零時差漏洞攻擊</span>
                                     </strong>
                                 </a>
                             </p>
-                            <!-- notionvc: a3a5b3a2-2665-4250-b2ed-96bd38e77bcb -->
+                            <!-- notionvc: 0dfa4469-392a-4610-b1ce-8ad3aeb04ec4 -->
                             <p></p>
-                            <p>12 月 9 日 Apache 基金會發布資安公告，指出他們近期修補 Java 應用框架 Struts 路徑穿越漏洞 CVE-2023-50164（CVSS 風險評分 9.8），但事隔一週傳出有駭客將其用於攻擊行動。</p>
-                            <p>Shadowserver 基金會提出警告，他們看到有人試圖利用此漏洞的概念性驗證（PoC）程式碼，透過數個 IP 位址發動攻擊，呼籲 IT 人員要儘速套用新版軟體來修補漏洞。</p>
-                            <p>值得留意的是，這種漏洞有可能影響相當廣泛，例如，思科公佈旗下產品採用 Struts 的情況，並清查是否受到該漏洞影響。</p>
+                            <p>11 月下旬資安業者 Akamai 揭露殭屍網路 InfectedSlurs 的攻擊行動，並指出駭客鎖定 NVR 網路視訊監控裝置及路由器而來，但並未透露裝置廠牌與型號，近期研究人員公佈更多細節。</p>
+                            <p>12 月 14 日 Akamai 表示，其中部分遭到零時差漏洞攻擊的設備，是威聯通（QNAP）旗下的網路視訊監控裝置 VioStor，這項遭到利用的漏洞是 CVE-2023-47565，存在於該廠牌 NVR 當中，影響 2014 年推出的 5.0 版以前的韌體，CVSS 風險評分為 8.0。</p>
+                            <p>研究人員指出，他們起初找到漏洞的時候，無法確認駭客鎖定的廠牌與型號，進一步調查才確認是威聯通的 NVR 設備，這些裝置的預設密碼強度較弱，且能在使用手冊找到，攻擊者可將其用於觸發作業系統注入的命令。對此，威聯通也在 9 日發布資安公告，表示他們針對 4.x 版 VioStor 發布修補程式，並指出曾在 2014 年推出的 5.0 版就已經修補相關漏洞。</p>
                             <p>資料來源</p>
                             <p>1.&nbsp;
-                                <a href="https://twitter.com/Shadowserver/status/1734919288257974380">https://twitter.com/Shadowserver/status/1734919288257974380</a>
+                                <a href="https://www.akamai.com/blog/security-research/qnap-viostor-zero-day-vulnerability-spreading-mirai-patched">https://www.akamai.com/blog/security-research/qnap-viostor-zero-day-vulnerability-spreading-mirai-patched</a>
                                 <br>
 2.&nbsp;
-                                    <a href="https://xz.aliyun.com/t/13172">https://xz.aliyun.com/t/13172</a>
-                                    <br>
+                                    <a href="https://www.qnap.com/zh-tw/security-advisory/qsa-23-48">https://www.qnap.com/zh-tw/security-advisory/qsa-23-48</a>
+                                </p>
+                                <p>
+                                    <a href="https://blogs.microsoft.com/on-the-issues/2023/12/13/cybercrime-cybersecurity-storm-1152-fraudulent-accounts/">
+                                        <strong style="font-size: 22px;">
+                                            <span style="color: rgb(0, 0, 0);">微軟搗毀網路犯罪組織 Storm-1152，該團體被查出握有 7.5 億個詐欺帳號</span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 17a0558a-9eec-4056-9ab2-e347f4551c8f -->
+                                <p></p>
+                                <p>上週微軟宣佈，他們在網路威脅情報供應商 Arkose Labs 的協助之下，破獲駭客組織 Storm-1152，這些駭客專門提供用於網路犯罪的 Outlook 電子郵件信箱帳號，數量多達 7.5 億個。微軟接管該組織使用的網域名稱 Hotmailbox.me、關閉駭客的社羣網站粉絲頁，以及該組織用於繞過圖靈測試 CAPTCHA 的多個網站（1stCAPTCHA、AnyCAPTCHA、NoneCAPTCHA）。</p>
+                                <p>微軟指控，這些駭客專門利用機器人建立大量 Outlook 帳號並銷售，號稱提供完整的客戶支援服務，客戶涵蓋勒索軟體集團、資訊竊盜、財務勒索組織，每個帳號售價不到 1 美分。除 Outlook 帳號外，該組織也提供駭客繞過圖靈驗證 CAPTCHA 的工具。微軟亦確認這些駭客的總部位於越南，以及其中 3 名成員的身分。</p>
+                                <p>而對於這些駭客的行蹤，Storm-1152 行事相當高調，而非藏匿於暗網，Arkose Labs 指出，他們認為自己是持續經營的網路業者，直接在公開的網際網路提供相關犯罪工具，並提供客戶支援。</p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>【其他新聞】</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://research.checkpoint.com/2023/rhadamanthys-v0-5-0-a-deep-dive-into-the-stealers-components/">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">竊資軟體 Rhadamanthys 透過外掛程式攔截 RDP 帳密</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: ef426b17-997b-4815-b23b-90d4c4857f55 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://twitter.com/MsftSecIntel/status/1735856754427047985">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">惡意程式 QBot 捲土重來，駭客假借美國國稅局的名義散佈</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 1314739a-0f8d-4295-842d-40c3c1b86dd9 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://security.googleblog.com/2023/12/hardening-cellular-basebands-in-android.html">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">Google 應用 Sanitizer 提升安卓裝置行動通訊基頻安全性</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 79008668-9e2f-42e1-9120-9d3d87827a20 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://www.securityweek.com/mitre-unveils-emb3d-threat-model-for-embedded-devices-used-in-critical-infrastructure/">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">針對關鍵基礎設施的嵌入式裝置安全，MITRE 揭露威脅模型 EMB3D</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: cd9c278f-66d8-4c93-a53c-49a09b946bac -->
+                                <p></p>
+                                <p>
+                                    <a href="https://www.water.gov.tw/ch/Subject/Detail/84565?nodeId=711">
+                                        <strong>
+                                            <span style="font-size: 20px;">
+                                                <span style="color: rgb(0, 0, 0);">台灣自來水與調查局簽署資安聯防 MOU</span>
+                                            </span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 55d1fa7b-0eb6-4fe4-b374-4e3538f6a6b7 -->
+                                <p></p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>近期資安日報</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/160355">
+                                        <strong>【12 月 15 日】&nbsp;小型路由器成中國駭客組織 Volt Typhoon 下手目標，駭客植入殭屍網路病毒，入侵受害組織進行間諜行動</strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/160333">
+                                        <strong>【12 月 14 日】&nbsp;OAuth 應用程式身分驗證流程遭到濫用，駭客將其用於發動挖礦攻擊、商業郵件詐騙、散佈大量垃圾郵件</strong>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/160307">
+                                        <strong>【12 月 13 日】&nbsp;逾 1,400 台開源防火牆系統 pfSense 存在高風險漏洞，有可能被攻擊者串連，遠端在防火牆上執行任意程式碼</strong>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+            </div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160387</guid>
+        <link>https://www.ithome.com.tw/news/160387</link>
+        <author>
+            <![CDATA[周峻佑]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[【資安週報】2023 年 12 月 11 日到 12 月 15 日]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20231216_0.jpg?itok=RMcf0VFc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在漏洞相關消息中，這個禮拜最受重視的是以色列自動化控制業者 Unitronics 的 PLC 漏洞，因為自 11 月底開始，美國賓州水利單位的工控系統傳遭駭客劫持的相關消息，持續成為各大資安新聞媒體的焦點，甚至美國佛羅裏達州自來水公司、愛爾蘭自來水公司也傳遭攻擊，後續又有更多新消息。對於防守端而言，已<a href="https://www.unitronicsplc.com/cyber_security_vision-samba/">祭出更多因應機制</a>，包括<a href="https://forum.unitronics.com/topic/9940-protect-your-vision-and-samba-systems-with-new-security-enhancements/">Unitronics 發布 VisiLogic 9.9.00 版釋出</a>，將要求變更預設密碼、要求複雜密碼，以及增加保護 Vision 與 Samba 控制器的新功能，而且，12 月初還有揭露 Unitronics 的 Vision PLC and HMI 存在不安全預設密碼漏洞<a href="https://nvd.nist.gov/vuln/detail/CVE-2023-6448">CVE-2023-6448</a>，美國 CISA 在 12 月 11 日更是<a href="https://www.cisa.gov/news-events/alerts/2023/12/11/cisa-adds-one-known-exploited-vulnerability-catalog">將此漏洞加入已知漏洞利用清單</a>，是本週資安日報尚未提及，在此補上。</p><p>此時也適逢微軟、Adobe 等每月例行安全更新釋出，需要大家關注與儘快修補，我們整理如下：<br>
+●微軟本月修補 30 多個漏洞，有 4 個屬於重大漏洞，同時針對一個 8 月已公開的 AMD 漏洞（CVE-2023-20588）修補。<br>
+●Adobe 本月修補 207 個漏洞，以網站內容管理平台 Adobe Experience Manager 受關注，因為有 185 個漏洞與之相關。<br>
+●研究人員揭露 macOS/iOS 裝置與多家 Linux 作業系統存在藍牙鍵盤注入漏洞，目前僅 ChromeOS 修補。<br>
+●Apache 基金會修補 Java 應用框架 Struts 的 RCE 漏洞，編號為 CVE-2023-50164。</p><p>其他可留意的漏洞消息，包括：SAP、開源防火牆系統 pfSense，以及 WordPress 外掛程式 Backup Migration 的漏洞修補釋出，還有高通、聯發科 5G 晶片存在 5Ghoul 漏洞的揭露（其中 10 個漏洞已公開，4 個尚未公開），以及去年 Sophos 修補 CVE-2022-3236 漏洞，近日該公司針對 EOL 產品提供破例修補程式。</p><p>在威脅態勢上，近期地下論壇時常傳出兜售我國政府、企業資料的情形，這類消息明顯比過往頻繁，原因很有可能是我國即將舉行的 2024 總統大選。例如：有賣家在地下論壇 BreachForums 聲稱兜售中華電信帳務資料，中華電信後續表示查無遭駭，研判是利用欠費查詢功能取得不具個人識別性的帳務資料，還有日前<a href="https://www.mjib.gov.tw/news/Details/1/944">法務部調查局在 12 月 7 日示警</a>（<a href="https://s4.itho.me/sites/default/files/images/2023-12-18_141407.jpg">附圖</a>），指出有不明人士於暗網販售不明資料，並散佈不實網路文章「國人遭監控！暗網驚見高價出售情治機關偵控數據！」，是意圖製造對立衝突的認知作戰。</p><p>在國際威脅焦點方面，有 4 項消息我們認為最值得關切，其中兩件與電信業相關：<br>
+（一）關於今年中國駭客組織 Volt Typhoon 持續鎖定小型路由器攻擊的狀況，有資安業者揭露最新調查，指出該集團正利用殭屍網路 KV-botnet，在今年 8 月、11 月擴大鎖定 Netgear、思科、居易路由器與 Axis 的 IP 網路攝影機等設備入侵。<br>
+（二）注意濫用各種 OAuth 應用程式的自動化攻擊！微軟 MSRC 警告，有駭客盜用具有 OAuth 應用程式權限的使用者帳號，接著濫用這些權限來隱藏惡意活動。<br>
+（三）多家資安業者聯手指出，駭客組織 Sandman 不僅鎖定電信業者攻擊，同時與中國駭客互通有無，研究人員推測，這兩組人馬很可能共用惡意程式開發資源。<br>
+（四）烏克蘭當地最大電信業者 Kyivstar 遭大規模網路攻擊，導致其行動通訊與網路服務中斷。</p><p>其他可留意的消息，包括，AMD 處理器新型態攻擊手法 SLAM 的揭露，俄羅斯駭客組織 Star Blizzard 新型態帳密竊盜手法的揭露，語音網釣攻擊 BazarCall 濫用 Google 表單的揭露。</p><p>在資安防禦態勢上，將生成式 AI 用於幫助資安工作已蔚為風潮，最近 Google 更是搶先宣佈這方面的技術應用特色，Duet AI in Security Operations 功能正式上線。</p><p>&nbsp;</p><h3><a href="https://www.ithome.com.tw/news/160267"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 11 日】北韓駭客組織 Lazarus 利用兩年前的重大漏洞 Log4Shell，攻擊 VMware 桌面虛擬化平台入侵受害組織</span></strong></a></h3><p>電腦、行動裝置搭配各式藍牙配備，已是相當普遍，但這種裝置配對機制存在弱點的情況，近期有多名研究人員公佈相關研究，希望敦促裝置開發者儘速改善這類問題。</p><p>最近有研究人員公佈新的漏洞 CVE-2023-45866，並指出攻擊者可藉此配對「假鍵盤」，從而操作目標裝置，影響 macOS、iOS、Linux、安卓作業系統的電腦或行動裝置，值得留意的是，研究人員今年 8 月通報後，蘋果目前尚未對此漏洞進行修補。</p><h3><a href="https://www.ithome.com.tw/news/160290"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 12 日】美國航太組織遭到駭客組織 AeroBlade 鎖定，對其發動兩波攻擊，採用隱匿手法從事網路間諜行動</span></strong></a></h3><p>隨著南北韓的關係越來越緊張，北韓駭客組織的動作頻頻，其中又以駭客組織 Lazarus 的攻擊行動相當受到研究人員的關注。</p><p>例如，在其中一起名為 Operation Blacksmith 的攻擊行動裡，這些駭客使用了兩種相當罕見的手法，首先，他們在入侵受害組織的管道裡，利用了近期鮮少駭客利用的重大漏洞 Log4Shell，再者，則是在打造作案工具的程式語言，他們採用的是 D 語言，目前幾乎沒有其他駭客以此開發惡意程式。</p><p><a href="https://www.ithome.com.tw/news/160307"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 13 日】逾 1,400 台開源防火牆系統 pfSense 存在高風險漏洞，有可能被攻擊者串連，遠端在防火牆上執行任意程式碼</span></strong></a></p><p>12 月 12 日有許多軟體開發商推出本月的例行更新，而其中相當值得留意的部分，是有關防火牆漏洞的細節揭露。其中，包含了開源防火牆系統 pfSense 的漏洞，以及 Sophos 破例提供已屆生命週期終止（EOL）修補程式的情況。</p><p>其中，比較值得留意的是 pfSense 的漏洞，原因是研究人員揭露的 3 個漏洞可被串連，而有機會讓攻擊者在防火牆上執行任意程式碼。</p><h3><a href="https://www.ithome.com.tw/news/160333"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 14 日】OAuth 應用程式身分驗證流程遭到濫用，駭客將其用於發動挖礦攻擊、商業郵件詐騙、散佈大量垃圾郵件</span></strong></a></h3><p>鎖定 OAuth 身分驗證機制的攻擊行動不時傳出，而這樣的情況也有越來越氾濫的現象，駭客很可能在多種型態的攻擊行動，運用這種身分驗證機制達到目的。</p><p>例如，近期微軟揭露針對自家雲端環境進行的 OAuth 攻擊行動裡，駭客不只建置大量的 OAuth 應用程式來從事對手中間人攻擊（AiTM），挾持電子郵件信箱來進行下一階段行動，特別的是，也有駭客藉由 OAuth 挾持 Azure 用戶帳號，並租用虛擬機器來進行挖礦。</p><h3><a href="https://www.ithome.com.tw/news/160235"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 15 日】小型路由器成中國駭客組織 Volt Typhoon 下手目標，駭客植入殭屍網路病毒，入侵受害組織進行間諜行動</span></strong></a></h3><p>半年前美國警示大家要注意中國駭客組織 Volt Typhoon 的攻擊行動，並指出下一波駭客攻擊的目標不再只是美國，還會擴及亞洲地區的關鍵基礎設施。但究竟駭客如何入侵這些環境？如今有研究人員揭露相關細節。</p><p>資安業者 Lumen 指出，這些駭客也同時運用殭屍網路 KV-botnet 來從事攻擊行動，其重要的環節便是先對家用路由器、SOHO 辦公室防火牆等網路設備下手，再存取受害組織的內部環境。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160385</guid>
+        <link>https://www.ithome.com.tw/news/160385</link>
+        <author>
+            <![CDATA[羅正漢]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[微軟 Azure AI 再增添 AI 模型 Llama2、GPT-4 Turbo with Vision]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-azure_marketplace-models_as_a_service_for_llama_2-960.jpg?itok=kiNgpzJq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微軟</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟 Azure AI 平台持續擴增生成式 AI 模型選擇，<a href="https://techcommunity.microsoft.com/t5/ai-ai-platform-blog/continuing-to-advance-state-of-the-art-model-and-tooling-support/ba-p/4008407" target="_blank">上週再宣佈</a>Azure AI 公測 Meta 最新模型 Llama 2 及 OpenAI GPT-4 Turbo with Vision，並有 6 個模型在模型市集中上架。</p><p>雖然大手筆投資 OpenAI，但微軟的雲端 AI 市集並不獨尊 OpenAI 的模型。今年 11 月的 Ignite 大會上，微軟已為 Azure AI 模型目錄宣佈 40 種新模型、生成式 AI 開發中心 Azure AI Studio 公測，且公佈 Azure AI Studio 模型即服務（Models as a Service，MaaS）平台，合作的第三方廠商包括 Mistral AI、G24、Cohere 及 Meta。</p><p>微軟解釋 Azure AI 及 MaaS 的差別。雖然 Azure AI 中，企業已經可在雲端執行個體中建立 VM 以部署模型，但仍有企業不想處理這工作，MaaS 即為這類用戶的選項。在此模型是一種 API 端點，用戶可像用 Azure OpenAI 服務一樣呼叫模型。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Model-as-a-service-(MaaS)-Azure%20AI.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>繼 11 月宣佈之後，微軟本週再為 Azure AI 模型即服務（MaaS）增加 Meta 的 Llama 2，OpenAI GPT-4 Turbo with Vision 公測版在 Azure OpenAI Service 及 Azure AI Studio 上線，以及 Azure AI 模型目錄（model catalog）中再增加 Phi 2 小語言模型（Small Language Model，SLM）。</p><p>上週五 Azure AI 的 MaaS 以公測版提供 Meta Llama 2，當中又有 Llama-2-7b（文字生成）、Llama-2-7b-Chat （對話完成）、Llama-2-13b（文字生成）、Llama-2-13b-Chat（對話完成）、Llama-2-70b（文字生成）及 Llama-2-70b-Chat（對話完成）等模型。</p><p>微軟第二項宣佈是 OpenAI GPT-4 Turbo with Vision 現在在 Azure OpenAI Service 及 Azure AI Studio 開放公測。GPT-4 with Vision 是 OpenAI 的大多模態模型（LMM）。這模型整合了自然語言處理和視覺理解，可分析圖片並針對問題提供文字回應。</p><p>微軟強調 Azure AI 中的 GPT-4 with Vision 提供微軟雲端的安全及負責任 AI 治理。和其他 Azure AI 服務合併後，這模型又增加了影片提示、object grounding（在圖像中找到並標記文字描述的物件）、進階光學字元辨識（OCR）等功能。</p><p>此外，繼 10 月微軟開始公測 Azure AI 微調 OpenAI 模型的功能，上週五進一步把微調功能擴大到其他模型，如 GPT-35-Turbo、Babbage-002 及 Davinci-002，允許開發人員及資料科學家客製化這些模型。</p><p>最後，Azure AI 模型目錄中又有 6 個新模型將先後上架。目前已有微軟自己的小語言模型（SLM）<a href="https://www.ithome.com.tw/news/160306" target="_blank">Phi-2</a>及<a href="https://www.ithome.com.tw/news/159963" target="_blank">Orca 2</a>，各為 27 億及 70、130 億參數。其他 4 個模型，包括純 decoder-only 文字生成模型 DeciLM、擴散式文字轉圖片模型 DeciDiffusion、decoder-only 程式完成模型 DeciCoder、以及 Mistral 7B 的小型版 Mixtral 8x7b。</p><p>而有了這麼多種模型，為方便企業用戶選擇，Azure AI Studio 也提供了模型標竿測試數據，公佈在模型的標竿測試區，以協助用戶做出採購決策。</p><p class="rtecenter"><a href="https://techcommunity.microsoft.com/t5/ai-machine-learning-blog/model-benchmarks-in-azure-ai-studio/ba-p/3982282" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Model%20Benchmarks%20in%20Azure%20AI%20Studio-600-V2.png" style="width: 558px;" referrerpolicy="no-referrer"></a></p><p>這次增加新選項的時機也很微妙。11 月中 OpenAI 發生董事會開除執行長 Sam Altman，OpenAI 共同創辦人 Craig Brockman 追隨他離開公司。此事驚動微軟執行長 Satya Nadella 出馬調停，並聘請 2 人加入微軟。據説 Nadella 對此次 OpenAI 人事動盪大為不滿，雖然微軟宣稱和 OpenAI 的合作將持續，但<a href="https://www.businessinsider.com/microsoft-distancing-itself-from-openai-spreading-ai-bets-2023-12" target="_blank">Nadella 也對投資人表示</a>將多元化 AI 模型來源以分散風險。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_微軟</span></span></p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160381</guid>
+        <link>https://www.ithome.com.tw/news/160381</link>
+        <author>
+            <![CDATA[林妍溱]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[研究發現 Bing Copilot 給了錯誤的歐洲選舉資訊]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0208-bing-chatgpt-960_2.jpg?itok=2Yrpt731" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微軟</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>生成式 AI 助理如 ChatGPT 用在寫信、簡述文章重點或許還不錯，但牽涉政治的問題最好還是不要問它。一項研究發現，微軟生成式 AI 助理 Bing Copilot 在回答歐洲國家選舉的問題時，卻給了不少錯的答案。</p><p>微軟、OpenAI 及 Google 等業者前後發表 AI 聊天助理 Bing Chat/ Copilot、ChatGPT、Bard 後，因應大眾對 AI 幻覺、假資訊、侵權或偏見等問題，賦予其搜尋即時網路內容、引述內容來源，也加入防護（safeguard）功能，不回應有偏見、或鼓勵暴力、種族歧視、犯罪、毒品的提問。</p><p>非營利機構 AI Forensics 以及 AlgorithmWatch 在今年 8 月 21 日到 10 月 2 日期間，<a href="https://algorithmwatch.org/en/study-microsofts-bing-chat/" target="_blank">針對微軟 Bing Copilot 或 Bing Chat 調查</a>它對德國二個邦及瑞士選舉的問題解答能力。<a href="https://algorithmwatch.org/en/bing-chat-election-2023/" target="_blank">今年 10 月該基金會第一次公佈 Bing Copilot 的研究結果</a>。上週又公佈第二次報告。研究人員詢問關於候選人、民調、投票的問題，也請它針對特定主題，如環保，建議該投給哪名候選人，最後分析 Bing Copilot 的答案。</p><p>首先，研究顯示，Bing Copilot 關於選舉的問題，1/3（31%）有事實上的錯誤，包括投票日期錯誤、列出以前的候選人、還虛構特定候選人的醜聞，但英語版的正確度（30%）還高於法語（19%）及德語版（28%）。其次，雖然 Bing Copilot 設有防護功能，但並未均等應用於所有回應，導致 40% 的問題它拒絕回答，包括關於候選人的基本問題。雖然研究人員認為這現象其實是好事，因為是防止假資訊的機制，卻也減損了 AI 聊天機器人作為可信資訊來源的價值。</p><p class="rtecenter"><a href="https://algorithmwatch.org/en/wp-content/uploads/2023/12/AlgorithmWatch_AIForensics_Bing_Chat_Report.pdf" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-algorithmwatch-bing%20chat-600.png" style="width: 500px;" referrerpolicy="no-referrer"></a></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_AlgorithmWatch</span></span></p><p>研究人員也發現，Bing Copilot 給錯誤答案的問題，並非短期現象，而是長期、系統性的問題。從 8 月到 9 月，同樣給錯誤答案的問題，還是會重覆發生，正確率並未改善。此外，研究人員觀察到，Bing Copilot 甚至給錯候選人的資訊，甚至編造出某候選人涉入醜聞，卻還能提供知名媒體作為消息來源，包括 Wikipedia、politico.edu、dawum.de 等網站，同時傷害了候選人及新聞媒體名譽。</p><p>今年 10 月研發人員向微軟通報這些問題，特別是牽涉特定候選人的錯誤資訊，微軟雖承諾解決 Copilot 的問題，但一個月後，研究人員再次測試發現 Bing Copilot 的表現並未改善。</p><p>研究人員最後呼籲，隨著 Copilot 和其他 AI 工具廣泛整合於科技產品，歐盟及各國政府應確保科技公司負責 AI 的資訊品質。</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160380</guid>
+        <link>https://www.ithome.com.tw/news/160380</link>
+        <author>
+            <![CDATA[林妍溱]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[FCC 批准 SpaceX 展開 Direct to Cell 衞星電話實驗]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-starlink_by_spacex-960.jpg?itok=CQ5ekGxx" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>SpaceX</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>美國聯邦通訊委員會（Federal Communications Commission，<a href="https://www.scribd.com/document/692501543/OET-approval" target="_blank">FCC）上週四（12/14）批准</a>了 SpaceX 在今年 2 月所提出的<a href="https://apps.fcc.gov/els/GetAtt.html?id=337665&amp;x=." target="_blank">Direct to Cell 實驗申請</a>，以直接利用一般的手機連結衞星通訊網路，執行傳訊、通話或瀏覽網路等功能。</p><p>SpaceX 為科技界大佬 Elon Musk 所創辦的航太公司，正式的公司名稱為 Space Exploration Technologies Corp，除了因打造可回收的火箭而名揚全球之外，另一個著名服務為低軌通訊網路衞星星座 Starlink，迄今已部署了 5,500 顆通訊衞星，在全球擁有 200 萬訂閲用戶。</p><p>為了讓手機用戶不必添加額外的設備就能直接使用衞星網路，SpaceX 去年 10 月宣佈將與 T-Mobile 合作，於美國收不到手機訊號的偏遠地區提供衞星網路服務，但一直到今年 10 月，SpaceX 才於官網上<a href="https://direct.starlink.com/" target="_blank">行銷 Direct to Cell</a>，宣稱可允許全球的 LTE 手機透過衞星網路來傳送文字訊息、通話或瀏覽網路，亦將支援基於 LTE 標準的 IoT 裝置。</p><p>根據官網上的説明，具備 Direct to Cell 功能的 Starlink 衞星將採用先進的 eNodeB 數據機，充當是太空中的手機基地台，令一般手機無需修改就可連結，再將訊號傳送至 Starlink 的地面網路與合作夥伴的網路，提供通話、文字簡訊與資料傳送功能。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-starlink%20direct%20to%20cell-600.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>SpaceX 預計於今年 12 月展開 Direct to Cell 的測試，將以 840 顆衞星與 2,000 支手機進行實驗，實驗期間為 180 天。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Starlink</span></span></p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160378</guid>
+        <link>https://www.ithome.com.tw/news/160378</link>
+        <author>
+            <![CDATA[陳曉莉]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[微軟 Xbox Cloud Gaming、PowerPoint、Excel 與 Word 正式登上 Meta Quest Store]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1218-meta_quest_excel-960.jpg?itok=yol5ea56" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Meta</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟與 Meta 在去年 10 月攜手宣佈，要將 Xbox Cloud Gaming、Microsoft Teams 與 Microsoft Windows 365 帶到 Meta Quest 虛擬實境裝置上，而一直到了上週三（12/13），微軟終於在 Meta Quest Store 釋出了<a href="https://www.meta.com/experiences/6096836170400630/" target="_blank">Xbox Cloud Gaming</a>，隔天便接著推出支援 Meta Quest 的<a href="https://www.meta.com/experiences/7187698601274841/" target="_blank">Word</a>、<a href="https://www.meta.com/experiences/6420558991382261/" target="_blank">Excel</a>與<a href="https://www.meta.com/experiences/24038848309063606/" target="_blank">PowerPoint</a>。</p><p>其中，Word、Excel 與 PowerPoint 支援了所有的 Meta Quest 裝置，從早期的 Meta Quest、Meta Quest 2、Meta Quest 3 到最高階的 Meta Quest Pro，Xbox Cloud Gaming 則僅支援 Meta Quest 2、Meta Quest 3 與 Meta Quest Pro。</p><p>出現在 Meta Quest Store 中的 Xbox Cloud Gaming 仍是測試版，Meta Quest 用戶下載後可先與藍牙遊戲控制器配對，之後再登入微軟帳號，透過有效的 Xbox Game Pass Ultimate 會員資格執行遊戲，或是註冊試用 Xbox Game Pass Ultimate。玩家可瀏覽與執行 Xbox Game Pass Ultimate 中的數百款遊戲，並有 4 種螢幕尺寸可供選擇。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-Xbox%20Cloud%20Gaming%20(Beta)-meta%20quest-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>而 Meta Quest 裝置上所執行的 Word、Excel 與 PowerPoint 則源自於 Office 網頁程式，因此可免費使用，若要執行更複雜的功能則必須訂閲 Microsoft 365。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-meta%20quest%20word-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1218-meta%20quest%20powerpoint-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>根據《Android Central》的測試，在 Meta Quest 裝置執行上述 Office 程式可一次開啟多個檔案，它可追蹤使用者的手勢，也支援以藍牙連結的滑鼠及鍵盤。</p><p>隨著蘋果首款混合實境（MR）頭戴式裝置 Apple Vision Pro 即將於明年上半年問世，VR/AR/MR 裝置市場可望在明年出現新的景象，根據市場研究機構<a href="https://www.counterpointresearch.com/insights/global-xr-ar-vr-headsets-market-share/" target="_blank">Counterpoint 今年第二季的調查</a>，目前該市場由 Meta 以 50% 的市佔率領先，Sony 以 28% 居次。</p><p>對於即將面臨來自蘋果的競爭，Meta 創辦人暨執行長祖克柏（Mark Zuckerberg）曾向員工信心喊話，指出 Vision Pro 對於 Meta Quest 團隊所面臨的挑戰並沒有任何神奇的解決方案，只是配備了更高解析度的顯示器，再利用所有的技術來推動它，使得它售價高昂，也需要更多的電力，還需要電池及纜線才能使用，但 Meta 卻想確保每個人都能負擔得起該公司所推出的產品。</p><p>Apple Vision Pro 的售價為 3,499 美元，Meta 最高階的 Meta Quest Pro 為 1,499 美元，而配備 128GB 儲存空間的 Meta Quest 則是 499 美元。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Meta</span></span></p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160377</guid>
+        <link>https://www.ithome.com.tw/news/160377</link>
+        <author>
+            <![CDATA[陳曉莉]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[微軟更新 DirectML 支援 NPU，以加速 Windows AI 應用]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2110_-_unlocking_intels_neural_processing_unit_with_directml_-_intel_commu_-_community.intel_.com_.png?itok=FtQIfb1_" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟<a href="https://devblogs.microsoft.com/directx/windows-directml-with-npus/">預告</a>明年將更新 DirectML 開始支援神經處理單元（NPU）。NPU 是一種專為機器學習工作負載設計的處理單元，適合用於計算密集、不需要圖型介面互動的工作負載，目前英特爾新款 Core Ultra 處理器晶片已經內建 NPU，而這也會是第一個可在 Windows 上使用 DirectML 技術的 NPU。</p><p>DirectML 是一個低階且硬體抽象化的 API，能夠直接存取 GPU 等各類加速器，執行機器學習計算。其屬於 DirectX 家族，DirectX 主要用於 Windows 平台上的圖形與遊戲開發，而 DirectML 則專注於機器學習工作負載。DirectML 也能夠和其他機器學習框架和工具整合，像是跨平台推理引擎 ONNX Runtime 和 Windows 機器學習模型最佳化工具 Olive。</p><p>Core Ultra 的 NPU 加速器直接整合到 SoC，能夠以相對較低的功耗執行人工智慧運算，釋放 CPU 和 GPU 運算資源。NPU 獲得 DirectML 支援便能夠加入 ONNX 生態系，使用諸如 ONNX Model Zoo 的模型、英特爾 Neural Compressor 與 ONNX Runtime 等工具。</p><p>DirectML 新增對 NPU 的支援，讓開發者透過 ONNX Runtime 等 API，將人工智慧模型轉移到英特爾的 NPU 上執行，提供在 Windows 上執行人工智慧工作負載另一種選擇。支援 NPU 的 DirectML 預計在 2024 年初，與最新的 ONNX Runtime 版本一起釋出。</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160365</guid>
+        <link>https://www.ithome.com.tw/news/160365</link>
+        <author>
+            <![CDATA[李建興]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[有辦法控制比人類更聰明的超級 AI？OpenAI 提出最新研究，證明其可能性]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2109_-_weak-to-strong_generalization_-_openai.com_.png?itok=tbyFh1nc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>隨著人工智慧迅速發展，可預期不久的將來，會出現比人類更聰明的人工智慧，OpenAI 提出了一個人類需要迫切面對的課題，是當人工智慧比人類更聰明，人類該如何有效地進行監督？在這樣的背景，OpenAI 展開超對齊（Superalignment）研究，最新的<a href="https://openai.com/research/weak-to-strong-generalization">研究成果</a>是以小模型來監督大模型，在人類開發和管理超級人工智慧（Superhuman AI）的難題上，提供一個新視角。</p><p>OpenAI 直言比人類聰明的人工智慧在 10 年內會出現，而至今人類仍然不知道如何可靠地指導和控制超級人工智慧，唯有找到有效的控制方法，才能夠確保先進的人工智慧系統的安全性。面對這個問題，OpenAI 成立了超級對齊（Superalignment）團隊來找出解決方案。</p><p>在人工智慧領域中，對齊（Alignment）概念指的是確保人工智慧系統的行為，符合人類設定的目標和道德標準，對齊主要關注當前和短期內的人工智慧技術，使這些人工智慧系統能夠安全地服務人類。而超級對齊則是研究更前瞻的議題，針對未來可能出現超越人類智慧的人工智慧系統，確保超級人工智慧系統能夠被有效的監督，並且使其行為與人類的價值觀和利益保持一致。</p><p>目前的對齊方法主要是來自人類回饋的增強學習（RLHF），但是因為未來人工智慧系統將能夠執行極複雜和具創造性的行為，這將使得人類難以進行監督，像是超級人工智慧可能可以編寫數百萬行具有潛在危險的程式碼，即便是專家也難以完全理解。</p><p>也就是説，相對於超級人工智慧，人類成為了弱監督者，如何讓弱監督者能夠信任並控制遠比自己還要強大的模型，是人類要進入通用人工智慧時代前，必須先面對的挑戰。為瞭解決人類如何監督比自己更聰明的人工智慧這個問題，OpenAI 限縮問題類比該問題，相當於一個較小的模型監督一個較強大的模型。</p><p>研究團隊在這項研究中的初步猜想，涵蓋了兩個相對立的觀點。一方面認為強模型可能無法超越提供訓練訊號的弱監督者，因為強模型會學習並且模仿弱監督者所犯的錯誤，進而限制了表現。另一方面也希望強大的預訓練模型，只需要經過適當引導即可發揮潛在能力，即便是弱監督者提供不完整或有缺陷的訓練標籤，強模型也能根據弱監督者的意圖進行泛化，進而解決更為困難且複雜的問題。</p><p>研究團隊使用簡單的方法鼓勵模型更有自信，使強模型能夠不受弱監督者的能力限制，甚至在必要的時候反對弱監督者的意見，因此在自然語言處理任務中，以 GPT-2 模型監督 GPT-4 時，產生的模型能力通常介於 GPT-3 和 GPT-3.5，許多 GPT-4 的能力仍然可以發揮。</p><p>這項研究展現了一種可能性，也就是即便是在弱監督的指導下，強大的人工智慧模型也能超越其限制，達到更高水準的效能，這項發現替未來在超級人工智慧系統中，實現有效的對齊提供新的方向和希望。也就是説，即便人類身為弱監督者，能力和理解可能受到限制，並無法良好地評估強模型，但是身為弱監督者仍有能力引導和改善強模型的表現，揭示了人類控制更先進的人工智慧系統的可能性。</p><p>同時這項研究也證明瞭現有的對齊方法，也就是基於人類回饋的增強學習，可能需要進一步改進才能適應超級人工智慧。總而言之，儘管現階段的對齊方法仍存在挑戰，但透過創新的策略和技術，將可以有效提升人工智慧的泛化能力，這對於未來開發和管理超級人工智慧有重要的意義。</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sun, 17 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160363</guid>
+        <link>https://www.ithome.com.tw/news/160363</link>
+        <author>
+            <![CDATA[李建興]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[AI 趨勢周報第 236 期：LangChain 框架整合 Gemini Pro API 了]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/ying_mu_xie_qu_hua_mian_2023-12-18_113336.png?itok=K8VdYiwD" width="960" height="420" alt="" title="LangChain 釋出 Python 工具包，能整合 Google 最新模型 Gemini Pro API，來加速打造多模態的檢索增強生成（RAG）應用。" referrerpolicy="no-referrer"></div></div></div><p class="caption"> LangChain 釋出 Python 工具包，能整合 Google 最新模型 Gemini Pro API，來加速打造多模態的檢索增強生成（RAG）應用。 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>LangChain</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重點新聞 (1208～1214)</span></p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;LangChain &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Gemini &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; LLM &nbsp;</span></strong></span></p><p><span style="font-size: 22px;"><strong>LangChain 框架整合 Gemini Pro API，加速 RAG 應用開發</strong></span></p><p>就在 Google 釋出 Gemini Pro API 後，大型語言模型（LLM）應用開發框架<a href="https://twitter.com/LangChainAI/status/1734982565352845428?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1734982565352845428%7Ctwgr%5Eed12d765421df8d620af7916bb47d761ca52beab%7Ctwcon%5Es1_&amp;ref_url=https%3A%2F%2Fanalyticsindiamag.com%2Flangchain-integrates-gemini-pro-api-enables-multimodal-capabilities%2F">LangChain 馬上整合了 Gemini Pro API</a>，讓開發者能在開發環境中使用 Gemini 多模態功能，特別是打造檢索強化生成（RAG）類型的應用。</p><p>一般來説，RAG 常用於文字任務，比如介接客服指南資料庫，來讓 LLM 參考客服資料、生成答案。但最近，多虧 GPT-4V 這類大語言模型，RAG 也擴展到了圖片。其中，LLM 應用開發框架 LangChain 就探索不少方法，如多模態嵌入、多向量檢索器等，來從文字和圖片輸入中（例如簡報）有效地檢索與合成答案，來實現圖片類的 RAG 應用。</p><p>為進一步提高開發者體驗，LangChain 推出了 Python 整合工具包 langchain-google-genai，開發者可直接存取 Genimi API，更容易使用 LangChain 的多模態功能。同時，LangChain 還發布整合指南，來協助開發者探索 Gemini Pro API 的潛力。<a href="https://python.langchain.com/docs/integrations/chat/google_generative_ai">（詳全文）</a></p><p><img alt="" src="https://pbs.twimg.com/media/GBPlaVjaAAA_yvW?format=png&amp;name=small" referrerpolicy="no-referrer"><img alt="" src="https://pbs.twimg.com/media/GBPlaV2aUAAW9Yj?format=png&amp;name=small" referrerpolicy="no-referrer"></p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Gemini &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Google &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; GPT-4V &nbsp;</span></strong></span></p><p><span style="font-size: 22px;"><strong>DeepMind 用 LLM 和評估器來找出數學最佳解</strong></span></p><p>最近，DeepMind 研發出 FunSearch 方法，能用大型語言模型來搜尋數學和電腦科學領域問題的解法。團隊成功運用 FunSearch 解決 Cap Set 數學問題，同時還能更有效解決裝箱問題，能用來提高資料中心效率，證明 FunSearch 的實用價值。</p><p>FunSearch 是指搜尋函式（Functions）系統，由一個訓練過的大型語言模型和一個自動評估器組成。其中，大型語言模型專門提供有創意的解決方案，評估器則把關這些方案，避免出錯或任何不實想法。這兩個元件反覆迭代，初始解決方案逐漸發展為新知識。目前，DeepMind 採用 Google 的 PaLM 2 作為 FunSearch 的大語言模型。團隊發現，與其他神經網路和增強學習的 AI 方法相比，FunSearch 輸出的程式碼更易於檢查和部署，更容易整合到實際工業系統中。他們預期，在科學和工業領域各種新舊問題，都會因這個方法產生更有效的解法。<a href="https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/">（詳全文）</a></p><p><img alt="" src="https://lh3.googleusercontent.com/mIlL5zg4-gbYvIdCuBB5SmzPzbC1yUghYgIwYR89pEJpgc4f00OhDpd6SRM_MXNi1XSqJJpFe_yeFXHZShLr3syM0SFSxtuqJzdaEgX8fsvCW1SN=w1232-rw" referrerpolicy="no-referrer"></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 隱私 </span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Mozilla &nbsp; </span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; privateGPT &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Mozilla 推新專案，要保護隱私、打造更個人化 AI 體驗</strong></span></p><p>日前，Mozilla 釋出 MemoryCache 創新專案，要結合本地檔案和 Firefox 瀏覽器儲存的資料，來強化基於裝置的個人模型，要在更加隱私安全的情況下，提供更好的個人化體驗。</p><p>MemoryCache 由一組腳本和簡單工具所組成，可用來改進本地端的 privateGPT 模型運作。MemoryCache 可快速儲存瀏覽器歷史紀錄到本地裝置，再讓本地端的 AI 模型，透過處理這些資料和用戶提供的檔案，來強化內建的 privateGPT 聊天介面回應。此外，MemoryCache 專案包含 Firefox 擴充套件，能儲存網頁到本地資料夾中，另有個殼層腳本負責監控資料夾的變化，一旦有新檔案進入資料夾，就會執行 privateGPT 的 ingest.py 腳本會進一步處理。<a href="https://future.mozilla.org/blog/introducing-memorycache/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 微軟 &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Phi-2 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 小型語言模型 &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>微軟 27 億參數小語言模型 Phi-2，表現勝過 130 億參數 Llama 2</strong></span></p><p>微軟在 12 日發表一套小型語言模型 Phi-2，只有 27 億參數，但在許多測試上超越了 70 億參數的 Mistral、130 億參數的 Llama 2，以及 Google 剛發表的 32 億個參數 Gemini Nano 2。微軟在今年 6 月發表基於 Transformer 架構的 Phi-1 模型，僅 13 億參數，是為了撰寫基本 Python 程式碼而設計的小型語言模型，9 月則進一步發表 Phi-1.5，能力擴展至常識推理和語言理解。</p><p>最新的 Phi-2 則號稱媲美 25 倍參數量的模型，訓練素材同樣基於「教科書等級」概念，涵蓋科學、日常活動與心理學等，再加上篩選過、具教育價值的高品質網路內容，將參數量從 13 億擴大至 27 億。Phi-2 在 96 個 A100 GPU 上，以 1.4 兆個 Token 進行了 14 天的訓練。經各種基準測試，如評估語言模型處理複雜及具挑戰性任務的 BBH、常識推理、語言理解、數學及撰寫程式碼等，Phi-2 的表現全都優於擁有 130 億個參數的 Llama-2，也優於 70 億參數的 Mistral。<a href="https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/">（詳全文）</a></p><p><img alt="" src="https://www.microsoft.com/en-us/research/uploads/prod/2023/12/figure2_phi_comp-2048x474.png" referrerpolicy="no-referrer"></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Mixtral 8x7B &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Llama 2 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; SMoE &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Mistral AI 開源 Mixtral 8x7B 模型，效能超越 Llama 2</strong></span></p><p>Mistral AI 開源最新模型 Mixtral 8x7B，是一款 467 億參數、具開放權重的稀疏混合專家模型（SMoE），能處理 32,000 個 Token 上下文長，且大多數基準測試表現都優於 700 億參數的 Llama 2 70B 和 GPT 3.5 模型。稀疏混合專家模型是一種深度學習架構，適合用來建置大型、高效的神經網路。其核心概念是專家系統，也就是網路中特定的子模組或子網路，代表每個專家，專門處理特定類型任務。而 SMoE 的稀疏性，則是指每次輸入僅會觸發一小部分專家，來降低運算成本，因此 Mixtral 8x7B 模型在處理每個 Token 時，只會選擇並使用其中的 129 億個參數。</p><p>經測試，比起 Llama 2 70B 模型，Mixtral 8x7B 在多數基準測試中表現更好，推理速度比 Llama 2 70B 快上 6 倍，且 Mixtral 8x7B 在大多數標準基準測試中，表現也與 GPT3.5 相當，甚至更好。Mixtral 8x7B 目前能處理英文、法文、義大利文、德文和西班牙文，其生成程式碼能力也很出色，與 GPT 3.5 相當。<a href="https://code.visualstudio.com/updates/v1_59#_terminal">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; AI 法案 &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 歐盟 &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 風險&nbsp;&nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>歐盟達成共識，推出人工智慧法案</strong></span></p><p>歐盟執委會（EC）日前宣佈，歐洲議會與歐盟理事會已就人工智慧法案（AI Act）達成政治協議，成為全球首個 AI 綜合法令框架，將用來規範 AI 系統供應商和使用 AI 的組織，亦可望成為全球制定 AI 法令的基準。</p><p>AI Act 將 AI 系統分類成最小風險、高風險、不可接受的風險，以及透明度風險。大多數的 AI 系統屬於最小風險，如推薦系統或垃圾郵件過濾機制等，相關供應商不必承擔義務。高風險系統則涵蓋關鍵基礎設施、執法或公領域系統、生物辨識與情緒辨識系統等，必須遵守嚴格的要求，如具備風險緩解系統、資料集、活動紀錄、詳細的文件及人工監督等。</p><p>至於不可接受風險，是指可操縱人類行為以規避自由意志的系統或程式，透明度風險則要求人們必須能辨識與之交流的對象或內容，是否源自 AI。未遵守 AI Act 的業者將被罰款，最高款項為 3,500 萬歐元或年營收的 7%。在達成政治協議後，歐盟將著手撰寫共識版的 AI Act，理論上可於本月底通過正式法令，並於兩年後生效。<a href="https://www.consilium.europa.eu/en/press/press-releases/2023/12/09/artificial-intelligence-act-council-and-parliament-strike-a-deal-on-the-first-worldwide-rules-for-ai/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Gemini Pro &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 生成式 AI &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; Vertex AI &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Google 開放測試企業級 Gemini Pro 了</strong></span></p><p>繼日前發表全新的多模態大型語言模型 Gemini 後，Google 又針對開發者和企業推出 Gemini Pro，使用者可透過 Google Cloud 的 Vertex AI 平台存取。Google 將 Gemini 分為 3 種版本，分別是最強大的 Gemini Ultra，最通用的 Gemini Pro，以及可於行動裝置上執行的 Gemini Nano。其中，Gemini Pro 支援 32K 的文字脈絡長度，具備函式呼叫、嵌入、語義檢索、客製化知識基礎及聊天功能，提供各種 SDK，並支援 Python、Android（Kotlin）、Node.js、Swift 及 JavaScript 等程式語言。</p><p>基本的 Gemini Pro 僅接受文字輸入與輸出，另有一個 Gemini Pro Vision 多模態終端則可接受文字及圖像輸入，但僅會輸出文字。Gemini Pro 現可於全球逾 180 個國家使用，支援 38 種語言，開發者以 Google 帳戶登入 Google AI Studio 即可免費試用，其免費額度為每分鐘輸入 60 個請求，當需要託管環境時，也可輕易將成果遷移至 Vertex AI。Google 預計明年初推出付費服務，企業用戶亦可透過已整合 Gemini Pro 的 Vertex AI 平台來試用該服務。<a href="https://blog.google/technology/ai/gemini-api-developers-cloud/">（詳全文）</a></p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; Purple Llama &nbsp;</span></strong></span>&nbsp;<span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; 生成式 AI &nbsp;</span></strong></span>&nbsp;<span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp; 可信任 &nbsp;</span></strong></span></p><p><span style="font-size:22px;"><strong>Meta 發布 Purple Llama 專案推動開源可信的生成式 AI 應用</strong></span></p><p>隨著生成式 AI 爆紅，AI 安全規範也越發重視。Meta 最近推出 Purple Llama 新專案，要提供開放信任且安全的評估標準和工具，來讓開發者負責任地部署生成式 AI 模型和應用程式。Purple Llama 目前提供 CyberSec Eval 評估標準，以及 Llama Guard 輸入輸出安全分類器，之後會新添更多工具。</p><p>進一步來説，在網路安全方面，Purple Llama 將建立安全評估基準，包括量化大型語言模型網路安全風險的指標，以及評估不安全程式碼建議頻率的工具，還有讓生成惡意程式碼，或協助網路攻擊更加困難的大型語言評估工具。該專案在過濾輸出和輸入方面，則提供了 Llama Guard 分類器，能用來檢查和過濾大型語言模型的輸入和輸出，以符合特定應用的內容指導原則，防止大型語言模型生成具有潛在風險的輸出。Llama Guard 使用公開的資料集訓練，以偵測常見的潛在風險和違規內容，用戶可以自定義模型，以支援特定用例。<a href="https://about.fb.com/news/2023/12/purple-llama-safe-responsible-ai-development/">（詳全文）</a></p><p>圖片來源／LangChain、DeepMind、微軟</p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#3399ff;">&nbsp; AI 近期新聞&nbsp;</span></strong></span></p><p><strong>1. <a href="https://www.ithome.com.tw/news/160364">中醫大附醫採用醫療專科級 MedLM 打造 AI 輔助醫師</a></strong></p><p><strong>2. AI 新創聯手阿聯酋大學發起<a href="https://www.llm360.ai/">透明度框架 LLM360</a>，率先釋出 2 款模型 Amber-7B 和 CrystalCoder-7B</strong></p><p><strong>3. <a href="https://cloud.google.com/blog/products/ai-machine-learning/imagen-2-on-vertex-ai-is-now-generally-available">Google 發布 Imagen 2 圖片生成模型</a>，支援中英在內 7 種語言</strong></p><p><strong>4. <a href="https://blogs.microsoft.com/accessibility/seeing-ai-app-launches-on-android-including-new-and-updated-features-and-new-languages/">微軟推出幫助視障者「聽」東西的 Seeing AI App</a></strong></p><p><strong>5. Google 承認 Gemini 示範影片經剪輯</strong></p><p>資料來源：iThome 整理，2023 年 12 月</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Sat, 16 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160384</guid>
+        <link>https://www.ithome.com.tw/news/160384</link>
+        <author>
+            <![CDATA[王若樸]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[中醫大附醫率先採用醫療專科級 MedLM 來打造 AI 輔助醫師，第一步從癌症治療規畫 AI 助手開始]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zhong_yi_da_fu_yi_960.jpg?itok=7lJc1524" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>中國醫藥大學附設醫院（中醫大附醫）院長周德陽今天宣佈，將採用 Google 新發表用 Med-PaLM 2 打造的 MedLM 模型，來發展 AI 輔助醫生，先從醫生用的客製化癌症治療指引 Chatbot，和提供化療問答集的病患 Chatbot 開始，後續還會發展更多專科 AI 助手。中醫大附醫是亞洲第一家採用這款醫療生成式 AI 模型 Med-PaLM 2 的醫學中心。</p><p>中醫大附醫這幾年積極推動醫療 HIS 改造，今年連續獲得美國 HIMSS 數位健康指標評比的全球智慧醫院前三強，這兩年也一直投入醫療 AI 發展，例如結合敗血癥風險預測 AI、細菌抗藥性預測 AI 和個人抗菌圖譜打造出智抗菌平台。</p><p>去年 12 月，中國醫藥大學附設醫院研究副院長李光申看到 Google 研究團隊在自然雜誌發表了 Med-PaLM 的研究成果，就開始關注後續發展。今年中，李光申受邀到美國 Google 總部參訪後，雙方決定展開合作。</p><p>Google 在 2022 年發表了第一代醫療生成式 AI 模型 Med-PaLM，可以達到美國醫生認證考試 60 分及格水準，今年中更發表了第二代 Med-PaLM 2，可以達到 85 分的水準。李光申指出，這個分數代表了 Med-PaLM 2 達到哈佛醫學院前 10% 學生的能力，也相當於專科醫生能力的水準。這也是中醫大附醫採用 Google Cloud 醫療 LLM 其中一項原因。</p><p>周德陽補充，通用性 LLM，沒有辦法達到專科醫生等級的回答。例如眼瞼下垂可能是哪一條腦神經出現問題？一般通用 LLM 多半回答，可能是第三對、第四對、第六對這些與眼睛相關的腦神經有問題，但 Med-PaLM 2 可以更清楚回答，眼瞼下垂是第三對有問題。</p><p>主導 Med-PaLM 研究的 Google 研究傑出科學家暨資深總監 Greg Corrado 也親自來台發表這項合作，他表示，過去沒有一款 LLM 通過美國醫生考試，Med-PaLM 是第一個，今年的第二代更達到 85.4 分的等級，「通過考試不見得代表可以執業，但可以看出這項科技的潛力，可以學習新的醫學知識，來優化它的推理能力。」</p><p>Google 的 Med-PaLM 模型訓練上，在基礎的語言模型上，使用了少量，經過授權取得的醫療專門資料進行模型微調，來強化對醫療領域的能力。Greg Corrado 強調，模型發展過程，也一再確保，「沒有運用到隱私或個人病患的資料來訓練，來兼顧實際應用時的隱私和合規考量。」</p><p>因為第一代 Med-PaLM 模型還不是立即可用的技術，所以，Google 新發展出了一項醫療生成式 AI 模型產品 MedLM，使用了 PaLM 2 等一系列的基礎模型，來打造出適合醫療產業使用的 LLM。</p><p>Greg Corrado 表示，MedLM 是一款傘型架構的產品，不會只使用一個模型，而是會整合多種模型，也需要結合實際醫療人員的知識和經驗，讓這個產品可以安全的運用到實際場所，中醫大附醫是這段旅程其中一家夥伴。</p><p>「現在是醫療 AI 的轉型時代，要勇敢大膽，但同時要負責任，這正是 Google 發展 GAI 得原則。」他強調，MedLM 的定位，不應該用於任何醫療照護的直接決策，而要是用來協助受過專業訓練的醫生，在醫護人員的監督下，用 AI 協助他們完成工作。</p><p>Google Cloud 醫療照護全球總監 Ashima Gupta 表示：「用 AI 輔助，有助於改善醫療資源不平等的問題。」她認為，要發展生成式 AI 策略，需要先有一套數據資料策略和好的基礎架構，但是，醫院往往因為法規，系統相容性，資料隱私和安全性的問題，無法快速採用新科技。Goolge 醫療 AI 產品線未來希望能提供一個世界級合規架構，不只提供雲端基礎架構、TPU 等硬體，也包括了醫療照護資料引擎，透過開放平台，協助醫院將醫療資訊標準化，讓醫院更容易採用這些基礎模型。</p><p>李光申表示，中醫大附醫在 11 月時已開始測試 MedPaLM 2 模型，也將採用 MedLM 產品，Google 新發表的 Gemini 模型未來成為 MedLM 可用模型後，也會採用。</p><p>第一階段，中醫大附醫計畫打造兩款 Chatbot，一款是給醫護人員使用的客製化癌症治療指引的專業用 Chatbot，另一款是提供病人詢問的化療問答集 Chatbot。</p><p>例如，乳癌 2 期的病人有賀爾蒙問題，如何安排治療？Med-PaLM 2 可以在幾秒鐘內提供回答，甚至提供了專業醫療文獻的參考。「速度快到讓我們的醫生非常驚訝！」李光申強調。不只如此，AI 生成的治療建議，有些甚至超乎了醫生的想像，醫生會實際確認這些文獻，作為治療安排的參考。</p><p>李光申表示，中醫大附醫治療的癌症種類很多且雜，其中不少是罕見癌症，每一個病患的情況都不同，過去，醫生得花很多時間，為病人量身打造專門的癌症治療計畫。「改用 AI 協助治療計畫的訂定，可以減少不少時間，讓醫院可以服務更多的病人。」他強調。</p><p>目前中醫大附醫先取得 Med-PaLM 2 模型的使用權，來進行文字生成式內容的測試。測試時，以檢索增強生成（Retrieval-Augmented Generation，<em>RAG</em>）作法，參考國際癌症治療指引和中醫大附醫院內的癌症治療指引，來生成治療指引的回答。未來，也考慮以指令工程的方式，將台灣健保規則輸入到 LLM，來優化回答的內容，更符合台灣情況。</p><p>中醫大附醫擁有 300 萬人次的結構化醫療資料，過去幾年打下很好的資訊基礎建設，例如採用雲原生技術、資訊中台架構設計，也導入了 Google Anthos 混合雲架構。李光申，也因 Google 在台設有機房，醫院較容易符合主管機關合規要求，而考慮採用 Google 的 AI。</p><p>李光申表示，中醫大附醫已經打下了很好的基礎建設，未來，不會建置自己的超級電腦硬體，而是會藉助雲端運算資源，來訓練自己的醫療大腦。運用中醫大附醫龐大的結構化醫療資料，來發展更多領域、科別，不只臨牀也包括門診的醫療輔助 AI。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+        </description>
+        <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
+        <guid isPermaLink="false">https://www.ithome.com.tw/news/160364</guid>
+        <link>https://www.ithome.com.tw/news/160364</link>
+        <author>
+            <![CDATA[王宏仁]]>
+        </author>
+        <category>新聞</category>
+    </item>
+    <item>
+        <title>
+            <![CDATA[【資安日報】12 月 15 日，小型路由器成中國駭客組織 Volt Typhoon 下手目標，駭客植入殭屍網路病毒，入侵受害組織進行間諜行動]]>
+        </title>
+        <description>
+            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231215.png?itok=1gnwzxJt" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>半年前美國警示大家要注意中國駭客組織 Volt Typhoon 的攻擊行動，並指出下一波駭客攻擊的目標不再只是美國，還會擴及亞洲地區的關鍵基礎設施。但究竟駭客如何入侵這些環境？如今有研究人員揭露相關細節。</p><p>資安業者 Lumen 指出，這些駭客也同時運用殭屍網路 KV-botnet 來從事攻擊行動，其重要的環節便是先對家用路由器、SOHO 辦公室防火牆等網路設備下手，再存取受害組織的內部環境。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://blog.lumen.com/routers-roasting-on-an-open-firewall-the-kv-botnet-investigation/"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">中國駭客組織 Volt Typhoon 使用殭屍網路 KV-botnet 攻擊小型路由器</span></strong></a></p>
+            <!-- notionvc: 8c1ffbe6-575f-402a-a3bc-036343dd00fe -->
+            <p></p>
+            <p>
+                <a href="https://s4.itho.me/sites/default/files/images/KV-infection-chain-3.png">
+                    <img alt="" src="https://s4.itho.me/sites/default/files/images/KV-infection-chain-3.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                    </a>今年 5 月，美國政府與微軟對中國駭客組織 Volt Typhoon 的攻擊行動提出警告，指出駭客對美國通訊基礎設施下手，很有可能接下來會鎖定美國與亞洲地區的關鍵基礎設施，現在有研究人公佈新的調查結果。
+                </p>
+                <p>資安業者 Lumen 指出，Volt Typhoon 通常會以路由器、防火牆、VPN 設備充當代理伺服器，使得惡意流量混入合法流量，讓攻擊變得更難以察覺。而在這一波行動裡，駭客鎖定 Netgear ProSAFE 防火牆、思科 RV320 路由器、居易（DrayTek）Vigor 路由器，以及 Axis 多款 IP 網路攝影機而來，目的是入侵組織設置在網路環境邊緣的設備，然後從事網路間諜活動並收集機密資料。研究人員看到此殭屍網路的活動從 2022 年開始，並在今年 8 月、11 月顯著增加，最近一波攻擊發生於 12 月 5 日。</p>
+                <p>上述被鎖定的設備多半為家用或是 SOHO 辦公室設計，涵蓋 Arm、MIPS、x86 等架構，其共通點是生命週期已經結束，且缺乏相關的安全防護措施。駭客利用名為 kv.sh 的 bash 指令碼，終止特定的處理程序，並刪除目標裝置上的防護工具，而殭屍網路病毒與 C2 連線的過程中，會採用隨機的連接埠進行，再者，為隱匿攻擊行動，駭客的工具都在記憶體內運作而難以察覺。</p>
+                <p>
+                    <a href="https://abnormalsecurity.com/blog/bazarcall-attack-leverages-google-forms">
+                        <strong style="font-size: 22px;">
+                            <span style="color: rgb(0, 0, 0);">語音網釣攻擊 BazarCall 濫用 Google 表單突破資安系統攔截</span>
+                        </strong>
+                    </a>
+                </p>
+                <!-- notionvc: 7934c186-e467-4d49-99a9-3aca18f3def0 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/BazarCall-Attack-%E2%80%93-Malicious-Google-Form-E.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/BazarCall-Attack-%E2%80%93-Malicious-Google-Form-E.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>在 2021 年首度出現的語音網釣攻擊 BazarCall，當時駭客佯稱是防毒軟體廠商、電腦技術支援業者、影音串流平台，假借付款通知或是服務訂閲確認的名義，聲稱收信人信用卡即將扣款，支付高額費用，若要取消必須撥打客服電話處理，而「客服」則會誘騙收信人在電腦上安裝惡意程式，近期再度有新的攻擊行動出現。
+                    </p>
+                    <p>郵件安全業者 Abnormal 揭露新一波 BazarCall 的攻擊行動，其手法與過往最大的不同，在於駭客濫用 Google 表單工具，對方先是建置帶有發票號碼、交易日期、付款資訊、購買產品名稱等假交易資訊的表單，並於表單啟用回應填寫者的功能，並自行填寫表單，輸入欲攻擊對象的電子郵件信箱，隨後依據此表單內容，Google 會向該名人士寄送副本，而這些來源合法釣魚郵件，資安系統通常會予以放行，且因為信件來自這類表單服務，也可能讓收信人降低警覺。</p>
+                    <p>
+                        <a href="https://www.group-ib.com/blog/gambleforce-gang">
+                            <strong style="font-size: 22px;">
+                                <span style="color: rgb(0, 0, 0);">亞太地區企業遭到駭客組織 GambleForce 鎖定，發動 SQL 注入攻擊</span>
+                            </strong>
+                        </a>
+                    </p>
+                    <!-- notionvc: 584bbb70-d12d-4721-abd7-79e145124a97 -->
+                    <p></p>
+                    <p>
+                        <a href="https://s4.itho.me/sites/default/files/images/1-20.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/1-20.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>資安業者 Group-IB 揭露從今年 9 月出現的駭客組織 GambleForce，這些駭客鎖定澳洲、巴西、中國、印度、印尼、菲律賓、韓國、泰國而來，迄今已有 24 個企業組織遭到攻擊，其中有 6 起行動得逞。
+                        </p>
+                        <p>本次攻擊遭鎖定的組織，涵蓋賭場、零售業者、政府機關、求職網站、旅遊行業等領域。而駭客的攻擊手法相當基本但很有效，包含了 SQL 注入攻擊，或是挖掘內容管理系統（CMS）的弱點等，目的是竊取目標組織的敏感資料。</p>
+                        <p>研究人員指出，在不同的攻擊階段當中，這些駭客倚賴多種開源工具來進行，像是 dirsearch、sqlmap、tinyproxy、redis-rogue-getshell，此外，他們也使用滲透測試工具 Cobalt Strike，值得注意的是，研究人員在駭客的基礎設施當中，發現攻擊者曾使用中文下達命令。在其中一起鎖定巴西公司的攻擊行動裡，駭客利用了內容管理系統 Joomla 的中度風險漏洞 CVE-2023-23752，從而進行 SQL 注入攻擊。</p>
+                        <p>
+                            <a href="https://www.bleepingcomputer.com/news/security/hackers-are-exploiting-critical-apache-struts-flaw-using-public-poc/">
+                                <strong style="font-size: 22px;">
+                                    <span style="color: rgb(0, 0, 0);">Java 應用框架 Struts 路徑穿越漏洞已被用於攻擊行動</span>
+                                </strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: a3a5b3a2-2665-4250-b2ed-96bd38e77bcb -->
+                        <p></p>
+                        <p>12 月 9 日 Apache 基金會發布資安公告，指出他們近期修補 Java 應用框架 Struts 路徑穿越漏洞 CVE-2023-50164（CVSS 風險評分 9.8），但事隔一週傳出有駭客將其用於攻擊行動。</p>
+                        <p>Shadowserver 基金會提出警告，他們看到有人試圖利用此漏洞的概念性驗證（PoC）程式碼，透過數個 IP 位址發動攻擊，呼籲 IT 人員要儘速套用新版軟體來修補漏洞。</p>
+                        <p>值得留意的是，這種漏洞有可能影響相當廣泛，例如，思科公佈旗下產品採用 Struts 的情況，並清查是否受到該漏洞影響。</p>
+                        <p>資料來源</p>
+                        <p>1.&nbsp;
+                            <a href="https://twitter.com/Shadowserver/status/1734919288257974380">https://twitter.com/Shadowserver/status/1734919288257974380</a>
+                            <br>
+2.&nbsp;
+                                <a href="https://xz.aliyun.com/t/13172">https://xz.aliyun.com/t/13172</a>
+                                <br>
 3.&nbsp;
-                                        <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-struts-C2kCMkmT">https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-struts-C2kCMkmT</a>
+                                    <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-struts-C2kCMkmT">https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-struts-C2kCMkmT</a>
+                                </p>
+                                <p>
+                                    <a href="https://www.sentinelone.com/labs/gaza-cybergang-unified-front-targeting-hamas-opposition/">
+                                        <strong style="font-size: 22px;">
+                                            <span style="color: rgb(0, 0, 0);">哈馬斯駭客組織 Gaza Cyber Gang 使用後門程式 Pierogi++攻擊巴勒斯坦反對人士</span>
+                                        </strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: b6b0053c-00a9-468e-bf13-dc6d67cfdf14 -->
+                                <p></p>
+                                <p>
+                                    <a href="https://s4.itho.me/sites/default/files/images/GazaCyb_6.jpg">
+                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/GazaCyb_6.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                        </a>以巴衝突進行期間超過 2 個月，激進組織哈瑪斯旗下的駭客鎖定以色列的網路攻擊已有數起，但這羣駭客竟然也攻擊巴勒斯坦。資安業者 SentinelOne 揭露哈瑪斯駭客組織 Gaza Cybergang 最新一波的攻擊行動，對方使用阿拉伯語或是英文，製作讓巴勒斯坦民眾感興趣的資料做為誘餌，用來散佈以 C++開發的後門程式 Pierogi++。
                                     </p>
+                                    <p>研究人員指出，Gaza Cybergang 旗下有 3 個團體從事這種後門程式的攻擊行動，分別為 Molerats、Arid Viper（亦稱 APT-C-23），以及另一個尚未被命名、曾從事 Operation Parliament 攻擊行動的組織。而對於這些駭客的目標，研究人員認為是針對反對哈瑪斯的巴勒斯坦人而來。</p>
                                     <p>
-                                        <a href="https://www.sentinelone.com/labs/gaza-cybergang-unified-front-targeting-hamas-opposition/">
+                                        <a href="https://www.welivesecurity.com/en/eset-research/oilrig-persistent-attacks-cloud-service-powered-downloaders/">
                                             <strong style="font-size: 22px;">
-                                                <span style="color: rgb(0, 0, 0);">哈馬斯駭客組織 Gaza Cyber Gang 使用後門程式 Pierogi++攻擊巴勒斯坦反對人士</span>
+                                                <span style="color: rgb(0, 0, 0);">伊朗駭客 OilRig 透過惡意程式下載工具持續在以色列組織從事攻擊行動</span>
                                             </strong>
                                         </a>
                                     </p>
-                                    <!-- notionvc: b6b0053c-00a9-468e-bf13-dc6d67cfdf14 -->
+                                    <!-- notionvc: 07278768-88a2-4a68-be7c-bff5f4ab47c7 -->
                                     <p></p>
                                     <p>
-                                        <a href="https://s4.itho.me/sites/default/files/images/GazaCyb_6.jpg">
-                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/GazaCyb_6.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                            </a>以巴衝突進行期間超過 2 個月，激進組織哈瑪斯旗下的駭客鎖定以色列的網路攻擊已有數起，但這羣駭客竟然也攻擊巴勒斯坦。資安業者 SentinelOne 揭露哈瑪斯駭客組織 Gaza Cybergang 最新一波的攻擊行動，對方使用阿拉伯語或是英文，製作讓巴勒斯坦民眾感興趣的資料做為誘餌，用來散佈以 C++開發的後門程式 Pierogi++。
+                                        <a href="https://s4.itho.me/sites/default/files/images/figure-8-overview-of-oilbooster-s-network-comms.png">
+                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/figure-8-overview-of-oilbooster-s-network-comms.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                            </a>資安業者 ESET 針對伊朗駭客組織 OilRig（亦稱 APT34、Hazel Sandstorm）的攻擊行動提出警告，對方從 2022 年開始，利用過往未曾公開的惡意程式下載工具 SampleCheck5000（SC5k）、ODAgent、OilCheck、OilBooster，對以色列企業組織發動攻擊，並且持續進行惡意活動，對象涵蓋醫療保健、製造業、地方政府部門。
                                         </p>
-                                        <p>研究人員指出，Gaza Cybergang 旗下有 3 個團體從事這種後門程式的攻擊行動，分別為 Molerats、Arid Viper（亦稱 APT-C-23），以及另一個尚未被命名、曾從事 Operation Parliament 攻擊行動的組織。而對於這些駭客的目標，研究人員認為是針對反對哈瑪斯的巴勒斯坦人而來。</p>
+                                        <p>研究人員指出，這些下載工具往往濫用雲端服務 Microsoft Graph、OneDrive、Outlook、Microsoft Office Exchange Web Services（EWS）的其中一種，藉由 API 進行 C2 連線及外洩資料，從而隱匿其攻擊行動。</p>
+                                        <p>&nbsp;</p>
+                                        <h3>
+                                            <strong>【其他新聞】</strong>
+                                        </h3>
                                         <p>
-                                            <a href="https://www.welivesecurity.com/en/eset-research/oilrig-persistent-attacks-cloud-service-powered-downloaders/">
-                                                <strong style="font-size: 22px;">
-                                                    <span style="color: rgb(0, 0, 0);">伊朗駭客 OilRig 透過惡意程式下載工具持續在以色列組織從事攻擊行動</span>
+                                            <a href="https://www.bleepingcomputer.com/news/security/kraft-heinz-investigates-hack-claims-says-systems-operating-normally/">
+                                                <strong>
+                                                    <span style="font-size: 20px;">
+                                                        <span style="color: rgb(0, 0, 0);">食品業者 Kraft Heinz 傳出遭駭，勒索軟體 Snatch 聲稱他們所為</span>
+                                                    </span>
                                                 </strong>
                                             </a>
                                         </p>
-                                        <!-- notionvc: 07278768-88a2-4a68-be7c-bff5f4ab47c7 -->
+                                        <!-- notionvc: da14be9b-bd1a-4425-aa7e-a87562c8508f -->
                                         <p></p>
                                         <p>
-                                            <a href="https://s4.itho.me/sites/default/files/images/figure-8-overview-of-oilbooster-s-network-comms.png">
-                                                <img alt="" src="https://s4.itho.me/sites/default/files/images/figure-8-overview-of-oilbooster-s-network-comms.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                </a>資安業者 ESET 針對伊朗駭客組織 OilRig（亦稱 APT34、Hazel Sandstorm）的攻擊行動提出警告，對方從 2022 年開始，利用過往未曾公開的惡意程式下載工具 SampleCheck5000（SC5k）、ODAgent、OilCheck、OilBooster，對以色列企業組織發動攻擊，並且持續進行惡意活動，對象涵蓋醫療保健、製造業、地方政府部門。
-                                            </p>
-                                            <p>研究人員指出，這些下載工具往往濫用雲端服務 Microsoft Graph、OneDrive、Outlook、Microsoft Office Exchange Web Services（EWS）的其中一種，藉由 API 進行 C2 連線及外洩資料，從而隱匿其攻擊行動。</p>
-                                            <p>&nbsp;</p>
-                                            <h3>
-                                                <strong>【其他新聞】</strong>
-                                            </h3>
-                                            <p>
-                                                <a href="https://www.bleepingcomputer.com/news/security/kraft-heinz-investigates-hack-claims-says-systems-operating-normally/">
-                                                    <strong>
-                                                        <span style="font-size: 20px;">
-                                                            <span style="color: rgb(0, 0, 0);">食品業者 Kraft Heinz 傳出遭駭，勒索軟體 Snatch 聲稱他們所為</span>
-                                                        </span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: da14be9b-bd1a-4425-aa7e-a87562c8508f -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://blogs.microsoft.com/on-the-issues/2023/12/13/cybercrime-cybersecurity-storm-1152-fraudulent-accounts/">
-                                                    <strong>
-                                                        <span style="font-size: 20px;">
-                                                            <span style="color: rgb(0, 0, 0);">微軟搗毀提供駭客 7.5 億個詐欺帳號的犯罪組織 Storm-1152</span>
-                                                        </span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: f9e9fcb0-032b-4733-96ee-a5f79c2fb6d8 -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://securelist.com/unveiling-nkabuse/111512/">
-                                                    <strong>
-                                                        <span style="font-size: 20px;">
-                                                            <span style="color: rgb(0, 0, 0);">惡意軟體 NKAbuse 濫用區塊鏈隱匿攻擊行動</span>
-                                                        </span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: 26d13838-6914-4371-9cab-08c4c1fbe539 -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://www.securityweek.com/mitre-unveils-emb3d-threat-model-for-embedded-devices-used-in-critical-infrastructure/">
-                                                    <strong>
-                                                        <span style="font-size: 20px;">
-                                                            <span style="color: rgb(0, 0, 0);">針對關鍵基礎設施的嵌入式裝置安全，MITRE 揭露威脅模型 EMB3D</span>
-                                                        </span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: cd9c278f-66d8-4c93-a53c-49a09b946bac -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://chromereleases.googleblog.com/2023/12/stable-channel-update-for-desktop_12.html">
-                                                    <strong>
-                                                        <span style="font-size: 20px;">
-                                                            <span style="color: rgb(0, 0, 0);">Google 針對 Chrome 120 修補高風險漏洞</span>
-                                                        </span>
-                                                    </strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: ac418100-32cc-43be-9e5f-9b6312794c1c -->
-                                            <p></p>
-                                            <p>&nbsp;</p>
-                                            <h3>
-                                                <strong>近期資安日報</strong>
-                                            </h3>
-                                            <p>
-                                                <a href="https://www.ithome.com.tw/news/160333">
-                                                    <strong>【12 月 14 日】&nbsp;OAuth 應用程式身分驗證流程遭到濫用，駭客將其用於發動挖礦攻擊、商業郵件詐騙、散佈大量垃圾郵件</strong>
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <a href="https://www.ithome.com.tw/news/160307">
-                                                    <strong>【12 月 13 日】&nbsp;逾 1,400 台開源防火牆系統 pfSense 存在高風險漏洞，有可能被攻擊者串連，遠端在防火牆上執行任意程式碼</strong>
-                                                </a>
-                                            </p>
-                                            <p>
-                                                <a href="https://www.ithome.com.tw/news/160290">
-                                                    <strong>【12 月 12 日】&nbsp;北韓駭客組織 Lazarus 利用兩年前的重大漏洞 Log4Shell，攻擊 VMware 桌面虛擬化平台入侵受害組織</strong>
-                                                </a>
-                                            </p>
-                                        </div>
+                                            <a href="https://blogs.microsoft.com/on-the-issues/2023/12/13/cybercrime-cybersecurity-storm-1152-fraudulent-accounts/">
+                                                <strong>
+                                                    <span style="font-size: 20px;">
+                                                        <span style="color: rgb(0, 0, 0);">微軟搗毀提供駭客 7.5 億個詐欺帳號的犯罪組織 Storm-1152</span>
+                                                    </span>
+                                                </strong>
+                                            </a>
+                                        </p>
+                                        <!-- notionvc: f9e9fcb0-032b-4733-96ee-a5f79c2fb6d8 -->
+                                        <p></p>
+                                        <p>
+                                            <a href="https://securelist.com/unveiling-nkabuse/111512/">
+                                                <strong>
+                                                    <span style="font-size: 20px;">
+                                                        <span style="color: rgb(0, 0, 0);">惡意軟體 NKAbuse 濫用區塊鏈隱匿攻擊行動</span>
+                                                    </span>
+                                                </strong>
+                                            </a>
+                                        </p>
+                                        <!-- notionvc: 26d13838-6914-4371-9cab-08c4c1fbe539 -->
+                                        <p></p>
+                                        <p>
+                                            <a href="https://www.securityweek.com/mitre-unveils-emb3d-threat-model-for-embedded-devices-used-in-critical-infrastructure/">
+                                                <strong>
+                                                    <span style="font-size: 20px;">
+                                                        <span style="color: rgb(0, 0, 0);">針對關鍵基礎設施的嵌入式裝置安全，MITRE 揭露威脅模型 EMB3D</span>
+                                                    </span>
+                                                </strong>
+                                            </a>
+                                        </p>
+                                        <!-- notionvc: cd9c278f-66d8-4c93-a53c-49a09b946bac -->
+                                        <p></p>
+                                        <p>
+                                            <a href="https://chromereleases.googleblog.com/2023/12/stable-channel-update-for-desktop_12.html">
+                                                <strong>
+                                                    <span style="font-size: 20px;">
+                                                        <span style="color: rgb(0, 0, 0);">Google 針對 Chrome 120 修補高風險漏洞</span>
+                                                    </span>
+                                                </strong>
+                                            </a>
+                                        </p>
+                                        <!-- notionvc: ac418100-32cc-43be-9e5f-9b6312794c1c -->
+                                        <p></p>
+                                        <p>&nbsp;</p>
+                                        <h3>
+                                            <strong>近期資安日報</strong>
+                                        </h3>
+                                        <p>
+                                            <a href="https://www.ithome.com.tw/news/160333">
+                                                <strong>【12 月 14 日】&nbsp;OAuth 應用程式身分驗證流程遭到濫用，駭客將其用於發動挖礦攻擊、商業郵件詐騙、散佈大量垃圾郵件</strong>
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <a href="https://www.ithome.com.tw/news/160307">
+                                                <strong>【12 月 13 日】&nbsp;逾 1,400 台開源防火牆系統 pfSense 存在高風險漏洞，有可能被攻擊者串連，遠端在防火牆上執行任意程式碼</strong>
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <a href="https://www.ithome.com.tw/news/160290">
+                                                <strong>【12 月 12 日】&nbsp;北韓駭客組織 Lazarus 利用兩年前的重大漏洞 Log4Shell，攻擊 VMware 桌面虛擬化平台入侵受害組織</strong>
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
-                                <div></div>
                             </div>
-                        </div></div>]]>
-                    </description>
-                    <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
-                    <guid isPermaLink="false">https://www.ithome.com.tw/news/160355</guid>
-                    <link>https://www.ithome.com.tw/news/160355</link>
-                    <author>
-                        <![CDATA[周峻佑]]>
-                    </author>
-                    <category>新聞</category>
-                </item>
-                <item>
-                    <title>
-                        <![CDATA[DeepMind 發展用 LLM 解困難數學問題的方法]]>
-                    </title>
-                    <description>
-                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2108_-_funsearch_making_new_discoveries_in_mathematical_sciences_using_lar_-_deepmind.google.jpg?itok=mAy4ydAE" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>大型語言模型能幫忙做許多事情，DeepMind 發展出一種稱為<a href="https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/">FunSearch</a>的方法，利用大型語言模型搜尋數學和電腦科學領域問題的解法。研究人員目前成功運用 FunSearch 解決 Cap Set 數學問題，同時還可以更有效地解決裝箱問題，能夠用於提高資料中心效率等應用，而這也代表著 FunSearch 存在實用價值。</p><p>FunSearch 的名稱指的是搜尋函式（Functions）的系統，FunSearch 運作方式結合一個訓練過的大型語言模型，和一個自動評估器（Evaluator）。大型語言模型的目標，是提供創意的解決方案，而評估器則負責把關大型語言模型所提出的建議，避免出錯或是任何不實的想法。藉由這兩個元件反覆迭代，使得初始解決方案可以逐漸成熟最終成為新知識。</p><p>FunSearch 使用 Google 的 PaLM 2 模型，但也能相容於其他支援程式碼編寫的大型語言模型。使用者需要先以程式碼的形式描述問題，包括評估程式的流程，以及初始程式碼池中的種子程式，而在每一次迭代，系統會從當前的程式池中挑選程式輸入大型語言模型，大型語言模型會在現有程式基礎上生成具創造性的新程式，交由評估器自動評估，表現最佳的程式會重新加入到程式池中，重新開始另一次迭代。</p><p>數學和電腦科學領域的難題都可以使用 FunSearch 解決，而組合數學（Combinatorics）是 FunSearch 特別擅長的領域。具體來説，FunSearch 可以更好的解決極值組合數學問題，像是在高維度網格中尋找最大的點集合，也就是 Cap Set 的問題，這個問題無法使用暴力法解決，因為需要考慮的可能性太多，而 FunSearch 的效能優於目前最先進的計算求解器。</p><p>不過 Cap Set 畢竟是純數學問題，FunSearch 的實用性還需要有更實際的應用驗證，而研究人員也成功使用 FunSearch 解決裝箱問題（Bin Packing Problem）。裝箱問題是將不同大小物品放進最少數量容器的問題，在許多實際場景都會派上用場，像是貨櫃裝載甚至是資料中心的計算任務分配等。</p><p>過去，裝箱問題的解法是基於人類經驗的演算法規則，也就是啟發式方法，像是「優先放置最大」等簡單的規則，雖然許多情況下，啟發式方法可以提供有效的解決方法，但是無法總是找到最佳解，要根據每個情況找到一套適用的規則也非常困難。</p><p>而 FunSearch 提供一種新的解決方案，能夠自動生成針對特定情況調整的程式，在使用更少的容器打包相同數量物品的問題上，超越現有的啟發式方法。研究人員提到，與其他神經網路和增強學習的人工智慧方法相比，FunSearch 輸出程式碼易於檢查和部署，也就代表更容易被整合到實際工業系統中。</p><p>FunSearch 的研究價值在於，只要有效防範大型語言模型的幻覺（Hallucination），則模型的創造能力便可以用來產生各種新的數學解法，解決現實世界的重要問題，研究人員預期，在科學和工業領域各種新舊問題，都會因為這個基於大型語言模型的方法，產生更加有效的解法。</p></div></div></div><div></div></div></div></div>]]>
-                    </description>
-                    <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
-                    <guid isPermaLink="false">https://www.ithome.com.tw/news/160354</guid>
-                    <link>https://www.ithome.com.tw/news/160354</link>
-                    <author>
-                        <![CDATA[李建興]]>
-                    </author>
-                    <category>AI</category>
-                </item>
-                <item>
-                    <title>
-                        <![CDATA[微軟破獲建立 7.5 億個詐騙 Outlook 帳戶的駭客組織 Storm-1152]]>
-                    </title>
-                    <description>
-                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1215-images_of_storm-1152s_illicit_websites.png?itok=067ofj3i" width="960" height="420" alt="" title="提供網路犯罪即服務的 Storm-1152，除了供應大量 Outlook 假帳戶給駭客組織，也出售可用來繞過知名技術平台身分驗證軟體的相關工具。（圖片來源／微軟）" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 提供網路犯罪即服務的 Storm-1152，除了供應大量 Outlook 假帳戶給駭客組織，也出售可用來繞過知名技術平台身分驗證軟體的相關工具。（圖片來源／微軟） </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://blogs.microsoft.com/on-the-issues/2023/12/13/cybercrime-cybersecurity-storm-1152-fraudulent-accounts/" target="_blank">微軟週三（12/13）揭露</a>，在網路威脅情報供應商 Arkose Labs 的協助下，破獲了建立 7.5 億個詐騙 Outlook 帳戶的駭客組織 Storm-1152，包括接管了 Storm-1152 所使用的網域名稱，關閉了 Storm-1152 用以繞過 CAPTCHA 圖靈測試的 1stCAPTCHA、AnyCAPTCHA 及 NoneCAPTCHA 網站，也關閉了 Storm-1152 所使用的社交媒體粉絲頁。</p><p>根據<a href="https://landingpage-h0gcc3bvhkd2aaez.z01.azurefd.net/1152/Complaint.pdf" target="_blank">微軟向法院提出的訴狀</a>，Storm-1152 專門銷售偽造的 Outlook 帳戶供犯罪組織使用，提供網路犯罪即服務（Cybercrime as a Service，CaaS），駭客利用機器人大量建立 Outlook 帳戶，這些帳戶都是在短時間內（4 小時內）註冊，而且在出售之前會不斷檢查其可用性。</p><p>Storm-1152 的客戶涵蓋勒索軟體集團、資訊竊盜或是財務勒索組織，這些犯罪組織與其自行建立數千個假冒的 Outlook 帳戶，並冒著被微軟關閉的風險，不如直接向 Storm-1152 購買，其每個帳戶的售價不到 1 美分。</p><p>Storm-1152 除了在網站上銷售 Outlook 帳戶外，也出售了可用來繞過知名技術平台身分驗證軟體的相關工具，包括 1stCAPTCHA、AnyCAPTCHA 與 NoneCAPTCHA 等。</p><p>專門偵測平台是否遭到濫用的<a href="https://www.arkoselabs.com/latest-news/disrupting-the-gateway-services-to-cybercrime" target="_blank">Arkose Labs 指出</a>，此一 CaaS 模式讓更多人以數量及速度來展開詐欺行為，即使是經驗豐富的內部安全營運中心也不堪重負，且 CaaS 也是造成今年機器人攻擊增加 167% 的原因之一。</p><p>Arkose Labs 創辦人暨執行長 Kevin Gosschalk 表示，Storm-1152 獨特之處是它在光天化日之下建立了 CaaS 業務，而非透過暗網，將自己當作是可持續經營的網路業者，還提供了完整的客戶支援。</p><p>微軟則説，迄今 Storm-1152 已建立 7.5 億個詐欺微軟帳戶，賺取數百萬美元的非法收入，這些帳戶可能被用來執行網路釣魚、身分竊盜或分散式服務阻斷攻擊，未來將致力於提高駭客的業務成本，減緩其攻擊速度。此外，微軟也已證實 Storm-1152 的總部設於越南，並已確認其中 3 名成員的身分。</p></div></div></div><div></div></div></div></div>]]>
-                    </description>
-                    <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
-                    <guid isPermaLink="false">https://www.ithome.com.tw/news/160353</guid>
-                    <link>https://www.ithome.com.tw/news/160353</link>
-                    <author>
-                        <![CDATA[陳曉莉]]>
-                    </author>
-                    <category>新聞</category>
-                </item>
-                <item>
-                    <title>
-                        <![CDATA[【業者佈局：全盈支付】從圈地戰轉為圈粉策略強化會員經營]]>
-                    </title>
-                    <description>
-                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1160-feng_mian_-quan_ying_zhi_fu_-960.jpg?itok=wVK2Q2Yb" width="960" height="420" alt="" title="攝影／洪政偉" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 攝影／洪政偉 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>「電支市場競爭會從圈地（簽特店）轉變為圈粉（經營會員）。」全盈支付總經理劉美玲觀察。2022 年 4 月才進入電子支付市場的全盈支付，率先加入共用平台購物功能的 4 家專營電子支付業者之一，是最快對這個轉變採取行動的業者。</p><p>劉美玲表示，國內信用卡市場發展，為發卡行、收單行、消費者、商家的 4 方關係，電子支付機構自 2015 年開始即為 3 方關係，發卡與收單必需是同一家電支業者，因此電支業者簽約的特店，只有該業者的用戶才能使用，對使用者帶來困擾，付款需先確認店家接受哪些電支服務。</p><p>電支跨機構共用平台讓購物互通，讓電支用戶得以突破特約通路消費的限制，一家電支 App，可以在其他業者的通路付款，電支業者也不再同時是發卡及收單，如同信用卡市場的銀行角色，分為發卡行、收單行電支業者，電支市場從 3 方轉變為 4 方關係。</p><p>劉美玲認為，支付最關鍵的是基礎建設，過去電支機構經營特約通路的目的，是讓用戶可在特店使用電支服務，當電支業者不需同時是發卡行與收單行角色，全盈支付身為新進電支業者，衡量建置特約店需投入的人力、對帳、行政等通路推廣成本，加入共用平台購物功能及 TWQR 能降低通路經營成本，同時用戶在其他業者的特約店消費，全盈支付身為發卡行也能獲得一定比例的交易手續費，創造額外的收入。此外，加入共用平台購物功能，也能增加用戶可使用的通路，有助於經營用戶。</p><p>「從降低成本、創造營收、經營用戶三點衡量，是全盈支付加入 TWQR 有利的原因」，她説。</p><p>現階段共用平台購物功能推動 TWQR 是正掃模式，因費用分潤需要重新協議、店家也需改動 POS 系統，目前尚未開放反掃模式，目前全盈支付旗下約有 13 萬家特店，其中大部分為反掃店，約有 500 家正掃店，未來會陸續加入 TWQR。</p><p>不只是電支業者開放通路互通，財金公司也透過資訊串接，讓台灣 Pay 的特約通路也能和電支特約通路互通，換言之，全盈支付用戶也可以在更多台灣 Pay 正掃店掃碼付款。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>市場競爭從圈地到圈粉</strong></span></span></p><p>過去業者簽特約店，各業者積極提高支付通路數量，作為吸引消費者的重要競爭手段，未來更多業者加入電支跨機構共用平台，特約通路導入 TWQR，讓電支的特店互通，為國內電支市場帶動新的競爭態勢。</p><p>劉美玲表示，未來在時間推移下，相信加入 TWQR 的商家愈來愈普及，消費者不需再確認店家接受哪些電支付款。</p><p>如同信用卡市場競爭，收單特店的競爭比較少，更多競爭是發卡行，發卡行祭出各種促銷優惠，刺激發卡量、流通卡及交易量，各家發卡行爭奪錢包的佔有率，各顯神通讓消費者他們的信用卡到店家消費。</p><p>她認為，未來電支間競爭會走向圈粉，各家電支 App 都能在特店使用，消費者走進店家，如何讓他使用全盈支付的電支服務。所有電支業者剛開始都以大量優惠吸引消費者，希望成為用戶手機內的 App 之一，接下來的關鍵是，如何讓消費者持續使用，並增加使用次數。</p><p>至於吸引消費者，除了祭出優惠補貼，另一方式是提供好用的服務讓用戶使用，進而墊高使用的轉換成本，或是提供其他業者沒有的服務，例如全盈支付針對微型企業向銀行申請薪轉帳戶門檻較高的問題，利用電支帳戶作為 5 人以內微型企業的薪轉帳戶。劉美玲表示，提供更多額外、具有利基的服務，讓電支不僅是消費型的支付服務，未來要圈粉，勢必要針對用戶的需求提供吸引他或她的服務。</p><p><span style="color:#3399ff;"><span style="font-size:28px;"><strong>對用戶消費行為有更深的理解</strong></span></span></p><p>全盈支付加入共用平台購物功能，推廣特約店採用 TWQR，理論上，不論是全盈支付用戶到其他業者特店消費，全盈支付為發卡行，或是其他業者用戶在全盈的特店消費，全盈支付為收單行，通過共用平台跨業者交易資訊，能夠獲得更多的交易數據。</p><p>其他業者用戶到全盈支付特店消費，雖然作為收單行角色，可加深對商家的營運現況的掌握對自家特店每月各家電支業者用戶使用情形，對市場上各家支付業者受歡迎程度的理解。但作為收單行取得特店的各電支付款情形，劉美玲認為，現在尚未找到有利的收單資料運用方式。</p><p>如同前面提到，加入 TWQR 後，從圈地到圈粉，因此全盈支付更重視扮演發卡行角色，取得的用戶消費數據。</p><p>劉美玲表示，用戶到其他家電支或台灣 Pay 的銀行特約商店消費，全盈支付作為發卡行獲得的交易數據，其實和用戶在全盈的特約店數據相近。全盈支付進入市場才 1 年多，推動通路現在僅有 13 萬，過去全盈支付用戶只能在特店消費，但實際上他可能在其他店消費更多，因為不是全盈的特店，無法掌握用戶更多的消費行為，加入 TWQR 可以快速擴展用戶可使用的通路數量，未來當更多的店家導入 TWQR，當用戶在這些商家消費，能更清楚掌握用戶喜歡在哪些店消費，進一步和特定店家舉辦行銷活動。</p><p>其次是，當掌握特定的用戶羣消費的商家類型，理解顧客原來喜歡的某個類型，根據用戶消費偏好，未來發展相關的業務，「這些數據對我們而言就有意義」，劉美玲説。</p><p>過去，全盈在會員經營上，只能針對用戶在全盈支付的特店消費行為，或是經常使用的消費場景進行分析，現在，加入 TWQR 之後，以前全盈自己辛苦拓展特店，現在 30 多家銀行、9 家專營電支機構一起拓展商家導入 TWQR，用戶可使用的通路數量快速增加，全盈需要立即補強的是，用戶在食衣住行育樂各領域，哪些是用戶喜歡消費，但過去被忽略的部分。</p><p>另一個全盈支付未來的圈粉戰略是，在電支、電票合一後，法規賦予電支業者得以經營金融服務代理收付業務，劉美玲指出，過去主管機關的態度是原則禁止、例外開放，現在改為原則開放、例外禁止，讓電支業者多了金融服務代理收付的機會，也是未來全盈支付圈粉的重要策略之一。不論是先前和銀行合作的貸款，或是鎖定微型企業的電支薪轉帳戶，「增加服務的多元性，是圈粉的重要關鍵」，她説。</p><p>過去全盈支付推出電支服務，將其視為支付工具，和通路業者合作，嵌入到第三方的支付場景，如超商、智慧社區管理、企業職場福利等等，成為第三方服務的支付工具，和其他電支業者不同，全盈支付並沒推出獨立的 App。目前全盈支付已有超過 180 萬用戶，未來配合 TWQR 正掃，考慮到會員經營愈來愈重要，需要和用戶有直接的互動，全盈也規畫 2023 年底推出獨立 App。</p><p><a href="https://www.ithome.com.tw/article/160329" target="_blank"><span style="color: rgb(255, 255, 255);"><span style="font-size: 20px;"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;相關報導&nbsp;</span></strong></span></span></a></p><p><a href="https://www.ithome.com.tw/article/160329" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/1160-feng_mian_gu_shi_p1-wen_bin_-open-960x420_kao_bei_0.jpg?itok=4Rzma1WN" style="width: 550px;" referrerpolicy="no-referrer"></a></p></div></div></div><div></div></div></div></div>]]>
-                    </description>
-                    <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
-                    <guid isPermaLink="false">https://www.ithome.com.tw/news/160328</guid>
-                    <link>https://www.ithome.com.tw/news/160328</link>
-                    <author>
-                        <![CDATA[蘇文彬]]>
-                    </author>
-                    <category>AI</category>
-                </item>
-            </channel>
-        </rss>
+                            <div></div>
+                        </div>
+                    </div></div>]]>
+                </description>
+                <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
+                <guid isPermaLink="false">https://www.ithome.com.tw/news/160355</guid>
+                <link>https://www.ithome.com.tw/news/160355</link>
+                <author>
+                    <![CDATA[周峻佑]]>
+                </author>
+                <category>資安 </category>
+            </item>
+            <item>
+                <title>
+                    <![CDATA[DeepMind 發展用 LLM 解困難數學問題的方法]]>
+                </title>
+                <description>
+                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2108_-_funsearch_making_new_discoveries_in_mathematical_sciences_using_lar_-_deepmind.google.jpg?itok=mAy4ydAE" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>大型語言模型能幫忙做許多事情，DeepMind 發展出一種稱為<a href="https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/">FunSearch</a>的方法，利用大型語言模型搜尋數學和電腦科學領域問題的解法。研究人員目前成功運用 FunSearch 解決 Cap Set 數學問題，同時還可以更有效地解決裝箱問題，能夠用於提高資料中心效率等應用，而這也代表著 FunSearch 存在實用價值。</p><p>FunSearch 的名稱指的是搜尋函式（Functions）的系統，FunSearch 運作方式結合一個訓練過的大型語言模型，和一個自動評估器（Evaluator）。大型語言模型的目標，是提供創意的解決方案，而評估器則負責把關大型語言模型所提出的建議，避免出錯或是任何不實的想法。藉由這兩個元件反覆迭代，使得初始解決方案可以逐漸成熟最終成為新知識。</p><p>FunSearch 使用 Google 的 PaLM 2 模型，但也能相容於其他支援程式碼編寫的大型語言模型。使用者需要先以程式碼的形式描述問題，包括評估程式的流程，以及初始程式碼池中的種子程式，而在每一次迭代，系統會從當前的程式池中挑選程式輸入大型語言模型，大型語言模型會在現有程式基礎上生成具創造性的新程式，交由評估器自動評估，表現最佳的程式會重新加入到程式池中，重新開始另一次迭代。</p><p>數學和電腦科學領域的難題都可以使用 FunSearch 解決，而組合數學（Combinatorics）是 FunSearch 特別擅長的領域。具體來説，FunSearch 可以更好的解決極值組合數學問題，像是在高維度網格中尋找最大的點集合，也就是 Cap Set 的問題，這個問題無法使用暴力法解決，因為需要考慮的可能性太多，而 FunSearch 的效能優於目前最先進的計算求解器。</p><p>不過 Cap Set 畢竟是純數學問題，FunSearch 的實用性還需要有更實際的應用驗證，而研究人員也成功使用 FunSearch 解決裝箱問題（Bin Packing Problem）。裝箱問題是將不同大小物品放進最少數量容器的問題，在許多實際場景都會派上用場，像是貨櫃裝載甚至是資料中心的計算任務分配等。</p><p>過去，裝箱問題的解法是基於人類經驗的演算法規則，也就是啟發式方法，像是「優先放置最大」等簡單的規則，雖然許多情況下，啟發式方法可以提供有效的解決方法，但是無法總是找到最佳解，要根據每個情況找到一套適用的規則也非常困難。</p><p>而 FunSearch 提供一種新的解決方案，能夠自動生成針對特定情況調整的程式，在使用更少的容器打包相同數量物品的問題上，超越現有的啟發式方法。研究人員提到，與其他神經網路和增強學習的人工智慧方法相比，FunSearch 輸出程式碼易於檢查和部署，也就代表更容易被整合到實際工業系統中。</p><p>FunSearch 的研究價值在於，只要有效防範大型語言模型的幻覺（Hallucination），則模型的創造能力便可以用來產生各種新的數學解法，解決現實世界的重要問題，研究人員預期，在科學和工業領域各種新舊問題，都會因為這個基於大型語言模型的方法，產生更加有效的解法。</p></div></div></div><div></div></div></div></div>]]>
+                </description>
+                <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
+                <guid isPermaLink="false">https://www.ithome.com.tw/news/160354</guid>
+                <link>https://www.ithome.com.tw/news/160354</link>
+                <author>
+                    <![CDATA[李建興]]>
+                </author>
+                <category>新聞</category>
+            </item>
+            <item>
+                <title>
+                    <![CDATA[微軟破獲建立 7.5 億個詐騙 Outlook 帳戶的駭客組織 Storm-1152]]>
+                </title>
+                <description>
+                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1215-images_of_storm-1152s_illicit_websites.png?itok=067ofj3i" width="960" height="420" alt="" title="提供網路犯罪即服務的 Storm-1152，除了供應大量 Outlook 假帳戶給駭客組織，也出售可用來繞過知名技術平台身分驗證軟體的相關工具。（圖片來源／微軟）" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 提供網路犯罪即服務的 Storm-1152，除了供應大量 Outlook 假帳戶給駭客組織，也出售可用來繞過知名技術平台身分驗證軟體的相關工具。（圖片來源／微軟） </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://blogs.microsoft.com/on-the-issues/2023/12/13/cybercrime-cybersecurity-storm-1152-fraudulent-accounts/" target="_blank">微軟週三（12/13）揭露</a>，在網路威脅情報供應商 Arkose Labs 的協助下，破獲了建立 7.5 億個詐騙 Outlook 帳戶的駭客組織 Storm-1152，包括接管了 Storm-1152 所使用的網域名稱，關閉了 Storm-1152 用以繞過 CAPTCHA 圖靈測試的 1stCAPTCHA、AnyCAPTCHA 及 NoneCAPTCHA 網站，也關閉了 Storm-1152 所使用的社交媒體粉絲頁。</p><p>根據<a href="https://landingpage-h0gcc3bvhkd2aaez.z01.azurefd.net/1152/Complaint.pdf" target="_blank">微軟向法院提出的訴狀</a>，Storm-1152 專門銷售偽造的 Outlook 帳戶供犯罪組織使用，提供網路犯罪即服務（Cybercrime as a Service，CaaS），駭客利用機器人大量建立 Outlook 帳戶，這些帳戶都是在短時間內（4 小時內）註冊，而且在出售之前會不斷檢查其可用性。</p><p>Storm-1152 的客戶涵蓋勒索軟體集團、資訊竊盜或是財務勒索組織，這些犯罪組織與其自行建立數千個假冒的 Outlook 帳戶，並冒著被微軟關閉的風險，不如直接向 Storm-1152 購買，其每個帳戶的售價不到 1 美分。</p><p>Storm-1152 除了在網站上銷售 Outlook 帳戶外，也出售了可用來繞過知名技術平台身分驗證軟體的相關工具，包括 1stCAPTCHA、AnyCAPTCHA 與 NoneCAPTCHA 等。</p><p>專門偵測平台是否遭到濫用的<a href="https://www.arkoselabs.com/latest-news/disrupting-the-gateway-services-to-cybercrime" target="_blank">Arkose Labs 指出</a>，此一 CaaS 模式讓更多人以數量及速度來展開詐欺行為，即使是經驗豐富的內部安全營運中心也不堪重負，且 CaaS 也是造成今年機器人攻擊增加 167% 的原因之一。</p><p>Arkose Labs 創辦人暨執行長 Kevin Gosschalk 表示，Storm-1152 獨特之處是它在光天化日之下建立了 CaaS 業務，而非透過暗網，將自己當作是可持續經營的網路業者，還提供了完整的客戶支援。</p><p>微軟則説，迄今 Storm-1152 已建立 7.5 億個詐欺微軟帳戶，賺取數百萬美元的非法收入，這些帳戶可能被用來執行網路釣魚、身分竊盜或分散式服務阻斷攻擊，未來將致力於提高駭客的業務成本，減緩其攻擊速度。此外，微軟也已證實 Storm-1152 的總部設於越南，並已確認其中 3 名成員的身分。</p></div></div></div><div></div></div></div></div>]]>
+                </description>
+                <pubDate>Thu, 14 Dec 2023 16:00:00 GMT</pubDate>
+                <guid isPermaLink="false">https://www.ithome.com.tw/news/160353</guid>
+                <link>https://www.ithome.com.tw/news/160353</link>
+                <author>
+                    <![CDATA[陳曉莉]]>
+                </author>
+                <category>資安 </category>
+            </item>
+        </channel>
+    </rss>
