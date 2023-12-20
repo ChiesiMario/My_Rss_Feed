@@ -9,15 +9,60 @@
             <![CDATA[开源中国-最新资讯]]>
         </title>
         <link>https://www.oschina.net/news/project</link>
-        <atom:link href="http://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
+        <atom:link href="https://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
         <description>
             <![CDATA[开源中国-最新资讯 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
         </description>
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 20 Dec 2023 06:28:08 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 20 Dec 2023 10:36:43 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[每个故障都是一次涅槃]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>2023 年 12 月 19 日，今天 sealos 的公有云一个小时内被攻击 3 次，每次，几 G 到，十几 G 的流量，都是 CC 攻击（七层多 IP 地址模拟用户请求），这种比 DDos 还难防，现在凌晨一点，刚处理完所有临时方案，以及咨询一些外部的安全专家，后续会有一系列的加强防控来保障稳定性。有些感想，怕睡一觉忘了，赶紧写下来。</p><h2>致歉</h2><p>首先要给所有喜欢 sealos 的同学道歉，这几天的连续攻击让平台出现几次几分钟的不可用，比如今天每次大概会 3～5 min, 流量是瞬间过来把 15 台 nginx 全部打爆的，然后 k8s 会自动拉起恢复，我们停止掉了被攻击应用，并把资源扩大了一倍来硬抗，这是临时方案。</p><p>被攻击之后我们的稳定性数据是 99.9%，对于稳定性要求高于这个数字的业务可以考虑缓一缓使用我们的公有云，先可以跑一些开发测试或者周边应用，核心业务可以考虑独立部署方案。</p><p>后面平台会按照 SLA 承诺给收到损失的用户相应赔偿，有迁移走的用户可以联系我们对未消费余额全部退款，再次表示深深的歉意。</p><h2>这一天迟早要来</h2><p>在大概一个月前还没被攻击的时候，laf 作者老根吃饭时就在讲，为什么 sealos 还没受到攻击，这不合理，没被攻击反而让人感到不安。现在头顶的剑是落下了，这是成为一朵成熟的云的必经之路。没想到来的这么快。</p><h2>创业一年中遇到前所未有的挑战</h2><p>创业我们选择了一条极难，极让人兴奋的路，做公有云，这怎么看都不应该是一个小团队能做的了的事，我嫌难度不够再增加一点：做一个多租户的容器公有云。还可以把难度再加一点：先做国内。最终想做成一个优雅的牛逼的公有云，然后任何人都可以直接拥有这个云操作系统，一键装起来一个对标公有云能力的云，磨平公有云私有云的边界。</p><p>创业前虽然也做过非常多有挑战的事，比如容器云支撑整个讯飞核心研发平台，深度学习平台的 GPU 批任务，碎片化，当时做了一个亚洲最大的 GPU 集群，后面在 k8s 上完全取代 openstack 的创世系统，在阿里云的时候应用交付平台和开源 sealer 等，但这些大多都是私有云，和公有云不是一个挑战级别。</p><p>创业时我们在技术上是激进的，现金流上是保守的，因为我认为前沿的不太成熟的技术别人不敢用，我敢，这就是创业公司的竞争优势，不成熟的技术你让他成熟了这就成为你建立壁垒的砖块。当有长期的积累，这朵云稳定运行超过 2 年时，我们就会达到原子弹爆炸的临界值，没人能拒绝这样优秀的东西了。</p><p>第一次大的故障是 2023.3.17 号，记的这么清楚是因为公司一周年庆祝，我们买了蛋糕水果，结果 laf 刚上线没几天就挂了，全公司核心人员修复了 15 个小时，蛋糕摆在那儿就没时间切了。最终原因是因为用了某平台的轻量服务器，网络包紊乱，后来全部切走，低成本是要付出代价的。</p><p>后面几次故障是 laf 的用户迅速暴涨，导致 mongo 的租户迅速突破上限，很少有这种多租户共享一个实例的场景，影响到了我们的用户，其中有一个用户在北京，我就过去给他们道歉了，并承诺无论花多大代价都必须把他们的稳定性做好，后面几乎整个 laf 团队都铺在这个事情上，中间过程故事很多，已经到了我们帮助用户去调优代码的程度了，当然稳定性问题是没有那么好解决的，但是最终还是收敛下来了，现在这个客户今年已经从 0 开始有大几百万用户了，这种背靠背作战让我们很有成就感，就像在爬一座又一座山，中间我们可能被划伤，摔倒，但是没死，变秃了也变强了。</p><p>然后就是网关，我们确实几乎市面上所有的网关都尝试用了一遍，测试了一遍，都有不同程度各种各样的问题。 我自己遇到这些问题是兴奋的，这就意味着机会，意味着我们解决了这些问题就会变成竞争力，所以我们不断死磕难点。比如我们正在用的 k8s 刚刚 GA 的 Gateway API，我们会充分的压力测试与解决其中还不太成熟的问题，又比如我们一定要把数据库稳定的跑容器里。</p><p>最近遇到的就是被攻击，原因是因为 sealos 上跑了大量的 GPT 相关的应用，某些应用的流量又特别大，而这些应用的竞争对手就会恶意攻击。我们做过充分的性能测试，比如几十万 QPS 都可以轻松扛住，但是攻击者是下血本了，流量打的非常之大，隔三差五就来两下。我们后续会通过 tls 特征分析，http2 以及 ip2local 几个层面来综合解决 cc 攻击的问题。这次之后我们又将一次脱胎换骨，真的我现确切的感受就是这样，一个产品的强大是要经过苛刻的场景千锤百炼的，高手的身上都是伤疤。</p><p>这次故障用户里面就会出现两种人，一种是谩骂声，说稳定性差，体验差，服务差，我十分理解，也多少有些失落，确实我们不完美，我们在努力改进，也尽自己所能去做一些弥补，当我们足够强大的时候，欢迎回来。 另外一种是支持和鼓励，让我非常感动，群里很多做网络安全的同学主动联系我，给我们提供非常靠谱的方案，甚至共享一些付费数据来为我们提供更好的防护能力，以前 laf 故障的时候也是，有些客户给我们发红包，说修复故障辛苦了，是个好项目，无论遇到什么困难一定要做下去，这些用户真的是我们的前进动力。</p><h2>稳定性与成本</h2><p>很难的一件事就是用户不接受你不稳定这合情合理，同样不接受成本高，而往往有时候就是需要投入更大成本来解决稳定性问题，比如我们这些遇到的，一种解决方式就是把流量抗下来，那就需要耗费大量服务器，这就是成本，或者加 waf ddos 防护这也是成本，这些隐性成本挺多用户要么不认，要么用不起（也有原意用的）。所以成本和稳定性之间就形成了一种矛盾。而且这种 CC 攻击如果攻击者足够专业的话让你没法做特征分析，那么理论上可能真的只有硬抗下来，抗的这个成本算谁的。</p><p>所以我现在能理解为什么公有云贵了，就是为了解决那剩下的 10% 问题，需要花 200% 300% 的成本去解决，比如多副本，比如机房灌水，等等。</p><p>这次被攻击之后让我更加坚定拥抱公有云，确实云在底层解决掉了很多问题，如果是托管服务器迟早都会遇到这些问题，然后花数倍的成本云解决。 反而通过高效充分的云上调度手段能在公有云上把成本进一步降低。</p><p>总之，不稳定，用户骂你，贵，用户亦骂你。 我是觉得骂的对，不骂不进步。技术有意思的点也在这，解决矛盾问题，比如稳定性与成本的矛盾，比如功能强大与复杂度的矛盾，这些新的牛逼的技术就是为了能找到一个优雅的方式能兼顾。</p><h2>涅槃重生</h2><p>我们还是一如既往的走技术激进路线，稳定性的问题是一定会被收敛的，sealos 的核心组件就那么多，一块一块硬啃也能啃下来，今天暴露的问题是为了明天的高鲁棒性，要想涅槃重生得把自己架在火上烤，公有云就是我们的试金石，预计半年到一年的时间我们可以解决掉绝大多数核心问题，倒时一个稳如老狗，便宜，简单，开放的云会绽放在大家面前。 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffanux%2Fsealos" target="_blank">sealos 以 kubernetes 为内核的云操作系统发行版，让云原生简单普及</a></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flafjs%2Flaf" target="_blank">laf 写代码像写博客一样简单，什么 docker kubernetes 统统不关心，我只关心写业务！</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 20 Dec 2023 09:26:42 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5254806/blog/10322777</guid>
+            <link>https://my.oschina.net/u/5254806/blog/10322777</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[大多数严重网络攻击都源于不到 1% 的漏洞]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">网络安全软件提供商 Qualys 发布了一份「<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.qualys.com%2Fvulnerabilities-threat-research%2F2023%2F12%2F19%2F2023-threat-landscape-year-in-review-part-one" target="_blank">2023 年威胁态势回顾</a>」的研究报告。详细介绍了漏洞威胁态势、主要漏洞类型和其他相关数据的关键见解，包括平均利用时间、MITRE ATT&amp;CK 策略和技术，以及 2023 年最活跃的勒索软件和威胁行为者。</span></p><p><span style="color:#000000">截至报告成文时，2023 年共披露了 26,447 个漏洞，比 2022 年披露的漏洞总数多了 1,500 多个，是有史以来披露的最高数量。但并非所有漏洞都具有高风险，事实上，只有不到 1% 的漏洞会导致最高风险，并且经常被广泛利用。</span></p><p><span style="color:#000000"><img alt="" height="267" src="https://oscimg.oschina.net/oscnet/up-6c4543e7ec1ce3b06a0a8d7e071286489ad.webp" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><img alt="" height="253" src="https://oscimg.oschina.net/oscnet/up-33ab1f11fb9bec4cecc7e8181bba654c281.webp" width="500" referrerpolicy="no-referrer"></span></p><ul><li><span style="color:#000000">在已披露的漏洞中，超过 7,000 个漏洞具有概念验证漏洞利用代码，可能会导致成功利用漏洞。但漏洞利用代码的质量通常较低，这可能会降低攻击成功的可能性。</span></li><li><span style="color:#000000">大约 206 个漏洞具有可用的武器化利用代码，这意味着<span style="background-color:#ffffff">如果利用这些漏洞</span>，很可能会危害目标系统。</span></li><li><span style="color:#000000">有 115 个漏洞经常被威胁者、恶意软件和勒索软件组织（例如 Clop）利用。</span></li><li><span style="color:#000000">在观察到的漏洞中，109 个有被利用的已知证据，并被列入 CISA 已知被利用漏洞 (KEV) 清单。</span></li><li><span style="color:#000000">97 个漏洞已被利用，但未包含在 CISA KEV 列表中。</span></li><li><span style="color:#000000">LockBit 和 Cerber 等勒索软件集团利用了 20 个漏洞。此外，恶意软件和僵尸网络组织利用了 15 个漏洞。</span></li></ul><p><span style="color:#000000">超过三分之一的已识别高风险漏洞可以被远程利用。五种最常见的漏洞类型占已发现漏洞总数的 70% 以上。</span></p><p><span style="color:#000000"><img alt="" height="253" src="https://oscimg.oschina.net/oscnet/up-c379630bd2ad0f2b2de66be6226cedb00f8.webp" width="500" referrerpolicy="no-referrer">&nbsp;</span></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000"><span style="background-color:#ffffff">2023 年高危漏洞的平均利用时间约为 44 天。但报告指出，在许多情况下，</span><span style="background-color:#ffffff">漏洞在发布当天就可以被利用。「这一立即行动代表了攻击者作案方式的转变，凸显了攻击者效率的不断提高和防御者响应窗口的不断缩小。」</span></span></p><p style="margin-left:0; margin-right:0; text-align:start"><strong>25% 的高风险 CVE 在发布当天就已被利用，</strong><span style="color:#000000"><span style="background-color:#ffffff">75% 的漏洞在发布后 19 天（大约三周）内被利用。</span></span></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000"><span style="background-color:#ffffff">全年被利用的主要漏洞包括针对 PaperCut NG、MOVEit Transfer、各种 Windows 操作系统、Google Chrome、Atlassian Confluence 和 Apache ActiveMQ 的漏洞。许多漏洞可以远程利用，无需物理访问目标系统。</span></span></p><p style="margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">在已发现的 206 个漏洞中，有 32.5% 的漏洞位于网络基础设施或 Web 应用程序领域，而这些领域传统上很难通过常规手段进行防护。</span></p><p><span style="color:#000000"><strong>远程服务利用（T1210 和 T0866）、面向公众的应用程序的利用（T1190 和 T0819）</strong>和<strong>特权升级利用 (T1068)​​​​​​​<strong style="color:#6a778b">&nbsp;</strong></strong>是 MITRE ATT&amp;CK 的三大策略。其中最常用的远程服务利用，在企业中出现了 72 次，在工业控制系统中出现了 24 次。面向公众的应用程序的利用在企业中出现了 53 次，在工业控制系统中出现了 19 次；特权升级利用排在第三位，记录了 20 次。</span></p><p><span style="color:#000000">为了降低风险，报告建议企业应采用多层次方法，利用各种传感器清查面向公众的应用程序和远程服务的漏洞。并建议根据列入 CISA KEV 列表、高利用概率分数和武器化利用代码的可用性等因素，确定修复工作的优先顺序。</span></p><p>更多详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.qualys.com%2Fvulnerabilities-threat-research%2F2023%2F12%2F19%2F2023-threat-landscape-year-in-review-part-one" target="_blank">查看完整报告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 20 Dec 2023 09:22:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/271898/2023-threat-landscape-year</guid>
+            <link>https://www.oschina.net/news/271898/2023-threat-landscape-year</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[倪光南院士：希望国产 SSD 替代进口 HDD]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>「2023 探索大会」今日在北京举办，中国工程院院士倪光南在会上表示：「我们希望在存储界迅速地推进以半导体存储取代机械存储这样一个科技革命的趋势，<strong>推动国产 SSD 产品替代进口的 HDD 产品</strong>。」</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e03cbbc2dbb4d357d48b52d863fe3d1c73a.png" referrerpolicy="no-referrer"></p><p>倪光南院士称，半导体存储以其高性能、低功耗等优势，正在逐渐取代传统的机械存储。这次科技革命将带来巨大的产业变革，对于推动国产 SSD 产品替代进口的 HDD 产品，以及提升我国在全球半导体存储领域的地位具有重大意义。然而，要实现这个目标，我国还需要在人才储备等方面得到大力支持。与发达国家相比，我国在半导体存储领域的人才储备还有一些差距。因此，倪光南院士呼吁相关部门和企业能够在这方面给予更多的支持和关注。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-24efc7c284d1c70c6dca31b2f9c63c3bdb1.png" referrerpolicy="no-referrer"></p><p>倪光南在今年 6 月的第十三届电子信息产业标准推动会上指出，目前 HDD 市场均被外企垄断，在 HDD 领域寻求突破异常困难。倪光南提到，闪存和 SSD 均属于半导体存储范畴，闪存指的是存储介质，即闪存颗粒，SSD 指的是存储设备。</p><p>目前我国算力中心中采用 SSD 的占比较低，在我国存储市场中，闪存所占比例还较低，未来发展空间巨大。他表示，随着我国国产存储整机和闪存生产能力逐步提升，SSD 取代 HDD 时机已经到来。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 20 Dec 2023 08:09:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/271880</guid>
+            <link>https://www.oschina.net/news/271880</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[知名开源项目作者因躁狂症失业——「在线求打钱」]]>
@@ -106,6 +151,21 @@
             <link>https://www.oschina.net/news/271836/firefox-121-0-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[工信部：将制定符合国情的 Web3.0 发展战略文件]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">工信部于 12 月 19 日公布了<span style="background-color:#ffffff">《<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.miit.gov.cn%2Fzwgk%2Fjytafwgk%2Fart%2F2023%2Fart_7eba1016ef5a4d98979b0167f38e4b35.html" target="_blank">对全国政协十四届一次会议第 02969 号提案的答复</a>》（即</span>《关于推进 Web3 产业发展的提案》<span style="background-color:#ffffff">）。</span></span></p><p><img alt="" height="284" src="https://static.oschina.net/uploads/space/2023/1220/095646_yU57_4252687.png" width="700" referrerpolicy="no-referrer"></p><p><span style="color:#000000"><span style="background-color:#ffffff">其中提出，下一步将在已开展工作的基础上，</span>加强与相关部门的协同互动，推动 Web3.0 技术创新和产业高质量发展。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">一是完善顶层设计。加强 Web3.0 调查研究，制定符合我国国情的 Web3.0 发展战略文件，明晰 Web3.0 发展路径、技术重点、应用模式，处理好继承与创新、发展与安全、政府与市场、供给与需求的关系。聚焦政务、工业等重点领域，鼓励开展 NFT、分布式应用（DApp）等新商业模式，加速 Web3.0 的创新应用和数字化生态构建。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">二是加强技术研究和监管。支持企业、高校、研究机构开展 Web3.0 技术体系研究，在跨链、隐私计算、智能合约等方面实现关键核心技术突破。部署区块链安全监管与治理技术研究，开展联盟链技术收敛和跨链互认研究，探索兼顾公有链开放特性和联盟链易监管特性的区块链技术体系架构。加大数据安全产品研发支持力度，加强网络产品安全漏洞管理，提升 Web3.0 发展中的网络和数据安全保护能力。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">三是开展国际交流合作。紧密跟踪国际政产学研各界关于 Web3.0 的前沿动态。鼓励科研院所、高校、企业等参与 Web3.0 相关全球标准化活动，推动参与和主导 Web3.0 相关国际标准、事实标准、国际联盟标准制定，提升国际话语权和规则制定权。加快复合型人才培养，培育富有创新能力的高端人才，建设高水平人才队伍。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">四是加大技术宣传和推广。建好用好已有科普平台资源，通过科普中国等官方新媒体平台的传播，持续提高公众对 Web3.0 技术的理解和认识。推动开展分布式数字身份（DID）等应用试点，探索机构和个人 Web3.0 数字身份认证和数字资产管理体系，建立数据治理和交易流通机制，形成可复制可推广的典型示范项目。推动 Web3.0 学术进步和技术成果应用，搭建技术和产业应用交流平台，促进 Web3.0 产业创新发展。</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 20 Dec 2023 01:57:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/271831</guid>
+            <link>https://www.oschina.net/news/271831</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
             </author>
         </item>
         <item>
@@ -200,6 +260,22 @@
         </item>
         <item>
             <title>
+                <![CDATA[有道基于 Amoro Mixed Format 构建准实时湖仓实践]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>作者简介</h2><p><strong>谢怡</strong>，网易有道高级大数据开发工程师，目前主要参与实时计算和湖仓一体方向的研发</p><p><strong>王涛</strong>，网易资深平台开发工程师，主要从事大数据和湖仓平台建设</p><h2>业务背景</h2><p>有道的数据层架构可分为离线和实时两部分，离线计算主要采用 Hive、Spark，采用批处理的方式定时调度。实时部分采用 Flink+Doris（版本 0.14.0）构建实时数仓，用于处理实时埋点日志、业务库变更数据。ODS 层数据源为 Kafka 埋点日志、数据库业务数据，DWD、DWS 层数据通过 Flink 计算引擎加工，写入 Doris 中。同时将 Doris 数据定时同步至 Hive，用于离线调度计算。该架构存在如下问题：</p><ol><li>开发和运维成本高：Flink SQL 与 Hive/Spark 语法差异大，Hive/Spark 向 Flink 迁移成本高，Flink 大状态任务运维和优化难度高。</li><li>在全增量流式读取场景的支持性较弱，难以满足有道场景下 Flink 全量读取 Hive 历史数据及 Kafka 增量数据的需求。</li><li>流批存储不统一，造成双倍的数据开发和存储成本，且容易造成数据口径不一致。</li><li>Doris 作为数据孤岛，采用 SSD 存储，成本较高，不适合大规模词典日志数据存储，长期两套存储方案不利于成本优化。</li><li>需要持续地在 Hive 和 Doris 之间导入导出数据，链路过长容易引入不稳定因素，比如大规模数据写入时，Doris 导出 Hive 偶发数据丢失，并且不支持储存长 String 类型的字符串。</li></ol><p><img src="https://oscimg.oschina.net/oscnet/up-489a8fdd6efa0a9ee2676073bb304b58d6b.png" alt="" referrerpolicy="no-referrer"> 结合上述问题，有道希望从 Hive 升级为湖仓一体方案，支持流批读写，统一数据存储。并基于 Spark/Trino/Hive ETL 搭建分钟/小时级近实时数仓，降低开发和运维成本，在绝大多数场景下替换 Doris 的分钟级数仓场景，减少数据库数据同步成本，有效降本增效。</p><h2>引入 Amoro Mixed Hive</h2><p>Amoro Mixed Hive 提供了 Hive 读写兼容、数据自优化的能力，基于此提供了两种不同时效性读取的能力：</p><ol><li>Merge on read 可以达到分钟级数据新鲜度</li><li>Hive 读可以达到小时级新鲜度，同时也实现了对 Hive 数据的更新和删除，下游老 Hive 任务无需作任何修改即可享受数据时效性提升到小时级，对于习惯使用 Hive 的分析师来讲可以做到无感，降低了新技术的使用门槛。</li></ol><h3>Hive 表格式兼容</h3><p>Amoro 为了兼容 Hive 设计了 Mixed Hive，Mixed Hive 的存储结构如图， BaseStore 是一张独立的 iceberg 表，Hive 表作为 BaseStore 的一部分，ChangeStore 是一张独立的 iceberg 表, Mixed Hive 支持：</p><ul><li>schema、partition、types 与 Hive format 保持一致</li><li>使用 Hive connector 将 Mixed Hive 表当成 Hive 表来读写</li><li>可以将 Hive 表原地升级为 Mixed Hive 表，升级过程没有数据重写和迁移，秒级响应</li><li>具备湖仓一体的特性，包括基于主键 upsert，流式读写，ACID，time travel 等功能</li></ul><p>Hive 读写兼容的特性实现 Hive 表向 Mixed Hive 的无缝迁移， 并且可以做到上下游无感知。 <img src="https://oscimg.oschina.net/oscnet/up-3550dd6d29e576a93536d882286c7556cf4.png" alt="" referrerpolicy="no-referrer"></p><h3>Hive 数据更新</h3><p>Amoro 借助 Self-optimizing 将实时写入的变更合并到 Hive， 实现了 Hive 数据更新。Self-optimizing 目标是基于新型数据湖表格式打造像数据库，传统数仓一样开箱即用的流式湖仓服务，Self-optimizing 包含但不限于文件合并，去重，排序。 Amoro 将表中的文件按照大小分为了两类： <img src="https://oscimg.oschina.net/oscnet/up-8b8dffb1776d5214b68ada646b63f7eb500.png" alt="" referrerpolicy="no-referrer"></p><ul><li>Fragment File：碎片文件，默认配置下小于 16 MB 的文件，此类文件需要及时得合并成更大的文件，以提升读取性能</li><li>Segment File：默认配置下大于 16MB 的文件，此类文件已经具备一定的大小，但还不到理想的 128MB。</li></ul><p>基于文件分类，Amoro 将文件优化任务分为三类：Minor optimizing、Major optimizing、Full optimizing，应对写友好、读友好的场景，在保证写入性能同时，保证读性能的平衡。特别地 Full optimizing 会将实时写入的数据定时合并到 Hive 目录，实现 Hive 数据视图的更新，提高 Hive 数据的时效性。 持续的 Self-optimizing 可以有效优化表内文件的大小分布，降低小文件数，减少 AP 查询的性能开销。</p><h2>落地方案</h2><h3>数据链路改造</h3><p><img src="https://oscimg.oschina.net/oscnet/up-7b7422983d7cbce206f28492bc676b96301.png" alt="" referrerpolicy="no-referrer"> 基于 Amoro，我们对于传统链路进行了以下改造：</p><ol><li>开发方式上，贴源层的数据导入从 Flink SQL 方式改造成基于实时数据湖平台，业务通过简单的交互即可完成 Hive 升级和入湖链路的构建。</li><li>通过数据传输定时同步数据库到 Hive 的链路，改造成实时 Mixed Hive format 表，数据时效性提升的同时，也提前了离线 workflow 基线，数据产出时间大大提前。</li><li>Amoro 替换 Doirs，降低数据链路的复杂度，做到存储的流批统一，提高了稳定性。</li><li>数据查询端，通过直接查询 Mixed Hive format 表实现数据时效性的提升,数据报表时效性可以达到分钟级；原来查询 Hive 的报表链路时效性可以提升到小时级。</li></ol><h3>实时数据湖平台共建</h3><p>为了屏蔽底层存储变更对于业务开发的学习成本， 网易杭研基于 Amoro 在内部提供了实时数据湖开发平台，封装了从 Hive 表升级到构建数据入湖全流程，帮助用户一站式完成开发和运维，降低用户的使用门槛和成本。</p><ul><li>Hive 表升级到 Mixed Hive 表，包含主键配置、分区键配置。</li><li>创建源端到 Mixed Hive 表的入湖任务, 支持数据库 cdc 入湖、日志入湖。 
+  <ul><li>基于 NDC（网易数据运河） 打通从源端数据库 binlog 直接输出到 Mixed Hive 表全增量入湖链路。</li><li>支持配置日志 kakfa 到 Mixed Hive 表的实时入湖链路。</li></ul></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-ad976e460e398b1720879654ad706a5dab6.jpg" alt="" referrerpolicy="no-referrer"> 通过用户调研，相对于引入 Amoro 之前基于 Flink 实时入湖的架构，用户的开发成本下降 65%， 运维成本下降 40%。 通过实时数据湖平台实现 Flink 入湖、用户编写 Spark/Trino sql 实现 DWD、DWS 层的 ETL 加工，构建分钟、小时级近实时数仓，极大降低了用户的开发成本。并且该方案存储流批统一的特点，也降低了用户数据开发和数据修复的成本。同时，Amoro 全量/增量 Flink 流式读取的特性，也可以满足对时效性要求更高的流式处理场景。</p><p>在开源 Amoro 和杭研实时数据湖平台之上，有道也深度参与了社区贡献和平台共建，包括：</p><ul><li>贡献 Mixed Format 支持 ORC 格式，解决 Amoro 只支持 Parquet 格式 Hive 表的限制，避免 ORC 到 Parquet 表的拷贝才能升级的流程， 预计节省冗余存储 20TB 存储</li><li>搭建 Amoro 平台监控体系、自动运维优化，保障线上表质量、数据时效性、集群稳定性</li><li>Trino 引擎查询 Amoro 支持 Hadoop-proxy，基于有道 HDFS ranger 实现权限管理</li><li>多项 Amoro Optimizer 优化以提高 Optimizer 稳定性，如：Flink Optimizer 任务重试上报 AMS</li><li>多项实时数据湖平台优化以提升可靠性和用户体验，如：实时数据湖平台支持 Amoro 高可用</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-65a69f60ca3247bcebca2f7e1a06d2b6c24.png" alt="" referrerpolicy="no-referrer"></p><h3>查询优化</h3><p>目前有道主要使用 MPP 引擎 Trino 对 Mixed Hive 表进行分钟级时效性的 OLAP 查询。在大多数场景下，默认的查询性能符合要求。对于查询响应要求较高的一些场景，发现 Mixed Hive 查询性能达不到业务要求，并且比其它业务环境的查询性能差。Amoro 和有道同学分析 Trino 的查询 profile 和，底层 HDFS 性能，发现了三个优化点,优化后 Mixed Hive 表的查询性能提升明显，查询耗时下降了 92%，基本接近 Hive 静态数据查询，并且已经可以满足业务的要求。三个优化如下：</p><ol><li>对 Query Plan 阶段，Amoro 改写了原本的 Plan 逻辑，将需要用来判断数据是否被删除的 Sequence Number 直接从一次多线程的 Plan 中获取，减少了之前单独使用一个额外的单线程 Plan 去获取该变量的开销；</li><li>对于数据倾斜的问题，Amoro 对 delete 文件开销较小但文件数量较多的任务进行了更细粒度的拆分，通过提高并行度，性能提升 50%。</li><li>有道对 HDFS 的优化，在分析过程中发现通过 Router 访问的 RPC 响应时长 .95 达到 262ms, 远超正常集群的 5ms 以内，通过将 HDFS 访问切到直连 HDFS 集群，rpc 响应时间降为 .95 耗时 15ms，Mixed Hive 表平均查询耗时下降 83.3%。 另外，在可以降低时效性要求的场景，直接查询 Mixed Hive 的 BaseStore 也可达到分钟级的时效性，查询性能更好，可以与 Hive 查询静态数据相当。</li></ol><h3>应用情况</h3><p>2023 年初，Amoro 在有道开始上线应用，目前线上表数量 500+张、100+ TB 存储、日存储增量 200GB/天，Spark/Trino 日均查询量 6000+，覆盖有道 10+业务部门，在续报、投放等多个场景落地了分钟级近实时数仓，并且通过 Amoro 托管的数据自优化功能，有效避免数仓业务中的小文件问题，达到持续降本提效的效果。</p><p>在替换 Doris 的实践上， 有道词典已经完成了 Amoro 替换 Doris，下掉了 Doris 集群的节点。有道精品课也逐步以 Amoro 替代 Doris，预计明年上半年完成替换。</p><p>在构建近实时数仓实践上，三个业务部门已经完成了基于 Amoro 搭建近实时数仓，整条链路的延迟最低可达 3mins。同时，实时增量写 Mixed Hive 表替代传统的全量数据传输任务，提前了离线 workflow 基线，ADS 表产出时间最快可提前 6 小时。</p><p>业务收益上，数据产出效率由 T+1 提升到小时级/分钟级， 实现更快更有效的决策分析（投放、销售策略等），为有道多个部门带来了成本降低或效率提升，比如词典社区视频播放时长提升 10%， 点击率提升 4.6%。</p><h2>社区贡献</h2><p>在 Amoro 开源社区，有道已有 13 个 PR 合并，包括：</p><ul><li>Mix Table Format 支持 ORC 文件格式</li><li>Flink DDL 支持计算列和 Watermark</li><li>Trino 引擎支持 hadoop-proxy</li><li>支持 HTTP 请求创建 optimizer group</li><li>删表操作优化</li><li>Flink Optimizer failover 重试上报 AMS</li></ul><h2>未来规划</h2><ol><li>在查询性能方面，目前 Amoro 在查询响应要求高的绝大部分场景下 AP 查询性能已基本满足用户需求。平台层目标是保证 90% 查询响应耗时响应在 5s 以内，基于 SSD 的 Doris 平均查询时间为 1.8s，Amoro 优化后的平均查询时间在 5s ，可以满足绝大部分查询场景。未来将持续优化查询性能，比如 Full optimize 中引入 Z-order 提升 data skiping 的命中率等。</li><li>当前入湖任务是单表单任务，有大量的变更少的数据库表，入湖任务资源利用率相对较低。杭研实时数据湖平台已上线 Flink Session 入湖，复用 Session 的 JM/TM 资源，优化入湖任务的资源利用率。预计将减少入湖任务的内存、CPU 资源约 30%~50% 左右。</li><li>Paimon 在 Flink partial update 的场景下有较好的可用性，未来计划通过 Amoro 尝试落地。我们希望借助 Amoro 的 Unified Catalog，统一管理 Mixed Hive 表、Paimon 表、Mixed Iceberg 表，像使用 Mixed Hive 一样使用 Paimon 表，保留用户当前基于 Amoro 的开发体验。</li></ol><hr><p><strong>End~</strong></p><p>如果你对<strong>数据湖，湖仓一体、table format 或 Amoro 社区</strong>感兴趣，欢迎联系我们深入交流。</p><p><strong>关于 Amoro 的更多资讯可查看：</strong></p><ul><li><strong>官网</strong>：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Famoro.netease.com%2F" target="_blank">https://amoro.netease.com/</a></li><li><strong>源码</strong>：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FNetEase%2Famoro" target="_blank">https://github.com/NetEase/amoro</a></li></ul><p><strong>社群交流</strong>：搜索 <em><strong>kllnn999</strong></em>，添加芦田爱菜小助手微信加入社群</p><p><img src="https://oscimg.oschina.net/oscnet/up-842de6cc219b0043ce1f88ec898c7c7ec83.jpg" alt="" referrerpolicy="no-referrer"></p><p>作者：谢怡 &amp; 王涛</p><p>编辑：Viridian</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 19 Dec 2023 03:14:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6895272/blog/10322356</guid>
+            <link>https://my.oschina.net/u/6895272/blog/10322356</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[MongoDB 内部系统遭遇攻击，部分客户数据被泄露]]>
             </title>
             <description>
@@ -239,125 +315,6 @@
             <pubDate>Tue, 19 Dec 2023 02:27:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/koderover/blog/10322413</guid>
             <link>https://my.oschina.net/koderover/blog/10322413</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Apollo 2.2.0 发布，分布式配置管理中心]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Apollo 2.2.0 已发布，包含了诸如 H2 数据库支持、发布历史支持保留数量配置、支持通过 OpenAPI 创建 App、非 Properties Namespace 支持灰度发布等重大更新。</p><blockquote><p>Apollo（阿波罗）是一款可靠的分布式配置管理中心，诞生于携程框架研发部，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性，适用于微服务配置管理场景。</p></blockquote><h3>H2 数据库支持</h3><p>Apollo 现已支持 H2 数据库，非常适合快速部署场景。</p><h3>发布历史支持保留数量配置</h3><p>用户可以为每个 Namespace 配置保留多少条发布历史，从而降低历史记录过多导致数据库过载的风险。</p><h3>日志目录更改为&nbsp;/opt/logs</h3><p>Apollo ConfigService、AdminService 和 Portal 的日志目录都已更改为&nbsp;/opt/logs，旧版本分别是&nbsp;/opt/logs/10003171、/opt/logs/10003172 和 /opt/logs/10003173。</p><h3>支持通过 OpenAPI 创建 App</h3><p>OpenAPI 的 consumer token 可以配置是否允许创建 App。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-65f8916408197a05305952b7674cd2cd99b.png" referrerpolicy="no-referrer"></p><h3>非 Properties Namespace 支持灰度发布</h3><p>非 Properties Namespace（如 Yaml, JSON 等）现已支持灰度发布功能。</p><h3>审计日志页面展示</h3><p>管理员可以通过管理员工具中的审计日志功能访问详细的操作日志。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ee231f7ed253a20c335fec98e0f83c92d7e.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-dd201f297376f3dcc03b0868adbcb34981f.png" referrerpolicy="no-referrer"></p><p>详情：</p><ul style="list-style-type:disc; margin-left:0; margin-right:0"><li><p style="margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapolloconfig%2Fapollo%2Freleases%2Ftag%2Fv2.2.0" target="_blank"><span>https://github.com/apolloconfig/apollo/releases/tag/v2.2.0</span></a></p></li><li><p style="margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapolloconfig%2Fapollo-java%2Freleases%2Ftag%2Fv2.2.0" target="_blank">https://github.com/apolloconfig/apollo-java/releases/tag/v2.2.0</a></p></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 19 Dec 2023 02:09:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/271676/apollo-config-2-2-0-released</guid>
-            <link>https://www.oschina.net/news/271676/apollo-config-2-2-0-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[工信部：将制定符合国情的 Web3.0 发展战略文件]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">工信部于 12 月 19 日公布了<span style="background-color:#ffffff">《<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.miit.gov.cn%2Fzwgk%2Fjytafwgk%2Fart%2F2023%2Fart_7eba1016ef5a4d98979b0167f38e4b35.html" target="_blank">对全国政协十四届一次会议第 02969 号提案的答复</a>》（即</span>《关于推进 Web3 产业发展的提案》<span style="background-color:#ffffff">）。</span></span></p><p><img alt="" height="284" src="https://static.oschina.net/uploads/space/2023/1220/095646_yU57_4252687.png" width="700" referrerpolicy="no-referrer"></p><p><span style="color:#000000"><span style="background-color:#ffffff">其中提出，下一步将在已开展工作的基础上，</span>加强与相关部门的协同互动，推动 Web3.0 技术创新和产业高质量发展。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">一是完善顶层设计。加强 Web3.0 调查研究，制定符合我国国情的 Web3.0 发展战略文件，明晰 Web3.0 发展路径、技术重点、应用模式，处理好继承与创新、发展与安全、政府与市场、供给与需求的关系。聚焦政务、工业等重点领域，鼓励开展 NFT、分布式应用（DApp）等新商业模式，加速 Web3.0 的创新应用和数字化生态构建。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">二是加强技术研究和监管。支持企业、高校、研究机构开展 Web3.0 技术体系研究，在跨链、隐私计算、智能合约等方面实现关键核心技术突破。部署区块链安全监管与治理技术研究，开展联盟链技术收敛和跨链互认研究，探索兼顾公有链开放特性和联盟链易监管特性的区块链技术体系架构。加大数据安全产品研发支持力度，加强网络产品安全漏洞管理，提升 Web3.0 发展中的网络和数据安全保护能力。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">三是开展国际交流合作。紧密跟踪国际政产学研各界关于 Web3.0 的前沿动态。鼓励科研院所、高校、企业等参与 Web3.0 相关全球标准化活动，推动参与和主导 Web3.0 相关国际标准、事实标准、国际联盟标准制定，提升国际话语权和规则制定权。加快复合型人才培养，培育富有创新能力的高端人才，建设高水平人才队伍。</span></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">四是加大技术宣传和推广。建好用好已有科普平台资源，通过科普中国等官方新媒体平台的传播，持续提高公众对 Web3.0 技术的理解和认识。推动开展分布式数字身份（DID）等应用试点，探索机构和个人 Web3.0 数字身份认证和数字资产管理体系，建立数据治理和交易流通机制，形成可复制可推广的典型示范项目。推动 Web3.0 学术进步和技术成果应用，搭建技术和产业应用交流平台，促进 Web3.0 产业创新发展。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 19 Dec 2023 01:57:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/271831</guid>
-            <link>https://www.oschina.net/news/271831</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Dubbo 3.3.0-beta 版本正式发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:justify">近日，Apache Dubbo 发布了 3.3 分支大版本 3.3.0-beta.1，相较于 3.2 系列版本，3.3.0-beta 引入了一些重量级的功能升级，按照社区规划，3.3 也将是 Dubbo3 非常重要的一个里程碑大版本，在 3.3.0 首个正式版本之后 Dubbo3 将正式进入长期稳定维护态，即标志着 Dubbo3 作为面向云原生时代的下一代微服务框架将具备规划的所有核心功能。</p><p style="text-align:justify">让我们先快速看一下 3.3.0-beta.1 版本为我们带来了哪些核心能力升级吧：</p><ul><li><strong>全新升级的 Triple 协议，</strong>Triple 协议可同时运行在 HTTP1/2 之上，与 gRPC 保持 100% 兼容的同时，支持 cURL 和浏览器直接访问。</li><li>新发布一系列<strong>&nbsp;Spring Boot Starter 组件</strong>，包括 Zookeeper, Nacos, Sentinel 等，大幅降低开发过程中的依赖管理负担。</li><li><strong>Rest 风格的编程注解支持</strong>（涵盖 Spring MVC、JAX-RS），借助 Dubbo 的多协议发布机制，可以轻松的将 RPC 服务发布为标准的 HTTP 端点，简化前端接入成本。</li><li><strong>Dubbo AOT</strong>（GraalVM Native Image）正式发布，特定场景下启动速度提升 10 倍，内存等资源消耗降低 4 倍。</li><li>升级&nbsp;<strong>JDK 21&nbsp;</strong>支持，增加 Project Loom 协程支持。</li><li><strong>可观测性</strong>进一步提升，进一步提升 metrics 统计指标，简化 tracing 等使用。</li></ul><p style="text-align:justify">接下来，我们将对其中的一些重点功能进行更深入的讲解。</p><span id="OSC_h3_1"></span><h3>Spring Boot Starters</h3><p style="text-align:justify">3.3.0-beta.1 版本发布的 Starter 组件，可以大幅简化 Spring Boot 用户的应用开发，以 Zookeeper 注册中心为例，新版本的开发只需要增加以下一个依赖即可。可以通过&nbsp;<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fstart.dubbo.apache.org%2F%253Fspm%253Da2c6h.13046898.publish-article.3.4b9b6ffaLAbqGN" target="_blank">https://start.dubbo.apache.org</a></em></u>&nbsp;生成项目快速体验。</p><pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.dubbo&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo-spring-boot-starter&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.dubbo&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo-zookeeper-spring-boot-starter&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre><p style="text-align:justify">同样的，还有 dubbo-curator5-zookeeper-spring-boot-starter、 dubbo-nacos-spring-boot-starter、 dubbo-sentinel-spring-boot-starter、 dubbo-seata-spring-boot-starter 、 dubbo-observability-spring-boot-starter、 dubbo-tracing-otel-zipkin-spring-boot-starter 等。</p><span id="OSC_h3_2"></span><h3>Dubbo AOT 静态化（GraalVM Native Image）</h3><p style="text-align:justify">Dubbo AOT 是 Dubbo 3.3.0-beta 版本发布的静态化方案支持，它基于 GraalVM Native Image 实现，旨在大幅提升 Dubbo 应用的启动与运行速度。可以通过&nbsp;<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fstart.dubbo.apache.org%2F%253Fspm%253Da2c6h.13046898.publish-article.4.4b9b6ffaLAbqGN" target="_blank">https://start.dubbo.apache.org</a></em></u>&nbsp;快速生成包含 GraalVM 支持的项目，快速体验，以下是测试环境的一些运行效果总结。</p><p style="text-align:justify">Native 的可视性文件比 Jar 包方式的启动耗时降低了 12 倍+，在客户端应用，它的启动耗时降低了 11 倍+。所以在刚刚提到的 Serverless 场景上，它能提供一个非常好的启动速度。在扩容的时候能够达到秒级，甚至达到毫秒级。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-3afe07303b9f9375b5d15419d3f69376_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">通过静态化执行文件执行后，比都为 Jar 包的情况，第一次调用的耗时降低 6 倍。这第一次调用代表的是预热的时长，以及第一次需要解析的类，包括资源的情况等等。这让我们在 Serverless 场景下能够瞬间达到性能峰值。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-6171ecb37669792b91c74639635a41ea_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">在 Dubbo 应用的基础上，它的内存损耗也降低大概 3.5 倍。Native 静态化执行文件可以做到 60M 的内存占比，<strong>在客户端它的内存损耗也大概降低了 4 倍。</strong></p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-dcc129be07bbf1f96721cf97ab260464_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h3_3"></span><h3>Triple 协议升级</h3><p style="text-align:justify">Triple 协议是 Dubbo3 设计的基于 HTTP 的 RPC 通信协议规范，它完全兼容 gRPC 协议，支持 Request-Response、Streaming 流式等通信模型，可同时运行在 HTTP/1 和 HTTP/2 之上。</p><p style="text-align:justify">你可以使用 cURL 等标准 HTTP 工具直接访问发布的 Triple 服务，大幅降低测试与前端接入成本。</p><pre><code>curl \
- --header 'Content-Type: application/json' \
- --data '{"sentence": "Hello World"}' \
- http://localhost:8080/apache.dubbo.demo.example.v1.ExampleService/Say</code></pre><p style="text-align:justify">Dubbo 框架提供了 Triple 协议的多种语言实现，它们可以帮助你构建浏览器、gRPC 兼容的 HTTP API 接口。Dubbo 框架同时支持 Protobuf-first 和 Interface-first 编程模式，即不绑定 IDL 的服务定义与开发模式，比如在 Dubbo Java 中，你可以选择使用 Java Interface 和 Pojo 类定义 Dubbo 服务，并将其发布为基于 Triple 协议通信的微服务。</p><p style="text-align:justify">以下是 Triple 协议的多语言实现布局，目前已经支持了浏览器端的 Dubbo-web，后端的 Java、Go、Node.js、Rust 等，未来会提供 Mobile 端以及更多后端语言实现。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-c7b948c09210468c65170512dd40e186_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h3_4"></span><h3>Rest 协议升级</h3><p style="text-align:justify">基于 Dubbo 的多协议发布能力，rest 风格的 http 服务发布可以有非常多的应用场景，它可以让你在增加少量注解代码的情况下（当前支持 Spring MVC、JAX-RS 两套注解模式），将之前的 RPC 服务发布为标准的 rest 风格 HTTP 服务。这在很多场景将会非常有用，比如以下是一个 Dubbo 与 Spring Cloud 体系互通的用例。</p><p style="text-align:justify">我们要实现以下互通目标，让左边的 Spring 应用能够调用到右侧的 Dubbo 应用。我们可以利用 Dubbo 的多协议发布机制，为一些服务配置多协议（tcp &amp; http）发布，让这个 Dubbo 应用同时服务 Dubbo 微服务体系和 Spring Cloud 微服务体系。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-f5fa8b4cec37aa6c8038a6e3eb7224c5_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">为了实现这个效果，我们只需要在配置中增加多协议配置即可：</p><pre><code>dubbo:
-  protocols:
-    - id: rest
-      name: rest
-      port: 8090
-    - id: dubbo
-      name: dubbo
-      port: 20880</code></pre><p style="text-align:justify">同时，@DubboService 服务注解中也配置为多协议发布。</p><pre><code>@DubboService(protocol="rest,dubbo")
-public class UserServiceImpl implements UserService {}</code></pre><p style="text-align:justify">这样，我们就成功的将 UserService 服务以 dubbo 和 rest 两种协议发布了出去（多端口多协议的方式），dubbo 协议为 Dubbo 体系服务，rest 协议为 Spring Cloud 体系服务。</p><p style="text-align:justify">为了发布标准的 rest 风格服务，记得在接口上增加注解，在这里我们使用 Spring MVC 注解。</p><pre><code>@RestController
-@RequestMapping("/users")
-public interface UserService {
-    @GetMapping(value = "/list")
-    List&lt;User&gt; getUsers();
-}</code></pre><span id="OSC_h3_5"></span><h3>可观测性（Metrics &amp; Tracing）</h3><p style="text-align:justify">首先，是大幅提升了 Metrics、Tracing 的易用性，对于 Spring Boot 用户而言，只需要添加一个依赖即可。</p><p style="text-align:justify">开启 Metrics：</p><pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.dubbo&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo-observability-spring-boot-starter&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre><p style="text-align:justify">开启 Tracing：</p><pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.dubbo&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo-tracing-otel-zipkin-spring-boot-starter&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre><p style="text-align:justify">其次，在监控指标的丰富度上进一步提升。</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-ad54c5f19d7abd1f741f2e0b78e85d3e_720w.webp" referrerpolicy="no-referrer"></p><span id="OSC_h3_6"></span><h3>JDK 21 与协程</h3><p style="text-align:justify">3.3.0-beta 版本可支持平滑升级到 JDK 21 版本，同时，增加了 Project Loom 协程支持，只需要配置 setThreadPool(virtual) 即可实现协程模型开启。</p><p style="text-align:justify">具体实现上，是我们在新版本增加了以下 Threadpool SPI 实现：</p><pre><code>virtual=org.apache.dubbo.common.threadpool.support.loom.VirtualThreadPool</code></pre><p style="text-align:justify">&nbsp;</p><pre><code>/**
- * Creates a thread pool that use virtual thread
- *
- * @see Executors#newVirtualThreadPerTaskExecutor()
- */
-public class VirtualThreadPool implements ThreadPool {
-    @Override
-    public Executor getExecutor(URL url) {
-        String name = url.getParameter(THREAD_NAME_KEY, (String) url.getAttribute(THREAD_NAME_KEY, DEFAULT_THREAD_NAME));
-        return Executors.newThreadPerTaskExecutor(
-            Thread.ofVirtual()
-                .name(name, 1)
-                .factory());
-    }
-}</code></pre><span id="OSC_h3_7"></span><h3>Roadmap</h3><p style="text-align:justify">对于 Dubbo3 而言，当前社区维护有 3.1、3.2、3.3 三个大的版本，其中 3.2 是当前推荐的稳定生产版本，3.3 正处于 beta 阶段，在接下来几个月将取代 3.2 成为最新稳定版本。</p><p style="text-align:justify">截止 3.3.0-beta.1 版本，整个 Dubbo3 规划的核心功能均已开发完成。从这个版本开始，Dubbo3 将进入长期稳定维护阶段，这意味着我们将不会再为任何的 Dubbo3 新版本引入新的功能规划，社区将专注在已有功能的迭代与稳定性保证上。基于这样的基调，我们制定未来半年的社区 Roadmap：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fapache%2Fdubbo%2Fissues%2F13065%253Fspm%253Da2c6h.13046898.publish-article.5.4b9b6ffaLAbqGN" target="_blank">https://github.com/apache/dubbo/issues/13065</a></em></u></p><p style="text-align:justify">关于面向未来的新功能，我们将在 Dubbo4 中持续探索，欢迎持续关注社区进展。</p><p style="text-align:justify"><em>作者：Apache Dubbo 社区</em></p><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1393813%3Futm_content%3Dg_1000386180" target="_blank">原文链接</a></strong></p><p style="text-align:justify"><strong>本文为阿里云原创内容，未经允许不得转载。</strong></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 19 Dec 2023 01:56:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/10322295</guid>
-            <link>https://my.oschina.net/yunqi/blog/10322295</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2023 年的 Servo：贡献者数量增加与新功能亮相，展望未来规划]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><div><div><p>2023 年，Servo 在开源浏览器引擎领域取得了显著的进展。今年，Servo 的主要代码库<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fservo%2Fservo" target="_blank">servo/servo</a>共收到了 1037 个拉取请求，这是去年的 382%；提交了 2485 次，是去年的 375%。其中，53 名独立贡献者参与了项目，比去年增长了 140%。</p><p style="text-align:center"><img height="336" src="https://oscimg.oschina.net/oscnet/up-4d7c9dcb7d605c38fe0af213450ff263005.png" width="433" referrerpolicy="no-referrer"></p><p>在所有的贡献中，由人类（而非机器人）提交的拉取请求中，有 30% 来自于 Igalia 之外的个人，18% 来自于非审查人员。Servo 在过去一年中在六场国际会议上进行了介绍，包括 RustNL、Web Engines Hackfest、LF Europe Member Summit、Open Source Summit Europe、GOSIM Workshop 和 GOSIM Conference。</p><p>Servo 现在拥有一个可用的「minibrowser」用户界面，支持屏幕外渲染，其实验性的 WebGPU 支持也得到了更新。此外，Servo 现在再次出现在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwpt.fyi" target="_blank">wpt.fyi</a>上。Servo 的新布局引擎在 iframe、浮动、堆叠上下文、内联布局、边距折叠、‘position: sticky’、‘min-width’和‘min-height’、‘max-width’和‘max-height’、‘align-content’、‘justify-content’、‘white-space’、‘text-indent’、‘text-align: justify’、<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fservo.org%2Fblog%2F2023%2F05%2F31%2Fadding-support-for-outline-properties%2F" target="_blank">‘outline’和‘outline-offset’</a>以及‘filter: drop-shadow()’等方面表现出了其优势。</p><p style="text-align:center"><img height="336" src="https://oscimg.oschina.net/oscnet/up-d938266a007cc9d1532eb919eb68089a660.png" width="433" referrerpolicy="no-referrer"></p><p>在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweb-platform-tests.org" target="_blank">Web Platform Tests</a>的部分测试中，Servo 的新布局引擎显示出了显著的进步。例如，在 floats 测试中，新布局引擎的通过率达到了 82.2%，而在 floats-clear 测试中达到了 73.3%。此外，Servo 在 Acid1 测试中也通过了新布局引擎，并在 CSS2 abspos、CSS2 定位和 CSS Position 测试套件中取得了优于旧布局引擎的成绩。</p><p>Servo 的下一步计划包括维护现有项目，发布 Android 每夜构建版本，完成与 Tauri 的整合（得益于 NLNet 的支持），以及实现对表格、更好的浮动支持和非拉丁文本的支持（也是得益于 NLNet 的支持）。</p><p>2024 年，Servo 将参加<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffosdem.org%2F2024%2F" target="_blank">FOSDEM 2024</a>，Rakhi Sharma 将在 2 月 3 日 16:45 当地时间（15:45 UTC）进行关于「在 Rust 项目中嵌入 Servo」的演讲。Servo 团队也在积极寻找赞助商，以支持这个旨在提供可嵌入、独立、内存安全、模块化、并行 Web 渲染引擎的开发。有兴趣的个人或公司可以访问<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fservo.org%2Fsponsorship%2F" target="_blank">Servo 的赞助页面</a>，或通过邮件<a href="https://www.oschina.net/action/GoToLink?url=mailto%3Ajoin%40servo.org" target="_blank">join@servo.org</a>进行咨询。</p><p>在人们担忧浏览器引擎多样性陷入低谷的十年里，Servo 希望能够帮助改变这一现状。</p></div></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 19 Dec 2023 01:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/271660/servo-2023</guid>
-            <link>https://www.oschina.net/news/271660/servo-2023</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[有道基于 Amoro Mixed Format 构建准实时湖仓实践]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>作者简介</h2><p><strong>谢怡</strong>，网易有道高级大数据开发工程师，目前主要参与实时计算和湖仓一体方向的研发</p><p><strong>王涛</strong>，网易资深平台开发工程师，主要从事大数据和湖仓平台建设</p><h2>业务背景</h2><p>有道的数据层架构可分为离线和实时两部分，离线计算主要采用 Hive、Spark，采用批处理的方式定时调度。实时部分采用 Flink+Doris（版本 0.14.0）构建实时数仓，用于处理实时埋点日志、业务库变更数据。ODS 层数据源为 Kafka 埋点日志、数据库业务数据，DWD、DWS 层数据通过 Flink 计算引擎加工，写入 Doris 中。同时将 Doris 数据定时同步至 Hive，用于离线调度计算。该架构存在如下问题：</p><ol><li>开发和运维成本高：Flink SQL 与 Hive/Spark 语法差异大，Hive/Spark 向 Flink 迁移成本高，Flink 大状态任务运维和优化难度高。</li><li>在全增量流式读取场景的支持性较弱，难以满足有道场景下 Flink 全量读取 Hive 历史数据及 Kafka 增量数据的需求。</li><li>流批存储不统一，造成双倍的数据开发和存储成本，且容易造成数据口径不一致。</li><li>Doris 作为数据孤岛，采用 SSD 存储，成本较高，不适合大规模词典日志数据存储，长期两套存储方案不利于成本优化。</li><li>需要持续地在 Hive 和 Doris 之间导入导出数据，链路过长容易引入不稳定因素，比如大规模数据写入时，Doris 导出 Hive 偶发数据丢失，并且不支持储存长 String 类型的字符串。</li></ol><p><img src="https://oscimg.oschina.net/oscnet/up-489a8fdd6efa0a9ee2676073bb304b58d6b.png" alt="" referrerpolicy="no-referrer"> 结合上述问题，有道希望从 Hive 升级为湖仓一体方案，支持流批读写，统一数据存储。并基于 Spark/Trino/Hive ETL 搭建分钟/小时级近实时数仓，降低开发和运维成本，在绝大多数场景下替换 Doris 的分钟级数仓场景，减少数据库数据同步成本，有效降本增效。</p><h2>引入 Amoro Mixed Hive</h2><p>Amoro Mixed Hive 提供了 Hive 读写兼容、数据自优化的能力，基于此提供了两种不同时效性读取的能力：</p><ol><li>Merge on read 可以达到分钟级数据新鲜度</li><li>Hive 读可以达到小时级新鲜度，同时也实现了对 Hive 数据的更新和删除，下游老 Hive 任务无需作任何修改即可享受数据时效性提升到小时级，对于习惯使用 Hive 的分析师来讲可以做到无感，降低了新技术的使用门槛。</li></ol><h3>Hive 表格式兼容</h3><p>Amoro 为了兼容 Hive 设计了 Mixed Hive，Mixed Hive 的存储结构如图， BaseStore 是一张独立的 iceberg 表，Hive 表作为 BaseStore 的一部分，ChangeStore 是一张独立的 iceberg 表, Mixed Hive 支持：</p><ul><li>schema、partition、types 与 Hive format 保持一致</li><li>使用 Hive connector 将 Mixed Hive 表当成 Hive 表来读写</li><li>可以将 Hive 表原地升级为 Mixed Hive 表，升级过程没有数据重写和迁移，秒级响应</li><li>具备湖仓一体的特性，包括基于主键 upsert，流式读写，ACID，time travel 等功能</li></ul><p>Hive 读写兼容的特性实现 Hive 表向 Mixed Hive 的无缝迁移， 并且可以做到上下游无感知。 <img src="https://oscimg.oschina.net/oscnet/up-3550dd6d29e576a93536d882286c7556cf4.png" alt="" referrerpolicy="no-referrer"></p><h3>Hive 数据更新</h3><p>Amoro 借助 Self-optimizing 将实时写入的变更合并到 Hive， 实现了 Hive 数据更新。Self-optimizing 目标是基于新型数据湖表格式打造像数据库，传统数仓一样开箱即用的流式湖仓服务，Self-optimizing 包含但不限于文件合并，去重，排序。 Amoro 将表中的文件按照大小分为了两类： <img src="https://oscimg.oschina.net/oscnet/up-8b8dffb1776d5214b68ada646b63f7eb500.png" alt="" referrerpolicy="no-referrer"></p><ul><li>Fragment File：碎片文件，默认配置下小于 16 MB 的文件，此类文件需要及时得合并成更大的文件，以提升读取性能</li><li>Segment File：默认配置下大于 16MB 的文件，此类文件已经具备一定的大小，但还不到理想的 128MB。</li></ul><p>基于文件分类，Amoro 将文件优化任务分为三类：Minor optimizing、Major optimizing、Full optimizing，应对写友好、读友好的场景，在保证写入性能同时，保证读性能的平衡。特别地 Full optimizing 会将实时写入的数据定时合并到 Hive 目录，实现 Hive 数据视图的更新，提高 Hive 数据的时效性。 持续的 Self-optimizing 可以有效优化表内文件的大小分布，降低小文件数，减少 AP 查询的性能开销。</p><h2>落地方案</h2><h3>数据链路改造</h3><p><img src="https://oscimg.oschina.net/oscnet/up-7b7422983d7cbce206f28492bc676b96301.png" alt="" referrerpolicy="no-referrer"> 基于 Amoro，我们对于传统链路进行了以下改造：</p><ol><li>开发方式上，贴源层的数据导入从 Flink SQL 方式改造成基于实时数据湖平台，业务通过简单的交互即可完成 Hive 升级和入湖链路的构建。</li><li>通过数据传输定时同步数据库到 Hive 的链路，改造成实时 Mixed Hive format 表，数据时效性提升的同时，也提前了离线 workflow 基线，数据产出时间大大提前。</li><li>Amoro 替换 Doirs，降低数据链路的复杂度，做到存储的流批统一，提高了稳定性。</li><li>数据查询端，通过直接查询 Mixed Hive format 表实现数据时效性的提升,数据报表时效性可以达到分钟级；原来查询 Hive 的报表链路时效性可以提升到小时级。</li></ol><h3>实时数据湖平台共建</h3><p>为了屏蔽底层存储变更对于业务开发的学习成本， 网易杭研基于 Amoro 在内部提供了实时数据湖开发平台，封装了从 Hive 表升级到构建数据入湖全流程，帮助用户一站式完成开发和运维，降低用户的使用门槛和成本。</p><ul><li>Hive 表升级到 Mixed Hive 表，包含主键配置、分区键配置。</li><li>创建源端到 Mixed Hive 表的入湖任务, 支持数据库 cdc 入湖、日志入湖。 
-  <ul><li>基于 NDC（网易数据运河） 打通从源端数据库 binlog 直接输出到 Mixed Hive 表全增量入湖链路。</li><li>支持配置日志 kakfa 到 Mixed Hive 表的实时入湖链路。</li></ul></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-ad976e460e398b1720879654ad706a5dab6.jpg" alt="" referrerpolicy="no-referrer"> 通过用户调研，相对于引入 Amoro 之前基于 Flink 实时入湖的架构，用户的开发成本下降 65%， 运维成本下降 40%。 通过实时数据湖平台实现 Flink 入湖、用户编写 Spark/Trino sql 实现 DWD、DWS 层的 ETL 加工，构建分钟、小时级近实时数仓，极大降低了用户的开发成本。并且该方案存储流批统一的特点，也降低了用户数据开发和数据修复的成本。同时，Amoro 全量/增量 Flink 流式读取的特性，也可以满足对时效性要求更高的流式处理场景。</p><p>在开源 Amoro 和杭研实时数据湖平台之上，有道也深度参与了社区贡献和平台共建，包括：</p><ul><li>贡献 Mixed Format 支持 ORC 格式，解决 Amoro 只支持 Parquet 格式 Hive 表的限制，避免 ORC 到 Parquet 表的拷贝才能升级的流程， 预计节省冗余存储 20TB 存储</li><li>搭建 Amoro 平台监控体系、自动运维优化，保障线上表质量、数据时效性、集群稳定性</li><li>Trino 引擎查询 Amoro 支持 Hadoop-proxy，基于有道 HDFS ranger 实现权限管理</li><li>多项 Amoro Optimizer 优化以提高 Optimizer 稳定性，如：Flink Optimizer 任务重试上报 AMS</li><li>多项实时数据湖平台优化以提升可靠性和用户体验，如：实时数据湖平台支持 Amoro 高可用</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-65a69f60ca3247bcebca2f7e1a06d2b6c24.png" alt="" referrerpolicy="no-referrer"></p><h3>查询优化</h3><p>目前有道主要使用 MPP 引擎 Trino 对 Mixed Hive 表进行分钟级时效性的 OLAP 查询。在大多数场景下，默认的查询性能符合要求。对于查询响应要求较高的一些场景，发现 Mixed Hive 查询性能达不到业务要求，并且比其它业务环境的查询性能差。Amoro 和有道同学分析 Trino 的查询 profile 和，底层 HDFS 性能，发现了三个优化点,优化后 Mixed Hive 表的查询性能提升明显，查询耗时下降了 92%，基本接近 Hive 静态数据查询，并且已经可以满足业务的要求。三个优化如下：</p><ol><li>对 Query Plan 阶段，Amoro 改写了原本的 Plan 逻辑，将需要用来判断数据是否被删除的 Sequence Number 直接从一次多线程的 Plan 中获取，减少了之前单独使用一个额外的单线程 Plan 去获取该变量的开销；</li><li>对于数据倾斜的问题，Amoro 对 delete 文件开销较小但文件数量较多的任务进行了更细粒度的拆分，通过提高并行度，性能提升 50%。</li><li>有道对 HDFS 的优化，在分析过程中发现通过 Router 访问的 RPC 响应时长 .95 达到 262ms, 远超正常集群的 5ms 以内，通过将 HDFS 访问切到直连 HDFS 集群，rpc 响应时间降为 .95 耗时 15ms，Mixed Hive 表平均查询耗时下降 83.3%。 另外，在可以降低时效性要求的场景，直接查询 Mixed Hive 的 BaseStore 也可达到分钟级的时效性，查询性能更好，可以与 Hive 查询静态数据相当。</li></ol><h3>应用情况</h3><p>2023 年初，Amoro 在有道开始上线应用，目前线上表数量 500+张、100+ TB 存储、日存储增量 200GB/天，Spark/Trino 日均查询量 6000+，覆盖有道 10+业务部门，在续报、投放等多个场景落地了分钟级近实时数仓，并且通过 Amoro 托管的数据自优化功能，有效避免数仓业务中的小文件问题，达到持续降本提效的效果。</p><p>在替换 Doris 的实践上， 有道词典已经完成了 Amoro 替换 Doris，下掉了 Doris 集群的节点。有道精品课也逐步以 Amoro 替代 Doris，预计明年上半年完成替换。</p><p>在构建近实时数仓实践上，三个业务部门已经完成了基于 Amoro 搭建近实时数仓，整条链路的延迟最低可达 3mins。同时，实时增量写 Mixed Hive 表替代传统的全量数据传输任务，提前了离线 workflow 基线，ADS 表产出时间最快可提前 6 小时。</p><p>业务收益上，数据产出效率由 T+1 提升到小时级/分钟级， 实现更快更有效的决策分析（投放、销售策略等），为有道多个部门带来了成本降低或效率提升，比如词典社区视频播放时长提升 10%， 点击率提升 4.6%。</p><h2>社区贡献</h2><p>在 Amoro 开源社区，有道已有 13 个 PR 合并，包括：</p><ul><li>Mix Table Format 支持 ORC 文件格式</li><li>Flink DDL 支持计算列和 Watermark</li><li>Trino 引擎支持 hadoop-proxy</li><li>支持 HTTP 请求创建 optimizer group</li><li>删表操作优化</li><li>Flink Optimizer failover 重试上报 AMS</li></ul><h2>未来规划</h2><ol><li>在查询性能方面，目前 Amoro 在查询响应要求高的绝大部分场景下 AP 查询性能已基本满足用户需求。平台层目标是保证 90% 查询响应耗时响应在 5s 以内，基于 SSD 的 Doris 平均查询时间为 1.8s，Amoro 优化后的平均查询时间在 5s ，可以满足绝大部分查询场景。未来将持续优化查询性能，比如 Full optimize 中引入 Z-order 提升 data skiping 的命中率等。</li><li>当前入湖任务是单表单任务，有大量的变更少的数据库表，入湖任务资源利用率相对较低。杭研实时数据湖平台已上线 Flink Session 入湖，复用 Session 的 JM/TM 资源，优化入湖任务的资源利用率。预计将减少入湖任务的内存、CPU 资源约 30%~50% 左右。</li><li>Paimon 在 Flink partial update 的场景下有较好的可用性，未来计划通过 Amoro 尝试落地。我们希望借助 Amoro 的 Unified Catalog，统一管理 Mixed Hive 表、Paimon 表、Mixed Iceberg 表，像使用 Mixed Hive 一样使用 Paimon 表，保留用户当前基于 Amoro 的开发体验。</li></ol><hr><p><strong>End~</strong></p><p>如果你对<strong>数据湖，湖仓一体、table format 或 Amoro 社区</strong>感兴趣，欢迎联系我们深入交流。</p><p><strong>关于 Amoro 的更多资讯可查看：</strong></p><ul><li><strong>官网</strong>：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Famoro.netease.com%2F" target="_blank">https://amoro.netease.com/</a></li><li><strong>源码</strong>：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FNetEase%2Famoro" target="_blank">https://github.com/NetEase/amoro</a></li></ul><p><strong>社群交流</strong>：搜索 <em><strong>kllnn999</strong></em>，添加芦田爱菜小助手微信加入社群</p><p><img src="https://oscimg.oschina.net/oscnet/up-842de6cc219b0043ce1f88ec898c7c7ec83.jpg" alt="" referrerpolicy="no-referrer"></p><p>作者：谢怡 &amp; 王涛</p><p>编辑：Viridian</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 18 Dec 2023 03:14:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6895272/blog/10322356</guid>
-            <link>https://my.oschina.net/u/6895272/blog/10322356</link>
             <author>
                 <![CDATA[原创]]>
             </author>
