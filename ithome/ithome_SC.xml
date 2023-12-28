@@ -16,8 +16,79 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 28 Dec 2023 04:13:10 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 28 Dec 2023 08:15:08 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[卡巴斯基公布锁定 iMessage 的 Operation Triangulation 复杂攻击链细节]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0711-apple-cyber-security-9601_0.jpg?itok=tgmgYZWY" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>资安业者卡巴斯基（Kaspersky）<a href="https://securelist.com/operation-triangulation/109842/" target="_blank">在今年 6 月揭露</a>了一个以 iOS 装置为目标的攻击行动 Operation Triangulation，当时仅说骇客可借由传送一个带有附件的 iMessage 讯息予受害者，就能触发远端程式攻击漏洞，并未公布漏洞细节，<a href="https://securelist.com/operation-triangulation-the-last-hardware-mystery/111669/" target="_blank">但本周卡巴斯基公开了 Operation Triangulation 所使用的 4 个零时差漏洞</a>，还说这是他们自苹果、微软、Adobe 及 Google 等产品中所发现的逾 30 个零时差漏洞中，所见过最复杂的攻击链，其中的 CVE-2023-38606 到底是如何被滥用的，迄今仍是个谜团。</p><p>Operation Triangulation 利用了 4 个零时差漏洞，分别是位于 FontParser 中的远端程式攻击漏洞<a href="https://support.apple.com/en-us/HT213842" target="_blank">CVE-2023-41990</a>，核心中的整数溢位漏洞<a href="https://support.apple.com/en-us/103837" target="_blank">CVE-2023-32434</a>，核心中的可用来绕过页面保护层的<a href="https://support.apple.com/en-us/HT213841" target="_blank">CVE-2023-38606</a>漏洞，以及存在于 WebKit 中可造成任意程式执行的记忆体毁损漏洞<a href="https://support.apple.com/en-us/HT213676" target="_blank">CVE-2023-32435</a>。</p><p>值得注意的是，卡巴斯基发现 Operation Triangulation 最古老的感染痕迹发生在 2019 年，所适用的最新 iOS 版本为 iOS 16.2，而苹果一直到今年 6 月才修补它们，意谓著骇客早已偷偷渗透 iMessage 超过 4 年。</p><p>分析显示，骇客先是借由传送恶意的 iMessage 附件来利用 CVE-2023-41990 漏洞，以执行一个以 JavaScript 撰写的权限扩张攻击程式，接著再利用 CVE-2023-32434 漏洞取得记忆体的读写权限，再以 CVE-2023-38606 漏洞绕过页面保护层（Page Protection Layer），在成功攻击上述 3 个漏洞之后，骇客即可对装置执行任何操作，包括执行间谍软体，然而，骇客却选择了注入一个酬载，并清除所有攻击痕迹，再于隐形模式执行了一个 Safari 程序，以验证受害者，检查通过之后才继续利用下一个位于 WebKit 中的 CVE-2023-32435 漏洞以执行 Shellcode，接著骇客即重复透过先前的漏洞来载入恶意程式。</p><p>这除了是卡巴斯基团队所见过的最复杂的攻击链之外，即使该团队 Operation Triangulation 已有数月之久，但仍无法解开有关 CVE-2023-38606 漏洞的谜团。</p><p>研究人员解释，最近的 iPhone 针对核心记忆体的敏感区域采用了基于硬体的安全保护，以让骇客就算能够读写核心记忆体，也无法控制整个装置，然而，CVE-2023-38606 漏洞的存在是因为骇客利用了苹果系统单晶片上的另一个硬体功能来绕过此一基于硬体的安全保护。</p><p>具体而言，当骇客将资料、位址及资料杂凑写入该晶片上未被韧体使用的硬体暂存器时，就能在写入资料至特定的位址时，绕过基于硬体的记忆体保护。因为相关的硬体暂存器并未受到韧体的监管或保护。</p><p>研究人员的疑惑在于，此一硬体功能从何而来？如果苹果的韧体都未使用它，骇客又如何得知怎么操控它？最可能的解释是它可能是工厂或苹果工程师用来测试或除错的，或许先前曾不小心出现在韧体中，之后又被移除。</p><p>卡巴斯基认为，CVE-2023-38606 漏洞彰显了一件事，这些基于硬体的先进保护机制，只要有硬体功能得以绕过，在面临尖端骇客时也是没用的。此外，硬体安全往往仰赖于隐蔽的安全，使得它的逆向工程比软体更难，但这是一种有缺陷的方式，因为所有的秘密迟早都会被揭露，借由隐蔽所实现的安全永远不可能真正安全。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160590</guid>
+            <link>https://www.ithome.com.tw/news/160590</link>
+            <author>
+                <![CDATA[陈晓莉]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[纽约时报控告 OpenAI、微软擅自使用网站内容训练 AI]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1228-the_new_york_times-photo_by_spenser_sembrat_on_unsplash-960.jpg?itok=nK9VxlXa" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Spenser Sembrat</a> on <a href=&quot;https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Spenser Sembrat</a> on <a href="https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://nytco-assets.nytimes.com/2023/12/NYT_Complaint_Dec2023.pdf" target="_blank">《纽约时报》</a>昨（27）日向纽约地方法院控告 OpenAI 及微软未经其同意使用网站新闻内容来训练 AI 聊天机器人的底层 AI 模型，侵害其声誉及营运获利能力。</p><p>纽时指出，OpenAI 及微软为训练生成式 AI 助理 ChatGPT 及 Copilot 的底层大型语言模型（LLM），未经其同意复制及使用数百万新闻文章、深度调查、社论、产品评价、指引等内容，免费提供给用户，纽时内容还经过加权使用。此外，除了非法使用内容，纽时也批评 ChatGPT 及 Copilot 模仿纽时新闻报导风格撰写报导，有时还将假消息来源指向纽时，伤害其与读者关系及声誉。</p><p>AI 业者撷取网路文章的行为引发媒体出版商反弹，《纽时》、《CNN》、《BBC》等媒体已经封锁 AI 的爬虫。纽时曾试图和 OpenAI、微软（以及提供新闻内容的 Google、苹果及 Meta）洽谈付费授权，但两家公司以「合理使用」为由拒绝付费。纽时指出，两家业者未经同意使用媒体内容产生的内容，又反过来和媒体竞争用户流量，损及其订阅、授权、广告及合作收费制的获利能力。</p><p>这次控告，纽时并未寻求特定金额赔偿，但他们估计因被告滥用其内容造成的损害上看数十亿美元。这家媒体龙头也要求 OpenAI 及微软摧毁使用其内容训练出的 AI 模型及训练资料集。</p><p>纽时是第一家对 OpenAI 或微软提出侵害诉讼的主流媒体。但此前<a href="https://www.nytimes.com/2023/09/20/books/authors-openai-lawsuit-chatgpt-copyright.html" target="_blank">美国作者公会</a>及<a href="https://www.theguardian.com/books/2023/jul/05/authors-file-a-lawsuit-against-openai-for-unlawfully-ingesting-their-books" target="_blank">个别作家</a>也曾控告 OpenAI 侵权。</p><p><a href="https://www.reuters.com/legal/transactional/ny-times-sues-openai-microsoft-infringing-copyrighted-work-2023-12-27/" target="_blank">OpenAI 发出声明稿指出</a>，该公司尊重创作者及所有人，该公司和纽时的对话已有相当进展及成果，因此这番控告感到惊讶与失望。微软则尚未回应。</p><p>为解决资料撷取的争议，<a href="https://www.ithome.com.tw/news/159723" target="_blank">OpenAI 11 月启动合作伙伴计划</a>，以便能合法取得 AI 训练资料集。OpenAI 及另一 AI 大厂 Google 都提供爬虫工具，允许网路出版商退出被撷取资料的行列。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160589</guid>
+            <link>https://www.ithome.com.tw/news/160589</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[禁售令被暂停，苹果可暂时重启销售 Apple Watch]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-apple_watch_series_9-960-2.jpg?itok=DCJcmxti" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在华盛顿联邦巡回上诉法院核准暂停禁售令后，苹果昨天暂时获准销售 Apple Watch 9 及 Ultra 2。</p><p>基于专利侵权理由，美国国际贸易委员会（ITC）10 月发出的 Apple Watch 禁止输入及销售令，在 12 月 26 日生效。苹果昨日向联邦巡回上诉法院提出暂停的紧急命令，也在同一天内获准，暂停 ITC 命令。</p><p><a href="https://www.pacermonitor.com/view/I6WOXQI/Apple_Inc_v_ITC__cafc-24-01285__0019.0.pdf?mcid=tGE3TEOA" target="_blank">上诉巡回法院昨日判决</a>，准许苹果提出的声请动议，在美国海关暨边境防护局（Customs and Border Protection，CBC）决定苹果对 Apple Watch 的变更是否有助于解决 Masimo 的侵权疑虑前，暂停销售令执行。CBD 需在 2024 年 1 月 12 日前做出决定。</p><p><a href="https://www.theverge.com/2023/12/27/24016684/apple-watch-on-sale-again-import-sales-bans-paused" target="_blank">苹果公司向媒体证实</a>二款具血氧量测功能的 Apple Watch，将在美东时间 12 月 28 日下午 3:00 起恢复销售。</p><p>这道命令让原本苹果已经主动停售的 Apple Watch，包括 Series 9 及 Ultra 2 得以重新在美销售。苹果分别于 12 月 21 日及 24 日，暂停二款产品在 Apple.com 及 Apple Store 的销售。</p><p>至于苹果会怎么变更以解决专利侵权问题，苹果可能会修改硬体，只是时程至少需三个月。《彭博》上周报导，苹果目前已在赶工软体更新，以绕过侵害装置业者 Masimo 的专利权的问题。</p><p>同时间 ITC 向上诉巡回法院的声请也获准。ITC 要求将回复苹果声请动议的时间，由 2024 年 1 月 5 日延后到 1 月 10 日。因此，明年一开年，美国政府和苹果将再一次就 Apple Watch 专利侵权是否停售事宜进行攻防。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160588</guid>
+            <link>https://www.ithome.com.tw/news/160588</link>
+            <author>
+                <![CDATA[林妍溱]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Container 快报第 156 期：K8s 年终新版移除云端供应商标签，Datadog 公布 2023 年十大容器趋势]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/datadogzhu_tu_.png?itok=sonVZlDw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Datadog</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2023/12/1～12/25 精选容器新闻：</p><h3><strong><span style="color:#0000FF;">#k8s 核心 #新版</span><br>
+K8s 年终最后一更 1.29 版新增 49 项强化，重大变革是 K8s 原始码移除云端供应商标签</strong></h3><p><img alt="" src="https://s4.itho.me/sites/default/files/images/k8s-1_29(1).png" style="float: left;" referrerpolicy="no-referrer">赶在 2023 年底，K8s 释出了 1.29 版，这次有 49 项强化，包括了 11 项稳定版功能、19 项 Beta 版功能和 19 项新增的 Alpha 版功能。这个版本有三项重要的稳定版功能，新增了第四种存取永久储存空间的方式，可以使用 ReadWriteOncePod，来指定一整个 Pod 丛集的可读可写状态，在 1.22 版之前只能针对单一节点来指定，现在可以一次针对整个 Pod 来设定。另一个重点也是储存类功能，CSI 驱动程式可以支援机密资料区的扩充操作。另外，金钥管理服务 KMS v2 也进入稳定版，可以提供比 v1 更好的效能，而且 v1 版从 1.29 版开始预设为进用，强制改用 v2 版 KMS。</p><p>另外一个值得注意的 1.29 版重大改变是，这个版本移除了 K8s 原始码中的云端供应商的标签（flag），包括了 Azure、GCE、vSphere、AWS 和 OpenStack，kube API、Kube 控制器管理机制或 kubelet 元件从 1.29 版开始不会再支援这类标签，企业若使用这些标签来操作相关 K8s 指令，要升级到 1.29 版前，需要全盘检视原有配置和程式，避免升级后无法运作。企业若 Azure、GCE、vSphere、AWS 和 OpenStack 这五家云端供应商的产品，就得留意是否使用了 K8s 中的云端供应商标签。其余云端供应商的名称没有出现在 K8s 原始码中，因此不会受到影响。</p><h3><strong><span style="color:#0000FF;">#Serverless #24 亿容器趋势分析</span><br>
+Datadog 分析数万企业 24 亿个容器，公布 2023 最新企业容器十大趋势</strong></h3><p>云端监控服务商 Datadog 每年都会公布了年度容器报告，从它所监控的容器遥测数据，归纳出当年的容器技术采用趋势。日前 Datagod 公布了从数万家企业所用的 24 亿个容器监控数据的分析结果，归纳出 10 大年度容器发展趋势。</p><p>今年大趋势是，企业为了发展 AI 应用使用了大量 GPU 运算，也让企业更加重用 Serverless 容器来减轻开发者的管理负担，也采用更多便宜的 ARM 实例来维持用户体验。Serverless 容器采用率从 2 年前的 31%，今年提高到了 46%，几乎每两家拥抱容器的企业，就有一家会采用全托管的 Serverless 型容器服务。每家公云的 Serverless 容器采用率都有提高，但 Cloud Cloud 旗下顾客的采用率提高最多，从 2 年前的 35%，今年翻了一倍增加到 68%。</p><p>所有容器实例采用 GPU 运算的时间，今年也大暴增，一口气比去年同期增加了 58%。非 GPU 运算的容器实例只有增加了 25%，这也反映出容器用于 AI 应用的需求，在今年大暴增。不过，多数容器的 CPU 利用率还是偏低，超过 65% 的容器的 CPU 利用率不到一半，同样地，也有超过 65% 的容器只用了不到一半的记忆体用量，其余都是闲置。这两个数据反映出，企业容器优化还有很大的改善空间。</p><p>以应用类型来说，资料库和 Web 伺服器是多数容器要支援的工作量。容器所用开发语言的排名上，今年依旧是 Node.js 居冠，超过 4 成容器使用，其次才是 Java、Python 和 Go。目前，多数企业采用的 K8s 版本，以 1.24 版最多，超过 3 成。其次是 1.25 版，升级到 1.26、1.26 版的容器都约 1 成而已。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/datadog-k8s%E7%89%88%E6%9C%AC.png" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#0000FF;">#K8s 碳排追踪 #Kepler</span><br>
+企业如何追踪 K8s 中每一个容器的碳排？CNCF 力推 Kepler 碳足迹追踪新工具</strong></h3><p>企业 IT 维运如何实现永续，持续量测 IT 基础架构运作的碳足迹是关键一步，CNCF 技术监督委员会成员之一的苹果资深工程师 Katie Gamanji 近日在一场活动中，特别推荐 Kepler 专案。这是由 IBM 和红帽在 2022 年 2 月发起，2023 年 5 月加入 CNCF 沙盒的专案。这是一个用 eBPF 来取得相关系统状态资讯再输出成 Prometheus 效能矩阵的工具。Kepler 这项碳排追踪工具会在每个节点中，部署一个 Kepler 探索器，来搜集到容器层级和节点层级的资讯，主要透过 eBPF 追踪 CPU 效能计数器和 Linux 核心 Tracepoint 机制，来搜集能耗和资源利用率的资讯，再进一步计算出每个容器或节点所消耗的 kWh 能耗资讯，乘上碳排放参数来换算出所这个能耗对产生的碳排放量。预设采用的碳排放参数来自美国能源资讯管理局，以煤、天然气和石油的碳排数值组合而成。企业也可以用公云业者提供的资料中心碳排参数来计算更具体的碳排放量。再将资讯整合成 Prometheus 矩阵，提供给 Gafana 用来产生视觉化的图表，例如可以详细产生每一个容器或每一个 Namespace 每一天的碳排放量，作为企业改善碳排的参考数据。</p><h3><strong><span style="color:#0000FF;">#eBPF #可观察性</span><br>
+思科买下用 eBPF 打造出 Cilium 的瑞士新创，要将网路安全产品力延伸到作业系统核心</strong></h3><p>Cisco 近日宣布买下 Isovalent，希望透过 eBPF 打造的 Cilium 专案，将自家网路和安全产品功能的处理能力，从 Hypervisor 层延伸到作业系统核心层。瑞士资安业者 Isovalent 在 2017 年推出 Cilium 开源专案，后来捐给了 CNCF。这是一款用 eBPF 打造的网路安全与 K8s 可观察性监测工具，也是不少公云的 K8s 托管服务的内建工具，包括 GKE、EKS 等。 eBPF 可以在不修改 Linux 核心的情况下，将一段侦测程式放入到核心执行，从底层来监控核心的各种运作状态。Cilium 正是以此特性打造出各种 K8s 丛集的可观测性机制。</p><h3><strong><span style="color:#0000FF;">#API 管理 #GitOps</span><br>
+云原生 NoCode 平台 Jetic 推出云原生整合服务 iPaaS，数百款 API 整合更简单</strong></h3><p>Jetic 推出了一款用 Apache Camel 软体打造无伺服器服务，也同样称为 Jetic，提供了数百款预先建置的连结器和设计模式，让开发者快速串接到自己的 API。这款 Jetic 服务可以用于不同的整合场景的自动化串接，例如即时整合，API 管理、无伺服器服务整合、事件串流处理、资料捕捉、资料转换等作业流程，也可以支援 Git 标准，来串接到企业的 GitOps 流程。另外，Jetic 也提供了这些整合服务的监测和可观察性数据。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/Jetic-scaled.jpg" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#0000FF;">#容器测试 #Testcontainers</span><br>
+Docker 公司并购了容器测试工具新创 AtomicJar，扩大开发者内部回圈战略到测试段</strong></h3><p>近日 Docker 公司宣布并购了容器自动化测试工具新创 AtomicJar。Docker 公司执行长 Scott Johnston 指出，AtomicJar 所建立的开源测试框架 Testcontainers，已经成了容器测试的业界标准框架，可以支援 6 种语言，包括 Java、NET、Go 语言、Node.js 等的测试任务。Docker 近年专注于企业开发流程市场的布局，产品战略瞄准了开发者内部回圈，从布建、验证、执行、除错到分享等，每个阶段的工具。AtomicJar 可以将这个内部回圈扩大到测试阶段的能力。</p><h3><strong><span style="color:#0000FF;">#SBOM #容器安全</span><br>
+资安态势管理工具 Kubescape 开始支援漏洞资讯交换格式 VEX，提高 K8s 物件 SBOM 资讯透明度</strong></h3><p>为了提高软体供应链安全的资讯透明度发展，美国国家电信暨资讯管理局（NTIA）和美国网路安全及基础设施安全局（CISA）联手制定了一套用于漏洞资讯交换的格式 VEX。VEX 定义了一套资安弱点通报的标准格式，可供机器阅读之用。Linux 基金会也推出了支援此格式的漏洞通报工具 OpenVEX。资安态势管理工具 Kubescape 社群和 Linux 基金会联手，打造出了 OpenVEX 的 K8s 环境版本。建立 Kubescape 专案的资安新创 ARMO 指出，Kubescape 现在可以读取或建立 VEX 文件的 SBOM 资讯，在扫描 K8s 物件后，依据这些物件接触到弱点的可能性，产生 VEX 格式文件，标记这个物件是否会受到漏洞的影响，来供 IT 团队参考。</p><h3><strong><span style="color:#0000FF;">#计价模式变革 #Tanzu</span><br>
+VMware 宣布将全面改采订阅制销售，但还没揭露详细计价细节引起热议</strong></h3><p>博通在 11 月下旬完成 VMware 收购之后，最近 VMware 一场宣布引起轩然大坡，未来将全面终止买断授权，所有产品改为订阅制，从宣布当日起，不再提供永久授权、有效支援与订阅服务 (Support and Subscription，SnS）续订，以及混合与订阅购买计划 (HPP/SPP) 点数在内的销售模式。新政策影响 VMware 产品，涵盖了 VMware Cloud Foundation、vSphere、vSAN、NSX、SRM、HCX、vCloud 套件及 VMware Aria 套件产品等。<br>
+原有拥有授权购买的产品可以继续使用，但在技术支援到期后，企业得改用订阅软体或定期授权，才能继续取得支援。虽然 VMware 预告，VCF 订阅方案将降价 50%，同时加强对启动解决方案和生命周期管理的支援。不过，VMware 还没有揭露更多未来订阅制计价细节，以及现有产品如何转换到订阅制的说明。资讯不足也引起企业抱怨连连，引起各界热议。不过，博通表示，除了继续投资和发展 VMware Cloud Foundation 核心产品，会持续发展云原生平台 VMware Tanzu，还包括应用程式网路和进阶安全性服务，以及针对电信和企业边缘的 VMware 软体定义边缘的相关发展。在并购案完成后，VMware 执行长 Raghu Raghuram 也立即宣布辞职，目前尚未宣布新任执行长人选。</p><h3><strong><span style="color:#0000FF;">#GAI #K8s 发展策略</span><br>
+K8s 发展战略从底层转到应用层，支援 GAI 运算将是未来 2 年重要方向</strong></h3><p>早从 2015 年就加入 K8s 专案的 Google 主任工程师 Janet Kuo 是第一代 K8s 团队推手，日前她来台参加 Kubernetes summit 时透露：「K8s 的发展已经从运算资源的调度，开始延伸思考到应用目标」，Janet 强调：「这是 K8s 发展战略上很大的改变，从底层转到应用层。」K8s 开始针对特定情境的应用，尤其是未来非常重要的应用，例如 GAI 运算的支援，将是 K8s 未来 2 年的重要方向。</p><p>例如在 Janet 所领导的 Application 小组正在规画，如何调整 K8s 的 Jobs API，让 ML 工作量在 K8s 执行得更顺利。例如考虑在 K8s 底层，提供 Jobs 之间的状态传递能力，让 K8s 更容易支援 AI/ML 工作流程，或是支援不断迭代的 AI 训练方式。另一个支援 AI/ML 运算的 K8s 优化方向是，考虑增加 Jobs 底层的 Log 机制，让 K8s 维运人员更容易搜集这些 Jobs 的执行数据来优化效能，可以用来支援特别讲究效能的 AI 任务。「K8s 希望让 AI 工作量更有效率地在 K8s 上执行，也想让 Jobs API 支援各种 AI 工作量的需求。」不过，Janet 坦言，K8s 核心不会引进生成式 AI 技术，而是，她认为，GAI 可以协助来产生更有效率的 k8s 配置，也很适合用于学习 K8s。「不少人抱怨 K8s 太难学了，我希望 GAI 可以降低 K8s 的上手门槛。」</p><h3><strong><span style="color:#0000FF;">#基础架构程式码化 #AI 助手</span><br>
+更多 IaC 维运 AI 助手出现，HashiCorp、Grafana Lab 都将导入 Duet AI</strong></h3><p>随著 Google 发表自家最强 LLM 模型 Gemini 同时，也宣布与多家开发工具商合作，将 Duet AI 导入到不同开发工具或资料库软体中，其中一家就是 HashiCorp。HashiCopr 预计将 AI 助手 Duet AI 导入到自家 IaC 工具 Terraform 中，来协助撰写基础架构调度的配置档。使用者未来可以直接要求 AI 助理，提供相关 Terraform 的原始文件、各种学习教材，也能要求 AI 助理用 HCL 语法撰写不同用途或需求的 IaC 配置档范例，来提高维运人员配置设定工作的效率。另一家业者 Grafana Lab 则是基础架构维运常用的开源可观察性平台业者，也将在自家产品中导入 Duet AI，可以用来查询各种产品文件，也能协助开发者设计 Grafana 仪表板，提供如何设计视觉化图表、查询设计，甚至是如何分析资料的建议。使用者也可以询问如何用 Grafana 来进行除错等提高 AP 可靠性的问题。</p><p><strong>更多新闻</strong></p><p>小红书等中国企业联手打造的跨云 K8s 管理专案 Karmada 进入 CNCF 专案孵化阶段</p><p>资任编辑：王宏仁</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160587</guid>
+            <link>https://www.ithome.com.tw/news/160587</link>
+            <author>
+                <![CDATA[王宏仁]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[VS Code 新版 Java 扩充套件采用新测试覆盖率 API，可在测试时直接查看结果]]>
@@ -249,7 +320,7 @@
                                 <author>
                                     <![CDATA[周峻佑]]>
                                 </author>
-                                <category>新闻</category>
+                                <category>资安 </category>
                             </item>
                             <item>
                                 <title>
@@ -324,7 +395,7 @@
                                 <author>
                                     <![CDATA[李建兴]]>
                                 </author>
-                                <category>新闻</category>
+                                <category>资安 </category>
                             </item>
                             <item>
                                 <title>
@@ -341,223 +412,5 @@
                                 </author>
                                 <category>新闻</category>
                             </item>
-                            <item>
-                                <title>
-                                    <![CDATA[避免马祖断讯重演，中华电信以微波作为海缆中断备援通讯系统强化通讯韧性]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1703577712217_1.jpg?itok=LSTmXpc1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>NCC</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2023 年 2 月，马祖因与台湾之间的台马第二海缆中断，影响当地通讯服务，仅剩台马第三海缆维持通讯服务（台马第一海缆已除役），但不到一周时间，第三海缆也因不明原因断缆，两条海缆双断，导致马祖地区网路断线、手机无法通讯，引起当地民众抱怨。在 NCC 关切下，中华电信向国际海缆船申请抢修之外，也紧急以微波作为备援通讯，恢复马祖地区基本的语音通话、国家安全、关键设施通讯服务，但是这起事件也引起外界关心台湾通讯网路韧性。</p><p>过去，海缆经常受到地震或台风影响，或是因为附近航行的货轮下锚，周边的海砂船、拖网渔船影响，导致海底的海缆中断，每当发生类似事件，中华电信需申请国际海缆船维修，但因为台湾并非联合国认可国家，或是维修重要性低于其他国际海缆，海缆船维修耗日费时，且需要花费高昂的费用。目前也规画建设长度 280 公里的台马第四海缆，增加新的海缆，预计在 2025 年完成。</p><p>在此之前，2022 年中华电信在台湾与马祖之间启动一项通讯备援计划，将原本用于偏远山区村落提供宽频网路服务普及的微波通讯技术，运用在台湾与马视建立备援通讯，强化台湾与离岛间的通讯韧性，因此在 2022 年 12 月于阳明山的第一微波站，提供台湾与马祖之间微波通讯，频宽达 2.2Gbps。</p><p><span style="color:#B22222;"><strong>不断扩大微波备援频宽</strong></span></p><p>2023 年 2 月台马第二、第三海缆先后中断后，他们从中南部调用微波天线支援，在第一微波站扩频至 3.8Gbps，备援率只有 42.2%，仅提供马祖基本的语音通话、国安通讯，虽然提升当地用户宽频上网服务，但仍不足以满足原本的宽频上网、MOD 等需求。</p><p>他们不断扩大微波频宽容量，今年 5 月在第一微波站启动 L4G 微波新建案，频宽提高至 4.4Gbps，到今年 9 月再以新技术扩频，提高频段使用效率，将微波频宽扩大至 6.6Gbps，然而，即使微波频宽一再增加，仍不及海缆中断之前马祖地区用户流量峰值的 10.27Gbps，换言之，仅靠第一微波站扩容，频宽尚不足以支援马祖地区原本的流量需求。</p><p>为此，他们选择同样在阳明山另一处现有微波发射站原址，在高架塔上架设微波天线，作为对第二微波站。此外，也根据微波的穿透、反射、吸收等特性选址建置新的微波站，需综合考量海拔高度、高山上是否有足够的高架塔腹地空间、无遮蔽可视传输路径等多种因素，最后在中部某个山区设置第三微波站，在海拔 2,000 公尺高度，以水泥灌浆稳固基座建设 35 米高架，并附挂 2 组 4 个微波天线。在第二及第三微波站于 2023 年 12 月启用后，台湾对马祖的微波频宽一举增至 10.6Gbps，备援率达到 103.2%。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/9600.jpg" style="width: 600px; height: 800px;" referrerpolicy="no-referrer"></p><p>目前台马海缆虽已完成维修，恢复当地通讯服务，三个微波站、系统作为备援通讯系统，未来若海缆再次发生中断，能够紧急以微波提供当地通讯服务。</p><p>中华电信行政长兼执行副总经理，并兼任网路分公司总经理的简志诚表示，建置微波系统的过程相当不易，例如在新建的第三微波站，需由专业的工程人员，配合山上多变的天候施工，架设 35 米的高架塔，也需吊车吊挂 12 呎（直径 360 公分）的大型天线，将微波天线固定在高架塔，工程师测试调整天线的高度、角度，让微波发射调整为最佳状态。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/9700.jpg" style="width: 600px; height: 321px;" referrerpolicy="no-referrer"></p><p><strong>如上图所示，中华电信固网维运处处长林学彦表示，中华电信针对台马间微波备援，已建置 3 个微波站，总频宽达到 10.6Gbps。微波频宽足以对台马讯务达到全备援。</strong></p><p>在第二、第三微波站建立后，微波系统频宽一举达到 10.6Gbps，换言之，未来马祖若再因海缆中断，当地的军警政消、民生电路、行动及固网宽频上网、影视服务都可由微波系统来支援，并透过第一、二、三微波站也能分散微波系统，降低微波站集中的风险。因应马祖地区未来增加的讯务量，中华电信规画建置第四个微波站。</p><p>不只马祖地区，金门、澎湖等离岛也需要建置备援的通讯系统，但简志诚表示，由于微波系统需架设在高处，金门、澎湖缺乏足够的高山，使微波系统建置上受限。</p><p>除了微波系统，中华电信近期也取得 OneWeb 低轨衞星服务在台湾的独家代理，将在 2024 年配合数位部「应变或战时应用新兴科技强化通讯网路数位韧性」计划，在国内布建 700 个，以及国外 3 个 LEO 衞星终端站点热点，并且运用衞星通讯的特性，在国内离岛、偏远地区及重要的行动通讯节点等地的行动通讯基地台，透过衞星链路和核心网路建立连线，确保当紧急状态时，国内通讯仍能正常运作，强化我国的通讯网路韧性。不过，相较于微波，低轨衞星服务频宽约数百 Mbps，频宽较低，在天灾或战争等紧急状态下，当地面通讯网路服务中断，仍能维持国安、关键设施基本通讯，不致完全通讯中断。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Mon, 25 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160550</guid>
-                                <link>https://www.ithome.com.tw/news/160550</link>
-                                <author>
-                                    <![CDATA[苏文彬]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[【资安日报】12 月 26 日，有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231226.png?itok=ZAVz8LiF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>今年有多起锁定游戏公司的攻击行动，从年初电玩游戏开发商 Riot Games 证实遭骇，旗下《英雄联盟》及防作弊系统的原始码遭窃，到最近 Sony 旗下电玩业者 Insomniac Games 遭勒索软体 Rhysida 入侵，偷走处于开发状态的电玩游戏《金钢狼》相关资料，这类资安事故有越来越频繁的情况。</p><p>而在本日的资安新闻里，传出有人对电玩开发商 Ubisoft 发动攻击，该公司在两天之内察觉有异，并做出处理，使得受害情况得到控制，但攻击者身分仍不得而知。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.ithome.com.tw/news/160546"><strong style="font-size: 22px;">游戏开发商 Ubisoft 传出遭网路攻击，骇客宣称目标是《虹彩六号：围攻行动》的内部资料</strong></a></p>
-                                    <!-- notionvc: 045e45e1-4d08-4a5c-8f3b-5f54014ee2df -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://s4.itho.me/sites/default/files/images/GB8gSU0WEAA0N7u.jpg">
-                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/GB8gSU0WEAA0N7u.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                            </a>资安研究团队 VX-underground 指出，12 月 20 日有人入侵电玩公司 Ubisoft，该公司的管理者约在 48 小时后才察觉异状，注销相关存取权限，约有 900 GB 资料外流。
-                                        </p>
-                                        <p>骇客究竟如何入侵该公司内部网路环境？目前原因不明，但骇客透露他们企图透过稽核使用者权限，并耗费大量时间检视该公司的 Teams、Confluence、SharePoint 的内容，目的是想要窃取《虹彩六号：围攻行动》的内部资料，但没有成功。</p>
-                                        <p>骇客锁定电玩产业下手的事件频传，最近一起是 Sony 旗下电玩业者 Insomniac Games 遭勒索软体 Rhysida 入侵，骇客窃得 1.6 TB 资料，其中有不少与预计 2025 年发表的电玩游戏《金钢狼》有关。</p>
-                                        <p>资料来源</p>
-                                        <p>1.&nbsp;
-                                            <a href="https://twitter.com/vxunderground/status/1738093190538760574">https://twitter.com/vxunderground/status/1738093190538760574</a>
-                                            <br>
-2.&nbsp;
-                                                <a href="https://twitter.com/vxunderground/status/1738144068788494722">https://twitter.com/vxunderground/status/1738144068788494722</a>
-                                            </p>
-                                            <p>
-                                                <a href="https://news.sophos.com/en-us/2023/12/19/inhospitality-malspam-campaign-targets-hotel-industry/">
-                                                    <strong style="font-size: 22px;">窃资软体 RedLine、Vidar 锁定旅馆而来，骇客假借投诉与订房为由发动攻击</strong>
-                                                </a>
-                                            </p>
-                                            <!-- notionvc: 156333ec-926b-4775-b076-5f4f5f3ddc0a -->
-                                            <p></p>
-                                            <p>
-                                                <a href="https://s4.itho.me/sites/default/files/images/image1-2.png">
-                                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/image1-2.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                    </a>资安业者 Sophos 揭露在今年 4 月美国报税季截止前的网路钓鱼攻击，骇客针对全球的旅馆业者而来，这种钓鱼邮件内容只有文字，而且会在收信人回复此类邮件之后，攻击者才会发送后续的讯息，向收信人「说明」投诉或请求协助的细节。
-                                                </p>
-                                                <p>研究人员指出，骇客当时所寄送的钓鱼邮件分成两种类型，其中一种是声称在住宿过程遇到严重问题，例如：遭遇暴力攻击、放在房间的贵重物品遭窃，向旅馆业者投诉；另一种则是假借有特殊订房需求的名义，例如：花粉症人士、身障人士、长者等，向业者寻求进一步的订房协助。这些电子邮件都会带有 URL，指向 Google Drive、Mega、Dropbox 等云端档案共用系统，或是即时通讯软体 Discord 代管的 ZIP 或 RAR 压缩档，声称是做为投诉佐证资料，或是房客的医疗资料，而且，这些压缩档的共通点是套用密码保护，不会被防毒软体视为有害。</p>
-                                                <p>在其中一起攻击行动里，骇客声称近期过世的亲戚在旅馆留下相机，请饭店协助，工作人员回复后，骇客假装生气并以提供相机的照片为由，要求收信人从指定 Google Drive 连结下载档案，一旦收信者照做，电脑就有可能被植入窃资软体 Redlin 或 Vidar，而且，骇客为了回避侦测，这些窃资软体的程式大小都超过 600 MB。</p>
-                                                <p>
-                                                    <a href="https://www.zscaler.com/blogs/security-research/threat-actors-exploit-cve-2017-11882-deliver-agent-tesla">
-                                                        <strong style="font-size: 22px;">方程式编辑器的老旧漏洞被利用，骇客拿来散布恶意软体 Agent Tesla</strong>
-                                                    </a>
-                                                </p>
-                                                <!-- notionvc: 3814486d-9c6c-4a94-b5b4-15b1e2650cc0 -->
-                                                <p></p>
-                                                <p>
-                                                    <a href="https://s4.itho.me/sites/default/files/images/agent-tesla-figure_2.png">
-                                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/agent-tesla-figure_2.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                        </a>资安业者 Zscaler 揭露新一波恶意软体 Agent Tesla 的攻击行动，骇客先是假借提供订单、发票相关的资料为由寄送钓鱼邮件，其内容挟带了含有巨集的 Excel 档案（XLAM 档），一旦收信人依照指示开启，电脑就有可能触发方程式编辑器漏洞 CVE-2017-11882（CVSS 风险评分为 7.8），后续在无需使用者互动的情况下，于受害电脑部署其他恶意程式元件。
-                                                    </p>
-                                                    <p>骇客先是透过巨集下载恶意 JPG 档案，然后利用 PowerShell 解码埋藏在上述图档里、以 Base64 编码的 DLL 档案，然后载入恶意处理程序。值得留意的是，上述 DLL 元件被注入 Windows 元件 RegAsm.exe 的处理程序，从而启动 Agent Tesla。此恶意程式由.NET 打造，具备键盘侧录及 RAT 木马的功能。</p>
-                                                    <p>
-                                                        <a href="https://www.malwarebytes.com/blog/threat-intelligence/2023/12/new-metastealer-malvertising-campaigns">
-                                                            <strong style="font-size: 22px;">窃资软体 MetaStealer 透过恶意广告散布</strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: 426801c3-92a9-41c4-a797-76eb0a95ca43 -->
-                                                    <p></p>
-                                                    <p>资安业者 Malwarebytes 揭露窃资软体 MetaStealer 最近一波的攻击行动，骇客假借提供文字编辑软体 Notepad++，以及远端登入个人电脑桌面软体的 AnyDesk 名义，约从 11 月中旬开始在 Google 投放恶意广告，一旦使用者点选，就会被带往骇客制作的诱饵网站，若是依照指示下载安装程式并执行，电脑就会执行 PowerShell 指令码，而有可能被植入 MetaStealer。</p>
-                                                    <p>
-                                                        <a href="https://www.bleepingcomputer.com/news/security/microsoft-hackers-target-defense-firms-with-new-falsefont-malware/">
-                                                            <strong style="font-size: 22px;">伊朗骇客 APT33 锁定国防产业，散布恶意程式 FalseFont</strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: 94d82396-f574-4fd1-8872-490afe1bc6b8 -->
-                                                    <p></p>
-                                                    <p>微软威胁情报团队提出警告，他们在 11 月初发现伊朗骇客组织 APT33（亦称 Peach Sandstorm）新一波的攻击行动，对方使用名为 FalseFont 的后门程式，针对全球的国防工业基地（DIB）相关组织的从业人员发动攻击。</p>
-                                                    <p>研究人员指出，骇客开发与运用 FalseFont 的方式，与他们去年看到的几乎一致，这代表骇客正在持续改良网路间谍攻击的技术。对此，他们呼吁使用者重设遭到密码泼洒攻击的密码，并采用多因素验证（MFA）保护帐号、远端桌面连线（RDP）。</p>
-                                                    <p>资料来源</p>
-                                                    <p>1.&nbsp;
-                                                        <a href="https://twitter.com/MsftSecIntel/status/1737895710169628824">https://twitter.com/MsftSecIntel/status/1737895710169628824</a>
-                                                        <br>
-2.&nbsp;
-                                                            <a href="https://twitter.com/MsftSecIntel/status/1737895713646739697">https://twitter.com/MsftSecIntel/status/1737895713646739697</a>
-                                                            <br>
-3.&nbsp;
-                                                                <a href="https://twitter.com/MsftSecIntel/status/1737895715911700830">https://twitter.com/MsftSecIntel/status/1737895715911700830</a>
-                                                            </p>
-                                                            <p>
-                                                                <a href="https://www.bleepingcomputer.com/news/security/europol-warns-443-online-shops-infected-with-credit-card-stealers/">
-                                                                    <strong style="font-size: 22px;">欧洲刑警组织警告逾 400 个电商网站遭骇，被植入信用卡侧录程式</strong>
-                                                                </a>
-                                                            </p>
-                                                            <!-- notionvc: c2c32070-d6e2-42d9-8415-49c6939e28c8 -->
-                                                            <p></p>
-                                                            <p>欧洲刑警组织（Europol）联手 17 国执法单位，以及欧盟网路安全局（ENISA）、资安业者 Group-IB、Sansec，针对信用卡侧录攻击（Card Skimming）进行调查，结果在 2 个月里发现 443 个电商网站被骇客植入相关作案工具，客户的信用卡或借记卡资料已遭泄露。这起调查行动由希腊主导，属于欧洲犯罪威胁对抗平台（EMPACT）的重点项目。</p>
-                                                            <p>参与本次调查行动的 Group-IB 指出，他们认出的信用卡侧录恶意程式家族多达 23 种，包含：ATMZOW、health_check、FirstKiss、R3nin 等。</p>
-                                                            <p>资料来源</p>
-                                                            <p>1.&nbsp;
-                                                                <a href="https://www.europol.europa.eu/media-press/newsroom/news/action-against-digital-skimming-reveals-443-compromised-online-merchants">https://www.europol.europa.eu/media-press/newsroom/news/action-against-digital-skimming-reveals-443-compromised-online-merchants</a>
-                                                                <br>
-2.&nbsp;
-                                                                    <a href="https://www.group-ib.com/media-center/press-releases/digital-skimming-action/">https://www.group-ib.com/media-center/press-releases/digital-skimming-action/</a>
-                                                                </p>
-                                                                <p>&nbsp;</p>
-                                                                <h3>
-                                                                    <strong>【其他新闻】</strong>
-                                                                </h3>
-                                                                <p>
-                                                                    <a href="https://www.vpnmentor.com/news/report-realestatewealthnetwork-breach/">
-                                                                        <strong>
-                                                                            <span style="font-size: 20px;">美国房地产教育训练中心 Real Estate Wealth Network 资料库不设防，曝露 15 亿笔资料</span>
-                                                                        </strong>
-                                                                    </a>
-                                                                </p>
-                                                                <!-- notionvc: 131a6ea9-0154-4295-988b-0dd309fcc640 -->
-                                                                <p></p>
-                                                                <p>
-                                                                    <a href="https://cybernews.com/security/dubai-real-estate-agency-data-leak/">
-                                                                        <strong>
-                                                                            <span style="font-size: 20px;">房地产管理软体制造商的 CRM 系统曝露 69 万客户资料</span>
-                                                                        </strong>
-                                                                    </a>
-                                                                </p>
-                                                                <!-- notionvc: af8e9afb-2803-4edd-8b10-257f94edcdf5 -->
-                                                                <p></p>
-                                                                <p>
-                                                                    <a href="https://securelist.com/windows-clfs-exploits-ransomware/111560/">
-                                                                        <strong>
-                                                                            <span style="font-size: 20px;">多个视窗作业系统 CLFS 漏洞遭勒索软体骇客利用</span>
-                                                                        </strong>
-                                                                    </a>
-                                                                </p>
-                                                                <!-- notionvc: 58f28a9b-3915-4f27-8908-7ccf219fc2d4 -->
-                                                                <p></p>
-                                                                <p>
-                                                                    <a href="https://www.fortinet.com/blog/threat-research/bandook-persistent-threat-that-keeps-evolving">
-                                                                        <strong>
-                                                                            <span style="font-size: 20px;">RAT 木马程式 Bandook 透过密码保护的压缩档案散布</span>
-                                                                        </strong>
-                                                                    </a>
-                                                                </p>
-                                                                <!-- notionvc: 4b0d60ba-30b1-41c9-9dbf-393b66f11b2c -->
-                                                                <p></p>
-                                                                <p>
-                                                                    <a href="https://www.ithome.com.tw/news/160528">
-                                                                        <strong>
-                                                                            <span style="font-size: 20px;">金融木马 Chameleon 出现变种，可绕过生物辨识保护机制</span>
-                                                                        </strong>
-                                                                    </a>
-                                                                </p>
-                                                                <p>&nbsp;</p>
-                                                                <h3>
-                                                                    <strong>近期资安日报</strong>
-                                                                </h3>
-                                                                <p>
-                                                                    <a href="https://www.ithome.com.tw/news/160527">
-                                                                        <strong>【12 月 25 日】&nbsp;骇客集团 UAC-0099 锁定乌克兰组织并利用 WinRAR 漏洞植入恶意程式 LonePage</strong>
-                                                                    </a>
-                                                                </p>
-                                                                <p>
-                                                                    <a href="https://www.ithome.com.tw/news/160502">
-                                                                        <strong>【12 月 22 日】&nbsp;巴勒斯坦骇客对以色列组织声称提供 F5 BIG-IP「零时差漏洞修补程式」来破坏电脑所有档案</strong>
-                                                                    </a>
-                                                                </p>
-                                                                <p>
-                                                                    <a href="https://www.ithome.com.tw/news/160484">
-                                                                        <strong>【12 月 21 日】&nbsp;Sony 旗下游戏开发商遭勒索软体 Rhysida 攻击并导致开发中的游戏资料外流</strong>
-                                                                    </a>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div></div>
-                                                </div>
-                                            </div></div>]]>
-                                        </description>
-                                        <pubDate>Mon, 25 Dec 2023 16:00:00 GMT</pubDate>
-                                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160548</guid>
-                                        <link>https://www.ithome.com.tw/news/160548</link>
-                                        <author>
-                                            <![CDATA[周峻佑]]>
-                                        </author>
-                                        <category>资安 </category>
-                                    </item>
-                                    <item>
-                                        <title>
-                                            <![CDATA[VMware 全面改采订阅制引爆热议，NAND Research 研究机构取得博通报价剖析新制大冲击]]>
-                                        </title>
-                                        <description>
-                                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/snap361.png?itok=3KUwUdAS" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>VMware</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>博通旗下的虚拟化大厂 VMware 最近<a href="https://www.ithome.com.tw/news/160441">宣布</a>调整现有产品的授权和销售政策，一方面不再提供永久授权版本，全面改以订阅服务合约模式，来销售自家产品；另一方面也简化了既有产品线，改以 VMware Cloud Foundation（VCF）和全新的 VMware vSphere Foundation （VVF）两大产品线为核心，不再单独贩售包括伺服器虚拟化 vSphere、网路虚拟化 NSX 和储存虚拟化 vSAN、多云管理产品套件 Aria 在内等主力产品。也就是说，企业未来必须先订阅 VCF 或 VVF 方案，方能加购这些产品功能，无法单独购买。</p><p>VMware 在 12 月 11 日宣布这项新政策，并在当日立即生效。这项新政策的公布，引起各方的讨论。尤其不仅在国外，台湾许多企业也采用 VMware 的虚拟化方案，因此，对于这项新政策，企业未来在成本评估、服务合约转换时机，以及可能替代方案等方面，都成为未来 CIO 必须仔细评估的重点。</p><p>VMware 在被博通收购后，大动作调整现有的授权和销售模式，也引起外界担忧，对于既有 VMware 企业用户的使用权益可能造成影响，甚至在新的捆绑式销售下，长期来看，可能使得企业用户的整体 IT 支出增加。这也是新政策对于企业 IT 可能带来的最直接的影响。</p><p>不过 VMware 强调，推行订阅制的优势，有助于企业实现持续创新、更快创造价值，并使其投资更具可预测性。为了吸引新旧用户，VMware 还宣布 VCF 订阅方案降价 50％，以鼓励非订阅的用户转换到新方案。</p><p>从 VMware 提供的<a href="https://news.vmware.com/company/vmware-by-broadcom-business-transformation">简易 QA 网页</a>说明，现有企业用户仍然可以继续使用永久授权软体，但若希望升级、取得新功能、技术支援，或是进行 SnS 的续约，就需要转换为新的订阅方案。新政策影响 VMware 产品，涵盖了 VMware Cloud Foundation、vSphere、vSAN、 NSX、SRM 、HCX、vCloud 套件及 VMware Aria 套件等。</p><p>不过，截至目前，不论是母公司博通还是 VMware 针对 VCF 和 VVF 方案包含的服务内容，以及新政策下相关价格方案，并没有提供太多说明。这也使得企业需要等待进一步的公告或详细资讯，才能够根据新政策的具体影响和选择，来谨慎评估其使用需求、预算限制和未来 IT 策略，来拟定对策。由于目前的资讯揭露并不完整，因此市场上出现了各种传言。</p><p class="p1" style="margin: 0px 0px 12px 0.1px; text-indent: -0.1px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 13.5px; line-height: normal; font-family: &quot;Songti TC&quot;; color: rgb(0, 0, 0);"><strong><span style="font-size:26px;"><span class="s2" style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; line-height: normal; font-family: Times; vertical-align: -1px;">NAND Research</span><span class="s1" style="vertical-align: -1px;">研究机构取得博通报价剖析新制冲击</span></span></strong></p><p>在美国 25 年科技产业分析经验的 NAND Research 首席分析师 Steve McDowell 拿到了博通在 12 月 20 日一份价格资讯后，发布了一份<a href="https://nandresearch.com/wp-content/uploads/2023/12/NAND-Impact-of-VMware-Subscription-Changes-1.pdf">分析报告</a>，剖析新制所带来的冲击。这份报告由 Nutanix 赞助。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E6%88%AA%E5%9C%96%202023-12-26%20%E4%B8%8B%E5%8D%882_51_48.png" style="width: 600px; height: 352px;" referrerpolicy="no-referrer"></p><p><strong style="color: rgb(105, 105, 105);">在美国 25 年科技产业分析经验的 NAND Research 首席分析师 Steve McDowell 拿到了博通在 12 月 20 日的一份价格资讯，发布了一篇名为《VMware 新捆绑式销售与定价对企业 IT 采购冲击》的分析报告，公开新订阅制下的 VMware 产品服务内容和相关价格。该报告是由 Nutanix 委托执行。</strong><span style="color: rgb(105, 105, 105); font-size: 14px;">图片来源／</span>NAND Research</p><p>在这份报告中，具体详列了 VCF 和 VVF 这两大产品线将包含的服务。在新的订阅方案中，VCF 方案将包含 vSphere Enterprise Plus 版、vSAN (每核心配置 1TiB )、NSX 网路与 HCX 及 AON、Aria 企业版套件、SDDC Manager 管理平台以及提供 SRE 与相关选择性支援。至于在 VVF 方案中，除了一样有提供 vSphere Enterprise Plus 版之外，还有包含了 vCenter Standard、Tanzu Kubernetes Grid，与每核心配置 100 GiB 的 vSAN ，以及 Aria 标准版套件。</p><p>此外，企业还可以根据用量需求决定是否加购或增添附加元件 (add-ons)，这些元件包括了 vSAN 容量升级、灾难复原即服务解决方案（VCDR）与勒索软体复原即服务（RWR）和灾难复原服务（SRM）、Tanzu 智慧化服务、TMC、TAP 管理介面与 Spring 开发框架等，所有元件都可以透过 VCF 或 VVF 订阅方案来加购。但若要购买防火墙或 ATP 防火墙，只能透过 VCF 进行添购。</p><p>值得注意的是，虽然在 VCF 和 VVF 两大产品线以外，VMware 还提供了针对中小企业客户的 vSphere Standard 和 Essentials Plus 版，但这两项订阅方案无法单独加购其他产品功能，必须进行升级至 VCF 或 VVF 才能用。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E6%88%AA%E5%9C%96%202023-12-26%20%E4%B8%8B%E5%8D%882_51_52.png" style="white-space-collapse: preserve; width: 600px; height: 293px;" referrerpolicy="no-referrer"></p><p>在服务费用方面，该报告中提供更详细的价格资讯。举例来说，在 VCF 订阅方案中，3 年契约的平均牌价每核心价格为 350 美元，而在相同的年限下，VVF 方案的每核心价格则为 135 美元。至于 vSphere Standard 和 Essentials Plus 价格分别为每核心 50 美元和 35 美元。</p><p>此外，企业若要扩充 vSAN 的容量，可以透过附加元件进行加购，每增加 1TiB 需要额外支付 210 美元。对于云端 DR 和勒索软体复原服务，报告指出，每多一个虚拟机防护费用为 360 美元，而每 TiB 的防护费用则为 842 美元。不过，博通另外说会打折。打折后的价格资讯尚未公开。</p><p>NAND Research 分析指出，新的订阅制策略和价格调整，不仅使个别产品无法单独购买，还将原本包含在授权中的功能，现在作为附加元件提供。此外，由于捆绑方案的影响，企业用户可能被迫选择使用相对高价的 VCF 方案，这将导致成本增加，同时也使得他们需额外支付不必要的软体订阅费用和相关管理。</p><p>新的 vSAN 容量定价也是 NAND Research 提到另一个需要特别关注的领域，在 VCF 或 VVF 方案中，每核心仅配置 1TiB 和 100 GiB 的 vSAN，难以满足一般 HCI 运算丛集的储存资源所需。</p><p class="p1" style="margin: 0px 0px 12px 0.1px; text-indent: -0.1px; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: &quot;Songti TC&quot;; color: rgb(0, 0, 0);"><span style="font-size:26px;"><strong><span class="s1" style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; line-height: normal; vertical-align: -1px;">转换为新订阅制</span><span class="s2" style="vertical-align: -1px;">是否比永久授权的买断制更省</span><span class="s1" style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; line-height: normal; vertical-align: -1px;">钱</span></strong></span></p><p>在 VMware 宣布调整授权和销售策略后，VMware 的竞争对手也开始积极招览 VMware 用户，其中以 Nutanix 表现最为积极。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E6%88%AA%E5%9C%96%202023-12-26%20%E4%B8%8B%E5%8D%882_51_38.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="color: rgb(105, 105, 105);"><strong>以每份 CPU 授权 24 核心，每核心 135 美元为例，不考虑折扣方案，Nutanix 比较了 5 年年限永久版本的 vSphere Enterprise Plus 版加上 SnS 方案，与新的订阅制 vSphere Foundation 方案之间的价差。结果显示，企业采用 5 年订阅制方案的费用，相较于永久授权方案更高，需要多付超过 2 倍的费用，若每份 CPU 授权核心数目增加为 32 核，费用可能增长至 3 倍。</strong><span style="font-size: 14px;">图片来源／</span>Nutanix</span></p><p>特别是在企业面临是否转向订阅制的抉择上，相较于以前的永久授权方式是否更省成本，Nutanix 在其官方部落格上<a href="https://www.nutanix.com/blog/vmware-customers-prepare-to-bundle-up">发表文章</a>并进一步提供试算，比较了两种授权方式之间的成本差异。</p><p>以每份 CPU 授权 24 核心，每核心 135 美元为例，不考虑折扣方案，比较了 5 年年限永久版本的 vSphere Enterprise Plus 版加上 SnS 方案，与新的订阅制 vSphere Foundation 方案之间的价差。结果显示，企业采用 5 年订阅制方案的费用，相较于永久授权方案更高，需要多付超过 2 倍的费用，若每份 CPU 授权核心数目增加为 32 核，费用可能增长至 3 倍。即使是耐用年限缩短到 3 年，价格涨幅也有约 1.5 倍之多。</p><p>除了转换到 VMware 订阅方案之外，企业未来还可以采行其他替代方案。以虚拟化平台为例，企业可以选择将 VM 映像档转换到其他商用或开源平台，目前主流的虚拟化平台，除了 VMware vSphere，还有微软 Hyper-V 与开源 KVM 等。</p><p>此外，考虑到日后维运和管理的便利性，企业还可以考虑使用公云作为其替代方案。例如在 VMware 取消永久授权后，台湾世曦工程顾问公司评估明年优先采用公云 IaaS 服务，取代现有地端部署的虚拟机。</p><p>博通先前收购多家软体公司后，经常将收购的业务出售。例如，2019 年博通收购资安业者赛门铁克企业安全业务，不久便将其网路安全服务部门转手卖给 IT 顾问公司 Accenture。</p><p>上个月，博通以 610 亿美元完成对 VMware 的收购后，传出博通正在考虑将 VMware 的非核心业务出售，这些非核心业务包括桌面虚拟化、应用程式发布和行动装置管理等终端运算产品组合，以及 Carbon Black 安全软体等。此外，有<a href="https://www.crn.com/news/virtualization/broadcom-hands-vmware-partners-termination-notice?itc=refresh">消息</a>指出博通计划重新调整现有合作伙伴计划，预计明年 2 月与这些合作伙伴重新签约。</p><p>这一连串的举措反映出，VMware 不只是在授权和销售模式出现重大变革，还将调整其未来的组织和业务战略。VMware 执行长 Raghu Raghuram 在这项并购案完成后随后在<a href="https://www.linkedin.com/feed/update/urn:li:activity:7133175065881309185/">个人 LinkedIn</a>上宣布辞去公司执行长一职。目前，VMware 尚未公布新任执行长。</p></div></div></div><div></div></div></div></div>]]>
-                                        </description>
-                                        <pubDate>Mon, 25 Dec 2023 16:00:00 GMT</pubDate>
-                                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160522</guid>
-                                        <link>https://www.ithome.com.tw/news/160522</link>
-                                        <author>
-                                            <![CDATA[余至浩]]>
-                                        </author>
-                                        <category>新闻</category>
-                                    </item>
-                                    <item>
-                                        <title>
-                                            <![CDATA[电玩厂商 Ubisoft 险遭骇客窃取 900GB 电玩帐号]]>
-                                        </title>
-                                        <description>
-                                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1226-ubisoft_2-960.jpg?itok=phnvN4_Q" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Ubisoft</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>开发知名电玩《汤姆克兰西 Tom Clancy》、《极地战嚎 FarCry》及《阿凡达：潘朵拉边境》的法国电玩开发商 Ubisoft 上周传出遭骇，但及时行动避免了被骇客窃取重要的客户资料。</p><p><a href="https://twitter.com/vxunderground/status/1738093190538760574" target="_blank">资安业者 VX-underground 指出</a>，上周一名不知名的骇客存取了 Ubisoft 的网路，大约 48 小时后，公司管理员才发现异状，并及时注销了存取凭证。这名骇客还告诉 VX-underground，他们打算窃取最新电玩《汤姆克兰西之虹彩六号：围城 Rainbow 6 Siege》的用户资料及其他资讯 900GB。</p><p>在这次行动中，攻击者一度成功存取 Ubisoft SharePoint、Teams、Confluence 及 MongoDB Atlas，还透过暗网分享存取这些系统的萤幕撷图。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1226-ubisoft%20MongoDB%20Atlas-600.png" style="width: 461px;" referrerpolicy="no-referrer"></p><p><a href="https://twitter.com/vxunderground/status/1738144068788494722" target="_blank"><span style="font-size:14px;"><span style="color:#696969;">图片来源_VX-underground</span></span></a></p><p>Sony 旗下开发电玩《蜘蛛人》的 Play Station 电玩业者 Insomniac Games，<a href="https://www.pcmag.com/news/sony-investigates-alleged-hack-of-spider-man-developer-insomniac-games" target="_blank">二周前才因勒索软体 Rhysida 入侵</a>，被骇客于暗网公开 1.6TB 资料，包括大量简报档、图片、电玩影片及公司业务及 HR 资料。</p><p>至于 Ubisoft，<a href="https://www.ithome.com.tw/news/150067" target="_blank">这家业者去年</a>还和 Nvidia、三星及微软等知名企业成为青少年骇客集团 Lapsus$一连串骇入行动的受害者。</p></div></div></div><div></div></div></div></div>]]>
-                                        </description>
-                                        <pubDate>Mon, 25 Dec 2023 16:00:00 GMT</pubDate>
-                                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160546</guid>
-                                        <link>https://www.ithome.com.tw/news/160546</link>
-                                        <author>
-                                            <![CDATA[林妍溱]]>
-                                        </author>
-                                        <category>资安 </category>
-                                    </item>
-                                </channel>
-                            </rss>
+                        </channel>
+                    </rss>
