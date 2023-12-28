@@ -16,59 +16,154 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 28 Dec 2023 08:15:08 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 28 Dec 2023 12:15:29 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[卡巴斯基公布锁定 iMessage 的 Operation Triangulation 复杂攻击链细节]]>
+                <![CDATA[GovTech 月报第 25 期：桃园市用生成式 AI 提高市民专线客服回复效率，平均缩减 20 秒通话时间]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0711-apple-cyber-security-9601_0.jpg?itok=tgmgYZWY" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>资安业者卡巴斯基（Kaspersky）<a href="https://securelist.com/operation-triangulation/109842/" target="_blank">在今年 6 月揭露</a>了一个以 iOS 装置为目标的攻击行动 Operation Triangulation，当时仅说骇客可借由传送一个带有附件的 iMessage 讯息予受害者，就能触发远端程式攻击漏洞，并未公布漏洞细节，<a href="https://securelist.com/operation-triangulation-the-last-hardware-mystery/111669/" target="_blank">但本周卡巴斯基公开了 Operation Triangulation 所使用的 4 个零时差漏洞</a>，还说这是他们自苹果、微软、Adobe 及 Google 等产品中所发现的逾 30 个零时差漏洞中，所见过最复杂的攻击链，其中的 CVE-2023-38606 到底是如何被滥用的，迄今仍是个谜团。</p><p>Operation Triangulation 利用了 4 个零时差漏洞，分别是位于 FontParser 中的远端程式攻击漏洞<a href="https://support.apple.com/en-us/HT213842" target="_blank">CVE-2023-41990</a>，核心中的整数溢位漏洞<a href="https://support.apple.com/en-us/103837" target="_blank">CVE-2023-32434</a>，核心中的可用来绕过页面保护层的<a href="https://support.apple.com/en-us/HT213841" target="_blank">CVE-2023-38606</a>漏洞，以及存在于 WebKit 中可造成任意程式执行的记忆体毁损漏洞<a href="https://support.apple.com/en-us/HT213676" target="_blank">CVE-2023-32435</a>。</p><p>值得注意的是，卡巴斯基发现 Operation Triangulation 最古老的感染痕迹发生在 2019 年，所适用的最新 iOS 版本为 iOS 16.2，而苹果一直到今年 6 月才修补它们，意谓著骇客早已偷偷渗透 iMessage 超过 4 年。</p><p>分析显示，骇客先是借由传送恶意的 iMessage 附件来利用 CVE-2023-41990 漏洞，以执行一个以 JavaScript 撰写的权限扩张攻击程式，接著再利用 CVE-2023-32434 漏洞取得记忆体的读写权限，再以 CVE-2023-38606 漏洞绕过页面保护层（Page Protection Layer），在成功攻击上述 3 个漏洞之后，骇客即可对装置执行任何操作，包括执行间谍软体，然而，骇客却选择了注入一个酬载，并清除所有攻击痕迹，再于隐形模式执行了一个 Safari 程序，以验证受害者，检查通过之后才继续利用下一个位于 WebKit 中的 CVE-2023-32435 漏洞以执行 Shellcode，接著骇客即重复透过先前的漏洞来载入恶意程式。</p><p>这除了是卡巴斯基团队所见过的最复杂的攻击链之外，即使该团队 Operation Triangulation 已有数月之久，但仍无法解开有关 CVE-2023-38606 漏洞的谜团。</p><p>研究人员解释，最近的 iPhone 针对核心记忆体的敏感区域采用了基于硬体的安全保护，以让骇客就算能够读写核心记忆体，也无法控制整个装置，然而，CVE-2023-38606 漏洞的存在是因为骇客利用了苹果系统单晶片上的另一个硬体功能来绕过此一基于硬体的安全保护。</p><p>具体而言，当骇客将资料、位址及资料杂凑写入该晶片上未被韧体使用的硬体暂存器时，就能在写入资料至特定的位址时，绕过基于硬体的记忆体保护。因为相关的硬体暂存器并未受到韧体的监管或保护。</p><p>研究人员的疑惑在于，此一硬体功能从何而来？如果苹果的韧体都未使用它，骇客又如何得知怎么操控它？最可能的解释是它可能是工厂或苹果工程师用来测试或除错的，或许先前曾不小心出现在韧体中，之后又被移除。</p><p>卡巴斯基认为，CVE-2023-38606 漏洞彰显了一件事，这些基于硬体的先进保护机制，只要有硬体功能得以绕过，在面临尖端骇客时也是没用的。此外，硬体安全往往仰赖于隐蔽的安全，使得它的逆向工程比软体更难，但这是一种有缺陷的方式，因为所有的秘密迟早都会被揭露，借由隐蔽所实现的安全永远不可能真正安全。</p></div></div></div><div></div></div></div></div>]]>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/clipboard01_crop_image.jpg?itok=LLArgB0U" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>桃园市政府</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重点新闻 (1126~1225)</span></p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">桃园市</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">生成式 AI</span></font></strong></p><p><span style="font-size:22px;"><strong>桃园市政府导入生成式 AI，提高 1999 市民专线回复效率</strong></span></p><p>看准生成式 AI 提高人机协作效率，桃园市政府研考会近期导入生成式 AI，以提高 1999 市民专线话务人员回复效率，经测试，平均通话时间约可节省 20 秒。</p><p>桃园市政府 1999 市民专线，平均每月约有 2 万通电话，市民来电询问各种市政问题，造成市民专线服务人员庞大的工作负担，因此桃园市政府研考会在 2023 年下半年尝试利用生成式 AI，在话务人员的问答知识库导入 Open AI，开发人机协作系统，话务人员可经由对话输入问题，该系统可以协助话务人员迅速查询、整理市政问题的答复。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/600(8).jpg" style="width: 600px; height: 400px;" referrerpolicy="no-referrer"></p><p>桃园市政府研考会也以「人厉害，还是 AI 厉害」为题，挑选 4 位话务人员实际使用系统进行实验专案，近 1 个月的资料收集及比较，发现整体通话时间平均缩短了 20.75 秒，节省了 10.2% 的时间。特别的是，资深人员使用该系统，节省的时间超过较资浅者，显示人的「经验」会引导 AI 产出品质。另外，不同问题类型，系统产生的效果也有不同，问题情境复杂问题，例如社会福利类的问题，AI 产出品质及缩减时间比较有限，甚至不佳。</p><p>桃园市政府认为，AI 并非万灵丹，并非所有事都可以交给 AI 执行，人机协作，由人引导 AI 产出结果为，提升服务品质的关键。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">身分</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">脸部辨识</span></font></strong></p><p><span style="font-size:22px;"><strong>日本羽田机场将试办扫描 QR Code、脸部辨识简化入境程序</strong></span></p><p>对于出差或旅行的旅客而言，办理入境程序常因为旅客众多而大排长龙。为方便旅客入境，日本政府计划在 2024 年起，在羽田机场试办简化入境程序的新做法，旅客入境只要扫描 QR Code，进行脸部辨识就能完成入境手续。</p><p>根据日本政府观光局统计资料，2023 年 1 月到 11 月止，游日旅客突破 2,200 万人次，为疫后赴日游客首次重返 2 千万人次，因此日本政府简化入境审查、海关申报程序，新做法是旅客事先在网入填写资料后，之后在入境审查仅需扫描 1 次 QR Code，海关申报时再完成脸部辨识就能通过。新措施将在 2024 年 1 月起，先在羽田机场试行，日本政府再依据试行的结果，如果成效良好，则于 2024 年 4 月推广到全国的机场。</p><p>事实上，在 COVID-19 疫情期间，为降低旅客与工作人员面对面的接触，日本政府曾在 2021 年于羽田、成田两个机场运用脸部辨识技术，让旅客自行通关，并强调旅客注册的资料、脸部影像，并强调旅客在注册 24 小时内自动删除相关资料。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">欧盟</span></font></strong></p><p><span style="font-size:22px;"><strong>欧盟就 AI 法案监管重点达成协议，下一步著手拟定法案</strong></span></p><p>AI 应用发展相当迅速，各国积极研究建立法规予以规范，以降低不良的影响。近期欧盟在立法上取得新进展，欧盟各国对未来 AI 法案监管的重点已达成协商共识，下一步将撰写法案，预期通过法令后，2 年后生效。以欧盟在全球的政经影响力，未来立法框架将成为各国的参考依据。</p><p>欧盟规画的 AI Act 法案，涵盖 AI 系统供应商、使用组织，欧盟执委会表示，监管重点为辨识风险，以保障个人及企业的基本权利，在欧盟支援可靠的 AI 研发，对全球的 AI 规则提供贡献。</p><p>根据达成的共识，欧盟将 AI 风险予以分类，最小风险、高风险、不可接受风险、透明度风险。最小风险如推荐系统或垃圾邮件过滤机制，供应商不需承担风险；高风险为关键基础设施、执法或公领域系统、生物辨识与情绪辨识系统等，受到严格要求，需具备风险缓解、详细纪录、受人工监督等措施；不可接受风险为操纵人类行为避开自由意志，在某些应用中禁止生物辨识；透明度风险要求必须能够让人们辨识互动的对象或内容是否来自 AI。</p><p>欧盟也祭出罚则，违反 AI Act 的业者，最高将可处罚 3,500 万欧元或年营收的 7%。未来将成立欧洲 AI 办公室，敦促法规的执行。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">澳洲</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">数位政府</span></font></strong></p><p><strong><span style="font-size:22px;">澳洲政府拟强化 myGov 数位政府服务，导入 FIDO 2 确保身分安全</span></strong></p><p>澳洲政府近期表示将改善 myGov 数位政府服务平台，其中提出的建议做法中，包括导入 FIDO 2，降低钓鱼诈骗的手法，同时该国也将扩大 myGov 的应用范围。</p><p>myGov 为澳洲政府的数位身分及政府服务平台，民众可以数位身分登入后，就能浏览政府资讯、使用各项政府服务，并提供电子钱包以储存数位卡片或证件。不过，myGov 因遭到盗用、诈骗，导致澳洲政府损失数十亿美元，因此澳洲政府提出 myGov 改善建议，盼能降低诈骗、滥用风险。</p><p>其中一项改善做法是采用 FIDO 2 技术的金钥，根据澳洲政府先前的说法，采用 FIDO 2 身分验证技术，让澳洲民众能以指纹、脸部辨识等生物特征，或使用 PIN 码登入服务，以避免遭到网钓诈骗。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">马来西亚</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">数位身分</span></font></strong></p><p><span style="font-size:22px;"><strong>马来西亚推数位身分系统，2024 年第 1 季估 1 千万人使用</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/myDigital%20ID.jpg" style="width: 600px; height: 396px;" referrerpolicy="no-referrer"></p><p>马来西亚近期推动数位身分系统 MyDigital ID，以作为民众身分识别、商业及交易使用，或是用于取得政府的服务，预期 2024 年第 1 季将有 1 千万人注册使用。</p><p>马来西亚原本就有身分证件 MyKad，新的数位身分 MyDigital ID 并不是取代 MyKad，强调具有高度安全性的 ID，具有原先 MyKad 的功能，包括取得多项公共服务。马来西亚政府将分 4 个阶段推动 MyDigital ID，首先开放内阁成员，其次是公务人员、政府受益人（获政府补助），最后才是广大的公众。</p><p>该国计划在 2024 年 7 月开放公众使用 MyDigital ID。目前约有 1,700 多项政府服务可使用 MyDigital ID，未来将增加至 2,000 多项服务。未来透过 4 个阶段逐步开放使用，为 MyDigital ID 建立一定规模的使用者，以吸引民间企业服务采用新的数位身分识别。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">数位部</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">衞星</span></font></strong></p><p><span style="font-size:22px;"><strong>数位部模拟光纤网路中断，验证以衞星建立北高连线</strong></span></p><p>数位发展部为强化我国通讯服务韧性，验证非同步轨道衞星在紧急状态下作为备援网路的可行性，近期模拟光纤网路中断，透过中轨道衞星建立台北与高雄之间的连线。</p><p>媒体报导，数位部已在台北的部本部顶楼架设接收装置，同时在电信技术中心，在高雄路竹架设接收站，模拟光纤网路中断，验证以点对点加密通讯，透过中轨道衞星让台北、高雄两地连线。</p><p>不只是中轨道衞星，未来也会验证低轨道衞星强化通讯韧性的可能性，中华电信日前已和 OneWeb 取得台湾独家代理，配合数位部「应变或战时应用新兴科技强化通讯网路数位韧性」计划，未来也会国内 700 个站点，以及国外 3 个 LEO 衞星终端站点，验证在紧急状态导致地面通讯中断，透过衞星通讯立连线。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">台南市</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">无人机</span></font></strong></p><p><span style="font-size:22px;"><strong>台南市以无人机从空中监测工业区空气品质，辅助环保稽查</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/drone(1).jpg" style="width: 600px; height: 450px;" referrerpolicy="no-referrer"></p><p>经济发展与环境保护如何兼顾，台南市政府近期提供示范。今年 6 月开发完成的柳营科技工业区暨环保园区，目的为迎合台商回流，促进当地的经济发展，为兼顾环境保护，台南市政府利用无人机，从空中巡查监测工业区的空气品质。</p><p>台南市政府是在今年开始运用无人机，结合工业区的 3D 立体空间管理，加强对工业区空气品质监控，由柳营区公所、警察局新营分局柳营分驻所利用夜间，操控无人机执行空气品质监测任务，监测结果作为厂商辅导，以及对厂商的稽查参考。</p><p>无人机上搭载感测器，可搜集 PM2.5、PM10、挥发性有机物、臭氧、温湿度等空气品质数据。另外，也透过搭载高解析度镜头及红外线热显像，从空中巡查园区，透过空中作业补足地面管理的不足，协助园区管理。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">环保</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AIoT</span></font></strong></p><p><span style="font-size: 22px;"><b>环境部与地方政府联手，利用 AIoT 找出空污源头</b></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E7%9D%A3%E5%AF%9F%E4%BA%BA%E5%93%A1%E7%AB%8B%E5%8D%B3%E8%92%90%E8%AD%89%E7%B2%92%E7%8B%80%E6%B1%A1%E6%9F%93%E7%89%A9%E6%B1%A1%E6%9F%93%E7%A9%BA%E6%B0%A3.JPG" style="width: 600px; height: 338px;" referrerpolicy="no-referrer"></p><p>环境部近期利用 AIoT 人工智慧物联网，侦测到部分地区出现异常警示，进一步与台南市环保局合作，依周遭环境、大气扩散条件等分析，锁定重点查核热区，找出空污的源头，针对违反空污法的业者举发。</p><p>根据环境部与地方政府的查核，确认造成空气污染的源头来自一家钢铁业者，该业者融化废铁炼制的过程，虽然设有抽气设备，但白色粒状空气污染物从厂内向厂外扩散，查核人员现场搜证，依法告发。</p><p>环境部表示，未来将和地方政府的环保局合作，透过智慧物联网办理空污监察工作，以管控高污染潜势热区事业，维护空气品质。</p><p>&nbsp;</p><p>图片来源／桃园市政府、Mimos、台南市政府、环境部</p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;更多 GovTech 动态&nbsp;</span></strong></span></p><p><strong>1.2024 年开始桃园将启动 100 处科技执法，靠 AI 取缔交通违规</strong></p><p><strong>2.日本研拟 AI 方针 10 项原则，涵盖人权、虚假讯息应对</strong></p><p>资料来源：iThome 整理，2023 年 12 月</p></div></div></div><div></div></div></div></div>]]>
             </description>
             <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160590</guid>
-            <link>https://www.ithome.com.tw/news/160590</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160562</guid>
+            <link>https://www.ithome.com.tw/news/160562</link>
             <author>
-                <![CDATA[陈晓莉]]>
+                <![CDATA[苏文彬]]>
             </author>
             <category>新闻</category>
         </item>
         <item>
             <title>
-                <![CDATA[纽约时报控告 OpenAI、微软擅自使用网站内容训练 AI]]>
+                <![CDATA[金管会发布金融业运用 AI 指引草案，提供 AI 系统生命周期 4 阶段落实核心原则的作法]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1228-the_new_york_times-photo_by_spenser_sembrat_on_unsplash-960.jpg?itok=nK9VxlXa" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Spenser Sembrat</a> on <a href=&quot;https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Spenser Sembrat</a> on <a href="https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://nytco-assets.nytimes.com/2023/12/NYT_Complaint_Dec2023.pdf" target="_blank">《纽约时报》</a>昨（27）日向纽约地方法院控告 OpenAI 及微软未经其同意使用网站新闻内容来训练 AI 聊天机器人的底层 AI 模型，侵害其声誉及营运获利能力。</p><p>纽时指出，OpenAI 及微软为训练生成式 AI 助理 ChatGPT 及 Copilot 的底层大型语言模型（LLM），未经其同意复制及使用数百万新闻文章、深度调查、社论、产品评价、指引等内容，免费提供给用户，纽时内容还经过加权使用。此外，除了非法使用内容，纽时也批评 ChatGPT 及 Copilot 模仿纽时新闻报导风格撰写报导，有时还将假消息来源指向纽时，伤害其与读者关系及声誉。</p><p>AI 业者撷取网路文章的行为引发媒体出版商反弹，《纽时》、《CNN》、《BBC》等媒体已经封锁 AI 的爬虫。纽时曾试图和 OpenAI、微软（以及提供新闻内容的 Google、苹果及 Meta）洽谈付费授权，但两家公司以「合理使用」为由拒绝付费。纽时指出，两家业者未经同意使用媒体内容产生的内容，又反过来和媒体竞争用户流量，损及其订阅、授权、广告及合作收费制的获利能力。</p><p>这次控告，纽时并未寻求特定金额赔偿，但他们估计因被告滥用其内容造成的损害上看数十亿美元。这家媒体龙头也要求 OpenAI 及微软摧毁使用其内容训练出的 AI 模型及训练资料集。</p><p>纽时是第一家对 OpenAI 或微软提出侵害诉讼的主流媒体。但此前<a href="https://www.nytimes.com/2023/09/20/books/authors-openai-lawsuit-chatgpt-copyright.html" target="_blank">美国作者公会</a>及<a href="https://www.theguardian.com/books/2023/jul/05/authors-file-a-lawsuit-against-openai-for-unlawfully-ingesting-their-books" target="_blank">个别作家</a>也曾控告 OpenAI 侵权。</p><p><a href="https://www.reuters.com/legal/transactional/ny-times-sues-openai-microsoft-infringing-copyrighted-work-2023-12-27/" target="_blank">OpenAI 发出声明稿指出</a>，该公司尊重创作者及所有人，该公司和纽时的对话已有相当进展及成果，因此这番控告感到惊讶与失望。微软则尚未回应。</p><p>为解决资料撷取的争议，<a href="https://www.ithome.com.tw/news/159723" target="_blank">OpenAI 11 月启动合作伙伴计划</a>，以便能合法取得 AI 训练资料集。OpenAI 及另一 AI 大厂 Google 都提供爬虫工具，允许网路出版商退出被撷取资料的行列。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160589</guid>
-            <link>https://www.ithome.com.tw/news/160589</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[禁售令被暂停，苹果可暂时重启销售 Apple Watch]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-apple_watch_series_9-960-2.jpg?itok=DCJcmxti" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在华盛顿联邦巡回上诉法院核准暂停禁售令后，苹果昨天暂时获准销售 Apple Watch 9 及 Ultra 2。</p><p>基于专利侵权理由，美国国际贸易委员会（ITC）10 月发出的 Apple Watch 禁止输入及销售令，在 12 月 26 日生效。苹果昨日向联邦巡回上诉法院提出暂停的紧急命令，也在同一天内获准，暂停 ITC 命令。</p><p><a href="https://www.pacermonitor.com/view/I6WOXQI/Apple_Inc_v_ITC__cafc-24-01285__0019.0.pdf?mcid=tGE3TEOA" target="_blank">上诉巡回法院昨日判决</a>，准许苹果提出的声请动议，在美国海关暨边境防护局（Customs and Border Protection，CBC）决定苹果对 Apple Watch 的变更是否有助于解决 Masimo 的侵权疑虑前，暂停销售令执行。CBD 需在 2024 年 1 月 12 日前做出决定。</p><p><a href="https://www.theverge.com/2023/12/27/24016684/apple-watch-on-sale-again-import-sales-bans-paused" target="_blank">苹果公司向媒体证实</a>二款具血氧量测功能的 Apple Watch，将在美东时间 12 月 28 日下午 3:00 起恢复销售。</p><p>这道命令让原本苹果已经主动停售的 Apple Watch，包括 Series 9 及 Ultra 2 得以重新在美销售。苹果分别于 12 月 21 日及 24 日，暂停二款产品在 Apple.com 及 Apple Store 的销售。</p><p>至于苹果会怎么变更以解决专利侵权问题，苹果可能会修改硬体，只是时程至少需三个月。《彭博》上周报导，苹果目前已在赶工软体更新，以绕过侵害装置业者 Masimo 的专利权的问题。</p><p>同时间 ITC 向上诉巡回法院的声请也获准。ITC 要求将回复苹果声请动议的时间，由 2024 年 1 月 5 日延后到 1 月 10 日。因此，明年一开年，美国政府和苹果将再一次就 Apple Watch 专利侵权是否停售事宜进行攻防。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160588</guid>
-            <link>https://www.ithome.com.tw/news/160588</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Container 快报第 156 期：K8s 年终新版移除云端供应商标签，Datadog 公布 2023 年十大容器趋势]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/datadogzhu_tu_.png?itok=sonVZlDw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Datadog</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2023/12/1～12/25 精选容器新闻：</p><h3><strong><span style="color:#0000FF;">#k8s 核心 #新版</span><br>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/ying_mu_xie_qu_hua_mian_2023-12-28_181805.png?itok=vVGk_9yT" width="960" height="420" alt="" title="金管会今日发布「金融业运用 AI 指引」草案，草案将 AI 系统生命分为 4 阶段，分别是系统规画及设计、资料搜集及输入、模型建立及验证，和系统布署及监控，并分别说明业者在落实核心原则时，应在这四个阶段采取的措施。（图片来源：金管会）" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 金管会今日发布「金融业运用 AI 指引」草案，草案将 AI 系统生命分为 4 阶段，分别是系统规画及设计、资料搜集及输入、模型建立及验证，和系统布署及监控，并分别说明业者在落实核心原则时，应在这四个阶段采取的措施。（图片来源：金管会） </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>既今年 10 月发布金融业运用 AI 的六大核心原则，金管会今日赶在年底公布「金融业运用 AI 指引」草案，分别敍述金融业落实核心原则的建议作法。建议作法的主要架构是将 AI 系统生命周期分为 4 个阶段，分别是系统规画及设计、资料搜集及输入、模型建立及验证，和系统布署及监控，建议业者在各个阶段落实核心原则的作法。</p><p>金管会在 10 月中正式发布金融业运用 AI 的六大核心原则，分别为建立治理及问责机制、重视公平性及以人为本的价值观、保护隐私及客户权益、确保系统稳健性与安全性、落实透明性与可解释性，和促进永续发展。当时仅订定出原则方向，并未敍述导入 AI 应留意的实务作法。</p><p>而今日发布的金融业运用 AI 指引草案，则主要涉及实务作业的操作细节，类似一份操作建议书，分别说明了业者在导入 AI 时，如何在四个阶段中落实公平性、隐私保护及资料治理、系统稳定性、系统安全性、透明性和可解释性。例如，在导入 AI 落实公平性的建议作法中，指引草案分别描述了业者从系统规画及设计阶段、资料搜集及输入阶段、模型建立及验证阶段，到系统布署及监控阶段时，各阶段可采取的措施。其他的核心原则也同样依据这个方式说明建议作法。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/S__51920985_0.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><blockquote><p>金管会发布的金融业运用 AI 指引类似一本操作书。以落实公平性为例，指引草案从系统规画及设计，到系统部署及监控，分阶段提供落实原则的建议作法，供业者参考。</p></blockquote><p>此外，指引草案也因应永续发展提出导入 AI 的建议作法，包括建议业者优化 AI 系统的演算法，减少模型的复杂度与计算需求，也建议业者借重能源效能监控系统，监测 AI 系统的能源消耗与效能表现，并选择能效较高的硬体设备，优化硬体设施的配置与管理。</p><p>金管会强调，这份草案是为了鼓励金融业在风险可控的情况下导入、使用及管理 AI，性质属于行政指导，不具法律拘束力。金管会也建议，金融业相关公会如有订定运用 AI 的自律规范，可以参考这份草案纳入相关重点和措施。若公会尚未订定相关自律规范，则建议参考草案导入、使用及管理 AI 系统。目前草案已发布至「众开讲」，对外开放 60 天征询意见。金管会综合规划处处长胡则华表示，日后会再参采外界建议修正指引内容。</p><p>指引草案发布前，业者对部分建议较有疑虑，包括建立 AI 系统的问责机制，及保护隐私及客户资料的方式。胡则华说明，原先指引草案建议业者建立组织架构问责机制时，应指定跨部门业务的高阶主管负责监督整体 AI 系统应用，不过，部分业者反映高阶主管未必能担任全权督导角色，因此新增成立委员会的选项，让业者能以委员会的形式建立问责机制。</p><p>另外，针对保护隐私及客户权益这项原则，指引草案建议业者以资料最小化原则搜集和处理必要的客户资料，胡则华说明，「最小化」意旨业者应尽量以最少量的客户资料训练 AI 模型，假设模型仅需要 10 项客户资料就能运作顺畅，业者就不应向客户要求 15 项资料。</p><p>
+                <!-- notionvc: 3cc5e8e5-48d8-4d59-a919-a8d334869b84 -->
+            </p>
+        </div>
+    </div>
+</div>
+<div></div>    </div>    </div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160599</guid>    <link>https://www.ithome.com.tw/news/160599</link>    <author>    <![CDATA[李昀璇]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[骇客持续针对 Booking.com 用户展开攻击，骇客论坛已开始兜售登入凭证]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1228-booking_com-960.jpg?itok=XyleL9yz" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Perception Point,Secureworks,Akamai,Kaspersky</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>今年以来持续有资安业者揭露锁定 Booking.com 用户的诈骗活动，也有不少受害者纷纷向媒体投诉，<a href="https://www.kaspersky.com/blog/booking-com-hacked-hotel-accounts-scam-customers/50109/" target="_blank">最近卡巴斯基（Kaspersky）更发现</a>，骇客已开始于骇客论坛中兜售 admin.booking.com 的登入凭证。</p><p>研究人员将相关攻击形容为 B2B2C，因为骇客是先针对与 Booking.com 合作的饭店员工展开攻击，冒充曾是该饭店的客人，请饭店帮忙寻找在饭店中遗失的护照，并于电子邮件中夹带了宣称连至护照照片的连结，结果员工下载的是凭证窃取程式。也有骇客使用被骇的客人帐号与饭店联系，同样将饭店员工引导至下载凭证窃取程式。</p><p>在取得饭店的凭证后，由于 Booking.com 并未采用双因素身分验证，因此骇客可轻易地利用饭店的帐号登入，利用 Booking.com 的内部传讯系统发送讯息予未来的客人，指出他们在预订时提供的支付卡资讯出现错误，要求客人重新输入，否则预订便会被取消。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1228-booking%20dot%20com%20%E5%9C%96%E7%89%87%E4%BE%86%E6%BA%90_Perception%20Point.png" style="width: 450px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><a href="https://perception-point.io/blog/booking-com-customers-hit-by-phishing-campaign-delivered-via-compromised-hotels-accounts/" target="_blank"><span style="color:#696969;">图片来源_Perception Point</span></a></span></p><p><a href="https://www.theguardian.com/money/2023/nov/21/more-bookingcom-customers-come-forward-about-scam-confirmation-emails" target="_blank">《衞报》</a>及<a href="https://www.bbc.com/news/technology-67591310" target="_blank">《BBC》</a>皆已收到许多使用者的投诉，证实被诈骗。</p><p>由于这样的诈骗形式很容易取信于使用者，各大骇客论坛都可看到兜售大量 admin.booking.com 凭证的广告。不过，Booking.com 持续强调该公司的系统并未被骇，被骇的是合作饭店，但 Booking.com 也未针对被诈骗的用户提供解决方案。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/1228-admin%20booking%20com-Source-Secureworks-600-1.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><a href="https://www.secureworks.com/blog/vidar-infostealer-steals-booking-com-credentials-in-fraud-scam" target="_blank"><span style="color:#696969;"><span style="font-size:14px;">图片来源_Secureworks</span></span></a></p><p>研究人员建议使用者不要将密码存放于浏览器中，而应使用专门的密码管理工具，业务用的装置必须安装防护机制，特别是那些用来与陌生人交流的装置，因为它们更有可能成为骇客的攻击目标。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160597</guid>    <link>https://www.ithome.com.tw/news/160597</link>    <author>    <![CDATA[陈晓莉]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[【资安日报】12 月 28 日，别以为使用 SSH 连线就会比较安全！采用容易猜到的帐密有可能将 Linux 伺服器拱手送给骇客]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231228.png?itok=UUWRiw86" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>透过 SSH 连线远端管理 Linux 伺服器的方法相当普遍，但若是使用极为容易猜到的帐号和弱密码，小心！很有可能成为下手的目标，而成为骇客摆布的对象。</p><p>这样的现象，资安业者 AhnLab 今年多次提出警告，而这次他们指出骇客对其部署挖矿程式、DDoS 机器人，同时还有可能植入各式的恶意软体来上下其手。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://asec.ahnlab.com/en/59972/"><strong style="font-size: 22px;">启用 SSH 远端登入、资安防护却不足的 Linux 系统，沦为挖矿、发动 DDoS 攻击利器</strong></a></p>    <!-- notionvc: 16bc3008-1b36-4990-98e4-981c31cd89f2 -->    <p></p>    <p>    <a href="https://s4.itho.me/sites/default/files/images/linux-ssh-image-50.png">
+<img alt="" src="https://s4.itho.me/sites/default/files/images/linux-ssh-image-50.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+</a>资安业者 AhnLab 针对执行 Linux 作业系统的 SSH 伺服器提出警告，攻击者锁定缺乏相关安全设置的主机发动攻击，透过 IP 位址扫描的方式寻找提供 SSH 服务或开放 22 埠的伺服器，发动暴力破解或是字典攻击，从而得到帐号及密码，假如得逞，攻击者就能部署挖矿软体和 DDoS 机器人，借由其运算资源牟利。    </p>    <p>但除了挖矿及发动 DDoS 攻击，研究人员指出，骇客往往也会对其部署恶意程式，其中比例最高的是 ShellBot，比例接近三分之二（63.5％），再者则是 Tsunami、Mirai，分别占 13.9%、5.9%。</p>    <p>值得留意的是，也有骇客得逞后植入连接埠扫描工具，并出售受害主机的 IP 位址与 SSH 帐密资料，这种扫描工具能为骇客寻找开发 22 埠的伺服器，以便挖堀更多能够下手的目标。</p>    <p>
+<a href="https://www.hackread.com/ringgo-parkmobile-easypark-data-breach-data-stolen/">
+    <strong style="font-size: 22px;">欧洲大型停车应用程式服务集团 EasyPark 传出资料外泄</strong>
+</a>    </p>    <!-- notionvc: 35048481-67af-49d8-a8b9-8e8a446da45e -->    <p></p>    <p>
+<a href="https://s4.itho.me/sites/default/files/images/ringgo-parkmobile-easypark-data-breach-data-stolen-2.jpg">
+    <img alt="" src="https://s4.itho.me/sites/default/files/images/ringgo-parkmobile-easypark-data-breach-data-stolen-2.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+    </a>根据衞报、HackRead 等媒体的报导，欧洲大型停车应用程式服务商 EasyPark 发布资安公告，指出他们在 12 月 10 日察觉资料外泄的情况，并通知受到影响的客户。该公司也通报多个欧洲执法单位，包含欧洲资料保护委员会（EDPB）、瑞典及英国的资讯专员办公室，以及瑞士国家资料保护局。
+</p>
+<p>此次外泄资料，涵盖姓名、电话号码、地址、电子邮件信箱、信用卡号码，对于金融资料涉及国际银行帐户号码（IBAN）或是信用卡号，该公司强调这些资料无法直接拿来刷卡、消费。</p>
+<p>目前尚未出现相关资料遭到利用或外泄的迹象，EasyPark 向衞报透露，他们在美国拥有 5 千万名用户的应用程式 ParkMobile 未受波及，但该公司发言人向 HackRead 指出，他们的应用程式 RingGo 在英国约 950 名客户可能受到影响。</p>
+<p>资料来源</p>
+<p>1.&nbsp;
+    <a href="https://www.easypark.com/en-nl/comm">https://www.easypark.com/en-nl/comm</a>
+    <br>
+2.&nbsp;
+        <a href="https://www.theguardian.com/technology/2023/dec/26/hackers-steal-customer-data-europe-parking-app-easypark-ringgo-parkmobile">https://www.theguardian.com/technology/2023/dec/26/hackers-steal-customer-data-europe-parking-app-easypark-ringgo-parkmobile</a>
+    </p>
+    <p>&nbsp;</p>
+    <h3>
+        <strong>【漏洞与修补】</strong>
+    </h3>
+    <p>
+        <a href="https://securelist.com/operation-triangulation-the-last-hardware-mystery/111669/">
+            <strong style="font-size: 22px;">卡巴斯基揭露间谍软体攻击 Operation Triangulation 更多细节，骇客至少利用 4 个零时差漏洞</strong>
+        </a>
+    </p>
+    <!-- notionvc: 776d17f1-54f9-4497-9535-b49fb218074b -->
+    <p></p>
+    <p>
+        <a href="https://s4.itho.me/sites/default/files/images/trng_final_mystery_en_01.png">
+            <img alt="" src="https://s4.itho.me/sites/default/files/images/trng_final_mystery_en_01.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+            </a>今年 6 月资安业者卡巴斯基揭露锁定 iOS 装置的攻击行动 Operation Triangulation，当时发现骇客的攻击手段，是将带有附件的 iMessage 讯息传送到目标装置，以此从远端发动零点击攻击，10 月他们公布骇客回避资安人员调查的手法，而到了 12 月 27 日举行的 Chaos Communication Congress 大会，该公司的研究人员公布新的调查结果，透露更为完整的攻击链。
+        </p>
+        <p>关于整个攻击过程，研究人员指出，骇客至少利用 4 个零时差漏洞。对方传送的 iMessage 讯息当中，其附件利用了远端任意程式码执行（RCE）漏洞 CVE-2023-41990，执行 JavaScript 指令码扩张权限，而这项漏洞，存在于苹果独有的 ADJUST TrueType 字型命令。接著，骇客利用作业系统核心的整数溢位漏洞 CVE-2023-32434，取得读取及写入记忆体的权限，并透过记忆体映射输入输出（MMIO）暂存器漏洞 CVE-2023-38606，绕过分页保护层（Page Protection Layer，PPL），从而完全控制受害装置。接下来，骇客利用 Safari 的漏洞 CVE-2023-32435 执行 Shell Code，该程式码运作的过程，也会利用前述的 CVE-2023-32434 和 CVE-2023-38606。</p>
+        <p>值得留意的是，研究人员指出，这些骇客能够将资料写入晶片韧体未使用的暂存器，并绕过记忆体防护机制，但骇客如何得知存在这种未使用的硬体资源？他们推测，可能是因为硬体设备在提供工厂或苹果工程师测试，或是除错使用的过程而曝光。</p>
+        <p>
+            <a href="https://blog.sonicwall.com/en-us/2023/12/sonicwall-discovers-critical-apache-ofbiz-zero-day-authbiz/">
+                <strong style="font-size: 22px;">ERP 系统 Apache OfBiz 存在重大漏洞，恐被用于绕过身分验证防护</strong>
+            </a>
+        </p>
+        <!-- notionvc: 96d05a37-b8f4-434e-ba6e-d18ab653ed65 -->
+        <p></p>
+        <p>资安业者 SonicWall 在 Apache 基金会维护的 ERP 系统 OfBiz 发现身分验证绕过漏洞 CVE-2023-51467，这项漏洞之所以被找到，是因为 Apache 在 12 月 10 日发布的 18.12.10 版 OfBiz 当中，修补与预先身分验证有关的 RCE 漏洞 CVE-2023-49070（CVSS 风险评分为 9.8），却被发现存在修补不全的情形而衍生这个弱点。</p>
+        <p>攻击者若是利用 CVE-2023-49070，就有机会完全控制 ERP 伺服器并监听敏感资料，当时的开发团队认为，这是不再继续维护的 XML PRC 元件所引发的弱点，因此他们的处理方式便是将相关程式码移除；但后续研究人员著手调查时发现：实际上造成 CVE-2023-49070 发生的问题，根本原因在该系统的登入功能，于是，他们将分析重点放在名为 LoginWorker.java 的档案，了解此系统身分验证过程的各种函数功能，以及过程的资料流。为了验证他们的发现，研究人员尝试输入空白、无效的帐密资料进行测试，并在 URI 带入 requirePasswordChange=Y 的参数，发现这么做居然仍能通过 LoginWorker.java 的身分验证流程，回传登入成功的讯息。</p>
+        <p>值得留意的是，虽然企业直接部署这套 ERP 系统的情况并不常见，但有不少知名软体采用、整合到他们的系统当中，其中一款是 Atlassian 缺陷跟踪管理系统 JIRA，一旦上述的漏洞遭到利用，影响可能相当广泛。</p>
+        <p>
+            <a href="https://www.barracuda.com/company/legal/esg-vulnerability">
+                <strong style="font-size: 22px;">Barracuda 邮件安全闸道遭到中国骇客锁定，利用零时差漏洞对其下手</strong>
+            </a>
+        </p>
+        <!-- notionvc: a908bbfc-5206-4e73-8f78-1ca337f321b9 -->
+        <p></p>
+        <p>12 月 24 日资安业者 Barracuda 发布资安公告，指出中国骇客 UNC4841 利用任意程式码执行（ACE）漏洞 CVE-2023-7102，对部分邮件安全闸道（ESG）植入恶意软体 Seaspy 及 Saltwater 的新型变种。而这是 UNC4841 在 5 月利用 CVE-2023-2868 发动攻击之后，第二波锁定该厂牌邮件安全闸道的零时差漏洞攻击。</p>
+        <p>这项漏洞发生于该系统采用的第三方程式库 Spreadsheet::ParseExcel，此为 Amavis 病毒扫描程式元件，该公司于 21 日摸所有 ESG 系统派送该漏洞的更新软体并自动套用，而对于遭到植入上述恶意软体的设备，22 日 Barracuda 使用另一个更新软体进行修复工作。</p>
+        <p>&nbsp;</p>
+        <h3>
+            <strong>【其他新闻】</strong>
+        </h3>
+        <p>
+            <a href="https://www.bleepingcomputer.com/news/security/lockbit-ransomware-disrupts-emergency-care-at-german-hospitals/">
+                <strong>
+                    <span style="font-size: 20px;">德国医疗体系 KHO 遭遇勒索软体 LockBit 攻击，旗下 3 家医院 IT 系统资料被加密</span>
+                </strong>
+            </a>
+        </p>
+        <!-- notionvc: d7ed1c52-74b2-470c-8445-b0274cef5096 -->
+        <p></p>
+        <p>
+            <a href="https://www.bleepingcomputer.com/news/security/ohio-lottery-hit-by-cyberattack-claimed-by-dragonforce-ransomware/">
+                <strong>
+                    <span style="font-size: 20px;">彩券公司 Ohio Lottery 传出遭勒索软体 DragonForce 攻击，被迫关闭部分系统</span>
+                </strong>
+            </a>
+        </p>
+        <p>
+            <a href="https://www.bleepingcomputer.com/news/security/yakult-australia-confirms-cyber-incident-after-95-gb-data-leak/">
+                <strong>
+                    <span style="font-size: 20px;">养乐多澳洲分公司传出资料外泄，95 GB 档案流出</span>
+                </strong>
+            </a>
+        </p>
+        <p>
+            <a href="https://oag.ca.gov/ecrime/databreach/reports/sb24-578391">
+                <strong>
+                    <span style="font-size: 20px;">松下透露 2022 年 12 月发生的资料外泄事故</span>
+                </strong>
+            </a>
+        </p>
+        <!-- notionvc: 119de0ef-aadb-41c1-955d-6e15f60198ee -->
+        <p></p>
+        <p>
+            <a href="https://www.bleepingcomputer.com/news/security/mortgage-firm-loancare-warns-13-million-people-of-data-breach/">
+                <strong>
+                    <span style="font-size: 20px;">抵押贷款业者 LoanCare 母公司资料外泄，130 万借款人受到影响</span>
+                </strong>
+            </a>
+        </p>
+        <p>&nbsp;</p>
+        <h3>
+            <strong>近期资安日报</strong>
+        </h3>
+        <p>
+            <a href="https://www.ithome.com.tw/news/160564">
+                <strong>【12 月 27 日】&nbsp;有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬</strong>
+            </a>
+        </p>
+        <p>
+            <a href="https://www.ithome.com.tw/news/160548">
+                <strong>【12 月 26 日】&nbsp;有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料</strong>
+            </a>
+        </p>
+        <p>
+            <a href="https://www.ithome.com.tw/news/160527">
+                <strong>【12 月 25 日】&nbsp;骇客集团 UAC-0099 锁定乌克兰组织并利用 WinRAR 漏洞植入恶意程式 LonePage</strong>
+            </a>
+        </p>
+    </div>
+</div>    </div>    <div></div>    </div>    </div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160596</guid>    <link>https://www.ithome.com.tw/news/160596</link>    <author>    <![CDATA[周峻佑]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[卡巴斯基公布锁定 iMessage 的 Operation Triangulation 复杂攻击链细节]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0711-apple-cyber-security-9601_0.jpg?itok=tgmgYZWY" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>资安业者卡巴斯基（Kaspersky）<a href="https://securelist.com/operation-triangulation/109842/" target="_blank">在今年 6 月揭露</a>了一个以 iOS 装置为目标的攻击行动 Operation Triangulation，当时仅说骇客可借由传送一个带有附件的 iMessage 讯息予受害者，就能触发远端程式攻击漏洞，并未公布漏洞细节，<a href="https://securelist.com/operation-triangulation-the-last-hardware-mystery/111669/" target="_blank">但本周卡巴斯基公开了 Operation Triangulation 所使用的 4 个零时差漏洞</a>，还说这是他们自苹果、微软、Adobe 及 Google 等产品中所发现的逾 30 个零时差漏洞中，所见过最复杂的攻击链，其中的 CVE-2023-38606 到底是如何被滥用的，迄今仍是个谜团。</p><p>Operation Triangulation 利用了 4 个零时差漏洞，分别是位于 FontParser 中的远端程式攻击漏洞<a href="https://support.apple.com/en-us/HT213842" target="_blank">CVE-2023-41990</a>，核心中的整数溢位漏洞<a href="https://support.apple.com/en-us/103837" target="_blank">CVE-2023-32434</a>，核心中的可用来绕过页面保护层的<a href="https://support.apple.com/en-us/HT213841" target="_blank">CVE-2023-38606</a>漏洞，以及存在于 WebKit 中可造成任意程式执行的记忆体毁损漏洞<a href="https://support.apple.com/en-us/HT213676" target="_blank">CVE-2023-32435</a>。</p><p>值得注意的是，卡巴斯基发现 Operation Triangulation 最古老的感染痕迹发生在 2019 年，所适用的最新 iOS 版本为 iOS 16.2，而苹果一直到今年 6 月才修补它们，意谓著骇客早已偷偷渗透 iMessage 超过 4 年。</p><p>分析显示，骇客先是借由传送恶意的 iMessage 附件来利用 CVE-2023-41990 漏洞，以执行一个以 JavaScript 撰写的权限扩张攻击程式，接著再利用 CVE-2023-32434 漏洞取得记忆体的读写权限，再以 CVE-2023-38606 漏洞绕过页面保护层（Page Protection Layer），在成功攻击上述 3 个漏洞之后，骇客即可对装置执行任何操作，包括执行间谍软体，然而，骇客却选择了注入一个酬载，并清除所有攻击痕迹，再于隐形模式执行了一个 Safari 程序，以验证受害者，检查通过之后才继续利用下一个位于 WebKit 中的 CVE-2023-32435 漏洞以执行 Shellcode，接著骇客即重复透过先前的漏洞来载入恶意程式。</p><p>这除了是卡巴斯基团队所见过的最复杂的攻击链之外，即使该团队 Operation Triangulation 已有数月之久，但仍无法解开有关 CVE-2023-38606 漏洞的谜团。</p><p>研究人员解释，最近的 iPhone 针对核心记忆体的敏感区域采用了基于硬体的安全保护，以让骇客就算能够读写核心记忆体，也无法控制整个装置，然而，CVE-2023-38606 漏洞的存在是因为骇客利用了苹果系统单晶片上的另一个硬体功能来绕过此一基于硬体的安全保护。</p><p>具体而言，当骇客将资料、位址及资料杂凑写入该晶片上未被韧体使用的硬体暂存器时，就能在写入资料至特定的位址时，绕过基于硬体的记忆体保护。因为相关的硬体暂存器并未受到韧体的监管或保护。</p><p>研究人员的疑惑在于，此一硬体功能从何而来？如果苹果的韧体都未使用它，骇客又如何得知怎么操控它？最可能的解释是它可能是工厂或苹果工程师用来测试或除错的，或许先前曾不小心出现在韧体中，之后又被移除。</p><p>卡巴斯基认为，CVE-2023-38606 漏洞彰显了一件事，这些基于硬体的先进保护机制，只要有硬体功能得以绕过，在面临尖端骇客时也是没用的。此外，硬体安全往往仰赖于隐蔽的安全，使得它的逆向工程比软体更难，但这是一种有缺陷的方式，因为所有的秘密迟早都会被揭露，借由隐蔽所实现的安全永远不可能真正安全。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160590</guid>    <link>https://www.ithome.com.tw/news/160590</link>    <author>    <![CDATA[陈晓莉]]>    </author>    <category>资安 </category>    </item>    <item>    <title>    <![CDATA[纽约时报控告 OpenAI、微软擅自使用网站内容训练 AI]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1228-the_new_york_times-photo_by_spenser_sembrat_on_unsplash-960.jpg?itok=nK9VxlXa" width="960" height="420" alt="" title="Photo by <a href=&quot;https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Spenser Sembrat</a> on <a href=&quot;https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by <a href="https://unsplash.com/@spensersembrat?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Spenser Sembrat</a> on <a href="https://unsplash.com/photos/unks-coffee-shop-during-daytime-F5wRh908Vis?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://nytco-assets.nytimes.com/2023/12/NYT_Complaint_Dec2023.pdf" target="_blank">《纽约时报》</a>昨（27）日向纽约地方法院控告 OpenAI 及微软未经其同意使用网站新闻内容来训练 AI 聊天机器人的底层 AI 模型，侵害其声誉及营运获利能力。</p><p>纽时指出，OpenAI 及微软为训练生成式 AI 助理 ChatGPT 及 Copilot 的底层大型语言模型（LLM），未经其同意复制及使用数百万新闻文章、深度调查、社论、产品评价、指引等内容，免费提供给用户，纽时内容还经过加权使用。此外，除了非法使用内容，纽时也批评 ChatGPT 及 Copilot 模仿纽时新闻报导风格撰写报导，有时还将假消息来源指向纽时，伤害其与读者关系及声誉。</p><p>AI 业者撷取网路文章的行为引发媒体出版商反弹，《纽时》、《CNN》、《BBC》等媒体已经封锁 AI 的爬虫。纽时曾试图和 OpenAI、微软（以及提供新闻内容的 Google、苹果及 Meta）洽谈付费授权，但两家公司以「合理使用」为由拒绝付费。纽时指出，两家业者未经同意使用媒体内容产生的内容，又反过来和媒体竞争用户流量，损及其订阅、授权、广告及合作收费制的获利能力。</p><p>这次控告，纽时并未寻求特定金额赔偿，但他们估计因被告滥用其内容造成的损害上看数十亿美元。这家媒体龙头也要求 OpenAI 及微软摧毁使用其内容训练出的 AI 模型及训练资料集。</p><p>纽时是第一家对 OpenAI 或微软提出侵害诉讼的主流媒体。但此前<a href="https://www.nytimes.com/2023/09/20/books/authors-openai-lawsuit-chatgpt-copyright.html" target="_blank">美国作者公会</a>及<a href="https://www.theguardian.com/books/2023/jul/05/authors-file-a-lawsuit-against-openai-for-unlawfully-ingesting-their-books" target="_blank">个别作家</a>也曾控告 OpenAI 侵权。</p><p><a href="https://www.reuters.com/legal/transactional/ny-times-sues-openai-microsoft-infringing-copyrighted-work-2023-12-27/" target="_blank">OpenAI 发出声明稿指出</a>，该公司尊重创作者及所有人，该公司和纽时的对话已有相当进展及成果，因此这番控告感到惊讶与失望。微软则尚未回应。</p><p>为解决资料撷取的争议，<a href="https://www.ithome.com.tw/news/159723" target="_blank">OpenAI 11 月启动合作伙伴计划</a>，以便能合法取得 AI 训练资料集。OpenAI 及另一 AI 大厂 Google 都提供爬虫工具，允许网路出版商退出被撷取资料的行列。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160589</guid>    <link>https://www.ithome.com.tw/news/160589</link>    <author>    <![CDATA[林妍溱]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[禁售令被暂停，苹果可暂时重启销售 Apple Watch]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-apple_watch_series_9-960-2.jpg?itok=DCJcmxti" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在华盛顿联邦巡回上诉法院核准暂停禁售令后，苹果昨天暂时获准销售 Apple Watch 9 及 Ultra 2。</p><p>基于专利侵权理由，美国国际贸易委员会（ITC）10 月发出的 Apple Watch 禁止输入及销售令，在 12 月 26 日生效。苹果昨日向联邦巡回上诉法院提出暂停的紧急命令，也在同一天内获准，暂停 ITC 命令。</p><p><a href="https://www.pacermonitor.com/view/I6WOXQI/Apple_Inc_v_ITC__cafc-24-01285__0019.0.pdf?mcid=tGE3TEOA" target="_blank">上诉巡回法院昨日判决</a>，准许苹果提出的声请动议，在美国海关暨边境防护局（Customs and Border Protection，CBC）决定苹果对 Apple Watch 的变更是否有助于解决 Masimo 的侵权疑虑前，暂停销售令执行。CBD 需在 2024 年 1 月 12 日前做出决定。</p><p><a href="https://www.theverge.com/2023/12/27/24016684/apple-watch-on-sale-again-import-sales-bans-paused" target="_blank">苹果公司向媒体证实</a>二款具血氧量测功能的 Apple Watch，将在美东时间 12 月 28 日下午 3:00 起恢复销售。</p><p>这道命令让原本苹果已经主动停售的 Apple Watch，包括 Series 9 及 Ultra 2 得以重新在美销售。苹果分别于 12 月 21 日及 24 日，暂停二款产品在 Apple.com 及 Apple Store 的销售。</p><p>至于苹果会怎么变更以解决专利侵权问题，苹果可能会修改硬体，只是时程至少需三个月。《彭博》上周报导，苹果目前已在赶工软体更新，以绕过侵害装置业者 Masimo 的专利权的问题。</p><p>同时间 ITC 向上诉巡回法院的声请也获准。ITC 要求将回复苹果声请动议的时间，由 2024 年 1 月 5 日延后到 1 月 10 日。因此，明年一开年，美国政府和苹果将再一次就 Apple Watch 专利侵权是否停售事宜进行攻防。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160588</guid>    <link>https://www.ithome.com.tw/news/160588</link>    <author>    <![CDATA[林妍溱]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[Container 快报第 156 期：K8s 年终新版移除云端供应商标签，Datadog 公布 2023 年十大容器趋势]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/datadogzhu_tu_.png?itok=sonVZlDw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Datadog</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2023/12/1～12/25 精选容器新闻：</p><h3><strong><span style="color:#0000FF;">#k8s 核心 #新版</span><br>
 K8s 年终最后一更 1.29 版新增 49 项强化，重大变革是 K8s 原始码移除云端供应商标签</strong></h3><p><img alt="" src="https://s4.itho.me/sites/default/files/images/k8s-1_29(1).png" style="float: left;" referrerpolicy="no-referrer">赶在 2023 年底，K8s 释出了 1.29 版，这次有 49 项强化，包括了 11 项稳定版功能、19 项 Beta 版功能和 19 项新增的 Alpha 版功能。这个版本有三项重要的稳定版功能，新增了第四种存取永久储存空间的方式，可以使用 ReadWriteOncePod，来指定一整个 Pod 丛集的可读可写状态，在 1.22 版之前只能针对单一节点来指定，现在可以一次针对整个 Pod 来设定。另一个重点也是储存类功能，CSI 驱动程式可以支援机密资料区的扩充操作。另外，金钥管理服务 KMS v2 也进入稳定版，可以提供比 v1 更好的效能，而且 v1 版从 1.29 版开始预设为进用，强制改用 v2 版 KMS。</p><p>另外一个值得注意的 1.29 版重大改变是，这个版本移除了 K8s 原始码中的云端供应商的标签（flag），包括了 Azure、GCE、vSphere、AWS 和 OpenStack，kube API、Kube 控制器管理机制或 kubelet 元件从 1.29 版开始不会再支援这类标签，企业若使用这些标签来操作相关 K8s 指令，要升级到 1.29 版前，需要全盘检视原有配置和程式，避免升级后无法运作。企业若 Azure、GCE、vSphere、AWS 和 OpenStack 这五家云端供应商的产品，就得留意是否使用了 K8s 中的云端供应商标签。其余云端供应商的名称没有出现在 K8s 原始码中，因此不会受到影响。</p><h3><strong><span style="color:#0000FF;">#Serverless #24 亿容器趋势分析</span><br>
 Datadog 分析数万企业 24 亿个容器，公布 2023 最新企业容器十大趋势</strong></h3><p>云端监控服务商 Datadog 每年都会公布了年度容器报告，从它所监控的容器遥测数据，归纳出当年的容器技术采用趋势。日前 Datagod 公布了从数万家企业所用的 24 亿个容器监控数据的分析结果，归纳出 10 大年度容器发展趋势。</p><p>今年大趋势是，企业为了发展 AI 应用使用了大量 GPU 运算，也让企业更加重用 Serverless 容器来减轻开发者的管理负担，也采用更多便宜的 ARM 实例来维持用户体验。Serverless 容器采用率从 2 年前的 31%，今年提高到了 46%，几乎每两家拥抱容器的企业，就有一家会采用全托管的 Serverless 型容器服务。每家公云的 Serverless 容器采用率都有提高，但 Cloud Cloud 旗下顾客的采用率提高最多，从 2 年前的 35%，今年翻了一倍增加到 68%。</p><p>所有容器实例采用 GPU 运算的时间，今年也大暴增，一口气比去年同期增加了 58%。非 GPU 运算的容器实例只有增加了 25%，这也反映出容器用于 AI 应用的需求，在今年大暴增。不过，多数容器的 CPU 利用率还是偏低，超过 65% 的容器的 CPU 利用率不到一半，同样地，也有超过 65% 的容器只用了不到一半的记忆体用量，其余都是闲置。这两个数据反映出，企业容器优化还有很大的改善空间。</p><p>以应用类型来说，资料库和 Web 伺服器是多数容器要支援的工作量。容器所用开发语言的排名上，今年依旧是 Node.js 居冠，超过 4 成容器使用，其次才是 Java、Python 和 Go。目前，多数企业采用的 K8s 版本，以 1.24 版最多，超过 3 成。其次是 1.25 版，升级到 1.26、1.26 版的容器都约 1 成而已。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/datadog-k8s%E7%89%88%E6%9C%AC.png" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#0000FF;">#K8s 碳排追踪 #Kepler</span><br>
 企业如何追踪 K8s 中每一个容器的碳排？CNCF 力推 Kepler 碳足迹追踪新工具</strong></h3><p>企业 IT 维运如何实现永续，持续量测 IT 基础架构运作的碳足迹是关键一步，CNCF 技术监督委员会成员之一的苹果资深工程师 Katie Gamanji 近日在一场活动中，特别推荐 Kepler 专案。这是由 IBM 和红帽在 2022 年 2 月发起，2023 年 5 月加入 CNCF 沙盒的专案。这是一个用 eBPF 来取得相关系统状态资讯再输出成 Prometheus 效能矩阵的工具。Kepler 这项碳排追踪工具会在每个节点中，部署一个 Kepler 探索器，来搜集到容器层级和节点层级的资讯，主要透过 eBPF 追踪 CPU 效能计数器和 Linux 核心 Tracepoint 机制，来搜集能耗和资源利用率的资讯，再进一步计算出每个容器或节点所消耗的 kWh 能耗资讯，乘上碳排放参数来换算出所这个能耗对产生的碳排放量。预设采用的碳排放参数来自美国能源资讯管理局，以煤、天然气和石油的碳排数值组合而成。企业也可以用公云业者提供的资料中心碳排参数来计算更具体的碳排放量。再将资讯整合成 Prometheus 矩阵，提供给 Gafana 用来产生视觉化的图表，例如可以详细产生每一个容器或每一个 Namespace 每一天的碳排放量，作为企业改善碳排的参考数据。</p><h3><strong><span style="color:#0000FF;">#eBPF #可观察性</span><br>
@@ -79,338 +174,218 @@ Docker 公司并购了容器测试工具新创 AtomicJar，扩大开发者内部
 VMware 宣布将全面改采订阅制销售，但还没揭露详细计价细节引起热议</strong></h3><p>博通在 11 月下旬完成 VMware 收购之后，最近 VMware 一场宣布引起轩然大坡，未来将全面终止买断授权，所有产品改为订阅制，从宣布当日起，不再提供永久授权、有效支援与订阅服务 (Support and Subscription，SnS）续订，以及混合与订阅购买计划 (HPP/SPP) 点数在内的销售模式。新政策影响 VMware 产品，涵盖了 VMware Cloud Foundation、vSphere、vSAN、NSX、SRM、HCX、vCloud 套件及 VMware Aria 套件产品等。<br>
 原有拥有授权购买的产品可以继续使用，但在技术支援到期后，企业得改用订阅软体或定期授权，才能继续取得支援。虽然 VMware 预告，VCF 订阅方案将降价 50%，同时加强对启动解决方案和生命周期管理的支援。不过，VMware 还没有揭露更多未来订阅制计价细节，以及现有产品如何转换到订阅制的说明。资讯不足也引起企业抱怨连连，引起各界热议。不过，博通表示，除了继续投资和发展 VMware Cloud Foundation 核心产品，会持续发展云原生平台 VMware Tanzu，还包括应用程式网路和进阶安全性服务，以及针对电信和企业边缘的 VMware 软体定义边缘的相关发展。在并购案完成后，VMware 执行长 Raghu Raghuram 也立即宣布辞职，目前尚未宣布新任执行长人选。</p><h3><strong><span style="color:#0000FF;">#GAI #K8s 发展策略</span><br>
 K8s 发展战略从底层转到应用层，支援 GAI 运算将是未来 2 年重要方向</strong></h3><p>早从 2015 年就加入 K8s 专案的 Google 主任工程师 Janet Kuo 是第一代 K8s 团队推手，日前她来台参加 Kubernetes summit 时透露：「K8s 的发展已经从运算资源的调度，开始延伸思考到应用目标」，Janet 强调：「这是 K8s 发展战略上很大的改变，从底层转到应用层。」K8s 开始针对特定情境的应用，尤其是未来非常重要的应用，例如 GAI 运算的支援，将是 K8s 未来 2 年的重要方向。</p><p>例如在 Janet 所领导的 Application 小组正在规画，如何调整 K8s 的 Jobs API，让 ML 工作量在 K8s 执行得更顺利。例如考虑在 K8s 底层，提供 Jobs 之间的状态传递能力，让 K8s 更容易支援 AI/ML 工作流程，或是支援不断迭代的 AI 训练方式。另一个支援 AI/ML 运算的 K8s 优化方向是，考虑增加 Jobs 底层的 Log 机制，让 K8s 维运人员更容易搜集这些 Jobs 的执行数据来优化效能，可以用来支援特别讲究效能的 AI 任务。「K8s 希望让 AI 工作量更有效率地在 K8s 上执行，也想让 Jobs API 支援各种 AI 工作量的需求。」不过，Janet 坦言，K8s 核心不会引进生成式 AI 技术，而是，她认为，GAI 可以协助来产生更有效率的 k8s 配置，也很适合用于学习 K8s。「不少人抱怨 K8s 太难学了，我希望 GAI 可以降低 K8s 的上手门槛。」</p><h3><strong><span style="color:#0000FF;">#基础架构程式码化 #AI 助手</span><br>
-更多 IaC 维运 AI 助手出现，HashiCorp、Grafana Lab 都将导入 Duet AI</strong></h3><p>随著 Google 发表自家最强 LLM 模型 Gemini 同时，也宣布与多家开发工具商合作，将 Duet AI 导入到不同开发工具或资料库软体中，其中一家就是 HashiCorp。HashiCopr 预计将 AI 助手 Duet AI 导入到自家 IaC 工具 Terraform 中，来协助撰写基础架构调度的配置档。使用者未来可以直接要求 AI 助理，提供相关 Terraform 的原始文件、各种学习教材，也能要求 AI 助理用 HCL 语法撰写不同用途或需求的 IaC 配置档范例，来提高维运人员配置设定工作的效率。另一家业者 Grafana Lab 则是基础架构维运常用的开源可观察性平台业者，也将在自家产品中导入 Duet AI，可以用来查询各种产品文件，也能协助开发者设计 Grafana 仪表板，提供如何设计视觉化图表、查询设计，甚至是如何分析资料的建议。使用者也可以询问如何用 Grafana 来进行除错等提高 AP 可靠性的问题。</p><p><strong>更多新闻</strong></p><p>小红书等中国企业联手打造的跨云 K8s 管理专案 Karmada 进入 CNCF 专案孵化阶段</p><p>资任编辑：王宏仁</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160587</guid>
-            <link>https://www.ithome.com.tw/news/160587</link>
-            <author>
-                <![CDATA[王宏仁]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[VS Code 新版 Java 扩充套件采用新测试覆盖率 API，可在测试时直接查看结果]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2139_-_java_on_visual_studio_code_update_-_december_2023_-_microsoft_for_ja_-_devblogs.microsoft.com_.png?itok=ugyVC4Pc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软<a href="https://devblogs.microsoft.com/java/java-on-visual-studio-code-update-december-2023/">更新</a>VS Code 的 Java 扩充套件，新版本已经可以显示测试覆盖率，并且改进开发体验，另外，Spring Boot 扩充套件也有诸多更新，包括 Spring Boot 版本的升级以及执行效能，都获得强化。</p><p>在之前的 Java 扩充套件版本，开发者在执行测试时无法看到测试覆盖率，而测试覆盖率是一个测试案例对程式码覆盖程度的重要指标。在这个新版本加入新的测试覆盖率 API，当开发者在 VS Code Insiders 中执行 Java 测试时，能够直接查看覆盖率结果。</p><p>而新版 Java 扩充套件对创建 Java 档案的体验也有所改进，过去开发者反应，创建 Java 类别、介面和其他型别的流程，与其他 Java IDE 相比不够直觉。而现在微软在新版本中调整流程，当开发者尝试创建 Java 档案时，Java 扩充套件会立即显示一个包含各种 Java 档案类型列表，诸如类别和介面等，供开发者可以从中选择适合的类型进行创建。这项改进使创建特定类型的 Java 档案变得更便捷。</p><p>随著 VS Code 中 Java 扩充套件功能的增加，相关的设定选项也越来越多，过去所有 Java 相关的设定都摆在一起，让开发者难以找到特定的选项，而在新版中，设定项目会按类别和用途分类，使得开发者能够方便找到需要的设定。</p><p>过去当开发者要将具有多模组的专案汇入到 VS Code 时，扩充套件会自动将所有内容汇入到工作区，但如果模组数量过多将会耗费大量的时间。现在当 java.import.projectSelection 选项被设定为 manual 时，开发者可以在专案汇入到工作区时，选择要汇入的子专案，进而跳过不需要汇入的模组，大幅减少整体专案汇入时间。</p><p>此外，Spring Boot 扩充套件也有一系列新功能和效能提升更新。Spring Boot 扩充套件采用开源自动化重构工具 OpenRewrite，可将现有 Spring 专案自动升级至 Spring Boot 3.2，这项更新强化了现有的升级支援，可协助开发者将专案从 Spring Boot 2.x 搬迁至 Spring Boot 3.0 或更高版本。</p><p>而 application.properties 或 application.yml 档案中的程式码完成速度，在新版扩充套件也获得大幅提升，官方指出，首次呼叫的速度较以前的版本快 10 倍。这次更新还整合了一个新的验证引擎，能快速地进行专案分析和索引，大幅减少背景记忆体的使用，让 Spring 的验证和修复的反应更加迅速。</p><p>不只如此，最新的 Spring 工具还进行了许多效能改进，使其执行速度明显加快，并且也使用更少的 CPU 周期和记忆体，整体操作起来更轻巧敏捷。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160577</guid>
-            <link>https://www.ithome.com.tw/news/160577</link>
-            <author>
-                <![CDATA[李建兴]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[开发者终于可于 Safari 技术预览版测试 WebGPU]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2137_-_particles_-_webgpu_samples_-_webgpu.github.io_.png?itok=_coyS6oQ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Webkit 开发团队释出<a href="https://webkit.org/blog/14879/webgpu-now-available-for-testing-in-safari-technology-preview/">Safari 技术预览 185 版本</a>，让开发者能够启用 WebGPU，并且进行早期测试和开发。想要抢先试用 WebGPU 的用户，需要从偏好设定中启用 WebGPU、GPU Process:DOM Rendering 以及 GPU Process:Canvas Rendering 功能旗标。</p><p>目前 Chromium、Firefox 与 Safari 这 3 个主要浏览器都开始支援 WebGPU，不过<a href="https://github.com/gpuweb/gpuweb/wiki/Implementation-Status">进度各有不同</a>，Chrome 与 Edge 在今年 4 月所发布的 113 版本，已经预设启用 WebGPU。而 Firefox 也已经在 Nightly 版本预设启用 WebGPU，目前 GitHub 上<a href="https://github.com/gfx-rs/wgpu/milestone/8">WebGPU 规格 V1 实作的完成度为 29%</a>。Safari 则是从技术预览 185 版本开始，开发者才能进行测试。</p><p>WebGPU 是用来代替 WebGL（Web Graphics Library）的新绘图 API，可供开发者在网页上实现高效能 3D 图形和通用运算。过去开发者使用 WebGL 开发网页图形应用程式，WebGL 是以 OpenGL ES 2.0 为基础，供开发者在无需额外套件的情况下，直接在浏览器中使用 GPU 渲染复杂特效和图形。</p><p>但是 WebGL 存在一些问题，除了其著色器语言 GLSL 学习曲线陡，需要进阶的图学程式开发知识之外，相比于 WebGPU，WebGL 在 GPU 功能支援方面有限，WebGL 主要用于绘制图形以及渲染工作，对于通用 GPU 运算的支援度不足。随著 3D 图形应用对效能与渲染功能的要求越来越高，WebGL 的限制逐渐浮现。</p><p>而 WebGPU 是比 WebGL 更先进的技术，不仅提供更高效的 3D 图形渲染，还支援更广泛地运算功能，使开发者能够有效发挥现代 GPU 的能力。WebGPU 提供了一个更新更低阶的 API，可以良好地支援现代 GPU 架构，进而提高运算效能和和效率。</p><p>而 WebGPU Shading Language（WGSL）是专为 WebGPU 设计的著色器语言，目的是可在网页环境中支援 3D 图形和通用运算，具有跨平台的特性，开发者同样也可以在 Safari 技术预览 185 版本中尝试进行网页图形开发。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160576</guid>
-            <link>https://www.ithome.com.tw/news/160576</link>
-            <author>
-                <![CDATA[李建兴]]>
-            </author>
-            <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【资安日报】12 月 27 日，有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231227_0.png?itok=hvB0kymb" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>这个月针对电玩公司的网路攻击事件接连传出，包含 Sony 旗下电玩业者 Insomniac Games 遭勒索软体 Rhysida 入侵，偷走处于开发状态的电玩游戏《金钢狼》相关资料；有人对电玩开发商 Ubisoft 发动攻击，目标是《虹彩六号：围攻行动》的内部资料。而最近一起资料外泄事故，则是可能与近期遭到判决的骇客有关。</p><p>有人透过暗网、Telegram 频道、Discord 伺服器等管道，散布《侠盗猎车手 V》的原始码，并在 Telegram 频道表示公开这些资料的目的。值得留意的是，这次被公布的是资料是游戏程式的原始码，后续影响有待观察。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/"><strong style="font-size: 22px;">电玩开发商 RockStar Games 遭骇一年，《侠盗猎车手 V》原始码被公开</strong></a></p>
-                <!-- notionvc: 1c74e956-fd48-4cc9-9a97-1f24e5899c7d -->
-                <p></p>
-                <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/gta-telegram-post.jpg">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/gta-telegram-post.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>根据 Bleeping Computer、Cyber Express 等资安新闻网站的报导，专门提供电玩游戏《侠盗猎车手》资讯的新闻网站 GTA Focal 指出，他们得知《侠盗猎车手 V（Grand Theft Auto V，GTA 5）》原始码外流的情况，有人在 Telegram 频道、Discord 伺服器，以及暗网网站上公布相关档案，打包后档案大小约为 4 GB，包含 Rage 游戏引擎的大量文件、概念设计资料、参考图片，其中包括该游戏的早期地图。此外，这批资料还包含了尚未上市的《侠盗猎车手 VI（GTA 6）》Python 指令码档案。
-                    </p>
-                    <p>而对于相关资料被公开的原因，Bleeping Computer 指出，公布资料的人士在 Telegram 频道上提及，他们这么做是为了向隶属 Lapsus$骇客组织的成员 Arion Kurtaj 致敬，而这名骇客因攻击游戏开发商 Rockstar Games、车辆共享平台 Uber，而被英国法院判决需终身住院治疗。</p>
-                    <p>GTA Focal 指出，这些资料是 2022 年 Rockstar Games 遭骇的事故流出，当时骇客组织 Lapsus$即声称窃得 GTA 5 和 GTA 6 的原始码及其他内部资料。资安研究团队 VX-Underground 取得公布资料的骇客说法，对方声称在 8 月就拿到相关档案，目的是打击 GTA 5 改装场景出现的诈骗行为。</p>
-                    <p>资料来源</p>
-                    <p>1.&nbsp;
-                        <a href="https://gtafocal.com/?p=560">https://gtafocal.com/?p=560</a>
-                        <br>
+更多 IaC 维运 AI 助手出现，HashiCorp、Grafana Lab 都将导入 Duet AI</strong></h3><p>随著 Google 发表自家最强 LLM 模型 Gemini 同时，也宣布与多家开发工具商合作，将 Duet AI 导入到不同开发工具或资料库软体中，其中一家就是 HashiCorp。HashiCopr 预计将 AI 助手 Duet AI 导入到自家 IaC 工具 Terraform 中，来协助撰写基础架构调度的配置档。使用者未来可以直接要求 AI 助理，提供相关 Terraform 的原始文件、各种学习教材，也能要求 AI 助理用 HCL 语法撰写不同用途或需求的 IaC 配置档范例，来提高维运人员配置设定工作的效率。另一家业者 Grafana Lab 则是基础架构维运常用的开源可观察性平台业者，也将在自家产品中导入 Duet AI，可以用来查询各种产品文件，也能协助开发者设计 Grafana 仪表板，提供如何设计视觉化图表、查询设计，甚至是如何分析资料的建议。使用者也可以询问如何用 Grafana 来进行除错等提高 AP 可靠性的问题。</p><p><strong>更多新闻</strong></p><p>小红书等中国企业联手打造的跨云 K8s 管理专案 Karmada 进入 CNCF 专案孵化阶段</p><p>资任编辑：王宏仁</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160587</guid>    <link>https://www.ithome.com.tw/news/160587</link>    <author>    <![CDATA[王宏仁]]>    </author>    <category>AI</category>    </item>    <item>    <title>    <![CDATA[VS Code 新版 Java 扩充套件采用新测试覆盖率 API，可在测试时直接查看结果]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2139_-_java_on_visual_studio_code_update_-_december_2023_-_microsoft_for_ja_-_devblogs.microsoft.com_.png?itok=ugyVC4Pc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软<a href="https://devblogs.microsoft.com/java/java-on-visual-studio-code-update-december-2023/">更新</a>VS Code 的 Java 扩充套件，新版本已经可以显示测试覆盖率，并且改进开发体验，另外，Spring Boot 扩充套件也有诸多更新，包括 Spring Boot 版本的升级以及执行效能，都获得强化。</p><p>在之前的 Java 扩充套件版本，开发者在执行测试时无法看到测试覆盖率，而测试覆盖率是一个测试案例对程式码覆盖程度的重要指标。在这个新版本加入新的测试覆盖率 API，当开发者在 VS Code Insiders 中执行 Java 测试时，能够直接查看覆盖率结果。</p><p>而新版 Java 扩充套件对创建 Java 档案的体验也有所改进，过去开发者反应，创建 Java 类别、介面和其他型别的流程，与其他 Java IDE 相比不够直觉。而现在微软在新版本中调整流程，当开发者尝试创建 Java 档案时，Java 扩充套件会立即显示一个包含各种 Java 档案类型列表，诸如类别和介面等，供开发者可以从中选择适合的类型进行创建。这项改进使创建特定类型的 Java 档案变得更便捷。</p><p>随著 VS Code 中 Java 扩充套件功能的增加，相关的设定选项也越来越多，过去所有 Java 相关的设定都摆在一起，让开发者难以找到特定的选项，而在新版中，设定项目会按类别和用途分类，使得开发者能够方便找到需要的设定。</p><p>过去当开发者要将具有多模组的专案汇入到 VS Code 时，扩充套件会自动将所有内容汇入到工作区，但如果模组数量过多将会耗费大量的时间。现在当 java.import.projectSelection 选项被设定为 manual 时，开发者可以在专案汇入到工作区时，选择要汇入的子专案，进而跳过不需要汇入的模组，大幅减少整体专案汇入时间。</p><p>此外，Spring Boot 扩充套件也有一系列新功能和效能提升更新。Spring Boot 扩充套件采用开源自动化重构工具 OpenRewrite，可将现有 Spring 专案自动升级至 Spring Boot 3.2，这项更新强化了现有的升级支援，可协助开发者将专案从 Spring Boot 2.x 搬迁至 Spring Boot 3.0 或更高版本。</p><p>而 application.properties 或 application.yml 档案中的程式码完成速度，在新版扩充套件也获得大幅提升，官方指出，首次呼叫的速度较以前的版本快 10 倍。这次更新还整合了一个新的验证引擎，能快速地进行专案分析和索引，大幅减少背景记忆体的使用，让 Spring 的验证和修复的反应更加迅速。</p><p>不只如此，最新的 Spring 工具还进行了许多效能改进，使其执行速度明显加快，并且也使用更少的 CPU 周期和记忆体，整体操作起来更轻巧敏捷。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160577</guid>    <link>https://www.ithome.com.tw/news/160577</link>    <author>    <![CDATA[李建兴]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[开发者终于可于 Safari 技术预览版测试 WebGPU]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2137_-_particles_-_webgpu_samples_-_webgpu.github.io_.png?itok=_coyS6oQ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Webkit 开发团队释出<a href="https://webkit.org/blog/14879/webgpu-now-available-for-testing-in-safari-technology-preview/">Safari 技术预览 185 版本</a>，让开发者能够启用 WebGPU，并且进行早期测试和开发。想要抢先试用 WebGPU 的用户，需要从偏好设定中启用 WebGPU、GPU Process:DOM Rendering 以及 GPU Process:Canvas Rendering 功能旗标。</p><p>目前 Chromium、Firefox 与 Safari 这 3 个主要浏览器都开始支援 WebGPU，不过<a href="https://github.com/gpuweb/gpuweb/wiki/Implementation-Status">进度各有不同</a>，Chrome 与 Edge 在今年 4 月所发布的 113 版本，已经预设启用 WebGPU。而 Firefox 也已经在 Nightly 版本预设启用 WebGPU，目前 GitHub 上<a href="https://github.com/gfx-rs/wgpu/milestone/8">WebGPU 规格 V1 实作的完成度为 29%</a>。Safari 则是从技术预览 185 版本开始，开发者才能进行测试。</p><p>WebGPU 是用来代替 WebGL（Web Graphics Library）的新绘图 API，可供开发者在网页上实现高效能 3D 图形和通用运算。过去开发者使用 WebGL 开发网页图形应用程式，WebGL 是以 OpenGL ES 2.0 为基础，供开发者在无需额外套件的情况下，直接在浏览器中使用 GPU 渲染复杂特效和图形。</p><p>但是 WebGL 存在一些问题，除了其著色器语言 GLSL 学习曲线陡，需要进阶的图学程式开发知识之外，相比于 WebGPU，WebGL 在 GPU 功能支援方面有限，WebGL 主要用于绘制图形以及渲染工作，对于通用 GPU 运算的支援度不足。随著 3D 图形应用对效能与渲染功能的要求越来越高，WebGL 的限制逐渐浮现。</p><p>而 WebGPU 是比 WebGL 更先进的技术，不仅提供更高效的 3D 图形渲染，还支援更广泛地运算功能，使开发者能够有效发挥现代 GPU 的能力。WebGPU 提供了一个更新更低阶的 API，可以良好地支援现代 GPU 架构，进而提高运算效能和和效率。</p><p>而 WebGPU Shading Language（WGSL）是专为 WebGPU 设计的著色器语言，目的是可在网页环境中支援 3D 图形和通用运算，具有跨平台的特性，开发者同样也可以在 Safari 技术预览 185 版本中尝试进行网页图形开发。</p></div></div></div><div></div></div></div></div>]]>    </description>    <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>    <guid isPermaLink="false">https://www.ithome.com.tw/news/160576</guid>    <link>https://www.ithome.com.tw/news/160576</link>    <author>    <![CDATA[李建兴]]>    </author>    <category>新闻</category>    </item>    <item>    <title>    <![CDATA[【资安日报】12 月 27 日，有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬]]>    </title>    <description>    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231227_0.png?itok=hvB0kymb" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>这个月针对电玩公司的网路攻击事件接连传出，包含 Sony 旗下电玩业者 Insomniac Games 遭勒索软体 Rhysida 入侵，偷走处于开发状态的电玩游戏《金钢狼》相关资料；有人对电玩开发商 Ubisoft 发动攻击，目标是《虹彩六号：围攻行动》的内部资料。而最近一起资料外泄事故，则是可能与近期遭到判决的骇客有关。</p><p>有人透过暗网、Telegram 频道、Discord 伺服器等管道，散布《侠盗猎车手 V》的原始码，并在 Telegram 频道表示公开这些资料的目的。值得留意的是，这次被公布的是资料是游戏程式的原始码，后续影响有待观察。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/"><strong style="font-size: 22px;">电玩开发商 RockStar Games 遭骇一年，《侠盗猎车手 V》原始码被公开</strong></a></p>    <!-- notionvc: 1c74e956-fd48-4cc9-9a97-1f24e5899c7d -->    <p></p>    <p>    <a href="https://s4.itho.me/sites/default/files/images/gta-telegram-post.jpg">    <img alt="" src="https://s4.itho.me/sites/default/files/images/gta-telegram-post.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">    </a>根据 Bleeping Computer、Cyber Express 等资安新闻网站的报导，专门提供电玩游戏《侠盗猎车手》资讯的新闻网站 GTA Focal 指出，他们得知《侠盗猎车手 V（Grand Theft Auto V，GTA 5）》原始码外流的情况，有人在 Telegram 频道、Discord 伺服器，以及暗网网站上公布相关档案，打包后档案大小约为 4 GB，包含 Rage 游戏引擎的大量文件、概念设计资料、参考图片，其中包括该游戏的早期地图。此外，这批资料还包含了尚未上市的《侠盗猎车手 VI（GTA 6）》Python 指令码档案。    </p>    <p>而对于相关资料被公开的原因，Bleeping Computer 指出，公布资料的人士在 Telegram 频道上提及，他们这么做是为了向隶属 Lapsus$骇客组织的成员 Arion Kurtaj 致敬，而这名骇客因攻击游戏开发商 Rockstar Games、车辆共享平台 Uber，而被英国法院判决需终身住院治疗。</p>    <p>GTA Focal 指出，这些资料是 2022 年 Rockstar Games 遭骇的事故流出，当时骇客组织 Lapsus$即声称窃得 GTA 5 和 GTA 6 的原始码及其他内部资料。资安研究团队 VX-Underground 取得公布资料的骇客说法，对方声称在 8 月就拿到相关档案，目的是打击 GTA 5 改装场景出现的诈骗行为。</p>    <p>资料来源</p>    <p>1.&nbsp;    <a href="https://gtafocal.com/?p=560">https://gtafocal.com/?p=560</a>    <br>
 2.&nbsp;
-                            <a href="https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/">https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/</a>
-                            <br>
+<a href="https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/">https://www.bleepingcomputer.com/news/security/gta-5-source-code-reportedly-leaked-online-a-year-after-rockstar-hack/</a>
+<br>
 3.&nbsp;
-                                <a href="https://www.bleepingcomputer.com/news/security/lapsus-hacker-behind-gta-6-leak-gets-indefinite-hospital-sentence/">https://www.bleepingcomputer.com/news/security/lapsus-hacker-behind-gta-6-leak-gets-indefinite-hospital-sentence/</a>
-                                <br>
+    <a href="https://www.bleepingcomputer.com/news/security/lapsus-hacker-behind-gta-6-leak-gets-indefinite-hospital-sentence/">https://www.bleepingcomputer.com/news/security/lapsus-hacker-behind-gta-6-leak-gets-indefinite-hospital-sentence/</a>
+    <br>
 4.&nbsp;
-                                    <a href="https://thecyberexpress.com/gta-5-source-code-leak/">https://thecyberexpress.com/gta-5-source-code-leak/</a>
-                                    <br>
+        <a href="https://thecyberexpress.com/gta-5-source-code-leak/">https://thecyberexpress.com/gta-5-source-code-leak/</a>
+        <br>
 5.&nbsp;
-                                        <a href="https://twitter.com/vxunderground/status/1739263588408164859">https://twitter.com/vxunderground/status/1739263588408164859</a>
-                                    </p>
-                                    <p>
-                                        <a href="https://www.netskope.com/blog/a-look-at-the-nim-based-campaign-using-microsoft-word-docs-to-impersonate-the-nepali-government">
-                                            <strong style="font-size: 22px;">骇客假冒尼泊尔政府官员，利用 Word 档案作为诱饵，散布 Nim 恶意程式</strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 77a41d59-057d-44d7-83f0-e57d7e4dd559 -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://s4.itho.me/sites/default/files/images/Nim-Malacious-Campaign-1.png">
-                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/Nim-Malacious-Campaign-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                            </a>资安业者 Netskope 揭露假冒尼泊尔政府的恶意软体攻击行动，骇客以尼泊尔官员的名义，透过电子邮件寄送担保合约（security agreement），其中挟带恶意 Word 档案附件，一旦收信人依照指示开启，电脑就有可能被植入以 Nim 程式语言开发的后门程式。
-                                        </p>
-                                        <p>骇客宣称此附件档案由新版 Word 制作，收信人若要检视完整内容，必须依序按下启用编辑、启用内容的按钮，然而若是照做，电脑就会执行恶意巨集来执行后续的攻击行动。此后门程式启动将会检查电脑的处理程序，是否执行特定的分析工具，然后才向 C2 伺服器进行连线，而这些伺服器的网域看起来像是来自尼泊尔政府。</p>
-                                        <p>研究人员指出，他们今年发现以 Nim 开发的恶意程式有所增加，其中最受到关注的恶意程式，是今年 1 月出现的勒索软体 Dark Power。</p>
-                                        <p>
-                                            <a href="https://www.darkreading.com/vulnerabilities-threats/ransomware-attackers-abuse-windows-clfs-driver-zero-days">
-                                                <strong style="font-size: 22px;">微软 Windows 事件记录系统 CLFS 零时差漏洞被锁定，已陆续遭勒索软体骇客利用</strong>
-                                            </a>
-                                        </p>
-                                        <!-- notionvc: 75832b19-0c04-48a8-897f-4c6e8bf77ad1 -->
-                                        <p></p>
-                                        <p>
-                                            <a href="https://s4.itho.me/sites/default/files/images/Windows-CLFS-five-exploits-ransomware_part1_en_03.png">
-                                                <img alt="" src="https://s4.itho.me/sites/default/files/images/Windows-CLFS-five-exploits-ransomware_part1_en_03.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                </a>资安业者卡巴斯基提出警告，从 2022 年 6 月开始，勒索软体骇客锁定 Windows 通用事件记录档案系统（CLFS），前后在攻击行动里至少使用了 5 个漏洞，且其中的 CVE-2022-24521、CVE-2022-37969、CVE-2023-23376、CVE-2023-28252 为零时差漏洞。
-                                            </p>
-                                            <p>研究人员指出，根据他们的分析，这些漏洞实际上是过往出现的 CLFS 漏洞变形，若是修补足够完整，就有可能不会被骇客发现并用于攻击行动。此外，研究人员指出，微软也借由封锁滥用 PreviousMode、NtQuerySystemInformation 的手法，并在作业系统 Windows 11 新版加入更多机制，来封锁攻击者借此提升权限的情况。</p>
-                                            <p>资料来源</p>
-                                            <p>1.&nbsp;
-                                                <a href="https://securelist.com/windows-clfs-exploits-ransomware/111560/">https://securelist.com/windows-clfs-exploits-ransomware/111560/</a>
-                                                <br>
+            <a href="https://twitter.com/vxunderground/status/1739263588408164859">https://twitter.com/vxunderground/status/1739263588408164859</a>
+        </p>
+        <p>
+            <a href="https://www.netskope.com/blog/a-look-at-the-nim-based-campaign-using-microsoft-word-docs-to-impersonate-the-nepali-government">
+                <strong style="font-size: 22px;">骇客假冒尼泊尔政府官员，利用 Word 档案作为诱饵，散布 Nim 恶意程式</strong>
+            </a>
+        </p>
+        <!-- notionvc: 77a41d59-057d-44d7-83f0-e57d7e4dd559 -->
+        <p></p>
+        <p>
+            <a href="https://s4.itho.me/sites/default/files/images/Nim-Malacious-Campaign-1.png">
+                <img alt="" src="https://s4.itho.me/sites/default/files/images/Nim-Malacious-Campaign-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                </a>资安业者 Netskope 揭露假冒尼泊尔政府的恶意软体攻击行动，骇客以尼泊尔官员的名义，透过电子邮件寄送担保合约（security agreement），其中挟带恶意 Word 档案附件，一旦收信人依照指示开启，电脑就有可能被植入以 Nim 程式语言开发的后门程式。
+            </p>
+            <p>骇客宣称此附件档案由新版 Word 制作，收信人若要检视完整内容，必须依序按下启用编辑、启用内容的按钮，然而若是照做，电脑就会执行恶意巨集来执行后续的攻击行动。此后门程式启动将会检查电脑的处理程序，是否执行特定的分析工具，然后才向 C2 伺服器进行连线，而这些伺服器的网域看起来像是来自尼泊尔政府。</p>
+            <p>研究人员指出，他们今年发现以 Nim 开发的恶意程式有所增加，其中最受到关注的恶意程式，是今年 1 月出现的勒索软体 Dark Power。</p>
+            <p>
+                <a href="https://www.darkreading.com/vulnerabilities-threats/ransomware-attackers-abuse-windows-clfs-driver-zero-days">
+                    <strong style="font-size: 22px;">微软 Windows 事件记录系统 CLFS 零时差漏洞被锁定，已陆续遭勒索软体骇客利用</strong>
+                </a>
+            </p>
+            <!-- notionvc: 75832b19-0c04-48a8-897f-4c6e8bf77ad1 -->
+            <p></p>
+            <p>
+                <a href="https://s4.itho.me/sites/default/files/images/Windows-CLFS-five-exploits-ransomware_part1_en_03.png">
+                    <img alt="" src="https://s4.itho.me/sites/default/files/images/Windows-CLFS-five-exploits-ransomware_part1_en_03.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                    </a>资安业者卡巴斯基提出警告，从 2022 年 6 月开始，勒索软体骇客锁定 Windows 通用事件记录档案系统（CLFS），前后在攻击行动里至少使用了 5 个漏洞，且其中的 CVE-2022-24521、CVE-2022-37969、CVE-2023-23376、CVE-2023-28252 为零时差漏洞。
+                </p>
+                <p>研究人员指出，根据他们的分析，这些漏洞实际上是过往出现的 CLFS 漏洞变形，若是修补足够完整，就有可能不会被骇客发现并用于攻击行动。此外，研究人员指出，微软也借由封锁滥用 PreviousMode、NtQuerySystemInformation 的手法，并在作业系统 Windows 11 新版加入更多机制，来封锁攻击者借此提升权限的情况。</p>
+                <p>资料来源</p>
+                <p>1.&nbsp;
+                    <a href="https://securelist.com/windows-clfs-exploits-ransomware/111560/">https://securelist.com/windows-clfs-exploits-ransomware/111560/</a>
+                    <br>
 2.&nbsp;
-                                                    <a href="https://securelist.com/windows-clfs-exploits-ransomware-cve-2023-28252/111601/">https://securelist.com/windows-clfs-exploits-ransomware-cve-2023-28252/111601/</a>
-                                                </p>
-                                                <p>
-                                                    <a href="https://www.vpnmentor.com/news/report-realestatewealthnetwork-breach/">
-                                                        <strong style="font-size: 22px;">美国房地产教育训练中心 Real Estate Wealth Network 资料库不设防，曝露 15 亿笔资料</strong>
-                                                    </a>
-                                                </p>
-                                                <!-- notionvc: aa738acc-503e-4fe5-9211-c751c8dcc6c4 -->
-                                                <p></p>
-                                                <p>
-                                                    <a href="https://s4.itho.me/sites/default/files/images/realestatewealthnetworkbreach3-1.png">
-                                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/realestatewealthnetworkbreach3-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                                                        </a>VPN 工具介绍网站 vpnMentor 揭露房地产投资平台 Real Estate Wealth Network（REWN）资料外泄的情况，研究人员 Jeremiah Fowler 看到该公司所属的资料库未加上密码保护以限制存取，内含 1,523,776,691 笔记录，档案大小为 1.16 TB。
-                                                    </p>
-                                                    <p>相关资料分门别类存放于各种资料夹，这些资料涵盖多种类型，包含：房产历史、积极卖家、破产、离婚、欠税不动产留置权（tax lien）、继承、法院判决、闲置房产等，此外，该资料库也包含从今年 4 月 22 日至 10 月 23 日的系统事件记录资料，而能让取得的人士得知用户搜寻的情形。研究人员通报后，此资料库已受到保护。</p>
-                                                    <p>在分析这起资料外泄事故的过程，这名研究人员特别有感而发，他提到自己曾是房地产经纪人，虽然财产税务资料在美国视为半公开资料，但相关资料通常必须向各行政区的政府取得，且能够取得的资料范围、难易度也不同，但这次他在这些外泄的资料当中，不仅意外找到自己的财产资料，也看到不少名人名下的房产，包含房屋的地址、购买价格、日期、贷款金额、欠税金额等细节。</p>
-                                                    <p>
-                                                        <a href="https://cybernews.com/security/dubai-real-estate-agency-data-leak/">
-                                                            <strong style="font-size: 22px;">房地产管理软体制造商的 CRM 系统曝露 69 万客户资料</strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: a43875c3-887b-436c-a4cf-0a6b47b9603d -->
-                                                    <p></p>
-                                                    <p>根据资安新闻网站 Cybernews 的报导，疑似隶属房地产管理软体制造商 Goyzer 的客户关系管理系统（CRM）曝露于网际网路，其 MongoDB 资料库系统并未套用密码保护，内容包含姓名、电子邮件信箱、电话号码，以及收据、支票、合约、身分证件的扫描档案，估计有 69 万客户受到影响。</p>
-                                                    <p>一旦这些资料被骇客发现，就有可能将其用于身分窃盗、网路钓鱼、金融诈欺攻击。研究人员通报此事，该资料库已关闭，但 Goyzer 并未做出回应。</p>
-                                                    <p>&nbsp;</p>
-                                                    <h3>
-                                                        <strong>【漏洞与修补】</strong>
-                                                    </h3>
-                                                    <p>
-                                                        <a href="https://ubuntu.com/security/notices/USN-6557-1">
-                                                            <strong style="font-size: 22px;">Canonical 针对 Ubuntu 发布更新，修补文字编辑器 Vim 漏洞</strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: 8f2aecae-b0a5-4f45-97a8-2149ee2cbc9d -->
-                                                    <p></p>
-                                                    <p>12 月 14 日 Canonical 针对旗下 Linux 作业系统 Ubuntu 发布更新，这次修补文字编辑器 Vim 的 15 个漏洞，其中有 4 个是高风险层级，CVSS 风险评分皆为 7.8 分。</p>
-                                                    <p>其中的 CVE-2022-1897、CVE-2022-2000 影响范围较广，从 Ubuntu 14.04 LTS 至 22.04 LTS 都会受到影响，而且这些弱点都是越界写入（OBW）漏洞，攻击者有可能用来发起阻断服务（DoS），或是执行任意程式码。</p>
-                                                    <p>另外两个高风险漏洞是 CVE-2022-1886、CVE-2022-2042，仅影响 Ubuntu 22.04 LTS，前者也是越界写入漏洞，后者则是在 Vim 执行 spell 命令时，会导致记忆体管理不当的现象。</p>
-                                                    <p>&nbsp;</p>
-                                                    <h3>
-                                                        <strong>【资安产业动态】</strong>
-                                                    </h3>
-                                                    <p>
-                                                        <a href="https://abnormalsecurity.com/blog/2023-ai-generated-email-attacks">
-                                                            <strong style="font-size: 22px;">生成式 AI 被滥用于钓鱼邮件攻击，研究人员呼吁企业组织应透过 AI 对抗</strong>
-                                                        </a>
-                                                    </p>
-                                                    <!-- notionvc: b47b0053-93f6-4d44-b492-af45aaff45ab -->
-                                                    <p></p>
-                                                    <p>
-                                                        <a href="https://s4.itho.me/sites/default/files/images/GenAI_5.png">
-                                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/GenAI_5.png" style="width: 301px; float: right;" referrerpolicy="no-referrer">
-                                                            </a>生成式人工智慧（Gen AI）日益普及，骇客也将其用于产生钓鱼邮件来从事攻击行动，这些邮件可针对特定收信人设计，再加上所采用的语法拼字皆没有错误，不只使用者难以辨别，由于骇客产生的邮件并未具备共同的恶意指标，传统的资安系统更难察觉其攻击意图。
-                                                        </p>
-                                                        <p>资安业者 Abnormal 收集透过前述 AI 产生的电子邮件并进行分析，然后透过开源软体 Giant Language Model Test Room（GLTR）执行识别，结果发现，这些邮件的文字几乎是经由人工智慧产生。</p>
-                                                        <p>其中一封邮件是伪装 Netflix 的客服，假借续订通知进行攻击，为了让邮件看起来可信度更高，骇客滥用线上玩具购物网站 Teeela 相关网域，以及使用客服平台 Zendesk，结果透过 GLTR 识别，整封信几乎都是 AI 代笔。对此，研究人员认为，只有人工智慧可以阻止人工智慧，他们认为企业应利用具备相关技术的资安解决方案来因应相关威胁。</p>
-                                                        <p>&nbsp;</p>
-                                                        <h3>
-                                                            <strong>【其他新闻】</strong>
-                                                        </h3>
-                                                        <p>
-                                                            <a href="https://thehackernews.com/2023/12/cloud-atlas-spear-phishing-attacks.html">
-                                                                <strong>
-                                                                    <span style="font-size: 20px;">俄罗斯企业组织遭到骇客组织 Cloud Atlas 锁定，从事鱼叉式网钓攻击</span>
-                                                                </strong>
-                                                            </a>
-                                                        </p>
-                                                        <!-- notionvc: cbb0e36e-6795-4a67-9465-f637842e2f34 -->
-                                                        <p></p>
-                                                        <p>
-                                                            <a href="https://www.nccgroup.com/us/newsroom/ncc-group-monthly-threat-pulse-november-2023/">
-                                                                <strong>
-                                                                    <span style="font-size: 20px;">金融木马 Carbanak 被用于勒索软体攻击</span>
-                                                                </strong>
-                                                            </a>
-                                                        </p>
-                                                        <!-- notionvc: 9cde5429-0bf0-4649-8140-8f4bc0b64c9a -->
-                                                        <p></p>
-                                                        <p>
-                                                            <a href="https://securityaffairs.com/156430/cyber-crime/rhysida-ransomware-abdali-hospital-jordan.html">
-                                                                <strong>
-                                                                    <span style="font-size: 20px;">约旦 Abdali 综合医院传出遭勒索软体 Rhysida 攻击</span>
-                                                                </strong>
-                                                            </a>
-                                                        </p>
-                                                        <!-- notionvc: 85d4f7e2-3935-4054-acbe-90603d4dec86 -->
-                                                        <p></p>
-                                                        <p>
-                                                            <a href="https://www.hackread.com/ringgo-parkmobile-easypark-data-breach-data-stolen/">
-                                                                <strong>
-                                                                    <span style="font-size: 20px;">欧洲大型停车应用程式服务集团 EasyPark 传出资料外泄</span>
-                                                                </strong>
-                                                            </a>
-                                                        </p>
-                                                        <!-- notionvc: 5c847692-5db9-48a3-807d-f1d406942807 -->
-                                                        <p></p>
-                                                        <p>
-                                                            <a href="https://securityaffairs.com/156303/cyber-crime/lockbit-gang-xeinadin.html">
-                                                                <strong>
-                                                                    <span style="font-size: 20px;">会计师事务所 Xeinadin 传出遭到勒索软体 LockBit 攻击</span>
-                                                                </strong>
-                                                            </a>
-                                                        </p>
-                                                        <!-- notionvc: 482d28e7-56f5-4bc2-8aa5-1003f5482a06 -->
-                                                        <p></p>
-                                                        <p>&nbsp;</p>
-                                                        <h3>
-                                                            <strong>近期资安日报</strong>
-                                                        </h3>
-                                                        <p>
-                                                            <a href="https://www.ithome.com.tw/news/160548">
-                                                                <strong>【12 月 26 日】&nbsp;有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料</strong>
-                                                            </a>
-                                                        </p>
-                                                        <p>
-                                                            <a href="https://www.ithome.com.tw/news/160527">
-                                                                <strong>【12 月 25 日】&nbsp;骇客集团 UAC-0099 锁定乌克兰组织并利用 WinRAR 漏洞植入恶意程式 LonePage</strong>
-                                                            </a>
-                                                        </p>
-                                                        <p>
-                                                            <a href="https://www.ithome.com.tw/news/160502">
-                                                                <strong>【12 月 22 日】&nbsp;巴勒斯坦骇客对以色列组织声称提供 F5 BIG-IP「零时差漏洞修补程式」来破坏电脑所有档案</strong>
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div></div>
-                                        </div>
-                                    </div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160564</guid>
-                                <link>https://www.ithome.com.tw/news/160564</link>
-                                <author>
-                                    <![CDATA[周峻佑]]>
-                                </author>
-                                <category>资安 </category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[微软正在测试借由 Windows Update 即可重新安装 Windows 的功能]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0327-windows-back-bei_jing_tu_pian_-photo_by_codioful_on_unsplash_0.jpg?itok=ikvIypwR" width="960" height="420" alt="" title="背景图片来源／Codioful on unsplash" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／Codioful on unsplash </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.windowslatest.com/2023/12/26/microsofts-game-changer-feature-reinstalls-windows-11-directly-via-windows-update/" target="_blank">《Windows Latest》</a>近日发现，最新的 Windows 11 Insider 测试版中出现了一项「利用 Windows Update 解决问题」的新功能，可直接让使用者重新安装 Windows，并可轻松保留所有的设定、程式与档案。</p><p>微软最早是在今年 7 月借由 Canary 频道释出的 Windows 11 Insider 添增了此一功能，让使用者可下载并安装作业系统的修复版本，<a href="https://blogs.windows.com/windows-insider/2023/07/12/announcing-windows-11-insider-preview-build-25905/" target="_blank">当时微软解释</a>，透过此一操作来重新安装作业系统，将不会移除任何的档案、设定或应用程式。</p><p class="rtecenter"><a href="http://blogs.windows.com/windows-insider/2023/07/12/announcing-windows-11-insider-preview-build-25905/" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1227-Windows%2011%20Insider-Recover%20your%20PC%20from%20Windows%20Update.png" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>不消说，此一功能在许多情况下都非常有用，主要目的是维持装置的安全与更新，前提是装置需要在此一程序生效前完成正在进行的更新。</p><p><a href="https://support.microsoft.com/en-us/windows/reinstall-windows-d8369486-3e33-7d9c-dccc-859e2b022fc7#bkmk_reinstall_windows_10_using_installation_media" target="_blank">微软原本即提供了许多重新安装 Windows 的方式</a>，包括移除所有档案、设定与程式的干净安装，也可选择保留档案或设定，但若要保留所有内容则必须透过安装媒体来重新安装 Windows，且必须先在 SD 卡、USB 随身碟或是硬碟上建立安装媒体。</p><p>现在微软则准备让使用者直接利用 Windows Update 来重新安装作业系统，并保留设定、档案及程式等使用者所建立的内容，不必再执行上述的繁复操作。</p><p>不过，该功能虽然已出现在 Windows 11 Insider 的 Beta 频道中，目前却仍无法运作，《Windows Latest》推测此一功能最快会在今年 2、3 月随著 Windows 11 Moment 5 的更新而上线。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160560</guid>
-                                <link>https://www.ithome.com.tw/news/160560</link>
-                                <author>
-                                    <![CDATA[陈晓莉]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[微软发布 Android 版专用 Copilot App]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-microsoft_copilot-android-google_play-960.jpg?itok=eKSGrKWe" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 Bing 之外，微软本周悄悄发布了 Android 版本的 AI 助理 Microsoft Copilot 应用程式。</p><p>少数使用者<a href="https://twitter.com/techosarusrex/status/1739569672058450165" target="_blank">发现</a>Copilot App 昨日<a href="https://play.google.com/store/apps/details?id=com.microsoft.copilot&amp;hl=en_US" target="_blank">在 Google Play Store 上架</a>。为了品牌统一，微软于上个月 Ignite 大会上将 Bing Chat 改名为 Copilot。这也使得微软 Web、Windows 及伺服器端及手机平台的聊天机器人全部都叫 Copilot。<a href="https://www.ithome.com.tw/news/158994" target="_blank">Windows 11</a>及<a href="https://www.ithome.com.tw/news/159894" target="_blank">Windows 10</a>版 Copilot App 分别于 9 月、11 月推出。</p><p>微软说明，Copilot 是微软以 OpenAI 模型包括 GPT-4 及 DALLE-3 为基础开发的聊天助理，可协助用户提升生产力。它的介面和 Bing 或是 OpenAI ChatGPT 相似，而且也提供类似功能，像是回答问题、搜寻、草拟电子邮件、制作精美的图片。但 Copilot 提供最新的 GPT-4 存取，这在 ChatGPT 是需要付费的。使用者也可以透过滑钮启用或关闭 GPT-4 模型。</p><p>目前 iOS 版上的微软 AI 聊天助理仍然叫 Bing Chat，不过按照品牌统一的策略，媒体推测，iOS 版 Copilot 应该很快就会推出。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160559</guid>
-                                <link>https://www.ithome.com.tw/news/160559</link>
-                                <author>
-                                    <![CDATA[林妍溱]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[Apple Watch 禁售令生效，苹果提出上诉]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-apple_watch_series_9-960-1.jpg?itok=rb7jYEH1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由于美国总统拒绝否决，美国国际贸易委员会（International Trade Commission，ITC）的禁令于昨（26）日生效，苹果热卖商品之一 Apple Watch 9、Ultra 2 于今日面临在美停售命运。苹果也正式提出上诉。</p><p>10 月底 ITC 发出 Apple Watch 禁止输入美国的排除令（Exclusion Order）。美国总统拜登政府于 12 月 25 日拒绝否决该禁令，使得 ITC 禁令于在隔天，即 12 月 26 日生效。美国总统授权检视 ITC 禁令的贸易代表署（US Trade Representative）最高主管，也是美国贸易代表 Katherine Tai 做出拒绝推翻 ITC 禁令的决定。<a href="https://www.politico.com/news/2023/12/26/apple-watch-import-ban-trade-representative-00133184" target="_blank">该署指出</a>，经过审慎咨询，Tai 决定不予否决 ITC 的判断，因此 ITC 早先的决定将在 2023 年 12 月 26 日生效。</p><p>禁令生效后，苹果将不得自外国输入，亦不得出货具血氧量测功能的 Apple Watch。受影响的产品是 Apple Watch 9 及 Ultra 2。功能较基础的 Apple Watch SE 则不受影响。目前美国消费者还可在 Best Buy、Target 买到 Apple Watch 9、Ultra 2，卖完为止。</p><p>ITC 禁令源自于 2020 年医疗装置业者 Masimo 控告苹果透过挖角窃取其血氧量测专利，用于其 Apple Watch 上。美国法院于今年 1 月判决苹果侵权，ITC 作为主管机关之一，在 10 月针对具血氧量测能力的 Apple Watch 产品发出禁令。受到影响的产品是 Apple Watch 9 及 Ultra 2。<a href="https://www.ithome.com.tw/news/160418" target="_blank">苹果上周宣布</a>预防性措施，分别于 12 月 21 日暂停在 Apple.com，12 月 24 日暂停在 Apple Store 店内销售 Apple Watch 9 及 Ultra 2。</p><p>在此之前，苹果曾经努力了一番，包括苹果曾声请延后实施禁令，不过<a href="https://www.ithome.com.tw/news/160457" target="_blank">ITC 委员在上周决议</a>拒绝收回成命。美国总统的否决权是最后一线希望，因此贸易代表署拒绝出手，使得苹果事前行政救济的努力遭到挫败。</p><p><a href="https://www.reuters.com/technology/biden-administration-allows-us-trade-tribunals-ban-apple-watch-imports-2023-12-26/" target="_blank">路透社报导</a>，苹果已在周二提出上诉。苹果在声明稿中表示，公司对 USITC 的决定及排除令（Exclusion Order）强烈不认同，将采取所有手段使美国消费者得以尽早买到 Apple Watch 9 及 Ultra。苹果的上诉声请要求在执行 ITC 禁令的美国海关及边境保护局（US Customs and Borders Protection）做出决定前暂缓实施禁令。同时间，为加快动作，苹果也向华盛顿联邦巡回上诉法院声请紧急命令，以暂停该禁令的实施。</p><p>有媒体分析，和 Masimo 和解是最有机会的解法，但苹果坚称该公司并未侵权。<a href="https://www.bloomberg.com/news/articles/2023-12-18/apple-plans-rescue-for-17-billion-watch-business-in-face-of-ban" target="_blank">《彭博》</a>报导，苹果可能想释出软体更新变更血氧量测的演算法，来绕过争议点。Masimo 则认为 Apple Watch 的硬体也涉及专利侵权。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160558</guid>
-                                <link>https://www.ithome.com.tw/news/160558</link>
-                                <author>
-                                    <![CDATA[林妍溱]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[AWS 更新 Amazon RDS 现提供用户自动化资源配置建议]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2135_-_viewing_amazon_rds_recommendations_-_amazon_relational_database_serv_-_docs.aws_.amazon.com_.png?itok=x1h_JYkc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>AWS 更新资料库服务 Amazon RDS<a href="https://aws.amazon.com/tw/about-aws/whats-new/2023/12/amazon-rds-enhanced-experience-rds-recommendations/" target="_blank">加入 RDS 建议功能</a>，透过整合最佳实践指南、基于阈值的主动效能建议，以及机器学习驱动的效能异常侦测功能，提供用户一个依据严重排序可执行项目的列表。该列表不仅可借由关键字、类别和严重程度过滤，也让用户能以滑鼠点击就可应用多个资源配置建议。所有 RDS 建议都会自动出现在 RDS 控制枱中，协助用户提升资料库管理效率。</p><p>RDS 建议功能借由分析资料库执行个体的配置、使用情况和效能资料，针对像是资料库执行个体、读取副本、资料库参数群组等资料库资源，提供最佳实践指南。Amazon RDS 效能监控工具 Performance Insights 分析特定的效能指标并自动设定阈值，及时预警可能对资源造成问题的情况。</p><p>当系统观察到指标超过这些阈值，便会提出具体的改善建议，以避免未来的资料库效能出现问题，像是针对 PostgreSQL 执行个体，当系统侦测到资料库连接处于闲置状态，便会提出相对应的建议。</p><p>此外，DevOps Guru for RDS 则会监控资料库的特定指标侦测异常行为，系统同样也会根据异常提供相对应的建议，包括建议用户增加 CPU 容量，或是对导致资料库负载的等待事件进行研究。DevOps Guru for RDS 也提供基于阈值的主动建议功能。要获得建议，用户必须启用 DevOps Guru for RDS 功能。</p><p>建议项目的 4 种状态为有效、忽略、待处理和已解决，用户可以选择立即套用建议或是忽略，也可以将其安排在下一个维护视窗中执行。对于基于阈值的主动建议和机器学习建议，用户都需要查看问题原因，接著才能执行建议来解决问题。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160552</guid>
-                                <link>https://www.ithome.com.tw/news/160552</link>
-                                <author>
-                                    <![CDATA[李建兴]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[AI 生成钓鱼信件攻击比例逐渐上升，研究人员建议以 AI 对抗 AI]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2133_-_uncovering_ai-generated_email_attacks_real-world_examples._-_abnorm_-_abnormalsecurity.com_.png?itok=tctCcwOJ" width="960" height="420" alt="" title="GLTR 会将最有可能由人工智慧生成的字词标记为绿色" referrerpolicy="no-referrer"></div></div></div><p class="caption"> GLTR 会将最有可能由人工智慧生成的字词标记为绿色 </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>随著生成式人工智慧技术的普及，攻击者已经将其用于网路钓鱼攻击中，资安公司 Abnormal 收集由人工智慧所生成的电子邮件并且进行<a href="https://abnormalsecurity.com/blog/2023-ai-generated-email-attacks">分析</a>，资安研究人员认为，攻击者已经将生成式人工智慧融入到攻击策略中，而组织也必须以相同的方式反应，运用人工智慧阻挡这些钓鱼攻击。</p><p>传统钓鱼邮件通常仰赖固定的模板和格式，同时也会使用共同的网域或是连结，整体邮件内容和风格较统一缺乏客制，因此相当容易被安全软体标记和拦截。但是研究人员指出，攻击者运用生成式人工智慧，便可以非常快速地创建独特且具针对性的内容，每封钓鱼邮件都可以针对特定的收信人特别设计，不只看起来更真实，而且因为这些邮件不具有共同的恶意指标，因此也就更难被安全解决方案辨识出来。</p><p>虽然像是 ChatGPT 等产品都存在限制避免被滥用，但是攻击者也可以开发攻击专用的生成式人工智慧模型，研究人员举例，像是 WormGPT 便可以制造具说服力的钓鱼邮件，而专为网路攻击所开发的生成式人工智慧工具 FraudGPT，也能够生成欺骗性内容。</p><p>研究人员分析了生成式人工智慧被滥用于钓鱼攻击的案例，像是攻击者伪装成保险业务，透过电子邮件试图散布恶意软体。信件中使用看似真实的名称和电子邮件地址增加可信度，但附件却是恶意软体档案。</p><p>经过开源软体 Giant Language Model Test Room（GLTR）的侦测，发现邮件文字多数由人工智慧生成，研究人员提到，这个案例是因为信件内容大多使用人工智慧预测高机率单词，因此大部分人工智慧所产生的内容都可以被辨识出来。</p><p>另一个钓鱼信件案例则是伪装 Netflix 信件的钓鱼攻击，攻击者冒充客服人员，并称受害者的订阅即将到期，需要点击连结续订。信件内使用线上玩具购物网站 Teeela 相关网域，以及使用客服平台 Zendesk，让整封信看起来更可信，进而增加了攻击的有效性，但同样整封信大部分内容，也被人工智慧发现可能不是由人类编写。</p><p>即便人工智慧使用更为正式的话语，让信件在判读上更具挑战，但是 GLTR 仍然可以找出由人工智慧生成的部分。只不过研究人员也指出，要 100％完全确定信件内容是否由人工智慧创建几乎不可能。</p><p>研究人员提到钓鱼信件通常从合法的电子邮件供应商发送，且由人工智慧编写的内容，语法和拼写错误更少，受害者更容易受骗。研究人员认为只有人工智慧可以阻止人工智慧，在攻击者开始使用人工智慧生成钓鱼文件的现在，组织也应该要部署人工智慧解决方案，来侦测传统安全解决方案所无法发现的攻击。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160551</guid>
-                                <link>https://www.ithome.com.tw/news/160551</link>
-                                <author>
-                                    <![CDATA[李建兴]]>
-                                </author>
-                                <category>资安 </category>
-                            </item>
-                            <item>
-                                <title>
-                                    <![CDATA[博通发信预告将取消现有 VMware 合作伙伴计划]]>
-                                </title>
-                                <description>
-                                    <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0624-broadcom-960_0.jpg?itok=MtTgUujw" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>博通（Broadcom）</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>博通（Broadcom）并购 VMware 之后，带来一连串的变化，除了停止提供永久授权版本的买断制，改为全订阅制之外，现在<a href="https://www.crn.com/news/virtualization/broadcom-hands-vmware-partners-termination-notice?itc=refresh">外媒 CRN 更报导</a>，博通进一步宣布，将在 2024 年 2 月 4 日终止 VMware 经销商和服务供应商的所有合作伙伴协议，要求原有的合作伙伴必须与博通重新签约。</p><p>博通在 2022 年宣布将以 610 亿美元买下 VMware，虽然中间历经欧盟介入调查，不过博通总算在今年 11 月 23 日完成对 VMware 的收购。而就在完成收购不到一个月，博通便宣布将不再提供永久授权等销售模式，尔后仅提供订阅和定期授权，涵盖 VMware Cloud Foundation、vSphere、vSAN、NSX、SRM、HCX、vCloud 套件及 VMware Aria 套件等 VMware 产品。</p><p>而就在圣诞假期开始前的周五，不少 VMware 的合作伙伴，收到了一封标题为 VMware Partner Programs Termination Notice 的信件，内容告知合作伙伴 Broadcom 将结束原有的 VMware 合作伙伴计划，并启动一个名为 Broadcom Advantage Partner Program 的新计划。该计划只对受邀请的合作伙伴开放，且根据 CRN 的报导，博通只向营收在 50 万美元以上的经销合作伙伴开放，营收低于 50 万美元的合作伙伴可能将被排除在外。</p><p>这个变化使得原有 VMware 的合作伙伴必须要重新申请，才能继续销售 VMware 的产品，目前还不清楚有哪些合作伙伴能够在 2024 年 2 月 5 日开始销售 VMware 产品和授权。而外媒引用不具名的 VMware 员工提到，大多数合作伙伴的合约会在 1 月终止，所有合约最慢会在 4 月终止，只有少数被选中的人才能加入新的计划，其他合作伙伴都无法再销售 VMware 产品。</p><p>这项消息释出后，在<a href="https://www.reddit.com/r/vmware/comments/18ppojk/broadcom_hands_vmware_partners_termination_notice/">网路论坛 Reddit</a>也引起不少讨论，大部分网友表达对这项变动的不满，有用户提到他们是较小型的经销商，支付给 VMware 的金额虽然不大，但也都已持续数年时间，现在博通仅给短暂数个月的通知期，且只邀请部分合作伙伴参与新计划，考量到他们与客户还有 VMware Cloud Provider Program（VCPP）多年协议，这将对他们带来负面冲击。</p><p>不过也有网友抱持正面态度看待这项改变，认为新计划并不会如外媒报导，限制 50 万美元营收才能获得新计划邀请，还有网友分享，他们每月大约是 4 万美元的营收，但也收到计划邀请通知，因此他认为目标应该不是 50 万美元。</p></div></div></div><div></div></div></div></div>]]>
-                                </description>
-                                <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
-                                <guid isPermaLink="false">https://www.ithome.com.tw/news/160549</guid>
-                                <link>https://www.ithome.com.tw/news/160549</link>
-                                <author>
-                                    <![CDATA[李建兴]]>
-                                </author>
-                                <category>新闻</category>
-                            </item>
-                        </channel>
-                    </rss>
+                        <a href="https://securelist.com/windows-clfs-exploits-ransomware-cve-2023-28252/111601/">https://securelist.com/windows-clfs-exploits-ransomware-cve-2023-28252/111601/</a>
+                    </p>
+                    <p>
+                        <a href="https://www.vpnmentor.com/news/report-realestatewealthnetwork-breach/">
+                            <strong style="font-size: 22px;">美国房地产教育训练中心 Real Estate Wealth Network 资料库不设防，曝露 15 亿笔资料</strong>
+                        </a>
+                    </p>
+                    <!-- notionvc: aa738acc-503e-4fe5-9211-c751c8dcc6c4 -->
+                    <p></p>
+                    <p>
+                        <a href="https://s4.itho.me/sites/default/files/images/realestatewealthnetworkbreach3-1.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/realestatewealthnetworkbreach3-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>VPN 工具介绍网站 vpnMentor 揭露房地产投资平台 Real Estate Wealth Network（REWN）资料外泄的情况，研究人员 Jeremiah Fowler 看到该公司所属的资料库未加上密码保护以限制存取，内含 1,523,776,691 笔记录，档案大小为 1.16 TB。
+                        </p>
+                        <p>相关资料分门别类存放于各种资料夹，这些资料涵盖多种类型，包含：房产历史、积极卖家、破产、离婚、欠税不动产留置权（tax lien）、继承、法院判决、闲置房产等，此外，该资料库也包含从今年 4 月 22 日至 10 月 23 日的系统事件记录资料，而能让取得的人士得知用户搜寻的情形。研究人员通报后，此资料库已受到保护。</p>
+                        <p>在分析这起资料外泄事故的过程，这名研究人员特别有感而发，他提到自己曾是房地产经纪人，虽然财产税务资料在美国视为半公开资料，但相关资料通常必须向各行政区的政府取得，且能够取得的资料范围、难易度也不同，但这次他在这些外泄的资料当中，不仅意外找到自己的财产资料，也看到不少名人名下的房产，包含房屋的地址、购买价格、日期、贷款金额、欠税金额等细节。</p>
+                        <p>
+                            <a href="https://cybernews.com/security/dubai-real-estate-agency-data-leak/">
+                                <strong style="font-size: 22px;">房地产管理软体制造商的 CRM 系统曝露 69 万客户资料</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: a43875c3-887b-436c-a4cf-0a6b47b9603d -->
+                        <p></p>
+                        <p>根据资安新闻网站 Cybernews 的报导，疑似隶属房地产管理软体制造商 Goyzer 的客户关系管理系统（CRM）曝露于网际网路，其 MongoDB 资料库系统并未套用密码保护，内容包含姓名、电子邮件信箱、电话号码，以及收据、支票、合约、身分证件的扫描档案，估计有 69 万客户受到影响。</p>
+                        <p>一旦这些资料被骇客发现，就有可能将其用于身分窃盗、网路钓鱼、金融诈欺攻击。研究人员通报此事，该资料库已关闭，但 Goyzer 并未做出回应。</p>
+                        <p>&nbsp;</p>
+                        <h3>
+                            <strong>【漏洞与修补】</strong>
+                        </h3>
+                        <p>
+                            <a href="https://ubuntu.com/security/notices/USN-6557-1">
+                                <strong style="font-size: 22px;">Canonical 针对 Ubuntu 发布更新，修补文字编辑器 Vim 漏洞</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 8f2aecae-b0a5-4f45-97a8-2149ee2cbc9d -->
+                        <p></p>
+                        <p>12 月 14 日 Canonical 针对旗下 Linux 作业系统 Ubuntu 发布更新，这次修补文字编辑器 Vim 的 15 个漏洞，其中有 4 个是高风险层级，CVSS 风险评分皆为 7.8 分。</p>
+                        <p>其中的 CVE-2022-1897、CVE-2022-2000 影响范围较广，从 Ubuntu 14.04 LTS 至 22.04 LTS 都会受到影响，而且这些弱点都是越界写入（OBW）漏洞，攻击者有可能用来发起阻断服务（DoS），或是执行任意程式码。</p>
+                        <p>另外两个高风险漏洞是 CVE-2022-1886、CVE-2022-2042，仅影响 Ubuntu 22.04 LTS，前者也是越界写入漏洞，后者则是在 Vim 执行 spell 命令时，会导致记忆体管理不当的现象。</p>
+                        <p>&nbsp;</p>
+                        <h3>
+                            <strong>【资安产业动态】</strong>
+                        </h3>
+                        <p>
+                            <a href="https://abnormalsecurity.com/blog/2023-ai-generated-email-attacks">
+                                <strong style="font-size: 22px;">生成式 AI 被滥用于钓鱼邮件攻击，研究人员呼吁企业组织应透过 AI 对抗</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: b47b0053-93f6-4d44-b492-af45aaff45ab -->
+                        <p></p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/GenAI_5.png">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/GenAI_5.png" style="width: 301px; float: right;" referrerpolicy="no-referrer">
+                                </a>生成式人工智慧（Gen AI）日益普及，骇客也将其用于产生钓鱼邮件来从事攻击行动，这些邮件可针对特定收信人设计，再加上所采用的语法拼字皆没有错误，不只使用者难以辨别，由于骇客产生的邮件并未具备共同的恶意指标，传统的资安系统更难察觉其攻击意图。
+                            </p>
+                            <p>资安业者 Abnormal 收集透过前述 AI 产生的电子邮件并进行分析，然后透过开源软体 Giant Language Model Test Room（GLTR）执行识别，结果发现，这些邮件的文字几乎是经由人工智慧产生。</p>
+                            <p>其中一封邮件是伪装 Netflix 的客服，假借续订通知进行攻击，为了让邮件看起来可信度更高，骇客滥用线上玩具购物网站 Teeela 相关网域，以及使用客服平台 Zendesk，结果透过 GLTR 识别，整封信几乎都是 AI 代笔。对此，研究人员认为，只有人工智慧可以阻止人工智慧，他们认为企业应利用具备相关技术的资安解决方案来因应相关威胁。</p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>【其他新闻】</strong>
+                            </h3>
+                            <p>
+                                <a href="https://thehackernews.com/2023/12/cloud-atlas-spear-phishing-attacks.html">
+                                    <strong>
+                                        <span style="font-size: 20px;">俄罗斯企业组织遭到骇客组织 Cloud Atlas 锁定，从事鱼叉式网钓攻击</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: cbb0e36e-6795-4a67-9465-f637842e2f34 -->
+                            <p></p>
+                            <p>
+                                <a href="https://www.nccgroup.com/us/newsroom/ncc-group-monthly-threat-pulse-november-2023/">
+                                    <strong>
+                                        <span style="font-size: 20px;">金融木马 Carbanak 被用于勒索软体攻击</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 9cde5429-0bf0-4649-8140-8f4bc0b64c9a -->
+                            <p></p>
+                            <p>
+                                <a href="https://securityaffairs.com/156430/cyber-crime/rhysida-ransomware-abdali-hospital-jordan.html">
+                                    <strong>
+                                        <span style="font-size: 20px;">约旦 Abdali 综合医院传出遭勒索软体 Rhysida 攻击</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 85d4f7e2-3935-4054-acbe-90603d4dec86 -->
+                            <p></p>
+                            <p>
+                                <a href="https://www.hackread.com/ringgo-parkmobile-easypark-data-breach-data-stolen/">
+                                    <strong>
+                                        <span style="font-size: 20px;">欧洲大型停车应用程式服务集团 EasyPark 传出资料外泄</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 5c847692-5db9-48a3-807d-f1d406942807 -->
+                            <p></p>
+                            <p>
+                                <a href="https://securityaffairs.com/156303/cyber-crime/lockbit-gang-xeinadin.html">
+                                    <strong>
+                                        <span style="font-size: 20px;">会计师事务所 Xeinadin 传出遭到勒索软体 LockBit 攻击</span>
+                                    </strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 482d28e7-56f5-4bc2-8aa5-1003f5482a06 -->
+                            <p></p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>近期资安日报</strong>
+                            </h3>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/160548">
+                                    <strong>【12 月 26 日】&nbsp;有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料</strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/160527">
+                                    <strong>【12 月 25 日】&nbsp;骇客集团 UAC-0099 锁定乌克兰组织并利用 WinRAR 漏洞植入恶意程式 LonePage</strong>
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/160502">
+                                    <strong>【12 月 22 日】&nbsp;巴勒斯坦骇客对以色列组织声称提供 F5 BIG-IP「零时差漏洞修补程式」来破坏电脑所有档案</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </div></div>]]>
+    </description>
+    <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/160564</guid>
+    <link>https://www.ithome.com.tw/news/160564</link>
+    <author>
+        <![CDATA[周峻佑]]>
+    </author>
+    <category>资安 </category>
+</item>
+<item>
+    <title>
+        <![CDATA[微软正在测试借由 Windows Update 即可重新安装 Windows 的功能]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0327-windows-back-bei_jing_tu_pian_-photo_by_codioful_on_unsplash_0.jpg?itok=ikvIypwR" width="960" height="420" alt="" title="背景图片来源／Codioful on unsplash" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／Codioful on unsplash </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.windowslatest.com/2023/12/26/microsofts-game-changer-feature-reinstalls-windows-11-directly-via-windows-update/" target="_blank">《Windows Latest》</a>近日发现，最新的 Windows 11 Insider 测试版中出现了一项「利用 Windows Update 解决问题」的新功能，可直接让使用者重新安装 Windows，并可轻松保留所有的设定、程式与档案。</p><p>微软最早是在今年 7 月借由 Canary 频道释出的 Windows 11 Insider 添增了此一功能，让使用者可下载并安装作业系统的修复版本，<a href="https://blogs.windows.com/windows-insider/2023/07/12/announcing-windows-11-insider-preview-build-25905/" target="_blank">当时微软解释</a>，透过此一操作来重新安装作业系统，将不会移除任何的档案、设定或应用程式。</p><p class="rtecenter"><a href="http://blogs.windows.com/windows-insider/2023/07/12/announcing-windows-11-insider-preview-build-25905/" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/1227-Windows%2011%20Insider-Recover%20your%20PC%20from%20Windows%20Update.png" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>不消说，此一功能在许多情况下都非常有用，主要目的是维持装置的安全与更新，前提是装置需要在此一程序生效前完成正在进行的更新。</p><p><a href="https://support.microsoft.com/en-us/windows/reinstall-windows-d8369486-3e33-7d9c-dccc-859e2b022fc7#bkmk_reinstall_windows_10_using_installation_media" target="_blank">微软原本即提供了许多重新安装 Windows 的方式</a>，包括移除所有档案、设定与程式的干净安装，也可选择保留档案或设定，但若要保留所有内容则必须透过安装媒体来重新安装 Windows，且必须先在 SD 卡、USB 随身碟或是硬碟上建立安装媒体。</p><p>现在微软则准备让使用者直接利用 Windows Update 来重新安装作业系统，并保留设定、档案及程式等使用者所建立的内容，不必再执行上述的繁复操作。</p><p>不过，该功能虽然已出现在 Windows 11 Insider 的 Beta 频道中，目前却仍无法运作，《Windows Latest》推测此一功能最快会在今年 2、3 月随著 Windows 11 Moment 5 的更新而上线。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/160560</guid>
+    <link>https://www.ithome.com.tw/news/160560</link>
+    <author>
+        <![CDATA[陈晓莉]]>
+    </author>
+    <category>新闻</category>
+</item>
+<item>
+    <title>
+        <![CDATA[微软发布 Android 版专用 Copilot App]]>
+    </title>
+    <description>
+        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1227-microsoft_copilot-android-google_play-960.jpg?itok=eKSGrKWe" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Google</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在 Bing 之外，微软本周悄悄发布了 Android 版本的 AI 助理 Microsoft Copilot 应用程式。</p><p>少数使用者<a href="https://twitter.com/techosarusrex/status/1739569672058450165" target="_blank">发现</a>Copilot App 昨日<a href="https://play.google.com/store/apps/details?id=com.microsoft.copilot&amp;hl=en_US" target="_blank">在 Google Play Store 上架</a>。为了品牌统一，微软于上个月 Ignite 大会上将 Bing Chat 改名为 Copilot。这也使得微软 Web、Windows 及伺服器端及手机平台的聊天机器人全部都叫 Copilot。<a href="https://www.ithome.com.tw/news/158994" target="_blank">Windows 11</a>及<a href="https://www.ithome.com.tw/news/159894" target="_blank">Windows 10</a>版 Copilot App 分别于 9 月、11 月推出。</p><p>微软说明，Copilot 是微软以 OpenAI 模型包括 GPT-4 及 DALLE-3 为基础开发的聊天助理，可协助用户提升生产力。它的介面和 Bing 或是 OpenAI ChatGPT 相似，而且也提供类似功能，像是回答问题、搜寻、草拟电子邮件、制作精美的图片。但 Copilot 提供最新的 GPT-4 存取，这在 ChatGPT 是需要付费的。使用者也可以透过滑钮启用或关闭 GPT-4 模型。</p><p>目前 iOS 版上的微软 AI 聊天助理仍然叫 Bing Chat，不过按照品牌统一的策略，媒体推测，iOS 版 Copilot 应该很快就会推出。</p></div></div></div><div></div></div></div></div>]]>
+    </description>
+    <pubDate>Tue, 26 Dec 2023 16:00:00 GMT</pubDate>
+    <guid isPermaLink="false">https://www.ithome.com.tw/news/160559</guid>
+    <link>https://www.ithome.com.tw/news/160559</link>
+    <author>
+        <![CDATA[林妍溱]]>
+    </author>
+    <category>AI</category>
+</item>    </channel>    </rss>
