@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 29 Dec 2023 18:23:43 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 30 Dec 2023 02:29:21 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[jsoup 1.17.2 發佈，Java HTML 解析器]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">jsoup 1.17.2 現已發佈</span><span style="color:#000000">。jsoup 是一個用於處理 real-world&nbsp;HTML 的 Java 庫。它使用最好的 HTML5 DOM 方法和 CSS 選擇器提供了一個非常方便的 API 用於提取和操作數據。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">下載地址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjsoup.org%2Fdownload" target="_blank">https://jsoup.org/download</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">具體更新內容包括：</span></p><h4><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>改進</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><strong>Attribute object accessors</strong>：添加<code>Element.attribute(String)</code>和<code>Attributes.attribute(String)</code>以便更簡單地獲取<code>Attribute</code>對象。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2069" target="_blank">2069</a></li><li><strong>Attribute source tracking</strong>：如果 source tracking 已打開，並且屬性的鍵已更改（通過<code>Attribute.setKey(String)</code>），則現在仍會在<code>Attribute.sourceRange()</code>中跟蹤 source range。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2070" target="_blank">2070</a></li><li><strong>Wildcard attribute selector</strong>：添加了對具有任何屬性選擇器的<code>[*]</code>元素的支持。並且還恢復了對通過空屬性名稱前綴 (&nbsp;<code>[^]</code>) 選擇的支持。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2079" target="_blank">2079</a></li></ul><h4><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Bug 修復</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><ul><li><strong>Mixed-cased source position</strong>：跟蹤屬性的源位置時，如果源屬性名稱是混合大小寫的，但解析器是小寫規範化屬性名稱，則無法正確跟蹤該屬性的源位置。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2067" target="_blank">2067</a></li><li><strong>Source position NPE</strong>：跟蹤正文片段解析的源位置時，拋出空指針異常。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2068" target="_blank">2068</a></li><li><strong>Multi-point emoji entity</strong>：多點編碼的表情符號實體可能會被錯誤地解碼為替換字符。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2074" target="_blank">2074</a></li><li><strong>Selector sub-expressions</strong>：（迴歸）在像<code>parent [attr=va], other</code>之類的選擇器中，<code>, OR</code>被綁定到<code>[attr=va]</code>而不是<code>parent [attr=va]</code>，導致不正確的選擇。該修復包含一個 EvaluatorDebug 類，可生成一個 sexpr 來表示查詢，從而使查詢解析測試更簡單、更徹底。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2073" target="_blank">2073</a></li><li><strong>XML CData output</strong>：從解析的 HTML 生成 XML 語法輸出時，包含（偽）CData 部分的腳本節點將添加無關的 CData 部分，從而導致腳本執行錯誤。現在，<br> 如果數據尚未位於 CData 部分中，則數據內容將以 HTML/XML/XHTML 多語言格式發出。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2078" target="_blank">2078</a></li><li><strong>Thread safety</strong>：<code>:has</code>evaluator 持有一個非線程安全的迭代器，因此如果多個併發線程共享一個 Evaluator object，可能會拋出 NoSuchElement 異常，並且選擇的結果可能不正確。現在，迭代器對象是線程本地的。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Fissues%2F2088" target="_blank">2088</a></li></ul><p><span style="background-color:#ffffff; color:#333333">更新説明：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjhy%2Fjsoup%2Freleases%2Ftag%2Fjsoup-1.17.2" target="_blank">https://github.com/jhy/jsoup/releases/tag/jsoup-1.17.2</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 30 Dec 2023 02:14:37 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/273388/jsoup-1-17-2-released</guid>
+            <link>https://www.oschina.net/news/273388/jsoup-1-17-2-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[OpenCV 4.9.0 發佈，Intel 開源的計算機視覺庫]]>
@@ -294,21 +309,6 @@
             <pubDate>Thu, 28 Dec 2023 09:12:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/273155</guid>
             <link>https://www.oschina.net/news/273155</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[深耕開發者生態，openKylin 入選 2023 中國技術品牌影響力企業榜]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>2023 年 12 月 26 日，中國技術先鋒年度評選&nbsp;| 2023 中國技術品牌影響力企業榜單正式發佈。作為中國領先的新一代開發者社區，SegmentFault 思否依託數百萬開發者用戶數據分析，各科技企業在國內技術領域的行為及影響力指標，最終評選出 30 家上榜企業。<strong>openKylin 作為中國領先的開源操作系統根社區，憑藉在技術領域和開發者生態領域的持續貢獻，入選 30 強之列。</strong></span></p><p style="text-align:center"><img alt="" height="3508" src="https://oscimg.oschina.net/oscnet/up-f71b87d34c96069fbcb15077685dcb8cfdf.png" width="2481" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>相信開發者的力量，一直以來 openKylin 社區都堅持大力推動開發者生態建設。2023 年，openKylin 社區曾組織和參與頂級技術大會、開發者大賽、技術沙龍</span><span>等活動</span><span><strong>70+</strong>場，以領先技術回饋社區。截至目前，openKylin 已累計發佈<strong>6</strong>個社區版本，下載量<strong>100 萬+</strong>；匯聚<strong>400+</strong>社區會員<strong>、5500+</strong>開發者加入社區，並累計成立<strong>94</strong>個 SIG 組開展技術研究與創新，<span>和開發者共同成長。</span></span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>未來，openKylin 也將保持初心，加強生態建設，服務廣大開發者，為營造良好開源生態和技術發展持續努力，也期待越來越多的開發者參與進來，為建設開源、貢獻開源添磚加瓦！&nbsp;</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:left"><span style="color:#7f7f7f">附：《2023 中國技術品牌影響力企業》</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-5f8de216bffebbb3744628f4612997a427f.png" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><span>openKylin（開放麒麟）社區旨在以「共創」為核心，在開源、自願、平等、協作的基礎上，通過開源、開放的方式與企業構建合作伙伴生態體系，共同打造桌面操作系統頂級社區，推動 Linux 開源技術及其軟硬件生態繁榮發展。</span></p><p style="margin-left:0; margin-right:0"><span style="background-color:#ffffff">社區理事成員單位包括麒麟軟件、普華基礎軟件、中科方德、麒麟信安、凝思軟件、一銘軟件、中興新支點、元心科技、中國電科 32 所、技德系統、北京麟卓、先進操作系統創新中心、飛騰、兆芯、龍芯中科、景美、京東科技、玄鐵、申泰信息、海光等 21 家產業同仁和行業機構。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 09:11:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/273154</guid>
-            <link>https://www.oschina.net/news/273154</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
