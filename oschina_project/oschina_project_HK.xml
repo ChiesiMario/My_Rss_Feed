@@ -16,8 +16,28 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 01 Jan 2024 11:01:21 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 01 Jan 2024 15:05:25 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Vue 3.4 「灌籃高手」發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Vue 3.4 已正式發佈，代號"🏀 Slam Dunk"（灌籃高手）。</p><h4><strong>新版本主要變化</strong></h4><ul><li><strong>重寫模板解析器</strong>，速度提升了 2 倍</li><li><strong>重構響應性系統 (Reactivity System</strong><strong style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">)</strong><span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">，讓 effect 的觸發更準確高效</span></li><li><strong>優化 API</strong>，比如<code>defineModel</code>進入穩定階段，以及綁定 props 時的同名簡寫</li></ul><hr><h4><strong>更新亮點</strong></h4><ul><li><strong><span style="background-color:#e67e22">解析器速度提升 2 倍，優化 SFC 構建性能</span></strong></li></ul><p><strong>Vue 3.4 完全重寫了模板解析器</strong>。在舊版本，Vue 使用遞歸下降解析器，該解析器依賴了大量正則表達式和前向搜索。</p><p>新的解析器使用基於<code>htmlparser2</code>的狀態機 tokenizer（分詞器），它僅迭代整個模板字符串一次。結果是對於所有尺寸的模板而言，解析器始終優化 2 倍。得益於 Vue 廣泛的測試用例和 ecosystem-ci，它也 100% 向後兼容 Vue 終端用户。</p><p>在將新的解析器與系統的其他部分集成時，開發團隊還發現了進一步優化整體 SFC 編譯性能的機會。基準測試顯示，在生成源碼映射的同時，編譯 Vue SFC 的腳本和模板部分的時候，性能優化了約 44%，因此 Vue 3.4 應該會優化大多數使用 Vue SFC 的項目構建。</p><p>但是請注意，Vue SFC 編譯只是現實項目中整個構建過程的一部分。與單獨的基準測試相比，端到端構建時間的最終收益可能要小得多。</p><p>在 Vue 核心庫之外，新的解析器還將優化 Volar/vue-tsc，以及需要解析 Vue SFC 或模板的社區插件的性能，比如 Vue Macros。</p><ul><li><strong><span style="background-color:#e67e22">更高效的響應性系統 (Reactivity System)</span></strong></li></ul><p>3.4 對響應性系統進行了重大重構，目標是提高計算屬性的重新計算效率。</p><p>比如下面的場景：</p><pre><code class="language-javascript">const count = ref(0)
+const isEven = computed(() =&gt; count.value % 2 === 0)
+
+watchEffect(() =&gt; console.log(isEven.value)) // logs true
+
+count.value = 2 // logs true again</code></pre><p>在 3.4 之前的版本，每當&nbsp;<code>count.value</code>&nbsp;變更時，即使計算結果不變，也會觸發&nbsp;<code>watchEffect</code>&nbsp;的回調。通過 3.4 優化，現在僅當計算結果實際發生變更時才會觸發回調。</p><ul><li><strong><code><span style="background-color:#e67e22">v-bind</span></code><span style="background-color:#e67e22">&nbsp;同名簡寫</span></strong></li></ul><p>下面用例：</p><pre><code class="language-javascript">&lt;img&nbsp;:id="id"&nbsp;:src="src"&nbsp;:alt="alt"&nbsp;/&gt;</code></pre><p>可簡寫為：</p><pre><code class="language-javascript">&lt;img&nbsp;:id&nbsp;:src&nbsp;:alt&nbsp;/&gt;</code></pre><p>Vue 團隊表示，最初他們擔心這種用法會與布爾屬性混淆。但在重新審視該功能後，考慮到其動態特性，他們認為<code>v-bind</code>的行為比原生屬性更像 JavaScript 是有意義的。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.vuejs.org%2Fposts%2Fvue-3-4" target="_blank">詳情查看發佈公告</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 01 Jan 2024 14:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/273703/vue-3-4</guid>
+            <link>https://www.oschina.net/news/273703/vue-3-4</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[OpenChat 1.0 beta，開源 IM 服務器搭配 SDK 以及 APP 軟件平台！]]>
@@ -349,21 +369,6 @@
             <pubDate>Fri, 29 Dec 2023 07:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/273294/snail%20-2-17-0-released</guid>
             <link>https://www.oschina.net/news/273294/snail%20-2-17-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Goploy v1.16.0 發佈：支持 Docker 構建命令等功能]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Goploy 的最新版本 v1.16.0 現已發佈！</p><p>這個版本帶來了許多刺激的新功能，改進和修復。</p><p>Goploy 是一個輕量級的，專為開發人員設計的持續集成和持續部署系統。它的設計理念是簡單易用，讓開發人員能夠快速、輕鬆地部署他們的應用程序。 在這個新版本中，我們引入了一些強大的新功能，包括：</p><p>1. 新增功能：支持查看各階段構建時長</p><p>2. 新增功能：支持 docker 構建命令等功能</p><p>3. 修復功能：修復無法刪除服務器的 bug</p><p>4. 修復功能：兼容最新版 element-plus</p><p>這些新功能不僅提高了系統的穩定性和性能，也增強了用户體驗。</p><p>我們鼓勵所有用户升級到新版本，以便利用這些改進和新功能。</p><p>你可以在 GitHub 上查看完整的發佈説明和下載最新版本：https://github.com/zhenorzz/goploy/releases/tag/v1.16.0。</p><p>我們感謝社區的反饋和支持，讓我們能夠繼續改進 Goploy。</p><p>如果你在使用過程中遇到任何問題，或者有任何建議，歡迎通過 GitHub 向我們反饋。 感謝你選擇 Goploy，讓我們一起更快、更好地部署應用程序！</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 29 Dec 2023 07:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/273289</guid>
-            <link>https://www.oschina.net/news/273289</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
