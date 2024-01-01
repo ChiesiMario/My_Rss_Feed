@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 31 Dec 2023 16:03:26 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 01 Jan 2024 06:20:38 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Ruby 3.3.0 採用 Prism 作為預設解析器並改進 YJIT 效能]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2140_-_ruby_3.3.0_released_-_www.ruby-lang.org_.png?itok=UuIEzSeg" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Ruby 開發團隊今年也按聖誕節當天發表更新的慣例釋出<a href="https://www.ruby-lang.org/en/news/2023/12/25/ruby-3-3-0-released/">Ruby 3.3.</a>0，該版本增加了一個名為 Prism 的新解析器，並且使用 Lrama 解析器生成器替換 Bison，在編譯器更新上改進 YJIT 的效能，也加入開發團隊最近正在實驗的純 Ruby JIT 編譯器 RJIT。</p><p>Prism 解析器是一個專為 Ruby 程式語言設計的遞迴下降解析器（Recursive Descent Parser），具有可移植、容錯和可維護等特性，作為 Ripper 的替代工具，提供更加現代且靈活的解析解決方案，已經可在生產環境中使用。</p><p>遞迴下降解析器是一種程式語言解析演算法，能夠基於文法規則將程式碼轉換成特定形式的結構，像是抽象語法樹（AST）等。Prism 既是 CRuby 內部使用的 C 函式庫，也可供任何需要解析 Ruby 程式碼工具使用的 Ruby 套件（Gem），而現在 Prism 解析器為 Ruby 3.3.0 的預設套件（Gem），方便開發者在 Ruby 環境中執行程式碼解析。</p><p>而 Ruby 3.3.0 中用來代替傳統 Bison 的 Lrama 解析器生成器，主要用於 Ruby 程式語言的解析。Bison 一直以來都是解析器生成的非常受歡迎工具，但 Bison 的文法限制和錯誤恢復的能力有限，再加上使用的複雜性，在部分情況下可能成為開發障礙，相較之下，Lrama 是一種更為靈活的解析生成工具，特別適用於 Ruby 程式語言。</p><p>Lrama 主要優勢在於可維護性和可擴展性，像是支援參數化規則，在 Ruby 的 parse.y 中就非常有用。支援參數化規則使得解析器可以更容易地處理複雜語言結構，提高解析器的靈活性和適應性。此外，Lrama 內部的解析器被替換成為由 Racc 生成的 LR 解析器，進一步提升可維護性。這些改進都是在替 Ruby 的未來發展鋪路，有助於使 Ruby 語言解析過程更加高效精確。</p><p>Ruby 3.1 初次加入的程序內編譯器 YJIT，在 Ruby 3.2 成為正式功能，而後開發團隊繼續改進，在 Ruby 3.3.0 中 YJIT 的效能獲得提升。YJIT 在記憶體使用上，相較於 Ruby 3.2 有明顯的改進，編譯程式碼的後設資料使用更少的記憶體，並且添加新的閾值配置來提升效能。</p><p>針對 Arm64 架構，YJIT 生成更加緊湊的程式碼，另外，程式碼垃圾回收現在預設停用，開發者需要手動啟用。YJIT 在執行時的啟動功能也獲得強化，開發者可以在執行時啟用 YJIT，因此像是 Ruby on Rails 7.2 也可以在預設情況下啟用 YJIT。YJIT 預設提供更多統計資料，增加新的效能分析功能，例如—yjit-perf 和—yjit-trace-exits。官方也提到，這個版本的 YJIT 經過更全面的測試，已修復多個錯誤，進一步提升了穩定性和可靠性。</p><p>Ruby 3.3.0 還加入了全新純 Ruby 語言實作的即時編譯器 RJIT 來取代 MJIT，RJIT 與 MJIT 不同，在執行時不需要 C 編譯器，這個重要特性可以降低使用 JIT 的複雜性，並提高在不同環境中的可用性。RJIT 目前仍是一個實驗性質的專案，僅支援 Unix 平台上的 x86-64 架構，官方建議在生產環境還是先使用更成熟，且支援多種架構與平台的 YJIT。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Sun, 31 Dec 2023 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160618</guid>
+            <link>https://www.ithome.com.tw/news/160618</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[【資安週報】2023 年 12 月 25 日到 12 月 29 日]]>
@@ -261,7 +276,7 @@
             <author>
                 <![CDATA[羅正漢]]>
             </author>
-            <category>AI</category>
+            <category>新聞</category>
         </item>
         <item>
             <title>
@@ -276,7 +291,7 @@
             <author>
                 <![CDATA[羅正漢]]>
             </author>
-            <category>AI</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>
@@ -383,21 +398,6 @@ Soanr 程式碼品管工具新增加了機密內容偵測能力，可以快速�
             <link>https://www.ithome.com.tw/news/160598</link>
             <author>
                 <![CDATA[李建興]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GovTech 月報第 25 期：桃園市用生成式 AI 提高市民專線客服回覆效率，平均縮減 20 秒通話時間]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/clipboard01_crop_image.jpg?itok=LLArgB0U" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>桃園市政府</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重點新聞 (1126~1225)</span></p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">桃園市</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">生成式 AI</span></font></strong></p><p><span style="font-size:22px;"><strong>桃園市政府導入生成式 AI，提高 1999 市民專線回覆效率</strong></span></p><p>看準生成式 AI 提高人機協作效率，桃園市政府研考會近期導入生成式 AI，以提高 1999 市民專線話務人員回覆效率，經測試，平均通話時間約可節省 20 秒。</p><p>桃園市政府 1999 市民專線，平均每月約有 2 萬通電話，市民來電詢問各種市政問題，造成市民專線服務人員龐大的工作負擔，因此桃園市政府研考會在 2023 年下半年嘗試利用生成式 AI，在話務人員的問答知識庫導入 Open AI，開發人機協作系統，話務人員可經由對話輸入問題，該系統可以協助話務人員迅速查詢、整理市政問題的答覆。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/600(8).jpg" style="width: 600px; height: 400px;" referrerpolicy="no-referrer"></p><p>桃園市政府研考會也以「人厲害，還是 AI 厲害」為題，挑選 4 位話務人員實際使用系統進行實驗專案，近 1 個月的資料收集及比較，發現整體通話時間平均縮短了 20.75 秒，節省了 10.2% 的時間。特別的是，資深人員使用該系統，節省的時間超過較資淺者，顯示人的「經驗」會引導 AI 產出品質。另外，不同問題類型，系統產生的效果也有不同，問題情境複雜問題，例如社會福利類的問題，AI 產出品質及縮減時間比較有限，甚至不佳。</p><p>桃園市政府認為，AI 並非萬靈丹，並非所有事都可以交給 AI 執行，人機協作，由人引導 AI 產出結果為，提升服務品質的關鍵。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">身分</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">臉部辨識</span></font></strong></p><p><span style="font-size:22px;"><strong>日本羽田機場將試辦掃描 QR Code、臉部辨識簡化入境程序</strong></span></p><p>對於出差或旅行的旅客而言，辦理入境程序常因為旅客眾多而大排長龍。為方便旅客入境，日本政府計畫在 2024 年起，在羽田機場試辦簡化入境程序的新做法，旅客入境只要掃描 QR Code，進行臉部辨識就能完成入境手續。</p><p>根據日本政府觀光局統計資料，2023 年 1 月到 11 月止，遊日旅客突破 2,200 萬人次，為疫後赴日遊客首次重返 2 千萬人次，因此日本政府簡化入境審查、海關申報程序，新做法是旅客事先在網入填寫資料後，之後在入境審查僅需掃描 1 次 QR Code，海關申報時再完成臉部辨識就能通過。新措施將在 2024 年 1 月起，先在羽田機場試行，日本政府再依據試行的結果，如果成效良好，則於 2024 年 4 月推廣到全國的機場。</p><p>事實上，在 COVID-19 疫情期間，為降低旅客與工作人員面對面的接觸，日本政府曾在 2021 年於羽田、成田兩個機場運用臉部辨識技術，讓旅客自行通關，並強調旅客註冊的資料、臉部影像，並強調旅客在註冊 24 小時內自動刪除相關資料。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">歐盟</span></font></strong></p><p><span style="font-size:22px;"><strong>歐盟就 AI 法案監管重點達成協議，下一步著手擬定法案</strong></span></p><p>AI 應用發展相當迅速，各國積極研究建立法規予以規範，以降低不良的影響。近期歐盟在立法上取得新進展，歐盟各國對未來 AI 法案監管的重點已達成協商共識，下一步將撰寫法案，預期通過法令後，2 年後生效。以歐盟在全球的政經影響力，未來立法框架將成為各國的參考依據。</p><p>歐盟規畫的 AI Act 法案，涵蓋 AI 系統供應商、使用組織，歐盟執委會表示，監管重點為辨識風險，以保障個人及企業的基本權利，在歐盟支援可靠的 AI 研發，對全球的 AI 規則提供貢獻。</p><p>根據達成的共識，歐盟將 AI 風險予以分類，最小風險、高風險、不可接受風險、透明度風險。最小風險如推薦系統或垃圾郵件過濾機制，供應商不需承擔風險；高風險為關鍵基礎設施、執法或公領域系統、生物辨識與情緒辨識系統等，受到嚴格要求，需具備風險緩解、詳細紀錄、受人工監督等措施；不可接受風險為操縱人類行為避開自由意志，在某些應用中禁止生物辨識；透明度風險要求必須能夠讓人們辨識互動的對象或內容是否來自 AI。</p><p>歐盟也祭出罰則，違反 AI Act 的業者，最高將可處罰 3,500 萬歐元或年營收的 7%。未來將成立歐洲 AI 辦公室，敦促法規的執行。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">澳洲</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位政府</span></font></strong></p><p><strong><span style="font-size:22px;">澳洲政府擬強化 myGov 數位政府服務，導入 FIDO 2 確保身分安全</span></strong></p><p>澳洲政府近期表示將改善 myGov 數位政府服務平台，其中提出的建議做法中，包括導入 FIDO 2，降低釣魚詐騙的手法，同時該國也將擴大 myGov 的應用範圍。</p><p>myGov 為澳洲政府的數位身分及政府服務平台，民眾可以數位身分登入後，就能瀏覽政府資訊、使用各項政府服務，並提供電子錢包以儲存數位卡片或證件。不過，myGov 因遭到盜用、詐騙，導致澳洲政府損失數十億美元，因此澳洲政府提出 myGov 改善建議，盼能降低詐騙、濫用風險。</p><p>其中一項改善做法是採用 FIDO 2 技術的金鑰，根據澳洲政府先前的説法，採用 FIDO 2 身分驗證技術，讓澳洲民眾能以指紋、臉部辨識等生物特徵，或使用 PIN 碼登入服務，以避免遭到網釣詐騙。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">馬來西亞</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位身分</span></font></strong></p><p><span style="font-size:22px;"><strong>馬來西亞推數位身分系統，2024 年第 1 季估 1 千萬人使用</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/myDigital%20ID.jpg" style="width: 600px; height: 396px;" referrerpolicy="no-referrer"></p><p>馬來西亞近期推動數位身分系統 MyDigital ID，以作為民眾身分識別、商業及交易使用，或是用於取得政府的服務，預期 2024 年第 1 季將有 1 千萬人註冊使用。</p><p>馬來西亞原本就有身分證件 MyKad，新的數位身分 MyDigital ID 並不是取代 MyKad，強調具有高度安全性的 ID，具有原先 MyKad 的功能，包括取得多項公共服務。馬來西亞政府將分 4 個階段推動 MyDigital ID，首先開放內閣成員，其次是公務人員、政府受益人（獲政府補助），最後才是廣大的公眾。</p><p>該國計畫在 2024 年 7 月開放公眾使用 MyDigital ID。目前約有 1,700 多項政府服務可使用 MyDigital ID，未來將增加至 2,000 多項服務。未來透過 4 個階段逐步開放使用，為 MyDigital ID 建立一定規模的使用者，以吸引民間企業服務採用新的數位身分識別。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位部</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">衞星</span></font></strong></p><p><span style="font-size:22px;"><strong>數位部模擬光纖網路中斷，驗證以衞星建立北高連線</strong></span></p><p>數位發展部為強化我國通訊服務韌性，驗證非同步軌道衞星在緊急狀態下作為備援網路的可行性，近期模擬光纖網路中斷，透過中軌道衞星建立台北與高雄之間的連線。</p><p>媒體報導，數位部已在台北的部本部頂樓架設接收裝置，同時在電信技術中心，在高雄路竹架設接收站，模擬光纖網路中斷，驗證以點對點加密通訊，透過中軌道衞星讓台北、高雄兩地連線。</p><p>不只是中軌道衞星，未來也會驗證低軌道衞星強化通訊韌性的可能性，中華電信日前已和 OneWeb 取得台灣獨家代理，配合數位部「應變或戰時應用新興科技強化通訊網路數位韌性」計畫，未來也會國內 700 個站點，以及國外 3 個 LEO 衞星終端站點，驗證在緊急狀態導致地面通訊中斷，透過衞星通訊立連線。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">台南市</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">無人機</span></font></strong></p><p><span style="font-size:22px;"><strong>台南市以無人機從空中監測工業區空氣品質，輔助環保稽查</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/drone(1).jpg" style="width: 600px; height: 450px;" referrerpolicy="no-referrer"></p><p>經濟發展與環境保護如何兼顧，台南市政府近期提供示範。今年 6 月開發完成的柳營科技工業區暨環保園區，目的為迎合台商迴流，促進當地的經濟發展，為兼顧環境保護，台南市政府利用無人機，從空中巡查監測工業區的空氣品質。</p><p>台南市政府是在今年開始運用無人機，結合工業區的 3D 立體空間管理，加強對工業區空氣品質監控，由柳營區公所、警察局新營分局柳營分駐所利用夜間，操控無人機執行空氣品質監測任務，監測結果作為廠商輔導，以及對廠商的稽查參考。</p><p>無人機上搭載感測器，可蒐集 PM2.5、PM10、揮發性有機物、臭氧、温濕度等空氣品質數據。另外，也透過搭載高解析度鏡頭及紅外線熱顯像，從空中巡查園區，透過空中作業補足地面管理的不足，協助園區管理。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">環保</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AIoT</span></font></strong></p><p><span style="font-size: 22px;"><b>環境部與地方政府聯手，利用 AIoT 找出空污源頭</b></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/%E7%9D%A3%E5%AF%9F%E4%BA%BA%E5%93%A1%E7%AB%8B%E5%8D%B3%E8%92%90%E8%AD%89%E7%B2%92%E7%8B%80%E6%B1%A1%E6%9F%93%E7%89%A9%E6%B1%A1%E6%9F%93%E7%A9%BA%E6%B0%A3.JPG" style="width: 600px; height: 338px;" referrerpolicy="no-referrer"></p><p>環境部近期利用 AIoT 人工智慧物聯網，偵測到部分地區出現異常警示，進一步與台南市環保局合作，依周遭環境、大氣擴散條件等分析，鎖定重點查核熱區，找出空污的源頭，針對違反空污法的業者舉發。</p><p>根據環境部與地方政府的查核，確認造成空氣污染的源頭來自一家鋼鐵業者，該業者融化廢鐵煉製的過程，雖然設有抽氣設備，但白色粒狀空氣污染物從廠內向廠外擴散，查核人員現場蒐證，依法告發。</p><p>環境部表示，未來將和地方政府的環保局合作，透過智慧物聯網辦理空污監察工作，以管控高污染潛勢熱區事業，維護空氣品質。</p><p>&nbsp;</p><p>圖片來源／桃園市政府、Mimos、台南市政府、環境部</p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;更多 GovTech 動態&nbsp;</span></strong></span></p><p><strong>1.2024 年開始桃園將啟動 100 處科技執法，靠 AI 取締交通違規</strong></p><p><strong>2.日本研擬 AI 方針 10 項原則，涵蓋人權、虛假訊息應對</strong></p><p>資料來源：iThome 整理，2023 年 12 月</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Wed, 27 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160562</guid>
-            <link>https://www.ithome.com.tw/news/160562</link>
-            <author>
-                <![CDATA[蘇文彬]]>
             </author>
             <category>新聞</category>
         </item>
