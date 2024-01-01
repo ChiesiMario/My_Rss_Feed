@@ -16,8 +16,28 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 01 Jan 2024 11:30:32 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 01 Jan 2024 15:30:55 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Vue 3.4 「灌篮高手」发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Vue 3.4 已正式发布，代号"🏀 Slam Dunk"（灌篮高手）。</p><h4><strong>新版本主要变化</strong></h4><ul><li><strong>重写模板解析器</strong>，速度提升了 2 倍</li><li><strong>重构响应性系统 (Reactivity System</strong><strong style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">)</strong><span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">，让 effect 的触发更准确高效</span></li><li><strong>优化 API</strong>，比如<code>defineModel</code>进入稳定阶段，以及绑定 props 时的同名简写</li></ul><hr><h4><strong>更新亮点</strong></h4><ul><li><strong><span style="background-color:#e67e22">解析器速度提升 2 倍，优化 SFC 构建性能</span></strong></li></ul><p><strong>Vue 3.4 完全重写了模板解析器</strong>。在旧版本，Vue 使用递归下降解析器，该解析器依赖了大量正则表达式和前向搜索。</p><p>新的解析器使用基于<code>htmlparser2</code>的状态机 tokenizer（分词器），它仅迭代整个模板字符串一次。结果是对于所有尺寸的模板而言，解析器始终优化 2 倍。得益于 Vue 广泛的测试用例和 ecosystem-ci，它也 100% 向后兼容 Vue 终端用户。</p><p>在将新的解析器与系统的其他部分集成时，开发团队还发现了进一步优化整体 SFC 编译性能的机会。基准测试显示，在生成源码映射的同时，编译 Vue SFC 的脚本和模板部分的时候，性能优化了约 44%，因此 Vue 3.4 应该会优化大多数使用 Vue SFC 的项目构建。</p><p>但是请注意，Vue SFC 编译只是现实项目中整个构建过程的一部分。与单独的基准测试相比，端到端构建时间的最终收益可能要小得多。</p><p>在 Vue 核心库之外，新的解析器还将优化 Volar/vue-tsc，以及需要解析 Vue SFC 或模板的社区插件的性能，比如 Vue Macros。</p><ul><li><strong><span style="background-color:#e67e22">更高效的响应性系统 (Reactivity System)</span></strong></li></ul><p>3.4 对响应性系统进行了重大重构，目标是提高计算属性的重新计算效率。</p><p>比如下面的场景：</p><pre><code class="language-javascript">const count = ref(0)
+const isEven = computed(() =&gt; count.value % 2 === 0)
+
+watchEffect(() =&gt; console.log(isEven.value)) // logs true
+
+count.value = 2 // logs true again</code></pre><p>在 3.4 之前的版本，每当&nbsp;<code>count.value</code>&nbsp;变更时，即使计算结果不变，也会触发&nbsp;<code>watchEffect</code>&nbsp;的回调。通过 3.4 优化，现在仅当计算结果实际发生变更时才会触发回调。</p><ul><li><strong><code><span style="background-color:#e67e22">v-bind</span></code><span style="background-color:#e67e22">&nbsp;同名简写</span></strong></li></ul><p>下面用例：</p><pre><code class="language-javascript">&lt;img&nbsp;:id="id"&nbsp;:src="src"&nbsp;:alt="alt"&nbsp;/&gt;</code></pre><p>可简写为：</p><pre><code class="language-javascript">&lt;img&nbsp;:id&nbsp;:src&nbsp;:alt&nbsp;/&gt;</code></pre><p>Vue 团队表示，最初他们担心这种用法会与布尔属性混淆。但在重新审视该功能后，考虑到其动态特性，他们认为<code>v-bind</code>的行为比原生属性更像 JavaScript 是有意义的。</p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.vuejs.org%2Fposts%2Fvue-3-4" target="_blank">详情查看发布公告</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 01 Jan 2024 14:04:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/273703/vue-3-4</guid>
+            <link>https://www.oschina.net/news/273703/vue-3-4</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[OpenChat 1.0 beta，开源 IM 服务器搭配 SDK 以及 APP 软件平台！]]>
@@ -537,21 +557,6 @@ v_i &amp; \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\
             <link>https://www.oschina.net/news/273327/opencv-4-9-0-released</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[告别 2023，迎接 2024]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="margin-left:.0001pt; margin-right:0; text-align:left"><span><span><span><span><span><span><span><span style="color:#171a1d"><span><span><span><span>顺便带一下开放签开源电子签章上线两周的小结，本周关键字「惊喜」。官网访问量稳定在 200 左右/天，github/gitee:start 总计 130。5 个企业版意向客户，以上便是开放签上线两周的运营数据。</span></span></span></span></span></span></span></span>&nbsp;</span></span></span></span></p><p style="margin-left:.0001pt; margin-right:0; text-align:left"><span><span><span><span><span><span><span><span style="color:#171a1d"><span><span><span><span>用「坚持」「艰辛」来总结 2023 年，这是我们真实的写照。团队这几年确实很辛苦，经历了创业的艰辛，失去了几载青春、大把的票子，用很低的收入维持生活，这是我们的现状。但是这些依然打不倒，也压不跨我们，对我们来说也不是什么」苦「。因为我们早已看淡了这些，我们相信我们这些年的积累、经验总有一天有用武之地。因为我们有梦想（说梦想可能会有人笑话吧），我们可以把开放签做好。其实毫不夸张的说，直至开放签上线后，才体会到十年磨一剑的感受。不瞒大家，从开始做电子签直至开放签这个项目上线，真的已经十年了，期间被家人和朋友调侃十年才玩明白这点事儿。调侃归调侃，真正想做好一个产品，我们觉得十年只是一个开始，没有这十来年足够的客户、技术、服务等方方面面积累，以及我们对开放签的坚持，估计开放签上线后也是个没血肉、立不住的产品吧。对开放签来说，十年只是一个开始，我们深知没有任何一件事情可以随便、容易的完成的，接下来的几年、几十年，我们将持续的、顽强的深耕我们的产品、服务，让电子签章更简单不是说说而已。</span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:.0001pt; margin-right:0; text-align:left"><span><span><span><span><span><span><span><span style="color:#171a1d"><span><span><span><span>用「惊喜」「憧憬」来展望 2024 年，惊喜发生在开放签上线后，而且是持续的。惊喜的是没想到有特别多的朋友在关注、关心我们，给我们提了不少战略级别的建议，真的感谢你们。在此特别感谢@jack，感谢你给予我们的指导和建议。你给我们带来了更多的正能量，我们更加坚定了能做好开放签的信心。只要用心做好产品，我们相信 24 年会有更多的惊喜。24 年用「憧憬」一词来展望新年，代表了我们对新的一年美好的期冀。我们期待有更多用户可以低门槛的应用电子签章，电子签章可以更加简单的得到普及。新的一年，我们更加期待开放签可以更多的参与到公益和对社会有益的事业中，让开源、开放的意义更大。</span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:.0001pt; margin-right:0; text-align:left"><span><span><span><span><span><span><span><span style="color:#171a1d"><span><span><span><span>写在最后，我们还很年轻，还有很多不足，肯定在发展的道路上会犯很多错误，但是我们是开放的，有激情的，我们愿意接受各种批评和质疑，最后还是用一句我们自己坚信的话来总结我们「我们相信开源开放会为产品与用户之间带来更多信任「，这就是开放签的价值观，是我们坚定走下去的信念。 </span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:.0001pt; margin-right:0; text-align:left"><span><span><span><span><span><span><span><span style="color:#171a1d"><span><span><span><span>祝各位在新的一年顺遂、如意。新年好！</span></span></span></span></span></span></span></span></span></span></span></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 29 Dec 2023 08:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/273299</guid>
-            <link>https://www.oschina.net/news/273299</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
