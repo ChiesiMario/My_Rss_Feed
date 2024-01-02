@@ -16,8 +16,178 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 02 Jan 2024 06:38:37 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 02 Jan 2024 10:41:43 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【资安日报】1 月 2 日，窃资软体滥用 Google 未公开的 OAuth 同步机制挟持用户帐号]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240102.png?itok=_FJf3xX1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>去年 11 月，<a href="https://www.ithome.com.tw/news/160011">窃资软体 Lumma、Rhadamanthys 的开发者声称加入罕见的新功能</a>，能让攻击者借由收集电脑的特定档案挟持受害者 Google 帐号，而且，使用者更换密码也无法摆脱骇客纠缠。如此特殊、神奇的攻击手法，引起研究人员高度关注，后续有其他资安业者参与相关调查，并揭露成果。</p><p>值得留意的是，骇客竟是滥用 Google 未公开的服务元件达到目的，前不久也出现这种运用未公开元件攻击的手法，那就是卡巴斯基之前揭露的<a href="https://www.ithome.com.tw/news/160590">间谍软体攻击 Operation Triangulation</a>，骇客渗透的管道是晶片韧体未使用的暂存器。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.cloudsek.com/blog/compromising-google-accounts-malwares-exploiting-undocumented-oauth2-functionality-for-session-hijacking"><strong style="font-size: 22px;">窃资软体滥用 Google 跨服务同步机制，透过 OAuth 挟持 Google 帐号</strong></a></p>
+                <!-- notionvc: 7778fc3a-b903-428b-92a8-3e74f672cdd4 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/658e65e3ed55ff3bccad3d98_PpViPST7p6B4TuJSC5GpRgYD45Qcwpk0hDM3r5d2KTQCYV3VkEya0qvU8Ju20i7B1-t0O1iKuSQD5ANy7RU8ElHlspRKpDJGM5DmPa5EetmiMBpU_md6J4J_Svwq0ojO1AUVwJWyvqH8mICNRD8Z7Xg.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/658e65e3ed55ff3bccad3d98_PpViPST7p6B4TuJSC5GpRgYD45Qcwpk0hDM3r5d2KTQCYV3VkEya0qvU8Ju20i7B1-t0O1iKuSQD5ANy7RU8ElHlspRKpDJGM5DmPa5EetmiMBpU_md6J4J_Svwq0ojO1AUVwJWyvqH8mICNRD8Z7Xg.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>研究人员 11 月揭露名为 Lumma 的窃资软体，骇客提供新的功能服务，标榜可从受害电脑窃取与 Google 服务有关的 cookie，从而劫持使用者的 Google 帐号，但究竟骇客如何达成目的？当时研究人员表明仍不得而知，并希望其他资安业者也能投入相关调查，如今有新的发现。
+                    </p>
+                    <p>资安业者 CloudSEK 指出，他们在去年 10 月看到名为 Prisma 的骇客组织，在 Telegram 频道宣称掌握一项零时差漏洞，能长时间存取受害者的 Google 帐号，就算使用者变更密码也无济于事，他们还是能借由 cookie，重新建立连线阶段（session），持续掌控受害者的帐号，他们寻求与其他恶意软体开发者进行合作。随后在 11、12 月，就有数款窃资软体陆续导入相关功能，最早的是 Lumma、Rhadamanthys，后续则是 Stealc、Meduza、Risepro、WhiteSnake，它们也标榜具备这类挟持 Google 帐号的机制。其中开发 Eternity Stealer 的骇客组织，也著手打造具有这类功能的新版程式。</p>
+                    <p>研究人员透过逆向工程，发现这些窃资软体会锁定 Chrome 名为 token_service 的表单，取得特定的 Token 和 GAIA ID 资料，接著滥用 Google 未曾在技术文件提及的 MultiLogin 端点跨服务同步机制而能透过 OAuth 机制，挟持受害者的 Google 帐号。</p>
+                    <p>
+                        <a href="https://www.microsoft.com/en-us/security/blog/2023/12/28/financially-motivated-threat-actors-misusing-app-installer/">
+                            <strong style="font-size: 22px;">多组骇客滥用微软市集 App 的 URI 协定，散布恶意软体</strong>
+                        </a>
+                    </p>
+                    <!-- notionvc: 0636800a-a297-4b31-b91a-f29107c1ea01 -->
+                    <p></p>
+                    <p>
+                        <a href="https://s4.itho.me/sites/default/files/images/Fig2-Sample-malicious-App-Instal.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/Fig2-Sample-malicious-App-Instal.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>12 月 28 日微软指出，自 11 月中旬，他们发现 Storm-0569、Storm-1113、FIN7（亦称 Sangria Tempest）、Storm-1674 等多个骇客组织，滥用 ms-appinstaller 的 URI，借由 MSIX 安装程式来散布恶意程式，对此他们决定暂时停用相关通讯协定。这些骇客假借提供 Zoom、Tableau、TeamViewer、AnyDesk 等常见的应用程式，在 Bing、Google 刊登恶意广告引诱使用者上当，研究人员也看到利用协作平台 Teams 来进行网路钓鱼攻击的情况。
+                        </p>
+                        <p>针对这些骇客使用的恶意软体，Storm-0569 会使用 PowerShell 指令码，下载并执行 Batloader、IcedID、Cobalt Strike 等作案工具，再交由 Storm-0846、Storm-0506 部署勒索软体；Storm-1113 则是对受害电脑植入木马程式 Gozi、IcedID、NetSupport RAT，窃资软体 Redline、Lumma Stealer，以及僵尸网路软体 Smoke Loader；FIN7 利用 Storm-1113 制作的恶意程式载入工具，部署后门程式 Carbanak、恶意程式 Gracewire 或 NetSupport RAT。</p>
+                        <p>值得一提的是，Storm-1674 与上述骇客组织的手法有所不同，他们利用 Teams 讯息传送冒牌 OneDrive、SharePoint 登入网页，最终散布 SectopRAT 或 DarkGate。</p>
+                        <p>
+                            <a href="https://cert.gov.ua/article/6276894">
+                                <strong style="font-size: 22px;">乌克兰政府机关遭俄罗斯骇客 APT28 锁定，散布恶意程式 Masepie</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: e21a858d-c38f-489e-a54f-c2f7249edce1 -->
+                        <p></p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/masepie.png">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/masepie.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>乌克兰电脑紧急应变小组（CERT-UA）针对俄斯骇客组织 APT28 的攻击行动提出警告，骇客约从 12 月 15 日至 25 日，锁定乌克兰政府机关的钓鱼邮件攻击，假借提供重要文件的名义，要求收信人点选信里的 URL，一旦依照对方的指示操作，电脑就有可能借由 JavaScript 与 Windows 搜寻的 URI（ms-search）通讯协定，下载 LNK 捷径档案，从而透过 PowerShell 命令触发以 Python 打造的恶意软体 Masepie。
+                            </p>
+                            <p>CERT-UA 指出，在攻击行动里骇客还利用了 OpenSSH、PowerShell 指令码 Steelhook、后门程式 Oceanmap，于受害电脑建立隧道通讯、窃取 Chrome 及 Edge 浏览器资料，并透过 IMAP 协定对受害电脑下达攻击命令。</p>
+                            <p>
+                                <a href="https://asec.ahnlab.com/en/60054/">
+                                    <strong style="font-size: 22px;">北韩骇客 Kimsuky 部署 AppleSeed、Meterpreter、TinyNuke 控制受害电脑</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 0da41618-e356-48d1-bebf-2e79d8bbd554 -->
+                            <p></p>
+                            <p>资安业者 AhnLab 揭露北韩骇客 Kimsuky 最新一波的网路钓鱼攻击行动，指出骇客最近偏好使用 Windows 捷径（LNK）档案，但也有利用 JavaScript 或其他类型的恶意档案。</p>
+                            <p>研究人员指出，虽然骇客的攻击模式没有重大变化，仍旧使用 2022 年出现的窃资软体，以及名为 RDP Patch 的恶意程式，但这次骇客使用后门程式 AppleSeed 的变种 AlphaSeed，在执行的过程会检查特定参数来阻碍研究人员分析，而过往骇客会使用远端桌面连线（RDP）控制受害电脑，但在这波攻击行动里，对方则是滥用 Chrome 选端连线的功能。</p>
+                            <p>在部分攻击行动里，研究人员也看到对方利用恶意程式 Meterpreter 及 VNC 恶意程式 TinyNuke（或 TightVNC）搭配的情况。</p>
+                            <p>
+                                <a href="https://www.cib.npa.gov.tw/ch/app/news/view?module=news&amp;id=1885&amp;serno=97c224ad-c1f2-4bf9-beea-85ab9c0a0cd9">
+                                    <strong style="font-size: 22px;">集运业者美买的前合伙人串通委外工程师攻击网站、窃取客户资料，提供竞争对手运用</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 82dfdba6-55ab-4b09-a8dc-b659f358e275 -->
+                            <p></p>
+                            <p>
+                                <a href="https://s4.itho.me/sites/default/files/images/maybuy.jpg">
+                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/maybuy.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                    </a>12 月 29 日内政部警政署刑事警察局宣布查获破坏公司网站多名嫌犯，涉案人员为游姓主嫌、陈姓工程师及林姓共犯，他们对美国集运物流公司美买国际进行资料盗窃、关闭网站，然后将到手的近 19 万笔客户资料，交由另一家集运业者运用。刑事警察局侦查第九大队第二队、科技犯罪防制中心科技侦查队、台中市政府警察局丰原分局于 2023 年 7 月 13 日、12 月 14 日执行搜索及拘提，查获游姓主嫌、陈姓工程师及林姓共犯，查扣作案手机、电脑、会员订单资料库近 19 万笔个人资料等电磁纪录，全案将依违反个人资料保护法、背信、妨害电脑使用等罪嫌，移请台湾台中地方检察署侦办。
+                                </p>
+                                <p>这起事故发生在 2022 年 11 月，美买网站无预警关闭，当时网站及系统无法运作，会员亦收到另一家新成立的集运业者的广告电子邮件，直到 12 日后网站才恢复正常，美买估计损失 1,200 万元。</p>
+                                <p>资料来源</p>
+                                <p>1.&nbsp;
+                                    <a href="https://www.cib.npa.gov.tw/ch/app/news/view?module=news&amp;id=1885&amp;serno=97c224ad-c1f2-4bf9-beea-85ab9c0a0cd9#">https://www.cib.npa.gov.tw/ch/app/news/view?module=news&amp;id=1885&amp;serno=97c224ad-c1f2-4bf9-beea-85ab9c0a0cd9</a>
+                                    <br>
+2.&nbsp;
+                                        <a href="https://www.facebook.com/MaybuyInt/posts/pfbid032kxJJpVNJ1E2oRqsNMYoyHEXFn2sDyszw1r1YUjkunZPdgBT8C6CfC6wvZX5ZRVbl">https://www.facebook.com/MaybuyInt/posts/pfbid032kxJJpVNJ1E2oRqsNMYoyHEXFn2sDyszw1r1YUjkunZPdgBT8C6CfC6wvZX5ZRVbl</a>
+                                    </p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新闻】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/software/github-warns-users-to-enable-2fa-before-upcoming-deadline/">
+                                            <strong>
+                                                <span style="font-size: 20px;">GitHub 提醒用户尽速启用双因素验证，若不处理将限缩功能</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 923a0a11-fb9f-4f41-a535-a739ce142b37 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://securityaffairs.com/156709/cyber-crime/cactus-ransomware-coop-sweden.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">瑞典食品零售供应商 Coop 传出遭勒索软体骇客组织 Cactus 攻击</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 998e8b3b-97a5-4086-93b3-7eff7453d9ac -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/eagers-automotive-halts-trading-in-response-to-cyberattack/">
+                                            <strong>
+                                                <span style="font-size: 20px;">澳洲、纽西兰大型汽车经销商 Eagers Automotive 遭遇网路攻击，股市暂停交易</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 941f08b8-f4f3-4290-bcc1-53755759eab6 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://securityaffairs.com/156679/cyber-crime/inc-ransom-ransomware-xerox-corp.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">勒索软体骇客组织 Inc 声称攻击全录</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: f8f62c76-02e4-436c-8c4c-14051eb07706 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.resecurity.com/blog/article/cybercriminals-launched-leaksmas-event-in-the-dark-web-exposing-massive-volumes-of-leaked-pii-and-compromised-data">
+                                            <strong>
+                                                <span style="font-size: 20px;">多组骇客在平安夜发起 Free Leaksmas 攻击行动，泄露全球各地逾 5 千万笔个资</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 85c0f923-8765-476c-957e-c48eefbb6cc8 -->
+                                    <p></p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期资安日报</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160616">
+                                            <strong>【12 月 29 日】&nbsp;Booking.com 合作旅馆、房客面临网钓攻击且外泄个资出现转交其他团体兜售现象</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160596">
+                                            <strong>【12 月 28 日】&nbsp;别以为使用 SSH 连线就会比较安全！采用容易猜到的帐密有可能将 Linux 伺服器拱手送给骇客</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160564">
+                                            <strong>【12 月 27 日】&nbsp;有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                </div></div>]]>
+            </description>
+            <pubDate>Mon, 01 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160635</guid>
+            <link>https://www.ithome.com.tw/news/160635</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[OpenAI 去年创下 16 亿美元营收]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0102-openai-revenue-bei_jing_tu_pian_lai_yuan_-giorgio_trovato_on_unsplash-960.jpg?itok=dg0Hn84_" width="960" height="420" alt="" title="背景图片来源／<a href=&quot;https://unsplash.com/@giorgiotrovato?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Giorgio Trovato</a> on <a href=&quot;https://unsplash.com/photos/100-us-dollar-bill-BRl69uNXr7g?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>" referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／<a href="https://unsplash.com/@giorgiotrovato?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Giorgio Trovato</a> on <a href="https://unsplash.com/photos/100-us-dollar-bill-BRl69uNXr7g?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.theinformation.com/articles/openais-annualized-revenue-tops-1-6-billion-as-customers-shrug-off-ceo-drama" target="_blank">《The Information》</a>上周引述消息来源报导，OpenAI 在 2023 年创下了 16 亿美元的营收，比原本所预期的 2 亿美元营收高出数倍。</p><p>OpenAI 一直未对外公开营收，综合各方的报导，OpenAI 在 2022 年、尚未推出 ChatGPT 之际的营收是 2,800 万美元，且该年亏损了 5.4 亿美元。但随著 ChatGPT 在 2023 年陆续推出<a href="https://openai.com/pricing" target="_blank">各种付费服务</a>，去年 8 月传出每月已可创造 8,000 万美元的营收，朝向 10 亿美元的年营收迈进，10 月将年营收预测调高到 13 亿美元，最新的年营收数字则是 16 亿美元。而原本 OpenAI 所预期的 2023 年营收只有 2 亿美元。</p><p>此外，OpenAI 的身价也随著营收的成长而水涨船高。它在去年 4 月的身价还不到 300 亿美元，11 月成长到 860 亿美元，<a href="https://fortune.com/2023/12/23/openai-valuation-100-billion-funding-round/" target="_blank">《Fortune》</a>则说，OpenAI 正在讨论的新一轮融资估值可能突破 1,000 亿美元。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Mon, 01 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160633</guid>
+            <link>https://www.ithome.com.tw/news/160633</link>
+            <author>
+                <![CDATA[陈晓莉]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[微软发表支援苹果平台的 Microsoft Copilot]]>
@@ -287,7 +457,7 @@
             <author>
                 <![CDATA[周峻佑]]>
             </author>
-            <category>新闻</category>
+            <category>资安 </category>
         </item>
         <item>
             <title>
@@ -303,7 +473,7 @@
             <author>
                 <![CDATA[罗正汉]]>
             </author>
-            <category>新闻</category>
+            <category>资安 </category>
         </item>
         <item>
             <title>
@@ -321,7 +491,7 @@
             <author>
                 <![CDATA[罗正汉]]>
             </author>
-            <category>AI</category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -336,7 +506,7 @@
             <author>
                 <![CDATA[罗正汉]]>
             </author>
-            <category>AI</category>
+            <category>新闻</category>
         </item>
         <item>
             <title>
@@ -354,50 +524,6 @@
             <link>https://www.ithome.com.tw/news/160608</link>
             <author>
                 <![CDATA[罗正汉]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[DevOps 快报第 1 期：2 千企业用 Backstage 打造内部开发者平台，多种开发 AI 助手现身，从程式码 AI 到 DevOps AI 都有]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/backstage.png?itok=l4zNi-R1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong>2023/12/1～12/28 精选 DevOps 相关新闻</strong></p><h3><strong><span style="color:#FF8C00;">#平台工程 #IDP</span><br>
-开源 IDP 专案 Backstage 获 2300 家企业采用，Spotify 揭露明年发展方向</strong></h3><p>根据 Spotify 统计，他们开源释出的开发者平台专案 Backstage 在 2023 年 9 月时，全球已经有 2300 家企业采用，用来打造内部开发者平台（IDP），包括欧洲快时尚 Zalando、全球影音龙头 Netflix、美国航空、HBO MAX 联播网、加拿大 Telus 电信、英国体育台 DAZN，甚至连老牌软体公司 3D 引擎巨头 Unity 等。Spotify 最近举办了第一次的 Backstage 技术日活动，揭露了 Backstage 未来的发展方向。</p><p>Backstage 原本就有一个开源外挂目录，已有超过 150 个 Backstage 的第三方解决方案。因此，Spotify 在今年 9 月底时启用了 Backstage 商用市集目前是 Beta 版，会提供经过 Spotify 验证的商用外挂产品，目前包括红帽、VMware、CircleCI、Weaveworks、synk、PagerDuty 都成为认证的合作厂商。</p><p>Spotify 也设立了 Backstage 产品主管 Meg Watson 指出，未来优先聚焦三大发展方向，要强化平台核心、移除导入障碍、探索更多延伸产品和服务。举例来说，过去需要 70 个步骤才能完成安装，Backstage 将在 2024 年初推出一项新的「快速启动（Quickstart）」功能，可以精简到 3 个步骤，就能安装好整套平台。</p><h3><strong><span style="color:#FF8C00;">#开发者 AI #14 种语言</span><br>
-GitLab 年终改版时出 16.7，写注解就能生成程式码的 AI 助手正式上线</strong></h3><p>年底时，GitLab 释出了 16.7 改版，包括了 30 多项强化，其中，最大新特热是先前发布的程式码 AI 助手 Duo Code Suggestions 正式上线。这款开发 AI 助手，可以支援多款开发 IDE 工具和 14 种语言，包括 C++、C#、GO、Java、JavaScript、PHP、Python、Swift 等，10 秒内自动协助完成所转写程式码区块的其余程式码，也可以自动生成测试程式码等。甚至，开发者可以先输入程式码的注解文字后，AI 助手再自动依据这段注解产生对应的程式码，开发者可以不断输入人类容易理解注解，就靠 AI 助手将这一只功能的程式完成。GitLab 开放企业在 2024 年 2 月中前可以免费试用这项功能。</p><p>其他新版功能包括了用来分类快速寻找各种元件的 CI/CD 目录功能，进入 Beta 版。另外在除错分析报告新增加细节报表展开功能，方便进行更深入的分析。在合并请求变更检视模式也多了同时检视程式码静态扫描结果的选项。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/GitLabAI.png" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#FF8C00;">#开发者 AI #Duet AI #20 种语言</span><br>
-Google 云端正式推出开发者 AI 助理，联手开发工具链厂商打群架</strong></h3><p>Google 云端日前正式推出了开发者 AI 助理 Duet AI，进军 AI 开发者生产力工具的竞争，来与 GitHub Copilot 开发者 AI 竞争。目前开发者 Duet AI 可以在 Cloud Shell Editor、Cloud Workstations、IntelliJ、PyCharm 和 VS Code 等 IDE 中使用，支援 C、C++、Go、Java、JavaScript 和 Python 等 20 多种程式语言。另外也整合了 GCP 的 Cloud Logging 云端维运服务，可用 AI 摘要日志摘要和错误的解释，来辅助故障排除。开发者 Duet AI 也内建了专用端点、VPC 服务控制和精细 IAM 权限存取控制等安全功能。 </p><p>不只如此，开发者 Duet AI 也联手了不同的开发者工具链和生态圈，包括了知识型合作伙伴，可以提供各自名产品文件和知识库，包括了 Datadog、JetBrains、Langchain。可以回答常见产品问题、弱点修补、自动化测试等问题。另外也整合了开发类工具包括了 Confluent、HashiCorp、MongoDB、Redis、Elastic、Grafana Labs 等，可以协助产生这类开发工具链产品的程式码、范例程式码或除错建议。</p><h3><strong><span style="color:#FF8C00;">#开发者 AI #重构建议</span><br>
-IDE 工具商 JetBrains 也推出自家 AI 助理，还可以协助程式码重构</strong></h3><p>拥有 IntelliJ IDEA、PyCharm 等多款 IDE 产品的工具商 JetBrains，最近也发表了自己的开发 AI 助理，不只可以解释程式码，回答程式码相关问题，也能生成文件或是进行程式语言转换等工作。JetBrains 采用 OpenAI 的模型来打造这款人工智慧助理，不只可以根据专案上下文、插入符号位置以及提示词产生程式码。同时也可以生成说明文件，代劳这件普遍不受开发者欢迎的工作。开发者在 AI Actions 的选单选择编写文件选项，人工智慧助理便会根据所选函式和类别，产生丰富经格式化的文件。这款 AI 助理特色之一是可以提供潜在程式码的重构建议，不只考虑程式脉络，也会考量当前专案的限制，并且还能解释重构建议的原因，也让开发者接受建议后，直接将生成的程式码插入专案中。</p><h3><strong><span style="color:#FF8C00;">#开发者 AI #Salesforce 开发平台</span><br>
-Salesforce 的 DevOps 平台工具商 Copado 用 ChatGPT 打造 DevOps 助手</strong></h3><p>主攻 Salesforce 开发生态圈的 DevOps 平台工具商 Copado，最近发表了用 ChatGPT 打造的 DevOps 助手 CopadoGPT 测试版。这款 DevOps 助手使用了 Copado 累积十年的 DevOps 实务的资料来优化，可以自动生成机器人自渡化测试的测试脚本，也能用来强化用户故事的细节，自动产生更容易理解的版本发布说明，也能用来提供 Salesforce 应用开发的最佳实知识。</p><h3><strong><span style="color:#FF8C00;">#开发者 AI #DevOps 助手</span><br>
-Jira 开发平台正式推出 DevOps 的 AI 助手，协助 DevOps 团队管理工作流程</strong></h3><p>Atlassian 在四月发表的 DevOps 开发 AI 助手 Atlassian Intelligence 现在正式上线了，先支援 Jira 软体、Confluence、Jira 服务管理平台，后续也会支援 CI/CD 平台产品 Bitbucket。这是一款使用 Atlassian 过去 20 年软体开发知识所训练的 AI 助手，主要用于开发流程的人机协作辅助。</p><p>在测试阶段，已有 26 万人试用，最常见的用法是从 Jira 软体工单自动产生用户故事，自动产生 SQL 指令，也会用来修正 Jira 服务管理平台上对顾客的回应语气，Confluence 文件自动摘要、或是透过提示语快速建立工作流程或是建立新的测试计划。另外 Confluence 先开始支援用自然语言搜寻企业内部自己独特的缩写、术语或简称，来加快新手上手的速度，Jira 也很快会支援这项 NLP 搜寻功能。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/jira%E5%8A%A9%E7%90%86.png" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#FF8C00;">#DevOps #AI 应用开发</span><br>
-CircleCI 将 DevOps 流程延伸到 AI 应用开发工具</strong></h3><p>DevOps 工具商 CircleCI 最近宣布将自家 CI/CD 平台延伸到 AI 应用的开发流程，可以存取 AWS 上的 GPU 实例、透过内建 Webhook 机制快速连结到 Hugging Face 上的 AI 模型服务，也能整合 LangChain 团队所开发的生成式 AI 应用除错工具 LangSmith，以及整合到 AWS 的 SageMaker，让 DevOps 流程更容易套用到 AI 应用的开发，减少开发人员设定外部第三方 AI 开发工具的麻烦。</p><h3><strong><span style="color:#FF8C00;">#COBOL #大型主机现代化</span><br>
-ML 也能帮忙重构 COBOL 程式，BMC 推出大型主机现代化新工具</strong></h3><p>大型主机商软公司 BMC 最近推出一款新的大型主机现代化工具 AMI DevX Code Insights，可以利用机器学习演算法，绘制出大型主机的庞大单体式应用架构图，可以用来分析资料和协助百万行等级大型主机程式码的除错，也能透过 runtime 模拟器来了解 COBOL 程式如何运作，方便移除老旧用不到的死亡程式码，或者用来协助分析 COBOL 程式码的逻辑，拆解出不同功能的小型程式码，来进行程式码重构。</p><h3><strong><span style="color:#FF8C00;">#Python 开发框架 #资料库操作</span><br>
-网页应用框架 Django 发布 5.0，大幅强化资料库操作能力</strong></h3><p>Python 网页应用框架 Django 这次改版主要聚焦在资料库功能强化，像是支援资料库运算预设值，以及资料库生成模型栏位，让资料库自动处理资料栏的内容，并且还在模板系统加入栏位群组的概念，简化表单栏位渲染等。5.0 版开始支援资料库生成资料的栏位，可以用由其他栏位计算出来的结果，来建立一个新栏位的值。这个功能能在资料库层级自动计算并储存结果，不只提高资料处理效率，也减少网页端程式的计算负担。随著 5.0 的发布，Django 4.2 也结束主流支援，后续只提供安全性和资料丢失的修补。</p><h3><strong><span style="color:#FF8C00;">#Java 开发 #IDE 开发工具</span><br>
-VS Code 推出实用的浮动编辑器，也再次强化 Java 扩充套件功能</strong></h3><p>在 12 月时，VS Code 有不少更新，先是发布了 1.85 新版，增加了多项实用的新功能，例如浮动编辑器视窗，开发者现在可以将编辑器拖曳到桌面，方便将编辑器视窗分散到不同的显示器或是桌面空间，来提高开发效率。JavaScript 除错器则加入视觉化 V8 堆快照（Heap Snapshot）功能，开发者可以更直觉地理解和分析 JavaScript 程式的记忆体使用情况。还提供更精细的扩充套件自动更新控制，允许用户选择想要进行自动更新的扩充套件。</p><p>12 月底时，更小幅更新 Java 扩充套件，也改善多项开发者体验，例如 Java 扩充套件繁多的设定，现在会按类别和用途分类，方便开发者寻找。创建 Java 档案的流程也更直觉，新增时会列出包含各种 Java 档案类型列表，方便开发者选择。在测试功能改善上，这次改版增加了新的测试覆盖率 API，当开发者在 VS Code Insiders 中执行 Java 测试时，能够直接查看覆盖率结果。Spring Boot 扩充套件也有不少新功能和效能提升更新，例如采用了开源自动化重构工具 OpenRewrite，可将现有 Spring 专案自动升级至 Spring Boot 3.2。</p><h3><strong><span style="color:#FF8C00;">#Visual Studio #C++开发体验</span><br>
-Visual Studio 2022 年终更新版加强 C++开发体验，能更视觉化地检视记忆体运用</strong></h3><p>微软在 12 月也小幅更新 Visual Studio 2022，主要针对 C++开发体验的优化。C++开发者现在可以更有效率地检视资料结构的记忆体占用量，以及记忆体的对齐方式。滑鼠移到识别码（Identifier）上，就能查看快速资讯工具提示，即时检查类别、结构和联合的大小和对齐状况，来了解复杂程式中的记忆体布局。另外也增加了记忆体布局检视图，可以用视觉化的方式来呈现类别、结构和联合的记忆体排列方式，对于最佳化记忆体布局工作特别有用。开发者现在可以更直觉地查看类别中所有资料成员的填充、偏移和大小。另外，Visual Studio 2022 从 17.9 版本也会开始直接支援 Unreal Engine 专案，可以直接在 Visual Studio 开启来开发相关游戏程式。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/VS2022-%E8%A8%98%E6%86%B6%E9%AB%94%E5%B8%83%E5%B1%80%E5%9C%96.png" referrerpolicy="no-referrer"></p><h3><strong><span style="color:#FF8C00;">#Mac 操作环境 #Linux</span><br>
-Fedora Linux 终于可以支援 Apple Silicon 处理器了，先支援 M1 和 M2</strong></h3><p>Asahi Linux 与 Fedora 合作，终于在年底释出了第一个支援 Apple Silicon 的 Linux 版本 Fedora Asahi Remix，比原定 8 月释出晚了 4 个月。该版本支援 M1 和 M2 系列的 MacBook、Mac Mini、Mac Studio 和 iMac 装置，Mac Pro 则还需要再等等。这个版本提供 KDE Plasma 以及 GNOME 桌面环境，操作体验可以达到如同 macOS 般的流畅，不会有任何撕裂感或是故障。KDE Plasma 还支援 HiDPI，甚至可同时跨多个不同比例的萤幕显示。</p><h3><strong><span style="color:#FF8C00;">#程式码扫描 #防止机密外泄</span><br>
-Soanr 程式码品管工具新增加了机密内容侦测能力，可以快速找出不小心留在原始码中的机密资讯</strong></h3><p>程式码品管工具商 Sonar 最近宣布旗下产品开始支援机密内容的侦测能力，包括 SonarLint、SonarQube 和 SonarCloud 都支援。这项功能可以用来侦测不小心遗留在程式码中的机密资讯，避免系统遭骇时或而外流了这些机敏资料，常见不小心忘记移除的机密资讯类型包括了密码、API 金钥、加密金钥、权杖或是资料库凭证等。这项工具透过语意分析和复杂规则来对程式码储存库进行扫描，可以整合到 DevOps 流程中，而 SonarLint 则是可以更提前一步整合到企业所用的 IDE 开发工具中，来避免这类机密资料外流到合作厂商。</p><h3><strong><span style="color:#FF8C00;">#平台工程 #云端成本分析</span><br>
-云端成本分析新工具！新兴平台工具商 Massdriver 开始提供云端成本追踪工具</strong></h3><p>随著平台工程越来越火红，也开始出现专门锁定企业内部开发者平台的工具商，Massdriver 就是其中一家。最近他们释出了一个可以用来追踪云端成本的工具，能够产生云端基础架构的成分分析表，称为 Cloud IBOM（Cloud Infrastructure bill of materials），并且能整合到企业内部的开发者平台，在平台工程的工作流程中提供成本分析的参考。</p><p>使用者可以快速点选几个按钮，就可以产生一份云端架构成分表，可以画制出不同类型云端资源的架构图，也能涵盖到资料库、机器学习工作流程、无伺服器运算框架的架构。在这个架构图上，除了呈现出不同云端资源之间的关系，也会一一标记出每一项云端资源的启动时间，上个月的费用总额，相关通知警报（例如上个月超过设定的预算额度），让平台工程团队更清楚地从工作流程来检视，可以找出最花钱的流程和工具。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/massdriver-IBOM.png" referrerpolicy="no-referrer"></p><h3><strong>更多新闻</strong></h3><ul><li>Deno 1.39 重新支援 WebGPU，并持续强化 Node.js 相容性</li><li>HashiCorp 创办人 Michel Hashimoto 离开了创办的公司</li><li>iPaaS 平台商 Digibee 也用 LLM 打造整合助手，可以将程式码自动转译成 JSON</li></ul><p>&nbsp;</p><p>@资料来源：iThome 整理，2023 年 12 月</p><p>责任编辑：王宏仁</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160607</guid>
-            <link>https://www.ithome.com.tw/news/160607</link>
-            <author>
-                <![CDATA[王宏仁]]>
-            </author>
-            <category>AI</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Nvidia 在中国发表少 11% 效能的 GeForce RTX 4090 D 晶片]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1229-nvidia_rtx_4090-guan_fang_tu_-960.jpg?itok=6yXSbdvr" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Nvidia</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>随著美国持续要求业者不得出口 AI 晶片至中国，<a href="https://wccftech.com/us-adds-more-nvidia-gpus-to-china-ban-list-rtx-6000-ada-rtx-a6000-l4/" target="_blank">迄今 Nvidia 已经有十多款 GPU 被禁售至中国</a>，不过，Nvidia 本周在中国市场发表了 GeForce RTX 4090 D，效能约比正版的 GeForce RTX 4090 少了 11%。</p><p>GeForce RTX 4090 为 GeForce 40 系列迄今最新也最高阶的绘图处理器（GPU），该系列是 Nvidia 专为玩家及创作者所设计的显示卡，GeForce RTX 4090 标榜在效能、效率及 AI 绘图上有大幅的增长，可让使用者体验更栩栩如生的虚拟世界。其基本款售价为 1,599 美元，上一代的 GeForce RTX 4080 则是 1,199 美元。由于它属于消费性产品，先前并未在美国的禁售之列，但国外媒体却在 11 月时发现，原本存在于 Nvidia 中国官网上的 GeForce RTX 4090 被下架了，本周重新上架的则是降级版的 GeForce RTX 4090 D。</p><p>比较 Nvidia<a href="https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/" target="_blank">美国</a>官网与<a href="https://www.nvidia.cn/geforce/graphics-cards/40-series/" target="_blank">中国</a>官网在 GeForce RTX 4090 及 GeForce RTX 4090 D 的规格，双方皆采用 24GB 的 GDDR6X 记忆体，加速时脉皆为 2.52 GHz，但 GeForce RTX 4090 拥有 16,384 个 Nvidia CUDA 核心，而 GeForce RTX 4090 D 的 Nvidia CUDA 核心数量只有 14,592 个，比 GeForce RTX 4090 少了 10.9%。</p><p>根据<a href="https://www.theregister.com/2023/12/28/nvidia_4090_returns_to_china/" target="_blank">《The Register》</a>的报导，GeForce RTX 4090 是美国在今年 10 月祭出严格出口管制后，唯一被禁止出口至中国的消费级 GPU，原因是它的效能刚好超过规定，使得 Nvidia 只好减少它的核心数量，不仅是 CUDA 核心，其 Tensor 核心也从 512 个减少到 456 个。</p><p>不过，目前 Nvidia 中国官网只提供了 GeForce RTX 4090 D 的规格，尚未公布它的价格或销售管道。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160606</guid>
-            <link>https://www.ithome.com.tw/news/160606</link>
-            <author>
-                <![CDATA[陈晓莉]]>
             </author>
             <category>新闻</category>
         </item>
