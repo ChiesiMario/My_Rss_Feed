@@ -16,8 +16,39 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 03 Jan 2024 11:02:20 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 03 Jan 2024 15:13:54 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構 （Part 3 最佳化篇）]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-measure.png?itok=pYyBy7Uq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>亞馬遜技術長 Werner Vogels 提出的節約架構（Frugal Architect），由三大類、七項軟體架構設計法則所組成，在第三部分談及架構與成本最佳化（Optimize），其中包含兩項法則。</p><p>首先，第六項法則－「成本最佳化是漸進的」，指出成本最佳化並非一蹴可幾，而是持續調整，逐步完善。Vogels 表示，由於過往技術上的限制比較多，IT 人員往往只能在較小的層面上持續修修補補，而這種從小地方逐步改善的作為，也讓他們練就了成本最佳化的能力。<br>
+但是，在運算資源容易取得的情況下，軟體開發團隊過於追逐速度，在快速開發之下，逐漸不再重視細節，然而一些不起眼的事情累積起來，就會造成很大的數位浪費。例如網站開發沒有重視檔案大小的問題，那麼使用者就有可能上傳解析度過高的照片或影片，而實際上對終端用户體驗毫無助益卻徒增頻寬浪費；又或是開發人員為了方便，下班後不關閉測試環境的主機，讓它空轉浪費資源，而若有維持開機的必要，其實也可藉由縮減主機規格來降低成本與減少浪費。這些雖然都只是小事情，但若不加以重視，無形中就會造成很多隱藏的數位浪費。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/frugal%20architect(1).png" style="width: 640px; height: 519px;" referrerpolicy="no-referrer"></p><p>至於軟體系統，則可透過應用程式效能分析（Profiling），以瞭解隱藏的數位浪費。Vogels 表示，應用程式效能分析這項技術幾乎可説快要失傳了，但它卻是軟體持續最佳化的重要工具之一。他舉亞馬遜的某一項服務為例，效能分析讓他們發現網路通訊竟然佔了整體耗能的四成以上，然而這個現象對該應用程式而言不合理，於是他們回頭檢視程式碼，才發現原來只是因為一個條件判斷陳述語法寫錯，經修改後耗能就降到三成以下。因此，要確保軟體系統沒有隱藏的數位浪費，就要持續進行效能分析與最佳化。</p><p>節約架構的最後一項、第七項法則：「無庸置疑的成功必將導致錯誤的臆斷」，如果軟體開發團隊未曾遭遇什麼困難就成功了，往往會因為複製過往成功經驗而埋下驕傲自滿的種子，無法持續精進與改善。Vogels 以 COBOL 之母美國海軍準將 Grace Hopper 的名言：「英語中最危險的一句話就是：我們一直都是這樣做的。」提醒軟體開發團隊要打破技術本位的思維，以保持進步。</p><p>技術本位常見於軟體開發團隊固守擅長的程式語言，毫不考慮是否有更好的選擇，然而，殊不知程式語言也與成本效益有關。2017 年有一項學術研究分析 27 種程式語言的能源消耗程度，發現 C 語言是其中最省電的程式語言，排名第二的是 Rust，而 Ruby 的耗電量是 C 語言的 69 倍，Python 的耗電量是 C 語言的 75 倍，分別排名倒數第三與倒數第二。Vogels 指出，亞馬遜在開發 Firecracker 時就採用 Rust，而 S3 後來也有很大的比例以 Rust 改寫，這除了考量成本與永續，還包括 Rust 的強型別、高效能與記憶體安全性等優點。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/grace%20hopper.png" style="width: 700px; height: 363px;" referrerpolicy="no-referrer"></p><p>在演講最後，Vogels 期許 IT 人員：「我們身處快速變動的時代，在不斷學習的同時，也要一直否定既有信念，把自我擺在一邊，重拾成本意識這個即將失傳的技藝，因為永續的需求已經如同一列貨運火車直駛而來，你既逃不掉，也不該逃避永續的趨勢，而在雲端架構中，從運算成本著手將會是最接近達成永續目標的作法。」他也説：「沒有人想要有限制，成本與永續固然會為軟體架構與營運帶來不少限制，然而創意往往就隨著突破這些限制而到來。」</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160661</guid>
+            <link>https://www.ithome.com.tw/news/160661</link>
+            <author>
+                <![CDATA[吳其勳]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構 （Part 2 量測篇）]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-tunable-architect.png?itok=aNmTldPc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>節約架構的第一部分聚焦在軟體架構設計階段，包括將成本意識融入軟體架構設計的每一個環節、確保系統成本支出與營收成長呈正相關，以及保持軟體架構可以持續進化和改善。第二部分則是軟體服務上線後，需要進行的量測（Measure）工作。</p><p>Vogels 指出，第四項法則是：「無法量測的系統必有隱藏的成本」。他以 1970 年代發生石油危機時，他所生長的荷蘭為例，説明透過量測將資訊視覺化，有助於改變人們的行為。在全球性能源危機發生的當時，雖然人們普遍意識到節能省電的必要性，不過有一項調查卻發現兩棟規模大小雷同的樓房，用電量卻有很大的差異。細究之下發現，耗電量較少的那棟樓房，其電錶安裝在一樓出入口，而耗電量較多的那棟樓房，電錶則是安裝在地下室，這代表住户每天出入時從電錶看到耗電量，有助於提升用電意識，進而改善節能省電的作為。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1541.png" style="width: 700px; height: 387px;" referrerpolicy="no-referrer"></p><p>然而軟體使用成本該如何量測？如何設計量測指標呢？身為亞馬遜技術長的 Vogels，進一步以自家電商網站的經驗説明量測指標。由於亞馬遜購物網站已經是一個高度微服務化（Microservices）的軟體架構，其網頁上的諸多功能，如商品資訊、評比推薦、預估送達時間、購物車、搜尋與使用者體驗等功能，每一個服務皆由後端上百個微服務組合起來運行，因此為了掌握成本，第一步必須先從微服務層級量測每一個微服務的運算成本，接著是依照網頁上的各項功能，加總計算其所需微服務的運算成本，據此計算如購物車、預估送達時間或評比推薦等屬於系統層級功能的成本。</p><p>有了微服務與網站功能的成本數據，再除以網頁瀏覽量，就可得知以每一個網頁讀取為單位來計算之下，各個微服務與網站功能的單位運算成本。有了每讀取一個網頁的單位運算成本，再搭配每讀取一個網頁的下單轉換率，則可畫出網頁成本與轉換率關係圖：以每讀取一個網頁的成本為 X 軸、以每讀取一個網頁的下單轉換率為 Y 軸，如此即可用於分析網頁增加新功能的成本與效益。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1544.png" style="width: 700px; height: 302px;" referrerpolicy="no-referrer"></p><p>由於 X 軸所代表的是隨網頁增加功能而遞增的運算成本，對照著 Y 軸所代表的下單轉換率，據此畫出來的折線圖若呈現 45 度上升直線，就代表隨著新功能增多，下單轉換率也提高了，亦即成本與效益保持正向發展的健康趨勢，證明新功能有助於提升營收；若折線圖呈現波動的曲線甚至是下降趨勢，即代表新功能無助於下單轉換率，必須思考是否該為新功能付出額外的成本。</p><p>成本效益分析除了可用於開發新功能的策略，也可以做為系統效能改善的衡量基準。眾所皆知網頁載入速度會影響使用者體驗，對電商而言甚至會衝擊業績營收，然而在提升網頁載入速度時，到底該改善到什麼程度，才能剛好有助於提升營收，而又不會因為改善過頭而付出過多無謂的運算成本，就可以利用運算成本與營收分析做為判斷基準。Vogels 表示，由於電商的利潤空間很薄，所以亞馬遜必須無時無刻控制整體成本，對於軟體開發與營運應該投入多少資源，是否增加新功能，或是增加用户體驗效果等，都必須基於成本效益的決策，若營收隨著新功能而增加，即代表運算成本的投資有正向回報。</p><p>有了量測指標，就可以依據成本效益與永續指標訂定基準，接下來則必須藉由建立成本控制措施來落實。Vogels 觀察到：「有成本意識的架構必有成本控制措施」，這也就是節約架構的第五項法則。他指出，所謂的成本控制措施，一方面要先將軟體功能依其商業價值分級，另一方面則是打造可調式架構，讓軟體功能的運作可如電源開關與音量旋鈕一樣操控與調節，例如軟體各項功能的啟用、預載、監測數據與 Log 記錄的數量增減等等，皆可依據成本與業務需求而自由調整。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1572.png" style="width: 700px; height: 440px;" referrerpolicy="no-referrer"></p><p>以亞馬遜電商網站的首頁為例，網頁上的各項功能均依其與下單交易的關係分成不同等級，第一級功能屬於下單交易必備的功能，如商品資訊、搜尋、用户評論、購物車、結帳等，少了任何一項就無法讓消費者完成下單交易；第二級功能則如相關商品、推薦商品等有助於銷售，但並非下單交易必備的功能，第三級功能則可能是輔助銷售的功能，如陳列同廠牌的其他產品等。一旦各個功能的重要性與價值區分出優先次序，在投入相關資源時就能有所依據，例如要提升網站的可用性，顯然強化第一級功能的可用性必須優先於第三級的功能，如此就能將資源花在刀口上，兼顧成本效益。</p><p>Vogels 建議軟體功能要基於商業價值來分級，不僅要提供如電源開關一樣的控制按鈕，而且更重要的是，要交由業務團隊依據商業需求決定如何操控這些功能，而不是從技術的角度來決定。</p><p><a href="https://www.ithome.com.tw/news/160661">繼續閲讀 → Part 3 節約架構最佳化篇</a></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160660</guid>
+            <link>https://www.ithome.com.tw/news/160660</link>
+            <author>
+                <![CDATA[吳其勳]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構 （Part 1 設計篇）]]>
@@ -453,36 +484,6 @@
             <link>https://www.ithome.com.tw/news/160630</link>
             <author>
                 <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[駭客利用 Google OAuth 端點刼持帳號，即使用户變更密碼或登出仍舊會受害]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0705-google_search-photo_by_bastian_riccardi_on_unsplash-960_0.jpg?itok=Nn9mD4g6" width="960" height="420" alt="" title="Photo by Bastian Riccardi on Unsplash" referrerpolicy="no-referrer"></div></div></div><p class="caption"> Photo by Bastian Riccardi on Unsplash </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>研究人員發現一個之前不為人所知的 Google 端點，可被駭客用來恢復原本失效的連線或重覆產生 cookies，即使用户變更了密碼，藉此劫持用户 Google 帳號。</p><p><a href="https://www.ithome.com.tw/news/160011" target="_blank">11 月資安廠商發現</a>一個 Lumma 竊資軟體服務，其開發人員宣稱其軟體能從受害電腦竊取與 Google 服務有關的 cookie，之後可用以劫持 Google 帳號，強調使用者就算登出、更換密碼，原本的 cookie 依然能用。不過該軟體成功讓 cookies「復活」的方法仍不得而知。但另一家資安業者 CloudSEK 揭露其中原理，發現和 Google 一個名為 MultiLogin 的端點有關。</p><p><a href="https://www.cloudsek.com/blog/compromising-google-accounts-malwares-exploiting-undocumented-oauth2-functionality-for-session-hijacking" target="_blank">CloudSEK</a>研究團隊 2023 年 10 月發現一個名為 PRISMA 的駭客在 Telegram 頻道上，宣傳一個零時差攻擊的解決方案以招攬客户。他宣稱其方法可以長時間維持有效連線（session），即使帳號變更了密碼，也可以產生 cookies 以便連線中斷後能再登入受害者帳號。</p><p>研究人員表示，11 月底流傳的數項竊資軟體都包含這方案，顯然為其「客户」，包括 Lumma、Rhadamanthys、Risepro、Meduza、Stealc Stealer 等。而 Eternity Stealer 也正在開發包含本技術的更新版。</p><p>CloudSEK 研究人員透過逆向工程，揭露出本方案的運作方式。竊資軟體是鎖定 Chrome 的 WebData 檔中的 Token_service 表，目前在擷取 GAIA ID，以及加密用的 token，後者又是利用儲存於 UserData 資料夾的 Chrome Local State 的加密金鑰來解密。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0102-chrome%20Token_service%20image%20by%20CloudSEK.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><span style="font-size: 14px; color: rgb(105, 105, 105);">圖片來源_</span><a href="https://www.cloudsek.com/blog/compromising-google-accounts-malwares-exploiting-undocumented-oauth2-functionality-for-session-hijacking" style="font-size: 14px;" target="_blank"><span style="color: rgb(105, 105, 105);">CloudSEK</span></a></p><p>但另一關鍵在於 Google 端點 MultiLogin。這個端點雖然被用於駭客的方案中，但卻未明載於 Google 文件。MultiLogin 端點是 Google OAuth 系統很重要的環節，可利用帳號 ID 和 auth-login token 實現同步連線或在使用者多個用户資料檔（user profile）之間無縫切換。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0102-chrome%20Reverse%20Engineered%20Exploit%20code.png" style="width: 543px;" referrerpolicy="no-referrer"></p><p><span style="font-size: 14px; color: rgb(105, 105, 105);">圖片來源_</span><a href="https://www.cloudsek.com/blog/compromising-google-accounts-malwares-exploiting-undocumented-oauth2-functionality-for-session-hijacking" style="font-size: 14px;" target="_blank"><span style="color: rgb(105, 105, 105);">CloudSEK</span></a></p><p>竊資軟體 Lumma 的方法就是結合使用 Google Chrome 取得的 GAIA ID/token 及 MultiLogin 端點，得以重新產生 Google 服務 cookies。Lumma 的創新在於以私有金鑰加密 GAIA ID/Token。這可以避免其技巧被其他惡意組織模仿，也能防範被網路安全軟體偵測到 MultiLogin 端點和外部惡意程式 C2 伺服器的連線，而曝露行蹤。不過 Lumma 之後使用 SOCKS 代理伺服器迴避 Google 防範重新產生 cookies 的作法，無意間洩露其蹤跡。</p><p>Lumma 可以持續重新產生 Google 服務的 cookies，即使用户重設密碼，允許駭客能不斷存取用户 Google 帳號而不被發現，而且加密 token 的行為，也突顯網路攻擊手法日漸高明。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 01 Jan 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160629</guid>
-            <link>https://www.ithome.com.tw/news/160629</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Ruby 3.3.0 採用 Prism 作為預設解析器並改進 YJIT 效能]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2140_-_ruby_3.3.0_released_-_www.ruby-lang.org_.png?itok=UuIEzSeg" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Ruby 開發團隊今年也按聖誕節當天發表更新的慣例釋出<a href="https://www.ruby-lang.org/en/news/2023/12/25/ruby-3-3-0-released/">Ruby 3.3.</a>0，該版本增加了一個名為 Prism 的新解析器，並且使用 Lrama 解析器生成器替換 Bison，在編譯器更新上改進 YJIT 的效能，也加入開發團隊最近正在實驗的純 Ruby JIT 編譯器 RJIT。</p><p>Prism 解析器是一個專為 Ruby 程式語言設計的遞迴下降解析器（Recursive Descent Parser），具有可移植、容錯和可維護等特性，作為 Ripper 的替代工具，提供更加現代且靈活的解析解決方案，已經可在生產環境中使用。</p><p>遞迴下降解析器是一種程式語言解析演算法，能夠基於文法規則將程式碼轉換成特定形式的結構，像是抽象語法樹（AST）等。Prism 既是 CRuby 內部使用的 C 函式庫，也可供任何需要解析 Ruby 程式碼工具使用的 Ruby 套件（Gem），而現在 Prism 解析器為 Ruby 3.3.0 的預設套件（Gem），方便開發者在 Ruby 環境中執行程式碼解析。</p><p>而 Ruby 3.3.0 中用來代替傳統 Bison 的 Lrama 解析器生成器，主要用於 Ruby 程式語言的解析。Bison 一直以來都是解析器生成的非常受歡迎工具，但 Bison 的文法限制和錯誤恢復的能力有限，再加上使用的複雜性，在部分情況下可能成為開發障礙，相較之下，Lrama 是一種更為靈活的解析生成工具，特別適用於 Ruby 程式語言。</p><p>Lrama 主要優勢在於可維護性和可擴展性，像是支援參數化規則，在 Ruby 的 parse.y 中就非常有用。支援參數化規則使得解析器可以更容易地處理複雜語言結構，提高解析器的靈活性和適應性。此外，Lrama 內部的解析器被替換成為由 Racc 生成的 LR 解析器，進一步提升可維護性。這些改進都是在替 Ruby 的未來發展鋪路，有助於使 Ruby 語言解析過程更加高效精確。</p><p>Ruby 3.1 初次加入的程序內編譯器 YJIT，在 Ruby 3.2 成為正式功能，而後開發團隊繼續改進，在 Ruby 3.3.0 中 YJIT 的效能獲得提升。YJIT 在記憶體使用上，相較於 Ruby 3.2 有明顯的改進，編譯程式碼的後設資料使用更少的記憶體，並且添加新的閾值配置來提升效能。</p><p>針對 Arm64 架構，YJIT 生成更加緊湊的程式碼，另外，程式碼垃圾回收現在預設停用，開發者需要手動啟用。YJIT 在執行時的啟動功能也獲得強化，開發者可以在執行時啟用 YJIT，因此像是 Ruby on Rails 7.2 也可以在預設情況下啟用 YJIT。YJIT 預設提供更多統計資料，增加新的效能分析功能，例如—yjit-perf 和—yjit-trace-exits。官方也提到，這個版本的 YJIT 經過更全面的測試，已修復多個錯誤，進一步提升了穩定性和可靠性。</p><p>Ruby 3.3.0 還加入了全新純 Ruby 語言實作的即時編譯器 RJIT 來取代 MJIT，RJIT 與 MJIT 不同，在執行時不需要 C 編譯器，這個重要特性可以降低使用 JIT 的複雜性，並提高在不同環境中的可用性。RJIT 目前仍是一個實驗性質的專案，僅支援 Unix 平台上的 x86-64 架構，官方建議在生產環境還是先使用更成熟，且支援多種架構與平台的 YJIT。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sun, 31 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160618</guid>
-            <link>https://www.ithome.com.tw/news/160618</link>
-            <author>
-                <![CDATA[李建興]]>
             </author>
             <category>新聞</category>
         </item>
