@@ -16,8 +16,186 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 03 Jan 2024 07:00:55 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 03 Jan 2024 11:02:20 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構 （Part 1 設計篇）]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-frugal-architect.png?itok=JV5-zvmF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>&nbsp;</p><p>在雲端運算服務尚未問市之前，評估資訊系統的成本效益是資訊人員必備能力，身為全球最大電商亞馬遜（Amazon）技術長的 Werner Vogels 説：「在當時採購資料庫這類大型系統，都得先評估足以使用五年的規格，才能達到最佳成本效益。」然而，在雲端運算資源垂手可得的今日，雖然傳統硬體的限制越來越少了，軟體開發人員可以更聚焦在功能創新與更快推出上市，但也因此忽略成本效益的重要性，Vogels 指出，重視成本效益幾乎已成失傳的技藝，為此他在 re:Invent 2023 的主題演講提出「節約架構（Frugal Architect）」設計法則，呼籲將成本意識納入軟體架構設計，進而達成永續目標。</p><p>節約架構可謂亞馬遜過去二十多年軟體開發經驗的總和，特別是打造具有成本意識與永續發展的系統架構，Vogels 回憶道，「在還很難買得到 PlayStation 的年代，只要有人貼文説亞馬遜明天會開賣，許多消費者就會在開賣前五分鐘開始狂按電腦的 F5 按鍵更新網頁，以在第一時間讀取到販售網頁，不過這也導致網站流量瞬間爆增。」然而，當時可沒有調度自如的雲端運算資源可用，因此考驗著資訊人員如何有創意地解決刺手問題。</p><p>還有一次，在黑色星期五購物節來臨前，亞馬遜的業務團隊興高采烈地提出許多可衝高業績的新點子，接著就輪到技術團隊苦惱如何在既有系統架構與有限資源下達成業務目標。不過 Vogels 指出，過往資訊人員就是因為突破種種硬體上的限制而練就一身技藝，然而隨著雲端運算普及，在限制越來越少的情況下，這些技藝也逐漸失傳。</p><p>Vogels 提出的節約架構由三大類、七項軟體架構設計法則所組成，他表示，之所以稱之為法則，代表是過往諸多經驗的心得，並非硬性規定；而區分成「設計（Design）」「量測（Measure）」與「最佳化（Optimize）」三個部分，則有助於形成框架式的思考架構。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/frugal%20architect.png" style="width: 640px; height: 519px;" referrerpolicy="no-referrer"></p><p>第一項法則是將成本納入非功能性（Non-functional）需求。傳統上非功能性需求包含資安（Security）、法規遵循（Compliance）、無障礙設計（Accessibility）、效能（Performance）、可用性（Availability）、擴充性（Scalability）與可維護性（Maintainability）等項目，Vogels 指出，在過去資安、法遵與無障礙設計是無法妥協的三個項目，然而現在光這三項並不足夠，還需要納入成本（Cost）與永續性（Sustainability），成為必要的非功能性需求。</p><p>以 Amaozn 設計 S3 物件儲存服務的經驗為例，Vogels 指出，由於雲端運算服務必須提供明確的價格，因此必須先分析運算成本，以訂定合理計價模式。一開始他們認為 S3 儲存服務的成本不外乎傳輸檔案與儲存檔案，然而，在先期客户試用 S3 的過程中，他們才發現之前忽略了使用者讀取（Request）物件資料其實也會有相對應的成本。</p><p>上述經驗隨後也運用在 DynamoDB 無伺服器資料庫服務，由於此服務提供兩種讀取一致性（Consistency）選項，包括最終一致讀取（Eventually Consistency）與強烈一致讀取（Strong Consistency），而由於強烈一致讀取的讀取次數是最終一致讀取的 2 倍，因此計價也就必須多一倍才合理。</p><p>成本考量必需落實在系統設計的每一個環節，Vogels 説：「我們開發軟體，終究是為了幫公司獲利，而不是展現自己的技能。」因此，除了考量軟體架構必要的功能性、擴充性與穩定性，還要評估軟體成本對公司獲利的影響。在設計軟體系統架構前，必須先確定營收模式，並確保系統的設計能夠支持獲利，他説：「系統架構設計一定要跟著公司獲利的方向發展，如果不幸走反了，最終你一定會完蛋。」這也就是節約架構的第二項法則：「系統成本必須與公司獲利保持一致。」</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/cost%20sustainability.png" style="width: 700px; height: 421px;" referrerpolicy="no-referrer"></p><p>AWS 知名的無伺服器運算服務 Lambda，其實背後也有一段鮮為人知的成本與架構重構的故事。在 S3、DynamoDB 等物件儲存與資料庫無伺服器化服務陸續推出之後，AWS 的客户開始期待運算服務也可以無伺服器化，好擺脱繁重的伺服器管理工作。Vogels 表示，因為之前有設計 S3 物件儲存服務的經驗，在訂價方面他們很快確定無伺服器運算服務需從兩個面向計價：每微秒的處理器運算量，以及記憶體使用量，在功能方面也確定必須兼顧安全性、強化隔離與成本效益等三項非功能性需求，但是接下來他們卻察覺缺乏足夠的技術，以達成上述三項必備的非功能性需求。</p><p>眼看推出無伺服器運算服務勢在必行，但在缺乏相對應技術，以致於無法兼具成本效益的情況下，Vogels 説：「所以我們一開始就先確定了，在成本效益上得有所犧牲……而未來一定得為此付出相對應的技術債與經濟債。」於是，他們成立了兩個團隊，第一個團隊先在既有技術下動手開發，第二個團隊則負責開發無伺服器運算服務所需要的關鍵技術。</p><p>為了確保無伺服器運算服務的每一個用户程式碼都有安全隔離，第一個團隊選擇將每一個 Lambda 服務以 EC2 最小規格的 T2 執行個體來運行，然而，由於 Lambda 函數程式碼通常都很小，即便已經採用最小執行個體 T2，但大多數的運算利用率都不到一半，也就是説 AWS 得多付出多一倍的運算成本來提供 Lambda 服務，而這也就是 Vogels 所説的，在決定開發的第一天就已經知道未來必須承擔的經濟債。</p><p>AWS 在 2014 年推出 Lambda 後，事隔四年，第二個團隊以 Linux KVM 為基礎開發出微型虛擬機器 Firecracker，讓單一主機可以承載更多的 Lambda 服務，終於解決運算利用率的問題。Vogels 指出，其實當初如果沒有開發 Firecracker，接下來的無伺服器容器運算服務 Fargate 也難以實現。</p><p>回首從 Amazon S3 至 AWS Lambda 的開發歷程，Vogels 打趣地説，這個過程就像一邊開飛機還要一邊換引擎，而且還不能讓乘客察覺異狀。這段經歷也讓他觀察到節約架構的第三項法則：「架構設計是一連串的權衡與取捨」。他建議開發人員要打造可持續進化又不影響業務營運的架構，因為改變一定會發生。</p><p><a href="https://www.ithome.com.tw/news/160660">繼續閲讀 → Part 2 節約架構量測篇</a></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160659</guid>
+            <link>https://www.ithome.com.tw/news/160659</link>
+            <author>
+                <![CDATA[吳其勳]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微軟將於 4 月 9 日終止 Visual Studio 2013 延伸支援服務]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2141_-_visual_studio_2013_-_microsoft_lifecycle_-_microsoft_learn_-_learn.microsoft.com_.png?itok=a2Frd3MJ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟<a href="https://devblogs.microsoft.com/visualstudio/visual-studio-2013-retirement-support-reminder-for-older-versions-of-visual-studio/">提醒</a>用户 Visual Studio 2013 的支援將在 4 月 9 日結束，並敦促用户盡快升級至最新的 Visual Studio 2022 版本，同時，多個版本的支援狀態也有所轉變，例如 Visual Studio 2019 將在 4 月 9 日，從主流支援轉延伸支援，屆時微軟將不再提供功能更新，僅會修補安全性問題。</p><p>官方指出，Visual Studio 2013 的延伸支援結束，這包括了所有相關產品、執行環境和元件的支援都將會停止，皆不會再獲得安全性或其他更新。</p><p>在 4 月 9 日之前，只要安裝至第 5 個更新版本的 Visual Studio 2013，仍可持續獲得延伸支援，而 Visual Studio 2015 只要安裝到第 3 更新版，可獲延伸支援到 2025 年 10 月 14 日。而 Visual Studio 2017 15.9 版本的延伸支援，則會一直到 2027 年 4 月 13 日。</p><p>目前微軟對 Visual Studio 2019 16.11 提供的主流支援將會在 4 月 9 日停止，並且從 4 月 10 日開始轉為延伸支援，Visual Studio 2019 的預覽頻道將不會再推送更新，用户需要轉換到發布頻道或是 Visual Studio 2022 預覽頻道，才能繼續獲得最新的功能更新。</p><p>Visual Studio 2022 則是微軟當前主要 IDE 產品，提供預覽、目前和長期服務 3 個頻道，預覽頻道提供最新功能更新，而目前頻道則提供穩定功能更新，而長期服務頻道則是讓企業和專業用户，更好地控制新功能部署，並提供 18 個月的品質與安全修復更新。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160648</guid>
+            <link>https://www.ithome.com.tw/news/160648</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[【資安日報】1 月 3 日，日本遊戲開發商因母公司 Google Drive 配置錯誤導致近百萬人的個資曝險]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240103.png?itok=oBF3Z5Jm" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>去年 12 月電玩產業發生多起資料外洩事故，例如：Sony 旗下的<a href="https://www.ithome.com.tw/news/160484#insomniac">遊戲開發商 Insomniac Games 遭勒索軟體 Rhysida 攻擊</a>，<a href="https://www.ithome.com.tw/news/160546">Ubisoft 面臨網路威脅滲透至內部的問題</a>，以及<a href="https://www.ithome.com.tw/news/160564#gta5">RockStar Games 在 2022 年遭駭的部分資料被公開</a>。而上述資安事故，都是因為駭客入侵所致。</p><p>而去年底還有一起資安事故因公佈受影響的範圍而受到關注，主角是一家遊戲公司，原因是他們存放於雲端服務 Google Drive 的部分資料被設置為公開，而有可能讓客户、合作夥伴、員工的個資曝光。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.bleepingcomputer.com/news/security/android-game-devs-google-drive-misconfig-highlights-cloud-security-risks/"><strong style="font-size: 22px;">日本遊戲開發商 Ateam Entertainment 母公司公告近百萬人個資曝險長達 6 年，起因是 Google Drive 配置錯誤</strong></a></p>
+                <!-- notionvc: 11fe01e8-4b1f-4cd9-bff7-87053156b739 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/20231222_news_en_01.jpg">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/20231222_news_en_01.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>12 月 7 日日本應用程式開發商 Ateam 發布公告，表示他們於 11 月 21 日發現，採用的的雲端硬碟 Google Drive 當中，有部分檔案的權限設置為公開，只要知道連結的任何人都能存取，導致檔案儲存的個資可能因此曝光，該公司隔日限縮這些檔案的存取權限，他們也向日本個人資訊保護委員會（PIPC）通報此事。
+                    </p>
+                    <p>而上述曝露於網際網路的檔案，該公司當時透露約有 4 千個，總共包含有 96 萬筆個資記錄。到了 22 日，該公司公佈更完整的影響範圍，並指出他們的客户、業務夥伴、求職者、員工都可能曝險，確定含有個資的檔案數量為 1,369 個，總計有 935,779 人受害，大部分為該公司客户，曝露的資料可能有姓名、電子郵件信箱、電話號碼、客户編號、設備識別碼。</p>
+                    <p>值得留意的是，該公司旗下的 Ateam Entertainment、Ateam LifeDesign、Ateam Wellness、Ateam CommerceTech 子公司也受到影響，比例最高的是電玩遊戲開發商 Ateam Entertainment 的客户，有 736,081 人。這些資料最早被公開在網路上的時間是在 2017 年 3 月，目前尚未發現遭到未經授權存取的跡象。</p>
+                    <p>資料來源</p>
+                    <p>1.&nbsp;
+                        <a href="https://www.a-tm.co.jp/en/news/43909/">https://www.a-tm.co.jp/en/news/43909/</a>
+                        <br>
+2.&nbsp;
+                            <a href="https://www.a-tm.co.jp/en/news/44383/">https://www.a-tm.co.jp/en/news/44383/</a>
+                        </p>
+                        <p>
+                            <a href="https://www.theguardian.com/business/2023/dec/31/cyber-hackers-target-uk-nuclear-waste-company-rwm">
+                                <strong style="font-size: 22px;">英國核廢料服務業者遭遇網釣攻擊，駭客透過 LinkedIn 對其出手</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 2754c71b-9e2f-4ac1-8569-8574e656dea2 -->
+                        <p></p>
+                        <p>根據衞報的報導，英國放射性廢棄物管理公司（Radioactive Waste Management，RWM）遭遇網路攻擊，駭客企圖透過職場社羣網站 LinkedIn 發動攻擊，但沒有成功，至於駭客使用何種手法侵入也不得而知。</p>
+                        <p>根據 RWM 交給當地公司註冊機構（Companies House）的會計資料，Nuclear Waste Services 執行長 Corhyn Parr 提及，他們察覺部分實體遭到特定管道的攻擊，導致所有權被竄改，而這些管道大多是經由 LinkedIn，所幸這起去年發生的資安事故並未造成實際影響。</p>
+                        <p>
+                            <strong style="font-size: 22px;">勒索軟體駭客組織 NoName 針對芬蘭、立陶宛發動 DDoS 攻擊</strong>
+                        </p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/noname-cyberattacks-on-finland-1.png">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/noname-cyberattacks-on-finland-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>俄羅斯駭客組織 NoName（亦稱 NoName057(16)）在烏克蘭戰爭開打後，從 2022 年 8 月不斷對歐美國家發動 DDoS 攻擊，最近傳出針對芬蘭、立陶宛下手的情況。
+                            </p>
+                            <p>根據資安新聞網站 Cyber Express 的報導，這些駭客針對多個芬蘭政府機關發動一系列網路攻擊，導致部分網站暫時無法存取，這些機構包含了芬蘭運輸與通訊管理局（Traficom）、國家網路安全中心 （NCSC-FI）、鐵路局、芬蘭交通法規暨開發暨基礎設施局、芬蘭運輸基礎設施局。該新聞網站指出，駭客這次鎖定的目標多與交通運輸有關，目的很有可能是要幹擾當地民眾生活。</p>
+                            <p>這些駭客近期也聲稱對 8 個立陶宛組織發動攻擊，目標涵蓋國防、交通物流、電信業者、網際網路供應商，理由是該國協助烏克蘭維修坦克。不過，這些遭到鎖定的目標網站仍正常運作，這些組織也並未證實是否遭遇相關攻擊。</p>
+                            <p>資料來源</p>
+                            <p>1.&nbsp;
+                                <a href="https://thecyberexpress.com/noname-cyberattacks-on-finland/">https://thecyberexpress.com/noname-cyberattacks-on-finland/</a>
+                                <br>
+2.&nbsp;
+                                    <a href="https://thecyberexpress.com/ddos-attacks-on-lithuanian-websites/">https://thecyberexpress.com/ddos-attacks-on-lithuanian-websites/</a>
+                                </p>
+                                <p>
+                                    <a href="https://thecyberexpress.com/zeppelin2-ransomware/">
+                                        <strong style="font-size: 22px;">勒索軟體 Zeppelin2 遭到破解，駭客在地下論壇散佈原始碼、建置工具</strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 8af5a6ee-36f7-4db0-9418-890c790a600c -->
+                                <p></p>
+                                <p>
+                                    <a href="https://s4.itho.me/sites/default/files/images/GCvoA8UaQAAvZlm.jpg">
+                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/GCvoA8UaQAAvZlm.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                        </a>曾在 2019 年至 2022 年 6 月橫行的勒索軟體 Zeppelin2，開發者原本以租用服務（Ransomware-as-a-Service）提供給賣家運用，如今有人將其破解，有可能讓駭客大肆採用。
+                                    </p>
+                                    <p>根據資安新聞網站 Cyber Express 的報導，有人聲稱破解了勒索軟體 Zeppelin2，兜售其原始碼及破解版的建置工具。這名開發者提供原始碼的螢幕截圖，並透露此勒索軟體是採用 Delphi 開發而成。此賣家提供的建置工具擁有多種功能，包含檔案配置、勒索訊息、IP 位址事件記錄、啟動勒索軟體的命令、終止處理程序工具等。</p>
+                                    <p>而對於這款勒索軟體的來歷，美國聯邦調查局（FBI）及網路安全暨基礎設施安全局（CISA）於 2022 年 8 月提出警告，駭客很可能透過遠端桌面連線（RDP）、SonicWall 防火牆漏洞、網路釣魚等手法，入侵受害組織網路，在掌握組織內部網路環境狀態後部署 Zeppelin2。</p>
+                                    <p>
+                                        <a href="https://www.resecurity.com/blog/article/new-version-of-medusa-stealer-released-in-dark-web">
+                                            <strong style="font-size: 22px;">竊資軟體 Meduza 攻擊範圍廣泛，能挖掘超過一百種瀏覽器與加密貨幣錢包資料</strong>
+                                        </a>
+                                    </p>
+                                    <p>資安業者 Resecurity 在聖誕節前夕看到駭客在地下社羣、Telegram 頻道來宣傳 2.2 版竊資軟體 Meduza，號稱能對更多應用程式下手，並強化信用卡資料抓取工具與挖掘帳密資料的能力。該竊資軟體可針對的應用程式琳琅滿目，涵蓋 106 款瀏覽器、107 種加密貨幣錢包、27 種密碼管理器，以及即時通訊軟體 Telegram、Discord，還有遊戲平台 Steam、VPN 用户端軟體、收信軟體 Outlook，都可以從中竊取用户資料，此外駭客也標榜能盜取特定 Token 來挾持 Google 帳號。</p>
+                                    <p>此外，駭客這次也提供額外的擴充功能，像是進階的防毒軟體迴避功能，以及加密受害電腦檔案的能力，而這些額外的功能，是由另一個地下加密服務業者 TrueCrypt Service 提供。</p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新聞】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.courtlistener.com/docket/17216783/1090/brown-v-google-llc/">
+                                            <strong>
+                                                <span style="font-size: 20px;">Google 在瀏覽器無痕模式追蹤使用者，提出以 50 億美元尋求和解</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 094815ba-db40-4fff-8592-fb8ba893e234 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/online-museum-collections-down-after-cyberattack-on-service-provider/">
+                                            <strong>
+                                                <span style="font-size: 20px;">網路博物館系統供應商 Gallery Systems 遭勒索軟體攻擊，為防堵受害範圍擴大暫停部分服務</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: e2974bad-ef2a-4df6-a710-ba7ba0d6b23f -->
+                                    <p></p>
+                                    <p>
+                                        <a href="http://courts.vic.gov.au/news/court-services-victoria-cyber-incident">
+                                            <strong>
+                                                <span style="font-size: 20px;">澳洲法院傳出遭駭客入侵，聽證會錄音恐外流</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://thehackernews.com/2023/12/new-rugmi-malware-loader-surges-with.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">惡意程式載入工具 Rugmi 每天感染數百台電腦</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: e043cf23-605e-4501-bde2-516807be1338 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/new-black-basta-decryptor-exploits-ransomware-flaw-to-recover-files/">
+                                            <strong>
+                                                <span style="font-size: 20px;">研究人員找到能復原遭勒索軟體 Black Basta 破壞的檔案的方法</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期資安日報</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160635">
+                                            <strong>【1 月 2 日】&nbsp;竊資軟體濫用 Google 未公開的 OAuth 同步機制挾持用户帳號</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160616">
+                                            <strong>【12 月 29 日】&nbsp;Booking.com 合作旅館、房客面臨網釣攻擊且外洩個資出現轉交其他團體兜售現象</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160596">
+                                            <strong>【12 月 28 日】&nbsp;別以為使用 SSH 連線就會比較安全！採用容易猜到的帳密有可能將 Linux 伺服器拱手送給駭客</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                </div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160647</guid>
+            <link>https://www.ithome.com.tw/news/160647</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[去年全球手機出貨量下滑 5%，高階手機逆勢成長 6%]]>
@@ -261,7 +439,7 @@
             <author>
                 <![CDATA[陳曉莉]]>
             </author>
-            <category>新聞</category>
+            <category>AI</category>
         </item>
         <item>
             <title>
@@ -307,217 +485,6 @@
                 <![CDATA[李建興]]>
             </author>
             <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【資安週報】2023 年 12 月 25 日到 12 月 29 日]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20240101.jpg?itok=s2huQbbH" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>時至 2023 年最後一星期，適逢歐美各國聖誕連假，各大資安媒體雖然大多暫停發布新聞，期間仍有零時差漏洞攻擊的揭露。在 12 月 24 日，資安業者 Barracuda Networks 發布資安公告，指出中國駭客 UNC4841 再次鎖定他們的產品發起零時差漏洞攻擊，導致部分郵件安全閘道（ESG）植入惡意軟體 Seaspy 及 Saltwater 的新型變種，該公司已於 21 日派送自動軟體更新修補，並指出該漏洞 CVE-2023-7102 存在於 ESG 產品中，Amavis 病毒掃描程式元件的第三方程式庫 Spreadsheet::ParseExcel。這項消息呼應我們先前報導，當時我們提醒大家注意零時差漏洞攻擊出現鎖定底層元件進行濫用的狀況，而上述事件無疑再次反映此一態勢。</p><p>還有兩個漏洞修補消息值得重視，首先，Apache 基金會在 12 月先後修補旗下 ERP 系統 OFBiz 的 2 個 CVSS 風險評分 9.8 分的重大漏洞，分別是：CVE-2023-49070、CVE-2023-51467。值得注意的是，資安業者已發現攻擊者掃描存在漏洞的系統，再加上有不少系統將之整合或採用，因此影響範圍預估不小，像是 Atlassian 的 JIRA 就包含了 OFBiz，企業須注意相關後續修補動向；另一是英商 Canonical 針對 Ubuntu 作業系統修補了文字編輯器 Vim 的 15 個漏洞，其中 4 個為 CVSS 風險評分 7.8 分的高風險層級。</p><p>此外，關於半年前攻擊者針對 iOS 發起的 Operation Triangulation 攻擊行動，最近卡巴斯基揭露相關細節之外，還指出攻擊者所利用 4 個零時差漏洞中，仍有一個漏洞的濫用方式不明。</p><p>在威脅態勢方面，SSH 安全問題在這星期幾篇資安新聞當中均提及，例如，先前有大學研究人員揭露 Terrapin 攻擊手法與 3 個漏洞，最近韓國資安業者 AhnLab 提出警告，指出發現攻擊者鎖定執行 Linux 作業系統的 SSH 伺服器，並針對缺乏相關安全設置的主機發動攻擊。</p><p>而從產業面來看，這星期我們看到網路訂房與飯店業，以及遊戲業的狀況較多，各有兩篇資安新聞。</p><p>首先是旅館業者的服務生態鏈，例如，這幾個月持續有駭客鎖定 Booking.com 用户詐騙的揭露，如今又有資安業者指出這是一種 B2B2C 形式的手法，先針對飯店員工網釣下手，在以飯店業者帳號登入 Booking.com 去詐騙客户；另一是竊資軟體 RedLine、Vidar 的攻擊行動，同樣是駭客假借客人投訴與訂房為由，引誘飯店人員點擊釣魚郵件。</p><p>遊戲業者的資安事故方面，這段期間各大資安媒體均報導下列兩則消息，一是法國遊戲開發商 Ubisoft 遭駭客入侵 48 小時，所幸公司管理員察覺異常、險些遇害的揭露；另一是傳出俠盜獵車手 V（GTA 5）原始碼外流的情況，根據後續的情報表示這是 2022 年 RockStar Games 遭駭時流出。</p><p>在防禦態勢方面，2023 年全球資安界均相當關注生成式 AI 資安應用的現況，而我們最近發布的封面故事也特別以此為題進行報導，當中可以看出<a href="https://www.ithome.com.tw/news/160608">不少全球大型 IT 與資安廠商已經實際付諸行動</a>，也出現<a href="https://www.ithome.com.tw/news/160610">台灣資安業者及早佈局、累積發展此類新技術的經驗</a>，原因在於他們看重生成式 AI 能分析龐大資料的能力，用自然語言輸入來提示與回答，大幅提升資安事件處理效率，預料未來會有更多廠商跟進，將開啟<a href="https://www.ithome.com.tw/article/160614">2024 年 AI 資安的新格局</a>。</p><p>&nbsp;</p><h3><a href="https://www.ithome.com.tw/news/160527"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 25 日】駭客集團 UAC-0099 鎖定烏克蘭組織並利用 WinRAR 漏洞植入惡意程式 LonePage</span></strong></a></h3><p style="margin: 0px;">駭客近期利用 WinRAR 漏洞 CVE-2023-38831 的情況，有越來越頻繁的趨勢，而且有不少是國家級駭客組織從事相關攻擊。攻擊者利用該漏洞最重要的原因之一，就是此壓縮軟體並未內建自動更新機制，使用者若不手動升級新版軟體，就會持續曝露在這項漏洞當中，而使得對方有機會成功利用。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">最近有研究人員針對駭客組織 UAC-0099 的攻擊行動進行調查，結果發現，這些駭客散佈惡意軟體的管道，其中一種就是這項 WinRAR 漏洞。</p><h3><a href="https://www.ithome.com.tw/news/160548"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 26 日】有人入侵遊戲開發商 Ubisoft 並企圖竊取《虹彩六號：圍攻行動》的內部資料</span></strong></a></h3><p style="margin: 0px;">今年有多起鎖定遊戲公司的攻擊行動，從年初電玩遊戲開發商 Riot Games 證實遭駭，旗下《英雄聯盟》及防作弊系統的原始碼遭竊，到最近 Sony 旗下電玩業者 Insomniac Games 遭勒索軟體 Rhysida 入侵，偷走處於開發狀態的電玩遊戲《金鋼狼》相關資料，這類資安事故有越來越頻繁的情況。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">而在本日的資安新聞裡，傳出有人對電玩開發商 Ubisoft 發動攻擊，該公司在兩天之內察覺有異，並做出處理，使得受害情況得到控制，但攻擊者身分仍不得而知。</p><p><a href="https://www.ithome.com.tw/news/160564"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 27 日】有人散佈《俠盜獵車手 V》原始碼並向甫遭判決的駭客組織 Lapsus$成員致敬</span></strong></a></p><p style="margin: 0px;">近期歐美國家取締網路犯罪組織的執法行動大有斬獲，例如，1 月破壞勒索軟體 Hive 的基礎設施，8 月摧毀 70 萬台電腦組成的 QBot 殭屍網路等，駭客因此元氣大傷、消聲匿跡一段時日。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">12 月 19 日再度傳出美國 FBI 宣佈奪下勒索軟體駭客組織 BlackCat 網站，但對方在一天內又取回網站，顯然這次執法行動受到阻礙。駭客表示，只要是在獨立國家國協以外的企業組織，都可能是他們的目標。</p><h3><a href="https://www.ithome.com.tw/news/160596"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 28 日】別以為使用 SSH 連線就會比較安全！採用容易猜到的帳密有可能將 Linux 伺服器拱手送給駭客</span></strong></a></h3><p>透過 SSH 連線遠端管理 Linux 伺服器的方法相當普遍，但若是使用極為容易猜到的帳號和弱密碼，小心！很有可能成為下手的目標，而成為駭客擺布的對象。</p><p>這樣的現象，資安業者 AhnLab 今年多次提出警告，而這次他們指出駭客對其部署挖礦程式、DDoS 機器人，同時還有可能植入各式的惡意軟體來上下其手。</p><h3><a href="https://www.ithome.com.tw/news/160616"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 29 日】Booking.com 合作旅館、房客面臨網釣攻擊且外洩個資出現轉交其他團體兜售現象</span></strong></a></h3><p>今年駭客針對 Booking.com 房客發動攻擊的情況不時傳出，其特別之處在於，駭客並非直接對房客下手，而是先對旅館發動網釣攻擊，再假借這些旅館的名義對房客行騙，房客一不注意對方提供的網址是假冒的就點進去查看，很容易上當。</p><p>值得留意的是，這樣的情況日益惡化，甚至已經在網路犯罪圈發展成上下游分工的情況──有人專門收集旅館的 Booking.com 帳密供打手運用。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sat, 30 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160628</guid>
-            <link>https://www.ithome.com.tw/news/160628</link>
-            <author>
-                <![CDATA[羅正漢]]>
-            </author>
-            <category></category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟再度預設關閉 ms-appinstaller 協定處理器]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1229-microsoft-cyber_back-photo_by_jr_korpa_on_unsplash.jpg?itok=Z_16utAD" width="960" height="420" alt="" title="背景圖片來源／Photo by <a href=&quot;https://unsplash.com/@jrkorpa?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Jr Korpa</a> on <a href=&quot;https://unsplash.com/photos/purple-and-black-abstract-painting-SFT9G3pAxLY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景圖片來源／Photo by <a href="https://unsplash.com/@jrkorpa?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Jr Korpa</a> on <a href="https://unsplash.com/photos/purple-and-black-abstract-painting-SFT9G3pAxLY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由於遭到不同駭客組織的濫用，<a href="https://www.microsoft.com/en-us/security/blog/2023/12/28/financially-motivated-threat-actors-misusing-app-installer/" target="_blank">微軟再度於週四（12/28）宣佈</a>，於預設值中關閉 MSIX 的 ms-appinstaller 協定處理器。</p><p>MSIX 為一 Windows 程式的套件格式，可替所有 Windows 程式提供現代化的封裝經驗，它除了支援對 Win32、WPF 與 Windows Forms 程式的現代化封裝及部署功能，也保留了現有程式套件與安裝檔案的功能，以讓用户更容易將程式維持在最新狀態，同時確保流暢的安裝經驗。</p><p>而 ms-appinstaller 協定處理器的功用，則是允許使用者只要簡單地點選網站上的連結就能安裝應用程式，不必下載整個 MSIX 套件，是個非常受歡迎的經驗。</p><p>然而，根據微軟的觀察，自今年 11 月中旬以來，包括 Storm-0569、Storm-1113、Sangria Tempest 與 Storm-1674 等駭客組織，都利用了 ms-appinstaller URI 協定來散佈惡意程式，為了避免客户受到相關攻擊的影響，再加上微軟正在調查攻擊行動使用 App Installer 的狀況，決定於預設關閉 ms-appinstaller 協定處理器。</p><p>調查顯示，駭客對 ms-appinstaller 協定處理器的濫用可能造成勒索軟體攻擊，許多駭客組織甚至已開始銷售濫用 MSIX 檔案格式與 ms-appinstaller 協定處理器的惡意程式套件即服務，它們於合法熱門軟體上張貼惡意廣告，並於廣告所連結的網站上散佈惡意的 MSIX 應用程式套件。</p><p>此外，駭客之所以選擇 ms-appinstaller 協定處理器來展開攻擊，或許是因為它能繞過 Microsoft Defender SmartScreen，以及在下載執行檔時瀏覽器會跳出警告等安全機制。</p><p>2022 年 2 月時，微軟也曾因為 ms-appinstaller 協定處理器遭到駭客濫用，<a href="https://www.ithome.com.tw/news/149240" target="_blank">而暫時關閉該功能</a>。</p><p>值得注意的是，一旦關閉該處理器，App Installer 便無法再直接自網頁伺服器安裝程式，而必須先下載該程式。網站管理員應先移除'ms-appinstaller:?source='，以讓使用者下載 MSIX 套件或.appinstaller 檔案，再藉由 App Installer 安裝套件。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160617</guid>
-            <link>https://www.ithome.com.tw/news/160617</link>
-            <author>
-                <![CDATA[陳曉莉]]>
-            </author>
-            <category>資安 </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【資安日報】12 月 29 日，Booking.com 合作旅館、房客面臨網釣攻擊且外洩個資出現轉交其他團體兜售現象]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231229.png?itok=JoNFokui" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>今年駭客針對 Booking.com 房客發動攻擊的情況不時傳出，其特別之處在於，駭客並非直接對房客下手，而是先對旅館發動網釣攻擊，再假借這些旅館的名義對房客行騙，房客一不注意對方提供的網址是假冒的就點進去查看，很容易上當。</p><p>值得留意的是，這樣的情況日益惡化，甚至已經在網路犯罪圈發展成上下游分工的情況──有人專門收集旅館的 Booking.com 帳密供打手運用。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.kaspersky.com/blog/booking-com-hacked-hotel-accounts-scam-customers/50109/"><strong style="font-size: 22px;">駭客持續針對 Booking.com 房客展開攻擊，地下論壇已開始兜售旅館帳密資料</strong></a></p>
-                <!-- notionvc: 074ca034-2dbc-4a94-a652-7eee56108ca9 -->
-                <p></p>
-                <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/booking-com-hacked-hotel-accounts-scam-customers-4.jpg">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/booking-com-hacked-hotel-accounts-scam-customers-4.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>近期在線上訂房服務 Booking.com 找住宿的旅客，傳出頻頻遭到網路攻擊而受害的事件，不只 BBC、衞報多家媒體接獲民眾投訴，Akamai、Secureworks 等資安業者也針對這樣的現象提出警告，如今有研究人員指出，駭客開始兜售竊得的旅館帳密資料。
-                    </p>
-                    <p>資安業者卡巴斯基指出，駭客先是冒充旅館的客人，鎖定與 Booking.com 合作的旅館下手，散佈竊資軟體取得相關帳密資料，從而利用旅館的 Booking.com 發送訊息給旅客。在其中一起攻擊行動中，駭客聲稱在旅館遺失護照，要求協助尋找，並在電子郵件裡附上護照照片檔案連結，然而旅館員工一旦照做，電腦就有可能被植入竊資軟體，駭客再藉由取得的帳密資料存取 Booking.com，並研究目前訂房情況，向房客發送訊息，聲稱訂房過程提供的付款資料有誤，若不重新提供相關資料訂房將被取消。而對於接收到這些訊息的房客而言，如果依照駭客所偽造的內容去點選上面的網址連結，他們就會被帶往冒牌的 Booking.com，而該網站竟然能顯示正確的房客姓名、飯店資訊、日期、價格，並強調這些日期的住宿需求很大、至少有 10 家類似的旅館已無法預訂，藉此催促房客盡快提供信用卡資料訂房。</p>
-                    <p>針對這一連串複雜的攻擊流程，研究人員稱為「B2B2C」，他們也看到駭客將不同工作指派其他人進行，例如，會有專人在駭客論壇負責兜售旅館的 Booking.com 帳密資料。對此，Booking.com 強調是合作旅館遭駭，該公司系統並未遭到攻擊。</p>
-                    <p>
-                        <a href="https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/">
-                            <strong style="font-size: 22px;">駭客掃描 ERP 系統 Apache OFBiz 重大漏洞，意圖對採用此軟體的 Atlassian Confluence 伺服器下手</strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: dd7b3c05-a9f6-47b4-b9d4-d96651b37058 -->
-                    <p></p>
-                    <p>Apache 基金會本月先後修補旗下 ERP 系統 OFBiz 的重大漏洞 CVE-2023-49070、CVE-2023-51467（CVSS 風險評分皆為 9.8），攻擊者一旦利用上述漏洞，就能繞過身分驗證流程。由於該 ERP 系統受到不少知名軟體採用、整合到他們的系統當中，因此影響可能相當廣泛。</p>
-                    <p>12 月 28 日 Shadowserver 基金會提出警告，他們看到駭客利用公開的概念性驗證程式（PoC），掃描存在 CVE-2023-49070 的伺服器，預期接下來也會對 CVE-2023-51467 下手。該基金會向資安新聞網站 Bleeping Computer 透露，這些攻擊者嘗試觸發漏洞的方法，是強制目標主機連線到 oast.online 的特定網址來進行，他們企圖攻陷的對象是 DevOps 協作平台 Confluence。由於 Atlassian 的 JIRA 包含 OFBiz，而 JIRA 又是許多公司採用的商用專案管理與開發問題追蹤軟體系統，因此，這個開放原始碼專案的任何瑕疵都會繼承到 Atlassian 的產品。</p>
-                    <!-- notionvc: 3d596f60-6ab9-416b-aa0c-0e5c243b33be -->
-                    <p>資料來源</p>
-                    <p>1.&nbsp;
-                        <a href="https://twitter.com/shadowserver/status/1740317678257218036">https://twitter.com/shadowserver/status/1740317678257218036</a>
-                        <br>
-2.&nbsp;
-                            <a href="https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/">https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/</a>
-                        </p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/160605">
-                                <strong style="font-size: 22px;">松下透露 2022 年 12 月發生的資料外洩事故</strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 0d76ffe8-cae6-429b-b1db-7c6d6fa5f811 -->
-                        <p></p>
-                        <p>專門提供飛機資訊娛樂系統、從事網路通訊設備系統整合業務的松下子公司 Panasonic Avionics，在 2022 年底傳出網路遭駭，導致部分員工及客户個資外洩。該公司向美國加州檢察長辦公室通報的資料裡提及，他們在 2022 年 12 月 30 日察覺公司網路環境部分系統遭到異常存取的跡象，駭客疑似於 12 月 14 日前後入侵，洩露的資料包括姓名、電子郵件、住家地址、電話，生日、醫療及健康資訊、銀行帳號、公司聘僱狀態、社會安全號碼，但究竟有多少人受到影響？該公司並未透露。</p>
-                        <p>該公司發言人向資安新聞網站 Bleeping Computer 表示，這起事故僅影響少數員工及商務客户，至於飛機資訊娛樂系統、通訊系統、數位解決方案，他們並未發現受到影響的跡象。</p>
-                        <p>資料來源</p>
-                        <p>1.&nbsp;
-                            <a href="https://www.bleepingcomputer.com/news/security/panasonic-discloses-data-breach-after-december-2022-cyberattack/">https://www.bleepingcomputer.com/news/security/panasonic-discloses-data-breach-after-december-2022-cyberattack/</a>
-                            <br>
-2.&nbsp;
-                                <a href="https://www.documentcloud.org/documents/24238563-panasonic-avionics-corporation-consumer-notice-letter">https://www.documentcloud.org/documents/24238563-panasonic-avionics-corporation-consumer-notice-letter</a>
-                            </p>
-                            <p>
-                                <a href="https://www.nccgroup.com/us/newsroom/ncc-group-monthly-threat-pulse-november-2023/">
-                                    <strong style="font-size: 22px;">金融木馬 Carbanak 東山再起，被用於勒索軟體攻擊行動</strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 58671b7a-52f7-4649-bc9f-9655a04173b9 -->
-                            <p></p>
-                            <p>資安業者 NCC Group 揭露上個月勒索軟體態勢的分析，指出整個月攻擊達到 442 件，較 10 月 341 起增加 3 成，累計 2023 年攻擊事故達到 4,276 件，其中影響最嚴重的是工業部門，本月有 146 件資安事故，相當於每 3 件就有 1 件就與工業部門有關，其次則是消費性產業、醫療照護領域，分別有 78 件、50 件。</p>
-                            <p>從受害組織的分佈地區來看，有 219 件發生在北美，135 件發生在歐洲，亞洲則有 46 件位居第 3。至於最猖獗的駭客組織，依序是 LockBit、BlackCat（Alphv）、Play。</p>
-                            <p>值得留意的是，研究人員發現 11 月金融木馬 Carbanak 捲土重來的跡象，駭客將其用於勒索軟體攻擊，並假借 CRM 平台 HubSpot、資料管理軟體 Veeam、會計軟體 Xero 的名義散佈。</p>
-                            <p>&nbsp;</p>
-                            <h3>
-                                <strong>【漏洞與修補】</strong>
-                            </h3>
-                            <p>
-                                <a href="https://thehackernews.com/2023/12/google-cloud-resolves-privilege.html">
-                                    <strong style="font-size: 22px;">GKE 容器服務傳出有漏洞，可能讓使用者在 K8s 服務提升權限並完全控制叢集</strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 1fa7dbdd-84b2-4412-bcde-82791a9f7075 -->
-                            <!-- notionvc: f4299183-d883-4bab-87d7-5b5953e76988 -->
-                            <p></p>
-                            <p>資安業者 Palo Alto Networks 發現 Google Kubernetes Engine（GKE）存在弱點，並指出一旦攻擊者將其串連，就有機會讓已經能夠存取 Kubernetes 叢集的攻擊者進行權限提升。</p>
-                            <p>其中一個弱點是 GKE 事件記錄代理程式 FluentBit 的預設組態，所有叢集預設都有執行此代理程式，另一個弱點則是存在於附加功能 Anthos Service Mesh（ASM）的預設權限。研究人員指出，如果攻擊者設法在 FluentBit 容器裡取得執行的能力，且 Kubernetes 叢集部署了 ASM，他們就有機會發動極具威力的攻擊鏈，取得該叢集完整的控制權，從而進行資料盜竊、部署惡意 pod，甚至中斷叢集運作。Google 獲報後於 12 月 14 日予以修補。</p>
-                            <!-- notionvc: d2d37fdf-8a61-4326-948b-e910c6060f50 -->
-                            <p>資料來源</p>
-                            <p>1.&nbsp;
-                                <a href="https://unit42.paloaltonetworks.com/google-kubernetes-engine-privilege-escalation-fluentbit-anthos/">https://unit42.paloaltonetworks.com/google-kubernetes-engine-privilege-escalation-fluentbit-anthos/</a>
-                                <br>
-2.&nbsp;
-                                    <a href="https://cloud.google.com/anthos/clusters/docs/security-bulletins#gcp-2023-047">https://cloud.google.com/anthos/clusters/docs/security-bulletins#gcp-2023-047</a>
-                                </p>
-                                <p>&nbsp;</p>
-                                <h3>
-                                    <strong>【資安產業動態】</strong>
-                                </h3>
-                                <p>
-                                    <a href="https://www.ithome.com.tw/news/160604">
-                                        <strong style="font-size: 22px;">Mozilla 改變對 Trusted Types 防護技術的立場，計畫在瀏覽器導入</strong>
-                                    </a>
-                                </p>
-                                <!-- notionvc: 4ae238c5-3a57-4859-9858-9704a745c9c1 -->
-                                <p></p>
-                                <p>為防範以文件物件模型為基礎的跨網站指令碼攻擊（DOM-based XSS，DOM XSS），Google 於 2020 年在 Chrome 83 導入名為 Trusted Types 防護機制，現在傳出另一瀏覽器陣營 Firefox 也將跟進。</p>
-                                <p>根據新聞網站 The Register 的報導，Mozilla 基金會 Firefox 資安工程師 Frederik Braun 指出，他們已針對 Trusted Types 完成相關的調查，認為這項技術確實能有效防範 DOM XSS 攻擊，他們將積極為瀏覽器導入這項技術，但目前實作面臨一些難題，例如，對於 getPropertyType、getAttributeType 等部分 Trusted Types 功能，仍不清楚實際用途，再者是他們發現 Chrome 有部分實作功能超出標準的範圍，希望相關功能予以標準化，使 Firefox 導入這種防護過程能有參考規範。</p>
-                                <p>資料來源</p>
-                                <p>1.&nbsp;
-                                    <a href="https://www.theregister.com/2023/12/21/mozilla_decides_trusted_types_is/">https://www.theregister.com/2023/12/21/mozilla_decides_trusted_types_is/</a>
-                                    <br>
-2.&nbsp;
-                                        <a href="https://github.com/mozilla/standards-positions/issues/20#issuecomment-1853427823">https://github.com/mozilla/standards-positions/issues/20#issuecomment-1853427823</a>
-                                    </p>
-                                    <p>&nbsp;</p>
-                                    <h3>
-                                        <strong>【其他新聞】</strong>
-                                    </h3>
-                                    <p>
-                                        <a href="https://www.bleepingcomputer.com/news/security/russian-military-hackers-target-ukraine-with-new-masepie-malware/">
-                                            <strong>
-                                                <span style="font-size: 20px;">烏克蘭遭到俄羅斯駭客 APT28 鎖定，散佈惡意程式 Masepie</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 83bd54f7-3dd3-4311-b6d4-53e41abdc300 -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.microsoft.com/en-us/security/blog/2023/12/28/financially-motivated-threat-actors-misusing-app-installer/">
-                                            <strong>
-                                                <span style="font-size: 20px;">多組駭客濫用微軟市集 App 的 URI 協定，散佈惡意軟體</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 713d9b9d-fabb-405b-a082-cfba8694f878 -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://therecord.media/trinidad-and-tobago-government-agency-hit-with-post-christmas-cyberattack">
-                                            <strong>
-                                                <span style="font-size: 20px;">特立尼達和多巴哥社會福利機構遭勒索軟體攻擊</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: fbefb4a8-53d9-44c8-9186-49dba610ae0e -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.securityweek.com/cyberattack-targets-albanian-parliaments-data-system-halting-its-work/">
-                                            <strong>
-                                                <span style="font-size: 20px;">阿爾巴尼亞議會傳出遭到網路攻擊，導致部分服務暫停</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 40f1db6c-750c-4ff8-bcb8-9389e523b3ae -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/article/160614">
-                                            <strong>
-                                                <span style="font-size: 20px;">【生成式 AI 開啟資安新變革】AI 資安 2024</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <p>&nbsp;</p>
-                                    <h3>
-                                        <strong>近期資安日報</strong>
-                                    </h3>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160596">
-                                            <strong>【12 月 28 日】&nbsp;別以為使用 SSH 連線就會比較安全！採用容易猜到的帳密有可能將 Linux 伺服器拱手送給駭客</strong>
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160564">
-                                            <strong>【12 月 27 日】&nbsp;有人散佈《俠盜獵車手 V》原始碼並向甫遭判決的駭客組織 Lapsus$成員致敬</strong>
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160548">
-                                            <strong>【12 月 26 日】&nbsp;有人入侵遊戲開發商 Ubisoft 並企圖竊取《虹彩六號：圍攻行動》的內部資料</strong>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-                </div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160616</guid>
-            <link>https://www.ithome.com.tw/news/160616</link>
-            <author>
-                <![CDATA[周峻佑]]>
-            </author>
-            <category>資安 </category>
         </item>
     </channel>
 </rss>
