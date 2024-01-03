@@ -16,8 +16,186 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 03 Jan 2024 07:00:55 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 03 Jan 2024 11:02:20 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[抢救 IT 失传技艺，亚马逊技术长倡议节约架构 （Part 1 设计篇）]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-frugal-architect.png?itok=JV5-zvmF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>&nbsp;</p><p>在云端运算服务尚未问市之前，评估资讯系统的成本效益是资讯人员必备能力，身为全球最大电商亚马逊（Amazon）技术长的 Werner Vogels 说：「在当时采购资料库这类大型系统，都得先评估足以使用五年的规格，才能达到最佳成本效益。」然而，在云端运算资源垂手可得的今日，虽然传统硬体的限制越来越少了，软体开发人员可以更聚焦在功能创新与更快推出上市，但也因此忽略成本效益的重要性，Vogels 指出，重视成本效益几乎已成失传的技艺，为此他在 re:Invent 2023 的主题演讲提出「节约架构（Frugal Architect）」设计法则，呼吁将成本意识纳入软体架构设计，进而达成永续目标。</p><p>节约架构可谓亚马逊过去二十多年软体开发经验的总和，特别是打造具有成本意识与永续发展的系统架构，Vogels 回忆道，「在还很难买得到 PlayStation 的年代，只要有人贴文说亚马逊明天会开卖，许多消费者就会在开卖前五分钟开始狂按电脑的 F5 按键更新网页，以在第一时间读取到贩售网页，不过这也导致网站流量瞬间爆增。」然而，当时可没有调度自如的云端运算资源可用，因此考验著资讯人员如何有创意地解决刺手问题。</p><p>还有一次，在黑色星期五购物节来临前，亚马逊的业务团队兴高采烈地提出许多可冲高业绩的新点子，接著就轮到技术团队苦恼如何在既有系统架构与有限资源下达成业务目标。不过 Vogels 指出，过往资讯人员就是因为突破种种硬体上的限制而练就一身技艺，然而随著云端运算普及，在限制越来越少的情况下，这些技艺也逐渐失传。</p><p>Vogels 提出的节约架构由三大类、七项软体架构设计法则所组成，他表示，之所以称之为法则，代表是过往诸多经验的心得，并非硬性规定；而区分成「设计（Design）」「量测（Measure）」与「最佳化（Optimize）」三个部分，则有助于形成框架式的思考架构。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/frugal%20architect.png" style="width: 640px; height: 519px;" referrerpolicy="no-referrer"></p><p>第一项法则是将成本纳入非功能性（Non-functional）需求。传统上非功能性需求包含资安（Security）、法规遵循（Compliance）、无障碍设计（Accessibility）、效能（Performance）、可用性（Availability）、扩充性（Scalability）与可维护性（Maintainability）等项目，Vogels 指出，在过去资安、法遵与无障碍设计是无法妥协的三个项目，然而现在光这三项并不足够，还需要纳入成本（Cost）与永续性（Sustainability），成为必要的非功能性需求。</p><p>以 Amaozn 设计 S3 物件储存服务的经验为例，Vogels 指出，由于云端运算服务必须提供明确的价格，因此必须先分析运算成本，以订定合理计价模式。一开始他们认为 S3 储存服务的成本不外乎传输档案与储存档案，然而，在先期客户试用 S3 的过程中，他们才发现之前忽略了使用者读取（Request）物件资料其实也会有相对应的成本。</p><p>上述经验随后也运用在 DynamoDB 无伺服器资料库服务，由于此服务提供两种读取一致性（Consistency）选项，包括最终一致读取（Eventually Consistency）与强烈一致读取（Strong Consistency），而由于强烈一致读取的读取次数是最终一致读取的 2 倍，因此计价也就必须多一倍才合理。</p><p>成本考量必需落实在系统设计的每一个环节，Vogels 说：「我们开发软体，终究是为了帮公司获利，而不是展现自己的技能。」因此，除了考量软体架构必要的功能性、扩充性与稳定性，还要评估软体成本对公司获利的影响。在设计软体系统架构前，必须先确定营收模式，并确保系统的设计能够支持获利，他说：「系统架构设计一定要跟著公司获利的方向发展，如果不幸走反了，最终你一定会完蛋。」这也就是节约架构的第二项法则：「系统成本必须与公司获利保持一致。」</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/cost%20sustainability.png" style="width: 700px; height: 421px;" referrerpolicy="no-referrer"></p><p>AWS 知名的无伺服器运算服务 Lambda，其实背后也有一段鲜为人知的成本与架构重构的故事。在 S3、DynamoDB 等物件储存与资料库无伺服器化服务陆续推出之后，AWS 的客户开始期待运算服务也可以无伺服器化，好摆脱繁重的伺服器管理工作。Vogels 表示，因为之前有设计 S3 物件储存服务的经验，在订价方面他们很快确定无伺服器运算服务需从两个面向计价：每微秒的处理器运算量，以及记忆体使用量，在功能方面也确定必须兼顾安全性、强化隔离与成本效益等三项非功能性需求，但是接下来他们却察觉缺乏足够的技术，以达成上述三项必备的非功能性需求。</p><p>眼看推出无伺服器运算服务势在必行，但在缺乏相对应技术，以致于无法兼具成本效益的情况下，Vogels 说：「所以我们一开始就先确定了，在成本效益上得有所牺牲……而未来一定得为此付出相对应的技术债与经济债。」于是，他们成立了两个团队，第一个团队先在既有技术下动手开发，第二个团队则负责开发无伺服器运算服务所需要的关键技术。</p><p>为了确保无伺服器运算服务的每一个用户程式码都有安全隔离，第一个团队选择将每一个 Lambda 服务以 EC2 最小规格的 T2 执行个体来运行，然而，由于 Lambda 函数程式码通常都很小，即便已经采用最小执行个体 T2，但大多数的运算利用率都不到一半，也就是说 AWS 得多付出多一倍的运算成本来提供 Lambda 服务，而这也就是 Vogels 所说的，在决定开发的第一天就已经知道未来必须承担的经济债。</p><p>AWS 在 2014 年推出 Lambda 后，事隔四年，第二个团队以 Linux KVM 为基础开发出微型虚拟机器 Firecracker，让单一主机可以承载更多的 Lambda 服务，终于解决运算利用率的问题。Vogels 指出，其实当初如果没有开发 Firecracker，接下来的无伺服器容器运算服务 Fargate 也难以实现。</p><p>回首从 Amazon S3 至 AWS Lambda 的开发历程，Vogels 打趣地说，这个过程就像一边开飞机还要一边换引擎，而且还不能让乘客察觉异状。这段经历也让他观察到节约架构的第三项法则：「架构设计是一连串的权衡与取舍」。他建议开发人员要打造可持续进化又不影响业务营运的架构，因为改变一定会发生。</p><p><a href="https://www.ithome.com.tw/news/160660">继续阅读 → Part 2 节约架构量测篇</a></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160659</guid>
+            <link>https://www.ithome.com.tw/news/160659</link>
+            <author>
+                <![CDATA[吴其勋]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微软将于 4 月 9 日终止 Visual Studio 2013 延伸支援服务]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2141_-_visual_studio_2013_-_microsoft_lifecycle_-_microsoft_learn_-_learn.microsoft.com_.png?itok=a2Frd3MJ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软<a href="https://devblogs.microsoft.com/visualstudio/visual-studio-2013-retirement-support-reminder-for-older-versions-of-visual-studio/">提醒</a>用户 Visual Studio 2013 的支援将在 4 月 9 日结束，并敦促用户尽快升级至最新的 Visual Studio 2022 版本，同时，多个版本的支援状态也有所转变，例如 Visual Studio 2019 将在 4 月 9 日，从主流支援转延伸支援，届时微软将不再提供功能更新，仅会修补安全性问题。</p><p>官方指出，Visual Studio 2013 的延伸支援结束，这包括了所有相关产品、执行环境和元件的支援都将会停止，皆不会再获得安全性或其他更新。</p><p>在 4 月 9 日之前，只要安装至第 5 个更新版本的 Visual Studio 2013，仍可持续获得延伸支援，而 Visual Studio 2015 只要安装到第 3 更新版，可获延伸支援到 2025 年 10 月 14 日。而 Visual Studio 2017 15.9 版本的延伸支援，则会一直到 2027 年 4 月 13 日。</p><p>目前微软对 Visual Studio 2019 16.11 提供的主流支援将会在 4 月 9 日停止，并且从 4 月 10 日开始转为延伸支援，Visual Studio 2019 的预览频道将不会再推送更新，用户需要转换到发布频道或是 Visual Studio 2022 预览频道，才能继续获得最新的功能更新。</p><p>Visual Studio 2022 则是微软当前主要 IDE 产品，提供预览、目前和长期服务 3 个频道，预览频道提供最新功能更新，而目前频道则提供稳定功能更新，而长期服务频道则是让企业和专业用户，更好地控制新功能部署，并提供 18 个月的品质与安全修复更新。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160648</guid>
+            <link>https://www.ithome.com.tw/news/160648</link>
+            <author>
+                <![CDATA[李建兴]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[【资安日报】1 月 3 日，日本游戏开发商因母公司 Google Drive 配置错误导致近百万人的个资曝险]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240103.png?itok=oBF3Z5Jm" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>去年 12 月电玩产业发生多起资料外泄事故，例如：Sony 旗下的<a href="https://www.ithome.com.tw/news/160484#insomniac">游戏开发商 Insomniac Games 遭勒索软体 Rhysida 攻击</a>，<a href="https://www.ithome.com.tw/news/160546">Ubisoft 面临网路威胁渗透至内部的问题</a>，以及<a href="https://www.ithome.com.tw/news/160564#gta5">RockStar Games 在 2022 年遭骇的部分资料被公开</a>。而上述资安事故，都是因为骇客入侵所致。</p><p>而去年底还有一起资安事故因公布受影响的范围而受到关注，主角是一家游戏公司，原因是他们存放于云端服务 Google Drive 的部分资料被设置为公开，而有可能让客户、合作伙伴、员工的个资曝光。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.bleepingcomputer.com/news/security/android-game-devs-google-drive-misconfig-highlights-cloud-security-risks/"><strong style="font-size: 22px;">日本游戏开发商 Ateam Entertainment 母公司公告近百万人个资曝险长达 6 年，起因是 Google Drive 配置错误</strong></a></p>
+                <!-- notionvc: 11fe01e8-4b1f-4cd9-bff7-87053156b739 -->
+                <p></p>
+                <p>
+                    <a href="https://s4.itho.me/sites/default/files/images/20231222_news_en_01.jpg">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/20231222_news_en_01.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>12 月 7 日日本应用程式开发商 Ateam 发布公告，表示他们于 11 月 21 日发现，采用的的云端硬碟 Google Drive 当中，有部分档案的权限设置为公开，只要知道连结的任何人都能存取，导致档案储存的个资可能因此曝光，该公司隔日限缩这些档案的存取权限，他们也向日本个人资讯保护委员会（PIPC）通报此事。
+                    </p>
+                    <p>而上述曝露于网际网路的档案，该公司当时透露约有 4 千个，总共包含有 96 万笔个资记录。到了 22 日，该公司公布更完整的影响范围，并指出他们的客户、业务伙伴、求职者、员工都可能曝险，确定含有个资的档案数量为 1,369 个，总计有 935,779 人受害，大部分为该公司客户，曝露的资料可能有姓名、电子邮件信箱、电话号码、客户编号、设备识别码。</p>
+                    <p>值得留意的是，该公司旗下的 Ateam Entertainment、Ateam LifeDesign、Ateam Wellness、Ateam CommerceTech 子公司也受到影响，比例最高的是电玩游戏开发商 Ateam Entertainment 的客户，有 736,081 人。这些资料最早被公开在网路上的时间是在 2017 年 3 月，目前尚未发现遭到未经授权存取的迹象。</p>
+                    <p>资料来源</p>
+                    <p>1.&nbsp;
+                        <a href="https://www.a-tm.co.jp/en/news/43909/">https://www.a-tm.co.jp/en/news/43909/</a>
+                        <br>
+2.&nbsp;
+                            <a href="https://www.a-tm.co.jp/en/news/44383/">https://www.a-tm.co.jp/en/news/44383/</a>
+                        </p>
+                        <p>
+                            <a href="https://www.theguardian.com/business/2023/dec/31/cyber-hackers-target-uk-nuclear-waste-company-rwm">
+                                <strong style="font-size: 22px;">英国核废料服务业者遭遇网钓攻击，骇客透过 LinkedIn 对其出手</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 2754c71b-9e2f-4ac1-8569-8574e656dea2 -->
+                        <p></p>
+                        <p>根据衞报的报导，英国放射性废弃物管理公司（Radioactive Waste Management，RWM）遭遇网路攻击，骇客企图透过职场社群网站 LinkedIn 发动攻击，但没有成功，至于骇客使用何种手法侵入也不得而知。</p>
+                        <p>根据 RWM 交给当地公司注册机构（Companies House）的会计资料，Nuclear Waste Services 执行长 Corhyn Parr 提及，他们察觉部分实体遭到特定管道的攻击，导致所有权被窜改，而这些管道大多是经由 LinkedIn，所幸这起去年发生的资安事故并未造成实际影响。</p>
+                        <p>
+                            <strong style="font-size: 22px;">勒索软体骇客组织 NoName 针对芬兰、立陶宛发动 DDoS 攻击</strong>
+                        </p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/noname-cyberattacks-on-finland-1.png">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/noname-cyberattacks-on-finland-1.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>俄罗斯骇客组织 NoName（亦称 NoName057(16)）在乌克兰战争开打后，从 2022 年 8 月不断对欧美国家发动 DDoS 攻击，最近传出针对芬兰、立陶宛下手的情况。
+                            </p>
+                            <p>根据资安新闻网站 Cyber Express 的报导，这些骇客针对多个芬兰政府机关发动一系列网路攻击，导致部分网站暂时无法存取，这些机构包含了芬兰运输与通讯管理局（Traficom）、国家网路安全中心 （NCSC-FI）、铁路局、芬兰交通法规暨开发暨基础设施局、芬兰运输基础设施局。该新闻网站指出，骇客这次锁定的目标多与交通运输有关，目的很有可能是要干扰当地民众生活。</p>
+                            <p>这些骇客近期也声称对 8 个立陶宛组织发动攻击，目标涵盖国防、交通物流、电信业者、网际网路供应商，理由是该国协助乌克兰维修坦克。不过，这些遭到锁定的目标网站仍正常运作，这些组织也并未证实是否遭遇相关攻击。</p>
+                            <p>资料来源</p>
+                            <p>1.&nbsp;
+                                <a href="https://thecyberexpress.com/noname-cyberattacks-on-finland/">https://thecyberexpress.com/noname-cyberattacks-on-finland/</a>
+                                <br>
+2.&nbsp;
+                                    <a href="https://thecyberexpress.com/ddos-attacks-on-lithuanian-websites/">https://thecyberexpress.com/ddos-attacks-on-lithuanian-websites/</a>
+                                </p>
+                                <p>
+                                    <a href="https://thecyberexpress.com/zeppelin2-ransomware/">
+                                        <strong style="font-size: 22px;">勒索软体 Zeppelin2 遭到破解，骇客在地下论坛散布原始码、建置工具</strong>
+                                    </a>
+                                </p>
+                                <!-- notionvc: 8af5a6ee-36f7-4db0-9418-890c790a600c -->
+                                <p></p>
+                                <p>
+                                    <a href="https://s4.itho.me/sites/default/files/images/GCvoA8UaQAAvZlm.jpg">
+                                        <img alt="" src="https://s4.itho.me/sites/default/files/images/GCvoA8UaQAAvZlm.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                        </a>曾在 2019 年至 2022 年 6 月横行的勒索软体 Zeppelin2，开发者原本以租用服务（Ransomware-as-a-Service）提供给卖家运用，如今有人将其破解，有可能让骇客大肆采用。
+                                    </p>
+                                    <p>根据资安新闻网站 Cyber Express 的报导，有人声称破解了勒索软体 Zeppelin2，兜售其原始码及破解版的建置工具。这名开发者提供原始码的萤幕截图，并透露此勒索软体是采用 Delphi 开发而成。此卖家提供的建置工具拥有多种功能，包含档案配置、勒索讯息、IP 位址事件记录、启动勒索软体的命令、终止处理程序工具等。</p>
+                                    <p>而对于这款勒索软体的来历，美国联邦调查局（FBI）及网路安全暨基础设施安全局（CISA）于 2022 年 8 月提出警告，骇客很可能透过远端桌面连线（RDP）、SonicWall 防火墙漏洞、网路钓鱼等手法，入侵受害组织网路，在掌握组织内部网路环境状态后部署 Zeppelin2。</p>
+                                    <p>
+                                        <a href="https://www.resecurity.com/blog/article/new-version-of-medusa-stealer-released-in-dark-web">
+                                            <strong style="font-size: 22px;">窃资软体 Meduza 攻击范围广泛，能挖掘超过一百种浏览器与加密货币钱包资料</strong>
+                                        </a>
+                                    </p>
+                                    <p>资安业者 Resecurity 在圣诞节前夕看到骇客在地下社群、Telegram 频道来宣传 2.2 版窃资软体 Meduza，号称能对更多应用程式下手，并强化信用卡资料抓取工具与挖掘帐密资料的能力。该窃资软体可针对的应用程式琳琅满目，涵盖 106 款浏览器、107 种加密货币钱包、27 种密码管理器，以及即时通讯软体 Telegram、Discord，还有游戏平台 Steam、VPN 用户端软体、收信软体 Outlook，都可以从中窃取用户资料，此外骇客也标榜能盗取特定 Token 来挟持 Google 帐号。</p>
+                                    <p>此外，骇客这次也提供额外的扩充功能，像是进阶的防毒软体回避功能，以及加密受害电脑档案的能力，而这些额外的功能，是由另一个地下加密服务业者 TrueCrypt Service 提供。</p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新闻】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.courtlistener.com/docket/17216783/1090/brown-v-google-llc/">
+                                            <strong>
+                                                <span style="font-size: 20px;">Google 在浏览器无痕模式追踪使用者，提出以 50 亿美元寻求和解</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 094815ba-db40-4fff-8592-fb8ba893e234 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/online-museum-collections-down-after-cyberattack-on-service-provider/">
+                                            <strong>
+                                                <span style="font-size: 20px;">网路博物馆系统供应商 Gallery Systems 遭勒索软体攻击，为防堵受害范围扩大暂停部分服务</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: e2974bad-ef2a-4df6-a710-ba7ba0d6b23f -->
+                                    <p></p>
+                                    <p>
+                                        <a href="http://courts.vic.gov.au/news/court-services-victoria-cyber-incident">
+                                            <strong>
+                                                <span style="font-size: 20px;">澳洲法院传出遭骇客入侵，听证会录音恐外流</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://thehackernews.com/2023/12/new-rugmi-malware-loader-surges-with.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">恶意程式载入工具 Rugmi 每天感染数百台电脑</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: e043cf23-605e-4501-bde2-516807be1338 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/new-black-basta-decryptor-exploits-ransomware-flaw-to-recover-files/">
+                                            <strong>
+                                                <span style="font-size: 20px;">研究人员找到能复原遭勒索软体 Black Basta 破坏的档案的方法</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期资安日报</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160635">
+                                            <strong>【1 月 2 日】&nbsp;窃资软体滥用 Google 未公开的 OAuth 同步机制挟持用户帐号</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160616">
+                                            <strong>【12 月 29 日】&nbsp;Booking.com 合作旅馆、房客面临网钓攻击且外泄个资出现转交其他团体兜售现象</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/160596">
+                                            <strong>【12 月 28 日】&nbsp;别以为使用 SSH 连线就会比较安全！采用容易猜到的帐密有可能将 Linux 伺服器拱手送给骇客</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                </div></div>]]>
+            </description>
+            <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160647</guid>
+            <link>https://www.ithome.com.tw/news/160647</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>
                 <![CDATA[去年全球手机出货量下滑 5%，高阶手机逆势成长 6%]]>
@@ -261,7 +439,7 @@
             <author>
                 <![CDATA[陈晓莉]]>
             </author>
-            <category>新闻</category>
+            <category>AI</category>
         </item>
         <item>
             <title>
@@ -307,217 +485,6 @@
                 <![CDATA[李建兴]]>
             </author>
             <category>新闻</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【资安周报】2023 年 12 月 25 日到 12 月 29 日]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zi_an_zhou_bao_20240101.jpg?itok=s2huQbbH" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>时至 2023 年最后一星期，适逢欧美各国圣诞连假，各大资安媒体虽然大多暂停发布新闻，期间仍有零时差漏洞攻击的揭露。在 12 月 24 日，资安业者 Barracuda Networks 发布资安公告，指出中国骇客 UNC4841 再次锁定他们的产品发起零时差漏洞攻击，导致部分邮件安全闸道（ESG）植入恶意软体 Seaspy 及 Saltwater 的新型变种，该公司已于 21 日派送自动软体更新修补，并指出该漏洞 CVE-2023-7102 存在于 ESG 产品中，Amavis 病毒扫描程式元件的第三方程式库 Spreadsheet::ParseExcel。这项消息呼应我们先前报导，当时我们提醒大家注意零时差漏洞攻击出现锁定底层元件进行滥用的状况，而上述事件无疑再次反映此一态势。</p><p>还有两个漏洞修补消息值得重视，首先，Apache 基金会在 12 月先后修补旗下 ERP 系统 OFBiz 的 2 个 CVSS 风险评分 9.8 分的重大漏洞，分别是：CVE-2023-49070、CVE-2023-51467。值得注意的是，资安业者已发现攻击者扫描存在漏洞的系统，再加上有不少系统将之整合或采用，因此影响范围预估不小，像是 Atlassian 的 JIRA 就包含了 OFBiz，企业须注意相关后续修补动向；另一是英商 Canonical 针对 Ubuntu 作业系统修补了文字编辑器 Vim 的 15 个漏洞，其中 4 个为 CVSS 风险评分 7.8 分的高风险层级。</p><p>此外，关于半年前攻击者针对 iOS 发起的 Operation Triangulation 攻击行动，最近卡巴斯基揭露相关细节之外，还指出攻击者所利用 4 个零时差漏洞中，仍有一个漏洞的滥用方式不明。</p><p>在威胁态势方面，SSH 安全问题在这星期几篇资安新闻当中均提及，例如，先前有大学研究人员揭露 Terrapin 攻击手法与 3 个漏洞，最近韩国资安业者 AhnLab 提出警告，指出发现攻击者锁定执行 Linux 作业系统的 SSH 伺服器，并针对缺乏相关安全设置的主机发动攻击。</p><p>而从产业面来看，这星期我们看到网路订房与饭店业，以及游戏业的状况较多，各有两篇资安新闻。</p><p>首先是旅馆业者的服务生态链，例如，这几个月持续有骇客锁定 Booking.com 用户诈骗的揭露，如今又有资安业者指出这是一种 B2B2C 形式的手法，先针对饭店员工网钓下手，在以饭店业者帐号登入 Booking.com 去诈骗客户；另一是窃资软体 RedLine、Vidar 的攻击行动，同样是骇客假借客人投诉与订房为由，引诱饭店人员点击钓鱼邮件。</p><p>游戏业者的资安事故方面，这段期间各大资安媒体均报导下列两则消息，一是法国游戏开发商 Ubisoft 遭骇客入侵 48 小时，所幸公司管理员察觉异常、险些遇害的揭露；另一是传出侠盗猎车手 V（GTA 5）原始码外流的情况，根据后续的情报表示这是 2022 年 RockStar Games 遭骇时流出。</p><p>在防御态势方面，2023 年全球资安界均相当关注生成式 AI 资安应用的现况，而我们最近发布的封面故事也特别以此为题进行报导，当中可以看出<a href="https://www.ithome.com.tw/news/160608">不少全球大型 IT 与资安厂商已经实际付诸行动</a>，也出现<a href="https://www.ithome.com.tw/news/160610">台湾资安业者及早布局、累积发展此类新技术的经验</a>，原因在于他们看重生成式 AI 能分析庞大资料的能力，用自然语言输入来提示与回答，大幅提升资安事件处理效率，预料未来会有更多厂商跟进，将开启<a href="https://www.ithome.com.tw/article/160614">2024 年 AI 资安的新格局</a>。</p><p>&nbsp;</p><h3><a href="https://www.ithome.com.tw/news/160527"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 25 日】骇客集团 UAC-0099 锁定乌克兰组织并利用 WinRAR 漏洞植入恶意程式 LonePage</span></strong></a></h3><p style="margin: 0px;">骇客近期利用 WinRAR 漏洞 CVE-2023-38831 的情况，有越来越频繁的趋势，而且有不少是国家级骇客组织从事相关攻击。攻击者利用该漏洞最重要的原因之一，就是此压缩软体并未内建自动更新机制，使用者若不手动升级新版软体，就会持续曝露在这项漏洞当中，而使得对方有机会成功利用。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">最近有研究人员针对骇客组织 UAC-0099 的攻击行动进行调查，结果发现，这些骇客散布恶意软体的管道，其中一种就是这项 WinRAR 漏洞。</p><h3><a href="https://www.ithome.com.tw/news/160548"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 26 日】有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料</span></strong></a></h3><p style="margin: 0px;">今年有多起锁定游戏公司的攻击行动，从年初电玩游戏开发商 Riot Games 证实遭骇，旗下《英雄联盟》及防作弊系统的原始码遭窃，到最近 Sony 旗下电玩业者 Insomniac Games 遭勒索软体 Rhysida 入侵，偷走处于开发状态的电玩游戏《金钢狼》相关资料，这类资安事故有越来越频繁的情况。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">而在本日的资安新闻里，传出有人对电玩开发商 Ubisoft 发动攻击，该公司在两天之内察觉有异，并做出处理，使得受害情况得到控制，但攻击者身分仍不得而知。</p><p><a href="https://www.ithome.com.tw/news/160564"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 27 日】有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬</span></strong></a></p><p style="margin: 0px;">近期欧美国家取缔网路犯罪组织的执法行动大有斩获，例如，1 月破坏勒索软体 Hive 的基础设施，8 月摧毁 70 万台电脑组成的 QBot 僵尸网路等，骇客因此元气大伤、消声匿迹一段时日。</p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">12 月 19 日再度传出美国 FBI 宣布夺下勒索软体骇客组织 BlackCat 网站，但对方在一天内又取回网站，显然这次执法行动受到阻碍。骇客表示，只要是在独立国家国协以外的企业组织，都可能是他们的目标。</p><h3><a href="https://www.ithome.com.tw/news/160596"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 28 日】别以为使用 SSH 连线就会比较安全！采用容易猜到的帐密有可能将 Linux 伺服器拱手送给骇客</span></strong></a></h3><p>透过 SSH 连线远端管理 Linux 伺服器的方法相当普遍，但若是使用极为容易猜到的帐号和弱密码，小心！很有可能成为下手的目标，而成为骇客摆布的对象。</p><p>这样的现象，资安业者 AhnLab 今年多次提出警告，而这次他们指出骇客对其部署挖矿程式、DDoS 机器人，同时还有可能植入各式的恶意软体来上下其手。</p><h3><a href="https://www.ithome.com.tw/news/160616"><strong style="font-size: 22px;"><span style="color: rgb(0, 0, 0);">【12 月 29 日】Booking.com 合作旅馆、房客面临网钓攻击且外泄个资出现转交其他团体兜售现象</span></strong></a></h3><p>今年骇客针对 Booking.com 房客发动攻击的情况不时传出，其特别之处在于，骇客并非直接对房客下手，而是先对旅馆发动网钓攻击，再假借这些旅馆的名义对房客行骗，房客一不注意对方提供的网址是假冒的就点进去查看，很容易上当。</p><p>值得留意的是，这样的情况日益恶化，甚至已经在网路犯罪圈发展成上下游分工的情况──有人专门收集旅馆的 Booking.com 帐密供打手运用。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Sat, 30 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160628</guid>
-            <link>https://www.ithome.com.tw/news/160628</link>
-            <author>
-                <![CDATA[罗正汉]]>
-            </author>
-            <category></category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微软再度预设关闭 ms-appinstaller 协定处理器]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1229-microsoft-cyber_back-photo_by_jr_korpa_on_unsplash.jpg?itok=Z_16utAD" width="960" height="420" alt="" title="背景图片来源／Photo by <a href=&quot;https://unsplash.com/@jrkorpa?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Jr Korpa</a> on <a href=&quot;https://unsplash.com/photos/purple-and-black-abstract-painting-SFT9G3pAxLY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> 背景图片来源／Photo by <a href="https://unsplash.com/@jrkorpa?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Jr Korpa</a> on <a href="https://unsplash.com/photos/purple-and-black-abstract-painting-SFT9G3pAxLY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由于遭到不同骇客组织的滥用，<a href="https://www.microsoft.com/en-us/security/blog/2023/12/28/financially-motivated-threat-actors-misusing-app-installer/" target="_blank">微软再度于周四（12/28）宣布</a>，于预设值中关闭 MSIX 的 ms-appinstaller 协定处理器。</p><p>MSIX 为一 Windows 程式的套件格式，可替所有 Windows 程式提供现代化的封装经验，它除了支援对 Win32、WPF 与 Windows Forms 程式的现代化封装及部署功能，也保留了现有程式套件与安装档案的功能，以让用户更容易将程式维持在最新状态，同时确保流畅的安装经验。</p><p>而 ms-appinstaller 协定处理器的功用，则是允许使用者只要简单地点选网站上的连结就能安装应用程式，不必下载整个 MSIX 套件，是个非常受欢迎的经验。</p><p>然而，根据微软的观察，自今年 11 月中旬以来，包括 Storm-0569、Storm-1113、Sangria Tempest 与 Storm-1674 等骇客组织，都利用了 ms-appinstaller URI 协定来散布恶意程式，为了避免客户受到相关攻击的影响，再加上微软正在调查攻击行动使用 App Installer 的状况，决定于预设关闭 ms-appinstaller 协定处理器。</p><p>调查显示，骇客对 ms-appinstaller 协定处理器的滥用可能造成勒索软体攻击，许多骇客组织甚至已开始销售滥用 MSIX 档案格式与 ms-appinstaller 协定处理器的恶意程式套件即服务，它们于合法热门软体上张贴恶意广告，并于广告所连结的网站上散布恶意的 MSIX 应用程式套件。</p><p>此外，骇客之所以选择 ms-appinstaller 协定处理器来展开攻击，或许是因为它能绕过 Microsoft Defender SmartScreen，以及在下载执行档时浏览器会跳出警告等安全机制。</p><p>2022 年 2 月时，微软也曾因为 ms-appinstaller 协定处理器遭到骇客滥用，<a href="https://www.ithome.com.tw/news/149240" target="_blank">而暂时关闭该功能</a>。</p><p>值得注意的是，一旦关闭该处理器，App Installer 便无法再直接自网页伺服器安装程式，而必须先下载该程式。网站管理员应先移除'ms-appinstaller:?source='，以让使用者下载 MSIX 套件或.appinstaller 档案，再借由 App Installer 安装套件。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160617</guid>
-            <link>https://www.ithome.com.tw/news/160617</link>
-            <author>
-                <![CDATA[陈晓莉]]>
-            </author>
-            <category>资安 </category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【资安日报】12 月 29 日，Booking.com 合作旅馆、房客面临网钓攻击且外泄个资出现转交其他团体兜售现象]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20231229.png?itok=JoNFokui" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>今年骇客针对 Booking.com 房客发动攻击的情况不时传出，其特别之处在于，骇客并非直接对房客下手，而是先对旅馆发动网钓攻击，再假借这些旅馆的名义对房客行骗，房客一不注意对方提供的网址是假冒的就点进去查看，很容易上当。</p><p>值得留意的是，这样的情况日益恶化，甚至已经在网路犯罪圈发展成上下游分工的情况──有人专门收集旅馆的 Booking.com 帐密供打手运用。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><a href="https://www.kaspersky.com/blog/booking-com-hacked-hotel-accounts-scam-customers/50109/"><strong style="font-size: 22px;">骇客持续针对 Booking.com 房客展开攻击，地下论坛已开始兜售旅馆帐密资料</strong></a></p>
-                <!-- notionvc: 074ca034-2dbc-4a94-a652-7eee56108ca9 -->
-                <p></p>
-                <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/booking-com-hacked-hotel-accounts-scam-customers-4.jpg">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/booking-com-hacked-hotel-accounts-scam-customers-4.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>近期在线上订房服务 Booking.com 找住宿的旅客，传出频频遭到网路攻击而受害的事件，不只 BBC、衞报多家媒体接获民众投诉，Akamai、Secureworks 等资安业者也针对这样的现象提出警告，如今有研究人员指出，骇客开始兜售窃得的旅馆帐密资料。
-                    </p>
-                    <p>资安业者卡巴斯基指出，骇客先是冒充旅馆的客人，锁定与 Booking.com 合作的旅馆下手，散布窃资软体取得相关帐密资料，从而利用旅馆的 Booking.com 发送讯息给旅客。在其中一起攻击行动中，骇客声称在旅馆遗失护照，要求协助寻找，并在电子邮件里附上护照照片档案连结，然而旅馆员工一旦照做，电脑就有可能被植入窃资软体，骇客再借由取得的帐密资料存取 Booking.com，并研究目前订房情况，向房客发送讯息，声称订房过程提供的付款资料有误，若不重新提供相关资料订房将被取消。而对于接收到这些讯息的房客而言，如果依照骇客所伪造的内容去点选上面的网址连结，他们就会被带往冒牌的 Booking.com，而该网站竟然能显示正确的房客姓名、饭店资讯、日期、价格，并强调这些日期的住宿需求很大、至少有 10 家类似的旅馆已无法预订，借此催促房客尽快提供信用卡资料订房。</p>
-                    <p>针对这一连串复杂的攻击流程，研究人员称为「B2B2C」，他们也看到骇客将不同工作指派其他人进行，例如，会有专人在骇客论坛负责兜售旅馆的 Booking.com 帐密资料。对此，Booking.com 强调是合作旅馆遭骇，该公司系统并未遭到攻击。</p>
-                    <p>
-                        <a href="https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/">
-                            <strong style="font-size: 22px;">骇客扫描 ERP 系统 Apache OFBiz 重大漏洞，意图对采用此软体的 Atlassian Confluence 伺服器下手</strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: dd7b3c05-a9f6-47b4-b9d4-d96651b37058 -->
-                    <p></p>
-                    <p>Apache 基金会本月先后修补旗下 ERP 系统 OFBiz 的重大漏洞 CVE-2023-49070、CVE-2023-51467（CVSS 风险评分皆为 9.8），攻击者一旦利用上述漏洞，就能绕过身分验证流程。由于该 ERP 系统受到不少知名软体采用、整合到他们的系统当中，因此影响可能相当广泛。</p>
-                    <p>12 月 28 日 Shadowserver 基金会提出警告，他们看到骇客利用公开的概念性验证程式（PoC），扫描存在 CVE-2023-49070 的伺服器，预期接下来也会对 CVE-2023-51467 下手。该基金会向资安新闻网站 Bleeping Computer 透露，这些攻击者尝试触发漏洞的方法，是强制目标主机连线到 oast.online 的特定网址来进行，他们企图攻陷的对象是 DevOps 协作平台 Confluence。由于 Atlassian 的 JIRA 包含 OFBiz，而 JIRA 又是许多公司采用的商用专案管理与开发问题追踪软体系统，因此，这个开放原始码专案的任何瑕疵都会继承到 Atlassian 的产品。</p>
-                    <!-- notionvc: 3d596f60-6ab9-416b-aa0c-0e5c243b33be -->
-                    <p>资料来源</p>
-                    <p>1.&nbsp;
-                        <a href="https://twitter.com/shadowserver/status/1740317678257218036">https://twitter.com/shadowserver/status/1740317678257218036</a>
-                        <br>
-2.&nbsp;
-                            <a href="https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/">https://www.bleepingcomputer.com/news/security/apache-ofbiz-rce-flaw-exploited-to-find-vulnerable-confluence-servers/</a>
-                        </p>
-                        <p>
-                            <a href="https://www.ithome.com.tw/news/160605">
-                                <strong style="font-size: 22px;">松下透露 2022 年 12 月发生的资料外泄事故</strong>
-                            </a>
-                        </p>
-                        <!-- notionvc: 0d76ffe8-cae6-429b-b1db-7c6d6fa5f811 -->
-                        <p></p>
-                        <p>专门提供飞机资讯娱乐系统、从事网路通讯设备系统整合业务的松下子公司 Panasonic Avionics，在 2022 年底传出网路遭骇，导致部分员工及客户个资外泄。该公司向美国加州检察长办公室通报的资料里提及，他们在 2022 年 12 月 30 日察觉公司网路环境部分系统遭到异常存取的迹象，骇客疑似于 12 月 14 日前后入侵，泄露的资料包括姓名、电子邮件、住家地址、电话，生日、医疗及健康资讯、银行帐号、公司聘雇状态、社会安全号码，但究竟有多少人受到影响？该公司并未透露。</p>
-                        <p>该公司发言人向资安新闻网站 Bleeping Computer 表示，这起事故仅影响少数员工及商务客户，至于飞机资讯娱乐系统、通讯系统、数位解决方案，他们并未发现受到影响的迹象。</p>
-                        <p>资料来源</p>
-                        <p>1.&nbsp;
-                            <a href="https://www.bleepingcomputer.com/news/security/panasonic-discloses-data-breach-after-december-2022-cyberattack/">https://www.bleepingcomputer.com/news/security/panasonic-discloses-data-breach-after-december-2022-cyberattack/</a>
-                            <br>
-2.&nbsp;
-                                <a href="https://www.documentcloud.org/documents/24238563-panasonic-avionics-corporation-consumer-notice-letter">https://www.documentcloud.org/documents/24238563-panasonic-avionics-corporation-consumer-notice-letter</a>
-                            </p>
-                            <p>
-                                <a href="https://www.nccgroup.com/us/newsroom/ncc-group-monthly-threat-pulse-november-2023/">
-                                    <strong style="font-size: 22px;">金融木马 Carbanak 东山再起，被用于勒索软体攻击行动</strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 58671b7a-52f7-4649-bc9f-9655a04173b9 -->
-                            <p></p>
-                            <p>资安业者 NCC Group 揭露上个月勒索软体态势的分析，指出整个月攻击达到 442 件，较 10 月 341 起增加 3 成，累计 2023 年攻击事故达到 4,276 件，其中影响最严重的是工业部门，本月有 146 件资安事故，相当于每 3 件就有 1 件就与工业部门有关，其次则是消费性产业、医疗照护领域，分别有 78 件、50 件。</p>
-                            <p>从受害组织的分布地区来看，有 219 件发生在北美，135 件发生在欧洲，亚洲则有 46 件位居第 3。至于最猖獗的骇客组织，依序是 LockBit、BlackCat（Alphv）、Play。</p>
-                            <p>值得留意的是，研究人员发现 11 月金融木马 Carbanak 卷土重来的迹象，骇客将其用于勒索软体攻击，并假借 CRM 平台 HubSpot、资料管理软体 Veeam、会计软体 Xero 的名义散布。</p>
-                            <p>&nbsp;</p>
-                            <h3>
-                                <strong>【漏洞与修补】</strong>
-                            </h3>
-                            <p>
-                                <a href="https://thehackernews.com/2023/12/google-cloud-resolves-privilege.html">
-                                    <strong style="font-size: 22px;">GKE 容器服务传出有漏洞，可能让使用者在 K8s 服务提升权限并完全控制丛集</strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 1fa7dbdd-84b2-4412-bcde-82791a9f7075 -->
-                            <!-- notionvc: f4299183-d883-4bab-87d7-5b5953e76988 -->
-                            <p></p>
-                            <p>资安业者 Palo Alto Networks 发现 Google Kubernetes Engine（GKE）存在弱点，并指出一旦攻击者将其串连，就有机会让已经能够存取 Kubernetes 丛集的攻击者进行权限提升。</p>
-                            <p>其中一个弱点是 GKE 事件记录代理程式 FluentBit 的预设组态，所有丛集预设都有执行此代理程式，另一个弱点则是存在于附加功能 Anthos Service Mesh（ASM）的预设权限。研究人员指出，如果攻击者设法在 FluentBit 容器里取得执行的能力，且 Kubernetes 丛集部署了 ASM，他们就有机会发动极具威力的攻击链，取得该丛集完整的控制权，从而进行资料盗窃、部署恶意 pod，甚至中断丛集运作。Google 获报后于 12 月 14 日予以修补。</p>
-                            <!-- notionvc: d2d37fdf-8a61-4326-948b-e910c6060f50 -->
-                            <p>资料来源</p>
-                            <p>1.&nbsp;
-                                <a href="https://unit42.paloaltonetworks.com/google-kubernetes-engine-privilege-escalation-fluentbit-anthos/">https://unit42.paloaltonetworks.com/google-kubernetes-engine-privilege-escalation-fluentbit-anthos/</a>
-                                <br>
-2.&nbsp;
-                                    <a href="https://cloud.google.com/anthos/clusters/docs/security-bulletins#gcp-2023-047">https://cloud.google.com/anthos/clusters/docs/security-bulletins#gcp-2023-047</a>
-                                </p>
-                                <p>&nbsp;</p>
-                                <h3>
-                                    <strong>【资安产业动态】</strong>
-                                </h3>
-                                <p>
-                                    <a href="https://www.ithome.com.tw/news/160604">
-                                        <strong style="font-size: 22px;">Mozilla 改变对 Trusted Types 防护技术的立场，计划在浏览器导入</strong>
-                                    </a>
-                                </p>
-                                <!-- notionvc: 4ae238c5-3a57-4859-9858-9704a745c9c1 -->
-                                <p></p>
-                                <p>为防范以文件物件模型为基础的跨网站指令码攻击（DOM-based XSS，DOM XSS），Google 于 2020 年在 Chrome 83 导入名为 Trusted Types 防护机制，现在传出另一浏览器阵营 Firefox 也将跟进。</p>
-                                <p>根据新闻网站 The Register 的报导，Mozilla 基金会 Firefox 资安工程师 Frederik Braun 指出，他们已针对 Trusted Types 完成相关的调查，认为这项技术确实能有效防范 DOM XSS 攻击，他们将积极为浏览器导入这项技术，但目前实作面临一些难题，例如，对于 getPropertyType、getAttributeType 等部分 Trusted Types 功能，仍不清楚实际用途，再者是他们发现 Chrome 有部分实作功能超出标准的范围，希望相关功能予以标准化，使 Firefox 导入这种防护过程能有参考规范。</p>
-                                <p>资料来源</p>
-                                <p>1.&nbsp;
-                                    <a href="https://www.theregister.com/2023/12/21/mozilla_decides_trusted_types_is/">https://www.theregister.com/2023/12/21/mozilla_decides_trusted_types_is/</a>
-                                    <br>
-2.&nbsp;
-                                        <a href="https://github.com/mozilla/standards-positions/issues/20#issuecomment-1853427823">https://github.com/mozilla/standards-positions/issues/20#issuecomment-1853427823</a>
-                                    </p>
-                                    <p>&nbsp;</p>
-                                    <h3>
-                                        <strong>【其他新闻】</strong>
-                                    </h3>
-                                    <p>
-                                        <a href="https://www.bleepingcomputer.com/news/security/russian-military-hackers-target-ukraine-with-new-masepie-malware/">
-                                            <strong>
-                                                <span style="font-size: 20px;">乌克兰遭到俄罗斯骇客 APT28 锁定，散布恶意程式 Masepie</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 83bd54f7-3dd3-4311-b6d4-53e41abdc300 -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.microsoft.com/en-us/security/blog/2023/12/28/financially-motivated-threat-actors-misusing-app-installer/">
-                                            <strong>
-                                                <span style="font-size: 20px;">多组骇客滥用微软市集 App 的 URI 协定，散布恶意软体</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 713d9b9d-fabb-405b-a082-cfba8694f878 -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://therecord.media/trinidad-and-tobago-government-agency-hit-with-post-christmas-cyberattack">
-                                            <strong>
-                                                <span style="font-size: 20px;">特立尼达和多巴哥社会福利机构遭勒索软体攻击</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: fbefb4a8-53d9-44c8-9186-49dba610ae0e -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.securityweek.com/cyberattack-targets-albanian-parliaments-data-system-halting-its-work/">
-                                            <strong>
-                                                <span style="font-size: 20px;">阿尔巴尼亚议会传出遭到网路攻击，导致部分服务暂停</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <!-- notionvc: 40f1db6c-750c-4ff8-bcb8-9389e523b3ae -->
-                                    <p></p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/article/160614">
-                                            <strong>
-                                                <span style="font-size: 20px;">【生成式 AI 开启资安新变革】AI 资安 2024</span>
-                                            </strong>
-                                        </a>
-                                    </p>
-                                    <p>&nbsp;</p>
-                                    <h3>
-                                        <strong>近期资安日报</strong>
-                                    </h3>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160596">
-                                            <strong>【12 月 28 日】&nbsp;别以为使用 SSH 连线就会比较安全！采用容易猜到的帐密有可能将 Linux 伺服器拱手送给骇客</strong>
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160564">
-                                            <strong>【12 月 27 日】&nbsp;有人散布《侠盗猎车手 V》原始码并向甫遭判决的骇客组织 Lapsus$成员致敬</strong>
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="https://www.ithome.com.tw/news/160548">
-                                            <strong>【12 月 26 日】&nbsp;有人入侵游戏开发商 Ubisoft 并企图窃取《虹彩六号：围攻行动》的内部资料</strong>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-                </div></div>]]>
-            </description>
-            <pubDate>Thu, 28 Dec 2023 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/160616</guid>
-            <link>https://www.ithome.com.tw/news/160616</link>
-            <author>
-                <![CDATA[周峻佑]]>
-            </author>
-            <category>资安 </category>
         </item>
     </channel>
 </rss>
