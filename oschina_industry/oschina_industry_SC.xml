@@ -16,8 +16,53 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 05 Jan 2024 08:10:12 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 05 Jan 2024 10:20:27 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[用 Spring Boot 3.2 虚拟线程搭建静态文件服务器有多快？]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Spring Boot 3.2 于 2023 年 11 月大张旗鼓地发布，标志着 Java 开发领域的一个关键时刻。这一突破性的版本引入了一系列革命性的功能，包括：</p><ul><li>虚拟线程：利用 Project Loom 的虚拟线程释放可扩展性，从而减少资源消耗并增强并发性。</li><li>Native Image 支持：通过 Native Image 编译制作速度极快的应用程序，减少启动时间并优化资源利用率。</li><li>JVM 检查点：利用 CRaC 项目的 JVM 检查点机制实现应用程序的快速重启，无需冗长的重新初始化。</li><li>RestClient：采用新的 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Farticle%2Foblog%2Fspring-6-1-restclient.html" target="_blank">RestClient</a> 接口的功能方法，简化 HTTP 交互并简化代码。</li><li>Spring for Apache Pulsar：利用 Apache Pulsar 的强大功能实现强大的消息传递功能，无缝集成到您的 Spring Boot 应用程序中。</li></ul><p>其中，虚拟线程是最近 Java 版本中引入的最具变革性的特性之一。正如官方文件所述：虚拟线程是轻量级线程，可减少编写、维护和调试高吞吐量并发应用程序的工作量。线程是可以调度的最小处理单元。它与其他此类单位同时运行，并且在很大程度上独立于其他此类单元运行。它是 java.lang.Thread 的一个实例。有两种线程：平台线程和虚拟线程。平台线程是作为操作系统 （OS） 线程的瘦包装器实现的。平台线程在其底层操作系统线程上运行 Java 代码，平台线程在平台线程的整个生命周期内捕获其操作系统线程。因此，可用平台线程数限制为操作系统线程数。与平台线程一样，虚拟线程也是 java.lang.Thread 的实例。但是，虚拟线程不绑定到特定的操作系统线程。虚拟线程仍在操作系统线程上运行代码。但是，当在虚拟线程中运行的代码调用阻塞 I/O 操作时，Java 运行时会挂起虚拟线程，直到它可以恢复为止。与挂起的虚拟线程关联的操作系统线程现在可以自由地对其他虚拟线程执行操作。虚拟线程适用于运行大部分时间被阻塞的任务，通常等待 I/O 操作完成。但是，它们不适用于长时间运行的 CPU 密集型操作。</p><p>虽然人们普遍认为虚拟线程在 I/O 密集型方案中表现出色，但它们在 CPU 密集型任务中的性能仍然是一个问号。本系列文章深入探讨了虚拟线程在各种用例中的潜在优势，从基本的「hello world」到静态文件服务（I/O 密集型）、QR 码生成（CPU 密集型）和多部分/表单数据处理（混合工作负载）等实际应用。</p><p>在本系列的开头文章中，我们已经了解了虚拟线程与物理线程相比在最简单（且不切实际）的 hello world 情况下的性能。物理线程和虚拟线程之间几乎没有任何性能或资源使用差异。在本文中，我们将更加「实用」，并针对静态文件服务器情况进行比较。这绝对是一个常见且「真实世界」的案例。让我们看看这次我们发现了什么。</p><p>如果大家正在做 Spring Boot 2.3 升级 Spring 3.2，这里顺手给大家推荐<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Fspring-boot-2%2F10-5.html" target="_blank">Spring Boot 2.x 到 3.2 的升级指南</a>。</p><h2>测试环境</h2><p>所有测试均在配备 16G RAM、8 个物理内核和 4 个效率内核的 MacBook Pro M2 上执行。测试工具是 Bombardier，它是更快的 HTTP 负载测试器之一（用 Go 编写）。</p><p>软件版本为：</p><ul><li>Java v21.0.1</li><li>Spring Boot 3.2.1</li></ul><h3>程序配置</h3><p>除了主 Java 类之外，不需要编写任何 Java 文件，静态文件服务器只能通过配置就能发挥作用。</p><p><code>application.properties</code>文件如下：</p><pre><code class="language-properties">server.port=3000
+spring.mvc.static-path-pattern=/static/**
+spring.web.resources.static-locations=file:/Users/mayankc/Work/source/perfComparisons/static/
+</code></pre><p>使用虚拟线程时，我们将通过添加以下行来启用它们：</p><pre><code class="language-properties">spring.threads.virtual.enabled=true
+</code></pre><p><code>pom.xml</code>内容：</p><pre><code class="language-xml">&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;3.2.1&lt;/version&gt;
+    &lt;relativePath/&gt;
+ &lt;/parent&gt;
+ &lt;groupId&gt;com.example&lt;/groupId&gt;
+ &lt;artifactId&gt;demo&lt;/artifactId&gt;
+ &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+ &lt;name&gt;demo&lt;/name&gt;
+ &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+ &lt;properties&gt;
+   &lt;java.version&gt;21&lt;/java.version&gt;
+ &lt;/properties&gt;
+ &lt;dependencies&gt;
+   &lt;dependency&gt;
+     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+     &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+   &lt;/dependency&gt;
+
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+  &lt;/dependency&gt;
+ &lt;/dependencies&gt;
+</code></pre><h3>测试数据</h3><p>大小完全相同但数据不同的 100K 文件被放置在静态资源目录中。每个文件大小正好是 102400 字节。</p><p>文件的命名范围为 1 到 100000。</p><p>使用 Bombardier 的修改版本，为每次运行生成随机请求 URL: <code>http://localhost:3000/static/&lt;file-name&gt;</code></p><h3>应用场景</h3><p>为了确保结果一致，每个测试在开始数据收集之前都会经历 5K 请求预热阶段。</p><p>然后，在不同范围的并发连接级别（50、100 和 300）中仔细记录测量结果，每个级别都承受 500 万个请求工作负载。</p><h3>结果评估</h3><p>除了简单地跟踪原始速度之外，我们还将采用详细的指标框架来捕获延迟分布（最小值、百分位数、最大值）和吞吐量（每秒请求数）。</p><p>CPU 和内存的资源使用情况监控将补充此分析，从而提供不同工作负载下系统性能的全面了解。</p><h2>测试结果</h2><p>结果以图表形式呈现如下：</p><p><img src="https://oscimg.oschina.net/oscnet/up-12882e69bbdea0bdc8e3f7b32c12c7b3dfd.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-db3292be4993ddb87e34c31e9a2694f1ef0.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-48311e2d40dbf3b3d9533225521068697ed.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-cdf07a45c601fdb5c24d3223f241fb17b25.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-72e62b62529f675eef0a6aea08cd9456979.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-bf8dc5db4d40991f2326eb0829c92aaeee1.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-d1c9bf51d014855a7e736f4d418fb45b325.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-4d001a71187efe35a945327bf7b8605d966.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-dc9cfb5e2916e4ff7437b96652009359662.png" alt="" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-606f2aaee8e192c177b604f6ea1b84cb330.png" alt="" referrerpolicy="no-referrer"></p><h2>总结</h2><p>对静态文件服务的分析表明，物理线程在性能和资源效率方面略胜一筹（与我们的预期相反）。</p><p>不过，这种受 I/O 限制的场景可能并不是充分发挥虚拟线程潜力的理想场所。涉及数据库交互的任务可能会显示出更多令人信服的优势。也许负载不足以让虚拟线程发挥出最大的作用。为了找出答案，我们将在接下来的文章中介绍 URL 短链（数据库驱动）、二维码生成（CPU 受限）和混合工作负载场景（如表单数据处理），旨在揭示虚拟线程真正出类拔萃的案例。</p><blockquote><p>欢迎关注我的公众号：程序猿 DD。第一时间了解前沿行业消息、分享深度技术干货、获取优质学习资源</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 05 Jan 2024 08:37:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/didispace/blog/10584578</guid>
+            <link>https://my.oschina.net/didispace/blog/10584578</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[.NET 8、Mojo🔥、Bun 1.0……最硬核极客的年度发版汇总]]>
@@ -26,7 +71,7 @@
                 <![CDATA[<div class="content"><p>回顾一下 2023 年最重磅、最极客、最硬核的（开源）项目更新资讯，保证全网最全——如有遗漏，欢迎补充。</p><h4><strong><a href="https://www.oschina.net/news/225892/wine-ce-0-released">Wine-CE 首个正式版发布，可跨指令架构运行程序的 Wine</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/223655/lineageos-20">LineageOS 20 正式发布，开源 Android 系统分支</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/226000/flutter-3-7-0-released">Flutter 3.7 稳定版发布，开源跨平台应用开发工具包</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/227732/meilisearch-v1-enterprise-ready-stable">Meilisearch 1.0 稳定版发布，Rust 高性能开源搜索引擎</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/230284/pigsty-v2-released">Pigsty v2 正式发布：更好的 RDS PG 开源替代</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/228112/manticore-search-6-0-0-released">Manticore Search 6 正式发布，C++ 高性能搜索引擎</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/227257/nutui-4-0-released">京东轻量级移动端组件库 NutUI 4.0 正式发布！</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/226769/go-1-20-released">Go 1.20 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/226770/elementary-os-7-released">历经风波，elementary OS 7 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/228679/homebrew-4-0-0-released">Homebrew 4.0.0 发布，MacOS 上的包管理器</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/230414/ffmpeg-6-0-released">FFmpeg 6.0 发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/230089/conan-2-0-released">Conan 2.0 发布，开源 C/C++ 包管理器</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/232912/typescript-5-0-released">TypeScript 5.0 发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/233693/gnome-44-released">GNOME 44 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/236827/rt-thread-5-0-0-released">RT-Thread 5.0.0 发布，嵌入式实时多线程操作系统</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/230671/godot-4-0-released">开源 3D 游戏引擎 Godot 正式发布 4.0</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/230702/ceresdb-1-0-ga">CeresDB 1.0 正式发布，Rust 高性能云原生时序数据库</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/232768/pytorch-2.0-released">PyTorch 2.0 正式发布，深度学习框架</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/234494/dragonflydb-1-0">开源内存数据库 DragonflyDB 1.0 正式 GA，可替代 Redis</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/235410/slint-1-0-released">Slint 1.0 正式发布，Rust 编写的原生 GUI 工具包</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/236712/ferretdb-1-0-released">FerretDB 1.0 正式 GA，MongoDB 开源替代品</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/238201/layui-2-8-0-released">Layui 2.8.0 正式发布，朴实归来</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/239367/foobar2000-2-0-0-released">foobar2000 正式发布 2.0</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/241121/delphi-11-n-cbuilder-11-ce-released">Delphi 11 和 C++Builder 11 社区版发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/239478/qwik-1-0-released">Qwik 1.0 发布，全栈式 Web 框架</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/240608/dart-3-released">Dart 3 正式发布，100% 健全的空安全</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/243957/blink-1-0-released">Blink 1.0 正式发布， 最小 x86 Linux 模拟器</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/246407/svelte-4-released">前端 UI 框架 Svelte 4 发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/247324/ecmascript-2023">ECMAScript 2023 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/248275/openkylin-1-0-released">openKylin 1.0 重磅发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/251034/arc-browser-1-0-mac-released">Arc 浏览器正式发布 1.0，声称是 Chrome 的替代品</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/250365/cython-3-0-released">Cython 3.0 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/226341/autohotkey-v2">AutoHotkey v2 正式发布，Windows 自动化工具</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/251878/capnproto-1-0-released">比 Protocol Buffers 快无限倍，开源十年后 Cap'n Proto 1.0 终发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/252028/nim-v2-0-released">Nim v2.0 正式发布，命令式编程语言</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/252385/harmonyos-4">华为正式发布 HarmonyOS 4</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/253633/apache-doris-2-0-0-released">Apache Doris 2.0.0 版本正式发布：盲测性能 10 倍提升，更统一多样的极速分析体验</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/256102/sudo-rs-0-2-0-first-stable">sudo-rs 发布首个稳定版 0.2.0：内存安全、用 Rust 重写的 sudo</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/257450/bun-v1-0">Bun 发布 1.0 正式版本，Zig 编写的 JavaScript 运行时</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/258730/jdk-21-lts-ga">Java 21 / JDK 21 (LTS) GA</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/257362/mojo-finally-here">Mojo🔥编程语言开放下载，声称比 Python 快 68000 倍</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/255156">Unity 引擎中国版「团结引擎」正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/261319/curl-8-4-0">curl 8.4.0 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/263539/yarnpkg-4-0">Yarn 4.0 正式发布，现代化的软件包管理器</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/264749/vscode-floating-editor-windows">等了 7 年，vscode 史上呼声最高的「浮动窗口」 特性，终于实现了</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/266507/dotnet-8-ga">.NET 8 正式 GA</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/267734/php-8-3-ga">PHP 8.3 GA</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/267934/spring-boot-3-2-0-released">Spring Boot 3.2.0 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/267801/fortran-2023">Fortran 2023 发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/267838/rocketrs-0-5-released">Rust Web 框架 Rocket 发布 v0.5</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/267021/vite5-released">Vite 5 正式发布，基于原生 ESM 的 Web 开发构建工具</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/264989/openharmony-4-0-released">OpenHarmony 4.0 正式发布</a></strong></h4><h4><strong><a href="https://www.oschina.net/news/258221/postgresql-16-released">PostgreSQL 16 发布</a></strong></h4><h4><strong><a href="https://my.oschina.net/u/5674736/blog/10320255">TiDB 7.5 LTS 发版，提升规模化场景下关键应用的稳定性和成本的灵活性</a></strong></h4><hr><p>其他年度盘点：</p><ul><li><strong><u><a href="https://www.oschina.net/news/273501">B 站崩了两次、腾讯「3.29」一级事故……盘点 2023 十大宕机事故「冥场面」</a></u></strong></li><li><strong><u><a href="https://www.oschina.net/news/273843">MySQL 5.7、魔趣、李跳跳……盘点 2023 「停更」的项目和网站</a></u></strong></li></ul><p><span style="background-color:#ffffff; color:#333333">更多年度重磅事件回顾，</span><strong><span style="background-color:#e67e22">查看</span><em><u><a href="https://talk.gitee.com/report/china-open-source-2023-annual-report.pdf?fr=version_news0105"><span style="background-color:#e67e22">《2023 中国开源开发者报告》</span></a></u></em></strong><span style="background-color:#ffffff; color:#333333">。</span></p><p><img height="4950" src="https://oscimg.oschina.net/oscnet/up-59f0466f1d7224fd87f2ba7b06e61d7646e.png" width="3497" referrerpolicy="no-referrer"></p><p><img height="4950" src="https://oscimg.oschina.net/oscnet/up-7fb2d8fe048cf5dd0947b22aec9a0463b92.png" width="3497" referrerpolicy="no-referrer"></p><p><img height="4950" src="https://oscimg.oschina.net/oscnet/up-c3141e286ce5764be869856becde308b405.png" width="3497" referrerpolicy="no-referrer"></p><p><img height="4950" src="https://oscimg.oschina.net/oscnet/up-90a8b7883ea0d0ca9682896df5ff890289a.png" width="3497" referrerpolicy="no-referrer"></p><p><img height="4950" src="https://oscimg.oschina.net/oscnet/up-dce6bebf85fd45c23a47cee46689e2de776.png" width="3497" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 05 Jan 2024 07:27:08 GMT</pubDate>
+            <pubDate>Fri, 05 Jan 2024 07:26:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274330</guid>
             <link>https://www.oschina.net/news/274330</link>
             <author>
@@ -320,21 +365,6 @@
             <link>https://www.oschina.net/news/274168/bruce-perens-post-open-source</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[SpaceX 发射首批支持直接对接蜂窝网络的 Starlink 衞星]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>SpaceX 发射了首批六颗具备<strong>直接对接蜂窝网络 (Direct to Cell)&nbsp;</strong>能力的 Starlink 衞星。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-697ee7421348fda2fda4a3a83f23aa87b56.png" referrerpolicy="no-referrer"></p><p><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdirect.starlink.com%2F">https://direct.starlink.com/</a></em></u></p><p>这将允许在地球上任何地方可以使用手机和 Starlink 衞星连接。这些衞星配备了先进的调制解调器，使得全球各地的移动网络运营商能够使用 Starlink 提供无缝的全球通话和网络服务，<strong>而无需更换硬件或固件。</strong></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-fdd6e46d4d3c10e73bec55882a4de459971.png" referrerpolicy="no-referrer"></p><p>除了美国的 T-Mobile 外，其他几个国家的运营商也已签约使用这些直接对接蜂窝网络的衞星。SpaceX 提到的其他运营商包括加拿大的 Rogers、日本的 KDDI、澳大利亚的 Optus、新西兰的 One NZ、瑞士的 Salt 以及智利和秘鲁的 Entel。</p><p>尽管 SpaceX 首席执行官埃隆・马斯克 (Elon Musk) 表示这些衞星将 「允许在地球上任何地方进行手机连接」，但他也描述了一个重要的带宽限制。马斯克写道：「注意，这只支持每个波束约 7Mb 的数据传输，而且波束非常大，所以虽然这对于没有蜂窝网络连接的地区来说是一个很好的解决方案，但它与现有的陆地蜂窝网络相比并没有显著的竞争力。」</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-20c504161286ed5ee93e1e2526eea05beb5.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ea28239ae56075c1b9614db805fce8c5014.png" referrerpolicy="no-referrer"></p><p>Starlink 的直接对接蜂窝网络服务预计将在 2024 年提供文本消息服务，随后在 2025 年开始提供语音和数据服务。Starlink 的低地轨道衞星将与标准 LTE 手机兼容，不像早期服务需要专门为衞星通信设计的手机。SpaceX 的直接对接蜂窝网络衞星还将在 2025 年与物联网 (IoT) 设备连接。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 04 Jan 2024 03:42:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/274131</guid>
-            <link>https://www.oschina.net/news/274131</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
