@@ -1,39 +1,406 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Error in RSSHub!</title>
-        <style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:16px;color:#2c3e50}.content{width:800px;margin:100px auto 0;text-align:center}.message{white-space:pre-wrap;text-align:left}a{color:#f5712c}img{filter:grayscale(1)}</style>
-    </head>
-    <body>
-        <div class="content">
-            <p>
-                <img src="/logo.png" alt="RSSHub" width="120" loading="lazy">
-                </p>
-                <h1>Looks like something went wrong</h1>
-                <pre class="message">Route requested: /ithome/tw/feeds/news</pre>
-                <pre class="message">Error message: Response code 502 (Bad Gateway): target website might be blocking our access, you can 
-                    <a href="https://docs.rsshub.app/install/">host your own RSSHub instance</a> for a better usability.
-                </pre>
-                <pre class="message">
-Helpful Information to provide when opening issue:
-Path: /ithome/tw/feeds/news
-Node version: v20.10.0
-Git Hash: 9af1349
-        </pre>
-                <pre class="message">
-If you believe this is an error caused by RSSHub, please 
-                    <a href="https://github.com/DIYgod/RSSHub/issues/new?assignees=&labels=RSS+bug&template=bug_report_en.yml" target="_blank">report on github</a>
-如果您认为 RSSHub 导致了该错误，请在 GitHub 按照模版，复制本页面信息进行 
-                    <a href="https://github.com/DIYgod/RSSHub/issues/new?assignees=&labels=RSS+bug&template=bug_report_zh.yml" target="_blank">汇报</a>
-                </pre>
-                <div style="margin:50px 0">
-                    <p>For online documentation and support please refer to 
-                        <a href="https://docs.rsshub.app/" target="_blank">docs.rsshub.app</a>.
-                    </p>
-                    <p>在线文档与支持，请访问 
-                        <a href="https://docs.rsshub.app/" target="_blank">docs.rsshub.app</a>。
-                    </p>
-                </div>
-            </div>
-        </body>
-    </html>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss
+    xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"
+
+
+>
+    <channel>
+        <title>
+            <![CDATA[iThome]]>
+        </title>
+        <link>https://www.ithome.com.tw/news/feeds</link>
+        <atom:link href="https://rsshub.app/ithome/tw/feeds/news" rel="self" type="application/rss+xml" />
+        <description>
+            <![CDATA[iThome Online 是台湾第一个网路原生报，提供 IT 产业即时新闻、企业 IT 产品报导与测试、技术专题、IT 应用报导、IT 书讯，以及面向丰富的名家专栏。 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
+        </description>
+        <generator>RSSHub</generator>
+        <webMaster>i@diygod.me (DIYgod)</webMaster>
+        <language>zh-cn</language>
+        <lastBuildDate>Thu, 04 Jan 2024 21:58:53 GMT</lastBuildDate>
+        <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[PyPy 储存库搬迁至 GitHub]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2144_-_github_-_pypy_pypy_pypy_is_a_very_fast_and_compliant_implementation_-_github.com_.png?itok=ftQBgcI7" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Python 直译器 PyPy 的储存库和问题追踪器目前已经从<a href="https://www.pypy.org/posts/2023/12/pypy-moved-to-git-github.html">Heptapod 转移到了 GitHub</a>，也就是说现在 PyPy 已经不再使用 Mercurial，而是改用 Git 追踪开发。会做出这样的改变，是因为 PyPy 开发团队认为在可存取性、资源丰富度和开源社群广泛使用度等方面，GitHub 表现都较 Heptapod 更好。</p><p>PyPy 原本使用 Heptapod 的自由软体托管服务，但是 PyPy 开发团队认为 Heptapod 的可探索性和搜寻引擎最佳化程度不足，在 Google、Bing、DuckDuckGo 等搜寻引擎上的索引不佳，使得一般人难以搜寻到专案中的问题。另外，Heptapod 强化了垃圾邮件的控制，导致贡献者创建问题时会被错误标记成垃圾邮件。</p><p>开发团队认为 GitHub 现在已经成为开源的代名词，对于小专案来说很难改变这个现状。GitHub 是目前最受欢迎的开源软体托管平台，将专案搬迁至 GitHub 上，可提高专案的能见度，这对于需要资源的小专案来说尤为重要。</p><p>而且目前 PyPy 的开发工作方面，很大程度是要修复问题，因此把所有程式码都集中在同一个平台，追踪互相关连的问题将会更有效率。相比于 Heptapod，GitHub 拥有更大的资源优势，开发团队可以添加持续整合作业，来替代一些老旧的建置机器人基础设施。</p><p>虽然 PyPy 开发团队仍然认为 Mercurial 在命名分支模型和用户介面上优于 GitHub，但是考量平台的可存取性、资源丰富度，以及在开源社群中的广泛程度，开发团队指出，搬迁至 GitHub 不光是有助于改善专案协作问题，不搬迁到 GitHub 上更可能对贡献者的参与和问题报告造成障碍。</p><p>PyPy 专案从 Heptapod 移动到 GitHub 之后，还有许多工作需要进行，像是更新文件和自动化建置设定，以及复制 Heptapod 上的 Wiki 到 GitHub 上，还需要处理未搬迁的合并请求，这些请求需要贡献者在解决分支命名问题后进行搬迁。</p><p>也由于 Heptapod 不允许个人分叉，之前开发者对主储存库有较大的提交权限，但在 GitHub 上，开发流程将更加结构化，现在开发者需要先分叉储存库，并且提交拉取请求来提交变更。PyPy 储存库也引入了预合并持续整合检查，确保提交的拉取请求至少通过第一阶段的转换检查，提高程式码品质和稳定性。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160670</guid>
+            <link>https://www.ithome.com.tw/news/160670</link>
+            <author>
+                <![CDATA[李建兴]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微软推出 AppCAT 工具助.NET 应用程式搬迁上 Azure 云端]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2143_-_announcing_the_azure_migrate_application_and_code_assessment_tool_fo_-_devblogs.microsoft.com_.png?itok=kbeg3HNF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软释出一款新工具<a href="https://devblogs.microsoft.com/dotnet/azure-migrate-app-and-code-assessment-tool-release/">AppCAT</a>，协助开发者更方便地将本地端.NET 应用程式搬迁到 Azure 云端。AppCAT 能够评估应用程式的.NET 原始码、配置和二进位档案，找出将应用程式搬迁到 Azure 时可能遭遇的问题，并且建议云端原生解决方案，解决效能、可扩展性和安全问题。</p><p>AppCAT 在分析.NET 应用程式之后，会生成一份详细报告，列出所有需要检查或是改进的事项，确保应用程式在搬迁到 Azure 之后仍然能够正常运作。该工具会对程式码和相依项目执行静态程式码分析，探索应用程式的技术使用，并且让开发者从 AppCAT 发现的问题，直接跳转到需要注意的程式码行，在问题解决后标记问题为已修复，并储存问题和报告状态方便开发团队协作。</p><p>AppCAT 能评估解决每个问题所需的工作量，提供开发者在安排修复资源上的参考。此外，开发者可透过问题连接到微软官方文件，进而快速获得相关资讯。分析结果可被储存为 HTML、CSV 和 JSON 格式的档案，其中 HTML 的报告呈现方式，会与 Visual Studio 上仪表板的呈现相似。</p><p>该分析报告显示分析的专案数量、问题和事件资讯，以及修复每个事件、问题和专案所需要花费的工作量。事件会按类别和严重性分组，不同的检视图方便开发者查看事件和处理，或是跳转到相关的程式码区块。</p><p>AppCAT 现在以两种形式提供服务，开发者可以安装 Visual Studio 扩充套件，也能够从.NET CLI 工具用到 AppCAT 功能。微软也预告，接下来 AppCAT 工具还会与 Copilot 整合，结合人工智慧功能提供更完整的搬迁建议，以及特定问题的解决方案。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160667</guid>
+            <link>https://www.ithome.com.tw/news/160667</link>
+            <author>
+                <![CDATA[李建兴]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Martech 双周报第 46 期：禾多移动推出囊扩超过 800 家媒体与零售商广告版位的行销解决方案，类似台湾本土版 UID 2.0]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/lrmn.jpg?itok=V7kgLkI1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>禾多移动</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong style="color: rgb(0, 0, 255);">重点新闻 (1224~0106)</strong></p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#RMN</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#第一方数据联盟</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#LBS</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#CDP</span></span><br>
+禾多移动推出串联超过 800 家媒体与零售商广告版位的行销解决方案，类似台湾本土版 UID 2.0</strong></p><p>禾多移动成立「LRMN 来客行销大联盟」并推出配套行销科技解决方案，以去识别化 ID 整合 500 多家媒体及 300 多家电商联盟成员的第一方数据，并提供广告主自动化行销用 CDP，来投广到联盟成员的版位。这是台湾第一个大规模串联零售广告版位的行销平台。</p><p>LRMN 以禾多去识别化 ID One ID 来整合成员第一方会员数据。One ID 作法类似于 UID 2.0 等第一方数据联盟 ID，联盟成员以符合 GDPR 规范的方法要求自家会员授权个资使用，营运方再利用手机号码、Email 等方法整合联盟成员的会员名单。接著，这些会员身分会转换成 One ID，才开始分析和贴标。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/LRMN2.jpg" style="height: 450px;" referrerpolicy="no-referrer"></p><p>广告主可以透过 LRMN 的配套 CDP，根据去识别化 One ID 来投放个人化广告到联盟成员通路版位。这些版位包括联盟成员网站及 App，还有消费者 Email、通讯软体及简讯等线上通路。甚至，还能透过 LBS 技术，投放广告到消费者所在的实体店面通路，例如 POS 机、店内电视等。</p><p>LRMN 支援与外部 Martech 串接、并用。除了透过禾多营运的 CDP 投广和分析行销数据，还可以透过第三方 Martech 投广。广告主也能将 LRMN 数据报表透过 API 输出到 Power BI、Looker Studio 等常见分析工具，以及将既有 DMP、CDP、DSP 的受众资料输入到 LRMN 受众包，来强化投广效果。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#LLM 应用</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#行销文案法遵</span></span><br>
+网际智慧推出 AI 行销文案合规检查工具，能快速辨别并解释有触法疑虑的用语</strong></p><p>网际智慧推出行销文案合规检查工具「<a href="https://www.textcomply.com/">快合规</a>」，利用 AI 分析行销文案后，标示出高风险文句，并带出相关法规、公开裁罚案例与金额等资讯。此工具支援 2,000 字以内文案，号称可在数秒内完成检查，并会持续更新法条资料库。</p><p>不同类型的商品，行销文案会适用不同法规，例如，食品类商品不得宣称医疗效能。经验不足的行销人员容易用字不当而误触禁令。快合规会根据行销文案商品种类，来选择适用法规，并依照明确触法、曾有类似文案遭罚、根据上下文情境有触法疑虑等 3 种风险层级来标注文案，供行销人员作为调整参考。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/txcplm.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>此工具采取计次收费模式，根据选择方案，每 1 次检核要价 20 至 30 元。</p><p><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#生成式 AI</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#RAG</span></span></strong><strong><span style="color:#FFFFFF;"><span style="background-color:#0099ff;">#AI 助理</span></span><br>
+Saleforce Einstein 新增用 RAG 强化 AI 助理及其他 CRM 应用的功能</strong></p><p>Saleforce 的 AI 平台 Einstein<a href="https://www.salesforce.com/news/press-releases/2023/12/14/unstructured-data-ai-search-einstein/">新增了建立向量资料库功能及对话式搜寻功能</a>。前者用于支援 RAG 功能，可以上传结构化及非结构化资料，使企业不须微调 LLM，就能使 AI 执行 CRM 相关功能时，将企业资料考虑其中。后者则是一个 RAG 应用，使用者可以用自然语言对话询问聊天机器人，机器人可以根据企业上传资料来给出更精确的答案，而非笼统的一般性答案。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/sfe.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#使用者隐私</span></span></strong>&nbsp;<strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#精准行销</span></span><br>
+考克斯媒体集团不小心透露自己未经过直接同意就聆听使用者智慧装置并用来投放广告</strong></p><p>媒体巨头考克斯媒体集团（Cox Media Group）在一篇部落格文章中，提及自家有透过智慧型手机、汽车娱乐系统、智慧型电视等装置聆听使用者需求，并以 AI 分析对话内容后投放广告的能力。问题是，文章中并没有提到他们获得消费者直接同意聆听、分析自己谈话。他们只声称，消费者使用智慧型装置时，只要同意装置常态开启麦克风，就等于广告商有资格透过这些装置聆听并分析使用者需求。</p><p>此篇文章引起外界质疑，认为 Cox 严重侵犯消费者隐私，导致 Cox 紧急删除该部落格文章。不过，<a href="http://www.google.com/search?q=%22what+would+it+mean+for+your+business+if+you+could+target+potential+clients%22&amp;sca_esv=595263573&amp;rlz=1C1ASVC_zh-TWTW995TW995&amp;sxsrf=AM9HkKnAy8AYpb4n0KZ_DP4BiIbGHqx2Bg%3A1704256733891&amp;ei=3eSUZZH0Nduk2roP942PiAw&amp;ved=0ahUKEwjR1uqJs8CDAxVbklYBHffGA8EQ4dUDCBA&amp;uact=5&amp;oq=%22what+would+it+mean+for+your+business+if+you+could+target+potential+clients%22&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiTCJ3aGF0IHdvdWxkIGl0IG1lYW4gZm9yIHlvdXIgYnVzaW5lc3MgaWYgeW91IGNvdWxkIHRhcmdldCBwb3RlbnRpYWwgY2xpZW50cyJIAFAAWABwAHgBkAEAmAEAoAEAqgEAuAEDyAEA-AEB4gMEGAAgQQ&amp;sclient=gws-wiz-serp">从 Google 搜寻仍能看到此篇文章备份内容</a>，也有<a href="https://www.documentcloud.org/documents/24224884-how-voice-data-works-and-how-you-can-use-it-in-your-business-cmg-local-solutions?ref=404media.co">外媒备份此文章页面</a>。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/listen.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p><strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#数据无尘室</span></span></strong>&nbsp;<strong><span style="color: rgb(255, 255, 255);"><span style="background-color: rgb(0, 153, 255);">#视觉化界面</span></span><br>
+Snowflake 并购 Samooha 来简化 DCR 建置</strong></p><p>数据服务商大厂 Snowflake 进一步投资数据无尘室（DCR）科技，并购了视觉化资料无尘室商 Samooha，以用其 DCR 技术强化自家 DCR 产品。过往，Snowflake 企业用户要建立 DCR 环境，需要熟悉 Snowflake DCR 架构，并具备数据工程专业。Samooha 的资料无尘室则有 No-code 的视觉化界面，可以由非 IT 专业人员自行建立、操作。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/samooha.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p><p>为了因应第三方 Cookie 退场，越来越多企业选择与特定合作伙伴进行数据协作或数据交换，以在合规情况下使用外部数据来行销。乘著此趋势，DCR 开始受到大量关注。不过，传统上，DCR 建置需要参与交换的企业投入数据工程师进行跨企业协作，因此采用门槛高。直到近一年多，才陆续有更多大型云端服务商或数据服务商推出不须高度 IT 专业的 DCR 解决方案。</p><p><span style="color:#FFFFFF;"><strong><span style="background-color:#0099ff;">更多 Martech 动态：</span></strong></span></p><p>1. Happy Go 导入 Azure OpenAI 服务来强化商品及客群特征理解。</p><p>2. <a href="https://www.prnewswire.com/news-releases/blueshift-launches-free-cdp-starter-for-cross-channel-engagement-302009086.html">Blueshift 推出免费版 CDP，具备数据整合、查询、自动化行销等功能，支援至多 10,000 名客户档案。</a></p><p>3. <a href="https://corporate.walmart.com/about/samsclub/news/2023/12/12/sams-club-map-launches-full-funnel-video-capabilities-with-advanced-member-measurement">Walmart 旗下 Sam's Club 开始支援影音广告，利用会员消费数据及会员观赏 CTV 的纪录来投放。</a></p><p>4. <a href="http://https//chiefmartec.com/2024/01/the-amazing-turning-point-when-martech-systems-complexity-and-martech-ux-complexity-diverge/">Martech 之父预测 2024 年 Martech 会开始出现大量 AI 代理人功能，来简化行销人员操作复杂度。</a></p><p>资料来源：iThome 整理，2024 年 1 月</p><p>图片来源：禾多移动、Samooha、Saleforce、网际智慧</p><p>责任编辑：郭又华</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160668</guid>
+            <link>https://www.ithome.com.tw/news/160668</link>
+            <author>
+                <![CDATA[郭又华]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[研究人员利用衞星图像与机器学习，绘制首张全球海上基础设施与船只足迹地图]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0103-2023_global_fishing_watch-960.jpg?itok=8V2gazt6" width="960" height="420" alt="" title="© 2023 Global Fishing Watch" referrerpolicy="no-referrer"></div></div></div><p class="caption"> © 2023 Global Fishing Watch </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://www.nature.com/articles/s41586-023-06825-8" target="_blank">《自然》（Nature》本周刊出</a>了一篇由全球渔业观察（Global Fishing Watch）主导的一项研究报告，该研究是利用机器学习及衞星图像绘制了全球首张海上基础设施与船只足迹的地图，揭露有 75% 的工业渔船一直在暗中活动。</p><p><a href="https://globalfishingwatch.org/press-release/new-research-harnesses-ai-and-satellite-imagery-to-reveal-the-expanding-footprint-of-human-activity-at-sea/" target="_blank">该研究的共同作者 David Kroodsma 解释</a>，人们几乎拥有地图上每条道路与建筑物的详细地图，但海洋活动很大一部分是隐藏在人类视野之外的，该研究有助于消除盲点，揭露人类海上活动的强度及广度。此一研究是由彭博慈善基金会（Bloomberg Philanthropies）、国家地理原始海洋专案（National Geographic Pristine Seas ）、海洋生物（Oceankind）及 Google 所赞助，透过衞星测绘来理解海上的工业活动。</p><p>目前侦测海上船只的方法是透过渔船的船只侦测系统（Vessel Monitoring System，VMS），或是船只的自动辨识系统（Automatic Identification System，AIS），但前者是私有技术，后者虽然是广播的，但并非所有船只都使用 AIS 设备，且有时衞星接收不良，有时受到政府限制，有些船只在从事非法活动时还会关闭 AIS，或是窜改广播位置，都让海上的船只分布更加扑朔迷离。</p><p>此一名为「衞星测绘揭露广泛海上工业活动」（Satellite mapping reveals extensive industrial activity at sea）的研究则是透过衞星图像、船只 GPS 资料及深度学习模型，来分析自 2017 年至 2021 年间的 2PB 衞星图像，以探测全球六大洲沿海水域的工业船只活动与海上能源基础设施，所分析的区域虽然仅占全球海洋面积的 15%，却聚集了 75% 的全球海洋工业活动。</p><p>研究人员训练了 3 个 AI 模型来辨识衞星图像的物件，也分析了来自 AIS 的 530 亿个船只 GPS 位置，并与衞星侦测结果比对，以了解所侦测到的船只是否可被公开追踪。</p><p>在此一研究期间，任何特定时间平均可检测到 6.33 万艘船只，当中有接近一半为渔船，但有 3/4 的渔船并未出现在公共侦测系统中，而其它种类的船只未出现在公共侦测系统中的比例为 1/4。这代表全球的船只活动中，有一半的船只无法被公开追踪。</p><p class="rtecenter"><a href="https://drive.google.com/file/d/1Td-r1CmWEB1i0KkbmfLr-lb3deRKQjB9/view" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0104-GFW-fishing-vessel-activity-global-map-animated-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p><span style="color:#696969;"><span style="font-size:14px;">© 2023 Global Fishing Watch</span></span></p><p>该研究颠覆了某些认知。例如以前以为没有太多船只活动的海域其实聚集了大量的船只，或者是公开资料显示亚洲与欧洲在境内的捕鱼活动相似，但地图却显示所发现的 10 艘渔船中，有 7 艘在亚洲，只有 1 艘在欧洲。</p><p>此外，研究亦发现 COVID-19 也影响了全球的捕鱼行动，全球捕鱼活动在该期间下滑了 12%，相较之下运输及能源的船只活动则维持稳定。</p><p>在海上能源基础设施上，大多数的石油基础设施分布在 13 个主要的产油区，全球最大的海上石油基础设施集中在墨西哥湾，美国拥有接近 2,200 座，占全球海上石油基础设施的 1/4，之后是沙乌地阿拉伯的 770 座与印尼的 670 座，这 5 年海上石油结构的数量增加了 16%。海上风电开发主要位于北欧（52%）与中国（45%），在这 5 年间，中国的风力涡轮机数量成长了 900%，以每年 950 台的数量成长，同一期间英国与德国的风力涡轮机数量则分别成长 49% 与 28%。</p><p class="rtecenter"><a href="https://drive.google.com/file/d/1WvUpCy7PUyHqT0WnTZe_sS66hZfcvJid/view?usp=drive_link" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0104-GFW-offshore-Infrastructure-global-map-animated-600.gif" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p><span style="color:#696969;"><span style="font-size:14px;">© 2023 Global Fishing Watch</span></span></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/160669</guid>
+            <link>https://www.ithome.com.tw/news/160669</link>
+            <author>
+                <![CDATA[陈晓莉]]>
+            </author>
+            <category>新闻</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[【资安日报】1 月 4 日，俄罗斯骇客入侵乌克兰民用网路摄影机并用于飞弹精准轰炸]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/image1_3.png?itok=416KUg5j" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>乌克兰战争开战已经接近 2 年，俄罗斯骇客将网路攻击配合军事行动的情况不时传出，使得相关的网路攻击在这场战争当中，具有举足轻重的地位。</p><p>而最近乌克兰面临大规模空袭的期间，也传出俄罗斯骇客趁机攻击乌克兰首都的网路摄影机，使得俄罗斯能够掌握乌克兰防空部署，更有效进行飞弹轰炸。</p><p>&nbsp;</p><h3><strong>【攻击与威胁】</strong></h3><p><strong style="font-size: 22px;">乌克兰住宅区网路摄影机遭骇，俄罗斯将其用于军事行动侦察</strong></p>
+                <!-- notionvc: f2004a00-9a6c-4590-bfed-2a2a2b6b05bd -->
+                <p></p>
+                <p>根据基辅独立报、SecurityAffairs、The Record 等媒体报导，乌克兰国家安全局（SBU）宣布拆除 2 台位于基辅的网路摄影机，原因是俄罗斯骇客入侵上述设备后，在 1 月 2 日大规模空袭期间收集基辅的防空系统，以及关键基础设施的位置。</p>
+                <p>SBU 指出，这些摄影机遭到攻击后，俄罗斯特种部队取得相关画面之后，而得以监视驻扎当地的乌克兰军队，其中一台设备位于公寓阳台，原本是当地住户用于监控周边情况，另一台也是住宅区居民所设，用于监控停车场。值得留意的是，对方得逞后，不只取得远端的存取权限来进行控制，改变摄影机角度，甚至将其与 YouTube 连线。</p>
+                <p>而这并非乌克兰的网路摄影机遭到俄罗斯入侵的首例，自 2022 年 2 月乌克兰战争开打，SBU 已经阻断约 1 万台 IP 摄影机的运作，以免敌军将其用于空袭。</p>
+                <p>资料来源</p>
+                <p>1.&nbsp;
+                    <a href="https://kyivindependent.com/sbu-blocks-surveillance-cameras-hacked-by-russians-to-spy-on-targets-in-kyiv/">https://kyivindependent.com/sbu-blocks-surveillance-cameras-hacked-by-russians-to-spy-on-targets-in-kyiv/</a>&nbsp;
+                    <br>
+2.&nbsp;
+                        <a href="https://securityaffairs.com/156812/intelligence/russia-hacked-surveillance-cameras-ukraine.html">https://securityaffairs.com/156812/intelligence/russia-hacked-surveillance-cameras-ukraine.html</a>
+                        <br>
+3.&nbsp;
+                            <a href="https://therecord.media/ukraine-says-russia-hacked-web-cameras-to-spy-on-kyiv-targets">https://therecord.media/ukraine-says-russia-hacked-web-cameras-to-spy-on-kyiv-targets</a>
+                        </p>
+                        <p>
+                            <a href="https://www.bleepingcomputer.com/news/security/victoria-court-recordings-exposed-in-reported-ransomware-attack/">
+                                <strong style="font-size: 22px;">澳洲法院传出遭骇客入侵，听证会录音恐外流</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 2250109a-a6d7-41ae-9db8-bcd842241d91 -->
+                        <p></p>
+                        <p>1 月 2 日澳洲维多利亚州法院服务中心（CSV）发布公告，表明他们在 12 月 21 日察觉遭遇网路攻击，本次事故出现未经授权存取的情况，导致法院内的视听网路中断，影响录影、录音、转录的工作。CSV 随即隔离、停用受到影响的网路系统，并确保一月份的听证会能照常举行。根据初步调查的结果，11 月 1 日至 12 月 21 日部分听证会的录音遭到异常存取，但也有部分 10 月以前的资料可能外流，受影响的单位，包括最高法院、县立法院、行政法院、儿童法庭、验尸法庭。</p>
+                        <p>关于攻击者的来历，根据 ABC News 报导指出，有一位资安专家 Robert Potter 掌握相关证据，认为攻击者来自俄罗斯，对方使用勒索软体 Qilin 发动攻击，并向法院进行双重勒索。</p>
+                        <p>资料来源</p>
+                        <p>1.&nbsp;
+                            <a href="http://courts.vic.gov.au/news/court-services-victoria-cyber-incident">http://courts.vic.gov.au/news/court-services-victoria-cyber-incident</a>
+                            <br>
+2.&nbsp;
+                                <a href="http://www.abc.net.au/news/2024-01-02/victoria-court-system-targeted-in-cyber-attack-russian-hackers/103272118">http://www.abc.net.au/news/2024-01-02/victoria-court-system-targeted-in-cyber-attack-russian-hackers/103272118</a>
+                            </p>
+                            <p>
+                                <a href="https://www.bleepingcomputer.com/news/security/xerox-says-subsidiary-xbs-us-breached-after-ransomware-gang-leaks-data/">
+                                    <strong style="font-size: 22px;">全录证实美国分公司遭遇网路攻击，部分个资外泄</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 96ddf51a-36a6-44f5-8f76-ef207e9283e3 -->
+                            <p></p>
+                            <p>
+                                <a href="https://s4.itho.me/sites/default/files/images/GCopQXqW4AEykkL.jpg">
+                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/GCopQXqW4AEykkL.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                    </a>12 月 29 日勒索软体骇客组织 Inc Ransom 声称对全录（Xerox）的美国分公司发动攻击，并提供电子邮件、发票的截图作为证明。
+                                </p>
+                                <p>到了 1 月 2 日，该公司证实遭遇网路攻击，并透露这起事故资安人员察觉后已进行遏止，经调查后确认仅有旗下的 Xerox Business Solutions（XBS）美国分公司 XBS U.S.受到影响，导致 XBS 部分人士的个资可能外流，但全录公司的系统及营运皆未受到影响，XBS 营运也并未受到影响。</p>
+                                <p>资料来源</p>
+                                <p>1.&nbsp;
+                                    <a href="https://twitter.com/omvapt/status/1741249569789284615">https://twitter.com/omvapt/status/1741249569789284615</a>
+                                    <br>
+2.&nbsp;
+                                        <a href="https://www.news.xerox.com/news/xerox-releases-statement-regarding-cybersecurity-incident-affecting-xbs-subsidiary">https://www.news.xerox.com/news/xerox-releases-statement-regarding-cybersecurity-incident-affecting-xbs-subsidiary</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://securityaffairs.com/156709/cyber-crime/cactus-ransomware-coop-sweden.html">
+                                            <strong style="font-size: 22px;">瑞典食品零售供应商 Coop 传出遭勒索软体骇客组织 Cactus 攻击</strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: f2b512ae-e09f-4985-b69a-9fe72b30a204 -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://s4.itho.me/sites/default/files/images/cactus-coop-41.png">
+                                            <img alt="" src="https://s4.itho.me/sites/default/files/images/cactus-coop-41.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                            </a>根据资安新闻网站 SecurityAffairs 的报导，瑞典大型零售及杂货供应商 Coop 传出遭到勒索软体骇客组织 Cactus 攻击，骇客声称窃得 257 GB 资料，并公布部分身分证企图证明是他们所为。对方扬言若 Coop 不愿付赎金，他们将会公布数量极为庞大的个资，并表明这些资料存放于超过 2.1 万个资料夹。
+                                        </p>
+                                        <p>本次并非 Coop 首度因网路攻击而受害，2021 年 7 月，该公司揭露他们因软体供应商受到 Kaseya 供应链攻击，而导致遭遇勒索软体 REvil 攻击，500 家超市被迫暂停营业。</p>
+                                        <p>
+                                            <a href="https://www.bleepingcomputer.com/news/security/nearly-11-million-ssh-servers-vulnerable-to-new-terrapin-attacks/">
+                                                <strong style="font-size: 22px;">近 1,100 万台 SSH 伺服器可透过 Terrapin 手法攻击</strong>
+                                            </a>
+                                        </p>
+                                        <!-- notionvc: 48051adf-bde3-4d08-8d97-c54a578a8ffd -->
+                                        <p></p>
+                                        <p>
+                                            <a href="https://s4.itho.me/sites/default/files/images/GC6KexVXMAAPxY8.jpg">
+                                                <img alt="" src="https://s4.itho.me/sites/default/files/images/GC6KexVXMAAPxY8.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                                </a>12 月下旬德国波鸿鲁尔大学研究人员揭露针对 SSH 通讯协定的新型态攻击手法 Terrapin，可借此破坏 SSH 安全通道的完整性，从而拦截或修改用户端与伺服器间传送的资料，达到泄漏资料与冒用身分等目的，如今有研究人员提出警告，伺服器存在可被用于上述攻击的相关弱点的情况相当严重。
+                                            </p>
+                                            <p>1 月 3 日 Shadowserver 基金会指出，可从网际网路上存取的伺服器，有近 1,100 万台存在 CVE-2023-48795 漏洞，而能透过 Terrapin 对其发动攻击，这些伺服器所使用的 IPv4 及 IPv6 位址，占整体的 52%。其中美国曝露的主机台数最多，有 330 万台，其次是中国、德国、俄罗斯，分别有 130 万台、100 万台、70 万台。</p>
+                                            <p>
+                                                <a href="https://www.securityjoes.com/post/hide-and-seek-in-windows-closet-unmasking-the-winsxs-hijacking-hideout">
+                                                    <strong style="font-size: 22px;">新型态 DLL 搜寻顺序挟持手法可绕过 Windows 10 及 11 的防护措施</strong>
+                                                </a>
+                                            </p>
+                                            <!-- notionvc: cf2277ca-58fb-4339-9715-3a689f93792b -->
+                                            <p></p>
+                                            <p>
+                                                <a href="https://s4.itho.me/sites/default/files/images/d03b6f_a25d8dccc1c64797bb89f75aa39848bf~mv2.png">
+                                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/d03b6f_a25d8dccc1c64797bb89f75aa39848bf~mv2.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                                    </a>资安业者 Security Joes 揭露新型态的 DLL 搜寻顺序挟持（DLL Search Order Hijacking）攻击手法，并指出骇客可滥用系统资料夹 WinSXS，绕过 Windows 10、11 作业系统的防护措施。
+                                                </p>
+                                                <p>由于这种方法以该资料夹里的应用程式执行档为目标，而能够在无需提升权限的情况下，执行恶意程式码，再者，则是因为利用该资料夹已被视窗作业系统索引的档案，攻击者不需要自备执行档，就能从事攻击行动，另一方面，研究人员认为这样的手法能让攻击变得更加隐密，原因是他们利用作业系统已信任的元件，且在专属的记忆体空间执行恶意程式码，使得资安分析工具难以将其视为有害。</p>
+                                                <p>为了验证这种攻击手法，研究人员尝试在 WinSXS 资料夹寻找有可能被利用的 EXE 档案（如 ngentask.exe、aspnet_wp.exe），并设置相同档案名称的恶意 DLL 档案，而有机会透过 DLL 搜寻顺序挟持手法，成功执行任意程式码。</p>
+                                                <p>
+                                                    <a href="https://assets-global.website-files.com/635e632477408d12d1811a64/6594e99c2daf492ccb1af7e7_gold_rush_on_the_dark_web-_twitter_gold.pdf">
+                                                        <strong style="font-size: 22px;">社群网站 X 金色标章帐号遭到外流与冒用，相关资讯并在暗网流传</strong>
+                                                    </a>
+                                                </p>
+                                                <!-- notionvc: fde06610-6880-40fa-9ec9-6c4eb3ea2b18 -->
+                                                <p></p>
+                                                <p>资安业者 CloudSEK 提出警告，自 X（推特）从 2022 年 12 月推出新的验证帐号方案，骇客就企图利用各种技术，伪造或盗窃具有金色认证标章、代表已通过验证的企业组织帐号。</p>
+                                                <p>研究人员在去年 3 月，首度在暗网市集看到有人兜售这类帐号，这些骇客主要透过 3 种手法取得，其中一种是自行建立假的帐号并通过相关验证，再供买家使用；另外两种手法则是盗取他人帐号而得，而根据利用的工具不同，一种是利用 Open Bullet、SilverBullet、SentryMBA 等工具进行暴力破解；另一种则是借由窃资软体于受害电脑挖掘相关帐密资料。</p>
+                                                <p>而根据 X 帐号的等级不同，一般而言，新帐号在暗网的平均单价为 0.3 美元，具有金色标章的帐号为 500 美元，但若是将设置超过 5 年的帐号升级金色标章，这类帐号售价从 1,200 美元至 2,000 美元不等。</p>
+                                                <p>&nbsp;</p>
+                                                <h3>
+                                                    <strong>【其他新闻】</strong>
+                                                </h3>
+                                                <p>
+                                                    <a href="https://doublepulsar.com/cyber-toufan-goes-oprah-mode-with-free-linux-system-wipes-of-over-100-organisations-eaf249b042dc">
+                                                        <strong>
+                                                            <span style="font-size: 20px;">100 个以色列企业组织遭巴基斯坦骇客 Cyber Toufan 攻击</span>
+                                                        </strong>
+                                                    </a>
+                                                </p>
+                                                <!-- notionvc: d0024444-6176-4d28-9751-ddd476a50807 -->
+                                                <p></p>
+                                                <p>
+                                                    <a href="https://www.hackread.com/iranian-food-delivery-snappfood-cyber-attack/">
+                                                        <strong>
+                                                            <span style="font-size: 20px;">伊朗外送平台 Snapfood 传出遭到网路攻击，3 TB 资料外流</span>
+                                                        </strong>
+                                                    </a>
+                                                </p>
+                                                <!-- notionvc: 1b09e0b2-0968-4a97-a24a-ebe36d7e9cce -->
+                                                <p></p>
+                                                <p>
+                                                    <a href="https://sec-consult.com/blog/detail/smtp-smuggling-spoofing-e-mails-worldwide/">
+                                                        <strong>
+                                                            <span style="font-size: 20px;">新型态 SMTP 挟持手法可绕过资安系统寄送恶意邮件</span>
+                                                        </strong>
+                                                    </a>
+                                                </p>
+                                                <!-- notionvc: 4e986f50-604e-46a5-9514-ddfa0f8c32e1 -->
+                                                <p></p>
+                                                <p>
+                                                    <a href="https://research.checkpoint.com/2023/the-rising-threat-of-phishing-attacks-with-crypto-drainers/">
+                                                        <strong>
+                                                            <span style="font-size: 20px;">骇客组织 Angel Drainer 锁定加密货币领域发动网钓攻击，意图榨干加密货币钱包</span>
+                                                        </strong>
+                                                    </a>
+                                                </p>
+                                                <p>
+                                                    <a href="https://www.ithome.com.tw/news/160663">
+                                                        <strong>
+                                                            <span style="font-size: 20px;">法国 IT 服务业者 Atos 求售大数据及资安部门，买家是航太龙头空中巴士</span>
+                                                        </strong>
+                                                    </a>
+                                                </p>
+                                                <p>&nbsp;</p>
+                                                <h3>
+                                                    <strong>近期资安日报</strong>
+                                                </h3>
+                                                <p>
+                                                    <a href="https://www.ithome.com.tw/news/160647">
+                                                        <strong>【1 月 3 日】&nbsp;日本游戏开发商因母公司 Google Drive 配置错误导致近百万人的个资曝险</strong>
+                                                    </a>
+                                                </p>
+                                                <p>
+                                                    <a href="https://www.ithome.com.tw/news/160635">
+                                                        <strong>【1 月 2 日】&nbsp;窃资软体滥用 Google 未公开的 OAuth 同步机制挟持用户帐号</strong>
+                                                    </a>
+                                                </p>
+                                                <p>
+                                                    <a href="https://www.ithome.com.tw/news/160616">
+                                                        <strong>【12 月 29 日】&nbsp;Booking.com 合作旅馆、房客面临网钓攻击且外泄个资出现转交其他团体兜售现象</strong>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div></div>
+                                </div>
+                            </div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160666</guid>
+                        <link>https://www.ithome.com.tw/news/160666</link>
+                        <author>
+                            <![CDATA[周峻佑]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[全录将在第一季裁撤 15% 员工]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0104-xerox-logo-guan_fang_tu_pian_-960.jpg?itok=mAKpj3PI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Xerox Corporation</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>历史超过 100 年，几乎已成为影印机代名词的全录（Xerox）周三（1/3）发表了新的经营模式及组织结构，进入改革阶段，同时也宣布将在今年第一季裁撤 15% 的人力。目前全录约有 2 万名员工，估计将有 3,000 名员工受到影响。</p><p>全录执行长 Steven Bandrowczak 表示，未来全录的资源将集中在三大关键领域，分别是改善及稳定核心列印业务，借由建立新的全球商业服务组织来强化生产力及效率，以及有纪律地执行多元化收入。</p><p>新成立的全球商业服务将整合并简化内部流程，可降低交易成本，改善客户及员工体验，进而提高生产力及效率，此外，全录也宣布高层人事变动，美洲区总裁 Joanne Collins Smee 及产品长 Tracey Koziol 皆已于 2023 年底离职，并由 John Bruno 负责列印、数位及 IT 服务的整合，由 Louie Pastor 回锅主导新的全球商业服务，同时监督全录的转型。</p><p>全录在去年第三季创下 16.5 亿美元的营收，比 2022 年同期下滑 5.7%，单季营业利润为 6,800 万美元，在去年 10 月公布 Q3 营收时，<a href="https://s3.amazonaws.com/cms.ipressroom.com/84/files/20239/3Q2023-XRX-Earnings+Release.pdf" target="_blank">全录即已宣布</a>要迈入改革阶段，目标是在 2026 年达到 3 亿美元的全年营业利润。</p><p>不过，当全录转型与裁员的消息传出后，该公司当天的股价下滑了 12.15%，以 15.84 美元作收。</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160665</guid>
+                        <link>https://www.ithome.com.tw/news/160665</link>
+                        <author>
+                            <![CDATA[陈晓莉]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[微软 Edge 浏览器更新品牌，更强调 AI]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0104-microsoft_edgeailiu_lan_qi_-960.jpg?itok=c0P0hn2m" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>苹果 App Store</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微软全产品彻底拥抱 AI。新版 Android 及 iOS 版 Edge 浏览器悄悄增加 AI 的品牌字样。</p><p><a href="https://www.neowin.net/news/microsoft-renamed-edge-on-android-and-ios-to-microsoft-edge-ai-browser/" target="_blank">《Neowin》报导</a>，上周<a href="https://apps.apple.com/tw/app/microsoft-edge-ai%E7%80%8F%E8%A6%BD%E5%99%A8/id1288723196" target="_blank">iOS 版 Microsoft Edge 版本 120.2210.116</a>及<a href="https://play.google.com/store/apps/details?id=com.microsoft.emmx&amp;hl=zh_TW&amp;gl=US" target="_blank">Android 120.2210.99 版 Microsoft Edge</a>分别在苹果 App Store 及 Google Play Store 上架，皆改名为「Microsoft Edge：AI 浏览器」，强调 AI 的元素。根据微软的描述，新版行动 Edge 浏览器搭载 AI 功能，增加上网体验，包括最新的 Copilot。Copilot 以最新的 GPT-4 及 DALL-E 3 为底层文字及图片生成模型，可让用户以自然语言搜寻、新增信件内容或图片、摘录文章或会议重点、翻译，或协助脑力激荡等，不需用户付费即可使用 OpenAI 最新模型。</p><p>这是继 11 月微软将 Bing Chat 改名为 Copilot 后，微软推出的最新 Copilot 产品。微软二周内已先后释出<a href="https://www.ithome.com.tw/news/160559" target="_blank">Android</a>版及<a href="https://www.ithome.com.tw/news/160631" target="_blank">iOS/iPadOS 版</a>独立 Copilot App。</p><p>除了 Copilot 外，新版 Edge 还包含更快效能、智慧广告拦截器、密码或收藏夹多用户端同步、三层隐私防护、不储存上网 cookies 或密码隐私模式（InPrivate）、建立同时保存图片与文字的集锦、翻译，以及精准定位到县市的天气预报等新特色。</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160664</guid>
+                        <link>https://www.ithome.com.tw/news/160664</link>
+                        <author>
+                            <![CDATA[林妍溱]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[Atos 洽谈出售资安部门给空中巴士]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0104-atos-image_credit-romirea-960.jpg?itok=83bTX_81" width="960" height="420" alt="" title="image credit: Romi/REA" referrerpolicy="no-referrer"></div></div></div><p class="caption"> image credit: Romi/REA </p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><a href="https://atos.net/en/2024/press-release_2024_01_03/market-update-2" target="_blank">法国 IT 服务公司 Atos 本周宣布</a>正在和航太业巨人空中巴士（Airbus）洽谈出售其大数据及安全部门。</p><p>在 Atos 母集团去年秋天宣布将出售更多公司业务后，收到 2 家公司表达对大数据与安全（Business Data and Security，BDS）业务有收购兴趣，不过其中一间只和 BDS 部分业务有关。另一间是空中巴士，这家航太公司出价 15 到 18 亿欧元，而 Atos 母集团也启动了开放收购的尽职调查（due diligence）期。目前双方洽谈还在初期阶段。</p><p>这是 Atos 集团又一次出售公司资产以清偿债务。2022 年 6 月 Atos 宣布把公司切分为二家公司，一为负责代管、混合云及基础架构的 Tech Foundations，员工 5.2 万人，营收约 60 亿欧元。二为提供数位化、公云、大数据及资安服务的 Eviden，约有员工 5.7 万人及 50 亿欧元营收。</p><p><a href="https://atos.net/en/2023/press-release_2023_08_01/atos-to-complete-its-transformation-through-the-contemplated-sale-of-tech-foundations" target="_blank">8 月时 Atos 宣布</a>和卢森堡私募基金业者 EPEI（EP Equity Investment）独家洽谈收购 Tech Foundations。目前双方仍然就支付的价格、交易结构及 Tech Foundations 负债转移进行谈判，迄今尚未确定收购。这桩交易也包含 Atos 的品牌。一旦出售完成，Atos 也将会改名为 Eviden。</p><p>Atos 2023 年负债 33.2 亿欧元，由于 Tech Foundations 交易的不确定性，以及 Eviden 预计增资减少，该公司也表示正考虑会持续出售其他资产，超过去年提及的 4 亿欧元以满足即将到期的融资。该公司管理阶层及董事会认为，在各种可出售的资产中，BDS 是关键角色，也会带动其他可能的潜在买主兴趣。</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160663</guid>
+                        <link>https://www.ithome.com.tw/news/160663</link>
+                        <author>
+                            <![CDATA[林妍溱]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[SpaceX 发射首批可支援手机连线的 Starlink 衞星]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0104-spacex_satellites-cell_service_with_t-mobile-960.jpg?itok=zo-g91t1" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>T-Mobile</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>美国太空技术业者 SpaceX 本周二（1/2）<a href="https://www.spacex.com/launches/mission/?missionId=sl-7-9" target="_blank">借由发射 Falcon 9 火箭</a>，将 21 颗 Starlink 衞星送上近地轨道，其中包含 6 颗具备 Direct to Cell 能力的衞星，预计很快就会展开 Direct to Cell 服务的测试。</p><p>SpaceX 解释，这些拥有 Direct to Cell 功能的 Starlink 衞星（下图），将允许全球的行动网路营运商于陆地、湖泊或沿海水域的任何地方，提供无缝的全球简讯、通话及浏览服务，且无需变更硬体或韧体，它所配备的数据机可在太空中充当手机基地台，借由类似标准漫游合作形式的网路整合来消除盲区。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0104-SpaceX%20Satellites-direct%20to%20cell-600.jpg" style="width: 343px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">图片来源_SpaceX</span></span></p><p>Direct to Cell 的终极目标是让一般手机可直接连结衞星网路，创造无盲区的全球通讯能力。</p><p><a href="https://www.t-mobile.com/news/un-carrier/first-spacex-satellites-launch-for-breakthrough-direct-to-cell-service-with-t-mobile" target="_blank">现阶段 SpaceX 将结合美国 T-Mobile 的无线网路展开 Direct to Cell 测试</a>，初期将仅提供简讯功能，未来几年才会逐步进展到语音及资料传输服务。</p><p><a href="https://twitter.com/elonmusk/status/1742396904619581642?s=20" target="_blank">SpaceX 创办人暨执行长 Elon Musk 也提醒</a>，现在的 Direct to Cell 仅支援每光束 7Mb 的传输能力，而且这些光束还很大，因此，就算它对某些缺乏网路连线的区域来说是个很好的解决方案，尚无法与陆地上既有的行动网路竞争。</p><p>根据 SpaceX 的规画，Direct to Cell 的简讯服务可望于今年问世，而语音、资料或 IoT 传输服务则预计于明年推出。</p><p>除了 T-Mobile 之外，澳洲的 Optus、加拿大的 Rogers、纽西兰的 One NZ、日本的 DKKI、瑞士的 Salt，以及位于智利及秘鲁的 Entel 等电信营运商，都已同意加入 Direct to Cell 服务联盟。</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160662</guid>
+                        <link>https://www.ithome.com.tw/news/160662</link>
+                        <author>
+                            <![CDATA[陈晓莉]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[Rust 1.75 改进特征语言功能，简化非同步程式设计]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2142_-_announcing_async_fn_and_return-position_impl_trait_in_traits_-_r_-_blog.rust-lang.org_.png?itok=--CpMxi3" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Rust 团队发布 Rust 新版本<a href="https://blog.rust-lang.org/2023/12/28/Rust-1.75.0.html">1.75</a>，这个版本其中一个重要更新是在特征（Traits）中支援使用 async fn 与-&gt; impl Trait，不过，这项更新目前仍是初始版本，还存在一些限制。另外，开发团队也持续更新编译器，强化应用程式的效能。</p><p>Rust 非同步工作组持续朝向在特征中支援 async fn 的目标前进，而在 Rust 1.75 有了重大进展，包括在特征中支援-&gt; impl Trait 表示法以及 async fn。特征在 Rust 中是一个核心语言功能，主要用于定义和共享行为，其功能类似其他语言的介面，但具有更多的功能和灵活性。</p><p>允许在特征中使用非同步函式 async fn 的意义，代表著改善非同步程式码的组织和可读性，过去开发者要在特征中定义非同步函式，需要采用间接迂回的方法，这通常导致程式码过于冗长和复杂，而透过在特征中支援 async fn，开发者可以直接定义非同步函式，使程式码更加直觉易于理解和维护。</p><p>此外，透过使用回传位置的 impl Trait，开发者可以在特征中定义回传特定特征型别的方法，这不仅提升了泛型程式设计的灵活性，还使得程式设计更具抽象性，有助于开发者编写更加模组化的程式码，简化非同步操作管理。</p><p>简单来说，Rust 在特征中支援 async fn 和回传位置的-&gt; impl Trait，主要目的是要提高非同步函式的支援，增加泛型程式设计的灵活性，解决之前直接在特征定义中直接使用 async fn，所出现的限制和警告问题。</p><p>这些改进让开发者可以更有效地使用多执行绪和工作窃取执行器（Work-Stealing Executor），而 Rust 计划未来还要进一步扩展其多态性和灵活性，透过提供工具支援动态分派（Dynamic Dispatch）。</p><p>Rust 编译器也在 Rust 1.75 获得效能改进，首先，开发团队在二进位发布版本应用 BOLT 工具，使得基准测试平均执行时间改善 2％，官方提到，BOLT 工具最佳化大部分包含 rustc 程式码的 librustc_driver.so 函式库布局，能够改善快取利用效率。此外，开发团队还使用-Ccodegen-units=1 编译器选项编译 rustc，进一步分析和最佳化编译器程式码，使得 rustc 平均执行时间改善 1.5％，让编译器得以编译程式可以更快速。</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Wed, 03 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160657</guid>
+                        <link>https://www.ithome.com.tw/news/160657</link>
+                        <author>
+                            <![CDATA[李建兴]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[抢救 IT 失传技艺，亚马逊技术长倡议节约架构 （Part 3 最佳化篇）]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-measure.png?itok=pYyBy7Uq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>&nbsp;</p><p>亚马逊技术长 Werner Vogels 提出的节约架构（Frugal Architect），由三大类、七项软体架构设计法则所组成，在第三部分谈及架构与成本最佳化（Optimize），其中包含两项法则。</p><p>首先，第六项法则－「成本最佳化是渐进的」，指出成本最佳化并非一蹴可几，而是持续调整，逐步完善。Vogels 表示，由于过往技术上的限制比较多，IT 人员往往只能在较小的层面上持续修修补补，而这种从小地方逐步改善的作为，也让他们练就了成本最佳化的能力。<br>
+但是，在运算资源容易取得的情况下，软体开发团队过于追逐速度，在快速开发之下，逐渐不再重视细节，然而一些不起眼的事情累积起来，就会造成很大的数位浪费。例如网站开发没有重视档案大小的问题，那么使用者就有可能上传解析度过高的照片或影片，而实际上对终端用户体验毫无助益却徒增频宽浪费；又或是开发人员为了方便，下班后不关闭测试环境的主机，让它空转浪费资源，而若有维持开机的必要，其实也可借由缩减主机规格来降低成本与减少浪费。这些虽然都只是小事情，但若不加以重视，无形中就会造成很多隐藏的数位浪费。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/frugal%20architect(1).png" style="width: 640px; height: 519px;" referrerpolicy="no-referrer"></p><p>至于软体系统，则可透过应用程式效能分析（Profiling），以了解隐藏的数位浪费。Vogels 表示，应用程式效能分析这项技术几乎可说快要失传了，但它却是软体持续最佳化的重要工具之一。他举亚马逊的某一项服务为例，效能分析让他们发现网路通讯竟然占了整体耗能的四成以上，然而这个现象对该应用程式而言不合理，于是他们回头检视程式码，才发现原来只是因为一个条件判断陈述语法写错，经修改后耗能就降到三成以下。因此，要确保软体系统没有隐藏的数位浪费，就要持续进行效能分析与最佳化。</p><p>节约架构的最后一项、第七项法则：「无庸置疑的成功必将导致错误的臆断」，如果软体开发团队未曾遭遇什么困难就成功了，往往会因为复制过往成功经验而埋下骄傲自满的种子，无法持续精进与改善。Vogels 以 COBOL 之母美国海军准将 Grace Hopper 的名言：「英语中最危险的一句话就是：我们一直都是这样做的。」提醒软体开发团队要打破技术本位的思维，以保持进步。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/grace%20hopper.png" style="width: 700px; height: 363px;" referrerpolicy="no-referrer"></p><p>技术本位常见于软体开发团队固守擅长的程式语言，毫不考虑是否有更好的选择，然而，殊不知程式语言也与成本效益有关。2017 年有一项学术研究分析 27 种程式语言的能源消耗程度，发现 C 语言是其中最省电的程式语言，排名第二的是 Rust，而 Ruby 的耗电量是 C 语言的 69 倍，Python 的耗电量是 C 语言的 75 倍，分别排名倒数第三与倒数第二。Vogels 指出，亚马逊在开发 Firecracker 时就采用 Rust，而 S3 后来也有很大的比例以 Rust 改写，这除了考量成本与永续，还包括 Rust 的强型别、高效能与记忆体安全性等优点。</p><p>在演讲最后，Vogels 期许 IT 人员：「我们身处快速变动的时代，在不断学习的同时，也要一直否定既有信念，把自我摆在一边，重拾成本意识这个即将失传的技艺，因为永续的需求已经如同一列货运火车直驶而来，你既逃不掉，也不该逃避永续的趋势，而在云端架构中，从运算成本著手将会是最接近达成永续目标的作法。」他也说：「没有人想要有限制，成本与永续固然会为软体架构与营运带来不少限制，然而创意往往就随著突破这些限制而到来。」</p><hr><h3><strong>节约架构 Frugal Architect</strong></h3><p><a href="https://www.ithome.com.tw/news/160659"><strong>设计</strong></a></p><p>I. 成本是必要的非功能性需求<br>
+II. 系统成本必须与公司获利保持一致<br>
+III. 架构设计是一连串的权衡与取舍</p><p><a href="https://www.ithome.com.tw/news/160660"><strong>量测</strong></a></p><p>IV. 无法量测的系统必有隐藏的成本<br>
+V. 有成本意识的架构必有成本控制措施</p><p><a href="https://www.ithome.com.tw/news/160661"><strong>最佳化</strong></a></p><p>VI. 成本最佳化是渐进的<br>
+VII. 无庸置疑的成功必将导致错误的臆断</p><hr><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160661</guid>
+                        <link>https://www.ithome.com.tw/news/160661</link>
+                        <author>
+                            <![CDATA[吴其勋]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[抢救 IT 失传技艺，亚马逊技术长倡议节约架构 （Part 2 量测篇）]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-tunable-architect.png?itok=aNmTldPc" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>节约架构的第一部分聚焦在软体架构设计阶段，包括将成本意识融入软体架构设计的每一个环节、确保系统成本支出与营收成长呈正相关，以及保持软体架构可以持续进化和改善。第二部分则是软体服务上线后，需要进行的量测（Measure）工作。</p><p>Vogels 指出，第四项法则是：「无法量测的系统必有隐藏的成本」。他以 1970 年代发生石油危机时，他所生长的荷兰为例，说明透过量测将资讯视觉化，有助于改变人们的行为。在全球性能源危机发生的当时，虽然人们普遍意识到节能省电的必要性，不过有一项调查却发现两栋规模大小雷同的楼房，用电量却有很大的差异。细究之下发现，耗电量较少的那栋楼房，其电表安装在一楼出入口，而耗电量较多的那栋楼房，电表则是安装在地下室，这代表住户每天出入时从电表看到耗电量，有助于提升用电意识，进而改善节能省电的作为。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1541.png" style="width: 700px; height: 387px;" referrerpolicy="no-referrer"></p><p>然而软体使用成本该如何量测？如何设计量测指标呢？身为亚马逊技术长的 Vogels，进一步以自家电商网站的经验说明量测指标。由于亚马逊购物网站已经是一个高度微服务化（Microservices）的软体架构，其网页上的诸多功能，如商品资讯、评比推荐、预估送达时间、购物车、搜寻与使用者体验等功能，每一个服务皆由后端上百个微服务组合起来运行，因此为了掌握成本，第一步必须先从微服务层级量测每一个微服务的运算成本，接著是依照网页上的各项功能，加总计算其所需微服务的运算成本，据此计算如购物车、预估送达时间或评比推荐等属于系统层级功能的成本。</p><p>有了微服务与网站功能的成本数据，再除以网页浏览量，就可得知以每一个网页读取为单位来计算之下，各个微服务与网站功能的单位运算成本。有了每读取一个网页的单位运算成本，再搭配每读取一个网页的下单转换率，则可画出网页成本与转换率关系图：以每读取一个网页的成本为 X 轴、以每读取一个网页的下单转换率为 Y 轴，如此即可用于分析网页增加新功能的成本与效益。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1544.png" style="width: 700px; height: 302px;" referrerpolicy="no-referrer"></p><p>由于 X 轴所代表的是随网页增加功能而递增的运算成本，对照著 Y 轴所代表的下单转换率，据此画出来的折线图若呈现 45 度上升直线，就代表随著新功能增多，下单转换率也提高了，亦即成本与效益保持正向发展的健康趋势，证明新功能有助于提升营收；若折线图呈现波动的曲线甚至是下降趋势，即代表新功能无助于下单转换率，必须思考是否该为新功能付出额外的成本。</p><p>成本效益分析除了可用于开发新功能的策略，也可以做为系统效能改善的衡量基准。众所皆知网页载入速度会影响使用者体验，对电商而言甚至会冲击业绩营收，然而在提升网页载入速度时，到底该改善到什么程度，才能刚好有助于提升营收，而又不会因为改善过头而付出过多无谓的运算成本，就可以利用运算成本与营收分析做为判断基准。Vogels 表示，由于电商的利润空间很薄，所以亚马逊必须无时无刻控制整体成本，对于软体开发与营运应该投入多少资源，是否增加新功能，或是增加用户体验效果等，都必须基于成本效益的决策，若营收随著新功能而增加，即代表运算成本的投资有正向回报。</p><p>有了量测指标，就可以依据成本效益与永续指标订定基准，接下来则必须借由建立成本控制措施来落实。Vogels 观察到：「有成本意识的架构必有成本控制措施」，这也就是节约架构的第五项法则。他指出，所谓的成本控制措施，一方面要先将软体功能依其商业价值分级，另一方面则是打造可调式架构，让软体功能的运作可如电源开关与音量旋钮一样切换与调节，例如软体各项功能的启用、预载、监测数据与 Log 记录的数量增减等等，皆可依据成本与业务需求而自由调整。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/IMG_1572.png" style="width: 700px; height: 440px;" referrerpolicy="no-referrer"></p><p>以亚马逊电商网站的首页为例，网页上的各项功能均依其与下单交易的关系分成不同等级，第一级功能属于下单交易必备的功能，如商品资讯、搜寻、用户评论、购物车、结帐等，少了任何一项就无法让消费者完成下单交易；第二级功能则如相关商品、推荐商品等有助于销售，但并非下单交易必备的功能，第三级功能则可能是辅助销售的功能，如陈列同厂牌的其他产品等。一旦各个功能的重要性与价值区分出优先次序，在投入相关资源时就能有所依据，例如要提升网站的可用性，显然强化第一级功能的可用性必须优先于第三级的功能，如此就能将资源花在刀口上，兼顾成本效益。</p><p>Vogels 建议软体功能要基于商业价值来分级，不仅要提供如电源开关一样的控制按钮，而且更重要的是，要交由业务团队依据商业需求决定如何操控这些功能，而不是从技术的角度来决定。</p><p><a href="https://www.ithome.com.tw/news/160661">继续阅读 → Part 3 节约架构最佳化篇</a></p><hr><h3><strong>节约架构 Frugal Architect</strong></h3><p><a href="https://www.ithome.com.tw/news/160659"><strong>设计</strong></a></p><p>I. 成本是必要的非功能性需求<br>
+II. 系统成本必须与公司获利保持一致<br>
+III. 架构设计是一连串的权衡与取舍</p><p><a href="https://www.ithome.com.tw/news/160660"><strong>量测</strong></a></p><p>IV. 无法量测的系统必有隐藏的成本<br>
+V. 有成本意识的架构必有成本控制措施</p><p><a href="https://www.ithome.com.tw/news/160661"><strong>最佳化</strong></a></p><p>VI. 成本最佳化是渐进的<br>
+VII. 无庸置疑的成功必将导致错误的臆断</p><hr><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160660</guid>
+                        <link>https://www.ithome.com.tw/news/160660</link>
+                        <author>
+                            <![CDATA[吴其勋]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                    <item>
+                        <title>
+                            <![CDATA[抢救 IT 失传技艺，亚马逊技术长倡议节约架构 （Part 1 设计篇）]]>
+                        </title>
+                        <description>
+                            <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wernervogels-frugal-architect.png?itok=JV5-zvmF" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">图片来源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Amazon</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>在云端运算服务尚未问市之前，评估资讯系统的成本效益是资讯人员必备能力，身为全球最大电商亚马逊（Amazon）技术长的 Werner Vogels 说：「在当时采购资料库这类大型系统，都得先评估足以使用五年的规格，才能达到最佳成本效益。」然而，在云端运算资源垂手可得的今日，虽然传统硬体的限制越来越少了，软体开发人员可以更聚焦在功能创新与更快推出上市，但也因此忽略成本效益的重要性，Vogels 指出，重视成本效益几乎已成失传的技艺，为此他在 re:Invent 2023 的主题演讲提出「节约架构（Frugal Architect）」设计法则，呼吁将成本意识纳入软体架构设计，进而达成永续目标。</p><p>节约架构可谓亚马逊过去二十多年软体开发经验的总和，特别是打造具有成本意识与永续发展的系统架构，Vogels 回忆道，「在还很难买得到 PlayStation 的年代，只要有人贴文说亚马逊明天会开卖，许多消费者就会在开卖前五分钟开始狂按电脑的 F5 按键更新网页，以在第一时间读取到贩售网页，不过这也导致网站流量瞬间爆增。」然而，当时可没有调度自如的云端运算资源可用，因此考验著资讯人员如何有创意地解决刺手问题。</p><p>还有一次，在黑色星期五购物节来临前，亚马逊的业务团队兴高采烈地提出许多可冲高业绩的新点子，接著就轮到技术团队苦恼如何在既有系统架构与有限资源下达成业务目标。不过 Vogels 指出，过往资讯人员就是因为突破种种硬体上的限制而练就一身技艺，然而随著云端运算普及，在限制越来越少的情况下，这些技艺也逐渐失传。</p><p>Vogels 提出的节约架构由三大类、七项软体架构设计法则所组成，他表示，之所以称之为法则，代表是过往诸多经验的心得，并非硬性规定；而区分成「设计（Design）」「量测（Measure）」与「最佳化（Optimize）」三个部分，则有助于形成框架式的思考架构。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/frugal%20architect.png" style="width: 640px; height: 519px;" referrerpolicy="no-referrer"></p><p>第一项法则是将成本纳入非功能性（Non-functional）需求。传统上非功能性需求包含资安（Security）、法规遵循（Compliance）、无障碍设计（Accessibility）、效能（Performance）、可用性（Availability）、扩充性（Scalability）与可维护性（Maintainability）等项目，Vogels 指出，在过去资安、法遵与无障碍设计是无法妥协的三个项目，然而现在光这三项并不足够，还需要纳入成本（Cost）与永续性（Sustainability），成为必要的非功能性需求。</p><p>以 Amaozn 设计 S3 物件储存服务的经验为例，Vogels 指出，由于云端运算服务必须提供明确的价格，因此必须先分析运算成本，以订定合理计价模式。一开始他们认为 S3 储存服务的成本不外乎传输档案与储存档案，然而，在先期客户试用 S3 的过程中，他们才发现之前忽略了使用者读取（Request）物件资料其实也会有相对应的成本。</p><p>上述经验随后也运用在 DynamoDB 无伺服器资料库服务，由于此服务提供两种读取一致性（Consistency）选项，包括最终一致读取（Eventually Consistency）与强烈一致读取（Strong Consistency），而由于强烈一致读取的读取次数是最终一致读取的 2 倍，因此计价也就必须多一倍才合理。</p><p>成本考量必需落实在系统设计的每一个环节，Vogels 说：「我们开发软体，终究是为了帮公司获利，而不是展现自己的技能。」因此，除了考量软体架构必要的功能性、扩充性与稳定性，还要评估软体成本对公司获利的影响。在设计软体系统架构前，必须先确定营收模式，并确保系统的设计能够支持获利，他说：「系统架构设计一定要跟著公司获利的方向发展，如果不幸走反了，最终你一定会完蛋。」这也就是节约架构的第二项法则：「系统成本必须与公司获利保持一致。」</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/cost%20sustainability.png" style="width: 700px; height: 421px;" referrerpolicy="no-referrer"></p><p>AWS 知名的无伺服器运算服务 Lambda，其实背后也有一段鲜为人知的成本与架构重构的故事。在 S3、DynamoDB 等物件储存与资料库无伺服器化服务陆续推出之后，AWS 的客户开始期待运算服务也可以无伺服器化，好摆脱繁重的伺服器管理工作。Vogels 表示，因为之前有设计 S3 物件储存服务的经验，在订价方面他们很快确定无伺服器运算服务需从两个面向计价：每微秒的处理器运算量，以及记忆体使用量，在功能方面也确定必须兼顾安全性、强化隔离与成本效益等三项非功能性需求，但是接下来他们却察觉缺乏足够的技术，以达成上述三项必备的非功能性需求。</p><p>眼看推出无伺服器运算服务势在必行，但在缺乏相对应技术，以致于无法兼具成本效益的情况下，Vogels 说：「所以我们一开始就先确定了，在成本效益上得有所牺牲……而未来一定得为此付出相对应的技术债与经济债。」于是，他们成立了两个团队，第一个团队先在既有技术下动手开发，第二个团队则负责开发无伺服器运算服务所需要的关键技术。</p><p>为了确保无伺服器运算服务的每一个用户程式码都有安全隔离，第一个团队选择将每一个 Lambda 服务以 EC2 最小规格的 T2 执行个体来运行，然而，由于 Lambda 函数程式码通常都很小，即便已经采用最小执行个体 T2，但大多数的运算利用率都不到一半，也就是说 AWS 得多付出多一倍的运算成本来提供 Lambda 服务，而这也就是 Vogels 所说的，在决定开发的第一天就已经知道未来必须承担的经济债。</p><p>AWS 在 2014 年推出 Lambda 后，事隔四年，第二个团队以 Linux KVM 为基础开发出微型虚拟机器 Firecracker，让单一主机可以承载更多的 Lambda 服务，终于解决运算利用率的问题。Vogels 指出，其实当初如果没有开发 Firecracker，接下来的无伺服器容器运算服务 Fargate 也难以实现。</p><p>回首从 Amazon S3 至 AWS Lambda 的开发历程，Vogels 打趣地说，这个过程就像一边开飞机还要一边换引擎，而且还不能让乘客察觉异状。这段经历也让他观察到节约架构的第三项法则：「架构设计是一连串的权衡与取舍」。他建议开发人员要打造可持续进化又不影响业务营运的架构，因为改变一定会发生。</p><p><a href="https://www.ithome.com.tw/news/160660">继续阅读 → Part 2 节约架构量测篇</a></p><hr><h3><strong>节约架构 Frugal Architect</strong></h3><p><a href="https://www.ithome.com.tw/news/160659"><strong>设计</strong></a></p><p>I. 成本是必要的非功能性需求<br>
+II. 系统成本必须与公司获利保持一致<br>
+III. 架构设计是一连串的权衡与取舍</p><p><a href="https://www.ithome.com.tw/news/160660"><strong>量测</strong></a></p><p>IV. 无法量测的系统必有隐藏的成本<br>
+V. 有成本意识的架构必有成本控制措施</p><p><a href="https://www.ithome.com.tw/news/160661"><strong>最佳化</strong></a></p><p>VI. 成本最佳化是渐进的<br>
+VII. 无庸置疑的成功必将导致错误的臆断</p><hr><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+                        </description>
+                        <pubDate>Tue, 02 Jan 2024 16:00:00 GMT</pubDate>
+                        <guid isPermaLink="false">https://www.ithome.com.tw/news/160659</guid>
+                        <link>https://www.ithome.com.tw/news/160659</link>
+                        <author>
+                            <![CDATA[吴其勋]]>
+                        </author>
+                        <category>新闻</category>
+                    </item>
+                </channel>
+            </rss>
