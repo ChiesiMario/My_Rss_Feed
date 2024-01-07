@@ -16,8 +16,91 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 07 Jan 2024 11:13:55 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 07 Jan 2024 19:18:17 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[MapStructPlus 1.3.6 發佈，支持內部類轉換和繼承 AutoMapping 配置等特性]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:black; margin-left:0; margin-right:0"><strong>MapStruct Plus 是 MapStruct 的增強工具，在 Mapstruct 的基礎上，實現了自動生成 Mapper 接口的功能，並強化了部分功能，使 Java 類型轉換更加便捷、優雅。</strong></p><p style="color:black; margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.mapstruct.plus%2F" target="_blank">MapStructPlus 官網</a></p><h3><span>更新日誌</span></h3><ul><li><p style="color:black; margin-left:0; margin-right:0">兼容內部類轉換</p><p style="color:black; margin-left:0; margin-right:0">示例：</p><pre><code><span style="color:#4078f2">@Data</span><span style="color:#4078f2">@AutoMapper</span>(target&nbsp;=&nbsp;Car.InnerClass<span>.<span style="color:#a626a4">class</span>)
+<span style="color:#c18401">public</span>&nbsp;<span style="color:#c18401">class</span>&nbsp;<span style="color:#c18401">InnerClassTarget</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;String&nbsp;f;
+
+}
+
+<span style="color:#4078f2">@Data</span><span style="color:#a626a4">public</span>&nbsp;<span><span style="color:#a626a4">class</span>&nbsp;<span style="color:#c18401">Car</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4078f2">@Data</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">public</span>&nbsp;<span style="color:#a626a4">static</span>&nbsp;<span><span style="color:#a626a4">class</span>&nbsp;<span style="color:#c18401">InnerClass</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;String&nbsp;f;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+}
+
+<span style="color:#4078f2">@Test</span><span><span style="color:#a626a4">public</span>&nbsp;<span style="color:#a626a4">void</span>&nbsp;<span style="color:#4078f2">innerClassTest</span><span>()</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;Car.InnerClass&nbsp;innerClass&nbsp;=&nbsp;<span style="color:#a626a4">new</span>&nbsp;Car.InnerClass();
+&nbsp;&nbsp;&nbsp;&nbsp;innerClass.setF(<span style="color:#50a14f">"1111"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;InnerClassTarget&nbsp;innerClassTarget&nbsp;=&nbsp;converter.convert(innerClass,&nbsp;InnerClassTarget<span>.<span style="color:#a626a4">class</span>)</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(innerClassTarget.getF(),&nbsp;<span style="color:#50a14f">"1111"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(innerClassTarget);
+
+&nbsp;&nbsp;&nbsp;&nbsp;Car.InnerClass&nbsp;innerClass1&nbsp;=&nbsp;converter.convert(innerClassTarget,&nbsp;Car.InnerClass<span>.<span style="color:#a626a4">class</span>)</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(innerClass1.getF(),&nbsp;<span style="color:#50a14f">"1111"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(innerClass1);
+}
+</code></pre></li><li><p style="color:black; margin-left:0; margin-right:0"><strong>feature : AutoMapping 註解中的 targetClass 支持配置父類</strong></p><p style="color:black; margin-left:0; margin-right:0"><code>AutoMapping</code> 註解中的 <code>targetClass</code> 支持配置父類，當目標類是該配置的子類時，即可應用該規則。</p></li><li><p style="color:black; margin-left:0; margin-right:0"><strong><a href="https://gitee.com/easii/mapstruct-plus/issues/I8T7EF">issue#I8T7EF</a> : 支持在父類中配置的 AutoMapping 註解</strong></p><p style="color:black; margin-left:0; margin-right:0">之前的版本中，在父類中配置的 AutoMapping 註解，並不會生效，在該版本中，解決了這個問題。</p><p style="color:black; margin-left:0; margin-right:0">示例：</p><ul><li><p><code>PDto</code></p></li></ul><pre><code><span style="color:#4078f2">@Data</span><span style="color:#a626a4">public</span>&nbsp;<span><span style="color:#a626a4">class</span>&nbsp;<span style="color:#c18401">PDto</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4078f2">@AutoMapping</span>(targetClass&nbsp;=&nbsp;PVO<span>.<span style="color:#a626a4">class</span>,&nbsp;<span style="color:#c18401">expression</span>&nbsp;</span>=&nbsp;<span style="color:#50a14f">"java(source.getSuccess()&nbsp;?&nbsp;1&nbsp;:&nbsp;0)"</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;Boolean&nbsp;success;
+
+}
+</code></pre><ul><li><p><code>PVO</code></p></li></ul><pre><code><span style="color:#4078f2">@Data</span><span style="color:#a626a4">public</span>&nbsp;<span><span style="color:#a626a4">class</span>&nbsp;<span style="color:#c18401">PVO</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4078f2">@AutoMapping</span>(targetClass&nbsp;=&nbsp;PDto<span>.<span style="color:#a626a4">class</span>,&nbsp;<span style="color:#c18401">expression</span>&nbsp;</span>=&nbsp;<span style="color:#50a14f">"java(source.getSuccess().equals(1)&nbsp;?&nbsp;true&nbsp;:&nbsp;false)"</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;Integer&nbsp;success;
+
+}
+</code></pre><ul><li><p><code>SDto</code></p></li></ul><pre><code><span style="color:#4078f2">@Data</span><span style="color:#4078f2">@ToString</span>(callSuper&nbsp;=&nbsp;<span style="color:#a626a4">true</span>)
+<span style="color:#4078f2">@AutoMapper</span>(target&nbsp;=&nbsp;SVO<span>.<span style="color:#a626a4">class</span>)
+<span style="color:#c18401">public</span>&nbsp;<span style="color:#c18401">class</span>&nbsp;<span style="color:#c18401">SDto</span>&nbsp;<span style="color:#a626a4">extends</span>&nbsp;<span style="color:#c18401">PDto</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;Long&nbsp;id;
+
+}
+</code></pre><ul><li><p><code>SVO</code></p></li></ul><pre><code><span style="color:#4078f2">@Data</span><span style="color:#4078f2">@ToString</span>(callSuper&nbsp;=&nbsp;<span style="color:#a626a4">true</span>)
+<span style="color:#4078f2">@AutoMapper</span>(target&nbsp;=&nbsp;SDto<span>.<span style="color:#a626a4">class</span>)
+<span style="color:#c18401">public</span>&nbsp;<span style="color:#c18401">class</span>&nbsp;<span style="color:#c18401">SVO</span>&nbsp;<span style="color:#a626a4">extends</span>&nbsp;<span style="color:#c18401">PVO</span>&nbsp;</span>{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a626a4">private</span>&nbsp;Long&nbsp;id;
+
+}
+</code></pre><ul><li><p>測試</p></li></ul><pre><code><span style="color:#4078f2">@Test</span><span><span style="color:#a626a4">public</span>&nbsp;<span style="color:#a626a4">void</span>&nbsp;<span style="color:#4078f2">extendTest</span><span>()</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;SDto&nbsp;sDto&nbsp;=&nbsp;<span style="color:#a626a4">new</span>&nbsp;SDto();
+&nbsp;&nbsp;&nbsp;&nbsp;sDto.setId(<span style="color:#986801">111111L</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;sDto.setSuccess(<span style="color:#a626a4">true</span>);
+
+&nbsp;&nbsp;&nbsp;&nbsp;SVO&nbsp;svo&nbsp;=&nbsp;converter.convert(sDto,&nbsp;SVO<span>.<span style="color:#a626a4">class</span>)</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(svo.getId(),&nbsp;sDto.getId());
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(svo.getSuccess(),&nbsp;<span style="color:#986801">1</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(svo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;SDto&nbsp;sDto1&nbsp;=&nbsp;converter.convert(svo,&nbsp;SDto<span>.<span style="color:#a626a4">class</span>)</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(sDto1.getId(),&nbsp;sDto.getId());
+&nbsp;&nbsp;&nbsp;&nbsp;Assert.equals(sDto1.getSuccess(),&nbsp;sDto.getSuccess());
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(sDto1);
+}
+</code></pre></li><li><p style="color:black; margin-left:0; margin-right:0"><a href="https://gitee.com/easii/mapstruct-plus/issues/I8QPRO">issue#I8QPRO</a> : 框架自動生成的 AutoMapperConfig 和 AutoMapMapper 包和類名支持配置</p><p style="color:black; margin-left:0; margin-right:0">增加了三個配置項，支持註解配置和啓動參數配置：</p><ul><li><p><code>autoConfigPackage</code>：MapStructPlus 框架自動生成的配置類 --- <code>AutoMapperConfig</code>/<code>AutoMapMapperConfig</code> 所在的包路徑</p></li><li><p><code>autoMapperConfigClassName</code>：MapStructPlus 框架自動生成的的配置類（配置對象之間的轉換）類名</p></li><li><p><code>autoMapMapperConfigClassName</code>：MapStructPlus 框架自動生成的配置類（配置 Map 與對象之間的轉換）類名</p></li></ul><p style="color:black; margin-left:0; margin-right:0">詳情可以參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.mapstruct.plus%2Fguide%2Fconfiguration.html" target="_blank">MapStructPlus - 指南 - 配置項</a></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 06 Jan 2024 09:51:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/274615</guid>
+            <link>https://www.oschina.net/news/274615</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[智能製造一體化 v3.11.7 大版本發佈]]>
@@ -27,7 +110,7 @@
     <span style="color:#000000">崗位信息，面試者選擇，人員需求選擇，組織部門，員工選擇，標題內容，日期範圍選擇，單選框，富文本，目錄樹，往來單位合同選擇，地圖組件，售後-工人選擇，BOM 子件清單，銷售單選擇，工藝工序選擇，ERP 生產子件清單，工序選擇，加工單選擇，標籤，工序選擇 (包含車間)，適用對</span></div></div></li><li>修改若干問題</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">erp：&nbsp;<a href="https://gitee.com/doc_wei01/erp-pro">https://gitee.com/doc_wei01/erp-pro</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">OA：&nbsp;<a href="https://gitee.com/doc_wei01/skyeye">https://gitee.com/doc_wei01/skyeye</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">報表：<a href="https://gitee.com/doc_wei01/skyeye-report">https://gitee.com/doc_wei01/skyeye-report</a>&nbsp; 有問題可以聯繫作者，詳情請看開發計劃。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>效果圖</strong></p><table cellspacing="0" style="--darkreader-inline-bgcolor:#181a1b; --darkreader-inline-border-bottom:currentcolor; --darkreader-inline-border-left:currentcolor; --darkreader-inline-border-right:currentcolor; --darkreader-inline-border-top:currentcolor; --darkreader-inline-color:#bdb7af; -webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:medium none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>效果圖</th><th>效果圖</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-946b11e45eab123ed97a5d8657c27bf243d.png" width="3840" referrerpolicy="no-referrer"></p></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-0a1ce122f7d74ccf43ee042a2ac07b36f40.png" width="3840" referrerpolicy="no-referrer"></p></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-4f5aceea0d433ddbd7d7dadfb8eaba0c2f7.png" width="3840" referrerpolicy="no-referrer"></p></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p style="margin-left:0; margin-right:0"><img height="1874" src="https://oscimg.oschina.net/oscnet/up-70d9e35728811f1b119e3da1fe121f31fd5.png" width="3840" referrerpolicy="no-referrer"></p></td></tr></tbody></table></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 07 Jan 2024 05:10:00 GMT</pubDate>
+            <pubDate>Sat, 06 Jan 2024 05:10:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274584/win10-skyeye-3-11-7-released</guid>
             <link>https://www.oschina.net/news/274584/win10-skyeye-3-11-7-released</link>
             <author>
@@ -42,7 +125,7 @@
                 <![CDATA[<div class="content"><p><strong>Java 開源掃雷遊戲 JMine 發佈介紹視頻</strong></p><p>Java 開源掃雷遊戲 JMine 是筆者開發的基於 Swing 的 Java 掃雷遊戲，現已發佈介紹視頻。視頻請見：<br><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1Qe411m7qM%2F" target="_blank">https://www.bilibili.com/video/BV1Qe411m7qM/</a></p><p>JMine 比較重視的還原了微軟的掃雷遊戲。在算法設計中，地圖設計非常自然巧妙，利用了全部 0-9 個數字，開雷不會踩雷。其遞歸的蔓延算法對初學者而言，有借鑑意義。此遊戲也是您熟悉 Swing 編程很好的例程。使用了相當多的 Swing 控件和特性。<br> 軟件項目地址：<a href="https://gitee.com/jerryshensjf/JMine">https://gitee.com/jerryshensjf/JMine</a><br> 二進制發佈包地址：<a href="https://gitee.com/jerryshensjf/JMine/attach_files">https://gitee.com/jerryshensjf/JMine/attach_files</a></p><h1>開源 Java 掃雷遊戲 JMine</h1><h4>項目介紹</h4><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">開源 Java 掃雷遊戲 JMine，採用 Swing 界面，是可執行的 Jar，在安裝好 Java 運行環境的計算機上，只要雙擊即可運行。此處提供 1.2.5 和 2.0 的可執行 jar 包和源碼下載。</p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">此軟件是筆者開源 Python 掃雷遊戲 PyMine 的祖先。</p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">截圖（JMine 1.2.5）</p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="輸入圖片説明" src="https://images.gitee.com/uploads/images/2018/1017/213911_5c29f9ad_1203742.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="輸入圖片説明" src="https://images.gitee.com/uploads/images/2018/1017/214023_c0cc0812_1203742.png" referrerpolicy="no-referrer"></p><h4>軟件架構</h4><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left">軟件架構説明 Java， Swing</p><h4>安裝教程</h4><ol><li>裝好 JRE 或 JDK</li><li>雙擊執行</li></ol></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 07 Jan 2024 03:33:00 GMT</pubDate>
+            <pubDate>Sat, 06 Jan 2024 03:33:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274576</guid>
             <link>https://www.oschina.net/news/274576</link>
             <author>
@@ -57,7 +140,7 @@
                 <![CDATA[<div class="content"><h4>Mindolph 是一個開源的支持多種桌面平台的個人知識庫管理軟件</h4><p>https://github.com/mindolph/Mindolph</p><h3>新功能</h3><ul><li><p>思維導圖主題<br><img alt="v1.5-theme.png" src="https://oscimg.oschina.net/oscnet/up-0843965bdcbf1e564f134eb00dab6719002.jpg" referrerpolicy="no-referrer"><br> 從 v1.5 開始，思維導圖編輯器的樣式支持主題選擇，並引入了兩個預定義的主題<span>&nbsp;</span><code>Light</code>和<span>&nbsp;</span><code>Dark</code>，原來的樣式成為了<span>&nbsp;</span><code>Classic</code><span>&nbsp;</span>主題。您也可以通過複製已經存在的（預定義的或自定義的）主題來自定義主題。<br> 如果是全新安裝 v1.5 版本，默認的主題是<span>&nbsp;</span><code>Light</code>，如果是從舊版本升級的，那麼會按照之前設置的樣式自動創建一個名為<span>&nbsp;</span><code>default</code><span>&nbsp;</span>的主題。<br> 思維導圖標題之間的連接線樣式可以選擇<span>&nbsp;</span><code>Bezier</code>（貝塞爾曲線）或<code>Polyline</code>，可以更美觀。</p><ul><li><code>Light</code><span>&nbsp;</span>主題</li></ul><p><img alt="v1.5-light-theme.png" src="https://oscimg.oschina.net/oscnet/up-2f61964639228ba931d5c840e612c494a77.jpg" referrerpolicy="no-referrer"></p><ul><li><code>Dark</code><span>&nbsp;</span>主題</li></ul><p><img alt="v1.5-dark-theme.png" src="https://oscimg.oschina.net/oscnet/up-19fde1c31f139f636ca377c0ca6fad6dc59.jpg" referrerpolicy="no-referrer"></p></li><li><p>思維導圖內嵌圖片的預覽和縮放</p><p>新增預覽和縮放圖片的對話框，您可以將嵌入思維導圖中的圖片縮放至合適的大小。（注意一旦縮放後的圖片被插入到思維導圖裏，它就不能被再次編輯和縮放了。）</p><p><img alt="v1.5-image-preview.png" src="https://oscimg.oschina.net/oscnet/up-1cf46bb59b45267fa7ea22d9a853f843c43.jpg" referrerpolicy="no-referrer"></p></li></ul><h3>改進</h3><ul><li><p>通用</p><ul><li>優化了日誌的性能。</li><li>為程序版本更新可能產生的數據移植增加了處理邏輯。</li><li>優化了<span>&nbsp;</span><code>Recent Files</code><span>&nbsp;</span>的 UI 顯示。</li><li>工作空間工具欄的<span>&nbsp;</span><code>Collapse Folder</code><span>&nbsp;</span>按鈕採用新圖標。</li></ul></li><li><p>思維導圖</p><ul><li>優化了內嵌圖片的顯示質量，顯示圖片不再模糊。</li><li>主題的標題邊框類型不同時顏色對話框能設定的顏色也隨之不同。</li><li>支持將多個選中的標題內容合併成為它們共同父標題的註釋（Note）。</li><li>新增選項設置是否要在文件創建的時候為根結點自動添加註釋。</li><li>標題的圖標之間增加間隔距離。</li><li>打開思維導圖文件時自動選中根結點。</li><li>優化導圖中文字的渲染性能。</li><li>當文字輸入框顯示時進行搜索，默認使用輸入框中選中的文字內容而不是整個標題的文字內容來作為搜索關鍵字。</li></ul></li></ul><h3>Bug 修復</h3><ul><li>macOS 14 Sonoma 上安裝器不能正常啓動。</li><li>新創建的目錄不應該出現在<code>Recent Files</code>裏。</li><li>如果輸入的新文件名中包含點（<code>.</code>），這個文件就會沒有擴展名。</li><li>思維導圖中最後一個底部節點的鼠標懸浮處理不正常。</li><li>markdown 工具欄的<span>&nbsp;</span><code>Bullet List</code><span>&nbsp;</span>和<span>&nbsp;</span><code>Quote</code><span>&nbsp;</span>會在選中多行的情況下在空行中插入多餘的字符。</li><li>markdown 導出成 PDF 不能工作。</li><li>自動添加到 markdown 文檔標題的擴展名<span>&nbsp;</span><code>.md</code><span>&nbsp;</span>會產生一個不必要的文件鏈接。</li></ul><h3>依賴升級</h3><ul><li>更新 plantuml 和 richtextfx 的版本.</li><li>綁定的 JRE 版本升級到 20.0.2</li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 06 Jan 2024 17:49:00 GMT</pubDate>
+            <pubDate>Fri, 05 Jan 2024 17:49:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274560/mindolph-1-5</guid>
             <link>https://www.oschina.net/news/274560/mindolph-1-5</link>
             <author>
@@ -72,7 +155,7 @@
                 <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">MooTool 1.5.9 已發佈，這是一個用 Java 編寫的開發者常備桌面小工具集。</p><h3><strong>更新內容</strong></h3><div><ul><li>新增環境變量查看功能</li><li>全局：統一邊距</li><li>Json、Host、HTTP：增加搜索框</li><li>細節優化</li></ul><p style="margin-left:0; margin-right:0"><strong>下載地址：</strong><a href="https://gitee.com/zhoubochina/MooTool/releases">https://gitee.com/zhoubochina/MooTool/releases</a></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/quick_note_2_mac.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/quick_replace_mac.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/time_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/json_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/host_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/http_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/encode_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/qr_code_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/crypto_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/calculator_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/net_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/color_board_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/regex_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/cron_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/java_mac_2.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/mt-favoriteColor.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/quick_note_light_mac.png" referrerpolicy="no-referrer"></p><p style="color:#40485b; margin-left:0; margin-right:0; text-align:left"><img alt="Overview" src="https://gitee.com/zhoubochina/MooTool/raw/master/screen_shoot/theme.png" referrerpolicy="no-referrer"></p></div></div>
                                     ]]>
             </description>
-            <pubDate>Sat, 06 Jan 2024 14:10:00 GMT</pubDate>
+            <pubDate>Fri, 05 Jan 2024 14:10:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274538/mootool-1-5-9</guid>
             <link>https://www.oschina.net/news/274538/mootool-1-5-9</link>
             <author>
@@ -347,21 +430,6 @@ sudo apt upgrade</code></pre><p><strong><span style="color:#57b8f6">二、更新
             <pubDate>Thu, 04 Jan 2024 08:13:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/274187/semi-design-2-50-1-released</guid>
             <link>https://www.oschina.net/news/274187/semi-design-2-50-1-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[NumPy 1.26.3 發佈，Python 科學計算包]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>NumPy 1.26.3 <span style="background-color:#ffffff; color:#333333">現已發佈，這是一個維護版本。</span>修復了 1.26.2 發佈後發現的錯誤和迴歸，最顯著的變化是 f2py 的錯誤修復。此版本支持的 Python 版本為 3.9-3.12。</p><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>兼容性</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><code>f2py</code>將不再接受不明確的組合<code>-m</code>和<code>.pyf</code>CLI 組合。當傳遞多個<code>.pyf</code>文件時，會引發錯誤。當同時傳遞<code>-m</code>和 a<code>.pyf</code>時，會發出警告並忽略<code>-m</code>提供的名稱。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>改進</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:start"><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><code>f2py</code>現在可以處理具有模塊<code>kind</code>規範的<code>common</code>塊。這進一步擴展了<code>iso_fortran_env</code>和<code>iso_c_binding</code>等內在函數的可用性。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:start"><span style="background-color:#ffffff; color:#24292f">此版本共合併了 42 個拉取請求，更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnumpy%2Fnumpy%2Freleases%2Ftag%2Fv1.26.3" target="_blank">查看發佈説明</a>。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 04 Jan 2024 06:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/274160/numpy-1-26-3-released</guid>
-            <link>https://www.oschina.net/news/274160/numpy-1-26-3-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
