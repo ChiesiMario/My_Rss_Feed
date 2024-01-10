@@ -9,15 +9,111 @@
             <![CDATA[開源中國-最新資訊]]>
         </title>
         <link>https://www.oschina.net/news/project</link>
-        <atom:link href="https://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
+        <atom:link href="http://rsshub.app/oschina/news" rel="self" type="application/rss+xml" />
         <description>
             <![CDATA[開源中國-最新資訊 - Made with love by RSSHub(https://github.com/DIYgod/RSSHub)]]>
         </description>
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 10 Jan 2024 10:18:25 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 10 Jan 2024 14:27:39 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[ToolLearning Eval：CodeFuse 發佈首箇中文 Function Call 的大語言模型評測基準]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><h2><img alt="hjdfsbg.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878404965-d1c416d5-59da-4867-bcbf-ed5f2f607f42.png?x-oss-process=image%2Fresize%2Cw_900%2Climit_0" width="900" referrerpolicy="no-referrer"></h2><span id="OSC_h2_1"></span><h2><span>1.<span>&nbsp;</span></span><span style="color:#000000">背景</span></h2><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">隨着 ChatGPT 等通用大模型的出現，它們可以生成令人驚歎的自然語言，使得機器能夠更好地理解和迴應人類的需求，但在特定領域的任務上僅靠通用問答是無法滿足日常工作需要。隨着 OpenAI 推出了 Function Call 功能，工具學習能力越來越作為開源模型的標配，目前業界較有影響力的是 ToolBench 的英文數據集。但是中文數據集的稀缺，使得我們很難判斷各個模型在中文型工具上 Function Call 的能力差異。</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">為彌補這一不足，CodeFuse 發佈了首個面向 ToolLearning 領域的中文評測基準 ToolLearning-Eval，以幫助開發者跟蹤 ToolLearning 領域大模型的進展，並瞭解各個 ToolLearning 領域大模型的優勢與不足。ToolLearning-Eval 按照 Function Call 流程進行劃分，包含工具選擇、工具調用、工具執行結果總結這三個過程，方便通用模型可以對各個過程進行評測分析。</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">目前，我們已發佈了第一期的評測榜單，首批評測大模型包含 CodeFuse、Qwen、Baichuan、Internlm、CodeLLaMa 等開源大語言模型；我們歡迎相關從業者一起來共建 ToolLearning Eval 項目，持續豐富 ToolLearning 領域評測題目或大模型，我們也會定期更新評測集和評測榜單。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">GitHub 地址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval" target="_blank" rel="nofollow"><span style="color:#000000">https://github.com/codefuse-ai/codefuse-devops-eval</span></a></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">ModelScope 地址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodelscope.cn%2Fdatasets%2Fcodefuse-ai%2Fdevopseval-exam%2Fsummary" target="_blank" rel="nofollow"><span style="color:#000000">https://modelscope.cn/datasets/codefuse-ai/devopseval-exam/summary</span></a></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_2"></span><h2><span>2.<span>&nbsp;</span></span><span style="color:#000000">評測數據</span></h2><span id="OSC_h3_3"></span><h3><span>2.1.<span>&nbsp;</span></span><span style="color:#000000">數據來源</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">ToolLearning-Eval 最終生成的樣本格式都為 Function Call 標準格式，採用此類格式的原因是與業界數據統一，不但能夠提高樣本收集效率，也方便進行其它自動化評測。經過統計，該項目的數據來源可以分為 3 類：</span></p><ol><li><span style="color:#000000">開源數據：對開源的 ToolBench 原始英文數據進行清洗；</span></li><li><span style="color:#000000">英譯中：選取高質量的 ToolBench 數據，並翻譯為中文；</span></li><li><span style="color:#000000">大模型生成：採用 Self-Instruct 方法構建了中文 Function Call 訓練數據&amp;評測集；</span></li></ol><p style="margin-left:0; margin-right:0"><span style="color:#000000">我們希望越來越多的團隊能參與到中文的 functioncall 數據構建，共同優化模型調用工具的能力。我們也會不斷地強化這部分開源的數據集。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h3_4"></span><h3><span>2.2.<span>&nbsp;</span></span><span style="color:#000000">數據類別</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">ToolLearning-Eval 裏麪包含了兩份評測集，fcdata-zh-luban 和 fcdata-zh-codefuse。裏面總共包含 239 種工具類別，涵蓋了 59 個領域，包含了 1509 條評測數據。ToolLearning-Eval 的具體數據分佈可見下圖</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/238517/1701934951404-984f915c-550e-4da6-93c0-3bcc70efe66d.png" width="793" referrerpolicy="no-referrer"></p><span id="OSC_h3_5"></span><h3><span>2.3.<span>&nbsp;</span></span><span style="color:#000000">數據樣例</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">在數據上我們完全兼容了 OpenAI Function Calling，具體格式如下：</span></p><p style="margin-left:0; margin-right:0"><strong><span>Function Call 的數據格式</span></strong></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.00.51.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469274-e7c2e86e-d595-4095-b7e5-cb4b0c12b2fb.png" width="1516" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><strong><span>chatrounds 的數據格式</span></strong></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.00.19.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469290-acf7e74e-449a-4244-b911-0cf2273b7aff.png" width="1516" referrerpolicy="no-referrer"></p><pre><code>{
+    "functions":
+    [
+        {
+            "name": "get_fudan_university_scoreline",
+            "description": "查詢復旦大學往年分數線，例如：查詢 2020 年復旦大學的分數線",
+            "parameters":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "year":
+                    {
+                        "type": "string",
+                        "description": "年份，例如：2020，2019，2018"
+                    }
+                },
+                "required":
+                [
+                    "year"
+                ]
+            }
+        }
+    ],
+    "chatrounds":
+    [
+        {
+            "role": "system",
+            "content": "CodeFuse 是一個面向研發領域的智能助手，旨在中立的、無害的幫助用戶解決開發相關的問題，所有的回答均使用 Markdown 格式返回。\n 你能利用許多工具和功能來完成給定的任務，在每一步中，你需要分析當前狀態，並通過執行函數調用來確定下一步的行動方向。你可以進行多次嘗試。如果你計劃連續嘗試不同的條件，請每次嘗試一種條件。若給定了 Finish 函數,則以 Finish 調用結束，若沒提供 Finish 函數，則以不帶 function_call 的對話結束。"
+        },
+        {
+            "role": "user",
+            "content": "查詢 2020 年復旦大學的分數線"
+        },
+        {
+            "role": "assistant",
+            "content": null,
+            "function_call":
+            {
+                "name": "get_fudan_university_scoreline",
+                "arguments": "{\n  \"year\": \"2020\"\n}"
+            }
+        },
+        {
+            "role": "function",
+            "name": "get_fudan_university_scoreline",
+            "content": "{\n    \"scoreline\":{\n        \"文科一批\": 630,    \n        \"文科二批\": 610,  \n        \"理科一批\": 650,  \n        \"理科二批\": 630  \n    }\n}"
+        },
+        {
+            "role": "assistant",
+            "content": "2020 年復旦大學的分數線如下：\n\n- 文科一批：630 分\n- 文科二批：610 分\n- 理科一批：650 分\n- 理科二批：630 分"
+        }
+    ]
+}</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">上述 Function Call 的數據樣例為給定特定工具集後，用於回答用戶查詢某高校錄取分數線的問題。此外限於篇幅，此處不再其它工具使用樣例，具體可以查看 HuggingFace 數據集。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h3_6"></span><h3><span>2.4.<span>&nbsp;</span></span><span style="color:#000000">數據下載</span></h3><ul><li><span style="color:#000000">方法一： 直接下載（用瀏覽器打開下面的鏈接）</span></li></ul><p style="margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodelscope.cn%2Fdatasets%2Fcodefuse-ai%2Fdevopseval-exam%2Ffiles" target="_blank" rel="nofollow"><span style="color:#000000">https://modelscope.cn/datasets/codefuse-ai/devopseval-exam/files</span></a></p><ul><li><span style="color:#000000">方法二：使用 ModelScope datasets 庫函數</span></li></ul><pre><code>from modelscope.msdatasets import MsDataset
+MsDataset.clone_meta(dataset_work_dir='./xxx', dataset_id='codefuse-ai/devopseval-exam')
+</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><pre><code>sample_data
+|- sampleData.json   # 數據樣例
+train_data
+|- fcdata_toolbenchG1.jsonl  # 72783 toolbenchG1 整理數據
+|- fcdata_toolbenchG2.jsonl  # 29417 toolbenchG2 整理數據
+|- fcdata_toolbenchG3.jsonl  # 24286 toolbenchG3 整理數據
+|- fcdata_toolbenchG1_zh.jsonl # 16335 toolbenchG1 部分中文翻譯數據
+|- fcdata_zh_train_v1.jsonl # 72032 自有采集生成的數據 V1
+|- fcdata_zh_train_luban.jsonl  # 10214 自有采集生成的數據 luban
+ test_data
+ |- fcdata_zh_test_v1.jsonl # 1250 自有采集生成的測試數據 V1
+|- fcdata_zh_test_luban.jsonl # 259 自有采集生成的測試數據 luban</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_7"></span><h2><span>3.<span>&nbsp;</span></span><span style="color:#000000">評測設置</span></h2><span id="OSC_h3_8"></span><h3><span>3.1.<span>&nbsp;</span></span><span style="color:#000000">評測模型</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">一期我們選取了比較熱門的不同參數大小、不同機構發佈的通用大模型和 CodeFuse 大模型，具體細節如下表。後續我們也會評測更多其他的大模型。</span></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.29.03.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469347-f387ec7e-4b93-4600-9f00-6b43aba426e0.png" width="1124" referrerpolicy="no-referrer"></p><span id="OSC_h3_9"></span><h3><span>3.2.<span>&nbsp;</span></span><span style="color:#000000">評測指標</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">由於一般通用模型無法具備工具調用的能力，因此在進行 Tool Learn-Eval 評測之前需要對通用模型進行微調，先讓模型學會工具使用的基本範式</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">下面，我們定義了幾種評估工具使用的指標：</span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/e4f3eb9ec0085945e108c444bd8744d4.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/c00744c5d702dc52dd785c699051efe0.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/329076d813a344136a96bf6f06ad6e41.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/0bc2c431ba13d7463377259786f2f8b1.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/e1c18467331bc0bd1d2d7bf1ea6c4a4c.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/2aeea17ffa6d1d6e8ae8275cbc63de33.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">②③④⑤的和為 1，代表工具調用失敗的總數，⑤工具幻覺是工具名識別失敗的一種特殊情況</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span>在此基礎上，我們提供了一個相應的評測腳本，具體評測過程歡迎到 Github 項目中進一步瞭解。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_10"></span><h2><span>4.<span>&nbsp;</span></span><span style="color:#000000">評測結果</span></h2><span id="OSC_h3_11"></span><h3><span>4.1.<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval%23-leaderboard" target="_blank" rel="nofollow"><span>🏆</span></a><span style="color:#1f2328"><span>&nbsp;</span>fcdata_luban_zh 數據集評測</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">如下圖所示，在 fcdata_luban_zh 的評測結果中，不同模型在指令微調後 function call 能力存在一定的分化現象。Qwen-14B-Chat 在工具調用準確率 fccr 和 aar 的得分最高，説明通過 Qwen-14B-Chat 遵循指令微調的能力最好，同時也可以看到 Qwen-7b-chat 的 fccr 也基本與 Qwen-14b-chat 持平。Internlm-7B-Base 評分較低相對其它模型的指令微調能力較弱。從總體上來看，各模型經過 FunctionCall 的訓練數據微調後，分數區分度不大。</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/14156567/1702348998847-95a5ff09-da9b-496e-b3fd-5475ed2f0fed.png" width="1461" referrerpolicy="no-referrer"></p><span id="OSC_h3_12"></span><h3><span>4.2.<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval%23-leaderboard" target="_blank" rel="nofollow"><span>🏆</span></a><span style="color:#1f2328"><span>&nbsp;</span></span><strong><span>fcdata_zh</span></strong><span style="color:#1f2328">數據集評測</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">如下圖所示，在 fcdata_zh 的評測結果中，不同模型在指令微調後 function call 能力不存在太大差異。同時也可以看到在 fcdata_zh 數據集上的 arr 評分相較於 luban 數據集有較大的提升，可能是 luban 評測集表述上與整體訓練集上的回答存在較大差異，模型無法做出與 luban 數據匹配的合理回答。最好的 aar 得分模型分別是 CodeLLaMa 和 CodeFuse-7b-16k，而 CodeFuse-7b-16k 比 4k 要好也説明長 Token 模型擁有對工具進行總結的更優能力。</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/14156567/1702348993031-375fb821-ec90-49e8-99aa-77e04075676f.png" width="1461" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_13"></span><h2><span>5.<span>&nbsp;</span></span><span style="color:#000000">未來展望</span></h2><p style="margin-left:0; margin-right:0"><span style="color:#000000">Tool Learning 現在已然成為大模型領域的研究熱點，大模型與 Tool Learning 能碰撞出什麼火花也是當前行業內最關心的話題。未來我們將持續對 ToolLearning-Eval 項目進行優化，主要優化方向包括以下幾點：</span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">1）不斷優化評測數據集：</span></p><ul><li><ul><li><span style="color:#000000">目前 ToolLearning-Eval 已涵蓋日常領域常見的工具集合，後續將繼續增加不同領域的 Tool 集合，直至覆蓋全領域的所有智能化任務；</span></li><li><span style="color:#000000">Tool Learning 的數據質量決定了模型掌握工具學習範式的上限，後面將通過更完善的數據構造方法和人工評測手段來生成更高質量的數據</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">2）拓展多工具多輪對話數據集：</span></p><ul><li><ul><li><span style="color:#000000">當前工具評測任務僅限於單工具的評測，對於不同類別之間的數據量存在較大差異，需要持續補充數據集，平衡各類別的數據量；</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">3）持續增加評測模型：</span></p><ul><li><ul><li><span style="color:#000000">一期主要評測了一些主流的、規模不是很大的開源模型，後續將覆蓋更多的模型，並重點跟蹤評測面向相關領域的大模型。</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">希望大家一起來共建 ToolLearning-Eval，期待在大家的努力下，建立更準確、更全面的 ToolLearning 領域大模型評測體系，推動 ToolLearning 領域大模型技術的不斷髮展與創新。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_14"></span><h2><span>6.<span>&nbsp;</span></span><strong><span style="color:#000000">聯繫我們</span></strong></h2><p style="margin-left:0; margin-right:0"><span style="color:rgba(0, 0, 0, 0.9)">歡迎使用&amp;討論&amp;共建</span><br><span>（1）Eval - DevOps 領域 LLM 行業標準評測：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval" target="_blank" rel="nofollow"><span>https://github.com/codefuse-ai/codefuse-devops-eval</span></a><br><span>（2）ChatBot - 開箱即用的 DevOps 智能助手：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-chatbot" target="_blank" rel="nofollow"><span>https://github.com/codefuse-ai/codefuse-chatbot</span></a><br><span>（3）Model - DevOps 領域專屬大模型：</span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2FCodeFuse-DevOps-Model" target="_blank" rel="nofollow">https://github.com/codefuse-ai/CodeFuse-DevOps-Model</a><br> &nbsp;&nbsp;</span><span>(4) CodeFuse 官網：<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcodefuse.alipay.com%2Fwelcome%2Fproduct" target="_blank" rel="nofollow"><span>https://codefuse.alipay.com</span></a></p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 10 Jan 2024 11:03:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6942768/blog/10759392</guid>
+            <link>https://my.oschina.net/u/6942768/blog/10759392</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[袁進輝新公司再獲王慧文等 5000 萬投資]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#000000">硅基流動（SiliconFlow) <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FW0SAITjjpiJItGe4dYvMCQ" target="_blank">宣佈</a></span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">於近日完成 5000 萬元天使輪融資。本輪融資由創新工場領投，耀途資本、奇績創壇以及王慧文等科技界知名人士跟投，華興資本擔任獨家財務顧問；</span><span style="background-color:#ffffff; color:#000000">投後估值為數億元人民幣。</span></p><p><span style="background-color:#ffffff; color:#000000">硅基流動是</span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">一流科技（OneFlow）</span><span style="background-color:#ffffff; color:#000000">創始人、光年之外聯合創始人袁進輝於 </span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">2023 年 8 月</span><span style="background-color:#ffffff; color:#000000">成立的一個新公司，</span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">致力於打造大模型時代的 AI 基礎設施（AI Infra），降低大模型應用成本和開發門檻，加速 AGI 普惠人類。</span></p><p><img height="283" src="https://oscimg.oschina.net/oscnet/up-21d1e3f3e5cd348650171057db95e4847a6.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#000000">袁進輝在接受《晚點 LatePost》採訪時表示，</span><span><span style="color:#000000">新公司延續 OneFlow 的方向，做 AI Infra（AI 基礎設施）層中的 「框架」。</span></span></p><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">AI 框架介於算力層和模型層之間，是一種系統軟件，就像電腦操作系統能使普通用戶直接用鼠標和鍵盤操作應用，AI 框架能幫開發者簡單方便地設計模型或使用模型，而無需操心底層算力資源的調配。</span></span></p></div><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">不同的是，OneFlow 當年以通用訓練框架為主，服務深度模型的生產；硅基流動則專注做推理框架，服務大模型的應用。</span></span></p></div><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">袁進輝認為，服務大模型應用比服務大模型生產更容易做出標準化產品，市場空間也大得多：模型生產是階段性的，且由少數公司主導；大模型應用則會遍佈各行各業、無處不在，被各種行業和規模的企業需要。</span></span></p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 10 Jan 2024 10:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275107</guid>
+            <link>https://www.oschina.net/news/275107</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[重慶大學 | 面向 RISC-V 架構的 AI 開發框架構建與優化大賽宣講會成功舉辦]]>
@@ -294,36 +390,6 @@ c. If the automatically inserted paired punctuation is what you need, that is wh
             <link>https://my.oschina.net/u/4197945/blog/10726775</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[openKylin 2.0 揭祕 | 新一代不可變系統探索]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">openKylin 不可變系統，由社區 UpdateManager &nbsp;SIG 基於 OStree 技術研發，目標是為用戶提供更加穩定、安全和高效的不可變系統架構，提高系統的安全性和穩定性，簡化系統管理。目前，大家可通過安裝 openKylin 2.0 Alpha 版本時勾選「不可變系統安裝」進行體驗，完整功能請期待 openKylin 2.0 正式版本上線！</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" height="410" src="https://oscimg.oschina.net/oscnet/up-715de6551bd2081ffda9898ef990c804ae4.png" width="940" referrerpolicy="no-referrer"></p><p style="text-align:center"><strong>什麼是不可變系統</strong></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">不可變系統，是一種不可更改且只讀的操作系統，即用戶或應用程序不能直接修改正在運行的系統的核心文件和目錄，用戶通過原子更新實現系統的更新升級，<strong>在更新失敗時能夠迅速回滾，確保系統不會陷入異常狀態</strong>。應用程序通過容器技術與核心操作系統相互隔離，確保一個應用程序所做的更改不會影響核心系統。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><strong><span style="color:#000000">openKylin 不可變系統，採用 OStree 技術實現對新一代不可變系統的探索</span></strong><span style="color:#000000">。OStree 是一種用於操作系統的版本控制系統，它類似於 Git，用於整個操作系統文件系統樹的版本控制。OStree 允許用戶對整個操作系統進行版本控制，包括內核、庫、二進制文件和配置文件等，這使得系統升級、回滾變得更加容易。OStree 技術的另一個重要特點是不可變性。它將整個操作系統視為一個不可變的文件系統樹，每個版本都被視為一個不可變文件系統樹分支版本。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify">&nbsp;</p><p style="text-align:center"><strong>openKylin 不可變系統技術優勢</strong></p><p><span><strong>強大的穩定性</strong></span></p><p style="margin-left:0px; margin-right:0px">藉助 OStree 技術，openKylin 不可變系統可實現系統架構的不可變性，確保每次系統更新都是無風險、原子級的操作，大大降低系統運行中出現問題的可能性，為用戶提供更加強大的穩定性保障。</p><p><span><strong>安全可靠</strong></span></p><p style="margin-left:0px; margin-right:0px">通過 openKylin 不可變系統架構，可有效應對惡意軟件和系統漏洞的威脅，為用戶數據和隱私安全提供堅實的保障，極大地提升系統的安全性。</p><p><span><strong>應用隔離</strong></span></p><p>通過容器化技術實現應用程序與核心操作系統隔離，確保應用程序所做的更改不會影響核心系統或其他應用程序。</p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">綜上所述，openKylin 基於 OStree 的不可變系統實現，確保系統核心不可變，將為用戶帶來更加穩定、安全的體驗。在後續揭祕中，我們也將對 openKylin 不可變系統方案特性進行詳細解讀，敬請期待！</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify">&nbsp;</p><p><strong>關於 UpdateManager&nbsp;SIG</strong></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">openKylin 社區 UpdateManager SIG 組致力於開發和維護 openKylin 系統升級機制，並探索和研發新一代不可變系統相關技術，包括系統架構、OStree、系統更新組件等，提供不可變系統相關的技術規劃、設計、開發、維護和系統升級方案。歡迎社區中對系統更新升級、不可變系統等技術領域感興趣的開發者加入我們！</span></p><ul><li><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">SIG 主頁：</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#0b43d1">https://gitee.com/openkylin/community/tree/master/sig/UpdateManager</span></p></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 09 Jan 2024 09:05:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/274942</guid>
-            <link>https://www.oschina.net/news/274942</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[LangChain 發佈首個穩定版 v0.1.0，構建 LLM 應用的開源工具]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>LangChain 發佈了首個穩定版 v0.1.0，團隊稱此版本完全向後兼容，同時提供對 Python 和 JavaScript 的支持，重點改進了功能和文檔。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1f71d07077c8a861e935cab5e2c3c2c998a.png" referrerpolicy="no-referrer"></p><p>LangChain 已發佈一年多，現已成為構建 LLM 應用程序的默認框架。其開發團隊最近決定對 LangChain 包架構進行重大更改，以便更好地組織項目並加強基礎。</p><p>具體來説包含兩項重大的架構更改：</p><ul><li>從&nbsp;<code>langchain</code>&nbsp;中將&nbsp;<code>langchain-core</code>&nbsp;獨立出來</li><li>拆分 partner 包，分為&nbsp;<code>langchain-community</code>&nbsp;，以及獨立的 partner 包</li></ul><p><code>langchain-core</code>&nbsp;包含了主要的抽象概念、接口和核心功能。這部分代碼已經非常穩定，並在過去一個多月裏遵循了更加嚴格的版本管理政策。</p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.langchain.dev%2Flangchain-v0-1-0%2F" target="_blank">詳情查看發佈公告</a></u></em>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 09 Jan 2024 07:45:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/274921/langchain-v0-1-0</guid>
-            <link>https://www.oschina.net/news/274921/langchain-v0-1-0</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
