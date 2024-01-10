@@ -16,8 +16,104 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 10 Jan 2024 10:34:52 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 10 Jan 2024 14:44:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[ToolLearning Eval：CodeFuse 發佈首箇中文 Function Call 的大語言模型評測基準]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><h2><img alt="hjdfsbg.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878404965-d1c416d5-59da-4867-bcbf-ed5f2f607f42.png?x-oss-process=image%2Fresize%2Cw_900%2Climit_0" width="900" referrerpolicy="no-referrer"></h2><span id="OSC_h2_1"></span><h2><span>1.<span>&nbsp;</span></span><span style="color:#000000">背景</span></h2><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">隨着 ChatGPT 等通用大模型的出現，它們可以生成令人驚歎的自然語言，使得機器能夠更好地理解和迴應人類的需求，但在特定領域的任務上僅靠通用問答是無法滿足日常工作需要。隨着 OpenAI 推出了 Function Call 功能，工具學習能力越來越作為開源模型的標配，目前業界較有影響力的是 ToolBench 的英文數據集。但是中文數據集的稀缺，使得我們很難判斷各個模型在中文型工具上 Function Call 的能力差異。</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">為彌補這一不足，CodeFuse 發佈了首個面向 ToolLearning 領域的中文評測基準 ToolLearning-Eval，以幫助開發者跟蹤 ToolLearning 領域大模型的進展，並瞭解各個 ToolLearning 領域大模型的優勢與不足。ToolLearning-Eval 按照 Function Call 流程進行劃分，包含工具選擇、工具調用、工具執行結果總結這三個過程，方便通用模型可以對各個過程進行評測分析。</span></p><p style="margin-left:0; margin-right:0; text-align:justify"><span style="color:#000000">目前，我們已發佈了第一期的評測榜單，首批評測大模型包含 CodeFuse、Qwen、Baichuan、Internlm、CodeLLaMa 等開源大語言模型；我們歡迎相關從業者一起來共建 ToolLearning Eval 項目，持續豐富 ToolLearning 領域評測題目或大模型，我們也會定期更新評測集和評測榜單。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">GitHub 地址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval" target="_blank" rel="nofollow"><span style="color:#000000">https://github.com/codefuse-ai/codefuse-devops-eval</span></a></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">ModelScope 地址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodelscope.cn%2Fdatasets%2Fcodefuse-ai%2Fdevopseval-exam%2Fsummary" target="_blank" rel="nofollow"><span style="color:#000000">https://modelscope.cn/datasets/codefuse-ai/devopseval-exam/summary</span></a></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_2"></span><h2><span>2.<span>&nbsp;</span></span><span style="color:#000000">評測數據</span></h2><span id="OSC_h3_3"></span><h3><span>2.1.<span>&nbsp;</span></span><span style="color:#000000">數據來源</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">ToolLearning-Eval 最終生成的樣本格式都為 Function Call 標準格式，採用此類格式的原因是與業界數據統一，不但能夠提高樣本收集效率，也方便進行其它自動化評測。經過統計，該項目的數據來源可以分為 3 類：</span></p><ol><li><span style="color:#000000">開源數據：對開源的 ToolBench 原始英文數據進行清洗；</span></li><li><span style="color:#000000">英譯中：選取高質量的 ToolBench 數據，並翻譯為中文；</span></li><li><span style="color:#000000">大模型生成：採用 Self-Instruct 方法構建了中文 Function Call 訓練數據&amp;評測集；</span></li></ol><p style="margin-left:0; margin-right:0"><span style="color:#000000">我們希望越來越多的團隊能參與到中文的 functioncall 數據構建，共同優化模型調用工具的能力。我們也會不斷地強化這部分開源的數據集。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h3_4"></span><h3><span>2.2.<span>&nbsp;</span></span><span style="color:#000000">數據類別</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">ToolLearning-Eval 裏麪包含了兩份評測集，fcdata-zh-luban 和 fcdata-zh-codefuse。裏面總共包含 239 種工具類別，涵蓋了 59 個領域，包含了 1509 條評測數據。ToolLearning-Eval 的具體數據分佈可見下圖</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/238517/1701934951404-984f915c-550e-4da6-93c0-3bcc70efe66d.png" width="793" referrerpolicy="no-referrer"></p><span id="OSC_h3_5"></span><h3><span>2.3.<span>&nbsp;</span></span><span style="color:#000000">數據樣例</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">在數據上我們完全兼容了 OpenAI Function Calling，具體格式如下：</span></p><p style="margin-left:0; margin-right:0"><strong><span>Function Call 的數據格式</span></strong></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.00.51.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469274-e7c2e86e-d595-4095-b7e5-cb4b0c12b2fb.png" width="1516" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><strong><span>chatrounds 的數據格式</span></strong></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.00.19.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469290-acf7e74e-449a-4244-b911-0cf2273b7aff.png" width="1516" referrerpolicy="no-referrer"></p><pre><code>{
+    "functions":
+    [
+        {
+            "name": "get_fudan_university_scoreline",
+            "description": "查詢復旦大學往年分數線，例如：查詢 2020 年復旦大學的分數線",
+            "parameters":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "year":
+                    {
+                        "type": "string",
+                        "description": "年份，例如：2020，2019，2018"
+                    }
+                },
+                "required":
+                [
+                    "year"
+                ]
+            }
+        }
+    ],
+    "chatrounds":
+    [
+        {
+            "role": "system",
+            "content": "CodeFuse 是一個面向研發領域的智能助手，旨在中立的、無害的幫助用户解決開發相關的問題，所有的回答均使用 Markdown 格式返回。\n 你能利用許多工具和功能來完成給定的任務，在每一步中，你需要分析當前狀態，並通過執行函數調用來確定下一步的行動方向。你可以進行多次嘗試。如果你計劃連續嘗試不同的條件，請每次嘗試一種條件。若給定了 Finish 函數,則以 Finish 調用結束，若沒提供 Finish 函數，則以不帶 function_call 的對話結束。"
+        },
+        {
+            "role": "user",
+            "content": "查詢 2020 年復旦大學的分數線"
+        },
+        {
+            "role": "assistant",
+            "content": null,
+            "function_call":
+            {
+                "name": "get_fudan_university_scoreline",
+                "arguments": "{\n  \"year\": \"2020\"\n}"
+            }
+        },
+        {
+            "role": "function",
+            "name": "get_fudan_university_scoreline",
+            "content": "{\n    \"scoreline\":{\n        \"文科一批\": 630,    \n        \"文科二批\": 610,  \n        \"理科一批\": 650,  \n        \"理科二批\": 630  \n    }\n}"
+        },
+        {
+            "role": "assistant",
+            "content": "2020 年復旦大學的分數線如下：\n\n- 文科一批：630 分\n- 文科二批：610 分\n- 理科一批：650 分\n- 理科二批：630 分"
+        }
+    ]
+}</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">上述 Function Call 的數據樣例為給定特定工具集後，用於回答用户查詢某高校錄取分數線的問題。此外限於篇幅，此處不再其它工具使用樣例，具體可以查看 HuggingFace 數據集。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h3_6"></span><h3><span>2.4.<span>&nbsp;</span></span><span style="color:#000000">數據下載</span></h3><ul><li><span style="color:#000000">方法一： 直接下載（用瀏覽器打開下面的鏈接）</span></li></ul><p style="margin-left:0; margin-right:0"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodelscope.cn%2Fdatasets%2Fcodefuse-ai%2Fdevopseval-exam%2Ffiles" target="_blank" rel="nofollow"><span style="color:#000000">https://modelscope.cn/datasets/codefuse-ai/devopseval-exam/files</span></a></p><ul><li><span style="color:#000000">方法二：使用 ModelScope datasets 庫函數</span></li></ul><pre><code>from modelscope.msdatasets import MsDataset
+MsDataset.clone_meta(dataset_work_dir='./xxx', dataset_id='codefuse-ai/devopseval-exam')
+</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><pre><code>sample_data
+|- sampleData.json   # 數據樣例
+train_data
+|- fcdata_toolbenchG1.jsonl  # 72783 toolbenchG1 整理數據
+|- fcdata_toolbenchG2.jsonl  # 29417 toolbenchG2 整理數據
+|- fcdata_toolbenchG3.jsonl  # 24286 toolbenchG3 整理數據
+|- fcdata_toolbenchG1_zh.jsonl # 16335 toolbenchG1 部分中文翻譯數據
+|- fcdata_zh_train_v1.jsonl # 72032 自有采集生成的數據 V1
+|- fcdata_zh_train_luban.jsonl  # 10214 自有采集生成的數據 luban
+ test_data
+ |- fcdata_zh_test_v1.jsonl # 1250 自有采集生成的測試數據 V1
+|- fcdata_zh_test_luban.jsonl # 259 自有采集生成的測試數據 luban</code></pre><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_7"></span><h2><span>3.<span>&nbsp;</span></span><span style="color:#000000">評測設置</span></h2><span id="OSC_h3_8"></span><h3><span>3.1.<span>&nbsp;</span></span><span style="color:#000000">評測模型</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">一期我們選取了比較熱門的不同參數大小、不同機構發佈的通用大模型和 CodeFuse 大模型，具體細節如下表。後續我們也會評測更多其他的大模型。</span></p><p style="margin-left:0; margin-right:0"><img alt="截屏 2024-01-10 15.29.03.png" src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/98756342/1704878469347-f387ec7e-4b93-4600-9f00-6b43aba426e0.png" width="1124" referrerpolicy="no-referrer"></p><span id="OSC_h3_9"></span><h3><span>3.2.<span>&nbsp;</span></span><span style="color:#000000">評測指標</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">由於一般通用模型無法具備工具調用的能力，因此在進行 Tool Learn-Eval 評測之前需要對通用模型進行微調，先讓模型學會工具使用的基本範式</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span style="color:#000000">下面，我們定義了幾種評估工具使用的指標：</span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/e4f3eb9ec0085945e108c444bd8744d4.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/c00744c5d702dc52dd785c699051efe0.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/329076d813a344136a96bf6f06ad6e41.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/0bc2c431ba13d7463377259786f2f8b1.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/e1c18467331bc0bd1d2d7bf1ea6c4a4c.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><img src="https://intranetproxy.alipay.com/skylark/lark/__latex/2aeea17ffa6d1d6e8ae8275cbc63de33.svg" referrerpolicy="no-referrer"></span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">②③④⑤的和為 1，代表工具調用失敗的總數，⑤工具幻覺是工具名識別失敗的一種特殊情況</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><p style="margin-left:0; margin-right:0"><span>在此基礎上，我們提供了一個相應的評測腳本，具體評測過程歡迎到 Github 項目中進一步瞭解。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_10"></span><h2><span>4.<span>&nbsp;</span></span><span style="color:#000000">評測結果</span></h2><span id="OSC_h3_11"></span><h3><span>4.1.<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval%23-leaderboard" target="_blank" rel="nofollow"><span>🏆</span></a><span style="color:#1f2328"><span>&nbsp;</span>fcdata_luban_zh 數據集評測</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">如下圖所示，在 fcdata_luban_zh 的評測結果中，不同模型在指令微調後 function call 能力存在一定的分化現象。Qwen-14B-Chat 在工具調用準確率 fccr 和 aar 的得分最高，説明通過 Qwen-14B-Chat 遵循指令微調的能力最好，同時也可以看到 Qwen-7b-chat 的 fccr 也基本與 Qwen-14b-chat 持平。Internlm-7B-Base 評分較低相對其它模型的指令微調能力較弱。從總體上來看，各模型經過 FunctionCall 的訓練數據微調後，分數區分度不大。</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/14156567/1702348998847-95a5ff09-da9b-496e-b3fd-5475ed2f0fed.png" width="1461" referrerpolicy="no-referrer"></p><span id="OSC_h3_12"></span><h3><span>4.2.<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval%23-leaderboard" target="_blank" rel="nofollow"><span>🏆</span></a><span style="color:#1f2328"><span>&nbsp;</span></span><strong><span>fcdata_zh</span></strong><span style="color:#1f2328">數據集評測</span></h3><p style="margin-left:0; margin-right:0"><span style="color:#000000">如下圖所示，在 fcdata_zh 的評測結果中，不同模型在指令微調後 function call 能力不存在太大差異。同時也可以看到在 fcdata_zh 數據集上的 arr 評分相較於 luban 數據集有較大的提升，可能是 luban 評測集表述上與整體訓練集上的回答存在較大差異，模型無法做出與 luban 數據匹配的合理回答。最好的 aar 得分模型分別是 CodeLLaMa 和 CodeFuse-7b-16k，而 CodeFuse-7b-16k 比 4k 要好也説明長 Token 模型擁有對工具進行總結的更優能力。</span></p><p style="margin-left:0; margin-right:0"><img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/png/14156567/1702348993031-375fb821-ec90-49e8-99aa-77e04075676f.png" width="1461" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_13"></span><h2><span>5.<span>&nbsp;</span></span><span style="color:#000000">未來展望</span></h2><p style="margin-left:0; margin-right:0"><span style="color:#000000">Tool Learning 現在已然成為大模型領域的研究熱點，大模型與 Tool Learning 能碰撞出什麼火花也是當前行業內最關心的話題。未來我們將持續對 ToolLearning-Eval 項目進行優化，主要優化方向包括以下幾點：</span></p><p style="margin-left:0; margin-right:0"><span style="color:#000000">1）不斷優化評測數據集：</span></p><ul><li><ul><li><span style="color:#000000">目前 ToolLearning-Eval 已涵蓋日常領域常見的工具集合，後續將繼續增加不同領域的 Tool 集合，直至覆蓋全領域的所有智能化任務；</span></li><li><span style="color:#000000">Tool Learning 的數據質量決定了模型掌握工具學習範式的上限，後面將通過更完善的數據構造方法和人工評測手段來生成更高質量的數據</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">2）拓展多工具多輪對話數據集：</span></p><ul><li><ul><li><span style="color:#000000">當前工具評測任務僅限於單工具的評測，對於不同類別之間的數據量存在較大差異，需要持續補充數據集，平衡各類別的數據量；</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">3）持續增加評測模型：</span></p><ul><li><ul><li><span style="color:#000000">一期主要評測了一些主流的、規模不是很大的開源模型，後續將覆蓋更多的模型，並重點跟蹤評測面向相關領域的大模型。</span></li></ul></li></ul><p style="margin-left:0; margin-right:0"><span style="color:#000000">希望大家一起來共建 ToolLearning-Eval，期待在大家的努力下，建立更準確、更全面的 ToolLearning 領域大模型評測體系，推動 ToolLearning 領域大模型技術的不斷髮展與創新。</span></p><p style="margin-left:0; margin-right:0">&nbsp;</p><span id="OSC_h2_14"></span><h2><span>6.<span>&nbsp;</span></span><strong><span style="color:#000000">聯繫我們</span></strong></h2><p style="margin-left:0; margin-right:0"><span style="color:rgba(0, 0, 0, 0.9)">歡迎使用&amp;討論&amp;共建</span><br><span>（1）Eval - DevOps 領域 LLM 行業標準評測：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-devops-eval" target="_blank" rel="nofollow"><span>https://github.com/codefuse-ai/codefuse-devops-eval</span></a><br><span>（2）ChatBot - 開箱即用的 DevOps 智能助手：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2Fcodefuse-chatbot" target="_blank" rel="nofollow"><span>https://github.com/codefuse-ai/codefuse-chatbot</span></a><br><span>（3）Model - DevOps 領域專屬大模型：</span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fcodefuse-ai%2FCodeFuse-DevOps-Model" target="_blank" rel="nofollow">https://github.com/codefuse-ai/CodeFuse-DevOps-Model</a><br> &nbsp;&nbsp;</span><span>(4) CodeFuse 官網：<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcodefuse.alipay.com%2Fwelcome%2Fproduct" target="_blank" rel="nofollow"><span>https://codefuse.alipay.com</span></a></p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 10 Jan 2024 11:03:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6942768/blog/10759392</guid>
+            <link>https://my.oschina.net/u/6942768/blog/10759392</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[袁進輝新公司再獲王慧文等 5000 萬投資]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#000000">硅基流動（SiliconFlow) <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FW0SAITjjpiJItGe4dYvMCQ" target="_blank">宣佈</a></span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">於近日完成 5000 萬元天使輪融資。本輪融資由創新工場領投，耀途資本、奇績創壇以及王慧文等科技界知名人士跟投，華興資本擔任獨家財務顧問；</span><span style="background-color:#ffffff; color:#000000">投後估值為數億元人民幣。</span></p><p><span style="background-color:#ffffff; color:#000000">硅基流動是</span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">一流科技（OneFlow）</span><span style="background-color:#ffffff; color:#000000">創始人、光年之外聯合創始人袁進輝於 </span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">2023 年 8 月</span><span style="background-color:#ffffff; color:#000000">成立的一個新公司，</span><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">致力於打造大模型時代的 AI 基礎設施（AI Infra），降低大模型應用成本和開發門檻，加速 AGI 普惠人類。</span></p><p><img height="283" src="https://oscimg.oschina.net/oscnet/up-21d1e3f3e5cd348650171057db95e4847a6.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#000000">袁進輝在接受《晚點 LatePost》採訪時表示，</span><span><span style="color:#000000">新公司延續 OneFlow 的方向，做 AI Infra（AI 基礎設施）層中的 「框架」。</span></span></p><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">AI 框架介於算力層和模型層之間，是一種系統軟件，就像電腦操作系統能使普通用户直接用鼠標和鍵盤操作應用，AI 框架能幫開發者簡單方便地設計模型或使用模型，而無需操心底層算力資源的調配。</span></span></p></div><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">不同的是，OneFlow 當年以通用訓練框架為主，服務深度模型的生產；硅基流動則專注做推理框架，服務大模型的應用。</span></span></p></div><div style="text-align:start"><p style="color:#222222; margin-left:0; margin-right:0; text-align:justify"><span><span style="color:#000000">袁進輝認為，服務大模型應用比服務大模型生產更容易做出標準化產品，市場空間也大得多：模型生產是階段性的，且由少數公司主導；大模型應用則會遍佈各行各業、無處不在，被各種行業和規模的企業需要。</span></span></p></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 10 Jan 2024 10:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275107</guid>
+            <link>https://www.oschina.net/news/275107</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[重慶大學 | 面向 RISC-V 架構的 AI 開發框架構建與優化大賽宣講會成功舉辦]]>
@@ -294,36 +390,6 @@ c. If the automatically inserted paired punctuation is what you need, that is wh
             <link>https://www.oschina.net/news/274916/openai-and-journalism</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[開源神器 LSPosed 宣佈停更，作者稱遭受大量惡意攻擊]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Android 平台 Xposed Framework 的替代實現版本 LSPosed 宣佈停止維護，目前 LSPosed 的 GitHub 倉庫已經設置為只讀狀態。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">LSPosed 是一個 Magisk<span>&nbsp;</span><span><span><span>模塊，嘗試提供一個 ART hooking 框架，該框架提供與 OG Xposed 一致的 API，其利用 LSPlant hooking 框架。</span></span></span></p><p><img src="https://oscimg.oschina.net/oscnet/up-75beeed327a7d34771f31dd9958c3920723.png" referrerpolicy="no-referrer"></p><p><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FLSPosed%2FLSPosed" target="_blank">https://github.com/LSPosed/LSPosed</a></em></u></p><p>對於停止開發的原因，開發者在其訂閲頻道中表示停止維護的主要原因是出現許多謠言、誹謗、種族主義和咒罵等。同時開發者也受到 Magisk 社區的一些咒罵，因此開發者決定休息，停止開發和維護。</p><p><img src="https://oscimg.oschina.net/oscnet/up-c9dc6d212bdbe837a4322248a364756b5ff.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 09 Jan 2024 03:58:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/274877</guid>
-            <link>https://www.oschina.net/news/274877</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[渠成開源社區 2023 年工作總結]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span>「道雖邇，不行不至；事雖小，不為不成。」2023 年，對渠成開源社區來説，是不平凡的一年，更是值得回味的一年。</span></p><p><span>這一年，我們從零搭建了渠成開源社區，確定了工作組成員；</span></p><p><span>這一年，我們鏈接了開源作者/開源社區，為他們提供了服務；</span></p><p><span>這一年，我們舉辦了多場活動，為更多用户創建了彼此交流的機會；</span></p><p><span>……</span></p><p><span>回望 2023 年，渠成開源社區所經歷的驚喜與感動，都離不開社區中每位夥伴的陪伴和努力。我們不斷迭代、不斷創新，我們共同走過的每一個瞬間都值得紀念與慶賀。</span></p><p style="text-align:center"><span><strong>一、從 0 到 1 搭建社區</strong></span></p><p><strong><em>1&nbsp;</em>成立社區工作組</strong></p><p><span>2023 年 4 月，我們確定了<strong>渠成開源社區的工作組團隊</strong>，包括顧問專家、市場運營、產品規劃、網站開發、設計以及財務幾大角色。期間完善了社區相關運營機制，包括不限於確定社區 23 年的目標、完善社區的媒體賬號、確定社區對外信息公開機制等。</span></p><p><span>社區的對外信息公開機制，真正讓社區內每一次的會議、每一筆的支出都做到有跡可尋。在官網的「<strong>財務公開</strong>」版塊，現已公開了 2021 年 11 月-2023 年 11 月渠成開源社區的現金流水賬。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>2023 年，工作組共開展了<strong>13 場</strong>的會議，工作組成員在會上提出各項社區成員關注的問題，共同探討以提供相應的解決方案。往期會議詳情可在渠成開源社區官網查看：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.qucheng.cc%2Fmeetings.html" target="_blank" rel="nofollow"><span>https://www.qucheng.cc/meetings.html</span></a></p><p><strong><em>2&nbsp;</em></strong><span><strong>搭建官方媒體矩陣</strong></span></p><p><span>2023 年 4 月，我們上線了<strong>渠成開源社區官網</strong>（</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.qucheng.cc%2F" target="_blank" rel="nofollow"><span>https://www.qucheng.cc/</span></a><span>）</span><span>，詳細介紹了社區的定位、章程、會員入駐機制和會員權益等。同時，為了方便大家從多渠道、多途徑瞭解開源項目，我們還開通渠成開源社區的微信公眾號、視頻號、Bilibili、開源中國、知乎號、GitHub 等社媒賬號。</span></p><ul><li><p><span>微信公眾號：</span><strong>渠成開源社區</strong></p></li><li><p><span>視頻號、Bilibili、開源中國、知乎號：渠成開源社區</span></p></li><li><p><span>GitHub：</span><span>@QuCheng-OpenSource</span></p></li></ul><p style="margin-left:0px; margin-right:0px; text-align:center"><span><span><strong>二</strong><strong>、</strong></span><strong>鏈接開源生態中的各種角色</strong></span></p><p><strong><em>1&nbsp;</em></strong><span><strong>鏈接開源作者/開源社區</strong></span></p><ul><li><p><strong><span>持續邀請開源項目入駐社區</span></strong></p></li></ul><p><span>我們歡迎更多的開源項目可以入駐渠成開源社區，社區會為會員項目<strong>提供項目運營、周邊設計、贊助招募、法律諮詢以及商業化諮詢等多項服務。</strong></span></p><p><span>截至目前，已有<strong>39 個項目</strong>入駐渠成開源社區，成為了渠成開源社區的會員項目。會員項目可享受入駐渠成 Demo 中心的權益，讓所有人都能在線體驗會員項目的 Demo，輕鬆實現高可用。同時，渠成開源社區所接受的捐贈與贊助會根據捐贈方或贊助方的意願使用該資金，用於鼓勵、支持社區會員的開源項目。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" height="383" src="https://oscimg.oschina.net/oscnet/up-0a2fc114545f42267ae6fc4321861ef99e5.jpg" width="600" referrerpolicy="no-referrer"></p><ul><li><p><strong><span>持續設計開源周邊產品</span></strong></p></li></ul><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>為幫助各個開源項目提高知名度，同時讓更多開源軟件的粉絲獲取相關周邊產品，我們與國內外數十個開源項目聯絡，獲取各大開源項目的授權，使用其 Logo 設計出精美的周邊 T 恤。我們已將 T 恤設計稿開源至 GitHub，供大家下載與使用：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FQuCheng-OpenSource%2FT-shirt" target="_blank" rel="nofollow"><span>GitHub - QuCheng-OpenSource/T-shirt</span></a></p><ul><li><p><strong><span>打造社區禮品體系</span></strong></p></li></ul><p><span>渠成開源社區官網的「<strong>開源周邊</strong>」板塊已上架了我們為各開源項目設計的周邊 T 恤，用户可以直接在線下單購買。周邊產品的所有銷售利潤，均會公開透明地用於到社區發展中。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0px; margin-right:0px; text-align:center"><img alt="" height="237" src="https://oscimg.oschina.net/oscnet/up-f3b16af9cf4e22ea243581eeac04c5bd5f0.jpg" width="600" referrerpolicy="no-referrer"></p><ul><li><p><strong><span>持續上線官網新版塊</span></strong></p></li></ul><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>2023 年，根據用户反饋和日常討論，<strong>我們在官網上線了開源動態和社區活動兩個板塊。</strong>用户可以在官網的「開源動態」板塊進行在線投稿。同時，社區公眾號邀請了眾多優秀開源作者開放白名單，以幫助轉發推廣文章與活動。</span></p><p><strong><em>2&nbsp;</em></strong><span><strong>傳遞社區價值主張</strong></span></p><ul><li><p><span><strong>發起「源來是你」系列欄目</strong></span></p></li></ul><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>本着為更多開源相關的用户提供更好的服務原則，切實幫助每一個開源軟件實現商業化。我們蒐集了大家關心的各類問題。分別在北京、上海兩地分別<strong>舉辦了</strong><strong>2 場專場沙龍活動，開展了 4 期線上直播，涵蓋了商業溝通、產品定價、法律風險規避等多個主題。線上線下共參與人數達 1218 人。</strong></span></p><ul><li><p><strong><span>出品《開源商業化白皮書》</span></strong></p></li></ul><p><span>開源軟件發揮着越來越重要的作用，但國內沒有建立起一個開源軟件商業化的生態體系。為此，渠成開源社區組織撰寫了白皮書，<strong>探討了國內開源現狀、常見的開源商業模式、如何做開源商業化等多個方面</strong>，希望為開源軟件作者、貢獻者以及創業者提供了實際的商業化落地建議。</span></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center"><img alt="" height="385" src="https://oscimg.oschina.net/oscnet/up-376a4a0355e49acb1a584a0eac177637db7.jpg" width="600" referrerpolicy="no-referrer"></p><ul><li><p><strong><span>多次參與國內各項大會活動</span></strong></p></li></ul><p style="text-align:center"><img alt="" height="450" src="https://oscimg.oschina.net/oscnet/up-d2ba2578656efd103183dbb7237b299f6a6.jpg" width="600" referrerpolicy="no-referrer"></p><p style="color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify"><span>渠成開源社區積極投入到國內的開源佈道，陸續參加了 2023 上海人工智能大會開源集市、開源社 2023 開源年會、DevOps 社區廣州峯會等活動，以傳遞社區的價值主張。<strong>為了能夠與眾多開源社區保持友好聯繫，我們創建了社區合作伙伴羣，持續分享有價值的開源信息，積極促成合作，共同推動開源事業的發展。</strong></span></p><p style="margin-left:0px; margin-right:0px; text-align:center"><span><strong>三</strong></span><span><strong>、</strong></span><strong>歡迎入駐社區</strong></p><p><span>如果您正在經營一個開源項目，如果您有開源商業化的訴求，<strong>歡迎攜項目入駐渠成開源社區</strong></span><span>：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.qucheng.cc%2Fproject.html" target="_blank" rel="nofollow"><strong><span>開源項目—項目入駐</span></strong></a><span>。審核通過後，我們將拉您進入項目作者羣。在這裏，您可以與各位開源創業者共同交流、共同成長。</span></p><p style="text-align:center"><strong>歡迎掃碼查看官網</strong></p><p style="text-align:center"><img alt="" height="300" src="https://oscimg.oschina.net/oscnet/up-ce97b5277dc03f6cb550c89d44660add1b3.png" width="300" referrerpolicy="no-referrer"></p><p><span>很多時候，我們會被星辰大海的征途所鼓動，進而熱血沸騰。可實際上，所有的大事都要從小事做起，從細節着手。渠成開源社區，一直秉承的就是這樣的態度，踏踏實實為中國開源軟件事業做貢獻。正因如此，渠成開源社區在 2023 年的努力得到了國內知名開源技術社區開源中國（OSCHINA）的肯定，榮獲 OSCHINA 2023 年度 「<strong>優秀開源技術團隊</strong>」榮譽稱號。</span></p><p><span>征途漫漫從頭越，奮楫揚帆向未來。2024 年，渠成開源社區將服務更多的開發者，幫助大家解決實實在在的問題。<strong>我們期待有更多的開源項目加入社區，也期待與各開源開發者一起攜手打造適閤中國國情的開源軟件生態。</strong>&nbsp;</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Tue, 09 Jan 2024 03:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/6928219/blog/10712985</guid>
-            <link>https://my.oschina.net/u/6928219/blog/10712985</link>
-            <author>
-                <![CDATA[原創]]>
             </author>
         </item>
     </channel>
