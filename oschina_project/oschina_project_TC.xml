@@ -16,8 +16,101 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 15 Jan 2024 03:25:46 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 15 Jan 2024 05:28:24 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[LiteFlow v2.11.4 正式版本發佈！一個越來越強大的規則引擎]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><div><div><div><h2>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img height="383" src="https://oscimg.oschina.net/oscnet/up-efb0677ee5e62d77a06b1127d9067177ea1.png" width="900" referrerpolicy="no-referrer"></h2><h2>前言</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">2.11.4 經歷了 BETA1,BETA2,BETA3 版本之後，正式版發佈!</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">2.11.4 總共有 18 個 issue 的更新，絕大多數為增強類 issue。在這個版本中，我們優化了底層，着重優化了性能。也提供了一些小特性的升級。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">強烈建議還在用 2.11.3 版本的同學進行升級。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">接下來挑幾個更新的增強來詳細説下。</p><h2>重寫了聲明式的部分</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">此增強 issue 困擾我半個多月，一直以來，LiteFlow 聲明式的底層代碼比較混亂。不太好閲讀，而且始終會在一些邊緣場景莫名其妙的出問題。我一直想對其進行重寫，這個版本，我閲讀了大量了 spring bean 構造的底層代碼，終於在底層實現了更加優化的改造。改造之後的聲明式底層代碼更加合理，結構層次也更加清晰，應該會擺脫一些邊緣場景的問題。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">改造之後的使用方式同之前一致，用戶並不會感知到。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">只是為了説明下，我們對底層代碼是有追求的，並會為了追去極致的代碼優雅而去不停努力。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">希望你們去使用 LiteFlow，因為 LF 正在變得更強大。</p><h2>解決了並行線程池的性能問題</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">源於社區的小夥伴在落地 LF 時發現，第一次請求會比後面的請求慢上一些。社區小夥伴也進行排查，發現 LF 是第一次請求時去初始化並行線程池，並報上了 issue。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">這裏確實是之前的版本沒考慮周全，這一次，我們修復了這個問題。之後所有的線程池的初始化全都在啓動時進行，包括用戶自定義的線程池，也是如此。</p><h2>並行線程池隔離 BUG 的修復</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">在 2.11.1 版本中曾經推出了並行線程池的隔離特性，旨在對一些並行分支非常多的進行線程池的隔離，以達到優化性能的目的，沒想到這個特性一直存在 BUG。這次我們也深度進行了排查，並修復了這個問題。</p><h2>增加映射關鍵字 SER 和 PAR</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">曾經有一個 issue 我還記得，説是 LF 中的 THEN 和 WHEN 是表示串行和並行的意思，但是關鍵字意義卻不精準。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">雖然我承認 THEN 和 WHEN 表示串行和並行的確有些牽強，但是 LF 用戶一直這麼用，突然改變最主要的關鍵字也不太好。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">所以這次新推出了<code>SER</code>和<code>PAR</code>關鍵字，等同於<code>THEN</code>和<code>WHEN</code>。當然繼續使用<code>THEN</code>和<code>WHEN</code>也是可以的。</p><h2>CmpStep 中加入 startTime 和 endTime</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">以前的 CmpStep 提供了耗時，但是沒有組件的執行時間參數，這次提供了 startTime 和 EndTime。</p><h2>加入了快速解析的參數</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">這個增強，也是源於社區內的一位落地的小夥伴，他和我説項目內有幾萬的流程。啓動耗時非常久。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">詳細分析原因後，發現是 LF 的<code>CopyOnWriteHashMap</code>比較慢的緣故，當初用這個是為了平滑更新的因素。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">所以，2.11.4 版本推出了<code>liteflow.fast-load</code>參數，當這個參數為 true 時。那麼啓動解析的速度回提升 4 到 5 倍。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">我也進行了測試，1w 條流程 (每個流程均有 14 個組件) 耗時 3 秒，這個解析是線性的。所以在配置了這個參數後，解析速度還是可以接受的。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">但是我並不推薦所有的人把快速 load 模式打開，因為快速 load 模式犧牲了熱更新時的平滑性。換句話説就是，在正常模式下，如果當你熱更新時正好有正在執行的流程，那麼正在執行的流程是會用老的鏈路的，只有下一次才會用最新的鏈路。如果你打開了快速 load 模式，那麼在熱更新時，正好在執行過程中的流程有可能前半部分是老的流程，而後半部分有可能讀到新的流程。這樣就造成了不一致了。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">當然這種場景是非常極端的場景，在普通的場景中，可能根本也不需要保持熱更新時的平滑性。所以 fast-load 模式是有代價的。魚和熊掌不可兼得。看項目要求了。</p><h2>Nacos 配置模式新增對阿里雲 MSE 的鑑權方式</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">新版本的 LiteFlow 在 Nacos 層面可以支持阿里雲的 MSE 鑑權方式了。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">只需要這麼配置就行了：</p><pre><code><span style="color:#d19a66">liteflow.rule-source-ext-data</span>=<span style="color:#98c379">{\
+&nbsp;&nbsp;&nbsp;&nbsp;"serverAddr":"127.0.0.1:8848",\
+&nbsp;&nbsp;&nbsp;&nbsp;"dataId":"demo_rule",\
+&nbsp;&nbsp;&nbsp;&nbsp;"group":"DEFAULT_GROUP",\
+&nbsp;&nbsp;&nbsp;&nbsp;"namespace":"your&nbsp;namespace&nbsp;id",\
+&nbsp;&nbsp;&nbsp;&nbsp;"accessKey":"xxxxxxxxxx",\
+&nbsp;&nbsp;&nbsp;&nbsp;"secretKey":"xxxxxxxxxx"\
+}</span></code></pre><h2>2.11.4 全部更新列表</h2><pre><code>增強&nbsp;#I8UQR4&nbsp;while 組件本身加入 loopIndex
+
+https://gitee.com/dromara/liteFlow/issues/I8UQR4
+
+增強&nbsp;#I8TZFQ&nbsp;優化 EL 的 check 報錯提示，代碼優化
+
+https://gitee.com/dromara/liteFlow/issues/I8TZFQ
+
+增強&nbsp;#I8QJE1&nbsp;增加映射關鍵字 SER 和 PAR
+
+https://gitee.com/dromara/liteFlow/issues/I8QJE1
+
+增強&nbsp;#I8PWWO&nbsp;CmpStep 中加入 startTime 和 endTime
+
+https://gitee.com/dromara/liteFlow/issues/I8PWWO
+
+增強&nbsp;#I8MXIB&nbsp;WHEN 線程池可能存在第一次調用的時候初始化
+
+https://gitee.com/dromara/liteFlow/issues/I8MXIB
+
+增強&nbsp;#I8MXHX&nbsp;isAccess 在 WHEN 中會被執行 2 次的問題
+
+https://gitee.com/dromara/liteFlow/issues/I8MXHX
+
+增強&nbsp;#I8J622&nbsp;動態組件 el 語句 data 參數缺少單引號
+
+https://gitee.com/dromara/liteFlow/issues/I8J622
+
+增強&nbsp;#I8IDE5&nbsp;對聲明式代理底層代碼進行增強
+
+https://gitee.com/dromara/liteFlow/issues/I8IDE5
+
+增強&nbsp;#I8H1LT&nbsp;希望提供 nacos 對於阿里雲 MSE 的鑑權方式
+
+https://gitee.com/dromara/liteFlow/issues/I8H1LT
+
+增強&nbsp;#I8FC4F&nbsp;超大量規則場景下項目啓動時間過長的問題
+
+https://gitee.com/dromara/liteFlow/issues/I8FC4F
+
+增強&nbsp;#I8FBBW&nbsp;chain 及 script 新增 enable 字段後 sql 打印錯誤
+
+https://gitee.com/dromara/liteFlow/issues/I8FBBW
+
+增強&nbsp;#I8DW1J&nbsp;LiteFlowChainELBuilder.validate() 依然存在 bug
+
+https://gitee.com/dromara/liteFlow/issues/I8DW1J
+
+增強&nbsp;#I8AE9G&nbsp;超時控制增加 maxWaitMilliseconds 關鍵字，以增加更精細的時間控制
+
+https://gitee.com/dromara/liteFlow/issues/I8AE9G
+
+修復&nbsp;#I8TZTK EL 語句構建的時候，如果出現了腳本節點。會出 NPE 的異常
+
+https://gitee.com/dromara/liteFlow/issues/I8TZTK
+
+修復&nbsp;#I8S75A&nbsp;去除循環檢測，低版本的 jackson 可能導致的內存溢出問題
+
+https://gitee.com/dromara/liteFlow/issues/I8S75A
+
+修復&nbsp;#I8RWGZ&nbsp;開啓 WHEN 線程池隔離線程池創建有問題
+
+https://gitee.com/dromara/liteFlow/issues/I8RWGZ
+
+修復&nbsp;#I8PEZ0&nbsp;修復 sql 插件中 script 表中 enable 字段不起作用的 bug
+
+https://gitee.com/dromara/liteFlow/issues/I8PEZ0
+
+修復&nbsp;#I8AF1O&nbsp;修復 redis 的訂閲模式 mode 解析的 bug
+
+https://gitee.com/dromara/liteFlow/issues/I8AF1O
+</code></pre><h2>開設了 LF CLUB 付費社區</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">相信老用戶都知道，我們在微信羣努力幫大家答疑解惑，堅持了 2 年之多，目前微信羣一共有 12 個羣。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">隨着社區人越來越多，有些問題我有時也沒有時間精力去一一回答。為了提高質量，為此我創建了<code>LF CLUB</code>的知識星球。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left"><code>LF CLUB</code>為付費知識星球，既然是付費星球，加入星球的用戶擁有以下權益：</p><ul><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>凡是在星球向我提問的問題，當天必定得到詳細的回覆和指導建議。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每個加入的用戶每年提供 2 次遠程問題排查，諮詢類的服務。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每 1 到 2 天會分享 LF 目前的進度，以及下一個版本的重點。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每週發佈一篇 LF 的解析和相關理念分析。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>提供之後視頻教程的折扣購買權益。</strong></p></li></ul><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">當然您也可以選擇不加入星球，在微信羣裏向我提問，但是迫於精力問題，也不可能保證每位的問題都能得到細緻的回覆和指導。</p></div></div></div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 15 Jan 2024 03:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275773/liteflow-2-11-4-released</guid>
+            <link>https://www.oschina.net/news/275773/liteflow-2-11-4-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[「商業版本」 Qt 6.5 LTS 系列發佈首個更新]]>
@@ -402,21 +495,6 @@ svg_to_png(&amp;bar_chart.svg().unwrap()).unwrap();
             <link>https://www.oschina.net/news/275455/known-2-0-0-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Apache Tomcat 10.1.18 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Apache Tomcat 10.1.18 現已</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2F" target="_blank">發佈</a><span style="background-color:#ffffff; color:#333333">，</span><span style="background-color:#ffffff; color:#000000">此版本實現了作為 Jakarta EE 10 平台一部分的規範。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#000000">在 Tomcat 9 和更早版本上運行的應用程序，如果不做修改，將無法在 Tomcat 10 上運行。為 Tomcat 9 和更早版本設計的基於 Java EE 的應用程序可以放在<span>&nbsp;</span><code>$CATALINA_BASE/webapps-javaee</code><span>&nbsp;</span>目錄下，Tomcat 會自動將其轉換為 Jakarta EE 並複製到 webapps 目錄。此轉換是通過&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Ftomcat-jakartaee-migration" target="_blank">Apache Tomcat 的 Jakarta EE 遷移工具</a><span style="background-color:#ffffff; color:#000000">進行的，此工具也可以單獨</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Fdownload-migration.cgi" target="_blank">下載</a><span style="background-color:#ffffff; color:#000000">，以供離線使用。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><span style="background-color:#ffffff">一些值得關注的變化有：</span></span></p><ul><li>修復 NIO2 連接器的虛擬線程支持。</li><li>更正了 67675 修復程序中的迴歸，該回歸破壞了未指定顯式偽隨機函數並依賴於默認值的 PKCS#8 格式密鑰的 TLS 密鑰文件解析。這通常會影響 OpenSSL 1.0.2 生成的密鑰。</li><li>允許在&nbsp;introspected mbeans 上執行多個同名操作，修復因引入第二個 addSslHostConfig() 方法而導致的迴歸。</li></ul><p>&nbsp;<span style="background-color:#ffffff; color:#000000">這些更改以及所有其他更改的完整詳細信息可在</span>&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-10.1-doc%2Fchangelog.html%23Tomcat_10.1.18_%28schultz%29" target="_blank">Tomcat 10.1 changelog</a>&nbsp;<span style="background-color:#ffffff; color:#000000">中找到。</span>&nbsp;</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">此外，</span><span style="background-color:#ffffff; color:#333333">Apache Tomc</span><span style="background-color:#ffffff; color:#000000">at&nbsp;8.5.98、9.0.85、11.0.0-M16 也同步發佈。</span></p><ul style="list-style-type:disc; margin-left:0; margin-right:0"><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-8.5-doc%2Fchangelog.html%23Tomcat_8.5.98_%28schultz%29" target="_blank">Tomcat 8 changelog</a>，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Fdownload-80.cgi" target="_blank">Download</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-9.0-doc%2Fchangelog.html%23Tomcat_9.0.85_%28remm%29" target="_blank">Tomcat 9 changelog</a>，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Fdownload-90.cgi" target="_blank">Download</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-10.1-doc%2Fchangelog.html%23Tomcat_10.1.18_%28schultz%29" target="_blank">Tomcat 10.1 changelog</a>，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Fdownload-10.cgi" target="_blank">Download</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-11.0-doc%2Fchangelog.html%23Tomcat_11.0.0-M16_%28markt%29" target="_blank">Tomcat 11<span>&nbsp;</span><strong>(alpha)</strong><span>&nbsp;</span>changelog</a>，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Fdownload-11.cgi" target="_blank">Download</a></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#000000">值得注意的是，Apache Tomcat 8.5.x 將於 2024 年 3 月 31 日終止</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftomcat.apache.org%2Ftomcat-85-eol.html" target="_blank">生命週期</a><span style="background-color:#ffffff; color:#000000">&nbsp;(EOL)。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 12 Jan 2024 08:12:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275450/tomcat-10-1-18-released</guid>
-            <link>https://www.oschina.net/news/275450/tomcat-10-1-18-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
