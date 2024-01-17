@@ -16,8 +16,59 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 17 Jan 2024 01:59:15 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Jan 2024 06:01:20 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[國產 Java ORM：sqltoy-orm 5.2.90 發版]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>開源地址：</strong></p><ul><li>github:&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fchenrenfei%2Fsagacity-sqltoy" target="_blank">https://github.com/sagframe/sagacity-sqltoy</a></li><li>gitee:&nbsp;<a href="https://gitee.com/sagacity/sagacity-sqltoy">https://gitee.com/sagacity/sagacity-sqltoy</a></li><li>idea 插件 (可直接在 idea 中檢索安裝):&nbsp;&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fthreefish%2Fsqltoy-idea-plugins" target="_blank">https://github.com/threefish/sqltoy-idea-plugins</a></li><li>sqltoy 腳手架項目：https://gitee.com/momoljw/sss-rbac-admin</li><li>sqltoy lambda 項目:&nbsp;https://gitee.com/gzghde/sqltoy-plus</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>更新內容</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">1、<span style="background-color:#ffffff; color:#40485b">增強 loop 中 LocalDateTime 和 LocalTime 的輸出精度</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>sqltoy-orm 是 JPA 和超強查詢的融合體</strong></p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsagframe%2Fsagacity-sqltoy%23jpa%25E9%2583%25A8%25E5%2588%2586" target="_blank">JPA 部分</a></h3><ul><li>類似 JPA 的對象化 CRUD、對象級聯加載和新增、更新</li><li>強化 update 操作，提供彈性字段修改能力，不同於 hibernate 先 load 後修改，而是一次數據庫交互完成修改，確保了高併發場景下數據的準確性</li><li>改進了級聯修改，提供了先刪除或者先置無效，再覆蓋的操作選項</li><li>增加了 updateFetch、updateSaveFetch 功能，強化針對強事務高併發場景的處理，類似庫存台賬、資金台賬，實現一次數據庫交互，完成鎖查詢、不存在則插入、存在則修改，並返回修改後的結果</li><li>增加了樹結構封裝，便於統一不同數據庫樹型結構數據的遞歸查詢</li><li>支持分庫分表、支持多種主鍵策略 (額外支持基於 redis 的產生特定規則的業務主鍵)、加密存儲、數據版本校驗</li><li>提供了公共屬性賦值 (創建人、修改人、創建時間、修改時間、租户)、擴展類型處理等</li><li>提供了多租户統一過濾和賦值、提供了數據權限參數帶入和越權校驗</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsagframe%2Fsagacity-sqltoy%23%25E6%259F%25A5%25E8%25AF%25A2%25E9%2583%25A8%25E5%2588%2586" target="_blank">查詢部分</a></h3><ul><li>極為直觀的 sql 編寫方式，便於從客户端 &lt;--&gt; 代碼，雙向快速遷移，便於後期變更維護</li><li>支持緩存翻譯、反向緩存匹配 key 代替 like 模糊查詢</li><li>提供了跨數據庫支持能力：不同數據庫的函數自動轉換適配，多方言 sql 根據實際環境自動匹配、多數據庫同步測試，大幅提升了產品化能力</li><li>提供了取 top 記錄、隨機記錄等特殊場景的查詢功能</li><li>提供了最強大的分頁查詢機制：1) 自動優化 count 語句；2) 提供基於緩存的分頁優化，避免每次都執行 count 查詢；3) 提供了獨具特色的快速分頁；4) 提供了並行分頁</li><li>提供了分庫分表能力</li><li>提供了在管理類項目中極為價值的：分組彙總計算、行列轉換 (行轉列、列轉行)、同比環比、樹形排序、樹形彙總，相關算法自然集成</li><li>提供了基於查詢的層次化數據結構封裝</li><li>提供了大量輔助功能：數據脱敏、格式化、條件參數預處理等</li></ul><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsagframe%2Fsagacity-sqltoy%23%25E6%2594%25AF%25E6%258C%2581%25E5%25A4%259A%25E7%25A7%258D%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593" target="_blank">支持多種數據庫</a></h3><ul><li>常規的 mysql、oracle、db2、postgresql、 sqlserver、dm、kingbase、sqlite、h2、 oceanBase、polardb、guassdb、tidb</li><li>支持分佈式 olap 數據庫: clickhouse、StarRocks、greenplum、impala (kudu)</li><li>支持 elasticsearch、mongodb</li><li>所有基於 sql 和 jdbc 各類數據庫查詢</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>sqltoy 特點介紹：</strong></p><ul><li><strong>sqltoy 的核心構建思想</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" height="868" src="https://oscimg.oschina.net/oscnet/up-a385d72ceb030d705e8e5803ca3cd4c09a1.png" width="1136" referrerpolicy="no-referrer"></p><ul><li><strong>sqltoy 的對比 mybatis (plus) 的核心點：查詢語句編寫、可閲讀性、可維護性</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" height="923" src="https://oscimg.oschina.net/oscnet/up-05295a7a1813978134a5e49a7cff0f0e1ab.png" width="1873" referrerpolicy="no-referrer"></p><ul><li><strong>對象化 crud 是基礎，但 sqltoy 有針對性的改進：update、updateSaveFetch、updateFetch 等</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" height="845" src="https://oscimg.oschina.net/oscnet/up-6b8e8204061eec3d2096a50e9899548351e.png" width="1745" referrerpolicy="no-referrer"></p><ul><li><strong>sqltoy 的緩存翻譯，大幅減少表關聯簡化 sql，讓你的查詢性能成幾何級提升</strong></li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="闡述 sqltoy 為什麼秒殺 mybatis(plus)" src="https://p3-tt.byteimg.com/origin/pgc-image/85287e14aa3e428fbabe297472596455?from=pc" referrerpolicy="no-referrer"></p><ul><li><strong>極致的分頁，同樣幫助你實現查詢的性能大幅提升</strong></li></ul><ol><li>快速分頁:@fast () 實現先取單頁數據然後再關聯查詢，極大提升速度</li><li>分頁優化器:page-optimize 讓分頁查詢由兩次變成 1.3~1.5 次 (用緩存實現相同查詢條件的總記錄數量在一定週期內無需重複查詢</li><li>sqltoy 的分頁取總記錄的過程不是簡單的 select count (1) from (原始 sql)；而是智能判斷是否變成:select count (1) from 'from 後語句 '， 並自動剔除最外層的 order by</li><li>sqltoy 支持並行查詢：parallel="true"，同時查詢總記錄數和單頁數據，大幅提升性能</li></ol><div><img alt="闡述 sqltoy 為什麼秒殺 mybatis(plus)" src="https://p6-tt.byteimg.com/origin/pgc-image/3d5f7094da154671985dd390f56f6302?from=pc" referrerpolicy="no-referrer"></div><div>
+ &nbsp;
+</div><ul><li><strong>便利的跨數據庫統計計算：數據旋轉</strong></li></ul><div><img alt="闡述 sqltoy 為什麼秒殺 mybatis(plus)" src="https://p1-tt.byteimg.com/origin/pgc-image/949bc75b5c53441c98284dae2bed11fe?from=pc" referrerpolicy="no-referrer"></div><ul><li><strong>便利的跨數據庫統計計算：無限極分組統計 (含彙總求平均)</strong></li></ul><div><img alt="闡述 sqltoy 為什麼秒殺 mybatis(plus)" src="https://p1-tt.byteimg.com/origin/pgc-image/f5edc52adbbe4a1ca327d9a9b0c5d64c?from=pc" referrerpolicy="no-referrer"></div><ul><li><strong>便利的跨數據庫統計計算：同比環比</strong></li></ul><div><img alt="闡述 sqltoy 為什麼秒殺 mybatis(plus)" src="https://p3-tt.byteimg.com/origin/pgc-image/b9d435e2852644c9a4c9e062cc3d46d7?from=pc" referrerpolicy="no-referrer"></div><div>
+ 5、樹形表排序彙總
+</div><div><p style="margin-left:0; margin-right:0"><img height="274" src="https://oscimg.oschina.net/oscnet/up-1773cce82b98a943d42caaa62f60d80f3d0.png" width="1002" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0"><img height="403" src="https://oscimg.oschina.net/oscnet/up-8717f1c442767b08f2406019ae9b63721cb.png" width="409" referrerpolicy="no-referrer"></p><p style="margin-left:0; margin-right:0">6、擴展集成</p><p style="margin-left:0; margin-right:0"><img height="961" src="https://oscimg.oschina.net/oscnet/up-6603ed15ec936dea45c4f6fb7318f4a062b.png" width="1965" referrerpolicy="no-referrer"></p></div><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 17 Jan 2024 04:59:07 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275992/sqltoy-orm-5-2-90-released</guid>
+            <link>https://www.oschina.net/news/275992/sqltoy-orm-5-2-90-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[凌鯊 0.7.9 版本更新]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1>凌鯊 0.7.9 版本更新</h1><ul><li>服務端版本: 0.2.25</li><li>改進: 微應用存儲按用户隔離</li><li>改進: 接口集合遷移到內容面板</li><li>改進: 數據標註遷移到內容面板</li><li>改進: 創建項目時新增接口集合和數據標註目錄</li><li>修復: 修復目錄模式下溝通面板顯示不全的問題</li></ul><h1>相關截圖</h1><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-684f0c5c669deceebf057a36190b1706814.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-5a239b6e6ea379cf7352c670d4843d0abbc.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-c42cbab8126c8065247c5491c338c1f2c26.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-ef7610ce321c75963207427f3a5a4ff9d9e.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-9f3fa1690a27edbadce21c63009e4d4a510.png" width="1500" referrerpolicy="no-referrer"></p><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 17 Jan 2024 04:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275991/lingsha-0-7-9-released</guid>
+            <link>https://www.oschina.net/news/275991/lingsha-0-7-9-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Bun 1.0.23 版本發佈，打包部署更便捷]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Bun 這個兼具運行時、打包工具、轉譯器和包管理器多重功能的 JavaScript 工具，在日前迎來了 1.0.23 版本的更新。本次更新針對社區反饋修復了 40 個 bug，共計獲得了 194 個贊。更新使 Bun 在打包部署等方面的易用性有所提升。</p><h2>引入 SQLite 數據庫：輕鬆管理數據</h2><p>Bun v1.0.23 的一大亮點是引入了對 SQLite 數據庫的支持。開發者現在可以直接在 Bun 中導入 SQLite 數據庫，極大簡化了在項目中使用 SQLite 的流程。通過簡單的<code>import</code>語句，開發者能夠輕鬆導入和管理數據庫，這對於需要處理數據存儲和讀取的應用程序來説，無疑是一個巨大的便利。</p><pre><code class="language-javascript">import db from './my.db' with {type: "sqlite"};</code></pre><div><div><p>此外，Bun 也支持將 SQLite 數據庫嵌入到單文件可執行程序中。這意味着開發者可以創建包含數據庫的獨立應用程序，極大地簡化了部署過程。</p><h2>性能提升：更快的 TCP 和 bug 修復</h2><p>在性能方面，Bun v1.0.23 做出了顯著的優化。特別是在 Linux 系統上，TCP 傳輸性能提升了 4%，這得益於減少了系統調用次數。這一改進對於需要處理大量網絡數據的應用來説，無疑是一個巨大的提升。</p></div></div><div><div><h2>Node.js 兼容性和資源管理</h2><p>對於 Node.js 的兼容性，Bun v1.0.23 也進行了重要的更新，解決了一些先前版本中存在的問題。例如，現在可以在 Bun 環境中無縫使用 Node.js 內置模塊，如<code>fs</code>和<code>path</code>。此外，Bun 還引入了對 TC39 提出的第三階段提案——資源管理（Resource Management）的支持。這意味着開發者可以更加有效地管理文件句柄、數據庫連接和網絡套接字等資源。</p><pre><code class="language-javascript">async function * g() {
+  await using handle = acquireFileHandle(); // async-block-scoped critical resource
+}</code></pre></div></div><h2>其他重要更新</h2><ul><li><strong>SQLite 升級至 3.45.0 版本</strong>：加入了 JSONB 支持，使得存儲和讀取 JSON 數據更加高效。</li><li><strong>嵌入.node 文件的支持</strong>：允許開發者在構建時將 NAPI 插件<code>.node</code>文件嵌入，使得打包本地 Node.js 模塊變得簡單。</li><li><strong>HTTP 服務器頭部限制提升</strong>：從 50 提升到 100，增強了服務器的處理能力。</li><li><strong>增強的<code>import.meta</code>支持</strong>：新增了<code>import.meta.dirname</code>和<code>import.meta.filename</code>支持，增強了與 Node.js 的兼容性。</li><li><strong><code>fs/promises</code>中的<code>FileHandle</code>支持</strong>：使得文件操作更加靈活和強大。</li><li><strong>眾多 bug 修復和性能優化</strong>：包括 zlibBufferSync 的錯誤處理、<code>Bun.spawn()</code>中的文件描述符泄漏、URL 處理的一致性問題等。</li></ul><p>本次更新使 Bun 成為 Web 應用打包部署更便捷高效的選擇。相信隨着 Bun 的持續完善，會有更多開發者加入使用。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 17 Jan 2024 02:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275980/bun-1-0-23-released</guid>
+            <link>https://www.oschina.net/news/275980/bun-1-0-23-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[PDManer [元數建模]-v4.8.0 發佈：一款簡單好用的數據庫建模平台]]>
@@ -196,6 +247,23 @@
         </item>
         <item>
             <title>
+                <![CDATA[《燈燈》多租户快速開發平台 4.16.0-java17 發佈，多租户解決方案]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftangyh.top%2Fupgrade%2F4.x%25E7%2589%2588%25E6%259C%25AC%25E5%258D%2587%25E7%25BA%25A7%25E6%2597%25A5%25E5%25BF%2597" target="_blank">4.16.0-java17 增強版更新簡介:</a></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">代碼位於分支： <a href="https://gitee.com/dromara/lamp-cloud/tree/4.x_java17">4.x_java17</a></p><ol><li>feat: 4.x 非租户模式首次開源</li><li>refactor: 刪除無用代碼</li><li>refactor: database.yml 文件拆分為 mysql.yml、oracle.yml、sqlserver.ymlo</li><li>feat: 新增"查詢用户所有應用的可用路由樹"接口</li><li>refactor: 資源類型刪除「視圖」，使用「是否隱藏」來實現原來的「視圖」功能</li><li>feat: 應用管理頁面，支持維護應用的默認地址</li><li>feat: 頂部混合菜單模式下，首頁點擊應用時，支持切換到該應用的默認地址</li><li>fix: 當固定住 2 級菜單時，切換應用 2 級菜單沒有清空問題</li></ol><h1>《燈燈》中後台快速開發平台</h1><h2>lamp 項目組成</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>1） 工具集 （ lamp-util 項目必備，其他 2 個可選）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">工具集</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-util">lamp-util</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-util" target="_blank">lamp-util</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">業務無關的工具集，cloud 和 boot 項目都依賴它</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">定時調度器</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-job">lamp-job</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-job" target="_blank">lamp-job</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">&nbsp;</td></tr></tbody></table><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>2） 後端 （下面 2 個項目功能一致，任選其一即可）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">微服務版</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-cloud">lamp-cloud</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">l<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-cloud" target="_blank">amp-cloud</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">SpringCloud 版</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">單體版</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-boot">lamp-boot</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-boot" target="_blank">lamp-boot</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">SpringBoot 版 (和 lamp-cloud 功能基本一致)</td></tr></tbody></table><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>3） 前端 （下面 3 個項目功能一致，任選其一即可）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">租户後台</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-web">lamp-web</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-web" target="_blank">lamp-web</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p>master 基於 vue-admin-element 開發 （vue2.x）</p><p>4.x_java17 基於 vue3</p></td></tr></tbody></table><blockquote><p style="margin-left:0; margin-right:0">lamp 和 php 沒有什麼關係，如果你非要説 lamp 是 Linux+Apache+MySQL+PHP，那就算是吧，畢竟 PHP 是世界上最好的語言，我也希望此項目成為世界上最好的後台框架！😈😈😈</p></blockquote><h1>lamp-cloud 簡介</h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><code>lamp-cloud</code><span>&nbsp;</span>基於 java +<span>&nbsp;</span><code>SpringCloud</code><span>&nbsp;</span>+ SpringCloudAlibaba+<span>&nbsp;</span><code>SpringBoot</code><span>&nbsp;</span>的微服務快速開發平台，其中的可配置的 SaaS 功能尤其閃耀， 具備 RBAC 功能、網關統一鑑權、Xss 防跨站攻擊、自動代碼生成、多種存儲系統、分佈式事務、分佈式定時任務等多個模塊，支持多業務系統並行開發， 支持多服務並行開發，可以作為後端服務的開發腳手架。代碼簡潔，註釋齊全，架構清晰，非常適合學習和企業作為基礎框架使用。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">核心技術採用 Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking 等主要框架和中間件。 希望能努力打造一套從<span>&nbsp;</span><code>JavaWeb 基礎框架</code><span>&nbsp;</span>-<span>&nbsp;</span><code>分佈式微服務架構</code><span>&nbsp;</span>-<span>&nbsp;</span><code>持續集成</code><span>&nbsp;</span>-<span>&nbsp;</span><code>系統監測</code><span>&nbsp;</span>的解決方案。<code>本項目旨在實現基礎能力，不涉及具體業務。</code></p><h2>lamp 租户模式介紹</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本項目可以通過配置，輕鬆切換項目的<span>&nbsp;</span><strong>多租户實現方式</strong>。</p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>租户模式</th><th>描述</th><th>優點</th><th>缺點</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">NONE (非租户模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">沒有租户</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">簡單、適合獨立系統</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">缺少租户系統的優點</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">COLUMN (字段模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">租户共用一個數據庫，在業務表中增加字段來區分</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">簡單、不復雜、開發無感知</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">數據隔離性差、安全性差、數據備份和恢復困難、</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">DATASOURCE (獨立數據源)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">每個租户獨立一個數據源，執行代碼時，動態切換數據源</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">可獨立部署數據庫，數據隔離性好、擴展性高、故障影響小</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">相對複雜、開發需要注意切換數據源時的事務問題、需要較多的數據庫</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">DATASOURCE_COLUMN (獨立數據源 + 字段模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">每個租户獨立一個，數據庫 (數據源)，執行代碼時，動態切換數據源，在動態拼接，子租户 id 二次隔離</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">可獨立部署數據庫，數據隔離性好、擴展性高、故障影響小、支持大租户小門店形式</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">相對複雜、開發需要注意切換數據源時的事務問題、需要較多的數據庫</td></tr></tbody></table><h2>lamp 項目演示地址</h2><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftangyh.top" target="_blank">https://tangyh.top</a></li></ul><blockquote><p style="margin-left:0; margin-right:0">ps：演示環境中內置租户沒有寫入權限，若要在演示環境測試增刪改，請新增租户賬號後，登錄新租户測試</p><p style="margin-left:0; margin-right:0">ps：登錄賬號在登錄頁左邊</p></blockquote><h2>lamp-cloud 技術棧 / 版本介紹：</h2><ul><li>所涉及的相關的技術有： 
+  <ul><li>JSON 序列化：Jackson</li><li>消息隊列：RabbitMQ</li><li>緩存：Redis</li><li>數據庫： MySQL 8</li><li>定時器：採用 xxl-jobs 項目進行二次改造</li><li>前端：vue3 + ant design vue</li><li>持久層框架： Mybatis-plus</li><li>代碼生成器：基於 Mybatis-plus-generator 自定義</li><li>API 網關：Gateway</li><li>服務註冊 &amp; 發現和配置中心: Nacos</li><li>服務消費：OpenFeign</li><li>負載均衡：loadbalancer</li><li>服務熔斷：sentinel</li><li>項目構建：Maven</li><li>分佈式事務： seata</li><li>分佈式系統的流量防衞兵： Sentinel</li><li>監控： spring-boot-admin</li><li>鏈路調用跟蹤：SkyWalking</li><li>文件服務器：FastDFS 5.0.5 / 阿里雲 OSS / 本地存儲 / MinIO / 華為雲 OBS</li><li>Nginx</li></ul></li><li>部署方面： 
+  <ul><li>服務器：CentOS</li><li>Jenkins</li><li>Docker</li><li>Kubernetes</li></ul></li></ul><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 16 Jan 2024 01:36:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275912</guid>
+            <link>https://www.oschina.net/news/275912</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
                 <![CDATA[IDEA 插件 Fast Request 2024.1.1 強勢來襲]]>
             </title>
             <description>
@@ -238,6 +306,21 @@ Content-Disposition:attachment; filename=fastRequest.txt</code></pre><p>還有�
             <link>https://www.oschina.net/news/275877/fastify-4-25-2-released</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[【版本更新】v2.0.1 正式發佈！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>本次更新，主要解決了：</p><ul><li>🍀 reuseport 引起的 access log api 顯示 listen ip 端口重複的 Bug；</li><li>🍀 njet 啓動後，直接訪問 prometheus 格式的 metrics 地址出錯；</li><li>🍀配置了 stream map，多次 reload 出現 core 等問題。</li></ul><hr><p>🤞更多詳情：<a href="https://gitee.com/njet-rd/njet/releases/tag/v2.0.1%C2%A0">https://gitee.com/njet-rd/njet/releases/tag/v2.0.1&nbsp;</a><br> 👏官網：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnjet.org.cn%2F" target="_blank">https://njet.org.cn/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 15 Jan 2024 07:29:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/275817/opennjet-2-0-1-released</guid>
+            <link>https://www.oschina.net/news/275817/opennjet-2-0-1-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
             </author>
         </item>
         <item>
@@ -298,394 +381,6 @@ Content-Disposition:attachment; filename=fastRequest.txt</code></pre><p>還有�
             <link>https://www.oschina.net/news/275789/ohttp-0-0-4-final</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[PHP C++ 混合編程 paozhu 框架 1.5.6 發佈，自帶 URL 攔截]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>大量歷史遺留 PHP 代碼，公司要數據大屏，數據分析 PHP 難以勝任，現在 paozhu 框架可以滿足你的需求。paozhu C++框架自帶 httpserver 支持 http1 http2 通過攔截 URL,達到 PHP C++混合編程。</p><p>paozhu 可以做 PHP 前端，代替 apache nginx，通過 url 攔截，區分走 c++還是 php.</p><p>paozhu 1.5.6 大量更新了 ORM 代碼</p><p><strong>1</strong> 添加對，FrameworkBenchmarks 框架評測支持，下一輪可以看到 paozhu 排名。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;paozhu 經歷上百萬壓力測試，各種壓力測試都可以穩定應付，沒有崩潰退出，沒有內存飆升。</p><p><strong>2</strong> ORM 添加 fetch_one 和 soft_remove 和幾個 where 條件，官方教程馬上會推出來。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;fetch_one 只取一條數據</p><p>&nbsp;&nbsp;&nbsp;&nbsp;soft_remove 軟刪除，並非真正刪除，而是標記數據表 deleted 字段</p><p>3 修改了責任鏈方法，將來流程管理可以使用上。</p><p>經典 FrameworkBenchmarks 代碼，paozhu 可以輕鬆對應</p><pre><code class="language-cpp">#include "orm.h"
-#include &lt;chrono&gt;
-#include &lt;thread&gt;
-#include "httppeer.h"
-#include "techempower.h"
-#include "techempower_json.h"
-#include "datetime.h"
-#include "func.h"
-#include "pzcache.h"
-#include "json_reflect_headers.h"
-namespace http
-{
-//@urlpath(null,plaintext)
-std::string techempowerplaintext(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("text/plain; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-    peer-&gt;output = "Hello, World!";
-    return "";
-}
-
-//@urlpath(null,json)
-std::string techempowerjson(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-    struct techempower_outjson_t a;
-    a.message    = "Hello, World!";
-    peer-&gt;output = json_encode(a);
-    return "";
-}
-
-//@urlpath(null,db)
-std::string techempowerdb(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-    auto myworld        = orm::World();
-    unsigned int rd_num = rand_range(1, 10000);
-    myworld.get_one(rd_num);
-
-    peer-&gt;output = myworld.data_tojson();
-    return "";
-}
-
-//@urlpath(null,queries)
-std::string techempowerqueries(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-
-    unsigned int get_num = peer-&gt;get["queries"].to_int();
-    if (get_num == 0)
-    {
-        get_num = 1;
-    }
-    else if (get_num &gt; 500)
-    {
-        get_num = 500;
-    }
-    auto myworld = orm::World();
-    for (unsigned int i = 0; i &lt; get_num; i++)
-    {
-        myworld.wheresql.clear();
-        unsigned int rd_num = rand_range(1, 10000);
-        myworld.where("id", rd_num).fetch_append();
-    }
-
-    peer-&gt;output = myworld.to_json();
-    return "";
-}
-
-//@urlpath(null,fortunes)
-std::string techempowerfortunes(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("text/html; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-
-    auto myfortune = orm::Fortune();
-    myfortune.fetch();
-    myfortune.data.id      = 0;
-    myfortune.data.message = "Additional fortune added at request time.";
-    myfortune.record.push_back(myfortune.data);
-
-    std::sort(myfortune.record.begin(), myfortune.record.end(), [](const auto &amp;lhs, const auto &amp;rhs)
-              { return lhs.message &lt; rhs.message; });
-    peer-&gt;val["list"].set_array();
-    OBJ_ARRAY item;
-    for (unsigned int i = 0; i &lt; myfortune.record.size(); i++)
-    {
-        item["id"]      = myfortune.record[i].id;
-        item["message"] = html_encode(myfortune.record[i].message);
-        peer-&gt;val["list"].push(item);
-    }
-
-    peer-&gt;view("techempower/fortunes");
-    return "";
-}
-
-//@urlpath(null,updates)
-std::string techempowerupdates(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-    unsigned int get_num = peer-&gt;get["queries"].to_int();
-
-    if (get_num == 0)
-    {
-        get_num = 1;
-    }
-    else if (get_num &gt; 500)
-    {
-        get_num = 500;
-    }
-    auto myworld = orm::World();
-    myworld.record.clear();
-    for (unsigned int i = 0; i &lt; get_num; i++)
-    {
-        myworld.wheresql.clear();
-        unsigned int tempid = rand_range(1, 10000);
-        myworld.where("id", tempid).fetch_append();
-        if (myworld.effect() &gt; 0)
-        {
-            unsigned int j                 = myworld.record.size() - 1;
-            myworld.data.randomnumber      = rand_range(1, 10000);
-            myworld.record[j].randomnumber = myworld.data.randomnumber;
-            myworld.update("randomnumber");
-        }
-    }
-    peer-&gt;output = myworld.to_json();
-    return "";
-}
-
-//@urlpath(null,cached-queries)
-std::string techempowercached_queries(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-
-    unsigned int get_num = peer-&gt;get["count"].to_int();
-    if (get_num == 0)
-    {
-        get_num = 1;
-    }
-    else if (get_num &gt; 500)
-    {
-        get_num = 500;
-    }
-    auto myworld          = orm::World();
-    std::string mycacheid = "alldatacache";
-
-    pzcache&lt;std::vector&lt;orm::worldbase::meta&gt;&gt; &amp;temp_cache = pzcache&lt;std::vector&lt;orm::worldbase::meta&gt;&gt;::conn();
-
-    std::vector&lt;orm::worldbase::meta&gt; allcachedata_array;
-    //create rand data to cache
-    if (temp_cache.check(mycacheid) &gt; -1)
-    {
-        allcachedata_array = temp_cache.get(mycacheid);
-    }
-    else
-    {
-        allcachedata_array.resize(10000);
-        for (unsigned int i = 0; i &lt; 10000; i++)
-        {
-            allcachedata_array[i].id           = i + 1;
-            allcachedata_array[i].randomnumber = rand_range(1, 10000);
-        }
-        temp_cache.save(mycacheid, allcachedata_array, 120);
-    }
-    //get rand data from cache
-    mycacheid = "my" + std::to_string(get_num);
-    if (temp_cache.check(mycacheid) &gt; -1)
-    {
-        myworld.record = temp_cache.get(mycacheid);
-    }
-    else
-    {
-        if (allcachedata_array.size() == 10000)
-        {
-            for (unsigned int i = 0; i &lt; get_num; i++)
-            {
-                unsigned int temp_rid = rand_range(0, 9999);
-                myworld.record.push_back(allcachedata_array[temp_rid]);
-            }
-        }
-        temp_cache.save(mycacheid, myworld.record, 120);
-    }
-
-    peer-&gt;output = myworld.to_json();
-    return "";
-}
-
-//@urlpath(null,cached-db)
-std::string techempowercached_db(std::shared_ptr&lt;httppeer&gt; peer)
-{
-    peer-&gt;type("application/json; charset=UTF-8");
-    peer-&gt;set_header("Date", get_gmttime());
-    //this test from database to cache
-    unsigned int get_num = peer-&gt;get["count"].to_int();
-    if (get_num == 0)
-    {
-        get_num = 1;
-    }
-    else if (get_num &gt; 500)
-    {
-        get_num = 500;
-    }
-    auto myworld          = orm::World();
-    std::string mycacheid = "my" + std::to_string(get_num);
-
-    pzcache&lt;std::vector&lt;orm::worldbase::meta&gt;&gt; &amp;temp_cache = pzcache&lt;std::vector&lt;orm::worldbase::meta&gt;&gt;::conn();
-
-    if (temp_cache.check(mycacheid) &gt; -1)
-    {
-        myworld.record = temp_cache.get(mycacheid);
-    }
-    else
-    {
-        std::vector&lt;unsigned int&gt; cacheid;
-        for (unsigned int i = 0; i &lt; get_num; i++)
-        {
-            cacheid.push_back(rand_range(1, 10000));
-        }
-
-        std::string sqlstr = array_to_sql(cacheid);
-        myworld.whereIn("id", sqlstr).fetch();
-        temp_cache.save(mycacheid, myworld.record, 120);
-    }
-
-    peer-&gt;output = myworld.to_json();
-    return "";
-}
-
-}// namespace http</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fhggq%2Fpaozhu" target="_blank">https://github.com/hggq/paozhu</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 15 Jan 2024 04:27:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275782/paozhu-1-5-6-released</guid>
-            <link>https://www.oschina.net/news/275782/paozhu-1-5-6-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[LiteFlow v2.11.4 正式版本發佈！一個越來越強大的規則引擎]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><div><div><div><h2>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img height="383" src="https://oscimg.oschina.net/oscnet/up-efb0677ee5e62d77a06b1127d9067177ea1.png" width="900" referrerpolicy="no-referrer"></h2><h2>前言</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">2.11.4 經歷了 BETA1,BETA2,BETA3 版本之後，正式版發佈!</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">2.11.4 總共有 18 個 issue 的更新，絕大多數為增強類 issue。在這個版本中，我們優化了底層，着重優化了性能。也提供了一些小特性的升級。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">強烈建議還在用 2.11.3 版本的同學進行升級。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">接下來挑幾個更新的增強來詳細説下。</p><h2>重寫了聲明式的部分</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">此增強 issue 困擾我半個多月，一直以來，LiteFlow 聲明式的底層代碼比較混亂。不太好閲讀，而且始終會在一些邊緣場景莫名其妙的出問題。我一直想對其進行重寫，這個版本，我閲讀了大量了 spring bean 構造的底層代碼，終於在底層實現了更加優化的改造。改造之後的聲明式底層代碼更加合理，結構層次也更加清晰，應該會擺脱一些邊緣場景的問題。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">改造之後的使用方式同之前一致，用户並不會感知到。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">只是為了説明下，我們對底層代碼是有追求的，並會為了追去極致的代碼優雅而去不停努力。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">希望你們去使用 LiteFlow，因為 LF 正在變得更強大。</p><h2>解決了並行線程池的性能問題</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">源於社區的小夥伴在落地 LF 時發現，第一次請求會比後面的請求慢上一些。社區小夥伴也進行排查，發現 LF 是第一次請求時去初始化並行線程池，並報上了 issue。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">這裏確實是之前的版本沒考慮周全，這一次，我們修復了這個問題。之後所有的線程池的初始化全都在啓動時進行，包括用户自定義的線程池，也是如此。</p><h2>並行線程池隔離 BUG 的修復</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">在 2.11.1 版本中曾經推出了並行線程池的隔離特性，旨在對一些並行分支非常多的進行線程池的隔離，以達到優化性能的目的，沒想到這個特性一直存在 BUG。這次我們也深度進行了排查，並修復了這個問題。</p><h2>增加映射關鍵字 SER 和 PAR</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">曾經有一個 issue 我還記得，説是 LF 中的 THEN 和 WHEN 是表示串行和並行的意思，但是關鍵字意義卻不精準。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">雖然我承認 THEN 和 WHEN 表示串行和並行的確有些牽強，但是 LF 用户一直這麼用，突然改變最主要的關鍵字也不太好。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">所以這次新推出了<code>SER</code>和<code>PAR</code>關鍵字，等同於<code>THEN</code>和<code>WHEN</code>。當然繼續使用<code>THEN</code>和<code>WHEN</code>也是可以的。</p><h2>CmpStep 中加入 startTime 和 endTime</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">以前的 CmpStep 提供了耗時，但是沒有組件的執行時間參數，這次提供了 startTime 和 EndTime。</p><h2>加入了快速解析的參數</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">這個增強，也是源於社區內的一位落地的小夥伴，他和我説項目內有幾萬的流程。啓動耗時非常久。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">詳細分析原因後，發現是 LF 的<code>CopyOnWriteHashMap</code>比較慢的緣故，當初用這個是為了平滑更新的因素。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">所以，2.11.4 版本推出了<code>liteflow.fast-load</code>參數，當這個參數為 true 時。那麼啓動解析的速度回提升 4 到 5 倍。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">我也進行了測試，1w 條流程 (每個流程均有 14 個組件) 耗時 3 秒，這個解析是線性的。所以在配置了這個參數後，解析速度還是可以接受的。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">但是我並不推薦所有的人把快速 load 模式打開，因為快速 load 模式犧牲了熱更新時的平滑性。換句話説就是，在正常模式下，如果當你熱更新時正好有正在執行的流程，那麼正在執行的流程是會用老的鏈路的，只有下一次才會用最新的鏈路。如果你打開了快速 load 模式，那麼在熱更新時，正好在執行過程中的流程有可能前半部分是老的流程，而後半部分有可能讀到新的流程。這樣就造成了不一致了。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">當然這種場景是非常極端的場景，在普通的場景中，可能根本也不需要保持熱更新時的平滑性。所以 fast-load 模式是有代價的。魚和熊掌不可兼得。看項目要求了。</p><h2>Nacos 配置模式新增對阿里雲 MSE 的鑑權方式</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">新版本的 LiteFlow 在 Nacos 層面可以支持阿里雲的 MSE 鑑權方式了。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">只需要這麼配置就行了：</p><pre><code><span style="color:#d19a66">liteflow.rule-source-ext-data</span>=<span style="color:#98c379">{\
-&nbsp;&nbsp;&nbsp;&nbsp;"serverAddr":"127.0.0.1:8848",\
-&nbsp;&nbsp;&nbsp;&nbsp;"dataId":"demo_rule",\
-&nbsp;&nbsp;&nbsp;&nbsp;"group":"DEFAULT_GROUP",\
-&nbsp;&nbsp;&nbsp;&nbsp;"namespace":"your&nbsp;namespace&nbsp;id",\
-&nbsp;&nbsp;&nbsp;&nbsp;"accessKey":"xxxxxxxxxx",\
-&nbsp;&nbsp;&nbsp;&nbsp;"secretKey":"xxxxxxxxxx"\
-}</span></code></pre><h2>2.11.4 全部更新列表</h2><pre><code>增強&nbsp;#I8UQR4&nbsp;while 組件本身加入 loopIndex
-
-https://gitee.com/dromara/liteFlow/issues/I8UQR4
-
-增強&nbsp;#I8TZFQ&nbsp;優化 EL 的 check 報錯提示，代碼優化
-
-https://gitee.com/dromara/liteFlow/issues/I8TZFQ
-
-增強&nbsp;#I8QJE1&nbsp;增加映射關鍵字 SER 和 PAR
-
-https://gitee.com/dromara/liteFlow/issues/I8QJE1
-
-增強&nbsp;#I8PWWO&nbsp;CmpStep 中加入 startTime 和 endTime
-
-https://gitee.com/dromara/liteFlow/issues/I8PWWO
-
-增強&nbsp;#I8MXIB&nbsp;WHEN 線程池可能存在第一次調用的時候初始化
-
-https://gitee.com/dromara/liteFlow/issues/I8MXIB
-
-增強&nbsp;#I8MXHX&nbsp;isAccess 在 WHEN 中會被執行 2 次的問題
-
-https://gitee.com/dromara/liteFlow/issues/I8MXHX
-
-增強&nbsp;#I8J622&nbsp;動態組件 el 語句 data 參數缺少單引號
-
-https://gitee.com/dromara/liteFlow/issues/I8J622
-
-增強&nbsp;#I8IDE5&nbsp;對聲明式代理底層代碼進行增強
-
-https://gitee.com/dromara/liteFlow/issues/I8IDE5
-
-增強&nbsp;#I8H1LT&nbsp;希望提供 nacos 對於阿里雲 MSE 的鑑權方式
-
-https://gitee.com/dromara/liteFlow/issues/I8H1LT
-
-增強&nbsp;#I8FC4F&nbsp;超大量規則場景下項目啓動時間過長的問題
-
-https://gitee.com/dromara/liteFlow/issues/I8FC4F
-
-增強&nbsp;#I8FBBW&nbsp;chain 及 script 新增 enable 字段後 sql 打印錯誤
-
-https://gitee.com/dromara/liteFlow/issues/I8FBBW
-
-增強&nbsp;#I8DW1J&nbsp;LiteFlowChainELBuilder.validate() 依然存在 bug
-
-https://gitee.com/dromara/liteFlow/issues/I8DW1J
-
-增強&nbsp;#I8AE9G&nbsp;超時控制增加 maxWaitMilliseconds 關鍵字，以增加更精細的時間控制
-
-https://gitee.com/dromara/liteFlow/issues/I8AE9G
-
-修復&nbsp;#I8TZTK EL 語句構建的時候，如果出現了腳本節點。會出 NPE 的異常
-
-https://gitee.com/dromara/liteFlow/issues/I8TZTK
-
-修復&nbsp;#I8S75A&nbsp;去除循環檢測，低版本的 jackson 可能導致的內存溢出問題
-
-https://gitee.com/dromara/liteFlow/issues/I8S75A
-
-修復&nbsp;#I8RWGZ&nbsp;開啓 WHEN 線程池隔離線程池創建有問題
-
-https://gitee.com/dromara/liteFlow/issues/I8RWGZ
-
-修復&nbsp;#I8PEZ0&nbsp;修復 sql 插件中 script 表中 enable 字段不起作用的 bug
-
-https://gitee.com/dromara/liteFlow/issues/I8PEZ0
-
-修復&nbsp;#I8AF1O&nbsp;修復 redis 的訂閲模式 mode 解析的 bug
-
-https://gitee.com/dromara/liteFlow/issues/I8AF1O
-</code></pre><h2>開設了 LF CLUB 付費社區</h2><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">相信老用户都知道，我們在微信羣努力幫大家答疑解惑，堅持了 2 年之多，目前微信羣一共有 12 個羣。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">隨着社區人越來越多，有些問題我有時也沒有時間精力去一一回答。為了提高質量，為此我創建了<code>LF CLUB</code>的知識星球。</p><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left"><code>LF CLUB</code>為付費知識星球，既然是付費星球，加入星球的用户擁有以下權益：</p><ul><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>凡是在星球向我提問的問題，當天必定得到詳細的回覆和指導建議。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每個加入的用户每年提供 2 次遠程問題排查，諮詢類的服務。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每 1 到 2 天會分享 LF 目前的進度，以及下一個版本的重點。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>每週發佈一篇 LF 的解析和相關理念分析。</strong></p></li><li><p style="margin-left:0; margin-right:0">•&nbsp;<strong>提供之後視頻教程的折扣購買權益。</strong></p></li></ul><p style="color:#3f3f3f; margin-left:8px; margin-right:8px; text-align:left">當然您也可以選擇不加入星球，在微信羣裏向我提問，但是迫於精力問題，也不可能保證每位的問題都能得到細緻的回覆和指導。</p></div></div></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 15 Jan 2024 03:42:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275773/liteflow-2-11-4-released</guid>
-            <link>https://www.oschina.net/news/275773/liteflow-2-11-4-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[「商業版本」 Qt 6.5 LTS 系列發佈首個更新]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#09102b">Qt 6.5.4 LTS<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.qt.io%2Fblog%2Fcommercial-lts-qt-6.5.4-released" target="_blank"> 已發佈</a>，</span>此版本原計劃在 11 月底推出。<span style="background-color:#ffffff; color:#09102b">這是&nbsp;</span>Qt 6.5 系列進入<strong>「僅限商業客户使用」</strong>週期後的首次更新，意味着只有付費的 Qt 客户才能訪問這些新的點版本更新。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3937be561be37b8fd3fb09bed596cfa755f.png" referrerpolicy="no-referrer"></p><p>公告寫道，Qt 6.5.4 沒有添加任何新功能，主要是修復錯誤和提供其他改進。與 Qt 6.5.3 相比，Qt 6.5.4 包含約 355 個錯誤修復、安全更新和其他改進。此外還提供了針對 CVE-2023-51714 和 CVE-2023-45872 安全漏洞的修復。&nbsp;這些錯誤包括 Qt 的 HTTP2 代碼中的整數溢出、加載無效的 QML 圖像源可能會導致 Qt 內崩潰或其他問題。</p><p>延伸閲讀</p><ul><li><a href="https://www.oschina.net/news/262391/qt-6-5-lts-commercial-only" target="_blank">Qt 6.5 LTS 轉為 「僅面向商業客户提供」 階段</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 15 Jan 2024 02:30:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275760/qt-6-5-4-lts</guid>
-            <link>https://www.oschina.net/news/275760/qt-6-5-4-lts</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[《燈燈》多租户快速開發平台 4.16.0-java17 發佈，多租户解決方案]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftangyh.top%2Fupgrade%2F4.x%25E7%2589%2588%25E6%259C%25AC%25E5%258D%2587%25E7%25BA%25A7%25E6%2597%25A5%25E5%25BF%2597" target="_blank">4.16.0-java17 增強版更新簡介:</a></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">代碼位於分支： <a href="https://gitee.com/dromara/lamp-cloud/tree/4.x_java17">4.x_java17</a></p><ol><li>feat: 4.x 非租户模式首次開源</li><li>refactor: 刪除無用代碼</li><li>refactor: database.yml 文件拆分為 mysql.yml、oracle.yml、sqlserver.ymlo</li><li>feat: 新增"查詢用户所有應用的可用路由樹"接口</li><li>refactor: 資源類型刪除「視圖」，使用「是否隱藏」來實現原來的「視圖」功能</li><li>feat: 應用管理頁面，支持維護應用的默認地址</li><li>feat: 頂部混合菜單模式下，首頁點擊應用時，支持切換到該應用的默認地址</li><li>fix: 當固定住 2 級菜單時，切換應用 2 級菜單沒有清空問題</li></ol><h1>《燈燈》中後台快速開發平台</h1><h2>lamp 項目組成</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>1） 工具集 （ lamp-util 項目必備，其他 2 個可選）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">工具集</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-util">lamp-util</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-util" target="_blank">lamp-util</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">業務無關的工具集，cloud 和 boot 項目都依賴它</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">定時調度器</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-job">lamp-job</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-job" target="_blank">lamp-job</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">&nbsp;</td></tr></tbody></table><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>2） 後端 （下面 2 個項目功能一致，任選其一即可）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">微服務版</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-cloud">lamp-cloud</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">l<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-cloud" target="_blank">amp-cloud</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">SpringCloud 版</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">單體版</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-boot">lamp-boot</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-boot" target="_blank">lamp-boot</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px">SpringBoot 版 (和 lamp-cloud 功能基本一致)</td></tr></tbody></table><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>3） 前端 （下面 3 個項目功能一致，任選其一即可）</strong></p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>項目</th><th>gitee</th><th>github</th><th>備註</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">租户後台</td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://gitee.com/zuihou111/lamp-web">lamp-web</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fzuihou%2Flamp-web" target="_blank">lamp-web</a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px"><p>master 基於 vue-admin-element 開發 （vue2.x）</p><p>4.x_java17 基於 vue3</p></td></tr></tbody></table><blockquote><p style="margin-left:0; margin-right:0">lamp 和 php 沒有什麼關係，如果你非要説 lamp 是 Linux+Apache+MySQL+PHP，那就算是吧，畢竟 PHP 是世界上最好的語言，我也希望此項目成為世界上最好的後台框架！😈😈😈</p></blockquote><h1>lamp-cloud 簡介</h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><code>lamp-cloud</code><span>&nbsp;</span>基於 java +<span>&nbsp;</span><code>SpringCloud</code><span>&nbsp;</span>+ SpringCloudAlibaba+<span>&nbsp;</span><code>SpringBoot</code><span>&nbsp;</span>的微服務快速開發平台，其中的可配置的 SaaS 功能尤其閃耀， 具備 RBAC 功能、網關統一鑑權、Xss 防跨站攻擊、自動代碼生成、多種存儲系統、分佈式事務、分佈式定時任務等多個模塊，支持多業務系統並行開發， 支持多服務並行開發，可以作為後端服務的開發腳手架。代碼簡潔，註釋齊全，架構清晰，非常適合學習和企業作為基礎框架使用。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">核心技術採用 Spring Cloud Alibaba、SpringBoot、Mybatis、Seata、Sentinel、RabbitMQ、FastDFS/MinIO、SkyWalking 等主要框架和中間件。 希望能努力打造一套從<span>&nbsp;</span><code>JavaWeb 基礎框架</code><span>&nbsp;</span>-<span>&nbsp;</span><code>分佈式微服務架構</code><span>&nbsp;</span>-<span>&nbsp;</span><code>持續集成</code><span>&nbsp;</span>-<span>&nbsp;</span><code>系統監測</code><span>&nbsp;</span>的解決方案。<code>本項目旨在實現基礎能力，不涉及具體業務。</code></p><h2>lamp 租户模式介紹</h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">本項目可以通過配置，輕鬆切換項目的<span>&nbsp;</span><strong>多租户實現方式</strong>。</p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:1px; border:none; box-sizing:border-box; color:#444444; display:block; font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 20px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:776px; word-break:keep-all; word-spacing:0px"><tbody><tr><th>租户模式</th><th>描述</th><th>優點</th><th>缺點</th></tr></tbody><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">NONE (非租户模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">沒有租户</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">簡單、適合獨立系統</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">缺少租户系統的優點</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">COLUMN (字段模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">租户共用一個數據庫，在業務表中增加字段來區分</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">簡單、不復雜、開發無感知</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">數據隔離性差、安全性差、數據備份和恢復困難、</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">DATASOURCE (獨立數據源)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">每個租户獨立一個數據源，執行代碼時，動態切換數據源</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">可獨立部署數據庫，數據隔離性好、擴展性高、故障影響小</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">相對複雜、開發需要注意切換數據源時的事務問題、需要較多的數據庫</td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px">DATASOURCE_COLUMN (獨立數據源 + 字段模式)</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">每個租户獨立一個，數據庫 (數據源)，執行代碼時，動態切換數據源，在動態拼接，子租户 id 二次隔離</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">可獨立部署數據庫，數據隔離性好、擴展性高、故障影響小、支持大租户小門店形式</td><td style="border-color:#dddddd; border-style:solid; border-width:1px">相對複雜、開發需要注意切換數據源時的事務問題、需要較多的數據庫</td></tr></tbody></table><h2>lamp 項目演示地址</h2><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftangyh.top" target="_blank">https://tangyh.top</a></li></ul><blockquote><p style="margin-left:0; margin-right:0">ps：演示環境中內置租户沒有寫入權限，若要在演示環境測試增刪改，請新增租户賬號後，登錄新租户測試</p><p style="margin-left:0; margin-right:0">ps：登錄賬號在登錄頁左邊</p></blockquote><h2>lamp-cloud 技術棧 / 版本介紹：</h2><ul><li>所涉及的相關的技術有： 
-  <ul><li>JSON 序列化：Jackson</li><li>消息隊列：RabbitMQ</li><li>緩存：Redis</li><li>數據庫： MySQL 8</li><li>定時器：採用 xxl-jobs 項目進行二次改造</li><li>前端：vue3 + ant design vue</li><li>持久層框架： Mybatis-plus</li><li>代碼生成器：基於 Mybatis-plus-generator 自定義</li><li>API 網關：Gateway</li><li>服務註冊 &amp; 發現和配置中心: Nacos</li><li>服務消費：OpenFeign</li><li>負載均衡：loadbalancer</li><li>服務熔斷：sentinel</li><li>項目構建：Maven</li><li>分佈式事務： seata</li><li>分佈式系統的流量防衞兵： Sentinel</li><li>監控： spring-boot-admin</li><li>鏈路調用跟蹤：SkyWalking</li><li>文件服務器：FastDFS 5.0.5 / 阿里雲 OSS / 本地存儲 / MinIO / 華為雲 OBS</li><li>Nginx</li></ul></li><li>部署方面： 
-  <ul><li>服務器：CentOS</li><li>Jenkins</li><li>Docker</li><li>Kubernetes</li></ul></li></ul><p>&nbsp;</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 15 Jan 2024 01:36:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275912</guid>
-            <link>https://www.oschina.net/news/275912</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【版本更新】v2.0.1 正式發佈！]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>本次更新，主要解決了：</p><ul><li>🍀 reuseport 引起的 access log api 顯示 listen ip 端口重複的 Bug；</li><li>🍀 njet 啓動後，直接訪問 prometheus 格式的 metrics 地址出錯；</li><li>🍀配置了 stream map，多次 reload 出現 core 等問題。</li></ul><hr><p>🤞更多詳情：<a href="https://gitee.com/njet-rd/njet/releases/tag/v2.0.1%C2%A0">https://gitee.com/njet-rd/njet/releases/tag/v2.0.1&nbsp;</a><br> 👏官網：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnjet.org.cn%2F" target="_blank">https://njet.org.cn/</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Sun, 14 Jan 2024 07:29:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/275817/opennjet-2-0-1-released</guid>
-            <link>https://www.oschina.net/news/275817/opennjet-2-0-1-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
