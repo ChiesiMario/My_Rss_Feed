@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 18 Jan 2024 16:22:38 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 18 Jan 2024 18:24:03 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -185,72 +185,6 @@
         </item>
         <item>
             <title>
-                <![CDATA[操作教程｜JumpServer 堡垒机结合 Ansible 进行批量系统初始化]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#000000; text-align:start"><br> 运维人员常常需要对资产进行系统初始化的操作，而初始化服务器又是一项繁琐的工作，需要花费运维人员大量的时间和精力。为了提高效率，许多组织会使用自动化工具和脚本来简化这些任务。自动化工具的运用可以大幅降低运维人员的工作量，同时也能有效规避出错的风险。</p><p style="color:#000000; text-align:start">Ansible 作为近年来十分火爆的一款开源运维自动化工具，可以帮助管理人员简化系统配置、应用部署和任务执行等操作。同时，Ansible 也可以结合 JumpServer 作为批量资产运维工具，进行批量系统初始化操作，能够很好地满足广大运维人员的实际需求。</p><p style="color:#000000; text-align:start">本文将介绍<strong>通过 JumpServer 内置的 Ansible 模块批量初始化 Linux 服务器</strong>的具体方法，希望对广大企业的运维人员提高运维管理效率有所帮助。</p><p style="color:#000000; text-align:start"><em><strong>一、Ansible 简介</strong></em></p><p style="color:#000000; text-align:start">Ansible 是自动化运维领域最为常用的工具之一。它基于 Python 语言开发，集合了众多运维工具（例如 Puppet、Cfengine、Chef、Func、Fabric）的优点，操作简单，功能强大，支持批量系统配置、批量程序部署、批量运行命令等功能。</p><p style="color:#000000; text-align:start">通过 Ansible 实现运维自动化，能够提高运维工程师的工作效率，减少人为失误。Ansible 本身集成了非常丰富的模块可以实现各种管理操作，并且能够与多个平台进行交互对接。</p><p style="color:#000000; text-align:start">Playbook 模式（即剧本模式）是 Ansible 的主要管理方式，也是 Ansible 功能强大的关键所在。Playbook 模式是通过多个 Task（即任务）集合来完成某类功能的，例如 Web 服务的安装部署、数据库服务器的批量备份等，可以简单地把 Playbook 理解为通过组合多条「<em>ad-hoc</em>」操作的配置文件。</p><p style="color:#000000; text-align:start"><img alt="" height="607" src="https://oscimg.oschina.net/oscnet/up-ec97596bbe3c49a8c994571701019aeee95.png" width="1080" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><em><strong>二、实施方案</strong></em></p><p style="color:#000000; text-align:start">JumpServer 作为运维安全审计管理平台，本身内置 Ansible 模块，可以实现对服务器等资产的安全管控。用户通过 JumpServer 的认证和授权功能，获得相应权限后才能使用 Ansible 对目标主机进行操作，确保了操作的安全性。</p><p style="color:#000000; text-align:start">同时，Ansible 可以通过 JumpServer 来管理和执行各种任务，例如配置管理、软件部署、批量命令执行等，简化了操作流程。<strong>结合 Ansible 和 JumpServer 堡垒机，可以实现对服务器的中心化管理，提高系统的安全性和运维效率，提升企业的运维管理能力。</strong></p><p style="color:#000000; text-align:start"><strong><span style="color:#28937c">1. 准备工作</span></strong></p><p style="color:#000000; text-align:start"><span style="color:#3e3e3e">■</span><span>&nbsp;</span>准备一台机器，部署 JumpServer 运维安全审计系统；</p><p style="color:#000000; text-align:start">■ 准备若干台 Linux 服务器，用于测试批量系统初始化操作是否成功。</p><p style="color:#000000; text-align:start"><strong><span style="color:#279a81">2. 创建 Playbook 作业</span></strong></p><p style="color:#000000; text-align:start">■ 登录 JumpServer 堡垒机，进入工作台界面；</p><p style="color:#000000; text-align:start"><img alt="" height="1474" src="https://oscimg.oschina.net/oscnet/up-82354437e26c9b76f3c5992f00b0bbf3d3f.png" width="2936" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 1 登录 JumpServer 堡垒机</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-abf08146ebcada9c11197b445ff8a2a98a3.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 2 进入 JumpServer 工作台界面</span></p><p style="color:#000000; text-align:start">■ 在 JumpServer 中选择「作业中心」→「模版管理」→「Playbook 管理」，创建 Playbook 模板；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-ff732debcb7b6a9d2fb42ba36cc207470c8.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 3 创建 Playbook 模板</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-dfdbd4fb2f6ab209505de32fde75836a7b2.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 4 创建模板详情</span></p><p style="color:#000000; text-align:start">■ 创建完成之后，管理页面会出现新创建的模板信息，并填写模板内容；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-d34497b1cbbb7896422ff3d523b0a76dd73.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 5 新创建的模板</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-6a04c7fdc288b0184cf3eb08899e775994e.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 6 填写模板内容</span></p><p style="color:#000000; text-align:start">Playbook 具体内容如下：</p><pre><code>[root@v3 ~]# cat main.yml
-## write your playbook here
----
-- hosts: all
-  vars:
-  remote_user:
- 
-  tasks:
-  - name: 关闭防火墙
-    service: name=firewalld state=stopped enabled=no
-  
-  - name: 关闭 selinux
-    lineinfile:
-      dest: /etc/selinux/config
-      regexp: "^SELINUX="
-      line: "SELINUX=disabled"
-   
-  - name: 即时生效
-    shell: setenforce 0 ; swapoff -a
-  
-  - name: 关闭 swap
-    lineinfile:
-      dest: /etc/fstab
-      regexp: ".*swap"
-      line: ""
-  
-  - name: 拷贝时区
-    copy: src=/usr/share/zoneinfo/Asia/Shanghai dest=/etc/localtime
-  
-  - name: 更新源
-    shell: yum repolist
-   
-  - name: 安装 lrzsz
-    yum: name=lrzsz 
-  
-  - name: 安装 net-tools
-    yum: name=net-tools 
-  
-  - name: 安装 wget
-    yum: name=wget 
-  
-  - name: 安装 gcc
-    yum: name=gcc 
-  
-  - name: 安装开发者工具库
-    yum: name='@Development Tools'
-  
-  - name: 更改内核最大连接数
-    copy: src=/etc/security/limits.conf dest=/etc/security/limits.conf 
-  
-  - name: 设置 java 连接数
-    shell: sed -i '$a vm.max_map_count=262144' /etc/sysctl.conf ; sysctl -p</code></pre><p style="color:#000000; text-align:start">■ 在 JumpServer 中选择「作业中心」→「作业管理」，创建 Playbook 作业；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-3a1e53325ee0a2f9877ccd8049c04b00aa1.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 7 创建 Playbook 作业</span></p><p style="color:#000000; text-align:start">■ 按照如下图示填写所需的信息；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-0806c230c209c2edb080e5d151d71622652.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 8 填写作业信息</span></p><p style="color:#000000; text-align:start">■ Playbook 作业创建成功后，运行 Playbook 作业进行测试；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-b412d1b6ae03bcb0fda9a3e8a2b718e7267.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 9 运行新创建的作业</span></p><p style="color:#000000; text-align:start">■ 运行成功。在 JumpServer 中创建 Playbook 模板后，如果需要新增服务器，运维人员只需要创建一个 Playbook 作业即可快速完成资产的系统初始化，轻松解放双手。</p><p style="color:#000000; text-align:start"><img alt="" height="600" src="https://oscimg.oschina.net/oscnet/up-9e4dc8f829c9be4ddaecbc8f611080d5aa1.png" width="900" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 10 成功执行 Playbook 作业</span></p><p>&nbsp;</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 18 Jan 2024 03:45:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276059</guid>
-            <link>https://www.oschina.net/news/276059</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
                 <![CDATA[红帽正在开发 AI 工具]]>
             </title>
             <description>
@@ -292,21 +226,6 @@
             <link>https://www.oschina.net/news/276054</link>
             <author>
                 <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Rufus 4.4 发布，开源 USB 启动盘制作工具]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">Rufus 4.4 已发布，此版本修复了此前版本中存在的诸多 Bug，进一步增强了兼容性，并带来了多项改进。</span></p><blockquote><p>Rufus 是一款格式化和创建 USB 启动盘的辅助工具，适用于以下场景：</p><ul><li>需要将可引导 ISO (Windows、Linux、UEFI 等) 刻录到 USB 安装媒介的情况</li><li>需要处理未安装操作系统的设备的情况</li><li>需要在 DOS 环境下刷写 BIOS 或其他固件的情况</li><li>需要运行低级工具的情况</li></ul></blockquote><p>4.4&nbsp;新增 GRUB 2.12（Unix 操作系统的引导加载器）支持，并针对某些 UEFI bootloaders 中包含损坏符号链接的 Linux 发行版，提供变通解决方案。此外还修复了处理 .FFU 镜像（即保存镜像时）时的崩溃问题，并不再列出 Microsoft Dev Drives（这是为开发人员相关任务和工作流程优化的特殊 Windows 11 分区），此外改善了对 SDCX 读卡器的支持。</p><p>主要变化：</p><ul><li>为使用损坏的符号链接作为 UEFI 引导加载器的发行版（如 Linux Mint 21.3）添加变通方式。</li><li>添加对 GRUB 2.12 的支持。</li><li>修复保存 .ffu 镜像时遇到崩溃问题。</li><li>修复某些 Linux ISO 在 MBR 模式下无法添加 UEFI:NTFS 分区的问题。</li><li>防止列出 Microsoft Dev Drives。</li><li>改善对 SDXC 读卡器的支持。</li><li>通过将数据区域的起点对齐至 1 MB，改进大型 FAT32 格式化。</li></ul><p>下载地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frufus.ie%2Fzh%2F" target="_blank">https://rufus.ie/zh/</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 18 Jan 2024 02:28:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276053/rufus-4-4-released</guid>
-            <link>https://www.oschina.net/news/276053/rufus-4-4-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
         <item>
@@ -371,6 +290,87 @@
             <link>https://www.oschina.net/news/276041/zentao-gvp</link>
             <author>
                 <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[操作教程｜JumpServer 堡垒机结合 Ansible 进行批量系统初始化]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#000000; text-align:start"><br> 运维人员常常需要对资产进行系统初始化的操作，而初始化服务器又是一项繁琐的工作，需要花费运维人员大量的时间和精力。为了提高效率，许多组织会使用自动化工具和脚本来简化这些任务。自动化工具的运用可以大幅降低运维人员的工作量，同时也能有效规避出错的风险。</p><p style="color:#000000; text-align:start">Ansible 作为近年来十分火爆的一款开源运维自动化工具，可以帮助管理人员简化系统配置、应用部署和任务执行等操作。同时，Ansible 也可以结合 JumpServer 作为批量资产运维工具，进行批量系统初始化操作，能够很好地满足广大运维人员的实际需求。</p><p style="color:#000000; text-align:start">本文将介绍<strong>通过 JumpServer 内置的 Ansible 模块批量初始化 Linux 服务器</strong>的具体方法，希望对广大企业的运维人员提高运维管理效率有所帮助。</p><p style="color:#000000; text-align:start"><em><strong>一、Ansible 简介</strong></em></p><p style="color:#000000; text-align:start">Ansible 是自动化运维领域最为常用的工具之一。它基于 Python 语言开发，集合了众多运维工具（例如 Puppet、Cfengine、Chef、Func、Fabric）的优点，操作简单，功能强大，支持批量系统配置、批量程序部署、批量运行命令等功能。</p><p style="color:#000000; text-align:start">通过 Ansible 实现运维自动化，能够提高运维工程师的工作效率，减少人为失误。Ansible 本身集成了非常丰富的模块可以实现各种管理操作，并且能够与多个平台进行交互对接。</p><p style="color:#000000; text-align:start">Playbook 模式（即剧本模式）是 Ansible 的主要管理方式，也是 Ansible 功能强大的关键所在。Playbook 模式是通过多个 Task（即任务）集合来完成某类功能的，例如 Web 服务的安装部署、数据库服务器的批量备份等，可以简单地把 Playbook 理解为通过组合多条「<em>ad-hoc</em>」操作的配置文件。</p><p style="color:#000000; text-align:start"><img alt="" height="607" src="https://oscimg.oschina.net/oscnet/up-ec97596bbe3c49a8c994571701019aeee95.png" width="1080" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><em><strong>二、实施方案</strong></em></p><p style="color:#000000; text-align:start">JumpServer 作为运维安全审计管理平台，本身内置 Ansible 模块，可以实现对服务器等资产的安全管控。用户通过 JumpServer 的认证和授权功能，获得相应权限后才能使用 Ansible 对目标主机进行操作，确保了操作的安全性。</p><p style="color:#000000; text-align:start">同时，Ansible 可以通过 JumpServer 来管理和执行各种任务，例如配置管理、软件部署、批量命令执行等，简化了操作流程。<strong>结合 Ansible 和 JumpServer 堡垒机，可以实现对服务器的中心化管理，提高系统的安全性和运维效率，提升企业的运维管理能力。</strong></p><p style="color:#000000; text-align:start"><strong><span style="color:#28937c">1. 准备工作</span></strong></p><p style="color:#000000; text-align:start"><span style="color:#3e3e3e">■</span><span>&nbsp;</span>准备一台机器，部署 JumpServer 运维安全审计系统；</p><p style="color:#000000; text-align:start">■ 准备若干台 Linux 服务器，用于测试批量系统初始化操作是否成功。</p><p style="color:#000000; text-align:start"><strong><span style="color:#279a81">2. 创建 Playbook 作业</span></strong></p><p style="color:#000000; text-align:start">■ 登录 JumpServer 堡垒机，进入工作台界面；</p><p style="color:#000000; text-align:start"><img alt="" height="1474" src="https://oscimg.oschina.net/oscnet/up-82354437e26c9b76f3c5992f00b0bbf3d3f.png" width="2936" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 1 登录 JumpServer 堡垒机</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-abf08146ebcada9c11197b445ff8a2a98a3.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 2 进入 JumpServer 工作台界面</span></p><p style="color:#000000; text-align:start">■ 在 JumpServer 中选择「作业中心」→「模版管理」→「Playbook 管理」，创建 Playbook 模板；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-ff732debcb7b6a9d2fb42ba36cc207470c8.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 3 创建 Playbook 模板</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-dfdbd4fb2f6ab209505de32fde75836a7b2.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 4 创建模板详情</span></p><p style="color:#000000; text-align:start">■ 创建完成之后，管理页面会出现新创建的模板信息，并填写模板内容；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-d34497b1cbbb7896422ff3d523b0a76dd73.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 5 新创建的模板</span></p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-6a04c7fdc288b0184cf3eb08899e775994e.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 6 填写模板内容</span></p><p style="color:#000000; text-align:start">Playbook 具体内容如下：</p><pre><code>[root@v3 ~]# cat main.yml
+## write your playbook here
+---
+- hosts: all
+  vars:
+  remote_user:
+ 
+  tasks:
+  - name: 关闭防火墙
+    service: name=firewalld state=stopped enabled=no
+  
+  - name: 关闭 selinux
+    lineinfile:
+      dest: /etc/selinux/config
+      regexp: "^SELINUX="
+      line: "SELINUX=disabled"
+   
+  - name: 即时生效
+    shell: setenforce 0 ; swapoff -a
+  
+  - name: 关闭 swap
+    lineinfile:
+      dest: /etc/fstab
+      regexp: ".*swap"
+      line: ""
+  
+  - name: 拷贝时区
+    copy: src=/usr/share/zoneinfo/Asia/Shanghai dest=/etc/localtime
+  
+  - name: 更新源
+    shell: yum repolist
+   
+  - name: 安装 lrzsz
+    yum: name=lrzsz 
+  
+  - name: 安装 net-tools
+    yum: name=net-tools 
+  
+  - name: 安装 wget
+    yum: name=wget 
+  
+  - name: 安装 gcc
+    yum: name=gcc 
+  
+  - name: 安装开发者工具库
+    yum: name='@Development Tools'
+  
+  - name: 更改内核最大连接数
+    copy: src=/etc/security/limits.conf dest=/etc/security/limits.conf 
+  
+  - name: 设置 java 连接数
+    shell: sed -i '$a vm.max_map_count=262144' /etc/sysctl.conf ; sysctl -p</code></pre><p style="color:#000000; text-align:start">■ 在 JumpServer 中选择「作业中心」→「作业管理」，创建 Playbook 作业；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-3a1e53325ee0a2f9877ccd8049c04b00aa1.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 7 创建 Playbook 作业</span></p><p style="color:#000000; text-align:start">■ 按照如下图示填写所需的信息；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-0806c230c209c2edb080e5d151d71622652.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 8 填写作业信息</span></p><p style="color:#000000; text-align:start">■ Playbook 作业创建成功后，运行 Playbook 作业进行测试；</p><p style="color:#000000; text-align:start"><img alt="" height="924" src="https://oscimg.oschina.net/oscnet/up-b412d1b6ae03bcb0fda9a3e8a2b718e7267.png" width="1872" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 9 运行新创建的作业</span></p><p style="color:#000000; text-align:start">■ 运行成功。在 JumpServer 中创建 Playbook 模板后，如果需要新增服务器，运维人员只需要创建一个 Playbook 作业即可快速完成资产的系统初始化，轻松解放双手。</p><p style="color:#000000; text-align:start"><img alt="" height="600" src="https://oscimg.oschina.net/oscnet/up-9e4dc8f829c9be4ddaecbc8f611080d5aa1.png" width="900" referrerpolicy="no-referrer"></p><p style="color:#000000; text-align:start"><span>▲ 图 10 成功执行 Playbook 作业</span></p><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 17 Jan 2024 03:45:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276059</guid>
+            <link>https://www.oschina.net/news/276059</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Rufus 4.4 发布，开源 USB 启动盘制作工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="font-family:-apple-system,BlinkMacSystemFont,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Segoe UI&quot;,&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">Rufus 4.4 已发布，此版本修复了此前版本中存在的诸多 Bug，进一步增强了兼容性，并带来了多项改进。</span></p><blockquote><p>Rufus 是一款格式化和创建 USB 启动盘的辅助工具，适用于以下场景：</p><ul><li>需要将可引导 ISO (Windows、Linux、UEFI 等) 刻录到 USB 安装媒介的情况</li><li>需要处理未安装操作系统的设备的情况</li><li>需要在 DOS 环境下刷写 BIOS 或其他固件的情况</li><li>需要运行低级工具的情况</li></ul></blockquote><p>4.4&nbsp;新增 GRUB 2.12（Unix 操作系统的引导加载器）支持，并针对某些 UEFI bootloaders 中包含损坏符号链接的 Linux 发行版，提供变通解决方案。此外还修复了处理 .FFU 镜像（即保存镜像时）时的崩溃问题，并不再列出 Microsoft Dev Drives（这是为开发人员相关任务和工作流程优化的特殊 Windows 11 分区），此外改善了对 SDCX 读卡器的支持。</p><p>主要变化：</p><ul><li>为使用损坏的符号链接作为 UEFI 引导加载器的发行版（如 Linux Mint 21.3）添加变通方式。</li><li>添加对 GRUB 2.12 的支持。</li><li>修复保存 .ffu 镜像时遇到崩溃问题。</li><li>修复某些 Linux ISO 在 MBR 模式下无法添加 UEFI:NTFS 分区的问题。</li><li>防止列出 Microsoft Dev Drives。</li><li>改善对 SDXC 读卡器的支持。</li><li>通过将数据区域的起点对齐至 1 MB，改进大型 FAT32 格式化。</li></ul><p>下载地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frufus.ie%2Fzh%2F" target="_blank">https://rufus.ie/zh/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 17 Jan 2024 02:28:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276053/rufus-4-4-released</guid>
+            <link>https://www.oschina.net/news/276053/rufus-4-4-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
     </channel>
