@@ -16,8 +16,27 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 23 Jan 2024 05:38:51 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 23 Jan 2024 12:35:36 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[CrateDB 5.6.0 发布，分布式 SQL 数据库]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>CrateDB 是一个分布式的 SQL 数据库，使得实时存储和分析大量的机器数据变得简单。CrateDB 提供了通常与 NoSQL 数据库相关的可扩展性和灵活性，最小的 CrateDB 集群可以轻松地每秒摄取数万条记录。这些数据可以在整个集群中实时地、临时地、并行地进行查询。</p><p>CrateDB 5.6.0&nbsp;现已正式发布，该版本更新内容如下：</p><h4><strong>Breaking Changes</strong></h4><ul><li>在还原快照时，用于还原用户管理元数据的 USERS 和 PRIVILEGES 关键字已被 USERMANAGEMENT 所取代，后者要求还原数据库的所有用户和角色及其权限。不再可能单独恢复 USERS 或 PRIVILEGES。</li></ul><h4><strong>弃用</strong></h4><ul><li><code>USERS</code>和<code>PRIVILEGES</code>关键字已被弃用，它们在还原快照时分别用于还原用户和权限元数据。目前已被<code>USERMANAGEMENT</code>所替换，并且其行为也已修改，可参阅&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fappendices%2Frelease-notes%2F5.6.0.html%23breaking-changes" target="_blank">Breaking Changes</a>&nbsp;以了解详细信息。</li></ul><h4><strong>Changes</strong></h4><p><strong>SQL Statements</strong></p><ul><li><p>添加了对<code>CREATE&nbsp;TABLE</code>语句中显式 NULL 列约束定义的支持。</p></li><li><p>添加了对命名&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fgeneral%2Fconstraints.html%23primary-key-constraint" target="_blank">PRIMARY KEY 约束声明</a>的支持。</p></li><li><p>扩展了&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Fexplain.html%23ref-explain" target="_blank">EXPLAIN</a>&nbsp;语句以支持<code>VERBOSE</code>选项。</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Falter-table.html%23sql-alter-table-rename-column" target="_blank">添加了对 ALTER TABLE RENAME COLUMN</a>&nbsp;语句的支持&nbsp;。</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Fcreate-role.html%23ref-create-role" target="_blank">添加了对 CREATE ROLE</a>&nbsp;语句的支持。有关详细信息，参阅<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fappendices%2Frelease-notes%2F5.6.0.html%23administration-and-operations" target="_blank">管理与操作</a>。</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Falter-role.html%23ref-alter-role" target="_blank">添加了对 ALTER ROLE</a>&nbsp;语句的支持，该语句与&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Falter-user.html%23ref-alter-user" target="_blank">ALTER USER</a>&nbsp;语句相同。</p></li><li><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Fdrop-role.html%23ref-drop-role" target="_blank">添加了对 DROP ROLE</a>&nbsp;语句的支持，该语句与&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Fdrop-user.html%23ref-drop-user" target="_blank">DROP USER</a>&nbsp;语句相同。</p></li></ul><p><strong>SQL Standard 和 PostgreSQL Compatibility</strong></p><ul><li><p>通过 PostgreSQL wire protocol 和 pg_catalog.pg_type 表添加了用于序列化的未知类型。这将解决与 npgsql &gt;= 8.0 的兼容性问题。</p></li><li><p>添加了一个空<code>pg_catalog.pg_depend</code>表。</p></li><li><p>将表更改<code>pg_catalog.pg_roles</code>为正确填充，因为以前它总是返回<code>0</code>行。</p></li><li><p>为&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fgeneral%2Fdql%2Fselects.html%23sql-dql-like" target="_blank">LIKE 和 ILIKE</a>&nbsp;运算符添加了可选的<code>ESCAPE</code>参数。</p></li></ul><p><strong>Data Types</strong></p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fgeneral%2Fddl%2Fdata-types.html%23data-types-geo-shape" target="_blank">为 geo_shape</a>&nbsp;引入了基于 BKD 树的索引策略。</li></ul><p><strong>Scalar and Aggregation Functions</strong></p><ul><li><p>更新了<code>tdigest</code>库，导致<code>percentile</code>&nbsp;聚合函数在某些情况下表现不同。例如，以下查询过去会返回<code>4.5</code>，但现在将返回<code>5.0</code>：</p><pre><code>SELECT percentile(x, 0.5) FROM generate_series(0, 9, 1) AS t (x) ;</code></pre></li></ul><p><strong>Performance and Resilience Improvements</strong></p><ul><li><p>减少了<code>ANALYZE</code>操作所需的磁盘读取量。</p></li><li><p>当嵌套连接时，改进了左/右外连接的过滤器下推，例如：</p><pre><code>SELECT * FROM (SELECT * FROM a LEFT JOIN b ON a.a = b.b LEFT JOIN c ON b.b = c.c) t WHERE b &gt; 1;</code></pre><p>现在，上面的查询将产生以下逻辑计划</p><pre><code>NestedLoopJoin[LEFT | (b = c)] (rows=unknown)
+  ├ HashJoin[(a = b)] (rows=unknown)
+  │  ├ Collect[doc.a | [a] | true] (rows=unknown)
+  │  └ Collect[doc.b | [b] | (b &gt; 1)] (rows=unknown)
+  └ Collect[doc.c | [c] | true] (rows=unknown)</code></pre></li></ul><p><strong>Administration and Operations</strong></p><ul><li><p>新增数据库角色，可用于权限分组，可授予用户或其他角色，从而实现<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fadmin%2Fprivileges.html%23roles-inheritance" target="_blank">权限继承</a>。</p></li><li><p>允许未索引的列或没有文档值的列可查询。</p></li><li><p>向&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fsql%2Fstatements%2Frestore-snapshot.html%23sql-restore-snapshot" target="_blank">RESTORE SNAPSHOT</a>&nbsp;添加了新选项<code>schema_rename_pattern</code>、&nbsp;<code>schema_rename_replacement</code>、<code>table_rename_pattern</code>和<code>table_rename_replacement</code>以允许在还原期间重命名表。</p></li><li><p>添加了&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fadmin%2Fsystem-information.html%23sys-roles" target="_blank">sys.roles</a>&nbsp;表，其中包含集群中定义的所有数据库角色。</p></li><li><p>向<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fadmin%2Fsystem-information.html%23sys-users" target="_blank">sys.users</a>表添加了<code>granted_roles</code>列，其中列出了授予用户的角色以及授予每个角色的用户。</p></li></ul><p><strong>用户界面</strong></p><ul><li>更新至 Admin UI&nbsp;1.24.7，修复了西班牙语版本帮助页面上的一个小语法问题，并使用<code>oxipng</code>优化了图片。</li></ul><p><span style="background-color:#ffffff; color:#333333">详情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcratedb.com%2Fdocs%2Fcrate%2Freference%2Fen%2F5.6%2Fappendices%2Frelease-notes%2F5.6.0.html" target="_blank">查看更新说明</a><span style="background-color:#ffffff; color:#333333">。</span>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Tue, 23 Jan 2024 10:16:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276453/cratedb-5-6-0-released</guid>
+            <link>https://www.oschina.net/news/276453/cratedb-5-6-0-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[PicList 2.7.2 发布，图床管理和上传工具，新增 S3 支持]]>
@@ -26,7 +45,7 @@
                 <![CDATA[<div class="content"><p>PicList 是一款高效的云存储和图床平台管理工具，在 PicGo 的基础上经过深度的二次开发，不仅完整保留了 PicGo 的所有功能，还增添了许多新的 feature。例如相册支持同步云端删除文件，内置图床额外添加了 WebDav、本地图床和 SFTP 等。PicList 同时增加了完整的云存储管理功能，包括云端目录查看、文件搜索、批量上传下载和删除文件，复制多种格式文件链接和图片/markdown/文本/视频预览等，另外还有更加强大的相册和多项功能新增或优化。</p><h2>开源地址和软件官网</h2><ul><li><p>Github: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKuingsmile%2FPicList" target="_blank">https://github.com/Kuingsmile/PicList</a></p></li><li><p>Gitee: <a href="https://gitee.com/kuingsmile/PicList">https://gitee.com/kuingsmile/PicList</a></p></li><li><p>软件官网：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpiclist.cn" target="_blank">https://piclist.cn</a></p></li></ul><h2>下载地址</h2><h3>MacOS</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.7.2-arm64.dmg" target="_blank">PicList-2.7.2-arm64.dmg</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.7.2-x64.dmg" target="_blank">PicList-2.7.2-x64.dmg</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.7.2-universal.dmg" target="_blank">PicList-2.7.2-universal.dmg</a></p><h3>Windows</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.7.2-ia32.exe" target="_blank">PicList-Setup-2.7.2-ia32.exe</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.7.2-x64.exe" target="_blank">PicList-Setup-2.7.2-x64.exe</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.7.2.exe" target="_blank">PicList-Setup-2.7.2.exe</a></p><h3>Linux</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.7.2.AppImage" target="_blank">PicList-2.7.2.AppImage</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2Fpiclist_2.7.2_amd64.snap" target="_blank">piclist_2.7.2_amd64.snap</a></p><h2>本次更新内容</h2><h3>✨ Features</h3><ul><li>新增内置 S3 API 兼容平台支持</li><li>现在又拍云图床支持自定义接口地址</li><li>七牛云新建存储桶新增<code>亚太-河内</code>支持</li></ul><h3>🐛 Bug Fixes</h3><ul><li>修复了修改 s3 图床相册链接后，拷贝图片链接没有对应修改的问题</li><li>修复了修改 s3 图床相册连接后，云端删除失效的问题</li><li>修复了设置精细转换格式时的序列化错误</li><li>修复了界面翻译错误</li></ul><h2>特色功能</h2><ul><li>保留了 PicGo 的所有功能，兼容绝大部分已有的 PicGo 插件，包括和 Typora、Obsidian 等软件的搭配</li><li>新增了多个内置图床，如 WebDav、本地图床和 SFTP 等，原内置 imgur 图床额外支持登录账号上传</li><li>相册中可同步删除云端图片，支持所有内置图床和多个插件</li><li>相册新增了高级搜索和排序，批量修改 URL 等功能</li><li>内置水印添加、图片压缩、图片缩放、图片旋转和图片格式转换等功能，同时支持高级重命名</li><li>支持配置同步至 Github 或 Gitee 仓库</li><li>支持管理十余种图床，可以在线进行云端目录查看、文件搜索、批量上传、批量下载、删除文件等</li><li>支持预览多种格式的文件，包括图片、视频、纯文本文件和 markdown 文件等，具体支持的格式请参考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKuingsmile%2FPicList%2Fblob%2Fdev%2Fsupported_format.md" target="_blank">支持的文件格式列表</a></li><li>支持启用正则表达式的批量云端文件重命名</li><li>对于私有存储桶等支持复制预签名链接进行分享</li><li>支持软件自动更新，支持多种启动模式，还有更多功能细节新增和优化</li><li>优化了 PicGo 的界面，解锁了窗口大小限制，同时美化了部分界面布局</li><li>mac 平台安装包已签名，从源头解决了 PicGo 上的安装包已损坏的日经问题</li></ul><h2>软件截图</h2><p><img alt="image.png" src="https://note.msq.pub/202308230137997.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230138231.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230138929.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230139152.webp" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 23 Jan 2024 05:17:46 GMT</pubDate>
+            <pubDate>Tue, 23 Jan 2024 05:17:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276425</guid>
             <link>https://www.oschina.net/news/276425</link>
             <author>
@@ -56,7 +75,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#333333">SOFABoot 是蚂蚁金服开源的基于 Spring Boot 的研发框架，它在 Spring Boot 的基础上，提供了诸如 Readiness Check，类隔离，日志空间隔离等等能力。在增强了 Spring Boot 的同时，SOFABoot 提供了让用户可以在 Spring Boot 中非常方便地使用 SOFA 中间件的能力。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#333333">SOFABoot 4.2.0</span><span style="color:#333333"><span>&nbsp;</span>现已发布，具体更新内容包括：</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong style="color:#24292f">New Features</strong></p><ul><li>更新 SpringBoot 3.2.2&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1266" target="_blank">#1266</a></li><li>支持虚拟线程<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1272" target="_blank">#1272</a></li><li>支持&nbsp;ExcludeBeanNameAutoProxyCreator&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1277" target="_blank">#1277</a></li></ul><p style="text-align:start"><strong><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Optimize</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>为 jdk21 运行时添加 ci&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1265" target="_blank">#1265</a></li><li>跳过低成本 spring.context.config-classes.enhance 和 bean-factory&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1270" target="_blank">#1270</a></li><li>添加 Sofa&nbsp;默认的可列出 bean factory&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1279" target="_blank">#1279</a></li><li>中断时避免 SpringContextInstallStage 中的 npe&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Fpull%2F1280" target="_blank">#1280</a></li></ul><p>更新说明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsofastack%2Fsofa-boot%2Freleases%2Ftag%2Fv4.2.0" target="_blank">https://github.com/sofastack/sofa-boot/releases/tag/v4.2.0</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 23 Jan 2024 03:16:08 GMT</pubDate>
+            <pubDate>Tue, 23 Jan 2024 03:15:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276410/sofaboot-4-2-0-released</guid>
             <link>https://www.oschina.net/news/276410/sofaboot-4-2-0-released</link>
             <author>
@@ -71,7 +90,7 @@
                 <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">carbon 是一个轻量级、语义化、对开发者友好的 Golang 时间处理库，支持链式调用、农历和 gorm、xorm 等主流 orm。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">目前已被<span><span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fyinggaozhen%2Fawesome-go-cn%23%25E6%2597%25A5%25E6%259C%259F%25E5%2592%258C%25E6%2597%25B6%25E9%2597%25B4" target="_blank">awesome-go-cn</a><span><span>&nbsp;</span></span>收录，如果您觉得不错，请给个 star 吧</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fgolang-module%2Fcarbon" target="_blank">github.com/golang-module/carbon</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><a href="https://gitee.com/golang-module/carbon" target="_blank">gitee.com/golang-module/carbon</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>更新日志</strong></p><ol><li>将日历提取出来作为独立子包</li><li>新增 <strong>CreateFromLunar</strong> 方法，从 <strong>农历日期</strong> 创建 <strong>Carbon</strong> 实例</li><li>修复 <strong>ToMonthString</strong>, <strong>ToShortMonthString</strong>, <strong>ToWeekString</strong>, <strong>ToShortWeekString</strong>, <strong>Season</strong> , <strong>Constellation</strong> 方法并发读写错误</li><li>提供单元测试和性能测试覆盖率</li></ol></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 23 Jan 2024 02:43:08 GMT</pubDate>
+            <pubDate>Tue, 23 Jan 2024 02:42:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276408/go-carbon-2-3-6-released</guid>
             <link>https://www.oschina.net/news/276408/go-carbon-2-3-6-released</link>
             <author>
@@ -101,7 +120,7 @@
                 <![CDATA[<div class="content"><p>SQLite 3.45 <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.sqlite.org%2Fchanges.html%23version_3_45_0" target="_blank">已发布</a></u>。</p><blockquote><p>SQLite 是一个 C 语言库，实现了一个小型、快速、独立、高可靠性、全功能的 SQL 数据库引擎。SQLite 是世界上使用最多的数据库引擎。SQLite 的源代码属于公共领域，每个人都可以免费使用，用于任何目的。</p></blockquote><p>新版本重写了所有 JSON 函数，改为新的内部解析树格式 JSONB。JSONB 格式可以序列化并存储在数据库中，避免在使用 JSON 值时，还需要进行不必要的重复解析。因此通过支持 JSONB，SQLite 在处理 JSON 数据时能够更高效灵活。</p><p>此外，JSONB 保留所有旧功能，并且所有 JSON 函数也可以接受 JSONB 二进制内容。</p><p>SQLite 承诺其生成的 JSONB 格式良好，但是由于 JSONB 本质上就是一个 BLOB，因此可能存在格式不正确的 JSONB，而 SQLite 在处理格式不正确的 JSONB，就可能出现不同行为，从而发生错误。不过 SQLite 也保证，格式错误的 JSONB 永远不会导致内存错误或是类似问题，也不会出现系统漏洞。</p><p>&nbsp;</p><p>详情查看&nbsp;<em><u><a href="https://www.oschina.net/news/269878/sqlite-lands-jsonb" target="_blank">SQLite 重写了 JSON 函数 —— 推出 JSONB</a></u></em></p></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 23 Jan 2024 02:27:22 GMT</pubDate>
+            <pubDate>Tue, 23 Jan 2024 02:27:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276404/sqlite-3-45-released</guid>
             <link>https://www.oschina.net/news/276404/sqlite-3-45-released</link>
             <author>
@@ -429,70 +448,6 @@
             <pubDate>Mon, 22 Jan 2024 02:20:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276323/tim-2-0-1-released</guid>
             <link>https://www.oschina.net/news/276323/tim-2-0-1-released</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Socket.D v2.3.7 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h3>Socket.D</h3><p style="color:#24292e; text-align:start">是基于"事件"和"语义消息""流"的网络应用层协议。有用户说，「Socket.D 之于 Socket，尤如 Vue 之于 Js、Mvc 之于 Http」。支持 tcp, udp, ws, kcp 传输。协议特点可参考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsocketd.noear.org%2Farticle%2F748" target="_blank">《官网介绍》</a>。</p><p style="color:#24292e; text-align:start"><span style="background-color:#f1c40f">pyton 已开发完成，再在测试中；go, rust, c++ 正在开发中。</span></p><h3>for java / for js 更新说明：</h3><ul><li>添加 Client::openOrThow() 方法，原 open() 不再出异常</li><li>添加 Session::liveTime 接口</li><li>添加 Entity.of 快捷方法</li><li>添加，连接协议对 meta 传递的支持</li><li>添加 Handshake:path 方法</li><li>添加 CodecReader::peekByte 方法，标准化字符串解码</li><li>调整，发送时允许实体为 null（总有不需要传的时候）</li><li>调整 ClientChannel 内部处理，支持首次连接失败后仍可用</li><li>简化 ClientBase::open() 处理</li><li>优化 Codec::decodeString 处理方式</li></ul><h3>新增的接口体验：</h3><ul><li>两种打开方式</li></ul><pre><code class="language-java"><em>//如果不能连接正常返回（由心跳尝试不断连接）//用 java 示例</em><span style="color:#986801">let</span><span style="color:#986801">session</span><span>=</span> SocketD.createClient(<span style="color:#50a14f">"sd:tcp://127.0.0.1:8602/?u=a&amp;p=2"</span>)
-        .open();
-
-<em>//如果不能连接则异常 // 用 js 示例</em><span style="color:#986801">const</span><span style="color:#986801">session</span><span>=</span> await SocketD.createClient(<span style="color:#50a14f">"sd:</span><span style="color:#50a14f">ws://127.0.0.1:8602/?u=a&amp;p=2"</span>)</code><code class="language-java">        .openOrThow();
-</code></pre><ul><li>支持用 null 发空实体</li></ul><pre><code class="language-java"><em>//等待模式</em><span style="color:#986801">let</span><span style="color:#986801">reply</span><span>=</span> session.sendAndRequest(<span style="color:#50a14f">"/user/get"</span>, <span style="color:#0184bb">null</span>).await();
-
-<em>//回调模式</em>
-session.sendAndRequest(<span style="color:#50a14f">"/user/get"</span>, <span style="color:#0184bb">null</span>).thenReply(reply-&gt;{
-
-});
-</code></pre><ul><li>支持活动时间获取</li></ul><pre><code class="language-java">console.info(session.liveTime());
-</code></pre><h3>Socket.D.js 能力演示：</h3><ul><li>监听（相当于 ws 的增强）</li></ul><p style="color:#24292e; text-align:start">多了事件路由。可以用一个连接，监听不同的业务事件（类似于 http path）。</p><pre><code class="language-javascript"><em>//打开客户端会话（用 url 形式打开）</em><span style="color:#a626a4">let</span> session = <span style="color:#a626a4">await</span><span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">createClient</span>(<span style="color:#50a14f">"sd:</span><span style="color:#50a14f">ws://127.0.0.1:8602/?token=1b0VsGusEkddgr3d"</span>)</code><code class="language-javascript">        .<span style="color:#4078f2">listen</span>(<span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEventListener</span>()
-                .<span style="color:#4078f2">doOnOpen</span>(s -&gt; { <em>//会话打开时</em><em>//...</em>
-                }).<span style="color:#4078f2">doOnMessage</span>((s, m) -&gt; { <em>//收到任意消息时</em><em>//打印</em><span style="color:#986801">console</span>.<span style="color:#4078f2">info</span>(m);
-                }).<span style="color:#4078f2">doOn</span>(<span style="color:#50a14f">"/demo"</span>, (s, m) -&gt; { <em>//收到"/demo"事件的消息时</em><span style="color:#a626a4">if</span> (m.<span style="color:#4078f2">isRequest</span>() || m.<span style="color:#4078f2">isSubscribe</span>()) {
-                        <em>//答复</em>
-                        s.<span style="color:#4078f2">replyEnd</span>(m, <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>(<span style="color:#50a14f">"And you too."</span>));
-                    }
-                }))
-        .<span style="color:#4078f2">open</span>();
-</code></pre><ul><li>发送，和 发送文件（并获取进度）</li></ul><p style="color:#24292e; text-align:start">发送相对于 ws 多了元信息。可为数据添加额外的业务标注。发送大数据时，会自动分片（接收端自动聚合）</p><pre><code class="language-javascript"><em>//发送</em>
-session.<span style="color:#4078f2">send</span>(<span style="color:#50a14f">"/demo/hello"</span>, <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>(<span style="color:#50a14f">"hi"</span>).<span style="color:#4078f2">metaPut</span>(<span style="color:#50a14f">"sender"</span>,<span style="color:#50a14f">"noear"</span>));
-
-<em>//发送文件，且获取发送进度（如果有大数据发送，又需要显示进度）//实际开发，要用 sendAndRequest 接口（以获取接收确认）</em>
-session.<span style="color:#4078f2">send</span>(<span style="color:#50a14f">"/demo/upload"</span>, <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>(file)).<span style="color:#4078f2">thenProgress</span>(<span>(<span>isSend, val, max</span>)=&gt;</span>{
-    <span style="color:#a626a4">if</span>(isSend){
-        <em>//获取发送进度</em><span style="color:#986801">console</span>.<span style="color:#4078f2">info</span>(<span style="color:#50a14f">`...<span style="color:#e45649">${val}</span>/<span style="color:#e45649">${max}</span>`</span>);
-    }
-});
-</code></pre><ul><li>请求，和 下载文件（或大数据块）</li></ul><p style="color:#24292e; text-align:start">这个相当于 ws 有了 ajax 的交互方式</p><pre><code class="language-javascript"><em>//发送并请求（有点像 ajax）</em><span style="color:#a626a4">let</span> reply = session.<span style="color:#4078f2">sendAndRequest</span>(<span style="color:#50a14f">"/demo/hello"</span>, <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>()).<span style="color:#4078f2">thenReply</span>(<span><span>reply</span>=&gt;</span>{
-    <span style="color:#986801">console</span>.<span style="color:#4078f2">info</span>(reply.<span style="color:#4078f2">dataAsString</span>());
-});
-
-<em>//发送并请求，且取接收进度（如果有大数据获取，又需要显示进度）</em>
-session.<span style="color:#4078f2">sendAndRequest</span>(<span style="color:#50a14f">"/demo/download"</span>, <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>()).<span style="color:#4078f2">thenProgress</span>(<span>(<span>isSend, val, max</span>)=&gt;</span>{
-    <span style="color:#a626a4">if</span>(!isSend){
-        <em>//获取接收进度</em><span style="color:#986801">console</span>.<span style="color:#4078f2">info</span>(<span style="color:#50a14f">`...<span style="color:#e45649">${val}</span>/<span style="color:#e45649">${max}</span>`</span>);
-    }
-}).<span style="color:#4078f2">thenReply</span>(<span><span>reply</span>=&gt;</span>{
-      <em>//reply.data()...</em>
-}).<span style="color:#4078f2">thenError</span>(<span><span>err</span>=&gt;</span>{
-      <em>//如果有出错？</em>
-});
-</code></pre><ul><li>订阅，与 流量控制（一般用于流加载）</li></ul><p style="color:#24292e; text-align:start">通过 range(start, size) 指定数据范围，由 sendAndSubscribe 发起订阅，通过 thenReply 多次接收。</p><pre><code class="language-javascript"><em>//发送并订阅</em><span style="color:#a626a4">let</span> entity = <span style="color:#c18401">SocketD</span>.<span style="color:#4078f2">newEntity</span>().<span style="color:#4078f2">range</span>(<span style="color:#986801">5</span>,<span style="color:#986801">5</span>).<span style="color:#4078f2">metaPut</span>(<span style="color:#50a14f">"videoId"</span>,<span style="color:#50a14f">"1"</span>);
-session.<span style="color:#4078f2">sendAndSubscribe</span>(<span style="color:#50a14f">"/demo/stream"</span>, entity).<span style="color:#4078f2">thenReply</span>(<span><span>reply</span>=&gt;</span>{
-      <em>//异步获取答复（会多次回调）</em>
-})
-</code></pre><h3>视频演示效果：</h3><ul><li>for H5 
-  <ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1ck4y197BV%2F" target="_blank">https://www.bilibili.com/video/BV1ck4y197BV/</a></li><li><a href="https://gitee.com/noear/socket.d/tree/main/javascript/socketd-examples/demo01-js-ws">演示源码</a></li></ul></li><li>for UniAPP 
-  <ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1T94y1T7sp%2F" target="_blank">https://www.bilibili.com/video/BV1T94y1T7sp/</a></li><li><a href="https://gitee.com/noear/socket.d/tree/main/javascript/socketd-examples/demo03-uniapp-ws">演示源码</a></li></ul></li></ul><h3>代码仓库：</h3><ul><li><a href="https://gitee.com/noear/socketd">https://gitee.com/noear/socketd</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fsocketd" target="_blank">https://github.com/noear/socketd</a></li></ul><h3>官网：</h3><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsocketd.noear.org%2F" target="_blank">https://socketd.noear.org</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 22 Jan 2024 02:09:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276321/socketd-2-3-7-released</guid>
-            <link>https://www.oschina.net/news/276321/socketd-2-3-7-released</link>
             <author>
                 <![CDATA[来源: 投稿]]>
             </author>
