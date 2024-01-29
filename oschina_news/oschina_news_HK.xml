@@ -16,8 +16,604 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 28 Jan 2024 06:48:38 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 29 Jan 2024 07:26:35 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[百川智能發佈超千億大模型 Baichuan 3，中文評測超越 GPT-4]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>1 月 29 日，百川智能發佈超千億參數的大語言模型 Baichuan 3。</p><p>鏈接：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.baichuan-ai.com%2F" target="_blank">https://www.baichuan-ai.com/</a></u></em></p><p>據稱在多個權威通用能力評測如 CMMLU、GAOKAO 和 AGI-Eval 中，Baichuan 3 都展現了出色的能力，<strong>尤其在中文任務上更是超越了 GPT-4</strong>。而在數學和代碼專項評測如 MATH、HumanEval 和 MBPP 中同樣表現出色。</p><p><img src="https://oscimg.oschina.net/oscnet/up-4943e22112dc10bfbb4d4346b8b76cb1448.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-df748cfd41a08e601ad56b92c70ee27d974.png" referrerpolicy="no-referrer"></p><p>不僅如此，其在對邏輯推理能力及專業性要求極高的 MCMLE、MedExam、CMExam 等權威醫療評測上的中文效果同樣超過了 GPT-4，是中文醫療任務表現最佳的大模型。Baichuan 3 還突破「迭代式強化學習」技術，進一步提升了語義理解和生成能力，在詩詞創作的格式、韻律、表意等方面表現優異，領先於其他大模型。</p><p>在測試邏輯推理能力的 MCMLE、MedExam、CMExam 等醫療評測上，Baichuan 3 的中文效果同樣號稱超過了 GPT-4，是「中文醫療任務表現最佳的大模型」。</p><p><img src="https://oscimg.oschina.net/oscnet/up-c58c3189e812e73b513f6f5f311965c43f5.png" referrerpolicy="no-referrer"></p><p>據介紹，百川智能在 Baichuan 3 訓練過程中提出了「動態數據選擇」、「重要度保持」以及「異步 CheckPoint 存儲」等多種技術手段及方案，穩定訓練時間達到一個月以上，故障恢復時間不超過 10 分鐘。</p><p>百川智能表示，Baichuan 3 還突破「迭代式強化學習」技術，進一步提升了語義理解和生成能力，在詩詞創作的格式、韻律、表意等方面進行了提升，對於宋詞這種格式多變，結構深細、韻律豐富的高難度文體，生成的內容亦能工整對仗、韻腳和諧，讓每個人都能創作出詠物、寄思的五言律詩、七言絕句，寫下的言志、抒情的「沁園春」、「定風波」。</p><p><img src="https://oscimg.oschina.net/oscnet/up-8959061fdec6f20cfdb40450da65be44c34.jpg" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-200b2ab4aedbbf84adc97af95557a2b8c51.jpg" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 06:57:22 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276843</guid>
+            <link>https://www.oschina.net/news/276843</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[.NET 8 動態 PGO 簡析]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><span id="OSC_h2_1"></span><h2>原文：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fmp.weixin.qq.com%2Fs%253F__biz%253DMzg5NDYwNjU4MA%253D%253D%2526mid%253D2247486038%2526idx%253D1%2526sn%253D9c070c8e07acfe85269835a709cd5b6d%2526chksm%253Dc01c47cdf76bcedb8362846a829faf4c1853f4abcbe9708d6551264387f3795f7cb3e3e54828%2526token%253D1735800899%2526lang%253Dzh_CN%2523rd" target="_blank" rel="nofollow">.NET8 動態 PGO 簡析</a></u></h2><p><strong>作者：江湖評談，公眾號同名：江湖評談 (Jianghupt）,歡迎關注。</strong></p><p>&nbsp;</p><span id="OSC_h2_2"></span><h2><strong>前言</strong></h2><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">.NET8 在性能方面的驚人飛躍，遠超過去所取得成就，這在很大程度上歸功於動態 PGO。【 I dare say the improvements in .NET 8 in the JIT are an incredible leap beyond what was achieved in the past, in large part due to dynamic PGO…官方原話】</p><span id="OSC_h2_3"></span><h2><strong>詳細</strong></h2><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">在早期的.NET 方法只編譯一次，在第一次調用該方法的時候，JIT 啓動以生成該方法的代碼。後續的調用以及當前的調用都會使用 JIT 生成的代碼來運行程序，這是一個簡單的無衝突的時代，但是也是一個原始的時代。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">簡單和原始在於，方法只編譯一次，再無其它可能性。無衝突在於，尤其是.NET 開源時代，分層，動態 PGO，OSR 等等都會破壞原有的代碼邏輯，造成一定的複雜度，而早期的.NET 不存在這種狀況。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">優化是編譯器裏面最耗時的操作，編譯器可以花費超長的時間來優化一段代碼或者一個指令集。但是程序使用者，或者軟件使用者，或者軟件開發者沒有超長的時間去等待編譯器慢慢的完成一個方法的編譯。這是很致命的。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">在編譯時間和代碼質量上需要權衡利益得失。好的代碼質量，需要更長的時間去編譯，差的代碼質量，則編譯更快。這取決於 JIT 本身是如何工作的。大量的事實證明，在程序中大部分方法都只是調用一次或者幾次，耗費很多的時間去優化這些方法。優化的時間反而超過了這些方法本身運行的時間，這完全是得不償失的。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">為瞭解決這種情況，.NET Core3.0 中引入了新的 JIT 功能，稱之為分層編譯。通過分層一個方法可能會被編譯多次，在第一次編譯的時候被編譯為 0 層 (tier0),在 0 層當中 JIT 優先考慮的是代碼編譯的速度，而不是質量。在 0 層的編譯特點是，最小優化 (min opts，但是依然會保持一些優化)，之所以這樣，是因為它需要更快速的編譯而不是更好質量的代碼。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">0 層之後，會有 1 層 (tier1)。這一層是基於 0 層的代碼運行情況而來，比如 JIT 收集到 0 層的某個方法，運行的時間超過了 60ms,運行的次數超過了 2 次 (.NET8 R2R 函數進入分層編譯隊列的閾值，比如 Console.ReadLine 方法)，那麼 JIT 就會把 0 層的這個方法放入到分層編譯隊列，進行編譯之後該方法就會進一步優化形成了 1 層 (tier1),此後調用該方法和當前調用該方法都會調用 1 層的代碼，而棄用了 0 層的代碼。</p><span id="OSC_h2_4"></span><h2><strong>神來之筆</strong></h2><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">這裏需要注意了，只有極少數的符合閾值的方法才能夠進入 1 層。這樣其實是 0 層和 1 層共生運行一個程序的過程，既保證了代碼的質量，又保證了程序運行的速度，這是.NET8 的一個神奇點。但是它的好處遠不止於此。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start"><strong>神奇點 1</strong>，代碼從 0 層被優化到 1 層，JIT 在 0 層的時候就會收集到代碼的信息，並且在編譯到 1 層的時候，會進行相對應的優化。如果 JIT 直接從一開始把代碼編譯到 1 層，那麼可能無法擁有這樣的優化。舉個例子，比如 0 層有個方法，它裏面有個靜態只讀字段，0 層編譯的時候它一定被初始化過了。JIT 就可以根據它收集到的初始化的內容，在生成 1 層代碼的時候進行相對應的優化。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start"><strong>神奇點 2</strong>，有一種情況，一個方法可能只運行了寥寥幾次或者只有一次。但是它裏面有 for 循環這種代碼，一直不停的運行。如果沒有分層編譯，它直接進入了 Tier1，這樣很粗暴的方式明顯不行。為瞭解決這個問題，.NET 中引入了 OSR(On-Stack Replacement)，當一個循環計數達到一定的閾值，JIT 將編譯該方法的新優化版本，此後從最小代碼優化版本調到新優化版本中繼續執行。非常巧妙的一個方式。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start"><strong>神奇點 3，</strong>基於配置文件的靜態優化 (PGO) 已經存在了幾十年。適用於多種環境和語言，比如 C/C++,Python,Java 等等。這種原理主要是，在一些代碼關鍵地方收集信息，下次運行根據這些信息重新構建應用程序。因為做到這些需要一些編譯器或者其它一些配置，稱之為靜態 PGO。而通過分層，Tier0 優化到 Tier1 的基礎上，所有的都是 JIT 自行收集，自行判斷，自行優化，無須任何額外的開發工作，或者基礎設施的配置，它就是動態 PGO。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start"><strong>神奇點 4，</strong>把 R2R 納入到分層編譯。R2R 是一個預編譯鏡像，它裏面存儲的 Native Header 是完全的二進制運行代碼，它跟 AOT 的不同在於它運行了一定的次數之後，會被 JIT 進行重新優化編譯。如果不把它納入到分層編譯，這對動態 PGO 的性能是一個很大的阻礙。</p><span id="OSC_h2_5"></span><h2><strong>編譯分支和例子</strong></h2><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">一般的來説，即時編譯分為兩個分支。即源碼編譯和 R2R(它大量的應用在 System.Private.CoreLib.dll 裏面) 預編譯 (AOT 不屬於即時編譯，這裏需要注意)。</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">源碼編譯即所謂未 PreJIT 編譯，0 層一般都是未優化 (not optimized)，未檢查 (not instrumented)，在 0 層進行了檢查但是未優化，此後在 1 層生成優化性代碼。R2R 即所謂 PreJIT 編譯，因為 R2R 可能已經被優化過了。所以 0 層它是已優化，未檢查，會在 0 層進行檢查。到了 1 層已優化已檢查，然後會再次生成一個優化性的代碼，也稱之為 1 層 (但其實已經是 2 層，了)。參考如下圖:</p><div><img height="629" src="https://pic2.zhimg.com/80/v2-080f882fe065fc243c87fbd61f80c1f5_720w.webp" width="1080" referrerpolicy="no-referrer"></div><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">下面看下 Tier0 優化的一個例子，上面説到 Tier0 是確保編譯速度，而忽略代碼質量。但是不代表 Tier0 不進行代碼優化。下面就是 0 層代碼優化的例子。</p><div><pre><code class="language-text">// dotnet run -c Release -f net8.0
+
+MaybePrint(42.0);
+
+static void MaybePrint&lt;T&gt;(T value)
+{
+    if (value is int)
+        Console.WriteLine(value);
+}</code></pre></div><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">0 層 JIT 可以進行一定常量摺疊 (在編譯的時候評估常量而不是在運行的時候),這可以讓 0 層生成更少的代碼。一般的來説，0 層 JIT 大部分時間都是與虛擬機交互。如果能夠減少一些永遠不會使用的分支，可以大幅度提高編譯的時間，也能獲得更好的代碼質量。將 DOTNET_JitDisasm 設置為 MaybePrint，運行</p><div><pre><code class="language-text">dotnet run -c Release -f net7.0</code></pre></div><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">0 層代碼如下：</p><div><pre><code class="language-text"> Assembly listing for method Program:&lt;&lt;Main&gt;$&gt;g__MaybePrint|0_0[double](double)
+; Emitting BLENDED_CODE for X64 CPU with AVX - Windows
+; Tier-0 compilation
+; MinOpts code
+; rbp based frame
+; partially interruptible
+
+G_M000_IG01:                ;; offset=0000H
+       55                   push     rbp
+       4883EC30             sub      rsp, 48
+       C5F877               vzeroupper
+       488D6C2430           lea      rbp, [rsp+30H]
+       33C0                 xor      eax, eax
+       488945F8             mov      qword ptr [rbp-08H], rax
+       C5FB114510           vmovsd   qword ptr [rbp+10H], xmm0
+
+G_M000_IG02:                ;; offset=0018H
+       33C9                 xor      ecx, ecx
+       85C9                 test     ecx, ecx
+       742D                 je       SHORT G_M000_IG03
+       48B9B877CB99F97F0000 mov      rcx, 0x7FF999CB77B8
+       E813C9AE5F           call     CORINFO_HELP_NEWSFAST
+       488945F8             mov      gword ptr [rbp-08H], rax
+       488B4DF8             mov      rcx, gword ptr [rbp-08H]
+       C5FB104510           vmovsd   xmm0, qword ptr [rbp+10H]
+       C5FB114108           vmovsd   qword ptr [rcx+08H], xmm0
+       488B4DF8             mov      rcx, gword ptr [rbp-08H]
+       FF15BFF72000         call     [System.Console:WriteLine(System.Object)]
+
+G_M000_IG03:                ;; offset=0049H
+       90                   nop
+
+G_M000_IG04:                ;; offset=004AH
+       4883C430             add      rsp, 48
+       5D                   pop      rbp
+       C3                   ret
+
+; Total bytes of code 80</code></pre></div><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">System.Console:WriteLine 裏面的代碼都是可以進行優化的，但是.NET7 裏面 0 層它解析出了 MaybePrint，並未意識到其根本不會執行。現在在.NET8 裏面 JIT 意識到分支永遠不會執行，所以生成如下：</p><div><pre><code class="language-text">; Assembly listing for method Program:&lt;&lt;Main&gt;$&gt;g__MaybePrint|0_0[double](double) (Tier0)
+; Emitting BLENDED_CODE for X64 with AVX - Windows
+; Tier0 code
+; rbp based frame
+; partially interruptible
+
+G_M000_IG01:                ;; offset=0x0000
+       push     rbp
+       mov      rbp, rsp
+       vmovsd   qword ptr [rbp+0x10], xmm0
+
+G_M000_IG02:                ;; offset=0x0009
+
+G_M000_IG03:                ;; offset=0x0009
+       pop      rbp
+       ret
+
+; Total bytes of code 11</code></pre></div><p style="color:#191b1f; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><span id="OSC_h1_6"></span><h1>歡迎關注公眾號：<strong>江湖評談 (jianghupt）</strong></h1><h2><img alt="" height="430" src="https://oscimg.oschina.net/oscnet/up-011ec0cc18092e37225986048b70675dae9.png" width="430" referrerpolicy="no-referrer"></h2></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 06:42:22 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5407571/blog/10983721</guid>
+            <link>https://my.oschina.net/u/5407571/blog/10983721</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[.NET 框架 Furion v4.9.1.27，組建團隊|多套商業應用]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>在 2023 年這一整年裏，全身心投入 Furion 研發工作，僅在幾個特定日子短暫離線，幾乎全年無休。每天都要處理來自三個微信平台的 3.5 萬 Furion 用户（含重疊）的問題。儘管工作強度大，但樂在其中。為了服務好 Furion 的用户，經常工作至凌晨 3 點，然後又在早晨 7、8 點起牀繼續工作。</p><p>在商業運營方面，Furion 也取得了顯著的成績。除了通過商業化運營獲得營收外，我們還獲得了四家企業的資金支持：一家企業捐贈了 10 萬人民幣，另一家給予了 18 萬人民幣，第三家國外企業慷慨地提供了 140 萬人民幣，最後一家企業更是投資了 800 萬人民幣與我們一起成立企業。這為我們提供了充足的資金，使得我們能夠組建 Furion 獨立企業和運營團隊，全職投入 Furion v5 版本的研發和全新的商業化產品——<strong>Furion 運維平台和 Furon ERP 平台</strong>的開發工作。</p><p>有了獨立團隊，我們堅信能為用户提供更好的產品和服務，我們將繼續努力，不斷優化和完善 Furion 產品，以滿足用户的需求和期望。</p><p><img height="1315" src="https://oscimg.oschina.net/oscnet/up-0fc26ab3650d1bd387c3a1503020f84ac37.png" width="1695" referrerpolicy="no-referrer"></p><h2>基於 Furion 新【應用產品】</h2><p><img src="https://foruda.gitee.com/images/1702051807491982108/c878412b_974299.png" referrerpolicy="no-referrer"></p><p><img height="969" src="https://oscimg.oschina.net/oscnet/up-138b284cc799264335cd162bd5b19a3bf94.png" width="1080" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-32bf9f7fe9a78e47b37f182b0579cd91103.jpg" width="1303" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-c4aff7a5a287df1b8a6032200fdaa702012.jpg" width="1679" referrerpolicy="no-referrer"></p><p><img src="https://foruda.gitee.com/images/1702051839269205309/8092dfcb_974299.png" referrerpolicy="no-referrer"></p><p><img height="1148" src="https://oscimg.oschina.net/oscnet/up-e5086f1e88986832d8a09e173382fd22759.png" width="1280" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-faa837fb48e4b82aed163253e612d44243d.jpg" width="1620" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-c36f80b6da89dd357e11876a7576cfdb262.jpg" width="1620" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-c57ab061d54fcb52ce2c8c4428d24e9622e.jpg" width="1620" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-af06e2d0e4bcf031d3fcbf087b56798455f.jpg" width="1620" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-d50ee6878a6bb36f8e1dd712430555d68b1.jpg" width="1620" referrerpolicy="no-referrer"></p><p><img height="867" src="https://oscimg.oschina.net/oscnet/up-25d5b79b4e4bddc657b44ada3dc1ebc5ee7.png" width="1540" referrerpolicy="no-referrer"></p><p><img height="1042" src="https://oscimg.oschina.net/oscnet/up-82e7e8baa0afe4cb5016b923b2309cb2aad.jpg" width="1398" referrerpolicy="no-referrer"></p><p><img height="1080" src="https://oscimg.oschina.net/oscnet/up-62bef282dc23be0cdbe8fa45be715763838.jpg" width="1188" referrerpolicy="no-referrer"></p><p><img height="1513" src="https://oscimg.oschina.net/oscnet/up-45cf4bc15dd988f02b7c467a6441efa809c.png" width="685" referrerpolicy="no-referrer"></p><p><img height="7444" src="https://oscimg.oschina.net/oscnet/up-5947309d7b1bcd6751dee434527e12571e8.jpg" width="1080" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="1321" src="https://oscimg.oschina.net/oscnet/up-a2ed7a6b24ec70ded231e12d741380b124a.png" width="1718" referrerpolicy="no-referrer"></p><h2>項目信息</h2><ul><li>Gitee：<strong><a href="https://gitee.com/dotnetchina/Furion">https://gitee.com/dotnetchina/Furion</a></strong></li><li>Github：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FMonkSoul%2FFurion" target="_blank">https://github.com/MonkSoul/Furion</a></li><li>文檔：<strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffurion.net" target="_blank">https://furion.net</a></strong></li></ul><h2>本期更新</h2><ul><li><p><strong>新特性</strong></p><ul><li>[新增] 遠程請求支持自動處理狀態碼<span>&nbsp;</span><code>301、302</code><span>&nbsp;</span>和響應頭帶<span>&nbsp;</span><code>Location</code><span>&nbsp;</span>4.9.1.27<span>&nbsp;</span>⏱️2024.01.29<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/65aa221ee6b99904b5349dfdad34b701296c0f5c">65aa221</a></li><li>[新增]<span>&nbsp;</span><strong>事件總線支持配置處理程序只消費一次</strong><span>&nbsp;</span>4.9.1.24<span>&nbsp;</span>⏱️2024.01.19<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/dc882ebc8f8e37977b4a55963711b0fa86f2c741">dc882eb</a></li><li>[新增] 任務隊列支持配置重試次數、重試間隔<span>&nbsp;</span>4.9.1.24<span>&nbsp;</span>⏱️2023.01.19<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/1c274347517671e7611a8c578a05ce273248700d">1c27434</a></li><li>[新增] 監聽日誌<span>&nbsp;</span><code>Monitor</code><span>&nbsp;</span>可配置序列化是否處理<span>&nbsp;</span><code>long</code><span>&nbsp;</span>轉<span>&nbsp;</span><code>string</code><span>&nbsp;</span>4.9.1.23<span>&nbsp;</span>⏱️2023.01.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8WDH9">#I8WDH9</a></li><li>[新增]<span>&nbsp;</span><code>HTTP</code><span>&nbsp;</span>響應報文頭輸出<span>&nbsp;</span><code>Furion</code><span>&nbsp;</span>版本<span>&nbsp;</span>4.9.1.23<span>&nbsp;</span>⏱️2024.01.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/a4a49d68d0ad6f0473ba45090cc7881900d8ad2b">a4a49d6</a></li><li>[新增] 任務隊列支持配置<span>&nbsp;</span><code>Concurrent</code><span>&nbsp;</span>串行執行<span>&nbsp;</span>4.9.1.22<span>&nbsp;</span>⏱️2024.01.14<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8VXFV">#I8VXFV</a></li><li>[新增]<span>&nbsp;</span><code>Serve.RunAsync</code><span>&nbsp;</span>異步啓動主機方法支持<span>&nbsp;</span>4.9.1.21<span>&nbsp;</span>⏱️2024.01.12<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8V0J8">#I8V0J8</a></li><li>[新增]<span>&nbsp;</span><code>Oops.Text(errorCode)</code><span>&nbsp;</span>靜態方法，可根據錯誤碼獲取錯誤消息<span>&nbsp;</span>4.9.1.18<span>&nbsp;</span>⏱️2024.01.08<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/f25125c06d902709025be2420665cecb6e7fb520">f25125c</a></li><li>[新增] 定時任務<span>&nbsp;</span><code>IJobPersistence</code><span>&nbsp;</span>持久化接口<span>&nbsp;</span><code>OnExecutionRecord</code><span>&nbsp;</span>方法實現作業運行記錄持久化<span>&nbsp;</span>4.9.1.16<span>&nbsp;</span>⏱️2024.01.01<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/4d4d492fc91fe312ca30770ec30a6f692fccbf0e">4d4d492</a></li><li>[新增] 定時任務作業調度計劃<span>&nbsp;</span><code>OnExecutionRecord</code><span>&nbsp;</span>事件，可監聽作業運行記錄<span>&nbsp;</span>4.9.1.16<span>&nbsp;</span>⏱️2024.01.01<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/4d4d492fc91fe312ca30770ec30a6f692fccbf0e">4d4d492</a></li><li>[新增]<span>&nbsp;</span><code>EFCore</code><span>&nbsp;</span>數據庫操作<span>&nbsp;</span><code>EntityNotTenant</code><span>&nbsp;</span>和<span>&nbsp;</span><code>EntityBaseNotTenant</code><span>&nbsp;</span>實體基類<span>&nbsp;</span>4.9.1.11<span>&nbsp;</span>⏱️2023.12.04<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/b62bfb1a18d57f7fe3dd9548aa02372025dfed85">b62bfb1</a></li><li>[新增] 控制枱日誌支持啓動時同步<span>&nbsp;</span><code>ConsoleFormatterExtendOptions</code><span>&nbsp;</span>配置<span>&nbsp;</span>4.9.1.10<span>&nbsp;</span>⏱️2023.12.04<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/a96fe08336dbf99b7cf5cc5e6ec304adf7413a4b">a96fe08</a></li><li>[新增] 定時任務支持取消正在運行的作業程序<span>&nbsp;</span>4.9.1.9<span>&nbsp;</span>⏱️2023.12.03<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/3cc9be0da1eabc0f3baaa7801b115bb2909bb085">3cc9be0</a></li><li>[新增]<span>&nbsp;</span><code>JSON.IsValid(jsonString)</code><span>&nbsp;</span>判斷<span>&nbsp;</span><code>JSON</code><span>&nbsp;</span>字符串有效性<span>&nbsp;</span>4.9.1.8<span>&nbsp;</span>⏱️2023.11.30<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/22bc69bd4a445f81833c082da7c99f4a5c518012">22bc69b</a></li><li>[新增]<span>&nbsp;</span><code>axios-utils.ts</code><span>&nbsp;</span>解析<span>&nbsp;</span><code>token</code><span>&nbsp;</span>信息導出方法<span>&nbsp;</span>4.9.1.7<span>&nbsp;</span>⏱️2023.11.29<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/ae8c3e8c47494fa3ba37d2b076d54f9f2c016252">ae8c3e8</a></li><li>[新增] 規範化處理自動過濾<span>&nbsp;</span><code>SSE</code><span>&nbsp;</span>請求、文件請求、圖片請求<span>&nbsp;</span>4.9.1.6<span>&nbsp;</span>⏱️2023.11.22<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8IP6D">#I8IP6D</a></li><li>[新增]<span>&nbsp;</span><code>[AppDbContext]</code><span>&nbsp;</span>特性支持<span>&nbsp;</span><code>UseSnakeCaseNaming</code><span>&nbsp;</span>屬性配置表名使用蛇形命名<span>&nbsp;</span>4.9.1.5<span>&nbsp;</span>⏱️2023.11.20<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8HGR2">#I8HGR2</a><span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/pulls/863">!863</a></li><li>[新增] 時間戳模型綁定器將時間戳轉換為<span>&nbsp;</span><code>DateTime/DateTimeOffset</code><span>&nbsp;</span>類型<span>&nbsp;</span>4.9.1.5<span>&nbsp;</span>⏱️2023.11.20<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/df3053cf081d5e4d8eb63d567ed95c45267e0969">df3053c</a></li><li>[新增]<span>&nbsp;</span><code>Newtonsoft.Json</code><span>&nbsp;</span>自動將時間戳轉換為<span>&nbsp;</span><code>DateTime/DateTimeOffset</code><span>&nbsp;</span>類型<span>&nbsp;</span>4.9.1.3<span>&nbsp;</span>⏱️2023.11.17<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/78a589d99eb5985b576e4c96acd6e4890391d6ff">78a589d</a></li><li>[新增]<span>&nbsp;</span><code>System.Text.Json</code><span>&nbsp;</span>自動將時間戳轉換為<span>&nbsp;</span><code>DateTime/DateTimeOffset</code><span>&nbsp;</span>類型<span>&nbsp;</span>4.9.1.2<span>&nbsp;</span>⏱️2023.11.17<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/abd5196f5c5160a5df96dad80c7c5aa51b96d5b9">abd5196</a></li><li>[新增]<span>&nbsp;</span><code>IRepositoryFactory&lt;TEntity, TDbContextLocator&gt;</code><span>&nbsp;</span>倉儲功能，解決在<span>&nbsp;</span><code>Blazor</code><span>&nbsp;</span>中使用<span>&nbsp;</span><code>EFCore</code><span>&nbsp;</span>問題<span>&nbsp;</span>4.9.1.1<span>&nbsp;</span>⏱️2023.11.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/4285ec0b8debc2d71c7f978126cb3dc394a8ad30">4285ec0</a><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flearn.microsoft.com%2Fzh-cn%2Faspnet%2Fcore%2Fblazor%2Fblazor-ef-core%3Fview%3Daspnetcore-7.0" target="_blank">文檔説明</a></li><li>[新增] 補償策略模塊功能<span>&nbsp;</span>4.9.1<span>&nbsp;</span>⏱️2023.11.15<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/tree/v4/framework/Furion/RescuePolicy">【源碼地址】</a><span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/dfc63e7f0ffd2e03653f11a3e49a21646902ddc4">dfc63e7</a></li></ul></li><li><p><strong>突破性變化</strong></p><ul><li>[新增]<span>&nbsp;</span><strong>事件總線支持配置處理程序只消費一次</strong><span>&nbsp;</span>4.9.1.24<span>&nbsp;</span>⏱️2024.01.19<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/dc882ebc8f8e37977b4a55963711b0fa86f2c741">dc882eb</a></li><li>[調整] 監聽日誌默認不進行序列化<span>&nbsp;</span><code>long</code><span>&nbsp;</span>轉<span>&nbsp;</span><code>string</code><span>&nbsp;</span>處理<span>&nbsp;</span>4.9.1.23<span>&nbsp;</span>⏱️2024.01.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8WDH9">#I8WDH9</a></li><li>[新增] 定時任務<span>&nbsp;</span><code>IJobPersistence</code><span>&nbsp;</span>持久化接口<span>&nbsp;</span><code>OnExecutionRecord</code><span>&nbsp;</span>方法實現作業運行記錄持久化<span>&nbsp;</span>4.9.1.16<span>&nbsp;</span>⏱️2024.01.01<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/4d4d492fc91fe312ca30770ec30a6f692fccbf0e">4d4d492</a></li><li>[調整]<span>&nbsp;</span><strong>動態<span>&nbsp;</span><code>WebAPI</code><span>&nbsp;</span>生成版本控制路由規則，版本分隔符默認由<span>&nbsp;</span><code>@</code><span>&nbsp;</span>調整為<span>&nbsp;</span><code>v</code></strong><span>&nbsp;</span>4.9.1.14<span>&nbsp;</span>⏱️2023.12.14<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/7677d0fa615d3ccdf784542b5702cd1d6165e78f">7677d0f</a></li><li>[升級]<span>&nbsp;</span><code>Serilog</code><span>&nbsp;</span>拓展包依賴至<span>&nbsp;</span><code>8.0.0</code><span>&nbsp;</span>版本，<strong>移除<span>&nbsp;</span><code>.NET8.0</code><span>&nbsp;</span>的<span>&nbsp;</span><code>IWebHostBuilder.UseSerilogDefault</code><span>&nbsp;</span>拓展方法</strong><span>&nbsp;</span>4.9.1.1<span>&nbsp;</span>⏱️2023.11.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/5ab3e43722a298db56a86792dde301adf1f3fe7f">5ab3e43</a></li><li>[升級]<span>&nbsp;</span><strong>框架底層適配<span>&nbsp;</span><code>.NET8.0</code><span>&nbsp;</span>正式版</strong><span>&nbsp;</span>4.9.1<span>&nbsp;</span>⏱️2023.11.15</li><li>[升級]<span>&nbsp;</span><strong>框架腳手架適配<span>&nbsp;</span><code>.NET8.0</code><span>&nbsp;</span>正式版</strong><span>&nbsp;</span>4.9.1<span>&nbsp;</span>⏱️2023.11.15</li></ul></li><li><p><strong>問題修復</strong></p><ul><li>[修復] 動態<span>&nbsp;</span><code>WebAPI</code><span>&nbsp;</span>設置<span>&nbsp;</span><code>VersionInFront: false</code><span>&nbsp;</span>異常問題<span>&nbsp;</span>4.9.1.26<span>&nbsp;</span>⏱️2024.01.12<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8ZGGH">#I8ZGGH</a><span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8ZDXD">#I8ZDXD</a><span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8ZFNG">#I8ZFNG</a></li><li>[修復] 啓用<span>&nbsp;</span><code>WithStackFrame</code><span>&nbsp;</span>配置後可能出現空異常問題<span>&nbsp;</span>4.9.1.21<span>&nbsp;</span>⏱️2024.01.12<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/c8be745dd119c73c9230dbfdf6150ddbfcd16e81">c8be745</a></li><li>[修復] 動態<span>&nbsp;</span><code>WebAPI</code><span>&nbsp;</span>配置<span>&nbsp;</span><code>ForceWithRoutePrefix</code><span>&nbsp;</span>不包含<span>&nbsp;</span><code>Module</code><span>&nbsp;</span>問題<span>&nbsp;</span>4.9.1.19<span>&nbsp;</span>⏱️2024.01.09<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/87849d1ef1dc098e702db66f47490bd7e75495d5">87849d1</a></li><li>[修復] 規範化文檔加載文檔註釋時如果存在類完全限定名一致出現重複鍵異常問題<span>&nbsp;</span>4.9.1.17<span>&nbsp;</span>⏱️2024.01.04<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8TJZ0">#I8TJZ0</a></li><li>[修復] 動態<span>&nbsp;</span><code>WebAPI</code><span>&nbsp;</span>因<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/d9810bece0a1d1108e134cfdae2fdd868554f769">1dc7ea7</a><span>&nbsp;</span>提交導致<span>&nbsp;</span><code>AsLowerCamelCase</code><span>&nbsp;</span>配置失效問題<span>&nbsp;</span>4.9.1.15<span>&nbsp;</span>⏱️2023.12.20<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/d9810bece0a1d1108e134cfdae2fdd868554f769">d9810be</a></li><li>[修復] 粘土對象轉換成<span>&nbsp;</span><code>Dictionary</code><span>&nbsp;</span>對象不支持遞歸問題<span>&nbsp;</span>4.9.1.13<span>&nbsp;</span>⏱️2023.12.11<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/issues/I8NFT4">#I8NFT4</a></li><li>[修復]<span>&nbsp;</span><code>Scoped.CreateAsync</code><span>&nbsp;</span>內部異常上層應用不能捕獲問題<span>&nbsp;</span>4.9.1.12<span>&nbsp;</span>⏱️2023.12.08<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/0a89a434223c45d84b8908f6aff1bf1d7528193a">0a89a43</a></li><li>[修復]<span>&nbsp;</span><code>Scoped.CreateUowAsync</code><span>&nbsp;</span>內部異常上層應用不能捕獲問題<span>&nbsp;</span>4.9.1.8<span>&nbsp;</span>⏱️2023.11.30<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/3c859e83c0ed6f07fcf191973fe465599a823224">3c859e8</a></li><li>[修復] 定時任務設置觸發器<span>&nbsp;</span><code>Result</code><span>&nbsp;</span>後作業執行異常不能重置問題<span>&nbsp;</span>4.9.1.7<span>&nbsp;</span>⏱️2023.11.24<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/147215f1631f58fca900f17cca5695f9431555e5">147215f</a></li><li>[修復]<span>&nbsp;</span><code>JWTEncryption.GetJWTSettings()</code><span>&nbsp;</span>獨立使用時無法獲取自定義配置<span>&nbsp;</span>4.9.1.4<span>&nbsp;</span>⏱️2023.11.18<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/c045e084670a98f71d5ea5ed55ca5cbbfc981e0b">c045e08</a></li></ul></li><li><p><strong>其他更改</strong></p><ul><li>[調整] 定時任務<span>&nbsp;</span><code>GC</code><span>&nbsp;</span>垃圾回收器回收時機，降低長時間內存佔用<span>&nbsp;</span>4.9.1.23<span>&nbsp;</span>⏱️2024.01.16<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/f43fc25dc59c5e539844048d2da4bce4153e3063">f43fc25</a></li><li>[調整] 模板引擎編譯性能，提升模板緩存解析速度<span>&nbsp;</span>4.9.1.16<span>&nbsp;</span>⏱️2023.12.27<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/commit/d7ea423f272de141a351d7f7f4fb29ae0d9b1df6">d7ea423</a></li></ul></li><li><p><strong>文檔</strong></p><ul><li>[更新] 倉儲文檔、<code>Db</code><span>&nbsp;</span>靜態類文檔、腳手架文檔、<code>.NET7</code><span>&nbsp;</span>升級<span>&nbsp;</span><code>.NET8</code><span>&nbsp;</span>文檔、<code>JSON</code><span>&nbsp;</span>序列化文檔、<code>Docker</code><span>&nbsp;</span>部署文檔、數據庫上下文文檔、虛擬文件文檔、遠程請求文檔、<code>HttpContext</code><span>&nbsp;</span>文檔、<code>JSON</code><span>&nbsp;</span>靜態類文檔、定時任務文檔、數據庫倉儲拓展文檔、數據庫實體文檔、規範化文檔、任務隊列文檔、虛擬文件系統文檔</li></ul></li><li><p><strong>貢獻者</strong></p><ul><li>zuohuaijun (<a href="https://gitee.com/zuohuaijun">@zuohuaijun</a>)<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/pulls/865">!865</a></li><li>anliuty (<a href="https://gitee.com/www.fengyunmy.com">@anliuty</a>)<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/pulls/863">!863</a></li><li>風雲明月 (<a href="https://gitee.com/www.fengyunmy.com">@www.fengyunmy.com</a>)<span>&nbsp;</span><a href="https://gitee.com/dotnetchina/Furion/pulls/862">!862</a></li></ul></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 04:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276833</guid>
+            <link>https://www.oschina.net/news/276833</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[百度輸入法在候選詞區域植入廣告]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>V2EX 用户發帖稱，百度輸入法最新版本在候選詞區域植入了廣告。</p><p>具體表現為，如果用户要打「招商銀行」四個字，當輸入「招商」之後，候選詞的首位是「★熱門加盟店排行」的鏈接，點擊後會進入名為「加盟星榜單」的廣告頁面。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-0682b5080fc14f1967ebbe8ed9f2c741f2b.png" referrerpolicy="no-referrer"></p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.v2ex.com%2Ft%2F1011440" target="_blank">https://www.v2ex.com/t/1011440</a></u></em></p></blockquote><p>別的不説，想出這個功能的產品經理真是個人才，因此評論區有用户感嘆道：</p><blockquote><p><em>不説用户體驗怎麼樣，不得不説這個鍵盤的候選詞廣告想法確實超前，不光超前，還實現了。</em></p><p><em>根據輸入內容，直接用候選詞的方式推送廣告，從源頭出發拿到用户的一手數據，直接甩掉了各種中間商。速度也更快，更精確的投送。</em></p><p><em>可以説是真 nb 呀</em></p></blockquote><p>知名科技博主闌夕評價道：「<em>你都打出招商兩個字了，一定是想加盟店鋪做生意吧？邏輯極其通順智能，對不對？這真的是人類能夠企及的創新嗎，太牛逼了。</em>」</p><blockquote><p><img height="604" src="https://oscimg.oschina.net/oscnet/up-9c82c56b05a42376a5e053f16691428897d.png" width="1270" referrerpolicy="no-referrer"></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 04:07:33 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276832</guid>
+            <link>https://www.oschina.net/news/276832</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Katalyst v0.4.0 發佈：潮汐混部與資源超分]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><img src="https://oscimg.oschina.net/oscnet/up-35370f991af6656824cb1bdd4d587fa5449.png" alt="" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzk0NDMzNjkxNw%3D%3D%26mid%3D2247485561%26idx%3D1%26sn%3Dc5a10a4f5e692568a60f76fb3bab67c2%26chksm%3Dc3277103f450f815423288c62b7f66d0a86a67f3820950c77acbf241cad0e2b56f1e0461bb5f%26scene%3D21%23wechat_redirect" target="_blank">Katalyst</a> 是字節跳動開源的成本優化實踐系統，致力於解決雲原生場景下的資源不合理利用問題，為資源管理和成本優化提供解決方案。</p><blockquote><p>來源&nbsp;| KubeWharf 社區</p><p>項目 |&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubewharf%2Fkatalyst-core" target="_blank">github.com/kubewharf/katalyst-core</a></p></blockquote><p>近日，Katalyst 社區完成了 0.4.0 版本發佈。除了持續優化 QoS 能力之外，我們還在新版本中提供了可以獨立在原生 Kubernetes 上使用的潮汐混部和資源超售能力。</p><p>和在離線常態混部一樣，這些能力是字節跳動在不同業務場景中實現降本增效的技術手段，我們在抽象出標準化能力之後也進行了開源，期望這些能力可以幫助用户以更低的落地成本完成資源效能提升。</p><h1>潮汐混部</h1><h2>背景</h2><p>通過給應用分配差異化的 QoS 等級，Katalyst 可以基於資源隔離和動態調控能力實現在單機維度的在離線業務混部，即常態混部。這種混部模式雖然可以實現極致的資源效能提升，但是也增加了基礎設施的複雜度。同時因為引入了例如 Reclaimed 資源這樣的概念，要落地常態混部往往還需要做一些業務側的適配。</p><p>為了讓用户可以以更低的成本落地混部能力，在 v0.4.0 中，Katalyst 提供了潮汐混部（Tidal Colocation）功能。</p><h2>技術解讀</h2><p>在潮汐混部中引入了潮汐節點池的概念，並且將集羣中的節點劃分為「在線」和「離線」兩種類型。潮汐混部主要分為兩個部分：</p><ul><li><strong>實例數管理</strong>：通過 HPA、CronHPA 等各種橫向擴縮能力來管理在線業務的實例數，在夜間可以騰出資源給離線業務使用</li><li><strong>潮汐節點池管理</strong>：Tidal Controller 基於設定好的策略對潮汐節點池中的節點做 binpacking，將騰出的資源摺合成整機出讓給離線業務</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-20c31affd845929187609604ca5d98f5d2a.png" alt="" referrerpolicy="no-referrer"></p><h2>使用</h2><ol><li>在集羣中選取加入潮汐節點池的節點，併為節點打上某個 Label</li></ol><pre><code>apiVersion: v1
+kind: Node
+metadata:
+  ...
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/os: linux
+    # 潮汐節點標識
+    tidenodes: "true"
+  name: 192.168.0.11
+spec:
+  ...
+</code></pre><ol start="2"><li>創建潮汐節點池配置</li></ol><pre><code>apiVersion: tide.katalyst.kubewharf.io/v1alpha1
+kind: TideNodePool
+metadata:
+  name: tidenodepool-example
+spec:
+  nodeConfigs:
+    nodeSelector:
+      # 與加入潮汐節點池的節點中的標籤匹配
+      tidenodes: "true"
+    # 配置潮汐節點池中為在線和離線節點預留的節點量
+    reserve:
+      offline: 25%
+      online: 10%
+</code></pre><ol start="3"><li>潮汐控制器為節點打上對應的標籤和污點，並且會根據各個節點的負載情況動態做 Binpacking 調整節點角色</li></ol><pre><code>apiVersion: v1
+kind: Node
+metadata:
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/os: linux
+    tidenodes: "true"
+    # 潮汐控制器為在線節點打上在線標籤，離線類似
+    tide.katalyst.kubewharf.io/node-pool: tidenodepool-sample
+    tide.katalyst.kubewharf.io/node-type: online
+    tide.katalyst.kubewharf.io/reserve: "false"
+    tide.katalyst.kubewharf.io/tide: "true"
+  name: 192.168.0.11
+spec:
+  # 潮汐控制器為在線節點打上禁止離線調度的污點，離線類似
+  taints:
+  - effect: NoExecute
+    key: tide.katalyst.kubewharf.io/offline-not-used
+    value: "true"
+  ...
+</code></pre><ol start="4"><li>部署在線離線業務，為應用打上相應標籤和污點容忍，並配置 HPA 規則</li></ol><pre><code>kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: tide-online
+spec:
+  replicas: 30
+  selector:
+    matchLabels:
+      app: tide-online
+  template:
+    metadata:
+      labels:
+        # 標識在線
+        tide.katalyst.kubewharf.io/pod-type: online
+        app: tide-online
+    spec:
+      tolerations:
+        # 容忍污點
+      - key: "tide.katalyst.kubewharf.io/offline-not-used" 
+        operator: "Exists"
+      nodeSelector:
+        # 選擇在線節點，包含預留+潮汐
+        tide.katalyst.kubewharf.io/node-type: online
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "36000"]
+        resources:
+          requests:
+            cpu: "4"
+            memory: "8Gi"
+</code></pre><h1>在線超分</h1><h2>背景</h2><p>在線業務的資源使用量往往會隨着訪問數量的波動而變化，具備明顯的潮汐特性。為了確保業務的穩定性，用户通常會以峯值時消耗的資源量作為申請的依據，而且往往會有過度申請資源的傾向，這些資源會被浪費。</p><p>Katalyst 提供了在離線混部的能力作為解決上述問題的方式之一，但是在一些場景下，在離線混部可能不便於落地，比如：</p><ul><li>負載類型比較單一，只有在線業務</li><li>業務方不願意改變申請資源的協議來申請 Reclaimed 資源</li></ul><p>在新版本中，Katalyst 針對在線業務場景，提供了一種簡單的、對業務方無感的資源超分方案，便於用户快速提升資源利用率。</p><h2>技術解讀</h2><ul><li><strong>Over-commit Webhook</strong>：劫持 kubelet 上報心跳的請求，並對 Allocatable 資源量進行放大</li><li><strong>Over-commit Controller</strong>：超分配置管理</li><li><strong>Katalyst Agent</strong>：通過幹擾檢測和驅逐，保障超分後節點的性能和穩定性；根據指標數據，計算並上報動態的超分比</li><li><strong>Katalyst Scheduler</strong>：對需要綁核的 Pod 進行准入，避免超分導致實際無法綁核而啓動失敗</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-15d23b597098e49126aa0ae68cb1b5f0d0c.png" alt="" referrerpolicy="no-referrer"></p><h2>使用</h2><ol><li>為需要超分的節點池的節點打上 Label</li></ol><pre><code>apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    # 超分節點池的標識
+    katalyst.kubewharf.io/overcommit_node_pool: node-pool-1 
+  name: 10.27.0.1
+spec:
+  ...
+status:
+  # 未超分時的資源量
+  allocatable:
+    cpu: 15900m
+    memory: 32059820Ki
+  capacity:
+    cpu: 16
+    memory: 32424364Ki
+  ...
+</code></pre><p>2.&nbsp;創建超分規則</p><pre><code>apiVersion: overcommit.katalyst.kubewharf.io/v1alpha1
+kind: NodeOvercommitConfig
+metadata:
+  name: node-overcommit-config-1
+spec:
+  # 該規則匹配具有如下節點池 Label 的節點
+  # katalyst.kubewharf.io/overcommit_node_pool=node-pool-1 
+  nodeOvercommitSelectorVal: "node-pool-1"
+  # 各種資源的超分比
+  resourceOvercommitRatio:
+    cpu: 2
+status:
+  # 該規則匹配的節點名稱列表
+  matchedNodeList: 
+    - 10.27.0.1
+    - 10.27.0.2
+    - 10.27.0.3
+</code></pre><ol start="3"><li>觀察 Node 對象，發現 Katalyst 將超分比、未超分時的資源量更新到&nbsp;Annotation 中，並根據超分比對 Allocatable 和 Capacity 進行了放大</li></ol><pre><code>apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    katalyst.kubewharf.io/overcommit_node_pool: node-pool-1 
+    # 以下字段由 Katalyst 添加
+    # CPU 超分比
+    katalyst.kubewharf.io/cpu-overcommit-ratio: "2"
+    # Memory 超分比
+    katalyst.kubewharf.io/memory-overcommit-ratio: "1"
+    # 超分前的 CPU Capacity
+    katalyst.kubewharf.io/original_capacity_cpu: "16"
+    # 超分前的 Memory Capacity
+    katalyst.kubewharf.io/original_capacity_memory: "32424364Ki"
+    # 超分前的 CPU Allocatable
+    katalyst.kubewharf.io/original_allocatable_cpu: "15900m"
+    # 超分前的 Memory Allocatable
+    katalyst.kubewharf.io/original_allocatable_memory: "32424364Ki"
+  name: 10.27.0.1
+spec:
+  ...
+status:
+  # 超分後的資源量
+  allocatable:
+    cpu: 31800m
+    memory: 32059820Ki
+  capacity:
+    cpu: 32
+    memory: 32424364Ki
+  ...
+</code></pre><h1>NUMA 粒度混部內存管控框架</h1><h2>背景</h2><p>Katalyst 當前的混部策略只考慮整體機器的可用資源，導致離線任務在 NUMA 跨度申請內存時，內存容量和帶寬在各 NUMA 間分佈不均勻。這種情況下，當前的混部策略往往無法精確控制內存使用量，進而引起內存壓力。</p><p>針對這種情況，我們提出了一種精細化的 NUMA 粒度內存管控框架，旨在通過 sysadvisor 計算 memory provisions，並與 qrm memory plugin 交互，實現更細緻的 NUMA 內存管理。這將使 qrm memory plugin 能夠根據 memory provisions 進行 NUMA 細粒度內存控制。</p><h2>技術解讀</h2><p>在 Sysadvisor 的 Memory Plugin 中，我們引入了名為 memoryProvisioner 的插件，負責計算每個 NUMA 的內存供應邏輯。</p><p>為增強其可擴展性，我們設計了 ProvisionPolicy 接口，包含 Update 和 GetProvision 兩個方法，分別用於定期更新內存供應量和獲取 provision 建議。MemoryProvisioner 插件實現了 MemoryAdvisorPlugin 接口。</p><p>此策略基於 Memory Headroom 的 PolicyNUMAAware 策略，通過遍歷每個物理 NUMA 及其 pod，計算每個 NUMA 的內存供應量。具體計算邏輯包括分析 NUMA Exclusive 設置，獲取每個 NUMA 節點的空閒內存，並應用公式考慮 reclaimed cores、系統 scale_factor 和 reserved 內存，以實現更均衡的 NUMA 內存分配。</p><p><img src="https://oscimg.oschina.net/oscnet/up-5947a2be6ceb2494b055eb33148d597d250.png" alt="" referrerpolicy="no-referrer"></p><h2>使用</h2><p>katalyst-agent 添加了&nbsp;<code>memory-provision-policy</code>&nbsp;的啓動參數，用於指定計算策略，默認是 canonical。用法如下：</p><pre><code>katalyst-agent --kubeconfig=/root/.kube/config \
+--memory-resource-plugin-advisor=true   \
+--memory-advisor-plugins=memory-provisioner \
+--memory-provision-policy=memory-provisioner-canonical \
+...
+</code></pre><h1>支持 OOM 優先級作為 QoS 增強</h1><h2>背景</h2><p>目前，Kubernetes 中 pod 的 OOM 優先級主要受其 QoS 級別與其對內存的申請量、使用量影響。然而，當前混部場景下，kubelet 原生的 oom_score_adj 計算策略已經不能很好的滿足需求，例如：</p><ul><li>需要給兩個都映射到原生的 Burstable 級別的 shared_cores pods 設定 OOM 優先級</li><li>需要在兩個原生都是 Guaranteed 級別的 dedicated_cores pod 和 shared_cores pod 之間設定 shared_cores pod 要早於 dedicated_cores pod OOM</li></ul><p>此外，當前 kubelet 中提供的靜態 oom_score_adj 計算機制，不支持 OOM 優先級的動態調整。因此 Katalyst 提供了一個關於 OOM 優先級的 QoS Enhancement，支持更加靈活地為 pods 設置 OOM 優先級。</p><h2>技術解讀</h2><p>Katalyst 通過在內核添加 ebpf 的方式實現用户自定義的 OOM 策略注入，並在上層 qrm memory plugin 中完成用户定義策略的解析以及 OOM Priority 的配置下發。</p><h2>使用</h2><p>OOM Priority 信息通過 annotaion 在 pod 上進行指定</p><pre><code>annotations:
+    "katalyst.kubewharf.io/memory_enhancement":'{
+    "numa_binding": "true", 
+    "numa_exclusive": "true",
+    "oom_priority": priorityValueInt,
+    }'
+</code></pre><p>priorityValueInt 的取值越大表示優先級越高，並且取值範圍受 pod 所指定的 QoS level 影響。</p><h1>支持拓撲感知調度</h1><p>在搜索、廣告、推薦、遊戲、AI 分佈式訓練等業務場景下，用户對時延的敏感性較高，對容器在微拓撲級別的擺放方式存在要求。原生 K8s 的微拓撲管理能力存在一些侷限，調度器不感知微拓撲，可能導致出現較多的因不滿足 NUMA 親和要求而造成的 Admit 失敗。</p><p>因此，Katalyst 在 v0.4.0 實現了拓撲感知調度功能，支持兩種模式：</p><ul><li>Native 策略：兼容 K8s 原生的 NUMA 親和和綁核策略</li><li>Dynamic 策略：混部場景下增強的綁核策略，對於&nbsp;dedicated_cores&nbsp;QoS 級別，支持了 NUMA 親和 (numa_binding) 以及 NUMA 獨佔 (numa_exclusive) 兩種語義</li></ul><h1>其他</h1><ul><li>SysAdvisor 框架支持對接自定義業務模型，調優 rama provision policy 計算結果</li><li>QRM 支持設置整機和容器級別 TCP Memory 上限，緩解 TCP 內存滿導致的丟包問題</li><li>Eviction 集成 RootFS 驅逐能力，定製排序策略和 QoS 級別驅逐閾值</li><li>KCMAS 優化存儲數據結構和索引，支持多 tag 能力</li><li>ServiceProfilingDescriper (SPD) 支持服務維度的混部 baseline 和 per-pod 灰度能力</li><li>社區開發切換到基於 owner review 模式</li><li>基於超時實現死鎖檢測功能</li></ul><h2>新版本體驗路徑</h2><p>請參考社區官方文檔體驗 Katalyst 潮汐混部和資源超分能力:</p><ul><li>潮汐混部：gokatalyst.io/docs/user-guide/tidal-colocation/</li><li>資源超分：gokatalyst.io/docs/user-guide/resource-overcommitment/</li></ul><h2>感謝貢獻者</h2><p>在本次新版本的發佈過程中，社區也迎來了不少新的貢獻者，在此向他們的付出表示由衷感謝：</p><p><img src="https://oscimg.oschina.net/oscnet/up-83be15e44a1ec8ffe211a81ad949b4e8982.png" alt="" referrerpolicy="no-referrer"></p><p>非常期待更多開發者和用户加入到 Katalyst 開源社區中，和我們一起交流和探討在離線混部以及資源效能的相關話題。</p><hr><p>項目地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkubewharf%2Fkatalyst-core" target="_blank">github.com/kubewharf/katalyst-core</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 03:25:33 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6210722/blog/10979687</guid>
+            <link>https://my.oschina.net/u/6210722/blog/10979687</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[文本檢索性能提升 40 倍，Apache Doris 倒排索引深度解讀]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>在 OLAP 領域，Apache Doris 已成為高性能、高併發以及高時效性的代名詞。在面向海量數據的複雜查詢需求時，除硬件配置、集羣規模、網絡帶寬等因素外，提升性能的核心在於如何最大程度地降低 SQL 執行時的 CPU、內存和 IO 開銷，而這其中數據庫索引扮演着至關重要的角色。合理的索引結構設計可以跳過大量不必要的底層數據讀取、快速檢索定位到所需數據，並進一步提升後續計算的執行效率、降低查詢 SQL 的運行時間和資源消耗。</p><p>Apache Doris 提供了豐富的索引以加速數據的讀取和過濾，依據是否需要用户手工創建，索引類型大體可以分為智能內建索引和用户創建索引兩類，其中智能內建索引是指在數據寫入時自動生成的索引，無需用户幹預，包括前綴索引和 ZoneMap 索引。用户創建索引需要用户根據業務特點手動創建，包括 Bloom Filter 索引和 2.0 版本新增的倒排索引與 NGram Bloom Filter 索引。</p><p>相較於用户比較熟悉的前綴索引、Bloom Filter 索引，2.0 版本所新增的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzg3Njc2NDAwOA%3D%3D%26mid%3D2247519079%26idx%3D1%26sn%3Da232a72695ff93eea0ffe79635936dcb%26chksm%3Dcf2f8560f8580c768bbde99ef8ca97d3a42ecc03b5d8d106b85f5474c90b6068781a79b3611e%26scene%3D21%23wechat_redirecthttp%3A%2F%2F" rel="nofollow" target="_blank">倒排索引</a>和 NGram Bloom Filter 在文本檢索、模糊匹配以及非主鍵列檢索等場景有着更為明顯的性能提升。本文將以 Amazon customer reviews 數據集為例，介紹 Apache Doris 在查詢該數據集以及類似場景中，如何充分利用倒排索引以及 NGram Bloom Filter 索引進行查詢加速，並詳細解析其工作原理與最佳實踐。</p><span id="OSC_h2_1"></span><h2>數據集樣例</h2><p>在本文中，我們使用的數據集包含約 1.3 億條亞馬遜產品的用户評論信息。該數據集以 Snappy 壓縮的 Parquet 文件形式存在，總大小約為 37GB。以下為數據集的樣例：</p><p><img src="https://cdn.selectdb.com/static/_e5e3fca815.png" alt="數據集樣例.png" referrerpolicy="no-referrer"></p><p>在子集中，每行包含用户 ID（<code>customer_id</code>）、評論 ID（<code>review_id</code>）、已購買產品 ID（<code>product_id</code>）、產品分類（<code>product_category</code>）、評分（<code>star_rating</code>）、評論標題（<code>review_headline</code>）、評論內容（<code>review_body</code>）等 15 列信息。 根據上述可知，列中包含了適用於索引加速的各種特徵。例如，<code>customer_id</code> 是高基數的數值列，<code>product_id</code> 是低基數的定長短文本列，<code>product_title</code> 是適合文本檢索的短文本列，<code>review_body</code> 則是適合文本搜索的長文本列。</p><p>通過這些列，我們可以模擬兩個典型索引查詢場景，具體如下：</p><ul><li>文本搜索查詢：搜索 <code>review body</code> 字段中包含特定內容的產品信息。</li><li>非主鍵列明細查詢：查詢特定產品 ID（<code>product_id</code>）或者特定用户 ID（<code>customer_id</code>）的評論信息。</li></ul><p>接下來，我們將以文本搜索和非主鍵列明細查詢為主要方向，對比在有索引和無索引的情況下查詢性能的差異。同時，我們也將詳細解析索引減少查詢耗時、提高查詢效率的原理。</p><span id="OSC_h2_2"></span><h2>環境搭建</h2><p>為了快速搭建環境，並進行集羣創建和數據導入，我們使用單節點集羣（1FE、1BE）並按照以下步驟進行操作：</p><ol><li><p>搭建 Apache Doris ：具體操作請參考：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdoris.apache.org%2Fzh-CN%2Fdocs%2Fget-starting%2Fquick-start%2F" rel="nofollow" target="_blank">快速開始</a></p></li><li><p>創建數據表：按照下列建表語句進行數據表創建</p></li></ol><pre><code class="language-SQL">CREATE TABLE `amazon_reviews` (  
+  `review_date` int(11) NULL,  
+  `marketplace` varchar(20) NULL,  
+  `customer_id` bigint(20) NULL,  
+  `review_id` varchar(40) NULL,
+  `product_id` varchar(10) NULL,
+  `product_parent` bigint(20) NULL,
+  `product_title` varchar(500) NULL,
+  `product_category` varchar(50) NULL,
+  `star_rating` smallint(6) NULL,
+  `helpful_votes` int(11) NULL,
+  `total_votes` int(11) NULL,
+  `vine` boolean NULL,
+  `verified_purchase` boolean NULL,
+  `review_headline` varchar(500) NULL,
+  `review_body` string NULL
+) ENGINE=OLAP
+DUPLICATE KEY(`review_date`)
+COMMENT 'OLAP'
+DISTRIBUTED BY HASH(`review_date`) BUCKETS 16
+PROPERTIES (
+"replication_allocation" = "tag.location.default: 1",
+"compression" = "ZSTD"
+);
+
+</code></pre><p>3.下載數據集：從下方鏈接分別下載數據集，數據集為 Parque 格式，並經過 Snappy 壓縮，總大小約為 37GB</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2010.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2010</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2011.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2011</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2012.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2012</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2013.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2013</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2014.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2014</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatasets-documentation.s3.eu-west-3.amazonaws.com%2Famazon_reviews%2Famazon_reviews_2015.snappy.parquet" rel="nofollow" target="_blank">amazon_reviews_2015</a></li></ul><p>4.導入數據集：下載完成後，分別執行以下命令，導入數據集</p><pre><code class="language-Bash">curl --location-trusted -u root: -T amazon_reviews_2010.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+curl --location-trusted -u root: -T amazon_reviews_2011.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+curl --location-trusted -u root: -T amazon_reviews_2012.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+curl --location-trusted -u root: -T amazon_reviews_2013.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+curl --location-trusted -u root: -T amazon_reviews_2014.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+curl --location-trusted -u root: -T amazon_reviews_2015.snappy.parquet -H "format:parquet" http://${BE_IP}:${BE_PORT}/api/${DB}/amazon_reviews/_stream_load
+
+
+</code></pre><p>5.查看與驗證：完成上述步驟後，可以在 MySQL 客户端執行以下語句，來查看導入的數據行數和所佔用空間。從下方代碼可知：共導入 135589433 行數據，在 Doris 中佔用空間 25.873GB，比壓縮後的 Parquet 列式存儲進一步降低了 30%。</p><pre><code class="language-SQL">mysql&gt; SELECT COUNT() FROM amazon_reviews;
++-----------+
+| count(*)  |
++-----------+
+| 135589433 |
++-----------+
+1 row in set (0.02 sec)
+mysql&gt; SHOW DATA FROM amazon_reviews;
++----------------+----------------+-----------+--------------+-----------+------------+
+| TableName      | IndexName      | Size      | ReplicaCount | RowCount  | RemoteSize |
++----------------+----------------+-----------+--------------+-----------+------------+
+| amazon_reviews | amazon_reviews | 25.873 GB | 16           | 135589433 | 0.000      |
+|                | Total          | 25.873 GB | 16           |           | 0.000      |
++----------------+----------------+-----------+--------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+
+</code></pre><span id="OSC_h2_3"></span><h2>文本搜索查詢加速</h2><span id="OSC_h3_4"></span><h3>無索引硬匹配</h3><p>環境及數據準備就緒後，我們嘗試對 <code>review_body</code> 列進行文本搜索查詢。具體需求是在數據集中查出評論中包含「is super awesome」關鍵字的前 5 種產品，並按照評論數量降序排列，查詢結果需顯示每種產品的 ID、隨機一個產品標題、平均星級評分以及評論總數。<code>review_body</code> 列的特徵是評論內容比較長，因此進行文本搜索會有一定的性能壓力。</p><p>首先我們直接進行查詢，以下是查詢的示例語句：</p><pre><code class="language-SQL">SELECT
+    product_id,
+    any(product_title),
+    AVG(star_rating) AS rating,
+    COUNT() AS count
+FROM
+    amazon_reviews
+WHERE
+    review_body LIKE '%is super awesome%'
+GROUP BY
+    product_id
+ORDER BY
+    count DESC,
+    rating DESC,
+    product_id
+LIMIT 5;
+
+
+</code></pre><p>執行結果如下，查詢耗時為 <strong>7.6 秒</strong></p><pre><code class="language-SQL">+------------+------------------------------------------+--------------------+-------+
+| product_id | any_value(product_title)                 | rating             | count |
++------------+------------------------------------------+--------------------+-------+
+| B00992CF6W | Minecraft                                | 4.8235294117647056 |    17 |
+| B009UX2YAC | Subway Surfers                           | 4.7777777777777777 |     9 |
+| B00DJFIMW6 | Minion Rush: Despicable Me Official Game |              4.875 |     8 |
+| B0086700CM | Temple Run                               |                  5 |     6 |
+| B00KWVZ750 | Angry Birds Epic RPG                     |                  5 |     6 |
++------------+------------------------------------------+--------------------+-------+
+5 rows in set (7.60 sec)
+
+
+</code></pre><span id="OSC_h3_5"></span><h3>利用 Ngram BloomFilter 索引加速查詢</h3><p>接下來，我們嘗試使用 Ngram BloomFilter 索引進行查詢加速</p><pre><code class="language-SQL">ALTER TABLE amazon_reviews ADD INDEX review_body_ngram_idx(review_body) USING NGRAM_BF PROPERTIES("gram_size"="10", "bf_size"="10240");
+
+
+</code></pre><p>添加 Ngram BloomFilter 索引之後，再次執行相同的查詢。執行結果如下，<strong>查詢耗時縮短至 0.93 秒，相較於未開啓索引，查詢效率提高了 8 倍。</strong></p><pre><code class="language-SQL">+------------+------------------------------------------+--------------------+-------+
+| product_id | any_value(product_title)                 | rating             | count |
++------------+------------------------------------------+--------------------+-------+
+| B00992CF6W | Minecraft                                | 4.8235294117647056 |    17 |
+| B009UX2YAC | Subway Surfers                           | 4.7777777777777777 |     9 |
+| B00DJFIMW6 | Minion Rush: Despicable Me Official Game |              4.875 |     8 |
+| B0086700CM | Temple Run                               |                  5 |     6 |
+| B00KWVZ750 | Angry Birds Epic RPG                     |                  5 |     6 |
++------------+------------------------------------------+--------------------+-------+
+5 rows in set (0.93 sec)
+
+
+</code></pre><p>接下來，我們根據代碼示例展開説明。使用 <code>ALTER TABLE</code> 語句為表增加 Ngram BloomFilter 索引時，<code>gram_size</code> 和 <code>bf_size</code> 參數具有特定的含義：</p><ul><li><code>gram_size</code>：表示 n-gram 中的 n 值，即連續字符的長度。在上述代碼示例中，<code>"gram_size"="10"</code> 表示每個 n-gram 包含 10 個字符。這意味着文本將被切割成數個字符長度為 10 的字符串，這些字符串將用於構建索引。</li><li><code>bf_size</code>：表示 Bloom Filter 的大小，以字節（Byte）為單位。例如，<code>"bf_size"="10240"</code>表示所使用 Bloom Filter 數據大小佔用空間為 10240 字節。</li></ul><p>在瞭解基本的參數定義後，我們來探索 <strong>Ngram BloomFilter 加速查詢的原理：</strong></p><ul><li>Ngram 分詞：使用 <code>gram_size</code> 對每行數據進行分詞，當 <code>gram_size=5</code> 時，"hello world" 被切分為 ["hello"， "ello "， "llo w"， "lo wo"， "o wor"， " worl"， "world"]。這些子字符串經過哈希函數計算後，將被添加到相應大小（<code>bf_size</code>）的 Bloom Filter 中。由於 Doris 數據是按頁面（page）組織存儲，相應的 Bloom Filter 也會按頁面（page）生成。</li><li>查詢加速：以「hello」為例，在匹配過程中也將被切分並生成對應的 Bloom Filter，用於與各頁面的 Bloom Filter 進行對比。如果 Bloom Filter 判斷為包含匹配字符串（可能會出現假陽性），則加載相應的頁面以進一步匹配；否則，將跳過該頁面。其原理即通過跳過不需要加載的頁面（page），減少需要掃描的數據量，從而顯著降低了查詢延時。</li></ul><p><img src="https://cdn.selectdb.com/static/Apache_Doris_c50be251fc.png" alt="Apache Doris 數據存儲結構" referrerpolicy="no-referrer"></p><p>Ngram Bloom Filter 示意圖</p><p>通過上述原理描述可以看出，針對不同的場景合理的配置 Ngram BloomFilter 的參數會達到更好的效果， <code>gram_size</code> 的大小直接影響匹配時效率，而 <code>bf_size</code> 的大小影響存儲容量和誤判率。通常情況下，較大的 <code>bf_size</code> 可以降低誤判率，但這樣也會佔用更多的存儲空間。因此，我們建議從以下兩方面綜合考量配置參數：</p><p><strong>數據特性：</strong> 考慮要索引的數據類型。對於文本數據，需要根據文本的平均長度和字符分佈來確定。</p><ul><li>對於較短的文本（如單詞或短語）：較小的 <code>gram_size</code>（例如 2-4）和較小的 <code>bf_size</code> 可能更合適。</li><li>對於較長的文本（如句子或大段描述：較大的 <code>gram_size</code>（例如 5-10）和較大的 <code>bf_size</code> 可能更有效。</li></ul><p><strong>查詢模式：</strong> 考慮查詢的典型模式。</p><ul><li>如果查詢通常包含短語或接近完整的單詞，較大的 <code>gram_size</code> 可能更好。</li><li>對於模糊匹配或包含多種變化的查詢，較小的 <code>gram_size</code> 可以提供更靈活的匹配。</li></ul><span id="OSC_h3_6"></span><h3>利用倒排索引加速查詢</h3><p>除了採用 Ngram BloomFilter 索引進行查詢加速，還可以選擇基於 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzg3Njc2NDAwOA%3D%3D%26mid%3D2247519079%26idx%3D1%26sn%3Da232a72695ff93eea0ffe79635936dcb%26chksm%3Dcf2f8560f8580c768bbde99ef8ca97d3a42ecc03b5d8d106b85f5474c90b6068781a79b3611e%26token%3D533653942%26lang%3Dzh_CN%23rd" rel="nofollow" target="_blank">倒排索引</a> 進一步加速文本搜索的效率。可以通過以下步驟來構建倒排索引：</p><p>1.<strong>新增倒排索引：</strong> 對 <code>amazon_reviews</code> 表的 <code>review_body</code> 列添加倒排索引，該索引採用英文分詞，並支持 Phrase 短語查詢，短語查詢即進行文本搜索時，分詞後的詞語順序將會影響搜索結果。 2.<strong>為歷史數據創建索引：</strong> 按照新增索引信息對歷史數據進行索引構建，使歷史數據就也可以使用倒排索引進行查詢。</p><pre><code class="language-SQL">ALTER TABLE amazon_reviews ADD INDEX review_body_inverted_idx(`review_body`) 
+    USING INVERTED PROPERTIES("parser" = "english","support_phrase" = "true"); 
+BUILD INDEX review_body_inverted_idx ON amazon_reviews;
+
+</code></pre><p>3.<strong>查看及驗證：</strong> 構建完索引之後，可以通過以下方式對索引構建情況進行查看：</p><pre><code class="language-SQL">mysql&gt; show BUILD INDEX WHERE TableName="amazon_reviews";
++-------+----------------+----------------+-----------------------------------------------------------------------------------------------------------------------------------+-------------------------+-------------------------+---------------+----------+------+----------+
+| JobId | TableName      | PartitionName  | AlterInvertedIndexes                                                                                                              | CreateTime              | FinishTime              | TransactionId | State    | Msg  | Progress |
++-------+----------------+----------------+-----------------------------------------------------------------------------------------------------------------------------------+-------------------------+-------------------------+---------------+----------+------+----------+
+| 10152 | amazon_reviews | amazon_reviews | [ADD INDEX review_body_inverted_idx (
+review_body
+) USING INVERTED PROPERTIES("parser" = "english", "support_phrase" = "true")],  | 2024-01-23 15:42:28.658 | 2024-01-23 15:48:42.990 | 11            | FINISHED |      | NULL     |
++-------+----------------+----------------+-----------------------------------------------------------------------------------------------------------------------------------+-------------------------+-------------------------+---------------+----------+------+----------+
+1 row in set (0.00 sec)
+
+
+</code></pre><p>如果對分詞效果不確定，可以使用 TOKENIZE 函數進行分詞測試。TOKENIZE 函數接收兩個輸入：一個是需要進行分詞的文本，一個是分詞的屬性字段。</p><pre><code class="language-SQL">mysql&gt; SELECT TOKENIZE('I can honestly give the shipment and package 100%, it came in time that it was supposed to with no hasels, and the book was in PERFECT condition.
+super awesome buy, and excellent for my college classs', '"parser" = "english","support_phrase" = "true"');
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tokenize('I can honestly give the shipment and package 100%, it came in time that it was supposed to with no hasels, and the book was in PERFECT condition. super awesome buy, and excellent for my college classs', '"parser" = "english","support_phrase" = "true"')                                              |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ["i", "can", "honestly", "give", "the", "shipment", "and", "package", "100", "it", "came", "in", "time", "that", "it", "was", "supposed", "to", "with", "no", "hasels", "and", "the", "book", "was", "in", "perfect", "condition", "super", "awesome", "buy", "and", "excellent", "for", "my", "college", "classs"] |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.05 sec)
+
+
+</code></pre><p>在倒排索引創建完成後，我們使用 <code>MATCH_PHRASE</code> 來查詢包含關鍵詞"is super awesome"的產品評論信息（具體需求可回顧前文）。</p><pre><code class="language-SQL">SELECT
+    product_id,
+    any(product_title),
+    AVG(star_rating) AS rating,
+    COUNT() AS count
+FROM
+    amazon_reviews
+WHERE
+    review_body MATCH_PHRASE 'is super awesome'
+GROUP BY
+    product_id
+
+ORDER BY
+    count DESC,
+    rating DESC,
+    product_id
+LIMIT 5;
+
+
+</code></pre><p>以上述代碼示例進行説明，<code>review_body MATCH_PHRASE 'is super awesome'</code> 表示對 <code>review_body</code> 列進行短語匹配查詢。具體而言，查詢會在 <code>review_body</code> 中按照英文分詞後，尋找同時包含 "is"、"super" 和 "awesome" 這三個詞語的文本片段，同時要求這三個詞語的順序是 "is" 在前，"super" 在中間，"awesome" 在後，並且詞語之間沒有間隔（不區分大小寫）。</p><p>這裏需要説明的是，MATCH 與 LIKE 查詢的差異在於，MATCH 查詢時會忽略大小寫，把句子切分成一個個詞來匹配，能夠更快速定位符合條件的結果，特別是在大規模數據集情況下，MATCH 的效率提升更為明顯。</p><p>執行結果如下所示，<strong>開啓倒排索引後查詢耗時僅 0.19 秒，性能較僅開啓 Ngram BloomFilter 索引時提升了 4 倍，較未開啓索引時提升了近 40 倍，極大幅度提升了文本檢索的效率。</strong></p><pre><code class="language-SQL">+------------+------------------------------------------+-------------------+-------+
+| product_id | any_value(product_title)                 | rating            | count |
++------------+------------------------------------------+-------------------+-------+
+| B00992CF6W | Minecraft                                | 4.833333333333333 |    18 |
+| B009UX2YAC | Subway Surfers                           |               4.7 |    10 |
+| B00DJFIMW6 | Minion Rush: Despicable Me Official Game |                 5 |     7 |
+| B0086700CM | Temple Run                               |                 5 |     6 |
+| B00KWVZ750 | Angry Birds Epic RPG                     |                 5 |     6 |
++------------+------------------------------------------+-------------------+-------+
+5 rows in set (0.19 sec)
+
+
+</code></pre><p>究其加速原因可知，倒排索引是通過將文本分解為單詞，並建立從單詞到行號列表的映射。這些映射關係按照單詞進行排序，並構建跳錶索引。在查詢特定單詞時，可以通過跳錶索引和二分查找等方法，在有序的映射中快速定位到對應的行號列表，進而獲取行的內容。<strong>這種查詢方式避免了逐行匹配，將算法複雜度從 O（n） 降低到 O（logn），在處理大規模數據時能顯著提高查詢性能。</strong></p><p><img src="https://cdn.selectdb.com/static/_c6e7b4f9ab.png" alt="倒排索引原理示意圖" referrerpolicy="no-referrer"></p><p>為深入瞭解倒排索引的加速原理，需從倒排索引內部引讀寫邏輯説起。在 Doris 中，從邏輯角度來看，倒排索引應用於表的列級別，而從物理存儲和實現角度來看，倒排索引實際是建立在數據文件級別上的。具體如下：</p><ul><li><strong>寫入階段：</strong> 數據在寫入數據文件的同時，也將同步寫入排索引文件中，對於每個寫入數據的行號，均與倒排索引中的行號一一對應的。</li><li><strong>查詢階段：</strong> 如果查詢 <code>WHERE</code> 條件中包含已建立倒排索引的列，Doris 會自動查詢索引文件，返回滿足條件的行號列表，再利用 Doris 通用的行號過濾機制，跳過不必要的行和頁面，只讀取滿足條件的行，以達到查詢加速的效果。</li></ul><p>總的來説，Doris 的倒排索引機制在物理層面是通過數據文件和索引文件配合工作，而在邏輯層面則通過列和行的映射來實現高效的數據檢索和查詢加速。</p><span id="OSC_h2_7"></span><h2>非主鍵列查詢加速</h2><p>為了進一步驗證倒排索引對非主鍵列查詢加速的影響，我們選擇對產品 ID 和用户 ID 的維度信息進行查詢。</p><span id="OSC_h3_8"></span><h3>未開啓倒排索引</h3><p>當查詢用户 13916588 對產品 B002DMK1R0 的評論信息時，執行以下 SQL 語句進行查詢時，需要對全表數據進行掃描，<strong>查詢耗時為 1.81 秒。</strong></p><pre><code class="language-SQL">mysql&gt; SELECT product_title,review_headline,review_body,star_rating 
+FROM amazon_reviews 
+WHERE product_id='B002DMK1R0' AND customer_id=13916588;
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+| product_title                                                   | review_headline      | review_body                                                                                                                 | star_rating |
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+| Magellan Maestro 4700 4.7-Inch Bluetooth Portable GPS Navigator | Nice Features But... | This is a great GPS. Gets you where you are going. Don't forget to buy the seperate (grr!) cord for the traffic kit though! |           4 |
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+1 row in set (1.81 sec)
+
+
+</code></pre><span id="OSC_h3_9"></span><h3>倒排索引查詢加速</h3><p>接下來，我們為 <code>product_id</code> 和 <code>customer_id</code> 添加倒排索引。在這個場景中，倒排索引的使用與文本搜索時不同，該場景無需對 <code>product_id</code> 和 <code>customer_id</code> 進行分詞，只需對這兩列的 Value→RowID 的創建倒排映射表。</p><p>首先，通過執行以下 SQL 語句創建倒排索引：</p><pre><code class="language-SQL">ALTER TABLE amazon_reviews ADD INDEX product_id_inverted_idx(product_id) USING INVERTED ;
+ALTER TABLE amazon_reviews ADD INDEX customer_id_inverted_idx(customer_id) USING INVERTED ;
+BUILD INDEX product_id_inverted_idx ON amazon_reviews;
+BUILD INDEX customer_id_inverted_idx ON amazon_reviews;
+
+
+</code></pre><p>其次，當索引構建完成後，執行同樣的查詢語句，<strong>查詢耗時從 1.81 秒降到了 0.06 秒</strong>，查詢耗時顯著降低，相比未添加索引的情況，<strong>查詢效率提升了約 30 倍。</strong></p><pre><code class="language-SQL">mysql&gt; SELECT product_title,review_headline,review_body,star_rating FROM amazon_reviews WHERE product_id='B002DMK1R0' AND customer_id='13916588';
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+| product_title                                                   | review_headline      | review_body                                                                                                                 | star_rating |
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+| Magellan Maestro 4700 4.7-Inch Bluetooth Portable GPS Navigator | Nice Features But... | This is a great GPS. Gets you where you are going. Don't forget to buy the seperate (grr!) cord for the traffic kit though! |           4 |
++-----------------------------------------------------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------+-------------+
+1 row in set (0.06 sec)
+
+</code></pre><p>通過觀察可發現，倒排索引在於類似非主鍵列的維度查詢中具有非常出色的加速效果。為更深入且直觀的查看加速效果，可通過 Doris Profile 信息來進一步探索。</p><span id="OSC_h3_10"></span><h3>Profile 分析</h3><p>需要注意的是，在開啓查詢的 Profile 之前，需先在 MySQL 客户端執行 <code>SET enable_profile=true;</code> 命令。完成後再執行查詢語句，並訪問 http://FE_IP:FE_HTTP_PORT/QueryProfile， 來查看與本次查詢相關的 Profile ID 以及詳細的 Profile 信息。</p><p>本文中僅截取一個特定片段的 SegmentIterator Profile 信息來説明倒排索引查詢加速原因。</p><pre><code class="language-YAML">SegmentIterator:
+  - FirstReadSeekCount: 0
+  - FirstReadSeekTime: 0ns
+  - FirstReadTime: 13.119ms
+  - IOTimer: 19.537ms
+  - InvertedIndexQueryTime: 11.583ms
+  - RawRowsRead: 1
+  - RowsConditionsFiltered: 0
+  - RowsInvertedIndexFiltered: 16.907403M (16907403)
+  - RowsShortCircuitPredInput: 0
+  - RowsVectorPredFiltered: 0
+  - RowsVectorPredInput: 0
+  - ShortPredEvalTime: 0ns
+  - TotalPagesNum: 27
+  - UncompressedBytesRead: 3.71 MB
+  - VectorPredEvalTime: 0ns
+
+</code></pre><p>從上述 Profile 中的 <code>RowsInvertedIndexFiltered: 16.907403M (16907403) 以及 RawRowsRead: 1</code>，我們可以觀察到：倒排索引過濾了 16907403 行數據，最終只保留 1 行數據（即命中的那條數據）。根據 <code>FirstReadTime: 13.119ms</code> 可知，在讀取這行數據所在的頁面（page）耗時 13.119 ms，而根據<code>InvertedIndexQueryTime: 11.583ms</code> 可知，倒排索引執行時間僅耗時 11.58 ms。<strong>這意味着倒排索引僅在 11.58 ms 內過濾了 16907403 行數據，執行效率非常高。</strong></p><p>為更直接對比，接下來展示未增加倒排索引情況下 SegmentIterator 的執行情況：</p><pre><code class="language-YAML">SegmentIterator:
+  - FirstReadSeekCount: 9.374K (9374)
+  - FirstReadSeekTime: 400.522ms
+  - FirstReadTime: 3s144ms
+  - IOTimer: 2s564ms
+  - InvertedIndexQueryTime: 0ns
+  - RawRowsRead: 16.680706M (16680706)
+  - RowsConditionsFiltered: 226.698K (226698)
+  - RowsInvertedIndexFiltered: 0
+  - RowsShortCircuitPredInput: 1
+  - RowsVectorPredFiltered: 16.680705M (16680705)
+  - RowsVectorPredInput: 16.680706M (16680706)
+  - RowsZonemapFiltered: 226.698K (226698)
+  - ShortPredEvalTime: 2.723ms
+  - TotalPagesNum: 5.421K (5421)
+  - UncompressedBytesRead: 277.05 MB
+  - VectorPredEvalTime: 8.114ms
+
+
+</code></pre><p>根據上述 Profile 觀察可知，由於沒有索引進行過濾， FirstRead 需要花費 3.14s 的時間來加載 16680706 行數據，然後使用 Predicate Evaluate 進行條件過濾，過濾掉其中 16680705 行，而條件過濾本身只消耗了不到 10ms 的時間，由此可見，大部分時間被消耗在加載原始數據上。</p><p>通過對比可知，建立倒排索引可以大大減少加載原始數據的時間，提高查詢的執行效率。索引能夠快速定位滿足條件的行，從而減少不必要的數據加載和處理，節省時間和資源。</p><span id="OSC_h2_11"></span><h2>低基數文本列索引加速</h2><p>眾所周知，倒排索引對於高基數文本列的查詢來説，加速效果十分顯著。然而，在低基數列的情況下，可能由於需創建過多的索引項而導致更大的開銷，從而對查詢性能產生負面影響。接下來，我們將以 <code>product_category</code> 作為謂詞列進行過濾，來檢驗 Apache Doris 倒排索引在低基數文本列的加速效果如何。</p><pre><code class="language-SQL">mysql&gt; SELECT COUNT(DISTINCT product_category) FROM amazon_reviews ;
++----------------------------------+
+| count(DISTINCT product_category) |
++----------------------------------+
+|                               43 |
++----------------------------------+
+1 row in set (0.57 sec)
+
+
+</code></pre><p>通過上述操作可知，到 <code>product_category</code> 僅有 43 種分類，是一個典型的低基數文本列。接下來，我們對其增加倒排索引</p><pre><code class="language-SQL">ALTER TABLE amazon_reviews ADD INDEX product_category_inverted_idx(`product_category`) USING INVERTED;
+BUILD INDEX product_category_inverted_idx ON amazon_reviews;
+
+</code></pre><p>添加倒排索引之後，運行如下 SQL 查詢，指查詢產品分類為 Mobile_Electronics 產品中評價數量最多的前三名產品信息</p><pre><code class="language-SQL">SELECT 
+    product_id,
+    product_title,
+    AVG(star_rating) AS rating,
+    any(review_body),
+    any(review_headline),
+    COUNT(*) AS count 
+FROM 
+    amazon_reviews 
+WHERE 
+    product_category = 'Mobile_Electronics' 
+GROUP BY 
+    product_title, product_id 
+ORDER BY 
+    count DESC 
+LIMIT 10;
+
+
+</code></pre><p>從下方結果可知，增加倒排索引之後，查詢耗時為 1.54s。</p><pre><code class="language-SQL">+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+-------+
+| product_id | product_title                                                                                                                                                                                          | rating             | any_value(review_body)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | any_value(review_headline)      | count |
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+-------+
+| B00J46XO9U | iXCC Lightning Cable 3ft, iPhone charger, for iPhone X, 8, 8 Plus, 7, 7 Plus, 6s, 6s Plus, 6, 6 Plus, SE 5s 5c 5, iPad Air 2 Pro, iPad mini 2 3 4, iPad 4th Gen [Apple MFi Certified](Black and White) | 4.3766233766233764 | Great cable and works well. Exact fit as Apple cable. I would recommend this to anyone who is looking to save money and for a quality cable.                                                                                                                                                                                                                                                                                                                                                             | Apple certified lightning cable |  1078 |
+| B004911E9M | Wall AC Charger USB Sync Data Cable for iPhone 4, 3GS, and iPod                                                                                                                                        | 2.4281805745554035 | A total waste of money for me because I needed it for a iPhone 4.  The plug will only go in upside down and thus won't work at all.                                                                                                                                                                                                                                                                                                                                                                      | Won't work with a iPhone 4!     |   731 |
+| B002D4IHYM | New Trent Easypak 7000mAh Portable Triple USB Port External Battery Charger/Power Pack for Smartphones, Tablets and more (w/built-in USB cable)                                                        | 4.5216095380029806 | I bought this product based on the reviews that i read and i am very glad that i did. I did have a problem with the product charging my itouch after i received it but i emailed the company and they corrected the problem immediately. VERY GOOD customer service, very prompt. The product itself is very good. It charges my power hungry itouch very quickly and the imax battery power lasts for a long time. All in all a very good purchase that i would recommend to anyone who owns an itouch. | Great product &amp; company         |   671 |
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+-------+
+3 rows in set (1.54 sec)
+
+
+</code></pre><p>接下來，我們關閉倒排索引，以觀察未加倒排索引時的查詢耗時。這裏需要説明的是，當需要關閉索引或在增加索引後發現效果不理想，可以在 MySQL 客户端中執行 <code>set enable_inverted_index_query=false;</code>，便捷且快速地臨時關閉倒排索引。我們再次運行查詢 SQL，如下所示，查詢耗時為 1.8s。</p><pre><code class="language-SQL">+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------+-------+
+| product_id | product_title                                                                                                                                                                                          | rating             | any_value(review_body)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | any_value(review_headline)            | count |
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------+-------+
+| B00J46XO9U | iXCC Lightning Cable 3ft, iPhone charger, for iPhone X, 8, 8 Plus, 7, 7 Plus, 6s, 6s Plus, 6, 6 Plus, SE 5s 5c 5, iPad Air 2 Pro, iPad mini 2 3 4, iPad 4th Gen [Apple MFi Certified](Black and White) | 4.3766233766233764 | These cables are great. They feel quality, and best of all, they work as they should. I have no issues with them whatsoever and will be buying more when needed.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Just like the original from Apple     |  1078 |
+| B004911E9M | Wall AC Charger USB Sync Data Cable for iPhone 4, 3GS, and iPod                                                                                                                                        | 2.4281805745554035 | I ordered two of these chargers for an Iphone 4. Then I started experiencing weird behavior from the touch screen. It would select the wrong area of the screen, or it would refuse to scroll beyond a certain point and jump back up to the top of the page. This behavior occurs whenever either of the two that I bought are attached and charging. When I remove them, it works fine once again. Needless to say, these items are being returned.                                                                                                                                                                                                                                                                                                                                                                              | Beware - these chargers are defective |   731 |
+| B002D4IHYM | New Trent Easypak 7000mAh Portable Triple USB Port External Battery Charger/Power Pack for Smartphones, Tablets and more (w/built-in USB cable)                                                        | 4.5216095380029806 | I received this in the mail 4 days ago, and after charging it for 6 hours, I've been using it as the sole source for recharging my 3Gs to see how long it would work.  I use my Iphone A LOT every day and usually by the time I get home it's down to 50% or less.  After 4 days of using the IMAX to recharge my Iphone, it finally went from 3 bars to 4 this afternoon when I plugged my iphone in.  It charges the iphone very quickly, and I've been topping my phone off (stopping around 95% or so) twice a day.  This is a great product and the size is very similar to a deck of cards (not like an iphone that someone else posted) and is very easy to carry in a jacket pocket or back pack.  I bought this for a 4 day music festival I'm going to, and I have no worries at all of my iphone running out of juice! | FANTASTIC product!                    |   671 |
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------+-------+
+3 rows in set (1.80 sec)
+
+
+</code></pre><p>綜上可知，倒排索引對於低基數列場景也有 15% 的查詢性能提升，雖不如高基數列場景的提升效果，但並未產生退化效果或負面影響。此外，Apache Doris 針對低基數列採用了較好的編碼（如字典編碼）方式和壓縮技術，並且可以通過內置索引（如 zonemap）進行有效過濾。因此，即使不添加倒排索引仍能展現較好的查詢效果。</p><span id="OSC_h2_12"></span><h2>總結語</h2><p>總而言之，Apache Doris 中的倒排索引顯著優化了針對謂詞列的過濾操作，即 SQL 查詢中的 Where 子句。通過精確匹配行號，減少了存儲層需要掃描的數據量，從而提高了查詢性能。即使在性能提升有限的情況下，倒排索引也不會對查詢效率產生負面影響。此外，倒排索引還支持輕量級的索引管理操作，如對增加或刪除索引（ADD/DROP INDEX）以及構建索引（BUILD INDEX）操作進行管理。同時，還提供了在 MySQL 客户端便捷地啓用或關閉索引（enable_inverted_index_query=true/false）的功能，使用户能夠輕鬆利用倒排索引來檢驗查詢加速效果。</p><p>倒排索引和 NGram Bloom Filter 索引為不同場景提供了查詢加速方案，在選擇索引類型時，數據集的特定特徵和查詢模式是關鍵考慮因素。以下是一些常見的適配場景：</p><ul><li><strong>大規模數據非主鍵列點查場景：</strong> 在這種場景下，往往存在大量分散的數值列在值，且查詢的值命中量很低。為了加速查詢，除了在建表時利用 Doris 內置的智能索引能力之外，還可以通過給對應的列增加倒排索引來加速查詢。倒排索引對字符類型、數值類型、日期等標量類型支持比較完整。</li><li><strong>短文本列的文本檢索場景：</strong> 如果短文本分佈比較離散（即文本之間相似度低），則適合使用 Ngram Bloom Filter 索引，能夠有效地處理短文本的模糊匹配查詢（LIKE）。同時，在短文本場景下 Apache Doris 的向量化處理能力可以得到更加充分和高效的應用和發揮。如果短文本分佈比較集中（如大量文本相似，少量文本不同），則適合使用倒排分詞索引，這樣可以保證詞典比較小，適合快速檢索獲取行號列表。</li><li><strong>長文本列的文本搜索場景：</strong> 針對長文本列，倒排分詞索引是更好的方案。相比於暴力字符串匹配，倒排索引提供了更高效的查詢性能，避免了大量的 CPU 資源消耗。</li></ul><p>自 Apache Doris 最早引入倒排索引至今已有近一年時間，從，早期 2.0 Preview 版本至最近發佈的 2.0.4，這一年間經歷了大量開源用户在真實業務環境海量數據下的打磨和驗證，性能與穩定性已經得到充分驗證。而在後續的規劃中，我們也將持續在現有基礎上進行迭代和優化，包括：</p><ul><li><strong>自定義倒排索引分詞能力，</strong> 針對用户在不同場景下分詞效果的需求，提供用户對自定義分詞器。</li><li><strong>支持更多類型的倒排索引，</strong> 後續會增加對 Array、Map 等複雜數據類型的支持，以更全面地滿足各類查詢需求。</li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 03:12:56 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5735652/blog/10946708</guid>
+            <link>https://my.oschina.net/u/5735652/blog/10946708</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[大神只用 Excel 就構建了一顆 CPU：具有 128kb RAM、配備彙編語言]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>YouTube 科技博主「Inkbox」近日發佈視頻介紹如何在 Microsoft Excel 的限制下構建功能齊全 CPU。Inkbox 稱沒有使用任何 Visual Basic 腳本或插件 —— 完全用 Excel 實現。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-b39e1a5e12f6b2b05206163af0964e75039.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D5rg7xvTJ8SU" target="_blank">https://www.youtube.com/watch?v=5rg7xvTJ8SU</a></u></em></p></blockquote><p>據介紹，這是一顆 16 位 CPU，在 Excel 中構建並以 3Hz 時鐘頻率運行，具有 128KB RAM、16 色 128x128 像素顯示屏和自定義彙編語言，所有這些都在 Excel 中運行。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-05bafb20ee50b854fae8d35fd3dd39d81d6.png" referrerpolicy="no-referrer"></p><p>這個 Excel CPU 項目最令人印象深刻的壯舉之一是 Inkbox 為其創建了功能完整的<strong>彙編語言 Excel-ASM16</strong>，它包含 23 種不同的指令，並支持變量、標籤，甚至二進制文件。雖然這些是彙編語言的基本功能，但對於在 Microsoft Excel 下運行的 16 位 CPU 的限制來説已經足夠了。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d48c1c2c41f8b1cdf10a21f3aeef8642108.png" referrerpolicy="no-referrer"></p><p>如果各位感興趣，可通過作者在 GitHub 提供的文件來嘗試：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FInkboxSoftware%2FexcelCPU" target="_blank">https://github.com/InkboxSoftware/excelCPU</a></u></em>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-aae05a6c21c604e1ec7a527008912e357a2.png" referrerpolicy="no-referrer"></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 03:08:56 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276824/16-bit-cpu-built-and-runs-in-excel</guid>
+            <link>https://www.oschina.net/news/276824/16-bit-cpu-built-and-runs-in-excel</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Windows 重新設計引導安裝界面]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>微軟上週<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsspai.com%2Flink%3Ftarget%3Dhttps%253A%252F%252Fblogs.windows.com%252Fwindows-insider%252F2024%252F01%252F26%252Fannouncing-windows-11-insider-preview-build-26040-canary-channel%252F" target="_blank">發佈</a>了新的 Canary 頻道 Windows 11 預覽版，構建號為 Build 26040。這一版本中，微軟大幅修改了使用安裝鏡像引導安裝步驟的界面設計。<strong>據稱這是該界面自 Windows Vista 以來首次獲得顯著更新</strong>，但功能、流程仍與之前大致相同。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-26e854305d1df56a60cfcdba9ed69958381.png" referrerpolicy="no-referrer"></p><p>Build 26040 的其他新功能還包括從附近 Android 設備獲取截圖、將 Surface 上加強通話中人聲的 Voice Clarity 功能開放給更多用户，以及支持 USB 80Gbps 等。微軟還在同版本號的 Windows Server 預覽版中正式採用了 Windows Server 2025 的品牌名稱。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 29 Jan 2024 02:19:27 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/276820/winsetup-redesign</guid>
+            <link>https://www.oschina.net/news/276820/winsetup-redesign</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[iOS 17.4 測試版包含大模型相關代碼]]>
@@ -26,7 +622,7 @@
                 <![CDATA[<div class="content"><p>外界普遍預計蘋果將在 6 月份通過 iOS 18 推出主要的新人工智能功能。<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2F9to5mac.com%2F2024%2F01%2F26%2Fapple-siri-chatgpt-ios-18-development%2F" target="_blank">不過根據 9to5Mac 的報道</a></u>，他們在 iOS 17.4 第一個測試版中發現的代碼表明，蘋果正在開發由大語言模型技術支持的 Siri 新版本，並得到了其他來源的一些幫助。</p><p>所謂其他來源是指蘋果似乎正在使用 OpenAI 的 ChatGPT API 進行內部測試，以幫助開發自己的 AI 模型。代碼顯示，iOS 17.4 包含一個新的 SiriSummarization 私有框架，可調用 OpenAI 的 ChatGPT API。由於蘋果不太可能會在 iOS 18 正式版本中使用 ChatGPT 支持其 AI 功能，所以它更可能是在對自己的大模型進行內部測試，然後與 ChatGPT 的結果進行對照。</p><p>此外，SiriSummarization 框架包含多個系統提示次示例，比如「請總結」、「請回答這個問題」和「請總結給定的文本」之類的內容。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3f96d8da8563affdc4b0df3d91c734d13e7.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2702eb6dc68bef558e9523eeb683230bad0.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-de57b6c81deabb583eec4ad236180f46b43.png" referrerpolicy="no-referrer"></p><p>目前看來，iOS 17.4 代碼表明蘋果正在測​​試四種不同的人工智能模型。這包括之前報道過的蘋果內部模型「Ajax」。並且 iOS 17.4 正在測試兩個版本的 AjaxGPT，其中一種在設備上處理，另一種不在設備上處理——可能是在雲端。</p><hr><p>延伸閲讀：<em><u><a href="https://www.oschina.net/news/272282/apple-wants-ai-to-run-directly-on-its-hardware" target="news">蘋果將大語言模型部署到設備本地</a></u></em></p></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 28 Jan 2024 03:54:05 GMT</pubDate>
+            <pubDate>Sun, 28 Jan 2024 03:53:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/276784/apple-siri-chatgpt-ios-18-development</guid>
             <link>https://www.oschina.net/news/276784/apple-siri-chatgpt-ios-18-development</link>
             <author>
@@ -72,8 +668,8 @@
                                     ]]>
             </description>
             <pubDate>Sat, 27 Jan 2024 03:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276738</guid>
-            <link>https://www.oschina.net/news/276738</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/276738/search-with-lepton-opensource</guid>
+            <link>https://www.oschina.net/news/276738/search-with-lepton-opensource</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
@@ -196,263 +792,6 @@
             <link>https://www.oschina.net/news/276693</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[重慶警方破獲「蘋果 ID 貸」非法經營案，以「庫克回租」為名非法放貸、暴力催收]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.thepaper.cn%2FnewsDetail_forward_26150502" target="_blank">據中新網報道</a></u>，重慶巫溪縣公安局獲悉，該局成功偵破一起全國性「蘋果 ID 貸」非法經營案，搗毀涉及 21 省 (市) 非法經營網絡貸款犯罪團夥 9 個，抓獲犯罪嫌疑人 41 人，涉及借款人員 2 萬餘名，涉案金額 1.3 億元。</p><p>2023 年 5 月，重慶巫溪縣公安局鳳凰派出所接到陶某報警稱，自己的蘋果手機 (iPhone13) 被人遠程控制鎖機，請求民警幫助。後經民警綜合研判，一個以黃某為首的從事互聯網非法放貸犯罪團夥逐漸浮出水面。</p><p>經查，自 2022 年 8 月以來，黃某等 9 人未經監管部門批准，以營利為目的，打着「庫克回租」的幌子，通過平台投放「蘋果 ID 貸」廣告，招攬蘋果手機用户並提供貸款，再通過遠程控制手機應用，修改蘋果 ID 密碼，威脅將手機鎖機，並以撥打親屬電話騷擾、曝光個人信息等催收方式，讓借款人超額還款。</p><blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-26b87b238e3799ee00df2fb9ff4bb158c38.png" referrerpolicy="no-referrer"></p></blockquote><p>該團夥累計非法放貸本金 700 餘萬元，非法獲利 100 餘萬元。掌握相關證據後，專案組民警分赴陝西、四川等地，將該非法經營犯罪團夥成員全部抓獲。</p><p>辦案民警隨後對該案擴線研判出另外 8 個涉及全國 21 省 (市) 與黃某團夥具有相同作案手法的非法經營犯罪團夥，梳理出借款人員 2 萬餘名。</p><p>巫溪縣公安局在重慶市公安局經偵總隊指導下，將該案報請公安部，併成功發起全國集羣戰役，成功打掉利用「蘋果 ID 貸」非法經營網絡貸款犯罪團夥 9 個，抓獲犯罪嫌疑人 41 人，涉案金額 1.3 億元。</p><p>目前，該案所有犯罪嫌疑人均被依法採取刑事強制措施，案件正在進一步辦理中。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 04:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276691</guid>
-            <link>https://www.oschina.net/news/276691</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[升級 JDK21、 Spring Boot 3.2 並開啓 Virtual Thread、CRaC]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><div><div><div><div><div><div><div><div><span id="OSC_h2_1"></span><h2>背景</h2><ul><li><p>JDK21 已發佈一段時間，是 JDK17 後的的又一個長期維護版本，支持了 Virtual Thread、CRaC 特性，並帶來了新的分代 ZGC 算法</p></li><li><p>Spring Boot 3.2.1 (<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspring.io%2Fblog%2F2023%2F10%2F16%2Fruntime-efficiency-with-spring%2F%23jvm-checkpoint-restore-scale-to-zero-with-spring-and-project-crac" rel="nofollow" target="_blank"><span><span><img height="14" src="https://spring.io/favicon-32x32.png?v=96334d577af708644f6f0495dd1c7bc8" width="14" referrerpolicy="no-referrer"></span><span>Runtime efficiency with Spring (today and tomorrow)</span></span></a></span></span></span></span> ) 版本發佈後，框架層面原生的支持了 Virtual Thread、CRaC 特性</p></li></ul><p>同時在 ops-job 上應用積累經驗，可在其他項目如 Apollo 、xxljob 上繼續落地</p><p>ps：本次升級項目原依賴是 JDK17，Spring Boot 2.6.5&nbsp;</p><span id="OSC_h2_2"></span><h2><span>關鍵結果（收益）</span></h2><ul><li><p>在不影響程序邏輯情況下，大幅縮短啓動時間</p></li><li><p>內存使用降低，性能更好</p></li><li><p>CPU 資源使用率降低（因 GC 導致的 CPU 使用降低）</p></li></ul><span id="OSC_h2_3"></span><h2>升級改動</h2><span id="OSC_h3_4"></span><h3>Maven 依賴調整</h3><p>調整 Spring Boot 的依賴</p><pre><code class="language-xml">  &lt;parent&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-    &lt;version&gt;3.2.1&lt;/version&gt;
-    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-  &lt;/parent&gt;</code></pre><p>調整 Spring Cloud 、JDK 的依賴</p><pre><code class="language-xml">  &lt;properties&gt;
-    &lt;java.version&gt;21&lt;/java.version&gt;
-    &lt;spring-cloud.version&gt;2021.0.1&lt;/spring-cloud.version&gt;
-  &lt;/properties&gt;</code></pre><span id="OSC_h3_5"></span><h3>代碼兼容性改動</h3><div><div>
-            &nbsp; 
-          </div><div><p>Spring Boot3 升級是個比較大的變動，有很多的不兼容性。這裏只記錄 ops-job 這個項目遇到的問題。更多問題參考：<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-boot%2Fwiki%2FSpring-Boot-3.0-Migration-Guide" rel="nofollow" target="_blank"><span><span><img height="14" src="https://github.com/fluidicon.png" width="14" referrerpolicy="no-referrer"></span><span>Spring Boot 3.0 Migration Guide</span></span></a></span></span></span></span> (<span style="color:var(--custom-palette-color, inherit)">官網升級指南必看</span>)</p></div></div><span id="OSC_h4_6"></span><h4>1、包名變動</h4><p>javax 更名為 jakarta，相關的資源都需要改動。比如：</p><p>@PostConstruct 註解包名拜改變路徑：javax.annotation.PostConstruct 變到 jakarta.annotation.PostConstruct</p><span id="OSC_h4_7"></span><h4>2、Spring 的 <code><a href="https://my.oschina.net/bean" class="referer" target="_blank">@Bean</a></code> 註解只能用於有返回值的方法。</h4><p>比如下面代碼，想在 Bean 初始化生命週期中運行一些邏輯，升級後就不支持了。被 <code><a href="https://my.oschina.net/bean" class="referer" target="_blank">@Bean</a></code> 註解的方法需要有返回值了</p><pre><code class="language-java">    @Bean
-    public void initSenTry() {
-        String dsn = xx
-        Sentry.init(options -&gt; {
-            options.setDsn(dsn);
-            options.setEnvironment(env);
-        });
-        SentryAppender sentryAppender = new SentryAppender();
-        sentryAppender.setContext(ctx);
-        ThresholdFilter filter = new ThresholdFilter();
-        filter.setLevel(Level.ERROR.levelStr);
-        filter.start();
-        sentryAppender.addFilter(filter);
-        sentryAppender.start();
-        ctx.addTurboFilter(new TurboFilter() {
-            @Override
-            public FilterReply decide(Marker marker, ch.qos.logback.classic.Logger logger, Level level, String format, Object[] params, Throwable t) {
-                logger.addAppender(sentryAppender);
-                return FilterReply.NEUTRAL;
-            }
-        });
-
-    }</code></pre><span id="OSC_h4_8"></span><h4>3、Spring 日誌系統變化</h4><p>slf4j 的 StaticLoggerBinder 類沒有了，想要獲取 LoggerContext 對象實現日誌級別的動態調整，需要使用</p><p>LoggerFactory.getILoggerFactory 取而代之。比如：</p><pre><code class="language-java">private final LoggerContext ctx = (LoggerContext) LoggerFactory.getILoggerFactory();</code></pre><span id="OSC_h4_9"></span><h4>4、Apollo 功能受限</h4><p>Apollo 配置中心的 <code>@ApolloConfig</code> 註解失效了（內部配置加載邏輯是正常的，不影響應用啓動）。比如：</p><pre><code class="language-java">@ApolloConfig
-private Config config;</code></pre><p>原因是：<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-boot%2Fissues%2F32566" rel="nofollow" target="_blank"><span><span><img height="14" src="https://github.com/fluidicon.png" width="14" referrerpolicy="no-referrer"></span><span>Spring Boot 3 milestone 5 EnableAutoConfiguration spring.factories · Issue #32566 · spring-projects/spring-boot</span></span></a></span></span></span></span></p><p>從 Spring Boot 3 M5 開始，來自 spring.factories 文件的「org.springframework.boot.autoconfigure.EnableAutoConfiguration」自動配置註冊不再起作用</p><p>基於此，預計有很多 start 都會受到影響，比如 mybatis-plus 、xxl-job</p><ul><li>臨時解決</li></ul><p>在類路徑下創建<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>文件，把 Apollo 的自動加載類放進去，如：</p><pre><code>com.ctrip.framework.apollo.spring.boot.ApolloAutoConfiguration com.taptap.xxl.job.spring.XxlJobAutoConfiguration</code></pre><p>其他有影響的框架，都可以複製下自動加載類，放到這個文件裏</p><ul><li>最終解決</li></ul><p>可以嘗試用最新版本，看官方是否解決了 Spring Boot3.x 的兼容性問題。</p><p>1、apollo-client : 升級到 2.1.0(<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapolloconfig%2Fapollo-java%2Fpull%2F4" rel="nofollow" target="_blank"><span><span><img height="14" src="https://github.com/fluidicon.png" width="14" referrerpolicy="no-referrer"></span><span>apollo-client support spring boot 3.0 by nobodyiam · Pull Request #4 · apolloconfig/apollo-java</span></span></a></span></span></span></span> )</p><p>2、xxl-job-spring-boot-starter : 更新到 2.3.2-183</p><span id="OSC_h2_10"></span><h2>問題記錄</h2><span id="OSC_h3_11"></span><h3>1、日誌框架衝突</h3><p>服務啓動，會輸出如下的日誌</p><pre><code>Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts</code></pre><p>這個是 Spring Boot 的依賴衝突檢查輸出的，在 Maven 裏排除 <code>commons-logging.jar</code> 就好了，如：</p><pre><code class="language-xml">    &lt;dependency&gt;
-      &lt;groupId&gt;ru.yandex.clickhouse&lt;/groupId&gt;
-      &lt;artifactId&gt;clickhouse-jdbc&lt;/artifactId&gt;
-      &lt;version&gt;0.3.2&lt;/version&gt;
-      &lt;exclusions&gt;
-        &lt;exclusion&gt;
-          &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
-          &lt;groupId&gt;commons-logging&lt;/groupId&gt;
-        &lt;/exclusion&gt;
-      &lt;/exclusions&gt;
-    &lt;/dependency&gt;</code></pre><span id="OSC_h3_12"></span><h3>2、Server VM warning</h3><p>當加載 agent 時，會出現如下的警告日誌。</p><pre><code>OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[otel.javaagent 2024-01-23 17:38:45:581 +0800] [main] INFO io.opentelemetry.javaagent.tooling.VersionLogger - opentelemetry-javaagent - version: 1.12.1
-OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended</code></pre><div>
-           &nbsp; 
-         </div><p>可通過 JVM 參數 -Xshare:off 關閉 CDS 相關的邏輯</p><span id="OSC_h2_13"></span><h2>大功告成</h2><p>如果一切順利，啓動成功後會在控制枱看到如下輸出</p><p><img height="540" src="https://oscimg.oschina.net/oscnet/up-c89cbd8949a1c5ef0e8aaeb37dee992e6d8.png" width="1520" referrerpolicy="no-referrer"></p><span id="OSC_h2_14"></span><h2>開啓 Virtual Thread</h2><span id="OSC_h3_15"></span><h3>啓用並驗證</h3><p>通過如下配置，可以一鍵開啓 spring 的 Virtual Thread 特性。</p><pre><code>spring.threads.virtual.enabled=true</code></pre><p>驗證是否開啓了</p><pre><code class="language-java">@RequestMapping("/")
-@RestController
-public class VirtualController {
-
-    @GetMapping("/test")
-    public String virtual() {
-        System.out.println(Thread.currentThread());
-        return "test";
-    }
-
-}</code></pre><p>上面代碼將會在控制枱輸出</p><pre><code>VirtualThread[#70,tomcat-handler-0]/runnable@ForkJoinPool-1-worker-1</code></pre><div>
-           &nbsp; 
-         </div><span id="OSC_h3_16"></span><h3>性能測試</h3><div><div>
-            &nbsp; 
-          </div><div><p>環境：Redis 為本地的實例</p></div></div><div><div><div><div><pre><code class="language-java">@RequestMapping("/")
-@RestController
-public class VirtualController {
-
-    final StringRedisTemplate redisTemplate;
-
-    public VirtualController(StringRedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
-    @GetMapping("/test")
-    public String virtual() {
-        redisTemplate.opsForValue().set("test", "test");
-        return redisTemplate.opsForValue().get("test");
-    }
-
-}</code></pre><p>我在本地通過 wrk 壓測上面的代碼 (讀寫了下 Redis )，發現在不做任何參數調優的情況下，結果如下</p></div></div></div></div><p>tomcat 默認的線程池配置：</p><pre><code>server.tomcat.threads.max=200
-server.tomcat.threads.min-spare=10</code></pre><ul><li><p>wrk -t80 -c100 -d 10s --latency <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2F127.0.0.1%3A8040%2Ftest" rel="nofollow" target="_blank">http://127.0.0.1:8040/test</a></p></li></ul><div><div><p><img height="454" src="https://oscimg.oschina.net/oscnet/up-778d1c6616698d7fbacd4586940df71a153.png" width="1536" referrerpolicy="no-referrer"></p></div></div><ul><li><p>wrk -t150 -c200 -d 10s --latency <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2F127.0.0.1%3A8040%2Ftest" rel="nofollow" target="_blank">http://127.0.0.1:8040/test</a></p></li></ul><div><div><img height="460" src="https://oscimg.oschina.net/oscnet/up-10c91dde54ae8b0d9f84cda5b35a3f810bb.png" width="1532" referrerpolicy="no-referrer"></div></div><p>從兩次測試結果可以看出，在不做任何優化的前提下：</p><div><div>
-            &nbsp; 
-          </div><div><ul><li><p>低負載（-t80 -c100）：性能相當，差別不大</p></li><li><p>高負載（-t150 -c200）：Virtual threads 依然保持高性能，Platform threads 出現了性能下降的問題。且兩者 QPS 差距非常明顯，<strong>Virtual threads </strong>比 <strong>Platform threads</strong> 多 19%~29% 的性能。</p></li></ul></div></div><p>在 Platform threads 模式下，嘗試調大 tomcat 的線程參數</p><pre><code class="language-java">server.tomcat.threads.max=300
-server.tomcat.threads.min-spare=50</code></pre><p>分別使用</p><ul><li><p>wrk -t150 -c200 -d 10s --latency <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2F127.0.0.1%3A8040%2Ftest" rel="nofollow" target="_blank">http://127.0.0.1:8040/test</a></p></li><li><p>wrk -t80 -c100 -d 10s --latency <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2F127.0.0.1%3A8040%2Ftest" rel="nofollow" target="_blank">http://127.0.0.1:8040/test</a></p></li></ul><p>壓 Platform threads 的服務。</p><p><img height="458" src="https://oscimg.oschina.net/oscnet/up-e6526d1643da2f8c406ec63b7c228a525c7.png" width="1528" referrerpolicy="no-referrer"></p><div><div><p>從 tomcat 調參後的測試結果看，至少我本地這個環境，這個場景沒法在通過加大 threads 數加大性能了。也在一次印證了 Platform threads 模式下，負載高過一個臨界值後，性能會下降。</p></div></div><span id="OSC_h3_17"></span><h3>三方測試</h3><ul><li><p>三方測試參考：<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftech.dewu.com%2Farticle%3Fid%3D89" rel="nofollow" target="_blank"><span><span><img height="14" src="https://tech.dewu.com/favicon.ico" width="14" referrerpolicy="no-referrer"></span><span>虛擬線程原理及性能分析</span></span></a></span></span></span></span></p></li></ul><span id="OSC_h2_18"></span><h2>開啓 CRaC</h2><span id="OSC_h3_19"></span><h3>説明（還不成熟）</h3><div><div>
-            &nbsp; 
-          </div><div><p>CRaC 當前只是初步支持，有些場景：比如內存裏維護了複雜狀態的應用，可能會遇到問題，啓用前請謹慎做好全場景的測試。</p></div></div><p>參考文檔：<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-boot%2Fdocs%2Fcurrent%2Freference%2Fhtmlsingle%2F%23deployment.efficient.checkpoint-restore" rel="nofollow" target="_blank"><span><span><img height="14" src="https://docs.spring.io/favicon.ico" width="14" referrerpolicy="no-referrer"></span><span>Spring Boot Reference Documentation</span></span></a></span></span></span></span> \ <span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.spring.io%2Fspring-framework%2Freference%2Fintegration%2Fcheckpoint-restore.html" rel="nofollow" target="_blank"><span><span><img height="14" src="https://docs.spring.io/spring-framework/reference/_/img/favicon.ico" width="14" referrerpolicy="no-referrer"></span><span>JVM Checkpoint Restore :: Spring Framework</span></span></a></span></span></span></span></p><span id="OSC_h3_20"></span><h3>啓用並驗證</h3><span id="OSC_h4_21"></span><h4>集成步驟</h4><ul><li><p>1、JVM 層面（指定內存 dump 路徑）：啓動時添加 <code>-XX:CRaCCheckpointTo=PATH</code> 參數，指定 CRaC 的輸出加載路徑</p></li><li><p>2、Spring 層面（找個合適的時機觸發內存 dump）：啓動時添加 <code>-Dspring.context.checkpoint=onRefresh</code> 參數。該階段啓動時會自動創建檢查點<code>LifecycleProcessor.onRefresh</code>。此階段完成後，所有非延遲初始化的單例都已實例化，並且 <code>InitializingBean#afterPropertiesSet</code>回調已被調用；但生命週期尚未開始，且 <code>ContextRefreshedEvent</code>尚未發佈。</p></li><li><p>3、JVM 層面（加載內存恢復狀態）：啓動時添加 <code>-XX:CRaCRestoreFrom=PATH</code> 參數，指定加載的 CRaC 的路徑</p></li></ul><p>從集成步驟看，第 1、2 步應該都發生在 CI 階段，且 Spring 的觸發內存 dump 的意圖很明顯，等 onRefresh 完成後再出發，相當於初始 Bean 的時間就可以節省出來了。當然還可以使用 jcmd 指令觸發 dump，比如：</p><pre><code class="language-bash">jcmd target/example-spring-boot-0.0.1-SNAPSHOT.jar JDK.checkpoint</code></pre><p>這個可以在任意時候觸發，這就可以在 dump 前做完所有的預熱邏輯，然後 dump 出來的狀態就是性能峯值狀態了</p><span id="OSC_h4_22"></span><h4>遇到的問題</h4><p><strong>1、JDK 依賴問題</strong></p><p>CRaC 特性依賴 JDK 特性支持，目前 openjdk 發行版只支持到 JDK17：<span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FCRaC%2Fopenjdk-builds%2Freleases" rel="nofollow" target="_blank"><span><span><img height="14" src="https://github.com/fluidicon.png" width="14" referrerpolicy="no-referrer"></span><span>Releases · CRaC/openjdk-builds</span></span></a></span></span></span></span> 。如果在不支持的 JDK 下啓用 <code>CRaCCheckpointTo</code>，則會輸出：</p><pre><code class="language-bash">Unrecognized VM option 'CRaCCheckpointTo'
-Error: Could not create the Java Virtual Machine.
-Error: A fatal exception has occurred. Program will exit.</code></pre><p>CRaC 最早是 Azul 發起的一個項目，可以用 Azul 的社區發行版來驗證 CRaC 特性，如：</p><ul><li><span style="background-color:var(--ds--code--bg-color,var(--ds-background-neutral, #F4F5F7)); color:var(--ds-text, #172B4D)"><code class="language-"><span>docker image：azul/zulu-openjdk:21-jdk-crac</span></code></span></li></ul><p><strong>2、GC 算法問題</strong></p><p>ZGC 算法下，不支持 CRaC，在 ZGC 啓用時，會輸出：</p><pre><code class="language-bash">Error: Could not create the Java Virtual Machine.
-Error: A fatal exception has occurred. Program will exit.
--XX:+UseZGC is currently unsupported for -XX:CRaCCheckpointTo.</code></pre><p>為了驗證 CRaC 功能，只好先移除 <code>-XX:+UseZGC</code></p><p><strong>3、打開的 FD &amp; Socket 問題</strong></p><p>CRaC 要求應用程序關閉所有打開的文件、網絡連接等。在 Linux 上，這些內容表示為文件描述符。但是，可能很難更改應用程序以與檢查點正確協調，例如，由於無法修改庫中的代碼。在這些情況下，CRaC 通過配置提供有限的處理。</p><div><div>
-            &nbsp; 
-          </div><div><p>理論上所有的資源都需要向 JVM 註冊資源的 Checkpoint 前後的資源狀態，Spring 內置的依賴都處理好了這一步，但是三方依賴，比如 Opentelemetry 、Apollo 等沒有做這一步，就會出現一些異常。</p></div></div><ul><li>Opentelemetry 的問題</li></ul><pre><code class="language-java">Suppressed: jdk.internal.crac.mirror.impl.CheckpointOpenFileException: FD fd=35 type=regular path=/tmp/opentelemetry-temp-jars2649059754140254392/jartqV3k80l.jar (deleted)
-at java.base/jdk.internal.crac.mirror.Core.translateJVMExceptions(Core.java:114) ~[na:na]
-at java.base/jdk.internal.crac.mirror.Core.checkpointRestore1(Core.java:188) ~[na:na]
-at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:286) ~[na:na]
-at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:265) ~[na:na]
-at jdk.crac/jdk.crac.Core.checkpointRestore(Core.java:72) ~[jdk.crac:na]
-at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
-at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
-at org.crac.Core$Compat.checkpointRestore(Core.java:141) ~[crac-1.4.0.jar!/:na]
-... 17 common frames omitted</code></pre><ul><li>Apollo</li></ul><pre><code class="language-java">        Suppressed: java.nio.channels.IllegalSelectorException
-                at java.base/sun.nio.ch.EPollSelectorImpl.beforeCheckpoint(EPollSelectorImpl.java:401)
-                at java.base/jdk.internal.crac.mirror.impl.AbstractContext.invokeBeforeCheckpoint(AbstractContext.java:43)
-                at java.base/jdk.internal.crac.mirror.impl.AbstractContext.beforeCheckpoint(AbstractContext.java:58)
-                at java.base/jdk.internal.crac.mirror.impl.BlockingOrderedContext.beforeCheckpoint(BlockingOrderedContext.java:64)
-                at java.base/jdk.internal.crac.mirror.impl.AbstractContext.invokeBeforeCheckpoint(AbstractContext.java:43)
-                at java.base/jdk.internal.crac.mirror.impl.AbstractContext.beforeCheckpoint(AbstractContext.java:58)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore1(Core.java:153)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:286)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestoreInternal(Core.java:299)
-        Suppressed: jdk.internal.crac.mirror.impl.CheckpointOpenSocketException: Socket[addr=apollo-config.dev.tapsvc.com/172.20.12.187,port=80,localport=47004]
-                at java.base/jdk.internal.crac.JDKSocketResourceBase.lambda$beforeCheckpoint$0(JDKSocketResourceBase.java:68)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore1(Core.java:169)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:286)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestoreInternal(Core.java:299)</code></pre><p><strong>解決</strong></p><p>可通過 <span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.azul.com%2Fcore%2Fcrac%2Ffd-policies" rel="nofollow" target="_blank"><span><span><img height="14" src="https://docs.azul.com/favicon.webp" width="14" referrerpolicy="no-referrer"></span><span>File Descriptor Policies</span></span></a></span></span></span></span>來有限的處理。</p><p>新建文件 crac.yaml ，配置內容如下：</p><pre><code class="language-xml">type: socket
-localAddress: *
-action: ignore
----
-type: file
-path: /opt
-action: ignore
----
-type: file
-path: /tmp
-action: ignore
----
-type: pipe
-action: ignore</code></pre><p>在 Java 應用啓動系統參數裏設置 -Djdk.crac.resource-policies = /{path}/crac.yaml</p><p><strong>4、遺留的問題</strong></p><p>遺留了一個問題，怎麼都處理不了。剛好這個問題我認識的一個好友（Apollo 的作者）也遇到了，issue 如下：</p><ul><li><p><span><span><span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-framework%2Fissues%2F31680" rel="nofollow" target="_blank"><span><span><img height="14" src="https://github.com/fluidicon.png" width="14" referrerpolicy="no-referrer"></span><span>CheckpointOpenFileException occurred with spring boot log files · Issue #31680 · spring-projects/spring-framework</span></span></a></span></span></span></span></p></li></ul><pre><code class="language-java"> Suppressed: jdk.internal.crac.mirror.impl.CheckpointOpenResourceException: FD fd=12 type=unknown path=anon_inode:[eventpoll]
-                at java.base/jdk.internal.crac.mirror.Core.translateJVMExceptions(Core.java:117)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore1(Core.java:188)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:286)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestoreInternal(Core.java:299)
-        Suppressed: jdk.internal.crac.mirror.impl.CheckpointOpenResourceException: FD fd=13 type=unknown path=anon_inode:[eventfd]
-                at java.base/jdk.internal.crac.mirror.Core.translateJVMExceptions(Core.java:117)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore1(Core.java:188)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestore(Core.java:286)
-                at java.base/jdk.internal.crac.mirror.Core.checkpointRestoreInternal(Core.java:299)</code></pre><span id="OSC_h3_23"></span><h3>關於 CRaC 的結論</h3><p>基於如下：</p><ul><li><p>Openjdk 發行版並未全部覆蓋支持，目前支持的最高版本是 JDK17。更高版本的支持只能用 Azul 的 JDK</p></li><li><p>當前還有非常多的集成問題，且大量第三方包並沒有做適配，Azul 官方給的 resource-policies 解決方案還屬於初步階段</p></li><li><p>Spring Boot 3.2 也是初步支持，Issue 區有大量集成的問題</p></li></ul><p>綜上，CRaC 距離生產可用還有很長的路要長，至少，當前解決應用啓動問題，預熱峯值問題，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.graalvm.org%2F" rel="nofollow" target="_blank">GraalVM</a> 的 Native 方案比 CRaC 要更成熟。當然，未來哪個方向會成為標準還不好説，CRaC 的優勢是保留了 JIT 的優化。</p></div></div></div></div></div></div></div></div></div><div><div>
-   &nbsp; 
- </div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 03:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/klblog/blog/10946547</guid>
-            <link>https://my.oschina.net/klblog/blog/10946547</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GreatSQL 2023 年報]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>不知不覺 2023 年已經是過去式了，本文將從產品迭代、豐收收穫、生態合作、社區活動 4 個方面帶大家瞭解 GreatSQL 社區的 2023。</p><h2>01 產品迭代</h2><p>2023 年是發展的一年。在這一年裏，GreatSQL 社區版發佈了 3 個版本：8.0.25-17、8.0.32-24 以及 8.0.32-25。在最新發布的 8.0.32-25 版本中，GreatSQL 首次推出支持高性能的內存查詢加速 AP 引擎，可將 GreatSQL 的數據分析性能提升幾個數量級；同時大幅增加 Oracle 兼容特性，支持更多數據類型、SQL 語法、函數及存儲過程等；支持異步刪除 InnoDB 大表；支持在 MGR 只讀節點綁定動態 VIP 以及主節點切換時主動斷開當前連接，縮短應用端不可用時長。</p><p>此外，GreatSQL 8.0.32-25 基於 Percona Server for MySQL 8.0.32 版本，在 MySQL 8.0.32 基礎上做了大量的改進和提升以及眾多新特性。這其中包括線程池、審計、數據脱敏等 MySQL 企業版才有的特性，以及 performance_schema 提升、information_schema 提升、性能和可擴展性提升、用户統計增強、PROCESSLIST 增強、Slow log 增強等大量改進和提升，這裏不一一重複列出。</p><p>GreatSQL 的持續迭代，離不開用户們的反饋與貢獻。從 2022 年 8 月社區官網論壇上線，至目前為止，社區已經收到超過 400 個問題討論，2000 條互動回覆。</p><p>對於每位用户來説，文檔是使用過程中不可或缺的重要資源。細心的用户可能已經注意到，過去一年中，我們的文檔內容也在持續增加和完善。</p><p>在此，我們衷心感謝這一年中為 GreatSQL 項目開發、文檔編寫以及基礎設施進行貢獻的夥伴。由於感謝列表過長，詳細名單請參見社區文檔：致謝（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreatsql.cn%2Fdocs%2F8032-25%2Fuser-manual%2F1-docs-intro%2F1-7-thanks.html%EF%BC%89%E3%80%82" target="_blank">https://greatsql.cn/docs/8032-25/user-manual/1-docs-intro/1-7-thanks.html）。</a></p><h2>02 豐收收穫</h2><p>2023 年是收穫的一年。GreatSQL 開源數據庫項目成功捐贈開放原子開源基金會，成為基金會旗下孵化項目。同時，GreatSQL 社區還通過了中國信通院可信開源社區評審，取得了社區運營能力先進級、社區治理和社區開發能力增強級的社區成熟度評估，加入信通院數據庫應用創新實驗室，成為實驗室成員之一。</p><p>在開源社區、開源組織合作上，GreatSQL 與 OpenAnolis、OpenCloudOS 達成社區合作；同時是開源之夏活動合作社區之一。</p><p><img src="https://oscimg.oschina.net/oscnet/up-c3b6f5256bff43f1657324cd690c2f73d00.png" alt="file" referrerpolicy="no-referrer"></p><p>除此之外，GreatSQL 還收穫了以下榮譽：</p><ol><li>入選 2023 年中國數據庫產業圖譜</li><li>開源中國 2023 年度優秀開源技術團隊</li><li>開放原子開源基金會 2023 年度快速成長開源項目</li><li>OpenCloudOS 社區 2023 年度優秀貢獻企業</li></ol><p><img src="https://oscimg.oschina.net/oscnet/up-eaac4f3e71d2fada057f62b688e93cca9d5.png" alt="file" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-b4b3d4cc5b77a12e4e2a147a0e3f0045957.png" alt="file" referrerpolicy="no-referrer"></p><h2>03 生態合作</h2><p>2023 年是合作的一年。在這一年中，GreatSQL 社區與華為存儲、騰訊雲、OpenCloudOS 社區、神州數碼、軟通動力、浪潮卓數、中科海光、中科馭數、中科可控、秦派軟件、JumpServer、TOPIAM、ScaleFlux 等 20 餘家企業完成產品兼容性測試，為社區用户提供了更便捷的軟硬件及應用服務對接。</p><p><img src="https://oscimg.oschina.net/oscnet/up-7fbd9bf9a2a8e6413e5a8651911ff6f7576.png" alt="file" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-83a796aa6732690280492d183b7f9c55472.png" alt="file" referrerpolicy="no-referrer"></p><h2>04 社區活動</h2><p>2023 是互動的一年。在這一年中，社區組織了 10 餘個線上論壇互動活動，創建了社區茶話會、社區月會；自建、參加了 20 餘場線上直播分享、線下技術沙龍，與墨天輪、3306Π、InfoQ、開源中國、開放原子開源基金會、中國信通院達成了深度合作。</p><p><img src="https://oscimg.oschina.net/oscnet/up-a017eeb32a56e6fb336a19955e7caa9982a.png" alt="file" referrerpolicy="no-referrer"></p><h2>05 展望</h2><p>2024 社區將繼續發展，GreatSQL 將繼續投入更多的精力開發優化產品，同時，我們也希望能夠有更多的外部開發者參與到項目的開發建設中，歡迎大家給 GreatSQL 提 issue、提 pr~</p><p>在每月社區月會的線上分享方面，也期待大家踴躍報名參與線上分享。分享內容是 GreatSQL 相關即可，如有意向可以聯繫社區小助手哦~（小助手微信：wanlidbc）</p><p>最後，大家對於產品、網站、文檔有何建議，歡迎到社區論壇反饋~（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreatsql.cn%2Fforum-39-1.html%EF%BC%89" target="_blank">https://greatsql.cn/forum-39-1.html）</a></p><h2>2024 期待更多的人加入 GreatSQL，並肩前行。</h2><p>Enjoy GreatSQL :)</p><h2>關於 GreatSQL</h2><p>GreatSQL 是適用於金融級應用的國內自主開源數據庫，具備高性能、高可靠、高易用性、高安全等多個核心特性，可以作為 MySQL 或 Percona Server 的可選替換，用於線上生產環境，且完全免費併兼容 MySQL 或 Percona Server。</p><p>相關鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreatsql.cn%2F" target="_blank">GreatSQL 社區</a><a href="https://gitee.com/GreatSQL/GreatSQL">Gitee</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreatSQL%2FGreatSQL" target="_blank">GitHub</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F1363850082%2Ffavlist" target="_blank">Bilibili</a></p><h2>GreatSQL 社區：</h2><p><img src="https://oscimg.oschina.net/oscnet/up-98ea3fd53d8ec58d6807ed1d9e70d1217af.png" alt="image" referrerpolicy="no-referrer"></p><p><strong>社區有獎建議反饋：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreatsql.cn%2Fthread-54-1-1.html" target="_blank">https://greatsql.cn/thread-54-1-1.html</a></p><p><strong>社區博客有獎徵稿詳情：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreatsql.cn%2Fthread-100-1-1.html" target="_blank">https://greatsql.cn/thread-100-1-1.html</a></p><p>（對文章有疑問或者有獨到見解都可以去社區官網提出或分享哦~）</p><h2>技術交流羣：</h2><p>微信&amp;QQ 羣：</p><p>QQ 羣：533341697</p><p>微信羣：添加 GreatSQL 社區助手（微信號：<code>wanlidbc</code> ）好友，待社區助手拉您進羣。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 03:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/GreatSQL/blog/10946645</guid>
-            <link>https://my.oschina.net/GreatSQL/blog/10946645</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Deno 1.40 正式發佈，新增 Temporal API]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Deno 1.40 已正式發佈，新版本包含了大量增強 Deno 體驗的功能，引入了用於高級日期和時間操作的強大的 Temporal API，並採用了最新的裝飾器語法，使代碼更具表現力。在取得這些進步的同時，還實施了一系列棄用、穩定和刪除措施，旨在簡化 Deno 的功能併為 Deno 2 做好準備。</p><p><img src="https://oscimg.oschina.net/oscnet/up-6569c160926801e26123b213e2088ef4952.png" referrerpolicy="no-referrer"></p><p>新功能概覽：</p><ul><li><p><code>Temporal</code>API</p></li><li><p><code>import.meta.filename</code>和<code>import.meta.dirname</code></p></li><li><p>裝飾器</p></li><li><p>簡化<code>deno.json</code>中的導入</p></li><li><p>停用、穩定和刪除</p></li><li><p>Web API：<code>rejectionhandled</code>事件</p></li><li><p>WebGPU 窗口/"自帶窗口"</p></li><li><p>Node.js 兼容性改進，API 更新</p></li><li><p>LSP 改進</p></li><li><p>更美觀的診斷程序</p></li><li><p><code>deno lint</code>更新</p></li><li><p>更改處理不穩定功能的方式</p></li></ul><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeno.com%2Fblog%2Fv1.40" target="_blank"><strong>詳情</strong></a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 03:39:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276687/deno-1-40-released</guid>
-            <link>https://www.oschina.net/news/276687/deno-1-40-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[JavaScript 運行時 Bun 引入新工具：Bun Shell]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>近日，Bun 開發團隊宣佈推出新工具：<strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbun.sh%2Fblog%2Fthe-bun-shell" target="_blank">Bun Shell</a></u></strong>。Bun Shell 是 Bun 新引入的實驗性嵌入式語言和解釋器，支持在 JavaScript 和 TypeScript 中運行跨平台 Shell 腳本，不需要額外的轉換和打包。</p><p>在 Bun Shell 中，所有模板變量都會自動轉義，以增加 Shell 指令執行的安全性。另外，諸如通配符、重定向、管道命令 (Pipe)、環境變量等常見 Shell 功能，Bun Shell 也一應俱全。</p><blockquote><p>Bun 是速度極快的 JavaScript 運行時，採用 Zig 編寫，集打包器、轉譯器和包管理器於一身。</p><p><img height="538" src="https://static.oschina.net/uploads/space/2024/0126/110818_6mK2_2720166.png" width="1430" referrerpolicy="no-referrer"></p></blockquote><p>團隊稱 Bun Shell 旨在解決在 JavaScript 中執行 Shell 困難的問題，其簡單直觀，具有豐富的功能，支持在 Windows、macOS 和 Linux 跨平台上使用。</p><p>開發者如果在 JavaScript 執行 Shell 指令，首先會遇到跨平台兼容性問題，因為不同的操作系統具有不同的 Shell 環境和指令，因此即便是相同的 Shell 指令，在不同的操作系統上的結果也可能不同，甚至特定指令在部分系統上不存在。</p><p>而且不同的操作系統設置環境變量的方式也不同，這增加了跨平台應用中管理環境變量的複雜性。啓動 Shell 程序還會增加額外的系統資源消耗，尤其是需要執行多個 Shell 指令的場景，在特定情況下，啓動 Shell 的時間甚至可能比執行指令本身還久。</p><p>基於此背景，Bun 開發團隊推出了 Bun Shell 工具，旨在為開發者提供更高效的跨平台解決方案。&nbsp;Bun Shell 作為 Bun JavaScript 執行環境的一部分，提供了跨平台執行 Shell 指令的新方法。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 03:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276685/bun-shell</guid>
-            <link>https://www.oschina.net/news/276685/bun-shell</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Vulkan 2024 路線圖發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Khronos Group <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.khronos.org%2Fnews%2Fpress%2Fkhronos-drives-industry-support-for-expanded-3d-features-with-vulkan-roadmap-2024" target="_blank">宣佈</a>了跨平台 3D 圖形和計算 API 項目 Vulkan 的 Roadmap 2024&nbsp;里程碑，作為其最新 API 功能的規範。定義了一套重要的着色器和光柵化功能，遊戲和應用程序開發人員可以依靠這些功能從 2024 年開始在中高端 GPU 上獲得廣泛支持。</p><p>Vulkan 路線圖的目標市場是由中高端智能手機、平板電腦、筆記本電腦、遊戲機和台式機組成的"immersive graphics"市場。該路線圖規範為目標設備提供了<span style="background-color:#ffffff; color:#333333">顯着的功能增強</span>，並設定了 API 的發展方向，包括<span style="background-color:#ffffff; color:#333333">為 Vulkan 開發人員提供新的硬件功能和編程模型的改進</span>。</p><p><span style="background-color:#ffffff; color:#333333">Vulkan 路線圖 2024 是 Vulkan 路線圖的第二個里程碑版本，</span><span style="background-color:#ffffff; color:#121212">基於 Vulkan 1.3 和 Vulkan 路線圖 2022 規範構建；包括新的擴展、</span><span style="background-color:#ffffff; color:#333333">對許多以前可選功能的強制支持以及最低硬件功能的增加：</span></p><ul><li><strong><span style="background-color:#ffffff; color:#333333">Dynamic Rendering Local Read</span>：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.vulkan.org%2Fspec%2Flatest%2Fproposals%2Fproposals%2FVK_KHR_dynamic_rendering_local_read.html" target="_blank">VK_KHR_dynamic_rendering_local_read</a>&nbsp;擴展添加了對動態渲染的幀緩衝區本地依賴性的支持，允許開發人員完全轉向在所有 GPU 上進行動態渲染。查看<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.khronos.org%2Fblog%2Fstreamlining-subpasses" target="_blank">博客文章</a>瞭解詳細信息。</li><li><strong>Shader Maximal Reconvergence：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.vulkan.org%2Fspec%2Flatest%2Fproposals%2Fproposals%2FVK_KHR_shader_maximal_reconvergence.html" target="_blank">VK_KHR_shader_maximal_reconvergence</a>&nbsp;擴展定義了着色器中線程發散的直觀行為，從而能夠開發高級並行算法。&nbsp;</li><li><strong>Shader Quad Control：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.vulkan.org%2Fspec%2Flatest%2Fproposals%2Fproposals%2FVK_KHR_shader_quad_control.html" target="_blank">VK_KHR_shader_quad_control</a>&nbsp;擴展定義了控制流中的增強紋理操作，從而提高了性能和質量。更多詳細信息可查看<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.khronos.org%2Fblog%2Fkhronos-releases-maximal-reconvergence-and-quad-control-extensions-for-vulkan-and-spir-v" target="_blank">博客。</a></li><li><strong>其他功能：</strong>Vulkan Roadmap 2024 里程碑還要求支持 shader half-float 和 8/16 位整數類型、multi-draw indirect、着色器繪製參數、push descriptors，以及增加到 7 個 Descriptor Sets 和 8 個 Color Attachments。</li></ul><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>對這些新擴展的支持將包含在下一個 Vulkan SDK 版本中。大多數支持 Vulkan Roadmap 2024 里程碑的 Vulkan 採用者預計將從 2024 年開始提供符合要求的產品。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p>其他新擴展包括 VK_KHR_shader_subgroup_rotate、VK_KHR_shader_expect_assume 和 VK_KHR_shader_float_controls2。此外，VK_KHR_index_type_uint8、VK_KHR_line_rasterization 和 VK_KHR_load_store_op_none 擴展也從以前的"EXT"擴展升級到了 Khronos (KHR)。</p><p><img height="298" src="https://oscimg.oschina.net/oscnet/up-aaa27db5446559e0346e8725c26684b620b.png" width="500" referrerpolicy="no-referrer"></p><p>Vulkan 路線圖規範是對 Vulkan 核心規範的補充，它確定了在特定細分市場中逐漸得到廣泛支持的功能，併為實施定義了額外的最低限制，以減少碎片化。</p><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.khronos.org%2Fnews%2Fpress%2Fkhronos-drives-industry-support-for-expanded-3d-features-with-vulkan-roadmap-2024" target="_blank">查看官方公告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 03:17:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276684/vulkan-roadmap-2024</guid>
-            <link>https://www.oschina.net/news/276684/vulkan-roadmap-2024</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[蘋果在歐盟地區放開對瀏覽器和應用商店的限制]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="margin-left:0px; margin-right:0px; text-align:start">1 月 25 日，蘋果<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.apple.com.cn%2Fnewsroom%2F2024%2F01%2Fapple-announces-changes-to-ios-safari-and-the-app-store-in-the-european-union%2F" target="_blank">發佈官方新聞稿</a></u>，宣佈在歐盟地區對 iOS、Safari 瀏覽器和 App Store 進行更改。這些更改包括 600 多個新 API、拓展的 app 分析、<strong>支持替代瀏覽器引擎的功能</strong>，以及<strong>處理 app 支付和發行 iOS app 的新選項</strong>。</p><p>具體來説，iOS 在歐盟地區將發生的更改包括：</p><ul><li><p><strong>通過替代 app 市場發行 iOS app 的新選項</strong>——包括新的 API 和工具，使開發者能在 App Store 以外的 app 市場提供 iOS app 供用户下載。</p></li><li><p><strong>創建替代 app 市場的新框架和 API</strong>——使市場開發者能夠代表其他開發者通過其專門的市場 app 來安裝 app 並管理更新。</p></li><li><p><strong>替代瀏覽器引擎的新框架和 API</strong>——使開發者能夠使用 WebKit 之外的瀏覽器引擎，提供瀏覽器 app 和包括 app 內瀏覽體驗的 app。</p></li><li><p><strong>互操作性申請表</strong>——開發者可以提交額外申請，以實現 iPhone 和 iOS 軟硬件功能的互操作性。</p></li></ul><p>Safari 瀏覽器在歐盟地區的更改如下：iOS 用户現在就可以將第三方網絡瀏覽器（而非 Safari 瀏覽器）設為默認瀏覽器。按照 DMA 的規定，Apple 還將推出新的選擇界面，用户在 iOS 17.4 或後續版本中首次打開 Safari 瀏覽器時將顯示新的可選界面。這個界面將提示歐盟用户從選項列表中選擇默認瀏覽器。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5f9b12adb84f5c3b5de102d8b1f5e146bb5.png" referrerpolicy="no-referrer"></p><p>最後是關於 App Store 的更改。這涉及在歐盟地區發行 app 的開發者，對 iOS、iPadOS、macOS、watchOS 和 tvOS 等 Apple 操作系統的 app 構成影響。這些更改還包括新的信息披露，告知歐盟用户使用 App Store 安全支付處理之外的替代方式可能帶來的相關風險。</p><p><img src="https://oscimg.oschina.net/oscnet/up-730b6de9add6449d08aafe3f6f9724444ea.png" referrerpolicy="no-referrer"></p><p>蘋果還共享了面向在歐盟地區發行 app 的開發者的新業務條款。開發者可選擇採用這些新業務條款，或者保持 Apple 現有的條款。<strong>開發者如需在歐盟發行的 app 中使用替代發行或替代支付處理的新功能，則必須採用這些新業務條款</strong>。</p><p>歐盟地區 iOS app 的新業務條款包括三個要素：</p><ul><li><p><strong>降低的手續費</strong>——通過 App Store 發行的 iOS app 為數字商品和服務交易支付的手續費降低為 10 %（適用於絕大多數開發者及首年後的訂閲）或 17%。</p></li><li><p><strong>支付處理使用費</strong>——通過 App Store 發行的 iOS app 另行支付 3% 的手續費後，可使用 App Store 的支付處理功能。開發者可在其 app 內使用支付服務提供商，或通過鏈接引導用户訪問其網站以處理支付，無需向 Apple 支付額外費用。</p></li><li><p><strong>核心技術使用費</strong>——通過 App Store 和/或其他 app 市場發行的 iOS app 安裝量超過 100 萬次後，須每年為每首次安裝支付 €0.50。</p></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5056c6b387dfceea303badd372714a1c904.png" referrerpolicy="no-referrer"></p><p>對於在歐盟發行的 iPadOS、macOS、watchOS 和 tvOS app，開發者如使用 PSP 處理支付或通過鏈接將用户引導至其網站進行支付處理，其支付給 Apple 的手續費將享受 3% 的折扣。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 02:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276674</guid>
-            <link>https://www.oschina.net/news/276674</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2023 年我國軟件業務收入 123258 億元，同比增長 13.4%]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#222222">工信部<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.miit.gov.cn%2Fgxsj%2Ftjfx%2Frjy%2Fart%2F2024%2Fart_5af672124ebc48149d9c793b6ca7ed79.html" target="_blank">發佈</a>了「</span>2023 年軟件業經濟運行情況<span style="background-color:#ffffff; color:#222222">」指出，</span><span style="color:#070707">2023 年，我國軟件和信息技術服務業（下稱「軟件業」）運行穩步向好，軟件業務收入高速增長，盈利能力保持穩定，軟件業務出口小幅回落。</span></p><h4><strong>一、總體運行情況</strong></h4><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>軟件業務收入高速增長。</strong>2023 年，全國軟件和信息技術服務業規模以上企業超 3.8 萬家，累計完成軟件業務收入 123258 億元，同比增長 13.4%，增速較上年同期提高 2.2 個百分點。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="234" src="https://oscimg.oschina.net/oscnet/up-1b97b22cee91cda6a3f540dd959411d3e79.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>盈利能力保持穩定。</strong>2023 年，軟件業利潤總額 14591 億元，同比增長 13.6%，增速較上年同期提高 7.9 個百分點，主營業務利潤率提高 0.1 個百分點至 9.2%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="246" src="https://oscimg.oschina.net/oscnet/up-f15afaf046e89fcb3cfd28a5311c2507a21.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>軟件業務出口小幅下滑。</strong>2023 年，軟件業務出口 514.2 億美元，同比下降 3.6%。其中，軟件外包服務出口同比增長 5.4%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="258" src="https://oscimg.oschina.net/oscnet/up-4f0dcd7f0c918ddcfde0f9cdaa78acfd5cd.png" width="500" referrerpolicy="no-referrer"></p><h4><strong>二、分領域情況</strong></h4><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>軟件產品收入平穩增長。</strong>2023 年，軟件產品收入 29030 億元，同比增長 11.1%，增速較上年同期提高 1.2 個百分點，佔全行業收入比重為 23.6%。其中，工業軟件產品實現收入 2824 億元，同比增長 12.3%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>信息技術服務收入較快增長。</strong>2023 年，信息技術服務收入 81226 億元，同比增長 14.7%，高出全行業整體水平 1.3 個百分點，佔全行業收入比重為 65.9%。其中，雲服務、大數據服務共實現收入 12470 億元，同比增長 15.4%，佔信息技術服務收入的 15.4%，佔比較上年同期提高 0.5 個百分點；集成電路設計收入 3069 億元，同比增長 6.4%；電子商務平台技術服務收入 11789 億元，同比增長 9.6%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>信息安全產品和服務收入穩步增長。</strong>2023 年，信息安全產品和服務收入 2232 億元，同比增長 12.4%，增速較上年同期提高 2.0 個百分點。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>嵌入式系統軟件收入兩位數增長。</strong>2023 年，嵌入式系統軟件收入 10770 億元，同比增長 10.6%，增速較上年同期回落 0.7 個百分點。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="281" src="https://oscimg.oschina.net/oscnet/up-1d99c080b597f4b24191920bde6400d2883.png" width="500" referrerpolicy="no-referrer"></p><h4><strong>三、分地區情況</strong></h4><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>東部、東北地區保持較快增長，中部地區增勢突出。</strong>2023 年，東部、中部、西部和東北地區分別完成軟件業務收入 100783 億元、6965 億元、12626 億元和 2884 億元，分別同比增長 13.8%、17.4%、8.7% 和 13.9%。其中，東部、中部、東北部地區高出全國平均水平 0.4、4.0、0.5 個百分點。四個地區軟件業務收入在全國總收入中的佔比分別為 81.8%、5.7%、10.2% 和 2.3%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="241" src="https://oscimg.oschina.net/oscnet/up-0f77a3ad2e52d1aced3eeabe74eae297d32.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>京津冀地區增勢突出，長三角地區穩中有升。</strong>2023 年，京津冀地區完成軟件業務收入 29827 億元，同比增長 17.1%，高出全國平均水平 3.7 個百分點；長三角地區完成軟件業務收入 35437 億元，同比增長 10.6%，增速上年同期提高 2.5 個百分點。兩個地區軟件業務收入在全國總收入中的佔比分別為 24.2%、28.7%。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>主要軟件大省收入佔比小幅提高，部分中西部省市增速亮眼。</strong>2023 年，軟件業務收入居前 5 名的北京、廣東、江蘇、山東、上海共完成收入 85135 億元，佔全國軟件業比重的 69.1%，佔比較上年同期提高 1.1 個百分點。軟件業務收入增速高於全國整體水平的省市有 13 個，其中增速高於 20% 的省份集中在中西部地區，包括內蒙古、安徽、青海等。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="253" src="https://oscimg.oschina.net/oscnet/up-8ff7d9c36aee2b9e76bfaab64e8ca01c0fb.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><strong>中心城市軟件業務收入穩步增長，利潤總額增速大幅提高。</strong>2023 年，全國 15 個副省級中心城市實現軟件業務收入 59604 億元，同比增長 11.2%，增速較上年同期提高 1.2 個百分點，佔全國軟件業的比重為 48.4%；實現利潤總額 7936 億元，同比增長 15.6%，增速較上年同期提高 13.2 個百分點。其中，哈爾濱、武漢、大連、深圳、濟南、青島、廈門和瀋陽軟件業務收入同比增速超過全行業整體水平。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left"><img height="321" src="https://oscimg.oschina.net/oscnet/up-45bf8cc440d9477f4ba12755cfa3e1612e4.png" width="500" referrerpolicy="no-referrer"></p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left">注：1.文中 2023 年數據均為快報數據，其他年份數據為年報數據。</p><p style="color:#070707; margin-left:0; margin-right:0; text-align:left">　　2.文中增速均按可比口徑計算。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 26 Jan 2024 02:15:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/276673</guid>
-            <link>https://www.oschina.net/news/276673</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
