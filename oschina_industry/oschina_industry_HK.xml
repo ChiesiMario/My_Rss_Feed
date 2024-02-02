@@ -16,8 +16,726 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 02 Feb 2024 03:30:45 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 02 Feb 2024 07:30:54 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[基於 Netty 開發輕量級 RPC 框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><blockquote><p>筆者在開發基於客户端/服務端模式通信的插件的時候，需要用到輕量級最小包依賴的 RPC 框架，而市面上的 RPC 框架份量過於龐大，最終打包下來都是幾十兆甚至上百兆，而這裏面大多數功能我都用不上，於是思來想去我決定寫一款屬於自己的輕量級 RPC 框架，簡單易用快速接入。</p></blockquote><span id="OSC_h2_1"></span><h2>關於技術選型</h2><span id="OSC_h3_2"></span><h3>協議序列化/反序列化</h3><p>網絡通信基於 TCP/IP 為基礎自定義應用層協議，常見的序列化/反序列化工具有 java 原生序列化，json,kryo,protobuf,fst,hessian 等。</p><p>在不考慮跨語言的情況下，從序列化時長/序列化大小/易用性/擴展性這幾方面考慮，綜合性比較強的是 kryo，但是 kryo 只支持 java 版本不能跨語言 (據説能跨語言但是非常複雜，相當於不能跨語言了)，protobuf 是性能最強的且支持跨語言，但是需要事先基於 proto 生成一個類，這會導致所有序列化和反序列化的時候只能用 proto 定義的類型。</p><p>最終選擇 kryo 和 protobuf 兩種序列化工具，使用的時候可選序列化類型，前者序列化幾乎不受限制，後者支持跨語言，但是必須事先生成 proto 類型的類並使用其作為序列化工具。</p><span id="OSC_h3_3"></span><h3>通信框架使用</h3><p>高性能異步非阻塞框架非 Netty 不可了，客户端和服務端基於 Netty 開發可事半功倍。</p><p>但是基於 Netty 再加上 zk 連接和各種工具打包完都需要 20M 左右，所以除了 client 和 server 端外，再開發一個 client-mini 模塊，這個模塊是 client 端基於 nio 開發的，性能雖然不如 netty 但是沒有任何依賴，打包下來僅 20kb。</p><span id="OSC_h3_4"></span><h3>服務註冊和發現</h3><p>註冊中心選擇 zookeeper 作為服務註冊和服務發現，當然如果只用單點模式的話其實是不需要註冊中心的，所以 zookeeper 是可選組件。</p><span id="OSC_h2_5"></span><h2>開發 RPC 框架</h2><p>好了，有了上述這些技術就可以步入 RPC 框架的開發了，我這裏分為了以下模塊：</p><ul><li>base : 基礎公共模塊</li><li>protocol : 協議層，包含應用層通信協議，以及序列化/反序列化，支持 kryo 和 protobuf</li><li>registry : 註冊模塊，基於 zookeeper 作為註冊中心，包含註冊服務和服務發現</li><li>server : 服務端</li><li>client : 客户端</li><li>client-mini : 不依賴任何包的客户端，基於 NIO</li></ul><span id="OSC_h3_6"></span><h3>應用層協議</h3><p>首先設計通信協議層，一個 rpc 框架通信的每一次請求主要包含服務名 (serviceName)，函數名 (methodName)，參數類型 (paramTypes) 和參數 (params) 等字段，當然再加上請求唯一 id: traceId</p><pre><code class="language-java">@ShadowEntity  
+public class ShadowRPCRequest {  
+
+    @ShadowField(1)  
+    private String traceId;  
+
+    @ShadowField(2)  
+    private String serviceName;  
+
+    @ShadowField(3)  
+    private String methodName;  
+
+    @ShadowField(4)  
+    private Class&lt;?&gt;[] paramTypes;  
+
+    @ShadowField(5)  
+    private Object[] params;
+}
+
+</code></pre><p>上述 ShadowRPCRequest 是基於 kryo 序列化方式進行的一個定義，適合於客户端和服務端都是 java，如果要跨語言，則需要使用 protobuf，protobuf 首先定義一個 request.proto</p><pre><code class="language-proto">syntax = "proto3";  
+  
+  
+package com.liubs.shadowrpc.protocol.entity;  
+option java_outer_classname="ShadowRPCRequestProto";  
+  
+message ShadowRPCRequest {  
+    string traceId = 1;  
+    string serviceName = 2;  
+    string methodName = 3;  
+    repeated string paramTypes = 4; //參數類名  
+    repeated bytes params = 5; //bytes 類型充當參數  
+}
+
+</code></pre><p>由於要跨語言，所以參數用 bytes 的集合類型，反序列化時需要二次解壓縮成具體的類型，但是即便是這樣仍然比 kryo 要快。</p><p>同理，與 ShadowRPCRequest 對應的消息體是響應 ShadowRPCResponse</p><pre><code class="language-java">@ShadowEntity  
+public class ShadowRPCResponse {  
+ 
+    @ShadowField(1)  
+    private String traceId;  
+
+    @ShadowField(2)  
+    private int code;  
+
+    @ShadowField(3)  
+    private String errorMsg;  
+
+    @ShadowField(4)  
+    private Object result;
+}
+
+</code></pre><p>然後就是基於 kryo 和 protobuf 的序列化和反序列化了，kryo 有很多種序列化策略，考慮到函數參數需要支持增減字段，所以 kryo 使用 TaggedField 策略，上面的@ShadowField 註解是我進行的一些簡單的封裝，每次新增字段的時候需要加上註解即可，而 protobuf 天生就支持參數增減字段。</p><p>kryo 的序列化和反序列化如下：</p><pre><code class="language-java">public class KryoSerializer implements ISerializer {  
+  
+    private static ThreadLocal&lt;Kryo&gt; kryoThreadLocal = ThreadLocal.withInitial(() -&gt; {  
+        Kryo kryo = new Kryo();  
+
+        kryo.setDefaultSerializer(new KryoFieldSerializerFactory());  
+
+        kryo.setReferences(false);  
+        kryo.setRegistrationRequired(false); //不需要提前註冊  
+
+        //註冊一定會用到的，序列化可以省點空間  
+        kryo.register(Class.class);  
+        kryo.register(Class[].class);  
+        kryo.register(Object[].class);  
+        kryo.register(ShadowRPCRequest.class);  
+        kryo.register(ShadowRPCResponse.class);  
+
+        return kryo;  
+    });  
+  
+  
+  
+    @Override  
+    public byte[] serialize(Object object) {  
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
+        Output output = new Output(byteArrayOutputStream);  
+        kryoThreadLocal.get().writeObject(output, object);  
+        output.close();  
+        return byteArrayOutputStream.toByteArray();  
+    }  
+  
+    @Override  
+    public &lt;T&gt; T deserialize(byte[] array, Class&lt;T&gt; clazz) {  
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(array);  
+        Input input = new Input(byteArrayInputStream);  
+        T object = kryoThreadLocal.get().readObject(input, clazz);  
+        input.close();  
+        return object;  
+    }  
+}
+
+</code></pre><p>protobuf 的序列化和反序列化則是通過調用生成的 proto 類來實現序列化和反序列化的，</p><p>序列化：</p><pre><code class="language-java">@Override  
+public byte[] serialize(Object object) {  
+    if (object instanceof MessageLite) {  
+    return ((MessageLite) object).toByteArray();  
+    }  
+    if (object instanceof MessageLite.Builder) {  
+    return (((MessageLite.Builder) object).build().toByteArray());  
+    }  
+
+    return new byte[0];  
+}
+
+</code></pre><p>反序列化:</p><pre><code class="language-java">
+public &lt;T&gt; T deserialize(MessageLite messageLite,byte[] array, Class&lt;T&gt; clazz) {  
+    return messageLite.getDefaultInstanceForType().getParserForType().parseFrom(array, 0, array.length);
+}
+
+</code></pre><span id="OSC_h3_7"></span><h3>消息的粘包/拆包和半包處理</h3><p>TCP/IP 是面向流的協議，操作系統底層其實並不關心我們自定義的應用層協議包是否完整，在高併發情況下，我們一次性發送多個包會被寫入到一個流中，就是所謂的「粘包」，而接收方則需要根據收到的流進行拆分得到具體的包，稱為「拆包」，</p><p><img height="183" src="https://oscimg.oschina.net/oscnet/up-f2a9582fee1ea86078a7229ef8328328729.png" width="600" referrerpolicy="no-referrer"></p><p>比如上面的 A,B,C,D,E,F 是一次性發送的包，但是在發送 D 的時候超過了發送緩衝區被拆分成了 D1 和 D2，而接收方從緩衝區讀取到 A,B,C,D1 的時候完全不知所措，我們需要處理每個包的邊界，並且還需要將第一次包中的 D1 和第二次包中的 D2 進行合併成 D 形成一個完整的包 D。</p><p>業界最常用的方案是，發送方在寫入緩衝區字節流的時候，先寫入消息的長度，再寫入消息字節，而接收方則先讀取長度 n，再讀取 n 個字節，如果字節數不到 n，則重製 position，等下一次讀取消息的時候再讀取完整 n 個長度的字節流形成一個消息包。</p><p>寫入字節流代碼：</p><pre><code class="language-java">int dataLength = data.length;  
+out.writeInt(dataLength); // 先寫入消息長度  
+out.writeBytes(data); // 寫入序列化後的數據
+
+</code></pre><p>而接收方，用 netty 現成的 LengthFieldBasedFrameDecoder 即可</p><pre><code class="language-java">pipeline.addLast(new LengthFieldBasedFrameDecoder(globalConfig.getMaxFrameLength(),  
+0, 4, 0, 4));
+
+</code></pre><p>這裏的 4 表示 4 個字節 (int 類型)，它會先讀取 4 個字節，再讀取字節流，根據長度拆分不同的」Frame「，即我們需要的消息包。</p><span id="OSC_h3_8"></span><h3>Netty 構建通信框架</h3><p>針對 Netty 構建通信網絡初始化，最終目標是實現客户端發送一個 ShadowRPCRequest 消息就能調用服務並返回給客户端 ShadowRPCResponse 消息</p><pre><code class="language-java">NioEventLoopGroup bossGroup = new NioEventLoopGroup();  
+NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+ServerBootstrap bootstrap = new ServerBootstrap();  
+bootstrap.group(bossGroup, workerGroup)  
+.channel(NioServerSocketChannel.class)  
+.childHandler(new ShadowChannelInitializer(serverConfig))  
+.option(ChannelOption.SO_BACKLOG, 128)  
+.childOption(ChannelOption.SO_KEEPALIVE, true);  
+  
+channelFuture = bootstrap.bind(port).sync();
+
+</code></pre><p>childHandler 裏面使用 ShadowChannelInitializer 作為每個連接的處理</p><pre><code class="language-java">public class ShadowChannelInitializer extends ChannelInitializer&lt;SocketChannel&gt; {  
+  
+    private ServerConfig serverConfig;  
+
+    public ShadowChannelInitializer(ServerConfig serverConfig) {  
+    this.serverConfig = serverConfig;  
+    }  
+
+    @Override  
+    protected void initChannel(SocketChannel ch) throws Exception {  
+    ChannelPipeline pipeline = ch.pipeline();  
+
+    //qps 請求量統計  
+    if(serverConfig.isQpsStat()) {  
+    pipeline.addLast(new QpsStatHandler());  
+    }  
+
+    //處理幀邊界，解決拆包和粘包問題  
+    pipeline.addLast(new LengthFieldBasedFrameDecoder(serverConfig.getMaxFrameLength(),  
+    0, 4, 0, 4));  
+
+    //消息序列化和反序列化  
+    pipeline.addLast(new MessageHandler());  
+
+    //服務處理  
+    pipeline.addLast(new ServerHandler());  
+    }  
+}
+
+</code></pre><p>緊接着就是對接收到客户端的 ShadowRPCRequest 消息的處理，ShadowRPCRequest 裏麪包含了服務名，函數名以及參數，考慮到也有可能是 protobuf 類型 ShadowRPCRequestProto，這裏統一轉換成抽象層的 model: RequestModel，字段和 ShadowRPCRequest 都差不多，然後找到對應的服務觸發邏輯和響應 ServerHandler</p><pre><code class="language-java">public class ServerHandler extends ChannelInboundHandlerAdapter {  
+  
+    @Override  
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {  
+
+    // 打印驗證影響速度，壓測時去掉  
+    //logger.info("Server received: " + msg);  
+
+    IModelParser modelParser = serializeModule.getSerializer().getModelParser();  
+
+    RequestModel requestModel = modelParser.fromRequest(msg);  
+
+    executorService.execute(()-&gt;{  
+    try {  
+
+        ServiceLookUp serviceLookUp = new ServiceLookUp();  
+        serviceLookUp.setServiceName(requestModel.getServiceName());  
+        serviceLookUp.setMethodName(requestModel.getMethodName());  
+        serviceLookUp.setParamTypes(requestModel.getParamTypes());  
+        ServiceTarget targetRPC = serverModule.getRPC(serviceLookUp);  
+
+        Object result = targetRPC.invoke(requestModel.getParams());  
+
+        ResponseModel responseModel = new ResponseModel();  
+        responseModel.setTraceId(requestModel.getTraceId());  
+        responseModel.setCode(ResponseCode.SUCCESS.getCode());  
+        responseModel.setResult(result);  
+
+        // 響應客户端  
+        ctx.writeAndFlush(modelParser.toResponse(responseModel));  
+        } catch (Exception e) {  
+        e.printStackTrace();  
+    }  
+
+    });  
+
+    }  
+  
+}
+
+</code></pre><p>至於根據 RequestModel 是如何找到對應的服務的，就需要在服務端啓動的時候掃描所有的服務緩存到 serverModule 裏面了，這樣就能通過 serverModule 獲取到 targetRPC</p><pre><code class="language-java">@ShadowModule  
+public class ServerModule implements IModule {  
+    private static final Logger logger = LoggerFactory.getLogger(ServerModule.class);  
+
+    @ModuleInject  
+    private SerializeModule serializeModule;  
+
+    private ServerConfig serverConfig;  
+
+    //所有服務  
+    private Map&lt;ServiceLookUp,ServiceTarget&gt; allRPC = new ConcurrentHashMap&lt;&gt;();  
+
+    public void init(ServerConfig serverConfig,List&lt;String&gt; packages) {  
+        this.serverConfig = serverConfig;  
+        //初始化服務  
+        List&lt;ShadowServiceHolder&lt;ShadowService&gt;&gt; shadowServices = new ArrayList&lt;&gt;();  
+
+        for(String packageName : packages) {  
+        try {  
+        shadowServices.addAll(AnnotationScanner.scanAnnotations(packageName, ShadowService.class));  
+        } catch (IOException e) {  
+        logger.error("scanService err",e);  
+        }  
+        }  
+
+        for(ShadowServiceHolder&lt;ShadowService&gt; ShadowServiceHolder : shadowServices) {  
+        ShadowService serviceAnnotation = ShadowServiceHolder.getAnnotation();  
+        Class&lt;?&gt; serviceClass = ShadowServiceHolder.getClassz();  
+        try {  
+        Object o = serviceClass.newInstance();  
+
+
+        for(Method method : serviceClass.getMethods()) {  
+
+        if(Modifier.isStatic(method.getModifiers()) || !Modifier.isPublic(method.getModifiers())){  
+        continue;  
+        }  
+
+        ServiceLookUp serviceLookUp = new ServiceLookUp();  
+        serviceLookUp.setServiceName(serviceAnnotation.serviceName());  
+        serviceLookUp.setMethodName(method.getName());  
+        serviceLookUp.setParamTypes(method.getParameterTypes());  
+
+        ServiceTarget serviceTarget = new ServiceTarget();  
+        serviceTarget.setTargetObj(o);  
+        serviceTarget.setMethod(method);  
+        addRPCInterface(serviceLookUp,serviceTarget);  
+        }  
+
+        } catch (InstantiationException | IllegalAccessException e) {  
+        throw new RuntimeException(e);  
+        }  
+        }  
+    }  
+
+    public void addRPCInterface(ServiceLookUp lookUp,ServiceTarget obj) {  
+        allRPC.put(lookUp,obj);  
+    }  
+
+    public ServiceTarget getRPC(ServiceLookUp lookUp) {  
+        return allRPC.get(lookUp);  
+    }  
+  
+  
+  
+}
+
+</code></pre><span id="OSC_h3_9"></span><h3>客户端調用遠程 rpc 服務</h3><p>剛才我們把服務端接收 ShadowRPCRequest 消息並觸發邏輯返回 ShadowRPCResponse 消息實現了，而在客户端，我們只持有服務端的一個接口，要通過這個接口創建一個遠程服務調用，來實現 rpc 調用，我們最終要實現的效果是這樣的</p><pre><code class="language-java">IHello helloService = shadowClient.createRemoteProxy(IHello.class,"shadowrpc://DefaultGroup/helloservice");  
+  
+System.out.println("發送 hello 消息");  
+String helloResponse = helloService.hello("Tom");  
+System.out.println("hello 服務端響應:"+helloResponse);
+
+</code></pre><p>IHello 是一個接口，沒有任何實現類，實現類在服務端，而客户端我們通過創建一個遠程代理的方式就能實現調用接口即發送 ShadowRPCRequest 消息到遠程服務器。</p><p>我們這裏使用動態代理，基於接口創建一個遠程對象</p><pre><code class="language-java">public static &lt;T&gt; T create(IConnection connection, Class&lt;T&gt; serviceStub, final String service) {  
+  
+    String[] serviceArr = service.replace("shadowrpc://","").split("/");  
+    if(serviceArr.length &lt; 2) {  
+    throw new IllegalArgumentException("service 參數不符合規範");  
+    }  
+    String group = serviceArr[0];  
+    String serviceName = serviceArr[1];  
+
+    return (T)Proxy.newProxyInstance(  
+        serviceStub.getClassLoader(),  
+        new Class&lt;?&gt;[]{serviceStub},  
+        new RemoteHandler(connection,serviceStub,group,serviceName)  
+    );  
+}
+
+</code></pre><p>RemoteHandler 中實現代理對象的邏輯，發送消息到遠程服務器</p><pre><code class="language-java">public class RemoteHandler implements InvocationHandler {  
+private static final Logger logger = LoggerFactory.getLogger(RemoteHandler.class);  
+  
+/**  
+* 如果不使用註冊中心，則必須有 ShadowClient  
+*/  
+private IConnection clientConnection;  
+  
+/**  
+* 遠程接口 stub  
+*/  
+private Class&lt;?&gt; serviceStub;  
+  
+  
+/**  
+* 集羣  
+*/  
+private String group;  
+  
+/**  
+* 服務名  
+*/  
+private String serviceName;  
+  
+  
+private SerializeModule serializeModule = ModulePool.getModule(SerializeModule.class);  
+  
+public RemoteHandler(IConnection client, Class&lt;?&gt; serviceStub, String group,String serviceName) {  
+    this.clientConnection = client;  
+    this.serviceStub = serviceStub;  
+    this.group = group;  
+    this.serviceName = serviceName;  
+}  
+  
+@Override  
+public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {  
+  
+    try{  
+        RequestModel requestModel = new RequestModel();  
+        String traceId = UUID.randomUUID().toString();  
+        requestModel.setTraceId(traceId);  
+        requestModel.setServiceName(serviceName);  
+        requestModel.setMethodName(method.getName());  
+        requestModel.setParamTypes(method.getParameterTypes());  
+        requestModel.setParams(args);  
+
+        IModelParser modelParser = serializeModule.getSerializer().getModelParser();  
+        Future&lt;?&gt; future = ReceiveHolder.getInstance().initFuture(traceId);  
+
+        Channel channel = clientConnection.getChannel(group);  
+
+        if(!channel.isOpen()) {  
+        logger.error("服務器已關閉,發送消息拋棄...");  
+        return null;  
+        }  
+
+        try{  
+        channel.writeAndFlush(modelParser.toRequest(requestModel)).sync();  
+        }catch (Exception e) {  
+        logger.error("發送請求{}失敗",traceId);  
+        return null;  
+        }  
+
+        ResponseModel responseModel = (ResponseModel)future.get(3, TimeUnit.SECONDS);  
+        if(responseModel != null) {  
+        return responseModel.getResult();  
+        }else {  
+        ReceiveHolder.getInstance().deleteWait(traceId);  
+        logger.error("超時請求,拋棄消息{}",traceId);  
+        return null;  
+        }  
+
+    }catch (Throwable e) {  
+    logger.error("invoke err",e);  
+    }  
+
+    return null;  
+    }  
+}
+
+</code></pre><span id="OSC_h3_10"></span><h3>服務註冊與發現</h3><p>上面實現的客户端和服務端是單節點通信的，要實現服務註冊與發現，需要註冊中心 Registry，服務端向註冊中心註冊服務，客户端訂閲服務節點的變化，獲取到服務節點列表後負載均衡 rpc 調用服務節點的機器。</p><p><img height="426" src="https://oscimg.oschina.net/oscnet/up-a708679e97a8b88ed64a0ec96095d73c4aa.png" width="796" referrerpolicy="no-referrer"></p><p>服務端在啓動的時候註冊服務到 zookeeper</p><pre><code class="language-java">serviceRegistry.registerServer(new ServerNode(group,IPUtil.getLocalIp(),port));
+
+public void registerServer(ServerNode serverNode) {  
+    try {  
+    String path = ServiceRegistryPath.getServerNodePath(serverNode.getGroup(),  
+    ServiceRegistryPath.uniqueKey(serverNode.getIp(),serverNode.getPort()));  
+    this.zkNodePath = zooKeeperClient.create(path, serverNode.toBytes());  
+    } catch (Exception e) {  
+    e.printStackTrace();  
+    }  
+}
+
+</code></pre><p>即在服務啓動的時候創建節點 /shadowrpc/services/group/node1，這個 node1 的值就是 ip+port，而在服務關閉的時候刪除這個節點</p><pre><code class="language-java">zooKeeperClient.delete(zkNodePath);
+
+</code></pre><p>客户端就可以獲取 zk 下/shadowrpc/services/group 目錄下的所有節點，監聽目錄變化，動態維護服務端的列表</p><pre><code class="language-java">ServiceDiscovery serviceDiscovery = new ServiceDiscovery(ZK_URL);
+
+//監聽增量變化事件  
+//初始化狀態會同步 SERVER_ADDED 事件，所以不用獲取全量  
+serviceDiscovery.watchService(group, (changeType, serverNode) -&gt; {  
+    if(changeType == ServerChangeType.SERVER_ADDED) {  
+        System.out.println("Child added: " + serverNode);  
+
+        ShadowClient shadowClient = new ShadowClient(serverNode.getIp(),serverNode.getPort(),eventLoopGroup);  
+        shadowClient.init();  
+        finalShadowClients.add(shadowClient);  
+    }else if(changeType == ServerChangeType.SERVER_REMOVED){  
+        System.out.println("Child removed: " + serverNode);  
+
+        Iterator&lt;ShadowClient&gt; iterator = finalShadowClients.iterator();  
+        while(iterator.hasNext()) {  
+            ShadowClient shadowClient1 = iterator.next();  
+            if(serverNode.getIp().equals(shadowClient1.getRemoteIp()) &amp;&amp; serverNode.getPort() == shadowClient1.getRemotePort()) {  
+                shadowClient1.close();  
+                iterator.remove();  
+            }  
+        }  
+    }
+});
+
+</code></pre><p>然後維護這個 List&lt;ShadowClient&gt;表示所有服務器列表的連接的增加和刪除，最後負載均衡從這個 List 裏面獲取連接源發送消息到遠程即可。</p><pre><code class="language-java">    int nextBalance = pollingBalance.getNextBalance();  
+    shadowClientGroup.getShadowClients(group).get(nextBalance).writeAndFlush(message).sync();
+
+</code></pre><span id="OSC_h3_11"></span><h3>精簡版 Client</h3><p>剛才的 Client 和 Server 都是使用 Netty 作為異步非阻塞框架搭建的，有的時候對性能要求不高但是對最終的包大小有要求的時候 (比如開發 IDEA 插件最好是 kb 級別的)，我們這裏基於 NIO 來的 Reactor 模式來搭建一套簡單版的 rpc client。</p><p>我們還是參考上面的 client，想服務端發送 Request 消息，下面是對 NIO 的一個簡單封裝 NIOClient</p><pre><code class="language-java">public void connect() throws IOException, ConnectTimeoutException {  
+    socketChannel = SocketChannel.open();  
+    socketChannel.configureBlocking(false);  
+    selector = Selector.open();  
+    socketChannel.register(selector, SelectionKey.OP_CONNECT);  
+
+    socketChannel.connect(new InetSocketAddress(host, port));  
+    isRunning = true;  
+
+    //reactor 模式  
+    this.nioReactor = new NIOReactor(this);  
+    nioReactor.start();  
+
+    //等待連接完成  
+    try{  
+    waitConnection.get(nioConfig.getConnectTimeout(), TimeUnit.MILLISECONDS);  
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {  
+    isRunning = false;  
+    throw new ConnectTimeoutException(String.format("連接服務器%s:%d 超時",host,port));  
+    }  
+}
+    
+public MessageSendFuture sendMessage(byte[] bytes) {  
+    if(null == bytes || bytes.length == 0) {  
+    return null;  
+    }  
+
+    ByteBuffer writeBuffer = ByteBuffer.allocate(4 + bytes.length); // 4 bytes for length field  
+    writeBuffer.putInt(bytes.length); // Write length of the message  
+    writeBuffer.put(bytes); // Write message itself  
+    writeBuffer.flip();  
+
+    // Add to write queue  
+    MessageSendFuture future = new MessageSendFuture(writeBuffer);  
+    writeQueue.add(future);  
+
+    // Change interest to OP_WRITE  
+    SelectionKey key = socketChannel.keyFor(selector);  
+    if(!key.isValid()) {  
+    return null;  
+    }  
+    key.interestOps(SelectionKey.OP_WRITE);  
+    selector.wakeup();  
+
+    return future;  
+}
+
+</code></pre><p>這裏寫入消息 sendMessage 的時候，也是先寫入長度 4 字節 bytes.length，再寫入 bytes。</p><p>下面是基於 Reactor 模式實現對連接消息，讀寫消息的統一處理</p><pre><code class="language-java">while (nioClient.isRunning()) {  
+    try {  
+    if (selector.select() &gt; 0) {  
+    processSelectedKeys();  
+    }  
+    } catch (IOException e) {  
+    logger.error("selector err",e);  
+    }  
+}
+    
+private void processSelectedKeys() throws IOException {  
+    Set&lt;SelectionKey&gt; selectedKeys = selector.selectedKeys();  
+    Iterator&lt;SelectionKey&gt; iter = selectedKeys.iterator();  
+
+    while (nioClient.isRunning() &amp;&amp; iter.hasNext()) {  
+    SelectionKey key = iter.next();  
+
+    if (key.isConnectable()) {  
+    handleConnect(key);  
+    }  
+    if (key.isWritable()) {  
+    handleWrite(key);  
+    }  
+    if (key.isReadable()) {  
+    handleRead(key);  
+    }  
+    iter.remove();  
+    }  
+}  
+
+</code></pre><p>而對讀消息的拆包和半包處理原理也是和上面一樣的，也是讀取長度 4 字節，再讀取對應長度的字節，如果不夠重置 ByteBuffer 的 position 用於下次讀取,這裏是一個精簡版本</p><pre><code class="language-java">private void handleRead(SelectionKey key) {  
+  
+    ByteBuffer buffer = readByteBuffer;  
+
+    int numRead = 0;  
+    try {  
+        numRead = socketChannel.read(buffer);  
+    } catch (IOException e) {  
+        handleClose(key);  
+        return;  
+    }  
+
+    if (numRead &gt; 0) {  
+        buffer.flip(); // 切換到讀模式  
+        // 處理緩衝區中的所有數據  
+        while (buffer.remaining() &gt; 4) { // 確保有足夠的數據讀取長度字段  
+            buffer.mark();  
+            int length = buffer.getInt();  
+            //System.out.printf("read length=%d,remain=%d\n",length,buffer.remaining());  
+
+            if (length &lt;= buffer.remaining()) {  
+            byte[] data = new byte[length];  
+                buffer.get(data);  
+                nioClient.getReceiveMessageCallBack().handleMessage(data);  
+            } else {  
+                // 數據長度不足以構成一個完整的消息，重置並退出循環  
+                buffer.reset();  
+                break;  
+            }  
+        }  
+
+        if (buffer.hasRemaining()) {  
+            buffer.compact(); // 移動未處理數據到緩衝區開始位置  
+        } else {  
+            buffer.clear(); // 如果沒有剩餘數據，清空緩衝區  
+        }  
+
+        lastActiveTime = System.currentTimeMillis();  
+
+    } else if (numRead &lt; 0) {  
+        //接收到-1 表示服務器關閉  
+        handleClose(key);  
+    }  
+}
+
+</code></pre><span id="OSC_h2_12"></span><h2>RPC 框架的使用</h2><p>經過上述酣暢淋漓的 rpc 框架搭建，基本五臟俱全的 rpc 框架 ShadowRPC 就搭建完成了，下面是一些服務例子。</p><span id="OSC_h3_13"></span><h3>定義實體類</h3><pre><code class="language-java">@ShadowEntity
+public class MyMessage {
+    @ShadowField(1)
+    private String content;
+
+    @ShadowField(2)
+    private int num;
+}
+
+</code></pre><p>如果是 protobuf 方式，可定義描述文件</p><pre><code class="language-proto">message MyMessage {
+    string content = 1;
+    int32 num = 2;
+}
+
+</code></pre><p>然後直接用 maven 插件 protobuf-maven-plugin 生成實體</p><span id="OSC_h3_14"></span><h3>編寫接口和服務類</h3><pre><code class="language-java">@ShadowInterface
+public interface IHello {
+    String hello(String msg);
+    MyMessage say(MyMessage message);
+}
+
+</code></pre><p>protobuf 方式的接口需要保證參數和返回類型都是 protobuf 定義的類型</p><pre><code class="language-java">@ShadowInterface
+public interface IHelloProto {
+    MyMessageProto.MyMessage say(MyMessageProto.MyMessage message);
+}
+
+</code></pre><p>然後編寫服務實現類</p><pre><code class="language-java">@ShadowService(serviceName = "helloservice")
+public class HelloService implements IHello {
+    @Override
+    public String hello(String msg) {
+        return "Hello,"+msg;
+    }
+    @Override
+    public MyMessage say(MyMessage message) {
+        MyMessage message1 = new MyMessage();
+        message1.setContent("hello received "+"("+message.getContent()+")");
+        message1.setNum(message.getNum()+1);
+        return message1;
+    }
+}
+
+</code></pre><span id="OSC_h3_15"></span><h3>指定序列化類型和端口，啓動服務端</h3><p>單點啓動模式如下:</p><pre><code class="language-java">ServerConfig serverConfig = new ServerConfig();
+        serverConfig.setQpsStat(true); //統計 qps
+        serverConfig.setPort(2023);
+
+ServerBuilder.newBuilder()
+        .serverConfig(serverConfig)
+        .addPackage("rpctest.hello")
+        .build()
+        .start(); 
+
+</code></pre><p>使用 zk 作為集羣模式啓動</p><pre><code class="language-java">String ZK_URL = "localhost:2181";
+ServerConfig serverConfig = new ServerConfig();
+serverConfig.setGroup("DefaultGroup");
+serverConfig.setPort(2023);
+serverConfig.setRegistryUrl(ZK_URL);
+serverConfig.setQpsStat(true); //統計 qps
+serverConfig.setSerializer(SerializerEnum.KRYO.name());
+ServerBuilder.newBuilder()
+                .serverConfig(serverConfig)
+                .addPackage("rpctest.hello")
+                .build()
+                .start();
+
+</code></pre><span id="OSC_h3_16"></span><h3>客户端調用 rpc 服務</h3><pre><code class="language-java">ModulePool.getModule(ClientModule.class).init(new ClientConfig());
+
+ShadowClient shadowClient = new ShadowClient("127.0.0.1",2023);
+shadowClient.init();
+
+IHello helloService = shadowClient.createRemoteProxy(IHello.class,"shadowrpc://DefaultGroup/helloservice");
+
+logger.info("發送 hello 消息");
+String helloResponse = helloService.hello("Tom");
+logger.info("hello 服務端響應:"+helloResponse);
+
+MyMessage message = new MyMessage();
+message.setNum(100);
+message.setContent("Hello, Server!");
+
+System.out.printf("發送請求 : %s\n",message);
+MyMessage response = helloService.say(message);
+System.out.printf("接收服務端消息 : %s\n",response);    
+
+</code></pre><p>使用 zk 作為服務發現負載均衡調用各個服務器</p><pre><code class="language-java">ClientConfig config = new ClientConfig();
+config.setSerializer(SerializerStrategy.KRYO.name());
+ModulePool.getModule(ClientModule.class).init(config);
+String ZK_URL="localhost:2181";
+ShadowClientGroup shadowClientGroup = new ShadowClientGroup(ZK_URL);
+shadowClientGroup.init();
+
+IHello helloService = shadowClientGroup.createRemoteProxy(IHello.class, "shadowrpc://DefaultGroup/helloservice");
+List&lt;ShadowClient&gt; shadowClientList = shadowClientGroup.getShadowClients("DefaultGroup");
+
+System.out.println("所有服務器: "+shadowClientList.stream().map(c-&gt; c.getRemoteIp()+":"+c.getRemotePort()).collect(Collectors.toList()));
+
+for(int i = 0 ;i&lt;shadowClientList.size() * 5; i++) {
+    String hello = helloService.hello(i + "");
+    System.out.println(hello);
+}
+
+</code></pre><span id="OSC_h2_17"></span><h2>性能測試</h2><p>目前 Mac 筆記本 16G 4 核測試的 rpc 調用 hello 邏輯，如果使用 kryo 序列化/反序列化，100w 個請求耗時 27 秒，平均 QPS 為 3.7w，如果使用 protobuf 序列化/反序列化耗時 25 秒, 平均 QPS 為 4w，如果用 M1 芯片的 Mac，平均 QPS 可以達到 7W+，最高 QPS 可以達到 10w+。</p><span id="OSC_h2_18"></span><h2>源碼</h2><p>篇幅有限，介紹的時候不夠完整有些遺漏，所有源碼見: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FLiubsyy%2FShadowRPC" target="_blank">https://github.com/Liubsyy/ShadowRPC</a><br> 目前僅供學習交流使用，後續我將逐步打磨此 rpc 框架達到企業級水準。</p><blockquote><p>本 RPC 框架使用的方案和技術棧都是業界通用，項目中部分源碼如有雷同純屬巧合。</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 07:11:01 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/3276866/blog/10993751</guid>
+            <link>https://my.oschina.net/u/3276866/blog/10993751</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[VS Code 1.86 會導致遠程開發功能無法使用]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Visual Studio Code 今日發佈的最新版 <u><a href="https://www.oschina.net/news/277414/vs-code-1-86-released">1.86</a></u><span>&nbsp;引入一項嚴重的破壞性變化，其</span>遠程開發服務器工具鏈<span>最低環境要求的&nbsp;</span>glibc 版本提升為 2.28。</p><p>由於&nbsp;Ubuntu 18.04 LTS 使用 glibc 2.27，因此有開發者發現自己升級到 VS Code 新版本後，使用 Remote SSH 無法連接到遠程機器。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-7159057b7f201b731192ad420804af1891b.png" referrerpolicy="no-referrer"></p><p><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fv2ex.com%2Ft%2F1013590" target="_blank">https://v2ex.com/t/1013590</a></em></u></p></blockquote><p>對於該問題，目前的解決方案有兩種：</p><ul><li><strong>根據對應的發行版，升級至 Ubuntu 20.04 LTS、Debian 10 或 RHEL 8</strong></li><li><strong>降級到 VS Code 1.85</strong></li></ul><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-cd7781af0c011f485dda9a5d8b8df221d79.png" referrerpolicy="no-referrer"></p></blockquote><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fdocs%2Fremote%2Ffaq%23_can-i-run-vs-code-server-on-older-linux-distributions" target="_blank">詳情查看官方 FAQ</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 06:23:21 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277439/vscode-1-86-drops-ubuntu-18-04</guid>
+            <link>https://www.oschina.net/news/277439/vscode-1-86-drops-ubuntu-18-04</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[CPU vs GPU：不僅僅是一字之差]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>當今科學技術的飛速發展，社會已經邁入了信息時代的智能化階段。人臉識別、智能客服、個性化推薦等應用已經深入到日常生活的各個方面。這些看得見的應用背後，是看不見的算力在默默地支撐着。在滿足這些高算力需求的過程中，CPU 和 GPU 作為計算機的核心組件發揮着重要的承載作用。那麼，CPU 和 GPU 到底是什麼？它們又有什麼區別？</p><p>隨着數據成為五大生產要素之一，算力的作用變得愈發重要。算力即計算能力（Computing Power），更具體來説，<strong>算力是指數據中心的服務器通過對數據進行處理後實現結果輸出的一種能力。</strong></p><p>算力的概念起源於計算機的發明初期。最早的計算機是由機械裝置完成計算任務，而算力指的就是這些機械裝置的計算能力。隨後，半導體技術的出現和發展，集成電路問世，開啓了芯片時代。計算機在芯片的加持下，功能越來越強大，體積也越來越小，最終誕生了個人計算機（PC），成為人類最重要的算力工具。</p><p>而後人工智能和大數據技術的迅猛發展也帶動了算力需求的飛速增長。無論是訓練複雜的神經網絡模型，還是進行大規模數據分析和處理，算力都扮演着至關重要的角色。如今，<strong>芯片已經成為算力的主要載體</strong>。當我們談論算力時，實際上是在討論 CPU 和 GPU 等芯片的計算能力。在計算機科學領域，CPU 和 GPU 作為計算機的核心組件，雖然名字只有「一字之差」，但其結構和功能卻大不相同。</p><span id="OSC_h1_1"></span><h1><strong>1 CPU vs GPU: 概念</strong></h1><p><strong>CPU（Central Processing Unit），即中央處理器</strong>，是電腦、手機等眾多電子產品的「心臟」。在我們日常生活的諸多場景中，如觀看視頻、玩遊戲、聊天互動等，<strong>CPU 發揮着統一指揮和調度的關鍵作用</strong>。它主要負責執行程序指令、進行算術和邏輯運算以及控制和協調計算機各個部件。</p><p>為了滿足處理各種不同數據的強大通用性能，CPU 的內部結構設計非常複雜。CPU 由多個核心組成，每個核心又包含算術邏輯單元、控制單元和高速緩存等組件，並且可以獨立地執行任務。至今為止，所有的 CPU 都遵循馮·諾依曼體系結構的基本工作流程：取指令，指令譯碼，執行指令，數據回寫，然後再取下一個指令、譯碼、執行、回寫，重複進行直到程序結束。通過這種工作流程，CPU 能夠有效地執行程序，並控制整個系統的運行。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-10e85bcb595265cd760feadac4d6ff9b532.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 工作流程</p><p>然而，隨着計算機的普及，人們對圖形顯示的要求不斷提高，例如在進行復雜的三維建模時，需要處理大量的圖形數據以呈現逼真的效果；在玩大型遊戲時，要求系統能夠處理高分辨率的畫面和複雜的遊戲場景。儘管 CPU 內部採用了各種方法來加速指令執行，但隨着任務的增多，CPU 的性能顯得有些力不從心。</p><p>面對這個問題，能否考慮增加更多的 CPU 來解決呢？這固然是一種思路，但這涉及到相當高的成本，並且堆疊數量也不能保證完全解決計算能力不足的問題。這時候聰明的開發者就提出了一個更巧妙的解決方案：既然 CPU 的計算能力有限，為什麼不將計算單元堆疊在同一塊芯片上，讓它們處理大量運算的任務呢？於是，GPU 誕生了。</p><p><strong>GPU（Graphics Processing Unit），即圖形處理器，</strong> 顧名思義，一種專門用來處理圖形和圖像計算的處理器。<strong>GPU 最初是為圖形渲染和顯示而設計的，用於加速計算機中圖像的處理</strong>，例如在視頻遊戲、電影渲染、圖形設計等方面。它只有少量的控制單元和緩存單元，絕大部分的空間用來堆放運算單元，主要負責完成許多計算密集型任務。</p><span id="OSC_h1_2"></span><h1><strong>2 CPU vs GPU: 「差」在哪裏？</strong></h1><p>通過引入 GPU，計算機系統可以充分利用其強大的並行計算能力，加速圖形和圖像相關的計算任務。CPU 負責邏輯任務，而 GPU 來處理大量簡單重複的計算任務，這種不同類型的任務分配給不同類型的處理器的模式，大大提高了系統性能。那麼，CPU 和 GPU 到底「差」在哪裏呢？</p><p><strong>2.1 架構組成</strong></p><p>CPU 和 GPU 之間存在顯著差異，是因為它們各自針對不同的目標和需求來設計，具體體現在：</p><ul><li><p>CPU 需要有強大的通用性，以處理各種不同類型的數據，同時需要進行邏輯判斷，包括大量的分支跳轉和中斷處理，這導致內部結構異常複雜。</p></li><li><p>GPU 主要面向類型高度統一、相互無依賴的大規模數據，並在純淨的計算環境中執行，因此不需要處理複雜的邏輯操作。</p></li></ul><p>這就導致了 CPU 和 GPU 呈現出非常不同的架構：</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-8aa6a52075b93619752a89167782aee5119.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 基本架構</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-c3ccf2310c31a2e6354388180ec4615ba97.png" referrerpolicy="no-referrer"></p><p style="text-align:center">GPU 基本架構</p><p>CPU 擁有較大的緩存單元以及複雜的邏輯控制單元，相比之下計算能力只是 CPU 很小的一部分。而 GPU 則擁有數量眾多的計算單元和超長的流水線，但只有非常簡單的邏輯控制以及較小的緩存單元。</p><p><strong>2.2 設計理念</strong></p><p>CPU 和 GPU 的設計理念也截然不同。首先，<strong>CPU 是基於低延遲（Low Latency）設計的</strong>：</p><ul><li><p><strong>強大的運算單元：</strong> CPU 擁有數量較少但是單個計算性能更強的運算單元，可以減少操作延時，更快地響應。</p></li><li><p><strong>大容量緩存：</strong> 將一部分數據存儲到高速緩存當中，使得高延遲的內存訪問轉換為低延遲的緩存訪問。</p></li><li><p><strong>複雜的控制單元：</strong> 分支預測（Branch Prediction）機制可以降低分支延時；數據轉發（Data Forwarding）機制降低數據延時。</p></li></ul><p>而&nbsp;<strong>GPU 則是基於高通量（High Throughput）設計的</strong>：</p><ul><li><p><strong>精簡的運算單元：</strong> GPU 擁有大量的運算單元，雖然單個單元的性能比不上 CPU，但可以支持非常多的線程（Thread）從而達到非常大的吞吐量。</p></li><li><p><strong>小容量緩存：</strong> 與 CPU 不同，GPU 緩存的目的並不是用來存儲後面需要訪問的數據，而是為線程提供服務，如果有很多線程需要訪問同一個相同的數據，緩存會合並這些訪問，然後再去訪問內存。</p></li><li><p><strong>簡單的控制單元：</strong> GPU 的控制單元沒有分支預測和數據轉發機制。</p></li></ul><p>總的來説，CPU 擁有數量相對少（一般不超過兩位數）但能力更強的核心，能夠更快地處理單個任務，因而它尤其適合處理串行任務和邏輯控制等類型的工作。相比之下，GPU 擁有成百上千核，雖然每個核心運算能力較低，但可以將複雜任務分解成非常多的子任務再並行處理。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9572c4d616cb11ca84427a84df0d2e95c1d.png" referrerpolicy="no-referrer"></p><p style="text-align:center">串行處理過程</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d325166b8458a82bfd616ed21119309a3aa.png" referrerpolicy="no-referrer"></p><p style="text-align:center">並行處理過程</p><p><strong>2.3 適用場景</strong></p><p>CPU 與 GPU 二者的設計目的並不一樣，因而適用的場景也截然不同。<strong>CPU 更擅長一次處理一項任務，而 GPU 則可以同時處理多項任務。</strong></p><p>用一個形象的比喻來解釋。CPU 就像是一架高速飛機，而 GPU 則相當於一隊貨櫃船。它們的任務是將大量貨物從 A 位置迅速運送到 B 位置。雖然 CPU（飛機）速度非常快，但每次只能攜帶少量的貨物，需要多次往返才能完成任務。相比之下，GPU（貨櫃船）雖然單次執行速度相對較慢，但通過協同工作，每艘都能同時攜帶一部分貨物，最終以集體的力量高效完成運輸任務。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b63aae29f97580397fb69a6ed0ae951f0e5.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 與 GPU 處理任務對比</p><p>因此，雖然 CPU 單次執行任務的時間更快，但是在需要大量重複工作負載時，GPU 優勢就越顯著。而當遇到前後計算步驟嚴密關聯的計算場景，這些任務涉及到「流」的問題，必須先計算完第一步，再去計算第二步。或是需要進行大量邏輯判斷和複雜計算的任務，比如運行操作系統、處理日常辦公任務、進行單線程編程等。這種時候，使用 GPU 的效率反而沒有 CPU 高。</p><p>綜上所述，CPU 是個集各種運算能力的大成者。它的優點在於調度、管理、協調能力強，並且可以做複雜的邏輯運算，但由於運算單元和內核較少，只適合做相對少量的運算。GPU 無法單獨工作，它相當於一大羣接受 CPU 調度的流水線員工，適合做大量的簡單運算。<strong>CPU 和 GPU 在功能上各有所長，互補不足，通過相互配合使用，實現最佳的計算性能</strong>。</p><p>因此，雖然 CPU 單次執行任務的時間更快，但是在需要大量重複工作負載時，GPU 優勢就越顯著。而當遇到前後計算步驟嚴密關聯的計算場景，這些任務涉及到「流」的問題，必須先計算完第一步，再去計算第二步。或是需要進行大量邏輯判斷和複雜計算的任務，比如運行操作系統、處理日常辦公任務、進行單線程編程等。這種時候，使用 GPU 的效率反而沒有 CPU 高。</p><p>綜上所述，CPU 是個集各種運算能力的大成者。它的優點在於調度、管理、協調能力強，並且可以做複雜的邏輯運算，但由於運算單元和內核較少，只適合做相對少量的運算。GPU 無法單獨工作，它相當於一大羣接受 CPU 調度的流水線員工，適合做大量的簡單運算。<strong>CPU 和 GPU 在功能上各有所長，互補不足，通過相互配合使用，實現最佳的計算性能</strong>。</p><span id="OSC_h1_3"></span><h1><strong>3 CPU vs GPU: 演進與發展</strong></h1><p>技術的不斷更新推動着計算機領域的快速發展，而在這個不斷演進的過程中，CPU 和 GPU 也在持續發展。在過去的幾十年裏它們在各自的領域取得了顯著的突破，為計算機應用提供了更高的性能和效率。這不僅推動了數字化時代信息技術的發展，也為各個領域帶來了新的可能性。</p><p><strong>3.1 揚長避短，穩步前進</strong></p><p>CPU 擁有強大的指令處理和計算能力（這裏強大的計算能力是指 CPU 可以勝任更復雜的計算任務），通常用於處理計算機的核心工作，包括解釋計算機指令和處理計算機軟件中的數據。例如我們在使用個人計算機時，用户和各種軟件會不斷地產生指令流，CPU 要完成的一個重要工作就是負責處理這些指令，保證它們按照規定的順序執行。此外，CPU 還要負責處理計算機軟件所產生的類型多樣且邏輯複雜的數據。</p><p>距離第一塊 CPU 4004 的誕生已經過去了五十多年，儘管與早期相比，CPU 在物理形態、設計製造和具體任務的執行上有了極大的發展，但是其基本的操作原理一直沒有改變。換句話來説 <strong>，CPU 的功能和使用場景並沒有發生較大的改變，無非是在能耗、性能以及可靠性上面不斷地優化。</strong></p><p><strong>3.2 GPU 加速應用遍地開花</strong></p><p>3.2.1 從 GPU 到 GPGPU</p><p>GPU 的概念在 1999 年 NVIDIA 公司發佈 GeForce 256 時被首次提出， 在早期，GPU 主要用於 3D 圖形渲染。但與 CPU 不同，隨着 GPU 的功能和運算能力越來越強大，開發者開始探索除了圖形處理之外，GPU 還能做什麼？</p><p>在 2003 年，NVIDIA 推出新產品 GeForce 8800 GTX 時，首次提出了 GPGPU（General-purpose computing on Graphics Processing Unit）的概念，即通用圖形處理器，意指利用 GPU 的計算能力，在非圖形處理領域進行更通用、更廣泛的計算。</p><p>到了 2007 年，NVIDIA 進一步提出了名為 CUDA（Compute Unified Device Architecture，計算統一設備架構）的全新技術，利用該技術可以通過 NVIDIA 的 GPU 進行圖像處理之外的計算任務，它揭開了 GPU 計算革命序幕。隨後，AMD 也推出了類似的技術：OpenCL（Open Computing Language）。OpenCL 是一個開放的、跨平台的並行計算框架，允許開發人員在不同的硬件平台（CPU、GPU、FPAG 等）上進行開發。</p><p>自此以後，<strong>GPU 不再以圖形的 3D 加速為唯一目的，而是能夠廣泛應用於各領域的通用計算加速，尤其是科學計算、大數據分析以及人工智能等領域。</strong></p><p>3.2.2 大模型與向量數據庫</p><p>當今互聯網世界所需的計算能力遠遠超出任何人的想象，並且只會隨着人工智能的興起而增加。以如今爆火的生成式 AI ChatGPT 為代表，大小為 175B 的 GPT-3 使用了 1024 張 A100 GPU 訓練了約 34 天，隨着參數數量的增加，往後 AI 需要的算力資源更是天文數字。</p><p>大模型同樣引發了數據庫領域的革命，此前不温不火的向量數據庫搭上了這輛順風車，一舉成為 AI 時代的新寵。在 2023 英偉達 GTC AI 開發者大會中，NVIDIA CEO 黃仁勳首次提及向量數據庫，並強調<strong>對於構建專有大模型的組織而言，向量數據庫至關重要。</strong></p><p>對於 AI 來説，向量是它理解世界的通用數據形式，不管是圖片、視頻、音頻，都可以通過轉換成向量來讓 AI 識別，<strong>向量數據庫作為專門對向量進行檢索和存儲的工具，能為大模型的應用落地解決諸如「沒有長期記憶」、「幻覺」、「知識更新不及時」等問題。</strong></p><p>但是，向量數據庫本身的性能也是一個問題，説到底與大模型的結合只是其應用的一部分，它本質上還是一個數據搜索和分析的工具，如果性能滿足不了用户需求，同樣也會被淘汰。於是乎，開發者們又想起了 GPU。</p><p>在向量數據庫中，最核心的功能在於向量相似性搜索，即在一個海量的數據中找到和某個向量最相似的向量，它的計算量十分龐大，而這恰好是 GPU 所擅長的，<strong>利用 GPU 的並行計算能力可以加速向量相似性搜索，顯著提高查詢速度，降低延遲。</strong></p><span id="OSC_h1_4"></span><h1><strong>4 雲原生向量數據庫 PieCloudVector 支持 GPU 加速</strong></h1><p>拓數派大模型數據計算系統 πDataCS 三大數據計算引擎之一：<a href="https://my.oschina.net/u/5944765/blog/10321799" rel="nofollow"><em>向量數據庫 PieCloudVector</em></a>，是大模型時代的分析型數據庫升維，目標是助力多模態大模型 AI 應用，進一步實現海量向量數據存儲與高效查詢。PieCloudVector 支持和配合大模型的 Embeddings，幫助基礎模型在場景 AI 的快速適配和二次開發，是大模型必備應用。</p><p><strong>PieCloudVector 充分利用現代化硬件能力，支持 GPU 加速功能。</strong> 這一特性讓 PieCloudVector 能夠利用 GPU 的並行計算能力來加速向量計算和數據處理任務，顯著縮短任務的執行時間，提高計算效率，幫助用户更高效地進行數據計算。特別是在需要處理大規模數據集或進行復雜的數值運算時，GPU 加速可以大幅提升計算性能。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 05:49:21 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5944765/blog/11020020</guid>
+            <link>https://my.oschina.net/u/5944765/blog/11020020</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[社區月報丨 2024 年 1 月，多款應用迎更新，還有 deepin Meetup 的初次相見和久別重逢！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>內容來源：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-community-monthly-report-2024-01%2F" target="_blank">deepin 社區</a></p><hr><h1><strong>deepin（深度）社區 1 月總覽</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月，有<strong>975</strong>位小夥伴加入了 deepin 開源社區大家庭，目前共有論壇夥伴<strong>151,007</strong>位；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">在 1 月，2024 年第一場 deepin Meetup 在北京正式舉辦，同時 deepin（深度）社區舉辦的龍年春節壁紙大賽也完美落下帷幕；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月 deepin SIG 組共提交 PR 1116 個 ，提交 Issues 294 個，當前共有 SIG 組 40 個。</p><h1><strong>社區產品</strong></h1><h2><strong>深度之家</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月，深度之家共收到用户需求反饋及 bug166 條：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">當中 bug 反饋 126 個，需求反饋 40 個，已修復/確認 16 個，包括用户反饋的【玲瓏卸載應用命令，第一次執行會報錯，再執行一次才能卸載成功】、【微信更新後登陸不了】等問題；</p><h2><strong>SIG 組 1 月進展</strong></h2><ol><li><strong>DDE SIG:</strong></li></ol><ul><li>DDE-launchpad 脱離技術預覽階段，DDE-shell、Treeland、DDM 進入技術預覽階段</li></ul><ol><li><strong>dde-port SIG:</strong></li></ol><ul><li>持續推進 DDE 在各個發行版的移植</li><li>BigLinux 發行版下的 DDE v23 初步支持</li></ul><ol><li><strong>deepin-sysdev-team：</strong></li></ol><ul><li>持續進行系統倉庫的打包與維護工作</li></ul><ol><li><strong>deepin-cicd-team:</strong></li></ol><ul><li>持續完善自動化流水線的智能程度</li></ul><ol><li><strong>deepin-ThemeDesign：</strong></li></ol><ul><li>已開始製作 deepin 適用壁紙，並嚮應用商店投遞中</li></ul><h1><strong>應用商店</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" src="https://bbs.deepin.org/uploader/f/TQNIvpoxovcuW4fP.png?accessToken=eyJhbGciOiJIUzI1NiIsImtpZCI6ImRlZmF1bHQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhY2Nlc3NfcmVzb3VyY2UiLCJleHAiOjE3MDY3ODA2OTEsImZpbGVHVUlEIjoiOE5rNk13Nk1EV0ZHendxTCIsImlhdCI6MTcwNjc4MDA5MSwidXNlcklkIjoxMDMxM30.ArE7u7SqsjnfBy4BwVNK3_zpcWgZNnqqlvwLaBhFwsI" referrerpolicy="no-referrer">應用上新 100 款 ：上新應用中，99 款應用同步上新至 deepin V23，99 款應用為 Linux 應用，1 款 Wine 應用；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">上新應用中包括中望 3D 2024、OpenTrace 等多款主流應用；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">應用更新 124 款 ：更新應用中，80 款應用同步在 deepin V23 中更新。其中 113 款為 Linux 應用，Android 應用 7 款，Wine 應用 4 款；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月更新的應用當中包括 QQ、墨刀、有道雲筆記等主流應用。</p><h1><strong>deepin 論壇</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月 deepin 論壇共發佈了<strong>8803</strong>帖子；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">共發佈主題帖<strong>1092</strong>個；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">超過 900 + 新朋友加入到 deepin 論壇。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">當中，最受論壇用户歡迎的帖子 top5 為：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>1.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267681" target="_blank">關於 deepin-V23 beta3 新版本的體驗，及個人看法</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>2</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267289" target="_blank">.大家對文件管理器有什麼不滿嗎？</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>3.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267297" target="_blank">V23 任務欄改進建議，集中反饋貼！</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>4.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267665" target="_blank">真的不要再高仿了，越來越刷新對國產自主能力的認知！</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>5.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267231" target="_blank">揭秘 deepin V23 Beta3！deepin Meetup · 2024 北京，出發！</a></p><h1><strong>社區活動</strong></h1><h2><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fwelcome-to-whlug%2F" target="_blank"><strong>【WHLUG】</strong></a></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月 20 日下午，由 deepin（深度）社區聯合 Linux 中國、龍蜥社區（OpenAnolis）、華中科技大學網絡空間安全學院開源俱樂部一起舉辦的 Linux 愛好者線下沙龍活動（WHLUG）在武漢未來科技城成功舉辦。沙龍邀請了武漢地區的 Linux 愛好者，共同探討玲瓏、容器技術、Linux 內核、開源參與、高性能網絡等話題，現場氣氛熱烈。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010937419026_image.png" referrerpolicy="no-referrer"></p><h2><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-meetup%2F" target="_blank"><strong>deepin Meetup（北京站）</strong></a></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月 27 日，deepin Meetup（北京站）成功舉辦，40 餘名用户參與。本次活動帶大家回顧 deepin（深度）社區的發展歷史，展示了社區部分明星產品及技術成果，並提前揭秘了 deepin V23 Beta3 的部分新增功能，如啓動器重構、UOS AI 預裝、新增低電閾值設置功能、支持了 Steam 原生應用的安裝等。各位 deepiner 線下相聚，昔日網友揭開神秘面紗，共同探討最新產品進展、分享使用心得、實操經驗，大家也對 deepin 未來發展提出了諸多寶貴意見，現場氛圍熱烈。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010938049219_image.png" referrerpolicy="no-referrer"></p><h2><strong>deepin（深度）社區春節壁紙大賽</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">在 2024 年春節來臨之際，國產操作系統「統信 UOS」及 deepin（深度）社區聯合舉辦全新一期壁紙創作大賽，面向所有對電腦操作系統個性美化感興趣的設計師，徵集壁紙作品，展示心中的獨特的「中國龍年」。活動已圓滿結束，總計收到有效作品數 90 份（156 張圖片），通過社區投遞系統上架壁紙作品包共計 75 個，參賽人數 23 人（其中 4 位設計師、2 位老師、8 位學生），大眾評委環節評分 300 次，參與人數 148 人。目前所有成功投稿的作品都已上架應用商店，可在應用商店中搜索【龍年壁紙】，安裝使用。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010938569200_image.png" referrerpolicy="no-referrer"></p><p style="text-align:center">參賽作品：古韻新繹，「龍」光煥發</p><p style="text-align:center">設計師：MC 李狗蛋</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><h1><strong>社區鳴謝</strong></h1><h2><strong>【論壇最活躍小夥伴】</strong></h2><ul><li>阿尼櫻奈奈</li><li>buyike</li><li>晚秋（lateautumn）</li></ul><h2><strong>【內測最活躍小夥伴】</strong></h2><ul><li>煙霞志</li><li>e*t@gmail.c<strong>o</strong>m**</li><li>jiutian123</li></ul><h2><strong>【PR 貢獻最活躍小夥伴】</strong></h2><ul><li>Zeno-sole</li><li>UTsweetyfish</li><li>Decodetalkers</li><li>xzl01</li><li>18202781743</li><li>liyigang1</li><li>tsic404</li></ul><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>每個貢獻者都對深度開源社區的發展產生了巨大的影響，歡迎與我們同心協力，揚起 deepin 的桅杆！</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 05:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277431</guid>
+            <link>https://www.oschina.net/news/277431</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Socket.D 協議的開發緣由]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h3>為什麼搞個新協議？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">2021 年時，想為<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsolon.noear.org%2F" target="_blank">Solon 生態</a><span>&nbsp;</span>提供一種 MVC 體驗的 Socket 和 WebSocket 開發方式。這個想法，要求消息「能路由」、「有元信息」、「可建立關聯性」。於是就開發了 Socket.D 早期版本（算是草案版）。經過兩年的實踐，其重新定義為：</p><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">是想要有一種更簡單、更通用的通訊方式。簡單，且便適用任何場景和平台（想是這麼想的啊）。而這，便以 Socket.D 協議作為載體。一個簡單的、規範的，面向未來的網絡應用協議。</p><h3>為什麼不湊合用別人的呢?</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">前人，總有不如意啊。而後人總是站在前人的成果上，吸取優點避開缺點。</p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:870px; word-spacing:0px"><tbody><tr><th>協議</th><th>不稱心的地方</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">http</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">單向通訊；只能同步響應</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">websocket</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">沒有應用語義，只有框架；需要二次定製</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">rsocket</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">純響應式接口太複雜；沒有事件；元信息為二進制，無法固定標準。不通用</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">socket.io</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">沒有流；沒有元信息</td></tr></tbody></table><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">Socket.D 具備它們的優點，又美好的避開了缺點。是，更具普世性的通用協議。</p><h3>為什麼不基於別人的呢?</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">Socket.D 作為網絡應用協議，原則上可支持任意傳輸協議。目前適配有<span>&nbsp;</span><code>TCP</code>、<code>UDP</code><span>&nbsp;</span>之類的基礎傳輸協議；也適配有<span>&nbsp;</span><code>WebSocket</code>、<code>KCP</code><span>&nbsp;</span>之類有加工過的傳輸協議。未來還可能適配別的傳輸協議。</p><h3>為什麼要基於事件消息驅動？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">網絡通信是異步的，消息驅動可建立起單個連接上的多路消息流，從而實現多路複用，一個連接同時多請求多響應。而基於事件，是讓消息可路由，可分類處理。這個就像<span>&nbsp;</span><code>mq</code><span>&nbsp;</span>協議的 topic。</p><h3>為什麼要元信息？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start"><code>http</code><span>&nbsp;</span>協議，就是因為有元信息（它叫頭信息），玩出了各種花！有了元信息，就可以為數據進行語義標註。就可以實現各種擴展的場景應用！</p><h3>為什麼要流？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">連接上傳輸的數據即為流。協議通過流標識（sid），為傳輸來回的相關數據建立起關聯性。Socket.D 基於流而行成的接口交互模型：</p><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:870px; word-spacing:0px"><tbody><tr><th>接口</th><th>描述</th><th>説明</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">send</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">發送</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">相當於 Qos0</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">sendAndRequest</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">發送並請求。要求一個答覆</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">相當於 Qos1</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">sendAndSubscribe</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">發送並訂閲。可接收零個或多個答覆消息</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">reply</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">答覆</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">replyEnd</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">答覆結束</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">&nbsp;</td></tr></tbody></table><h3>為什麼是這樣的接口交互？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">首先 http 的接口交互是最經典。Socket.D 算是對它的學習、補充和擴展。因為我們是消息驅動的嘛，大家都是講發消息、發消息。所以用 send 開頭：</p><h4>a) send 發送</h4><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">發完後，不需要答覆。它是能帶來性能提升的，不僅是跳過了答覆而節省網絡使用，而且不需要等待響應或也不需要建立消息的流關聯。是 http 請求/響應模式的補充。</p><h4>b) sendAndRequest 發送並請求。要求一個答覆</h4><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">http 經典的請求/響應模式。不管在什麼時候都非常有用，必須支持</p><h4>c) sendAndSubscribe 發送並訂閲。可接收多個答覆消息</h4><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">也是 http 請求/響應模式，的擴展，它允許多個答覆消息被流回。可以看作是「collection」的響應，但不是將所有數據作為單個答覆返回，而是將每個元素按順序返回。</p><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">適用的場景可能是：</p><ul><li>獲取視頻列表</li><li>獲取目錄中的產品</li><li>逐行檢索文件</li></ul><h4>d) reply 答覆</h4><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">配合 sendAndRequest，sendAndSubscribe 答覆消息</p><h4>e) replyEnd 答覆結束</h4><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">配合 sendAndSubscribe 答覆消息，並告知答覆結束了。</p><h3>為什麼規劃了多平台多語言？</h3><p style="color:#24292e; margin-left:0; margin-right:0; text-align:start">大型分佈式系統通常由不同的團隊使用各種技術和編程語言以模塊化的方式實現。這些模塊需要可靠地通信，支持快速、獨立的進化。在分佈式系統中，模塊間有效且可擴展的通信是一個關鍵問題。它會顯著影響用户體驗的延遲以及構建和運行系統所需的資源量。</p><p style="color:#24292e; margin-left:0px; margin-right:0px; text-align:start">Socket.D 這麼好的協議，必須爭取讓所有的平台和語言都能用上。參與這種問題的解決。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 04:41:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277424</guid>
+            <link>https://www.oschina.net/news/277424</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源日報：「Linux 中國」 開源社區宣佈停止運營；小紅書開源「InstantID」]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><p><strong># 2024.2.1</strong></p><h2><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日要點</span></span></span></span></span></span></h2><p style="text-align:justify"><strong>OpenSource Daily</strong></p><h3><u><a href="https://www.oschina.net/news/277235/java-proposal-scrap-sunmiscunsafe-memory-access" target="_blank">Java 提案計劃棄用 sun.misc.Unsafe 中的內存訪問</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">OpenJDK 社區中一個名為 「<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F8323072" target="_blank">Deprecate Memory-Access Methods in sun.misc.Unsafe for Removal</a>」 的 JEP 草案提出，建議棄用 sun.misc.Unsafe 中的內存訪問方法，以便在未來的 Java 版本中將其進行刪除。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">sun.misc.Unsafe 類於 2002 年引入，是 JDK 中 Java 類執行低級操作的一種方法，距今已有 20 多年的歷史。在該類的 87 個方法中，有 79 個用於內存訪問。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="281" src="https://oscimg.oschina.net/oscnet/up-e6847ab49a09af3d783ef2fd5ae0f2b4b87.png" width="500" referrerpolicy="no-referrer"></p><p>提案的目標包括為在未來的 JDK 版本中移除 sun.misc.Unsafe 中的內存訪問方法做好準備，以及幫助開發人員瞭解他們的應用程序何時直接或間接依賴 sun.misc.Unsafe 中的內存訪問方法。但它並不旨在完全刪除 sun.misc.Unsafe 類，因為該類中的少量方法不用於內存訪問，所以將會保持不被棄用；它們的廢棄和移除將單獨進行。</p><h3><u><a href="https://www.oschina.net/news/277253" target="_blank">字節跳動 2 個雲原生開源項目進入 CNCF 雲原生全景圖</a></u></h3><p style="color:#222222; margin-left:8px; margin-right:8px; text-align:justify"><span style="color:#3e3e3e"><span>近日，字節跳動 2 個雲原生開源項目<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzk0NDMzNjkxNw%3D%3D%26mid%3D2247484922%26idx%3D1%26sn%3Dfb8922282b6215f28f69a3d9e23fa855%26chksm%3Dc3277c80f450f596fa53c910a75c38e3c22ff864782ec626a0a9842be736dd8ea006d0f2f6b8%26scene%3D21%23wechat_redirect" target="_blank"><strong>Katalyst</strong></a></span><span>&nbsp;</span><span style="color:#3e3e3e"><span>和<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzk0NDMzNjkxNw%3D%3D%26mid%3D2247485243%26idx%3D1%26sn%3D5f39a6597498268c6c965554b12a6849%26chksm%3Dc3277e41f450f75780babf0767f45ea712c1cf59f8b9c7f6d2b48809bb4158648d7c357a76a6%26scene%3D21%23wechat_redirect" target="_blank"><strong>KubeAdmiral</strong></a></span><span style="color:#3e3e3e">&nbsp;陸續進入&nbsp;CNCF 雲原生全景圖，均被收錄在<span>&nbsp;</span></span><span style="color:#0080ff"><em>Orchestration &amp; Management - Scheduling &amp; Orchestration</em></span><span style="color:#3e3e3e"><span>&nbsp;</span>分類下，成為 CNCF 官方認可生態構建工具中的一部分。</span></p><p style="color:#222222; margin-left:8px; margin-right:8px; text-align:justify"><img src="https://oscimg.oschina.net/oscnet/up-88b912acd053b7736fa52b640c7290716a9.png" referrerpolicy="no-referrer"></p><h3><u><a href="https://www.oschina.net/news/277277" target="_blank">「Linux 中國」 開源社區宣佈停止運營</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#000000">「Linux 中國」 微信公眾號於今日發文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5a9zTiMn4hwOR5JU3kPzvw" target="_blank">宣佈</a>，從即日起，「Linux 中國」 這個社區，包括它的主網（</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flinux.cn%2F%C2%A0" target="_blank">https://linux.cn/&nbsp;</a><span style="background-color:#ffffff; color:#000000"><span>&nbsp;</span>）、公眾號、視頻號，以及下屬的《硬核觀察》欄目，將無限期停止更新和運營。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://oscimg.oschina.net/oscnet/up-6e3343217de4d5b35d0b43dfd79e9b69d6d.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日觀察</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-5f39b0daf9aacc34cdab04840e2ca4a55c5.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-c29ed5dd0eff8177570b890725186aed794.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">媒體觀點</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-2ee8125c079733587845fab4edba43ee6a3.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">每日項目榜</span></span></span></span></span></span></strong></h2><p>GitHub 榜單：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-99809320420fb783478a0b3f9f2c96a3f5f.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4080a984211606c0eef9d3c0508f6e5cba9.png" referrerpolicy="no-referrer"></p><blockquote><h4>在線閲讀完整日報內容，訪問：<strong><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC007%E6%9C%9F.pdf" target="_blank">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></u></strong></h4></blockquote><hr><p><strong>往期回顧</strong></p><ul><li><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC006%E6%9C%9F%EF%BC%9A%E9%80%89%E6%8B%A9%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%80%E5%AE%9A%E8%A6%81%E9%80%89%E6%8B%A9%E5%BC%80%E6%BA%90%E7%9A%84.pdf" target="_blank">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></u></li><li><a href="http://www.oschina.net/news/277040"><u>開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</u></a></li><li><u><a href="https://www.oschina.net/news/276864" target="news">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></u></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 03:33:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277415</guid>
+            <link>https://www.oschina.net/news/277415</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[面壁智能發佈端側大模型「面壁 MiniCPM」]]>
@@ -41,7 +759,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">艾倫人工智能研究所（Allen Institute for AI，簡稱 AI2）<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.allenai.org%2Fhello-olmo-a-truly-open-llm-43f7e7359222" target="_blank">宣佈</a>推出一個名為 OLMo 7B 的新大語言模型，並開源發佈了預訓練數據和訓練代碼。OLMo 7B 被描述為「一個真正開放的、最先進的大型語言模型」。</span></p><p><span style="color:#000000">AI2 是由已故的微軟公司聯合創始人保羅-艾倫（Paul Allen）於 2014 年在西雅圖創辦的一家非營利組織。該組織表示，他們開源 OLMo 模型旨在讓 AI 研究社區充分了解最先進的大語言模型（LLM），從而推動自然語言處理的發展，並以科學的方式正視現有 LLM 存在的問題。</span></p><p><span style="color:#000000">「通過向公眾完全開放 OLMo 及其訓練數據，AI2 在協作構建世界上最好的開放語言模型方面邁出了一大步。」</span></p><p><img height="282" src="https://oscimg.oschina.net/oscnet/up-5f4ac19f48b404e2adf9eed484a4a22035d.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">OLMo 框架具有一套完全開放的 AI 開發工具，包括：</span></p><ul><li><span style="color:#000000">完整的預訓練數據：該模型建立在 AI2 的 Dolma 語料庫上，該語料庫具有三萬億個用於語言模型預訓練的 token 開放語料，包括生成訓練數據的代碼。</span></li><li><span style="color:#000000">訓練代碼和模型權重： OLMo 框架包括 7B 規模的四個模型變體的完整模型權重，每個模型至少訓練有 2T token。提供了推理代碼、訓練指標和訓練日誌。</span></li><li><span style="color:#000000">評估：開發中使用的評估套件已發佈，每個模型包含 500 多個 checkpoints，來自訓練過程中的每 1000 個步驟，以及 Catwalk 項目下的評估代碼。</span></li></ul><p><span style="color:#000000">在接下來的幾個月中，AI2 計劃繼續迭代 OLMo，並將不同的模型大小、模式、數據集和功能引入 OLMo 系列。</span></p><p><span style="color:#000000">OLMo 項目負責人、AI2 NLP 研究高級主管、華盛頓大學艾倫學院教授 Noah Smith 表示:</span></p><blockquote><p><span style="color:#000000">「有了 OLMo，open 就是真正意味上的'open'，AI 研究界的每個人都可以訪問模型創建的各個方面，包括訓練代碼、評估方法、數據等。AI 曾經是一個以活躍的研究社區為中心的開放領域，但隨着模型的發展、成本的增加以及開始轉化為商業產品，AI 工作開始閉門造車。我們希望通過 OLMo 扭轉這一趨勢，讓研究界能夠團結起來，以科學的方式更好地理解和使用語言模型，從而開發出更負責任的 AI 技術，造福於每個人。」</span></p></blockquote><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.allenai.org%2Fhello-olmo-a-truly-open-llm-43f7e7359222" target="_blank">查看官方博客</a>。&nbsp;</p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 02 Feb 2024 02:43:16 GMT</pubDate>
+            <pubDate>Fri, 02 Feb 2024 02:43:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/277402/allenai-olmo-truly-open-llm</guid>
             <link>https://www.oschina.net/news/277402/allenai-olmo-truly-open-llm</link>
             <author>
@@ -101,7 +819,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">「Linux 中國」微信公眾號於今日發文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5a9zTiMn4hwOR5JU3kPzvw" target="_blank">宣佈</a>，從即日起，「Linux 中國」 這個社區，包括它的主網（</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flinux.cn%2F%C2%A0" target="_blank">https://linux.cn/&nbsp;</a><span style="color:#000000"> ）、公眾號、視頻號，以及下屬的《硬核觀察》欄目，將無限期停止更新和運營。</span></p><p><span style="color:#000000">主理人「硬核老王」在公告中透露，停止運營的原因其實很平常，大抵包括以下幾個方面：</span></p><blockquote><p><strong><span style="color:#000000">「Linux 中國」 已經完成了其歷史使命</span></strong></p><p><span style="color:#000000">最初，我們的願望是想把 「Linux 中國」 建設成一個傳播開源技術的公益型社區。但是經過十幾年的發展，目前開源文化和 Linux 相關的開源技術已經得到了廣泛傳播（在這期間，我們或許也做了一些小小的貢獻）。因此，繼續運營所能起到的作用並沒有那麼大了。</span></p><p><span style="color:#000000">出於偶然原因，「Linux 中國」 其實並未按照我們的最初設想發展，這麼多年下來，真正堅持下來的項目也就是一個翻譯團隊 LCTT，翻譯了數千篇文章，引導數百人蔘與了開源貢獻。然而，近年來，隨着計算機翻譯技術的進步，尤其是 ChatGPT 的出現，翻譯工作的必要性大為降低。自去年以來，我一直使用 ChatGPT 來翻譯一些文章，儘管還需要一至兩次校對，但基本沒什麼大問題。所以，LCTT 的存在也顯得不那麼重要了。</span></p><p><span style="color:#000000">事實上，LCTT 已經陷入了一種半死亡狀態，數百名貢獻者基本上都處於休眠了狀態，甚至由於技術原因，連自動化選題工作都難以維持。唯一能持續翻譯的，除了我，就是我們的首席譯者 geekpi 了。從這個角度來看，這已經不再是一個社區化的翻譯組織了。</span></p><p><strong><span style="color:#000000">最初的方向選擇和理想主義無法避免的結果</span></strong></p><p><span style="color:#000000">2003 年，在創立 「Linux 中國」 之前，我還創立過另外一個叫做 「炎黃角馬（CNGNU）」 的開源技術社區。但後來因為我創業失敗，這個社區就關閉了。隨後，我的弟弟王興江利用我手中閒置的域名 </span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Flinux.cnlinux.cn" target="_blank"><span style="color:#000000">linux.cnlinux.cn</span></a><span style="color:#000000"> 建立了一個新的網站，我們給它起了一個狂妄的名字 「Linux 中國」 —— 實際上，需要澄清的是，我們和 Linux 的官方機構沒有任何關聯，也不代表 Linux 官方。</span></p><p><span style="color:#000000">建立這個網站（社區）的初衷是為了傳播知識和文化，並沒有考慮過未來的盈利模式，這也導致我們後來排斥將社區變成一個商業網站，去做一些培訓、會議之類的商業活動。</span></p><p><span style="color:#000000">但這帶來了巨大的資金壓力，尤其是在託管服務器價格高昂的那段時期。幸運的是，我們得到了七牛雲在 CDN 方面的贊助、阿里雲在 PR 方面的投放，讓我們得以發展。當然，還有一些其它的廣告主和朋友的贊助，稍後容我一一致謝。</span></p><p><span style="color:#000000">2015 年，我離開了中國電信，成為了一名自由人，沒有人再給我發工資了。這些年，「Linux 中國」 有一些收入，主要是為廣告商撰寫和發佈的一些文章，但是收入不太穩定。而在眾所周知的那三年裏，收入狀況甚至更慘淡。説實話，過去幾年，我大致處於一種個人經濟上的慢性失血狀態。</span></p><p><span style="color:#000000">所以，現在，當整體經濟不佳時，壓力更大。</span></p><p><strong><span style="color:#000000">個人疲憊和人生的交叉路口</span></strong></p><p><span style="color:#000000">近些年，「Linux 中國」 越來越像是一個 「個人」 網站，幾乎所有的流程都需要我親自來完成。「Linux 中國」 的公眾號自從開設的第一天起，就沒有任何一天停止過更新 —— 無論是年三十還是我的身體抱恙，無論是在出差路上還是帶家人出遊。這兩年，我又開始了《硬核觀察》欄目，這需要我每天花費數小時採編、錄製和發佈視頻，如今也有了 1263 期，從未停歇。</span></p><p><span style="color:#000000">累嗎？累，但更累的是，沒有盡頭的累。</span></p><p><span style="color:#000000">我今年正好五十歲了，對我來説，這個年齡是我需要重新定位人生的一個標誌點。當我三十歲時，我頗有一種 「頓覺昨日非」 的感覺，從此改變了人生軌跡；當我四十歲時，經歷了父親去世、稍後幾年弟弟及其他親人陸續去世的打擊；今年，我再次站在人生的交叉口，我想我應該有所改變了。</span></p><p><span style="color:#000000">幸運的是，我一直非常擔心的身體健康，目前還算還沒有出現大問題。前段時間去做了好幾年沒敢做的體檢，基本上沒太大的問題。</span></p></blockquote><p><span style="color:#000000">硬核老王透露，他在作出這一決定前曾反覆思考過，但始終沒有找到合適託付 「Linux 中國」 的人或機構。</span></p><p><span style="color:#000000">「一個不盈利、持續虧損的社區，很難找到能保持其獨立性和原則的託付人。我也不願意將 「Linux 中國」 所有的資產都賣給商業機構。有人曾經願意出高價買我們的域名，但是，他們出的價遠遠買不起我為此出售良心和名譽的代價。總的來説，就是因為這些大大小小的原因，我做出了艱難的決定，結束這些年的堅持。對不起了，大家。」</span></p><p><span style="color:#000000">除了對支持者們表達歉意以及感謝外，硬核老王表示，在這篇告別信發出後，除非有特殊情況，他將停止在 「Linux 中國」 的主網、公眾號、視頻號、B 站等所有渠道的內容發佈。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">並在春節期間將 「Linux 中國」 所有發佈的文章都打包成一份電子書，供大家收藏留用。主網和公眾號也都會保持相當長的時間的訪問，只是可能不會再更新了。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">此外，他個人則計劃在今年躺平幾個月，然後準備一個人出門走走，或許是自駕，或許是摩旅，去尋找一下人生的意義。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 01 Feb 2024 07:40:23 GMT</pubDate>
+            <pubDate>Thu, 01 Feb 2024 07:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/277277</guid>
             <link>https://www.oschina.net/news/277277</link>
             <author>
@@ -227,116 +945,6 @@
             <link>https://www.oschina.net/news/277214</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[騰訊 APIJSON 插件 apijson-cassandra 開源，支持 FB 分佈式數據庫]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><img height="1570" src="https://oscimg.oschina.net/oscnet/up-bdaf900bde612e78f2a7ac5ec7f7dda180c.png" width="2202" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">騰訊 APIJSON 是一種專為 API 而生的 JSON 網絡傳輸協議，以及，基於這套協議實現的 ORM 庫。<br><strong>為各種增刪改查提供了完全自動化的萬能 API，零代碼實時滿足千變萬化的各種新增和變更需求。</strong><br> 能大幅降低開發和溝通成本，簡化開發流程，縮短開發週期。適閤中小型前後端分離的項目。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>自 2016 年開源 7 年來發展迅速，目前 16K+ Star 位居 400W Java 開源項目前 100。</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>國內，騰訊、華為、阿里巴巴、字節跳動、美團、拼多多、百度、京東、網易、快手、圓通，等 和<br> 國外 Google, Apple, Microsoft, Amazon, Tesla, Meta(FB), Paypal 等數百個知名大廠員工 Star，<br> 也有，騰訊、華為、字節跳動、Microsoft、Zoom、知乎，等 工程師/專家/架構師，提了 PR/Issue，<br> 還被，騰訊、華為、百度、SHEIN、快手、中興、傳音、圓通、美圖，等各大知名廠商用於各類項目。</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="1352" src="https://oscimg.oschina.net/oscnet/up-05507add1ab73979181e2a721832b2ef017.png" width="1850" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="1344" src="https://oscimg.oschina.net/oscnet/up-b0118180bc641918130cef0f4dee2bf1ca1.png" width="1634" referrerpolicy="no-referrer"></p><p>&nbsp;</p><h1>apijson-cassandra<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjitpack.io%2F%23APIJSON%2Fapijson-cassandra" target="_blank"><img alt="" src="https://camo.githubusercontent.com/1a50edf6b886599fdac3174657cb8b4c3bfbaee500ae9bf763aac93ce32ff207/68747470733a2f2f6a69747061636b2e696f2f762f4150494a534f4e2f6170696a736f6e2d63617373616e6472612e737667" referrerpolicy="no-referrer"></a></h1><p style="color:#1f2328; text-align:start">騰訊<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FTencent%2FAPIJSON" target="_blank">APIJSON</a><span>&nbsp;</span>6.1.0+ 的 Cassandra 數據庫插件，可通過 Maven, Gradle 等遠程依賴。</p><h2>添加依賴</h2><h4>1. 在 pom.xml 中添加 JitPack 倉庫</h4><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">repositories</span>&gt;
-&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">repository</span>&gt;
-    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">id</span>&gt;jitpack.io&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">id</span>&gt;
-    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">url</span>&gt;https://jitpack.io&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">url</span>&gt;
-&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">repository</span>&gt;
-&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">repositories</span>&gt;</pre><div>
-  &nbsp;
- </div></div><p style="color:#1f2328; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fuser-images.githubusercontent.com%2F5738175%2F167261814-d75d8fff-0e64-4534-a840-60ef628a8873.png" target="_blank"><img alt="image" src="https://user-images.githubusercontent.com/5738175/167261814-d75d8fff-0e64-4534-a840-60ef628a8873.png" referrerpolicy="no-referrer"></a></p><p>&nbsp;</p><h4>2. 在 pom.xml 中添加 apijson-cassandra 依賴</h4><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
-    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.github.APIJSON&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
-    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;apijson-cassandra&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
-    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;LATEST&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
-&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
-</pre></div><h3>使用</h3><p style="color:#1f2328; text-align:start">在你項目繼承 AbstractSQLExecutor 的子類重寫方法 execute<br> Override execute in your SQLExecutor extends AbstractSQLExecutor</p><div><pre><span style="color:var(--color-prettylights-syntax-constant)">@</span><span style="color:var(--color-prettylights-syntax-constant)">Override</span><span style="color:var(--color-prettylights-syntax-keyword)">public</span><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">JSONObject</span><span>execute</span>(<span style="color:var(--color-prettylights-syntax-constant)">@</span><span style="color:var(--color-prettylights-syntax-constant)">NotNull</span><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">SQLConfig</span>&lt;<span style="color:var(--color-prettylights-syntax-storage-modifier-import)">Long</span>&gt; <span>config</span>, <span style="color:var(--color-prettylights-syntax-storage-modifier-import)">boolean</span><span>unknownType</span>) <span style="color:var(--color-prettylights-syntax-keyword)">throws</span><span>Exception</span> {
-            <span style="color:var(--color-prettylights-syntax-keyword)">if</span> (<span>config</span>.<span style="color:var(--color-prettylights-syntax-entity)">isCassandra</span>()) {
-                <span style="color:var(--color-prettylights-syntax-keyword)">return</span><span style="color:var(--color-prettylights-syntax-storage-modifier-import)">CassandraUtil</span>.<span style="color:var(--color-prettylights-syntax-entity)">execute</span>(<span>config</span>, <span style="color:var(--color-prettylights-syntax-constant)">null</span>, <span>unknownType</span>);
-            }
-   
-            <span style="color:var(--color-prettylights-syntax-keyword)">return</span><span style="color:var(--color-prettylights-syntax-entity)">super</span>.<span style="color:var(--color-prettylights-syntax-entity)">execute</span>(<span>config</span>, <span>unknownType</span>);
-        }</pre><div>
-  &nbsp;
- </div></div><p style="color:#1f2328; text-align:start">有問題可以去 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FTencent%2FAPIJSON" target="_blank">Tencent/APIJSON</a> 提 issue<br> &nbsp;</p><h4>創作不易，右上角點亮 ⭐Star 支持/收藏下吧，謝謝 ^_^</h4><p style="color:#1f2328; text-align:start"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAPIJSON%2Fapijson-cassandra" target="_blank">https://github.com/APIJSON/apijson-cassandra</a></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 01 Feb 2024 01:53:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277203/apijson-cassandra-open-source</guid>
-            <link>https://www.oschina.net/news/277203/apijson-cassandra-open-source</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[德國鐵路公司招聘熟悉 MS-DOS 和 Windows 3.11 的 IT 管理員]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>推特用户@konkretor 發帖介紹了一則乍看讓人感覺時空錯亂的招聘消息：一家德國鐵路公司正在尋求<strong>熟悉 Windows 3.11 系統</strong>的 IT 管理員 —— <strong>有 MS-DOS 使用經驗更佳</strong>。據稱該崗位負責「德國幾乎所有鐵路的顯示面板」。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-fc514ca3beb89e2b5bea97825fb37daba85.png" referrerpolicy="no-referrer"><br><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fkonkretor%2Fstatus%2F1751221660718444694" target="_blank">https://twitter.com/konkretor/status/1751221660718444694</a></u></em></p></blockquote><p>目前這則招聘信息已被刪除，不過網友們已經在此之前進行了備份：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farchive.is%2FCKNYJ" target="_blank">https://archive.is/CKNYJ</a></u></em>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-e7247517dc0ca4714354ce989cc700cc4ce.png" referrerpolicy="no-referrer"></p></blockquote><p>招聘信息寫道，該崗位的工作內容是<strong>維護對鐵路運營仍然至關重要的舊系統，以及更新驅動。</strong>它們運行於高速和區域列車上的駕駛室顯示面板，用於向駕駛員實時展示最重要的技術數據。</p><p>微軟在 1992 年推出了 Windows 3.1，至今已有 30 多年曆史。德國的工業和科技整體上起步較早，所以像鐵路這樣的關鍵基礎設施依賴着「上古時代」的操作系統和硬件並不罕見。更何況這個崗位負責的顯示面板只是用於展示信息數據，不涉及到關鍵功能——「如果沒有壞到不能用，就用不着更換」。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f502fa4b09a5d0cb9f235a05d2ed765139.png" referrerpolicy="no-referrer"></p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D39160956" target="_blank">在 Hacker News 的討論貼中</a></u>，有網友提到德國的 ICE 1 和 ICE 2 列車目前使用的就是上述的老舊系統，並且在 2030 年或更晚之前可能仍需要依賴 MS-DOS 和 Windows 3.11 的軟件。另一個有趣的細節是，運行 Windows 3.11 的鐵路系統的 BIOS 可以追溯到 1996 年，這些機器配備了 166MHz 處理器和 8MB RAM。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 08:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277087/ms-dos-and-windows-311-still-run-train-dashboards</guid>
-            <link>https://www.oschina.net/news/277087/ms-dos-and-windows-311-still-run-train-dashboards</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微軟組建新團隊，幫助用 Rust 重寫核心 Windows 庫]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>微軟一直在致力於用&nbsp;Rust&nbsp;重寫其核心 Windows 組件。該公司最新發布的一則招聘信息<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjobs.careers.microsoft.com%2Fglobal%2Fen%2Fjob%2F1633482%2FPrincipal-Software-Architect" target="_blank">透露</a>，正在招聘更多人員組建新團隊，以實現這一目的。</p><ul></ul><blockquote><p>「我們正在組建一個新的團隊，專注於將 Rust 編程語言作為實現全球規模平台服務現代化的基礎。我們歡迎經驗豐富的軟件架構師加入我們的團隊，幫助我們應對這一具有巨大全球影響力的挑戰。成功的候選人必須具備深厚的 Rust 編程語言技能，或者願意在短期內成為 Rust 專家，同時作為項目領導團隊的一員做出貢獻。他的職責包括指導技術方向、設計和實施 Rust 組件庫、SDK，以及將現有的基於 C# 的全球規模服務重新實現為 Rust。&nbsp;」</p></blockquote><p><img height="234" src="https://oscimg.oschina.net/oscnet/up-10dcc114c5acb3ec6e1410ff094c9c24bfb.png" width="700" referrerpolicy="no-referrer"></p><p>具體來説，名為「M365 首席軟件架構師」的職位要求，擁有構建服務器/服務應用程序的豐富經驗。以及：</p><ul><li>提供大規模、大容量服務的經驗</li><li>有深厚的系統設計經驗者優先</li><li>精通 Rust 和 C# 等。</li></ul><p>此外，掌握分佈式系統設計、Restful API 開發 、面向對象編程、SDK 開發技能的應聘者將被優先考慮。</p><p><strong>相關閲讀：</strong></p><ul><li><a href="https://www.oschina.net/news/238894/microsoft-windows-rust" target="_blank">微軟正在用 Rust 重寫核心 Windows 庫</a></li><li><a href="https://www.oschina.net/news/249719/rust-in-the-windows-kernel" target="_blank">微軟：加大力度在 Windows 11 使用 Rust</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:36:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277061/microsoft-new-team-rewrite-core-windows-components-rust</guid>
-            <link>https://www.oschina.net/news/277061/microsoft-new-team-rewrite-core-windows-components-rust</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[業內首個代碼大模型標準正式發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>2024 年 1 月 25 日，<strong>中國信息通信研究院</strong>（以下簡稱「中國信通院」）與<strong>中國工商銀行</strong>聯合牽頭髮起的《<strong>智能化軟件工程技術和應用要求，第 1 部分：代碼大模型</strong>》（標準編號 AIIA/PG 0110-2023）標準正式發佈。</p><p><img src="https://oscimg.oschina.net/oscnet/up-17493f86ca4fc23f4bf04c9966da1136a69.png" referrerpolicy="no-referrer"></p><p><em>《智能化軟件工程技術和應用要求》系列標準結構</em></p><p>該標準規定了代碼大模型的技術能力和應用要求，適用於企業在代碼大模型的研發、評估和驗收等過程中，為代碼大模型能力的建設和改進提供參考，為代碼大模型的技術選型提供指引。</p><p>該標準分為通用能力、專用場景能力和應用成熟度三大部分，包括 16 個能力項，100 多個能力要求，主要從輸入多樣性、任務多樣性、語言完備度、結果可接收性、結果準確度等維度，對代碼大模型提出了全棧技術能力要求。</p><p><img src="https://oscimg.oschina.net/oscnet/up-bd265583840f7c2a1a2f4355c332c4d9473.png" referrerpolicy="no-referrer"></p><p>中國人工智能產業發展聯盟（AIIA）表示，智能化軟件工程領域持續湧現出以代碼大模型為首的三類大模型，<strong>代碼大模型數量最多，運維和測試大模型次之</strong>。</p><ul><li><p>代碼大模型以其強大的代碼理解、代碼生成、代碼檢查、代碼優化、研發問答等能力，助力軟件編碼效率和質量的提升；</p></li><li><p>測試大模型當前重點關注智能單測、測試腳本生成、測試數據生成等方面，未來將從系統測試和業務測試角度真正意義上提升測試能力；</p></li><li><p>運維大模型當前重點關注運維知識問答、工單處理等方面，未來將從故障識別、故障預測、運維安全等多維度推動 AIOps 全過程智能水平提升。</p></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5ed8594e70a8f39cd8ec922525ed46bc740.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277058</guid>
-            <link>https://www.oschina.net/news/277058</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[IntelliJ 負責人 Kirill Skrygan 成為 JetBrains 新任 CEO]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>JetBrains 公司正式對外宣佈了最新人事任命：原負責領導 IntelliJ 部門的 Kirill Skrygan&nbsp;將於 2024 年 2 月 1 日起擔任首席執行官。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-3943b858bab2621d791912e56f8421bca6a.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.jetbrains.com%2Fblog%2F2024%2F01%2F30%2Fjetbrains-ceo-transition%2F" target="_blank">https://blog.jetbrains.com/blog/2024/01/30/jetbrains-ceo-transition/</a></u></em></p></blockquote><p>JetBrains 在公告寫道：</p><blockquote><p>在我們邁向人工智能發揮變革作用的新時代之際，公司已經建立了一個良好的底層基礎，並且可以在此基礎上繼續推動公司向前發展。</p><p>作為新階段的一部分，Kirill Skrygan 自 2010 年加入 JetBrains，並在過去幾年裏一直領導 IntelliJ 部門，他將於 2024 年 2 月 1 日擔任首席執行官一職。</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277057/jetbrains-ceo-transition</guid>
-            <link>https://www.oschina.net/news/277057/jetbrains-ceo-transition</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Monibuca 2023 年終回顧]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>2023 年回顧</h1><ul><li>成立南京模擬不卡科技有限公司</li><li>monibuca.com 域名通過備案</li><li>開通 qq 頻道</li><li>開通微信公眾號</li><li>推出各產品的 docker 版</li><li>Jessibuca 亮相 LVS 大會</li><li>推出 API 調試工具（基於 ApiFox）</li></ul><h2>Monibuca</h2><ul><li>版本號從<code>v4.3.4</code> 到 <code>v4.7.4</code></li><li>修復大量 bug，穩定性大幅提升</li></ul><h3>重要功能</h3><ul><li>時光回溯 (v4.4.0)</li><li>內存回收 (v4.4.0)</li><li><code>WebRTC</code> 傳輸 <code>AAC</code>、<code>H265</code>(v4.4.13)</li><li>日誌多語言 (v4.5.0)</li><li>配置功能優化，可以用環境變量覆蓋配置 (v4.5.3)</li><li>鑑權機制 ( v4.5.5)</li><li>增加 <code>trace</code> 級別日誌 (v4.5.5)</li><li>讀取 <code>mp4</code> 流 (v4.5.5)</li><li>增加內部訂閲者機制 (v4.5.5)</li><li>支持<code>EnhancedRTMP</code>規範 (v4.5.6)</li><li>新增<code>idletimeout</code>配置 (v4.5.7)</li><li>增加全局配置項<code>disableall</code>(v4.5.8)</li><li>配置支持<code>yaml tag name</code>(v4.5.9)</li><li>支持 <code>RTMPS</code> (v4.6.1)</li><li><code>http/ws-h264/h265</code> 裸流支持（v4.6.2)</li><li>引擎引入<code>sync.Cond</code>替代偽自旋鎖（v4.6.2)</li><li>單元測試和基準測試（v4.6.5)</li><li>錄製支持 mp4 格式（v4.6.8)</li><li>流新增一個狀態（v4.7.0）</li><li>遠端推拉增加正則表達式（v4.7.0）</li><li>增加 av1 和 opus 支持（v4.7.2)</li></ul><h3>新增插件</h3><ul><li><code>Monitor</code>監控插件 (v4.5.0)</li><li><code>PS</code>接受 PS 流插件 (v4.5.7)</li><li><code>LL-HL</code> llhls 格式插件 (v4.6.1)</li><li><code>CascadeServer/CascadeClient</code>級聯插件 (付費)</li><li><code>Transcode</code>轉碼插件 (付費)</li><li><code>Snappro</code>快速截圖插件 (付費)</li><li><code>CDN</code>轉推 CDN 插件 (付費)</li><li><code>Crypto</code>加密插件 (付費)</li><li><code>Gb28181pro</code>高級 GB 插件 (付費)</li></ul><h2>Jessibuca</h2><h3>網絡層</h3><ul><li>WebRTC 協議流（<code>h26x</code>）對接 <code>m7s</code>、<code>srs</code>、<code>zlm</code>、<code>阿里雲</code> 等服務器</li><li>加密流（<code>M7S</code>）(<code>H26x</code>)</li><li><code>fmp4</code>協議</li><li><code>h26x</code>裸流格式</li><li><code>Hls</code>協議流（<code>h26x</code>）</li><li>TF 卡錄像流（倍速、保持連接）</li><li>SEI 幀解析</li></ul><h3>解碼層</h3><ul><li><code>H.26x</code><code>WASM</code>（<code>SIMD</code>) 多線程視頻 (1080P 及以上)</li><li><code>Mpeg-4</code> 視頻格式軟解碼</li><li><code>MP3</code>音頻</li></ul><h3>編碼層</h3><ul><li>語音通訊（<code>PCM</code>/<code>G711A</code>/<code>G711U</code>/<code>Opus</code>）</li><li>視頻錄製（<code>flv</code>、<code>mp4</code>）</li></ul><h3>UI 層</h3><ul><li>性能面板</li><li>底部 UI 按鈕自定義</li><li>loading 效果</li><li>進度條</li><li>PTZ 雲台</li><li>電子放大</li><li>水印（全屏、動態、幽靈）</li><li>AI（人臉識別、物品識別、遮擋物檢測、黑/綠/花屏檢測）</li><li>NxN 路多屏播放、拖拽排序、局部全屏</li></ul><h2>Rebebuca</h2><ul><li>1 月開發 v1 版本</li><li>11 月 v2 版本開源</li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 03:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/langhuihui/blog/10993892</guid>
-            <link>https://my.oschina.net/langhuihui/blog/10993892</link>
-            <author>
-                <![CDATA[原創]]>
             </author>
         </item>
     </channel>
