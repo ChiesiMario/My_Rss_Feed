@@ -16,8 +16,801 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 01 Feb 2024 11:07:39 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 02 Feb 2024 07:19:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[基于 Netty 开发轻量级 RPC 框架]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><blockquote><p>笔者在开发基于客户端/服务端模式通信的插件的时候，需要用到轻量级最小包依赖的 RPC 框架，而市面上的 RPC 框架份量过于庞大，最终打包下来都是几十兆甚至上百兆，而这里面大多数功能我都用不上，于是思来想去我决定写一款属于自己的轻量级 RPC 框架，简单易用快速接入。</p></blockquote><span id="OSC_h2_1"></span><h2>关于技术选型</h2><span id="OSC_h3_2"></span><h3>协议序列化/反序列化</h3><p>网络通信基于 TCP/IP 为基础自定义应用层协议，常见的序列化/反序列化工具有 java 原生序列化，json,kryo,protobuf,fst,hessian 等。</p><p>在不考虑跨语言的情况下，从序列化时长/序列化大小/易用性/扩展性这几方面考虑，综合性比较强的是 kryo，但是 kryo 只支持 java 版本不能跨语言 (据说能跨语言但是非常复杂，相当于不能跨语言了)，protobuf 是性能最强的且支持跨语言，但是需要事先基于 proto 生成一个类，这会导致所有序列化和反序列化的时候只能用 proto 定义的类型。</p><p>最终选择 kryo 和 protobuf 两种序列化工具，使用的时候可选序列化类型，前者序列化几乎不受限制，后者支持跨语言，但是必须事先生成 proto 类型的类并使用其作为序列化工具。</p><span id="OSC_h3_3"></span><h3>通信框架使用</h3><p>高性能异步非阻塞框架非 Netty 不可了，客户端和服务端基于 Netty 开发可事半功倍。</p><p>但是基于 Netty 再加上 zk 连接和各种工具打包完都需要 20M 左右，所以除了 client 和 server 端外，再开发一个 client-mini 模块，这个模块是 client 端基于 nio 开发的，性能虽然不如 netty 但是没有任何依赖，打包下来仅 20kb。</p><span id="OSC_h3_4"></span><h3>服务注册和发现</h3><p>注册中心选择 zookeeper 作为服务注册和服务发现，当然如果只用单点模式的话其实是不需要注册中心的，所以 zookeeper 是可选组件。</p><span id="OSC_h2_5"></span><h2>开发 RPC 框架</h2><p>好了，有了上述这些技术就可以步入 RPC 框架的开发了，我这里分为了以下模块：</p><ul><li>base : 基础公共模块</li><li>protocol : 协议层，包含应用层通信协议，以及序列化/反序列化，支持 kryo 和 protobuf</li><li>registry : 注册模块，基于 zookeeper 作为注册中心，包含注册服务和服务发现</li><li>server : 服务端</li><li>client : 客户端</li><li>client-mini : 不依赖任何包的客户端，基于 NIO</li></ul><span id="OSC_h3_6"></span><h3>应用层协议</h3><p>首先设计通信协议层，一个 rpc 框架通信的每一次请求主要包含服务名 (serviceName)，函数名 (methodName)，参数类型 (paramTypes) 和参数 (params) 等字段，当然再加上请求唯一 id: traceId</p><pre><code class="language-java">@ShadowEntity  
+public class ShadowRPCRequest {  
+
+    @ShadowField(1)  
+    private String traceId;  
+
+    @ShadowField(2)  
+    private String serviceName;  
+
+    @ShadowField(3)  
+    private String methodName;  
+
+    @ShadowField(4)  
+    private Class&lt;?&gt;[] paramTypes;  
+
+    @ShadowField(5)  
+    private Object[] params;
+}
+
+</code></pre><p>上述 ShadowRPCRequest 是基于 kryo 序列化方式进行的一个定义，适合于客户端和服务端都是 java，如果要跨语言，则需要使用 protobuf，protobuf 首先定义一个 request.proto</p><pre><code class="language-proto">syntax = "proto3";  
+  
+  
+package com.liubs.shadowrpc.protocol.entity;  
+option java_outer_classname="ShadowRPCRequestProto";  
+  
+message ShadowRPCRequest {  
+    string traceId = 1;  
+    string serviceName = 2;  
+    string methodName = 3;  
+    repeated string paramTypes = 4; //参数类名  
+    repeated bytes params = 5; //bytes 类型充当参数  
+}
+
+</code></pre><p>由于要跨语言，所以参数用 bytes 的集合类型，反序列化时需要二次解压缩成具体的类型，但是即便是这样仍然比 kryo 要快。</p><p>同理，与 ShadowRPCRequest 对应的消息体是响应 ShadowRPCResponse</p><pre><code class="language-java">@ShadowEntity  
+public class ShadowRPCResponse {  
+ 
+    @ShadowField(1)  
+    private String traceId;  
+
+    @ShadowField(2)  
+    private int code;  
+
+    @ShadowField(3)  
+    private String errorMsg;  
+
+    @ShadowField(4)  
+    private Object result;
+}
+
+</code></pre><p>然后就是基于 kryo 和 protobuf 的序列化和反序列化了，kryo 有很多种序列化策略，考虑到函数参数需要支持增减字段，所以 kryo 使用 TaggedField 策略，上面的@ShadowField 注解是我进行的一些简单的封装，每次新增字段的时候需要加上注解即可，而 protobuf 天生就支持参数增减字段。</p><p>kryo 的序列化和反序列化如下：</p><pre><code class="language-java">public class KryoSerializer implements ISerializer {  
+  
+    private static ThreadLocal&lt;Kryo&gt; kryoThreadLocal = ThreadLocal.withInitial(() -&gt; {  
+        Kryo kryo = new Kryo();  
+
+        kryo.setDefaultSerializer(new KryoFieldSerializerFactory());  
+
+        kryo.setReferences(false);  
+        kryo.setRegistrationRequired(false); //不需要提前注册  
+
+        //注册一定会用到的，序列化可以省点空间  
+        kryo.register(Class.class);  
+        kryo.register(Class[].class);  
+        kryo.register(Object[].class);  
+        kryo.register(ShadowRPCRequest.class);  
+        kryo.register(ShadowRPCResponse.class);  
+
+        return kryo;  
+    });  
+  
+  
+  
+    @Override  
+    public byte[] serialize(Object object) {  
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
+        Output output = new Output(byteArrayOutputStream);  
+        kryoThreadLocal.get().writeObject(output, object);  
+        output.close();  
+        return byteArrayOutputStream.toByteArray();  
+    }  
+  
+    @Override  
+    public &lt;T&gt; T deserialize(byte[] array, Class&lt;T&gt; clazz) {  
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(array);  
+        Input input = new Input(byteArrayInputStream);  
+        T object = kryoThreadLocal.get().readObject(input, clazz);  
+        input.close();  
+        return object;  
+    }  
+}
+
+</code></pre><p>protobuf 的序列化和反序列化则是通过调用生成的 proto 类来实现序列化和反序列化的，</p><p>序列化：</p><pre><code class="language-java">@Override  
+public byte[] serialize(Object object) {  
+    if (object instanceof MessageLite) {  
+    return ((MessageLite) object).toByteArray();  
+    }  
+    if (object instanceof MessageLite.Builder) {  
+    return (((MessageLite.Builder) object).build().toByteArray());  
+    }  
+
+    return new byte[0];  
+}
+
+</code></pre><p>反序列化:</p><pre><code class="language-java">
+public &lt;T&gt; T deserialize(MessageLite messageLite,byte[] array, Class&lt;T&gt; clazz) {  
+    return messageLite.getDefaultInstanceForType().getParserForType().parseFrom(array, 0, array.length);
+}
+
+</code></pre><span id="OSC_h3_7"></span><h3>消息的粘包/拆包和半包处理</h3><p>TCP/IP 是面向流的协议，操作系统底层其实并不关心我们自定义的应用层协议包是否完整，在高并发情况下，我们一次性发送多个包会被写入到一个流中，就是所谓的「粘包」，而接收方则需要根据收到的流进行拆分得到具体的包，称为「拆包」，</p><p><img height="183" src="https://oscimg.oschina.net/oscnet/up-f2a9582fee1ea86078a7229ef8328328729.png" width="600" referrerpolicy="no-referrer"></p><p>比如上面的 A,B,C,D,E,F 是一次性发送的包，但是在发送 D 的时候超过了发送缓冲区被拆分成了 D1 和 D2，而接收方从缓冲区读取到 A,B,C,D1 的时候完全不知所措，我们需要处理每个包的边界，并且还需要将第一次包中的 D1 和第二次包中的 D2 进行合并成 D 形成一个完整的包 D。</p><p>业界最常用的方案是，发送方在写入缓冲区字节流的时候，先写入消息的长度，再写入消息字节，而接收方则先读取长度 n，再读取 n 个字节，如果字节数不到 n，则重制 position，等下一次读取消息的时候再读取完整 n 个长度的字节流形成一个消息包。</p><p>写入字节流代码：</p><pre><code class="language-java">int dataLength = data.length;  
+out.writeInt(dataLength); // 先写入消息长度  
+out.writeBytes(data); // 写入序列化后的数据
+
+</code></pre><p>而接收方，用 netty 现成的 LengthFieldBasedFrameDecoder 即可</p><pre><code class="language-java">pipeline.addLast(new LengthFieldBasedFrameDecoder(globalConfig.getMaxFrameLength(),  
+0, 4, 0, 4));
+
+</code></pre><p>这里的 4 表示 4 个字节 (int 类型)，它会先读取 4 个字节，再读取字节流，根据长度拆分不同的」Frame「，即我们需要的消息包。</p><span id="OSC_h3_8"></span><h3>Netty 构建通信框架</h3><p>针对 Netty 构建通信网络初始化，最终目标是实现客户端发送一个 ShadowRPCRequest 消息就能调用服务并返回给客户端 ShadowRPCResponse 消息</p><pre><code class="language-java">NioEventLoopGroup bossGroup = new NioEventLoopGroup();  
+NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+ServerBootstrap bootstrap = new ServerBootstrap();  
+bootstrap.group(bossGroup, workerGroup)  
+.channel(NioServerSocketChannel.class)  
+.childHandler(new ShadowChannelInitializer(serverConfig))  
+.option(ChannelOption.SO_BACKLOG, 128)  
+.childOption(ChannelOption.SO_KEEPALIVE, true);  
+  
+channelFuture = bootstrap.bind(port).sync();
+
+</code></pre><p>childHandler 里面使用 ShadowChannelInitializer 作为每个连接的处理</p><pre><code class="language-java">public class ShadowChannelInitializer extends ChannelInitializer&lt;SocketChannel&gt; {  
+  
+    private ServerConfig serverConfig;  
+
+    public ShadowChannelInitializer(ServerConfig serverConfig) {  
+    this.serverConfig = serverConfig;  
+    }  
+
+    @Override  
+    protected void initChannel(SocketChannel ch) throws Exception {  
+    ChannelPipeline pipeline = ch.pipeline();  
+
+    //qps 请求量统计  
+    if(serverConfig.isQpsStat()) {  
+    pipeline.addLast(new QpsStatHandler());  
+    }  
+
+    //处理帧边界，解决拆包和粘包问题  
+    pipeline.addLast(new LengthFieldBasedFrameDecoder(serverConfig.getMaxFrameLength(),  
+    0, 4, 0, 4));  
+
+    //消息序列化和反序列化  
+    pipeline.addLast(new MessageHandler());  
+
+    //服务处理  
+    pipeline.addLast(new ServerHandler());  
+    }  
+}
+
+</code></pre><p>紧接着就是对接收到客户端的 ShadowRPCRequest 消息的处理，ShadowRPCRequest 里面包含了服务名，函数名以及参数，考虑到也有可能是 protobuf 类型 ShadowRPCRequestProto，这里统一转换成抽象层的 model: RequestModel，字段和 ShadowRPCRequest 都差不多，然后找到对应的服务触发逻辑和响应 ServerHandler</p><pre><code class="language-java">public class ServerHandler extends ChannelInboundHandlerAdapter {  
+  
+    @Override  
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {  
+
+    // 打印验证影响速度，压测时去掉  
+    //logger.info("Server received: " + msg);  
+
+    IModelParser modelParser = serializeModule.getSerializer().getModelParser();  
+
+    RequestModel requestModel = modelParser.fromRequest(msg);  
+
+    executorService.execute(()-&gt;{  
+    try {  
+
+        ServiceLookUp serviceLookUp = new ServiceLookUp();  
+        serviceLookUp.setServiceName(requestModel.getServiceName());  
+        serviceLookUp.setMethodName(requestModel.getMethodName());  
+        serviceLookUp.setParamTypes(requestModel.getParamTypes());  
+        ServiceTarget targetRPC = serverModule.getRPC(serviceLookUp);  
+
+        Object result = targetRPC.invoke(requestModel.getParams());  
+
+        ResponseModel responseModel = new ResponseModel();  
+        responseModel.setTraceId(requestModel.getTraceId());  
+        responseModel.setCode(ResponseCode.SUCCESS.getCode());  
+        responseModel.setResult(result);  
+
+        // 响应客户端  
+        ctx.writeAndFlush(modelParser.toResponse(responseModel));  
+        } catch (Exception e) {  
+        e.printStackTrace();  
+    }  
+
+    });  
+
+    }  
+  
+}
+
+</code></pre><p>至于根据 RequestModel 是如何找到对应的服务的，就需要在服务端启动的时候扫描所有的服务缓存到 serverModule 里面了，这样就能通过 serverModule 获取到 targetRPC</p><pre><code class="language-java">@ShadowModule  
+public class ServerModule implements IModule {  
+    private static final Logger logger = LoggerFactory.getLogger(ServerModule.class);  
+
+    @ModuleInject  
+    private SerializeModule serializeModule;  
+
+    private ServerConfig serverConfig;  
+
+    //所有服务  
+    private Map&lt;ServiceLookUp,ServiceTarget&gt; allRPC = new ConcurrentHashMap&lt;&gt;();  
+
+    public void init(ServerConfig serverConfig,List&lt;String&gt; packages) {  
+        this.serverConfig = serverConfig;  
+        //初始化服务  
+        List&lt;ShadowServiceHolder&lt;ShadowService&gt;&gt; shadowServices = new ArrayList&lt;&gt;();  
+
+        for(String packageName : packages) {  
+        try {  
+        shadowServices.addAll(AnnotationScanner.scanAnnotations(packageName, ShadowService.class));  
+        } catch (IOException e) {  
+        logger.error("scanService err",e);  
+        }  
+        }  
+
+        for(ShadowServiceHolder&lt;ShadowService&gt; ShadowServiceHolder : shadowServices) {  
+        ShadowService serviceAnnotation = ShadowServiceHolder.getAnnotation();  
+        Class&lt;?&gt; serviceClass = ShadowServiceHolder.getClassz();  
+        try {  
+        Object o = serviceClass.newInstance();  
+
+
+        for(Method method : serviceClass.getMethods()) {  
+
+        if(Modifier.isStatic(method.getModifiers()) || !Modifier.isPublic(method.getModifiers())){  
+        continue;  
+        }  
+
+        ServiceLookUp serviceLookUp = new ServiceLookUp();  
+        serviceLookUp.setServiceName(serviceAnnotation.serviceName());  
+        serviceLookUp.setMethodName(method.getName());  
+        serviceLookUp.setParamTypes(method.getParameterTypes());  
+
+        ServiceTarget serviceTarget = new ServiceTarget();  
+        serviceTarget.setTargetObj(o);  
+        serviceTarget.setMethod(method);  
+        addRPCInterface(serviceLookUp,serviceTarget);  
+        }  
+
+        } catch (InstantiationException | IllegalAccessException e) {  
+        throw new RuntimeException(e);  
+        }  
+        }  
+    }  
+
+    public void addRPCInterface(ServiceLookUp lookUp,ServiceTarget obj) {  
+        allRPC.put(lookUp,obj);  
+    }  
+
+    public ServiceTarget getRPC(ServiceLookUp lookUp) {  
+        return allRPC.get(lookUp);  
+    }  
+  
+  
+  
+}
+
+</code></pre><span id="OSC_h3_9"></span><h3>客户端调用远程 rpc 服务</h3><p>刚才我们把服务端接收 ShadowRPCRequest 消息并触发逻辑返回 ShadowRPCResponse 消息实现了，而在客户端，我们只持有服务端的一个接口，要通过这个接口创建一个远程服务调用，来实现 rpc 调用，我们最终要实现的效果是这样的</p><pre><code class="language-java">IHello helloService = shadowClient.createRemoteProxy(IHello.class,"shadowrpc://DefaultGroup/helloservice");  
+  
+System.out.println("发送 hello 消息");  
+String helloResponse = helloService.hello("Tom");  
+System.out.println("hello 服务端响应:"+helloResponse);
+
+</code></pre><p>IHello 是一个接口，没有任何实现类，实现类在服务端，而客户端我们通过创建一个远程代理的方式就能实现调用接口即发送 ShadowRPCRequest 消息到远程服务器。</p><p>我们这里使用动态代理，基于接口创建一个远程对象</p><pre><code class="language-java">public static &lt;T&gt; T create(IConnection connection, Class&lt;T&gt; serviceStub, final String service) {  
+  
+    String[] serviceArr = service.replace("shadowrpc://","").split("/");  
+    if(serviceArr.length &lt; 2) {  
+    throw new IllegalArgumentException("service 参数不符合规范");  
+    }  
+    String group = serviceArr[0];  
+    String serviceName = serviceArr[1];  
+
+    return (T)Proxy.newProxyInstance(  
+        serviceStub.getClassLoader(),  
+        new Class&lt;?&gt;[]{serviceStub},  
+        new RemoteHandler(connection,serviceStub,group,serviceName)  
+    );  
+}
+
+</code></pre><p>RemoteHandler 中实现代理对象的逻辑，发送消息到远程服务器</p><pre><code class="language-java">public class RemoteHandler implements InvocationHandler {  
+private static final Logger logger = LoggerFactory.getLogger(RemoteHandler.class);  
+  
+/**  
+* 如果不使用注册中心，则必须有 ShadowClient  
+*/  
+private IConnection clientConnection;  
+  
+/**  
+* 远程接口 stub  
+*/  
+private Class&lt;?&gt; serviceStub;  
+  
+  
+/**  
+* 集群  
+*/  
+private String group;  
+  
+/**  
+* 服务名  
+*/  
+private String serviceName;  
+  
+  
+private SerializeModule serializeModule = ModulePool.getModule(SerializeModule.class);  
+  
+public RemoteHandler(IConnection client, Class&lt;?&gt; serviceStub, String group,String serviceName) {  
+    this.clientConnection = client;  
+    this.serviceStub = serviceStub;  
+    this.group = group;  
+    this.serviceName = serviceName;  
+}  
+  
+@Override  
+public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {  
+  
+    try{  
+        RequestModel requestModel = new RequestModel();  
+        String traceId = UUID.randomUUID().toString();  
+        requestModel.setTraceId(traceId);  
+        requestModel.setServiceName(serviceName);  
+        requestModel.setMethodName(method.getName());  
+        requestModel.setParamTypes(method.getParameterTypes());  
+        requestModel.setParams(args);  
+
+        IModelParser modelParser = serializeModule.getSerializer().getModelParser();  
+        Future&lt;?&gt; future = ReceiveHolder.getInstance().initFuture(traceId);  
+
+        Channel channel = clientConnection.getChannel(group);  
+
+        if(!channel.isOpen()) {  
+        logger.error("服务器已关闭,发送消息抛弃...");  
+        return null;  
+        }  
+
+        try{  
+        channel.writeAndFlush(modelParser.toRequest(requestModel)).sync();  
+        }catch (Exception e) {  
+        logger.error("发送请求{}失败",traceId);  
+        return null;  
+        }  
+
+        ResponseModel responseModel = (ResponseModel)future.get(3, TimeUnit.SECONDS);  
+        if(responseModel != null) {  
+        return responseModel.getResult();  
+        }else {  
+        ReceiveHolder.getInstance().deleteWait(traceId);  
+        logger.error("超时请求,抛弃消息{}",traceId);  
+        return null;  
+        }  
+
+    }catch (Throwable e) {  
+    logger.error("invoke err",e);  
+    }  
+
+    return null;  
+    }  
+}
+
+</code></pre><span id="OSC_h3_10"></span><h3>服务注册与发现</h3><p>上面实现的客户端和服务端是单节点通信的，要实现服务注册与发现，需要注册中心 Registry，服务端向注册中心注册服务，客户端订阅服务节点的变化，获取到服务节点列表后负载均衡 rpc 调用服务节点的机器。</p><p><img height="426" src="https://oscimg.oschina.net/oscnet/up-a708679e97a8b88ed64a0ec96095d73c4aa.png" width="796" referrerpolicy="no-referrer"></p><p>服务端在启动的时候注册服务到 zookeeper</p><pre><code class="language-java">serviceRegistry.registerServer(new ServerNode(group,IPUtil.getLocalIp(),port));
+
+public void registerServer(ServerNode serverNode) {  
+    try {  
+    String path = ServiceRegistryPath.getServerNodePath(serverNode.getGroup(),  
+    ServiceRegistryPath.uniqueKey(serverNode.getIp(),serverNode.getPort()));  
+    this.zkNodePath = zooKeeperClient.create(path, serverNode.toBytes());  
+    } catch (Exception e) {  
+    e.printStackTrace();  
+    }  
+}
+
+</code></pre><p>即在服务启动的时候创建节点 /shadowrpc/services/group/node1，这个 node1 的值就是 ip+port，而在服务关闭的时候删除这个节点</p><pre><code class="language-java">zooKeeperClient.delete(zkNodePath);
+
+</code></pre><p>客户端就可以获取 zk 下/shadowrpc/services/group 目录下的所有节点，监听目录变化，动态维护服务端的列表</p><pre><code class="language-java">ServiceDiscovery serviceDiscovery = new ServiceDiscovery(ZK_URL);
+
+//监听增量变化事件  
+//初始化状态会同步 SERVER_ADDED 事件，所以不用获取全量  
+serviceDiscovery.watchService(group, (changeType, serverNode) -&gt; {  
+    if(changeType == ServerChangeType.SERVER_ADDED) {  
+        System.out.println("Child added: " + serverNode);  
+
+        ShadowClient shadowClient = new ShadowClient(serverNode.getIp(),serverNode.getPort(),eventLoopGroup);  
+        shadowClient.init();  
+        finalShadowClients.add(shadowClient);  
+    }else if(changeType == ServerChangeType.SERVER_REMOVED){  
+        System.out.println("Child removed: " + serverNode);  
+
+        Iterator&lt;ShadowClient&gt; iterator = finalShadowClients.iterator();  
+        while(iterator.hasNext()) {  
+            ShadowClient shadowClient1 = iterator.next();  
+            if(serverNode.getIp().equals(shadowClient1.getRemoteIp()) &amp;&amp; serverNode.getPort() == shadowClient1.getRemotePort()) {  
+                shadowClient1.close();  
+                iterator.remove();  
+            }  
+        }  
+    }
+});
+
+</code></pre><p>然后维护这个 List&lt;ShadowClient&gt;表示所有服务器列表的连接的增加和删除，最后负载均衡从这个 List 里面获取连接源发送消息到远程即可。</p><pre><code class="language-java">    int nextBalance = pollingBalance.getNextBalance();  
+    shadowClientGroup.getShadowClients(group).get(nextBalance).writeAndFlush(message).sync();
+
+</code></pre><span id="OSC_h3_11"></span><h3>精简版 Client</h3><p>刚才的 Client 和 Server 都是使用 Netty 作为异步非阻塞框架搭建的，有的时候对性能要求不高但是对最终的包大小有要求的时候 (比如开发 IDEA 插件最好是 kb 级别的)，我们这里基于 NIO 来的 Reactor 模式来搭建一套简单版的 rpc client。</p><p>我们还是参考上面的 client，想服务端发送 Request 消息，下面是对 NIO 的一个简单封装 NIOClient</p><pre><code class="language-java">public void connect() throws IOException, ConnectTimeoutException {  
+    socketChannel = SocketChannel.open();  
+    socketChannel.configureBlocking(false);  
+    selector = Selector.open();  
+    socketChannel.register(selector, SelectionKey.OP_CONNECT);  
+
+    socketChannel.connect(new InetSocketAddress(host, port));  
+    isRunning = true;  
+
+    //reactor 模式  
+    this.nioReactor = new NIOReactor(this);  
+    nioReactor.start();  
+
+    //等待连接完成  
+    try{  
+    waitConnection.get(nioConfig.getConnectTimeout(), TimeUnit.MILLISECONDS);  
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {  
+    isRunning = false;  
+    throw new ConnectTimeoutException(String.format("连接服务器%s:%d 超时",host,port));  
+    }  
+}
+    
+public MessageSendFuture sendMessage(byte[] bytes) {  
+    if(null == bytes || bytes.length == 0) {  
+    return null;  
+    }  
+
+    ByteBuffer writeBuffer = ByteBuffer.allocate(4 + bytes.length); // 4 bytes for length field  
+    writeBuffer.putInt(bytes.length); // Write length of the message  
+    writeBuffer.put(bytes); // Write message itself  
+    writeBuffer.flip();  
+
+    // Add to write queue  
+    MessageSendFuture future = new MessageSendFuture(writeBuffer);  
+    writeQueue.add(future);  
+
+    // Change interest to OP_WRITE  
+    SelectionKey key = socketChannel.keyFor(selector);  
+    if(!key.isValid()) {  
+    return null;  
+    }  
+    key.interestOps(SelectionKey.OP_WRITE);  
+    selector.wakeup();  
+
+    return future;  
+}
+
+</code></pre><p>这里写入消息 sendMessage 的时候，也是先写入长度 4 字节 bytes.length，再写入 bytes。</p><p>下面是基于 Reactor 模式实现对连接消息，读写消息的统一处理</p><pre><code class="language-java">while (nioClient.isRunning()) {  
+    try {  
+    if (selector.select() &gt; 0) {  
+    processSelectedKeys();  
+    }  
+    } catch (IOException e) {  
+    logger.error("selector err",e);  
+    }  
+}
+    
+private void processSelectedKeys() throws IOException {  
+    Set&lt;SelectionKey&gt; selectedKeys = selector.selectedKeys();  
+    Iterator&lt;SelectionKey&gt; iter = selectedKeys.iterator();  
+
+    while (nioClient.isRunning() &amp;&amp; iter.hasNext()) {  
+    SelectionKey key = iter.next();  
+
+    if (key.isConnectable()) {  
+    handleConnect(key);  
+    }  
+    if (key.isWritable()) {  
+    handleWrite(key);  
+    }  
+    if (key.isReadable()) {  
+    handleRead(key);  
+    }  
+    iter.remove();  
+    }  
+}  
+
+</code></pre><p>而对读消息的拆包和半包处理原理也是和上面一样的，也是读取长度 4 字节，再读取对应长度的字节，如果不够重置 ByteBuffer 的 position 用于下次读取,这里是一个精简版本</p><pre><code class="language-java">private void handleRead(SelectionKey key) {  
+  
+    ByteBuffer buffer = readByteBuffer;  
+
+    int numRead = 0;  
+    try {  
+        numRead = socketChannel.read(buffer);  
+    } catch (IOException e) {  
+        handleClose(key);  
+        return;  
+    }  
+
+    if (numRead &gt; 0) {  
+        buffer.flip(); // 切换到读模式  
+        // 处理缓冲区中的所有数据  
+        while (buffer.remaining() &gt; 4) { // 确保有足够的数据读取长度字段  
+            buffer.mark();  
+            int length = buffer.getInt();  
+            //System.out.printf("read length=%d,remain=%d\n",length,buffer.remaining());  
+
+            if (length &lt;= buffer.remaining()) {  
+            byte[] data = new byte[length];  
+                buffer.get(data);  
+                nioClient.getReceiveMessageCallBack().handleMessage(data);  
+            } else {  
+                // 数据长度不足以构成一个完整的消息，重置并退出循环  
+                buffer.reset();  
+                break;  
+            }  
+        }  
+
+        if (buffer.hasRemaining()) {  
+            buffer.compact(); // 移动未处理数据到缓冲区开始位置  
+        } else {  
+            buffer.clear(); // 如果没有剩余数据，清空缓冲区  
+        }  
+
+        lastActiveTime = System.currentTimeMillis();  
+
+    } else if (numRead &lt; 0) {  
+        //接收到-1 表示服务器关闭  
+        handleClose(key);  
+    }  
+}
+
+</code></pre><span id="OSC_h2_12"></span><h2>RPC 框架的使用</h2><p>经过上述酣畅淋漓的 rpc 框架搭建，基本五脏俱全的 rpc 框架 ShadowRPC 就搭建完成了，下面是一些服务例子。</p><span id="OSC_h3_13"></span><h3>定义实体类</h3><pre><code class="language-java">@ShadowEntity
+public class MyMessage {
+    @ShadowField(1)
+    private String content;
+
+    @ShadowField(2)
+    private int num;
+}
+
+</code></pre><p>如果是 protobuf 方式，可定义描述文件</p><pre><code class="language-proto">message MyMessage {
+    string content = 1;
+    int32 num = 2;
+}
+
+</code></pre><p>然后直接用 maven 插件 protobuf-maven-plugin 生成实体</p><span id="OSC_h3_14"></span><h3>编写接口和服务类</h3><pre><code class="language-java">@ShadowInterface
+public interface IHello {
+    String hello(String msg);
+    MyMessage say(MyMessage message);
+}
+
+</code></pre><p>protobuf 方式的接口需要保证参数和返回类型都是 protobuf 定义的类型</p><pre><code class="language-java">@ShadowInterface
+public interface IHelloProto {
+    MyMessageProto.MyMessage say(MyMessageProto.MyMessage message);
+}
+
+</code></pre><p>然后编写服务实现类</p><pre><code class="language-java">@ShadowService(serviceName = "helloservice")
+public class HelloService implements IHello {
+    @Override
+    public String hello(String msg) {
+        return "Hello,"+msg;
+    }
+    @Override
+    public MyMessage say(MyMessage message) {
+        MyMessage message1 = new MyMessage();
+        message1.setContent("hello received "+"("+message.getContent()+")");
+        message1.setNum(message.getNum()+1);
+        return message1;
+    }
+}
+
+</code></pre><span id="OSC_h3_15"></span><h3>指定序列化类型和端口，启动服务端</h3><p>单点启动模式如下:</p><pre><code class="language-java">ServerConfig serverConfig = new ServerConfig();
+        serverConfig.setQpsStat(true); //统计 qps
+        serverConfig.setPort(2023);
+
+ServerBuilder.newBuilder()
+        .serverConfig(serverConfig)
+        .addPackage("rpctest.hello")
+        .build()
+        .start(); 
+
+</code></pre><p>使用 zk 作为集群模式启动</p><pre><code class="language-java">String ZK_URL = "localhost:2181";
+ServerConfig serverConfig = new ServerConfig();
+serverConfig.setGroup("DefaultGroup");
+serverConfig.setPort(2023);
+serverConfig.setRegistryUrl(ZK_URL);
+serverConfig.setQpsStat(true); //统计 qps
+serverConfig.setSerializer(SerializerEnum.KRYO.name());
+ServerBuilder.newBuilder()
+                .serverConfig(serverConfig)
+                .addPackage("rpctest.hello")
+                .build()
+                .start();
+
+</code></pre><span id="OSC_h3_16"></span><h3>客户端调用 rpc 服务</h3><pre><code class="language-java">ModulePool.getModule(ClientModule.class).init(new ClientConfig());
+
+ShadowClient shadowClient = new ShadowClient("127.0.0.1",2023);
+shadowClient.init();
+
+IHello helloService = shadowClient.createRemoteProxy(IHello.class,"shadowrpc://DefaultGroup/helloservice");
+
+logger.info("发送 hello 消息");
+String helloResponse = helloService.hello("Tom");
+logger.info("hello 服务端响应:"+helloResponse);
+
+MyMessage message = new MyMessage();
+message.setNum(100);
+message.setContent("Hello, Server!");
+
+System.out.printf("发送请求 : %s\n",message);
+MyMessage response = helloService.say(message);
+System.out.printf("接收服务端消息 : %s\n",response);    
+
+</code></pre><p>使用 zk 作为服务发现负载均衡调用各个服务器</p><pre><code class="language-java">ClientConfig config = new ClientConfig();
+config.setSerializer(SerializerStrategy.KRYO.name());
+ModulePool.getModule(ClientModule.class).init(config);
+String ZK_URL="localhost:2181";
+ShadowClientGroup shadowClientGroup = new ShadowClientGroup(ZK_URL);
+shadowClientGroup.init();
+
+IHello helloService = shadowClientGroup.createRemoteProxy(IHello.class, "shadowrpc://DefaultGroup/helloservice");
+List&lt;ShadowClient&gt; shadowClientList = shadowClientGroup.getShadowClients("DefaultGroup");
+
+System.out.println("所有服务器: "+shadowClientList.stream().map(c-&gt; c.getRemoteIp()+":"+c.getRemotePort()).collect(Collectors.toList()));
+
+for(int i = 0 ;i&lt;shadowClientList.size() * 5; i++) {
+    String hello = helloService.hello(i + "");
+    System.out.println(hello);
+}
+
+</code></pre><span id="OSC_h2_17"></span><h2>性能测试</h2><p>目前 Mac 笔记本 16G 4 核测试的 rpc 调用 hello 逻辑，如果使用 kryo 序列化/反序列化，100w 个请求耗时 27 秒，平均 QPS 为 3.7w，如果使用 protobuf 序列化/反序列化耗时 25 秒, 平均 QPS 为 4w，如果用 M1 芯片的 Mac，平均 QPS 可以达到 7W+，最高 QPS 可以达到 10w+。</p><span id="OSC_h2_18"></span><h2>源码</h2><p>篇幅有限，介绍的时候不够完整有些遗漏，所有源码见: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FLiubsyy%2FShadowRPC" target="_blank">https://github.com/Liubsyy/ShadowRPC</a><br> 目前仅供学习交流使用，后续我将逐步打磨此 rpc 框架达到企业级水准。</p><blockquote><p>本 RPC 框架使用的方案和技术栈都是业界通用，项目中部分源码如有雷同纯属巧合。</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 07:11:01 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/3276866/blog/10993751</guid>
+            <link>https://my.oschina.net/u/3276866/blog/10993751</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[VS Code 1.86 会导致远程开发功能无法使用]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Visual Studio Code 今日发布的最新版 <u><a href="https://www.oschina.net/news/277414/vs-code-1-86-released">1.86</a></u><span>&nbsp;引入一项严重的破坏性变化，其</span>远程开发服务器工具链<span>最低环境要求的&nbsp;</span>glibc 版本提升为 2.28。</p><p>由于&nbsp;Ubuntu 18.04 LTS 使用 glibc 2.27，因此有开发者发现自己升级到 VS Code 新版本后，使用 Remote SSH 无法连接到远程机器。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-7159057b7f201b731192ad420804af1891b.png" referrerpolicy="no-referrer"></p><p><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fv2ex.com%2Ft%2F1013590" target="_blank">https://v2ex.com/t/1013590</a></em></u></p></blockquote><p>对于该问题，目前的解决方案有两种：</p><ul><li><strong>根据对应的发行版，升级至 Ubuntu 20.04 LTS、Debian 10 或 RHEL 8</strong></li><li><strong>降级到 VS Code 1.85</strong></li></ul><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-cd7781af0c011f485dda9a5d8b8df221d79.png" referrerpolicy="no-referrer"></p></blockquote><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fdocs%2Fremote%2Ffaq%23_can-i-run-vs-code-server-on-older-linux-distributions" target="_blank">详情查看官方 FAQ</a></u>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 06:23:21 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277439/vscode-1-86-drops-ubuntu-18-04</guid>
+            <link>https://www.oschina.net/news/277439/vscode-1-86-drops-ubuntu-18-04</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[CPU vs GPU：不仅仅是一字之差]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>当今科学技术的飞速发展，社会已经迈入了信息时代的智能化阶段。人脸识别、智能客服、个性化推荐等应用已经深入到日常生活的各个方面。这些看得见的应用背后，是看不见的算力在默默地支撑着。在满足这些高算力需求的过程中，CPU 和 GPU 作为计算机的核心组件发挥着重要的承载作用。那么，CPU 和 GPU 到底是什么？它们又有什么区别？</p><p>随着数据成为五大生产要素之一，算力的作用变得愈发重要。算力即计算能力（Computing Power），更具体来说，<strong>算力是指数据中心的服务器通过对数据进行处理后实现结果输出的一种能力。</strong></p><p>算力的概念起源于计算机的发明初期。最早的计算机是由机械装置完成计算任务，而算力指的就是这些机械装置的计算能力。随后，半导体技术的出现和发展，集成电路问世，开启了芯片时代。计算机在芯片的加持下，功能越来越强大，体积也越来越小，最终诞生了个人计算机（PC），成为人类最重要的算力工具。</p><p>而后人工智能和大数据技术的迅猛发展也带动了算力需求的飞速增长。无论是训练复杂的神经网络模型，还是进行大规模数据分析和处理，算力都扮演着至关重要的角色。如今，<strong>芯片已经成为算力的主要载体</strong>。当我们谈论算力时，实际上是在讨论 CPU 和 GPU 等芯片的计算能力。在计算机科学领域，CPU 和 GPU 作为计算机的核心组件，虽然名字只有「一字之差」，但其结构和功能却大不相同。</p><span id="OSC_h1_1"></span><h1><strong>1 CPU vs GPU: 概念</strong></h1><p><strong>CPU（Central Processing Unit），即中央处理器</strong>，是电脑、手机等众多电子产品的「心脏」。在我们日常生活的诸多场景中，如观看视频、玩游戏、聊天互动等，<strong>CPU 发挥着统一指挥和调度的关键作用</strong>。它主要负责执行程序指令、进行算术和逻辑运算以及控制和协调计算机各个部件。</p><p>为了满足处理各种不同数据的强大通用性能，CPU 的内部结构设计非常复杂。CPU 由多个核心组成，每个核心又包含算术逻辑单元、控制单元和高速缓存等组件，并且可以独立地执行任务。至今为止，所有的 CPU 都遵循冯·诺依曼体系结构的基本工作流程：取指令，指令译码，执行指令，数据回写，然后再取下一个指令、译码、执行、回写，重复进行直到程序结束。通过这种工作流程，CPU 能够有效地执行程序，并控制整个系统的运行。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-10e85bcb595265cd760feadac4d6ff9b532.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 工作流程</p><p>然而，随着计算机的普及，人们对图形显示的要求不断提高，例如在进行复杂的三维建模时，需要处理大量的图形数据以呈现逼真的效果；在玩大型游戏时，要求系统能够处理高分辨率的画面和复杂的游戏场景。尽管 CPU 内部采用了各种方法来加速指令执行，但随着任务的增多，CPU 的性能显得有些力不从心。</p><p>面对这个问题，能否考虑增加更多的 CPU 来解决呢？这固然是一种思路，但这涉及到相当高的成本，并且堆叠数量也不能保证完全解决计算能力不足的问题。这时候聪明的开发者就提出了一个更巧妙的解决方案：既然 CPU 的计算能力有限，为什么不将计算单元堆叠在同一块芯片上，让它们处理大量运算的任务呢？于是，GPU 诞生了。</p><p><strong>GPU（Graphics Processing Unit），即图形处理器，</strong> 顾名思义，一种专门用来处理图形和图像计算的处理器。<strong>GPU 最初是为图形渲染和显示而设计的，用于加速计算机中图像的处理</strong>，例如在视频游戏、电影渲染、图形设计等方面。它只有少量的控制单元和缓存单元，绝大部分的空间用来堆放运算单元，主要负责完成许多计算密集型任务。</p><span id="OSC_h1_2"></span><h1><strong>2 CPU vs GPU: 「差」在哪里？</strong></h1><p>通过引入 GPU，计算机系统可以充分利用其强大的并行计算能力，加速图形和图像相关的计算任务。CPU 负责逻辑任务，而 GPU 来处理大量简单重复的计算任务，这种不同类型的任务分配给不同类型的处理器的模式，大大提高了系统性能。那么，CPU 和 GPU 到底「差」在哪里呢？</p><p><strong>2.1 架构组成</strong></p><p>CPU 和 GPU 之间存在显著差异，是因为它们各自针对不同的目标和需求来设计，具体体现在：</p><ul><li><p>CPU 需要有强大的通用性，以处理各种不同类型的数据，同时需要进行逻辑判断，包括大量的分支跳转和中断处理，这导致内部结构异常复杂。</p></li><li><p>GPU 主要面向类型高度统一、相互无依赖的大规模数据，并在纯净的计算环境中执行，因此不需要处理复杂的逻辑操作。</p></li></ul><p>这就导致了 CPU 和 GPU 呈现出非常不同的架构：</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-8aa6a52075b93619752a89167782aee5119.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 基本架构</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-c3ccf2310c31a2e6354388180ec4615ba97.png" referrerpolicy="no-referrer"></p><p style="text-align:center">GPU 基本架构</p><p>CPU 拥有较大的缓存单元以及复杂的逻辑控制单元，相比之下计算能力只是 CPU 很小的一部分。而 GPU 则拥有数量众多的计算单元和超长的流水线，但只有非常简单的逻辑控制以及较小的缓存单元。</p><p><strong>2.2 设计理念</strong></p><p>CPU 和 GPU 的设计理念也截然不同。首先，<strong>CPU 是基于低延迟（Low Latency）设计的</strong>：</p><ul><li><p><strong>强大的运算单元：</strong> CPU 拥有数量较少但是单个计算性能更强的运算单元，可以减少操作延时，更快地响应。</p></li><li><p><strong>大容量缓存：</strong> 将一部分数据存储到高速缓存当中，使得高延迟的内存访问转换为低延迟的缓存访问。</p></li><li><p><strong>复杂的控制单元：</strong> 分支预测（Branch Prediction）机制可以降低分支延时；数据转发（Data Forwarding）机制降低数据延时。</p></li></ul><p>而&nbsp;<strong>GPU 则是基于高通量（High Throughput）设计的</strong>：</p><ul><li><p><strong>精简的运算单元：</strong> GPU 拥有大量的运算单元，虽然单个单元的性能比不上 CPU，但可以支持非常多的线程（Thread）从而达到非常大的吞吐量。</p></li><li><p><strong>小容量缓存：</strong> 与 CPU 不同，GPU 缓存的目的并不是用来存储后面需要访问的数据，而是为线程提供服务，如果有很多线程需要访问同一个相同的数据，缓存会合并这些访问，然后再去访问内存。</p></li><li><p><strong>简单的控制单元：</strong> GPU 的控制单元没有分支预测和数据转发机制。</p></li></ul><p>总的来说，CPU 拥有数量相对少（一般不超过两位数）但能力更强的核心，能够更快地处理单个任务，因而它尤其适合处理串行任务和逻辑控制等类型的工作。相比之下，GPU 拥有成百上千核，虽然每个核心运算能力较低，但可以将复杂任务分解成非常多的子任务再并行处理。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9572c4d616cb11ca84427a84df0d2e95c1d.png" referrerpolicy="no-referrer"></p><p style="text-align:center">串行处理过程</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-d325166b8458a82bfd616ed21119309a3aa.png" referrerpolicy="no-referrer"></p><p style="text-align:center">并行处理过程</p><p><strong>2.3 适用场景</strong></p><p>CPU 与 GPU 二者的设计目的并不一样，因而适用的场景也截然不同。<strong>CPU 更擅长一次处理一项任务，而 GPU 则可以同时处理多项任务。</strong></p><p>用一个形象的比喻来解释。CPU 就像是一架高速飞机，而 GPU 则相当于一队货柜船。它们的任务是将大量货物从 A 位置迅速运送到 B 位置。虽然 CPU（飞机）速度非常快，但每次只能携带少量的货物，需要多次往返才能完成任务。相比之下，GPU（货柜船）虽然单次执行速度相对较慢，但通过协同工作，每艘都能同时携带一部分货物，最终以集体的力量高效完成运输任务。</p><p style="text-align:center"><img alt="" src="https://oscimg.oschina.net/oscnet/up-b63aae29f97580397fb69a6ed0ae951f0e5.png" referrerpolicy="no-referrer"></p><p style="text-align:center">CPU 与 GPU 处理任务对比</p><p>因此，虽然 CPU 单次执行任务的时间更快，但是在需要大量重复工作负载时，GPU 优势就越显著。而当遇到前后计算步骤严密关联的计算场景，这些任务涉及到「流」的问题，必须先计算完第一步，再去计算第二步。或是需要进行大量逻辑判断和复杂计算的任务，比如运行操作系统、处理日常办公任务、进行单线程编程等。这种时候，使用 GPU 的效率反而没有 CPU 高。</p><p>综上所述，CPU 是个集各种运算能力的大成者。它的优点在于调度、管理、协调能力强，并且可以做复杂的逻辑运算，但由于运算单元和内核较少，只适合做相对少量的运算。GPU 无法单独工作，它相当于一大群接受 CPU 调度的流水线员工，适合做大量的简单运算。<strong>CPU 和 GPU 在功能上各有所长，互补不足，通过相互配合使用，实现最佳的计算性能</strong>。</p><p>因此，虽然 CPU 单次执行任务的时间更快，但是在需要大量重复工作负载时，GPU 优势就越显著。而当遇到前后计算步骤严密关联的计算场景，这些任务涉及到「流」的问题，必须先计算完第一步，再去计算第二步。或是需要进行大量逻辑判断和复杂计算的任务，比如运行操作系统、处理日常办公任务、进行单线程编程等。这种时候，使用 GPU 的效率反而没有 CPU 高。</p><p>综上所述，CPU 是个集各种运算能力的大成者。它的优点在于调度、管理、协调能力强，并且可以做复杂的逻辑运算，但由于运算单元和内核较少，只适合做相对少量的运算。GPU 无法单独工作，它相当于一大群接受 CPU 调度的流水线员工，适合做大量的简单运算。<strong>CPU 和 GPU 在功能上各有所长，互补不足，通过相互配合使用，实现最佳的计算性能</strong>。</p><span id="OSC_h1_3"></span><h1><strong>3 CPU vs GPU: 演进与发展</strong></h1><p>技术的不断更新推动着计算机领域的快速发展，而在这个不断演进的过程中，CPU 和 GPU 也在持续发展。在过去的几十年里它们在各自的领域取得了显著的突破，为计算机应用提供了更高的性能和效率。这不仅推动了数字化时代信息技术的发展，也为各个领域带来了新的可能性。</p><p><strong>3.1 扬长避短，稳步前进</strong></p><p>CPU 拥有强大的指令处理和计算能力（这里强大的计算能力是指 CPU 可以胜任更复杂的计算任务），通常用于处理计算机的核心工作，包括解释计算机指令和处理计算机软件中的数据。例如我们在使用个人计算机时，用户和各种软件会不断地产生指令流，CPU 要完成的一个重要工作就是负责处理这些指令，保证它们按照规定的顺序执行。此外，CPU 还要负责处理计算机软件所产生的类型多样且逻辑复杂的数据。</p><p>距离第一块 CPU 4004 的诞生已经过去了五十多年，尽管与早期相比，CPU 在物理形态、设计制造和具体任务的执行上有了极大的发展，但是其基本的操作原理一直没有改变。换句话来说 <strong>，CPU 的功能和使用场景并没有发生较大的改变，无非是在能耗、性能以及可靠性上面不断地优化。</strong></p><p><strong>3.2 GPU 加速应用遍地开花</strong></p><p>3.2.1 从 GPU 到 GPGPU</p><p>GPU 的概念在 1999 年 NVIDIA 公司发布 GeForce 256 时被首次提出， 在早期，GPU 主要用于 3D 图形渲染。但与 CPU 不同，随着 GPU 的功能和运算能力越来越强大，开发者开始探索除了图形处理之外，GPU 还能做什么？</p><p>在 2003 年，NVIDIA 推出新产品 GeForce 8800 GTX 时，首次提出了 GPGPU（General-purpose computing on Graphics Processing Unit）的概念，即通用图形处理器，意指利用 GPU 的计算能力，在非图形处理领域进行更通用、更广泛的计算。</p><p>到了 2007 年，NVIDIA 进一步提出了名为 CUDA（Compute Unified Device Architecture，计算统一设备架构）的全新技术，利用该技术可以通过 NVIDIA 的 GPU 进行图像处理之外的计算任务，它揭开了 GPU 计算革命序幕。随后，AMD 也推出了类似的技术：OpenCL（Open Computing Language）。OpenCL 是一个开放的、跨平台的并行计算框架，允许开发人员在不同的硬件平台（CPU、GPU、FPAG 等）上进行开发。</p><p>自此以后，<strong>GPU 不再以图形的 3D 加速为唯一目的，而是能够广泛应用于各领域的通用计算加速，尤其是科学计算、大数据分析以及人工智能等领域。</strong></p><p>3.2.2 大模型与向量数据库</p><p>当今互联网世界所需的计算能力远远超出任何人的想象，并且只会随着人工智能的兴起而增加。以如今爆火的生成式 AI ChatGPT 为代表，大小为 175B 的 GPT-3 使用了 1024 张 A100 GPU 训练了约 34 天，随着参数数量的增加，往后 AI 需要的算力资源更是天文数字。</p><p>大模型同样引发了数据库领域的革命，此前不温不火的向量数据库搭上了这辆顺风车，一举成为 AI 时代的新宠。在 2023 英伟达 GTC AI 开发者大会中，NVIDIA CEO 黄仁勋首次提及向量数据库，并强调<strong>对于构建专有大模型的组织而言，向量数据库至关重要。</strong></p><p>对于 AI 来说，向量是它理解世界的通用数据形式，不管是图片、视频、音频，都可以通过转换成向量来让 AI 识别，<strong>向量数据库作为专门对向量进行检索和存储的工具，能为大模型的应用落地解决诸如「没有长期记忆」、「幻觉」、「知识更新不及时」等问题。</strong></p><p>但是，向量数据库本身的性能也是一个问题，说到底与大模型的结合只是其应用的一部分，它本质上还是一个数据搜索和分析的工具，如果性能满足不了用户需求，同样也会被淘汰。于是乎，开发者们又想起了 GPU。</p><p>在向量数据库中，最核心的功能在于向量相似性搜索，即在一个海量的数据中找到和某个向量最相似的向量，它的计算量十分庞大，而这恰好是 GPU 所擅长的，<strong>利用 GPU 的并行计算能力可以加速向量相似性搜索，显著提高查询速度，降低延迟。</strong></p><span id="OSC_h1_4"></span><h1><strong>4 云原生向量数据库 PieCloudVector 支持 GPU 加速</strong></h1><p>拓数派大模型数据计算系统 πDataCS 三大数据计算引擎之一：<a href="https://my.oschina.net/u/5944765/blog/10321799" rel="nofollow"><em>向量数据库 PieCloudVector</em></a>，是大模型时代的分析型数据库升维，目标是助力多模态大模型 AI 应用，进一步实现海量向量数据存储与高效查询。PieCloudVector 支持和配合大模型的 Embeddings，帮助基础模型在场景 AI 的快速适配和二次开发，是大模型必备应用。</p><p><strong>PieCloudVector 充分利用现代化硬件能力，支持 GPU 加速功能。</strong> 这一特性让 PieCloudVector 能够利用 GPU 的并行计算能力来加速向量计算和数据处理任务，显著缩短任务的执行时间，提高计算效率，帮助用户更高效地进行数据计算。特别是在需要处理大规模数据集或进行复杂的数值运算时，GPU 加速可以大幅提升计算性能。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 05:49:21 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5944765/blog/11020020</guid>
+            <link>https://my.oschina.net/u/5944765/blog/11020020</link>
+            <author>
+                <![CDATA[原创]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[社区月报丨 2024 年 1 月，多款应用迎更新，还有 deepin Meetup 的初次相见和久别重逢！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>内容来源：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-community-monthly-report-2024-01%2F" target="_blank">deepin 社区</a></p><hr><h1><strong>deepin（深度）社区 1 月总览</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月，有<strong>975</strong>位小伙伴加入了 deepin 开源社区大家庭，目前共有论坛伙伴<strong>151,007</strong>位；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">在 1 月，2024 年第一场 deepin Meetup 在北京正式举办，同时 deepin（深度）社区举办的龙年春节壁纸大赛也完美落下帷幕；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月 deepin SIG 组共提交 PR 1116 个 ，提交 Issues 294 个，当前共有 SIG 组 40 个。</p><h1><strong>社区产品</strong></h1><h2><strong>深度之家</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月，深度之家共收到用户需求反馈及 bug166 条：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">当中 bug 反馈 126 个，需求反馈 40 个，已修复/确认 16 个，包括用户反馈的【玲珑卸载应用命令，第一次执行会报错，再执行一次才能卸载成功】、【微信更新后登陆不了】等问题；</p><h2><strong>SIG 组 1 月进展</strong></h2><ol><li><strong>DDE SIG:</strong></li></ol><ul><li>DDE-launchpad 脱离技术预览阶段，DDE-shell、Treeland、DDM 进入技术预览阶段</li></ul><ol><li><strong>dde-port SIG:</strong></li></ol><ul><li>持续推进 DDE 在各个发行版的移植</li><li>BigLinux 发行版下的 DDE v23 初步支持</li></ul><ol><li><strong>deepin-sysdev-team：</strong></li></ol><ul><li>持续进行系统仓库的打包与维护工作</li></ul><ol><li><strong>deepin-cicd-team:</strong></li></ol><ul><li>持续完善自动化流水线的智能程度</li></ul><ol><li><strong>deepin-ThemeDesign：</strong></li></ol><ul><li>已开始制作 deepin 适用壁纸，并向应用商店投递中</li></ul><h1><strong>应用商店</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><img alt="" src="https://bbs.deepin.org/uploader/f/TQNIvpoxovcuW4fP.png?accessToken=eyJhbGciOiJIUzI1NiIsImtpZCI6ImRlZmF1bHQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhY2Nlc3NfcmVzb3VyY2UiLCJleHAiOjE3MDY3ODA2OTEsImZpbGVHVUlEIjoiOE5rNk13Nk1EV0ZHendxTCIsImlhdCI6MTcwNjc4MDA5MSwidXNlcklkIjoxMDMxM30.ArE7u7SqsjnfBy4BwVNK3_zpcWgZNnqqlvwLaBhFwsI" referrerpolicy="no-referrer">应用上新 100 款 ：上新应用中，99 款应用同步上新至 deepin V23，99 款应用为 Linux 应用，1 款 Wine 应用；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">上新应用中包括中望 3D 2024、OpenTrace 等多款主流应用；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">应用更新 124 款 ：更新应用中，80 款应用同步在 deepin V23 中更新。其中 113 款为 Linux 应用，Android 应用 7 款，Wine 应用 4 款；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月更新的应用当中包括 QQ、墨刀、有道云笔记等主流应用。</p><h1><strong>deepin 论坛</strong></h1><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">1 月 deepin 论坛共发布了<strong>8803</strong>帖子；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">共发布主题帖<strong>1092</strong>个；</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">超过 900 + 新朋友加入到 deepin 论坛。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">当中，最受论坛用户欢迎的帖子 top5 为：</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>1.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267681" target="_blank">关于 deepin-V23 beta3 新版本的体验，及个人看法</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>2</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267289" target="_blank">.大家对文件管理器有什么不满吗？</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>3.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267297" target="_blank">V23 任务栏改进建议，集中反馈贴！</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>4.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267665" target="_blank">真的不要再高仿了，越来越刷新对国产自主能力的认知！</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>5.</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbbs.deepin.org%2Fpost%2F267231" target="_blank">揭秘 deepin V23 Beta3！deepin Meetup · 2024 北京，出发！</a></p><h1><strong>社区活动</strong></h1><h2><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fwelcome-to-whlug%2F" target="_blank"><strong>【WHLUG】</strong></a></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月 20 日下午，由 deepin（深度）社区联合 Linux 中国、龙蜥社区（OpenAnolis）、华中科技大学网络空间安全学院开源俱乐部一起举办的 Linux 爱好者线下沙龙活动（WHLUG）在武汉未来科技城成功举办。沙龙邀请了武汉地区的 Linux 爱好者，共同探讨玲珑、容器技术、Linux 内核、开源参与、高性能网络等话题，现场气氛热烈。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010937419026_image.png" referrerpolicy="no-referrer"></p><h2><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.deepin.org%2Fzh%2Fdeepin-meetup%2F" target="_blank"><strong>deepin Meetup（北京站）</strong></a></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">2024 年 1 月 27 日，deepin Meetup（北京站）成功举办，40 余名用户参与。本次活动带大家回顾 deepin（深度）社区的发展历史，展示了社区部分明星产品及技术成果，并提前揭秘了 deepin V23 Beta3 的部分新增功能，如启动器重构、UOS AI 预装、新增低电阈值设置功能、支持了 Steam 原生应用的安装等。各位 deepiner 线下相聚，昔日网友揭开神秘面纱，共同探讨最新产品进展、分享使用心得、实操经验，大家也对 deepin 未来发展提出了诸多宝贵意见，现场氛围热烈。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010938049219_image.png" referrerpolicy="no-referrer"></p><h2><strong>deepin（深度）社区春节壁纸大赛</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">在 2024 年春节来临之际，国产操作系统「统信 UOS」及 deepin（深度）社区联合举办全新一期壁纸创作大赛，面向所有对电脑操作系统个性美化感兴趣的设计师，征集壁纸作品，展示心中的独特的「中国龙年」。活动已圆满结束，总计收到有效作品数 90 份（156 张图片），通过社区投递系统上架壁纸作品包共计 75 个，参赛人数 23 人（其中 4 位设计师、2 位老师、8 位学生），大众评委环节评分 300 次，参与人数 148 人。目前所有成功投稿的作品都已上架应用商店，可在应用商店中搜索【龙年壁纸】，安装使用。</p><p style="color:#333333; margin-left:0px; margin-right:0px; text-align:center"><img alt="image.png" src="https://storage.deepin.org/thread/202402010938569200_image.png" referrerpolicy="no-referrer"></p><p style="text-align:center">参赛作品：古韵新绎，「龙」光焕发</p><p style="text-align:center">设计师：MC 李狗蛋</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><h1><strong>社区鸣谢</strong></h1><h2><strong>【论坛最活跃小伙伴】</strong></h2><ul><li>阿尼樱奈奈</li><li>buyike</li><li>晚秋（lateautumn）</li></ul><h2><strong>【内测最活跃小伙伴】</strong></h2><ul><li>烟霞志</li><li>e*t@gmail.c<strong>o</strong>m**</li><li>jiutian123</li></ul><h2><strong>【PR 贡献最活跃小伙伴】</strong></h2><ul><li>Zeno-sole</li><li>UTsweetyfish</li><li>Decodetalkers</li><li>xzl01</li><li>18202781743</li><li>liyigang1</li><li>tsic404</li></ul><p style="margin-left:0px; margin-right:0px; text-align:start"><strong>每个贡献者都对深度开源社区的发展产生了巨大的影响，欢迎与我们同心协力，扬起 deepin 的桅杆！</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 05:42:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277431</guid>
+            <link>https://www.oschina.net/news/277431</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Visual Studio Code 1.86 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Visual Studio Code 1.86 现已发布，具体更新内容如下：</span></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_configure-zoom-levels-per-window" target="_blank">每个窗口的缩放级别</a>&nbsp;</strong>- 独立调整每个窗口的缩放级别。</li></ul><p>默认情况下启用的新设置 window.zoomPerWindow，可让你配置缩放命令（放大、缩小、重置缩放），使其仅适用于活动窗口，而不适用于所有打开的窗口。</p><p><img height="243" src="https://oscimg.oschina.net/oscnet/up-f14b102590ab5aac409ad79a294e72514fe.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_accessibility" target="_blank">Hey Code 语音命令</a>&nbsp;</strong>- 使用语音命令启动聊天会话。</li></ul><p>通过新的 accessibility.voice.keywordActivation 设置，你可以让 VS Code 听取"Hey Code"语音命令来启动与 Copilot Chat 的语音会话。</p><p><img height="339" src="https://oscimg.oschina.net/oscnet/up-55edb93355df5d67344a7315bfb4fb21545.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_review-multiple-files-in-diff-editor" target="_blank">多文件差异编辑器</a>&nbsp;</strong>- 在差异编辑器中快速查看多个文件的差异。</li></ul><p>目前，多文件差异编辑器可用于查看本地变更、阶段性变更、传入/传出变更、匿名变更以及来自拉取请求的变更。</p><p><img height="327" src="https://oscimg.oschina.net/oscnet/up-55d5b425a59b3942a58a11d969df093a76b.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_triggered-breakpoints" target="_blank">Triggered breakpoints</a>&nbsp;</strong>- 通过断点依赖性进行高效调试。</li></ul><p><img height="320" src="https://oscimg.oschina.net/oscnet/up-513a8e67dc7d292258c20999360511d371e.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_sticky-scroll-in-tree-views" target="_blank">扩展 Sticky Scroll 支持</a>&nbsp;</strong>- tree views 和 notebooks 中的 Sticky Scroll。</li></ul><p><span style="background-color:#ffffff; color:#242424">为了确保 </span>Sticky Scroll&nbsp;<span style="background-color:#ffffff; color:#242424">不会占用太多空间，它最多限制为视图高度的 40%。</span></p><p><img height="325" src="https://oscimg.oschina.net/oscnet/up-b3cfb095462ff8efb6922e8a901ac07c040.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_languages" target="_blank">Markdown 粘贴选项</a>&nbsp;</strong>- 为链接、视频和音频元素提供丰富的粘贴支持。</li></ul><p><img height="245" src="https://oscimg.oschina.net/oscnet/up-3e9b77e9e2180d1e43283bf455ba0b6cd6a.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_more-powerful-and-flexible-auto-save-options" target="_blank">灵活的自动保存选项</a>&nbsp;</strong>- 出现错误时跳过自动保存或仅保存特定文件类型。</li></ul><p><img height="393" src="https://oscimg.oschina.net/oscnet/up-f97270ad9b2b761bb00c5e5863a1c284446.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_source-control" target="_blank">Source Control input</a>&nbsp;</strong>- 自定义提交输入和每种语言的编辑器设置。</li><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_allow-disabling-notifications-per-extension" target="_blank">扩展通知</a>&nbsp;</strong>- 精细控制每个扩展的通知禁用。</li></ul><p><img height="132" src="https://oscimg.oschina.net/oscnet/up-0c9036ad03b6d255ad53f2958993d3a1922.png" width="500" referrerpolicy="no-referrer"></p><p><img height="152" src="https://oscimg.oschina.net/oscnet/up-3cf588072c8fdf708e70b071884ad4ae046.png" width="500" referrerpolicy="no-referrer"></p><ul><li><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86%23_github-copilot" target="_blank">GitHub Copilot 更新</a>&nbsp;</strong>- 改进了默认上下文、添加文件作为上下文、AI 修复。</li></ul><p><img alt="" height="287" src="https://oscimg.oschina.net/oscnet/up-12dc52365310940dd5acfe69790fbe60984.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">更多详情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcode.visualstudio.com%2Fupdates%2Fv1_86" target="_blank">查看官方公告</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 03:33:09 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277414/vs-code-1-86-released</guid>
+            <link>https://www.oschina.net/news/277414/vs-code-1-86-released</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[开源日报：「Linux 中国」 开源社区宣布停止运营；小红书开源「InstantID」]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>欢迎阅读 OSCHINA 编辑部出品的开源日报，每天更新一期。</p><p><strong># 2024.2.1</strong></p><h2><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日要点</span></span></span></span></span></span></h2><p style="text-align:justify"><strong>OpenSource Daily</strong></p><h3><u><a href="https://www.oschina.net/news/277235/java-proposal-scrap-sunmiscunsafe-memory-access" target="_blank">Java 提案计划弃用 sun.misc.Unsafe 中的内存访问</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">OpenJDK 社区中一个名为 「<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenjdk.org%2Fjeps%2F8323072" target="_blank">Deprecate Memory-Access Methods in sun.misc.Unsafe for Removal</a>」 的 JEP 草案提出，建议弃用 sun.misc.Unsafe 中的内存访问方法，以便在未来的 Java 版本中将其进行删除。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000">sun.misc.Unsafe 类于 2002 年引入，是 JDK 中 Java 类执行低级操作的一种方法，距今已有 20 多年的历史。在该类的 87 个方法中，有 79 个用于内存访问。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img height="281" src="https://oscimg.oschina.net/oscnet/up-e6847ab49a09af3d783ef2fd5ae0f2b4b87.png" width="500" referrerpolicy="no-referrer"></p><p>提案的目标包括为在未来的 JDK 版本中移除 sun.misc.Unsafe 中的内存访问方法做好准备，以及帮助开发人员了解他们的应用程序何时直接或间接依赖 sun.misc.Unsafe 中的内存访问方法。但它并不旨在完全删除 sun.misc.Unsafe 类，因为该类中的少量方法不用于内存访问，所以将会保持不被弃用；它们的废弃和移除将单独进行。</p><h3><u><a href="https://www.oschina.net/news/277253" target="_blank">字节跳动 2 个云原生开源项目进入 CNCF 云原生全景图</a></u></h3><p style="color:#222222; margin-left:8px; margin-right:8px; text-align:justify"><span style="color:#3e3e3e"><span>近日，字节跳动 2 个云原生开源项目<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzk0NDMzNjkxNw%3D%3D%26mid%3D2247484922%26idx%3D1%26sn%3Dfb8922282b6215f28f69a3d9e23fa855%26chksm%3Dc3277c80f450f596fa53c910a75c38e3c22ff864782ec626a0a9842be736dd8ea006d0f2f6b8%26scene%3D21%23wechat_redirect" target="_blank"><strong>Katalyst</strong></a></span><span>&nbsp;</span><span style="color:#3e3e3e"><span>和<span>&nbsp;</span></span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzk0NDMzNjkxNw%3D%3D%26mid%3D2247485243%26idx%3D1%26sn%3D5f39a6597498268c6c965554b12a6849%26chksm%3Dc3277e41f450f75780babf0767f45ea712c1cf59f8b9c7f6d2b48809bb4158648d7c357a76a6%26scene%3D21%23wechat_redirect" target="_blank"><strong>KubeAdmiral</strong></a></span><span style="color:#3e3e3e">&nbsp;陆续进入&nbsp;CNCF 云原生全景图，均被收录在<span>&nbsp;</span></span><span style="color:#0080ff"><em>Orchestration &amp; Management - Scheduling &amp; Orchestration</em></span><span style="color:#3e3e3e"><span>&nbsp;</span>分类下，成为 CNCF 官方认可生态构建工具中的一部分。</span></p><p style="color:#222222; margin-left:8px; margin-right:8px; text-align:justify"><img src="https://oscimg.oschina.net/oscnet/up-88b912acd053b7736fa52b640c7290716a9.png" referrerpolicy="no-referrer"></p><h3><u><a href="https://www.oschina.net/news/277277" target="_blank">「Linux 中国」 开源社区宣布停止运营</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#000000">「Linux 中国」 微信公众号于今日发文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5a9zTiMn4hwOR5JU3kPzvw" target="_blank">宣布</a>，从即日起，「Linux 中国」 这个社区，包括它的主网（</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flinux.cn%2F%C2%A0" target="_blank">https://linux.cn/&nbsp;</a><span style="background-color:#ffffff; color:#000000"><span>&nbsp;</span>）、公众号、视频号，以及下属的《硬核观察》栏目，将无限期停止更新和运营。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://oscimg.oschina.net/oscnet/up-6e3343217de4d5b35d0b43dfd79e9b69d6d.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日观察</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-5f39b0daf9aacc34cdab04840e2ca4a55c5.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-c29ed5dd0eff8177570b890725186aed794.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">媒体观点</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-2ee8125c079733587845fab4edba43ee6a3.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">每日项目榜</span></span></span></span></span></span></strong></h2><p>GitHub 榜单：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-99809320420fb783478a0b3f9f2c96a3f5f.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4080a984211606c0eef9d3c0508f6e5cba9.png" referrerpolicy="no-referrer"></p><blockquote><h4>在线阅读完整日报内容，访问：<strong><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC007%E6%9C%9F.pdf" target="_blank">开源日报第 007 期：「Linux 中国」 开源社区宣布停止运营</a></u></strong></h4></blockquote><hr><p><strong>往期回顾</strong></p><ul><li><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC006%E6%9C%9F%EF%BC%9A%E9%80%89%E6%8B%A9%E6%8A%80%E6%9C%AF%E6%A0%88%E4%B8%80%E5%AE%9A%E8%A6%81%E9%80%89%E6%8B%A9%E5%BC%80%E6%BA%90%E7%9A%84.pdf" target="_blank">开源日报第 006 期：选择技术栈一定要选择开源的</a></u></li><li><a href="http://www.oschina.net/news/277040"><u>开源日报第 005 期：RISC-V 万兆开源交换机发售；npm 存在大量武林外传视频</u></a></li><li><u><a href="https://www.oschina.net/news/276864" target="news">开源日报第 004 期：百度输入法在候选词区域植入广告；大神用 Excel 构建 CPU</a></u></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 03:33:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277415</guid>
+            <link>https://www.oschina.net/news/277415</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[面壁智能发布端侧大模型「面壁 MiniCPM」]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>2 月 1 日，面壁智能举办新品发布会，推出了最新的旗舰级多模态大模型「<strong>面壁 MiniCPM</strong>」，参数规模为 20 亿，使用了 1TB 精选数据进行训练。</p><p><img src="https://oscimg.oschina.net/oscnet/up-5755b77c7f59968d93c86bee2afb4c33560.png" referrerpolicy="no-referrer"></p><p>面壁智能 CEO 李大海在发布会上表示，MiniCPM-2B 在多项主流评测榜单、中英文平均成绩均超越了开源的 Mistral-7B，英文榜单的平均分甚至超越了 Falcon-40B、MPT-30B 等百亿参数模型。</p><p><img src="https://oscimg.oschina.net/oscnet/up-12e488c7802d900b054d84644fcf4e6bd60.jpg" referrerpolicy="no-referrer"></p><p>所谓「端侧大模型」，即模型服务部署在手机、电脑、IoT 设备等本地终端，直接由终端芯片完成推理过程，无需联网。作为一款端侧大模型，MiniCPM 声称「<em>跑通国际主流手机品牌与终端 CPU 芯片，老手机也无压力</em>」，但从吞吐量来看，实际表现或许有待提升。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b925911ce8d8133307958365ac3898b7f95.jpg" referrerpolicy="no-referrer"></p><p><strong>开源地址（内含技术报告）</strong>：</p><ul><li>MiniCPM GitHub：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenBMB%2FMiniCPM" target="_blank">https://github.com/OpenBMB/MiniCPM</a></li><li>OmniLMM GitHub：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenBMB%2FOmniLMM" target="_blank">https://github.com/OpenBMB/OmniLMM</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 02:58:16 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277407</guid>
+            <link>https://www.oschina.net/news/277407</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[禅道 20.0.beta1 发布啦，重构底层 PHP 和 UI 框架，用户体验全面升级]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">大家好，禅道 20.0.beta1 发布啦，本次发布主要对用户界面 (UI) 进行了全新升级，包括：<strong>引入了无感刷新技术</strong>，大幅提升了在系统中的操作流畅度，能够更加高效地完成任务；<strong>主题配色优化</strong>，能够根据个人喜好或公司品牌风格进行个性化的界面设置，增强对系统的归属感和舒适度；<strong>仪表盘内容升级</strong>，地盘新增产品和项目维度的总览和工作推进数据，产品仪表盘新增年度和月度推进数据、Bug 和发布统计数据；<strong>表单页面新增了简洁版和完整版的两种模式切换</strong>，在填写信息时更加直观和便捷，提高工作效率。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>禅道 20 版本对代码进行了大规模重构</strong>，从框架层到业务代码都进行了大幅改进。禅道作为开源软件，重构后二次开发更加友好且易于维护，也带来了<strong>更好的产品性能和更强的安全性</strong>。20 版本主要的重构工作包括：<strong>新的 UI 库</strong>，禅道 20 版本使用自主开发的 ZUI3 前端框架，无论是交互体验和开发效率都有质的飞跃；<strong>全新的 ZIN 页面开发模式</strong>，通过配置的方式按需调用前端组件，实现了页面的快速开发，大幅提升了开发效率，全新的扩展机制，更方便对页面进行修改定制；<strong>引入 PHP 的强类型检查</strong>，大幅减少系统模块间调用过程中潜在 Bug 的产生；<strong>单元测试用例覆盖 Model 层的所有 3000+方法</strong>，代码更健壮；<strong>增加大量注释，代码更易读、</strong>功能描述更清晰； 业务模块在 MVC 的基础上增加 zen/tao 两个层次，<strong>优化了代码的封装和组织。</strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_aa8293c13dfccae5baf25fdaa2ceb08c.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_aa8293c13dfccae5baf25fdaa2ceb08c.png" referrerpolicy="no-referrer"></a></strong><strong><span>&nbsp;</span></strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_b0ab12a695340383f7800437019e03e2.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_b0ab12a695340383f7800437019e03e2.png" referrerpolicy="no-referrer"></a></strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_7f83e9718f01355c0ceb329a0c0fa8d1.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_7f83e9718f01355c0ceb329a0c0fa8d1.png" referrerpolicy="no-referrer"></a></strong></p><h2><strong>新增功能点</strong></h2><h3><strong>配色优化：</strong></h3><div><ul><li>系统的主题颜色和对应名称的优化，「玉烟紫」更名为「萱萱紫」。</li><li>不同状态的颜色调整、优先级和严重程度等颜色的调整。</li></ul></div><h3><strong>其它优化：</strong></h3><ul><li>顶部导航的优化了分组。</li><li>页面间跳转的返回逻辑简化。</li><li>针对 Tab 标签的页面，做了收起到处理。</li><li>相关概况页布局的调整。</li><li>列表左侧模块树导航支持拖拽改变模块树宽度。</li><li>优化了动态加载的性能。</li><li>增强了部分流程中二次确认的弹窗，避免误操作。</li><li>完善了系统概念性解释的注释说明。</li></ul><h3><strong>仪表盘：</strong></h3><ul><li>数据的展示引用度量项。</li><li>地盘仪表盘欢迎总览区块新增待我评审的内容。</li><li>地盘仪表盘新增禅道动态区块。</li><li>地盘仪表盘新增团队成就区块。</li><li>仪表盘新增产品区块相关统计和项目相关统计。</li><li>产品仪表盘中增加产品统计、产品发布统计、产品 Bug 统计、产品年度工作量统计、产品月度推进分析。</li><li>产品仪表盘中增加研发需求列表。</li><li>项目仪表盘删除了项目人力投入区块、项目总览区块。</li><li>仪表盘区块支持自定义排版布局，添加区块以及长短区块切换的交互优化。</li><li>仪表盘增加可视化图表的展示。</li></ul><h3><strong>相关表单：</strong></h3><ul><li>核心表单的布局结构优化（项目集、项目、产品、执行、需求、任务、Bug、用例）。</li><li>复杂表单增加了简洁版和完整版的切换，也支持将简洁版收起的更多字段固定在表单中。</li><li>优化了表单中的编辑器。</li></ul><h3><strong>相关列表：</strong></h3><ul><li>项目集区分了产品视角和项目视角。</li><li>产品列表选择项目集的交互调整。</li><li>用例步骤支持创建三层级，有子层级的父级步骤不可删除。</li><li>用例步骤的拖拽交互优化。</li></ul><h3><strong>看板：</strong></h3><ul><li>项目集看板拆分了我参与的项目集、其他项目集。</li><li>项目集看板的展示样式优化（项目集作为区域、产品作为泳道）</li><li>产品看板中拆分了我参与的产品和其他产品。</li><li>产品看板的展示样式优化。</li></ul><h3><strong>后台：</strong></h3><ul><li>原创建项目的项目代号字段，调整到后台功能开关中，可将代号设置为必填项。</li></ul><h3><strong>文档：</strong></h3><ul><li>文档优化 markdown 编辑器</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span style="color:#333333"><strong>禅道本次发布数据如下：</strong></span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span style="color:#333333"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_f2b0d295ff39b00659e0e9208481df32.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_f2b0d295ff39b00659e0e9208481df32.png" referrerpolicy="no-referrer"></a></span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><strong>本期优化的全部需求和 Bug：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Feasysoft%2Fzentaopms%2Fblob%2Fzentaopms_20.0.beta1%2Fdoc%2FCHANGELOG" target="_blank"><span style="color:#145ccd">请点击查看</span></a></strong></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span>▼仪表盘的布局和界面优化，<span>地盘新增产品和项目维度的总览和工作推进数据，产品仪表盘新增年度和月度推进数据、Bug 和发布统计数据。<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_bc7f7a8b406b9c427908acaab633343b.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_bc7f7a8b406b9c427908acaab633343b.png" referrerpolicy="no-referrer"></a></span></span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span><span><span>▼项目集列表拆分成项目视角和产品视角</span><span>。</span><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_86f117256691d9a55e9f8489ad68ee04.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_86f117256691d9a55e9f8489ad68ee04.png" referrerpolicy="no-referrer"></a><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_8c7522b437d11b376c13ff8f53f8d3ab.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_8c7522b437d11b376c13ff8f53f8d3ab.png" referrerpolicy="no-referrer"></a></span></span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">▼概况页布局和界面的优化。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_79d604126e1449955d6a8eb8a5fa738a.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_79d604126e1449955d6a8eb8a5fa738a.png" referrerpolicy="no-referrer"></a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start"><span>▼列表的全面优化，左侧模块树支持拖拽改变列宽，检索标签过多时做了收起到更多的优化。<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_2609d0095a1cd4640432b46f17e9998d.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_2609d0095a1cd4640432b46f17e9998d.png" referrerpolicy="no-referrer"></a></span><span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_acd156c472e2397c3ace1807fdfda38e.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_acd156c472e2397c3ace1807fdfda38e.png" referrerpolicy="no-referrer"></a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">▼核心页面<span>（</span><span>项目集、项目、产品、执行、需求、任务、Bug、用例</span><span>）</span>的创建表单的排版布局调整，提供简洁版和完整版两种模式切换。<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcdn.easycorp.cn%2Fweb%2Fdata%2Fupload%2Feasycorp%2F202402%2Ff_7804f3500a575da7d5b24cbd3a077d66.png" target="_blank"><img alt="" src="https://cdn.easycorp.cn/web/data/upload/easycorp/202402/f_7804f3500a575da7d5b24cbd3a077d66.png" referrerpolicy="no-referrer"></a></p><h2><strong>下载链接</strong></h2><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#333333; font-family:&quot;Microsoft YaHei&quot;; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:20px; max-width:100%; orphans:2; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:797.5px; word-break:break-all; word-spacing:0px"><tbody><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>安装包下载</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.0.zip" target="_blank"><span>php7.0</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.1.zip" target="_blank"><span>php7.1</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.2_7.4.zip" target="_blank"><span>php7.2_7.4</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php8.1.zip" target="_blank"><span>php8.1</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>Windows 一键安装包</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-zbox.win64.exe" target="_blank"><span><span>64 位</span></span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><p style="margin-left:0; margin-right:0"><span>Linux 一键安装包</span></p></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-zbox_amd64.tar.gz" target="_blank"><span>amd64 位</span></a><span>&nbsp;</span><br><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-zbox_arm64.tar.gz" target="_blank"><span>arm64 位</span></a></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:middle"><span style="color:#e53333">注：Linux 一键安装包必须直接解压到 /opt 目录下。</span></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>DEB 包下载：可以通过 dpkg 包管理器在 Ubuntu 和 Debian 系统下安装</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS_20.0.beta1-php7.0-1_all.deb" target="_blank"><span>php7.0</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS_20.0.beta1-php7.1-1_all.deb" target="_blank"><span>php7.1</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS_20.0.beta1-php7.2_7.4-1_all.deb" target="_blank"><span>php7.2_7.4</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS_20.0.beta1-php8.1-1_all.deb" target="_blank"><span>php8.1</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>RPM 包下载：可以通过 rpm 包管理器在 Centos 系统下安装</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.0-1.noarch.rpm" target="_blank"><span>php7.0</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.1-1.noarch.rpm" target="_blank"><span>php7.1</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php7.2_7.4-1.noarch.rpm" target="_blank"><span>php7.2_7.4</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentao%2F20.0.beta1%2FZenTaoPMS-20.0.beta1-php8.1-1.noarch.rpm" target="_blank"><span>php8.1</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:middle"><span>最新版禅道客户端下载链接</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>Windows</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.win64.setup.exe" target="_blank"><span>安装包</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.win64.zip" target="_blank"><span>压缩包</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>Linux</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.linux64.deb" target="_blank"><span>安装包</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.linux64.tar.gz" target="_blank"><span>压缩包 (.tar.gz)</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.linux64.zip" target="_blank"><span>压缩包 (.zip)</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>macOS</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.mac.dmg" target="_blank"><span>安装包 (Intel)</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fzentaoclient%2F8.0%2Fzentaoclient.mac.m1.dmg" target="_blank"><span>安装包 (Apple Silicon)</span></a></td></tr><tr></tr><tr></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>最新版禅道客户端服务器下载链接</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fxuanxuan%2F8.0%2Fxxd.8.0.win64.zip" target="_blank"><span>Windows</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fxuanxuan%2F8.0%2Fxxd.8.0.linux.x64.tar.gz" target="_blank"><span>Linux</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fxuanxuan%2F8.0%2Fxxd.8.0.mac.tar.gz" target="_blank"><span>macOS</span></a></td></tr><tr><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><span>禅道 Gogs 安装包下载链接</span></td><td style="border-color:#dddddd; border-style:solid; border-width:1px; vertical-align:top"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fgogs%2F0.12%2Fgogs_darwin_amd64" target="_blank"><span>macOS amd64</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fgogs%2F0.12%2Fgogs_linux_amd64" target="_blank"><span>Linux amd64</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fgogs%2F0.12%2Fgogs_windows_amd64.exe" target="_blank"><span>Windows amd64</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fgogs%2F0.12%2Fgogs_darwin_arm64" target="_blank"><span>macOS arm64</span></a><span>&nbsp; &nbsp;&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fdl%2Fgogs%2F0.12%2Fgogs_linux_arm64" target="_blank"><span>Linux arm64</span></a></td></tr></tbody></table><h4>Docker 镜像:<span style="color:#337fe5">&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhub.docker.com%2Fr%2Feasysoft%2Fzentao%2Ftags" target="_blank"><span style="color:#337fe5">点击这里</span></a></h4><h2><strong>帮助手册</strong></h2><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">安装文档：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fbook%2Fzentaopms%2F455.html" target="_blank"><span style="color:#337fe5">https://www.zentao.net/book/zentaopms/455.html</span></a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:start">升级文档：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.zentao.net%2Fbook%2Fzentaopms%2F460.html" target="_blank"><span style="color:#337fe5">https://www.zentao.net/book/zentaopms/460.html</span></a></p><p style="color:#1b1f28; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><p style="color:#1b1f28; margin-left:0; margin-right:0; text-align:start"><strong>持续优化，定期更新，禅道一直在路上。</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 02:57:16 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277405/zentao-20-beta1</guid>
+            <link>https://www.oschina.net/news/277405/zentao-20-beta1</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[AI2 开源新 LLM，重新定义 open AI]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">艾伦人工智能研究所（Allen Institute for AI，简称 AI2）<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.allenai.org%2Fhello-olmo-a-truly-open-llm-43f7e7359222" target="_blank">宣布</a>推出一个名为 OLMo 7B 的新大语言模型，并开源发布了预训练数据和训练代码。OLMo 7B 被描述为「一个真正开放的、最先进的大型语言模型」。</span></p><p><span style="color:#000000">AI2 是由已故的微软公司联合创始人保罗-艾伦（Paul Allen）于 2014 年在西雅图创办的一家非营利组织。该组织表示，他们开源 OLMo 模型旨在让 AI 研究社区充分了解最先进的大语言模型（LLM），从而推动自然语言处理的发展，并以科学的方式正视现有 LLM 存在的问题。</span></p><p><span style="color:#000000">「通过向公众完全开放 OLMo 及其训练数据，AI2 在协作构建世界上最好的开放语言模型方面迈出了一大步。」</span></p><p><img height="282" src="https://oscimg.oschina.net/oscnet/up-5f4ac19f48b404e2adf9eed484a4a22035d.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">OLMo 框架具有一套完全开放的 AI 开发工具，包括：</span></p><ul><li><span style="color:#000000">完整的预训练数据：该模型建立在 AI2 的 Dolma 语料库上，该语料库具有三万亿个用于语言模型预训练的 token 开放语料，包括生成训练数据的代码。</span></li><li><span style="color:#000000">训练代码和模型权重： OLMo 框架包括 7B 规模的四个模型变体的完整模型权重，每个模型至少训练有 2T token。提供了推理代码、训练指标和训练日志。</span></li><li><span style="color:#000000">评估：开发中使用的评估套件已发布，每个模型包含 500 多个 checkpoints，来自训练过程中的每 1000 个步骤，以及 Catwalk 项目下的评估代码。</span></li></ul><p><span style="color:#000000">在接下来的几个月中，AI2 计划继续迭代 OLMo，并将不同的模型大小、模式、数据集和功能引入 OLMo 系列。</span></p><p><span style="color:#000000">OLMo 项目负责人、AI2 NLP 研究高级主管、华盛顿大学艾伦学院教授 Noah Smith 表示:</span></p><blockquote><p><span style="color:#000000">「有了 OLMo，open 就是真正意味上的'open'，AI 研究界的每个人都可以访问模型创建的各个方面，包括训练代码、评估方法、数据等。AI 曾经是一个以活跃的研究社区为中心的开放领域，但随着模型的发展、成本的增加以及开始转化为商业产品，AI 工作开始闭门造车。我们希望通过 OLMo 扭转这一趋势，让研究界能够团结起来，以科学的方式更好地理解和使用语言模型，从而开发出更负责任的 AI 技术，造福于每个人。」</span></p></blockquote><p>更多详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.allenai.org%2Fhello-olmo-a-truly-open-llm-43f7e7359222" target="_blank">查看官方博客</a>。&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 02:43:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277402/allenai-olmo-truly-open-llm</guid>
+            <link>https://www.oschina.net/news/277402/allenai-olmo-truly-open-llm</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[天津大学发布中国首个脑机接口开源软件平台 MetaBCI 研究成果]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>近日，天津大学神经工程团队在数学与计算生物学领域 SCI 一区 TOP 期刊《Computers in Biology and Medicine》上发表论文，介绍了中国首个脑机接口开源软件平台 MetaBCI 的技术架构与实现方法。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-56d4176a2f8c23763ae4c465838482839ef.png" referrerpolicy="no-referrer"></p><p><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.sciencedirect.com%2Fscience%2Farticle%2Fpii%2FS0010482523012714%3Fvia%253Dihub" target="_blank">https://www.sciencedirect.com/science/article/pii/S0010482523012714?via%3Dihub</a></em></u></p></blockquote><p>据介绍，MetaBCI 针对 BCI 领域数据分布散乱、算法复现困难、在线系统效率低的问题，规范了 BCI 数据结构与预处理流程、开发了通用的算法框架、利用了双进程和双线程提高在线实时效率，有助于降低构建脑-机接口系统的技术门槛，减少研发成本，促进转化落地。</p><p><img src="https://oscimg.oschina.net/oscnet/up-6ec72a4b9fc60b7b8c54167afe9992a913c.png" referrerpolicy="no-referrer"></p><p>MetaBCI 由离线分析模块 Brainda、刺激呈现模块 Brainstim 和在线数据流模块 Brainflow 三大部分构成，提供了面向 BCI 软件层面全链条开发的解决方案。</p><ul><li>面向离线分析需求，Brainda 统一了现有公开数据集接口，优化了脑电数据读取、处理流程，复现多种主要 BCI 数据分析及解码算法，以此提高研究者的算法开发效率；</li><li>面向刺激呈现需求，Brainstim 提供了简洁高效的范式设计模块，可快速创建脑机接口范式刺激界面；</li><li>面向在线开发需求，Brainflow 利用双线程、双进程编程方法实现了实时高速的数据读取、数据处理、结果反馈等功能，帮助开发者轻松搭建脑机接口在线实验系统。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-8f4d4e3e7fbcc8a74be3635f43436fba05b.png" referrerpolicy="no-referrer"></p><p>当前，MetaBCI 平台包含软件代码共 386 个类和函数，完成技术说明手册 5 万多字，同步更新英文 API 网页（metabci.readthedocs.io/），平台共兼容 17 种 BCI 公开数据集，涵盖 16 种数据分析方法和 55 种脑机解码模型。</p><p>相较于现有的脑机接口软件工具包，MetaBCI 基于开源语言 Python 编写，并且能够涵盖脑机接口全链条功能。MetaBCI 完全打通了脑机接口软硬件开发与设计链路，可为脑机接口在科学研究、医疗康复、娱乐生活、特种控制等领域的应用提供重要支撑，持续推动新一代脑机智能快速发展。</p><p><img src="https://oscimg.oschina.net/oscnet/up-b420b14a768151e8cb1615d426c11e3d30c.png" referrerpolicy="no-referrer"></p><p>MetaBCI 软件代码开源链接：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FTBC-TJU%2FMetaBCI" target="_blank">https://github.com/TBC-TJU/MetaBCI</a></u></em></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 02:25:53 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277399</guid>
+            <link>https://www.oschina.net/news/277399</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[大模型评测体系「司南」 (OpenCompass2.0) 发布]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>上海人工智能实验室科学家团队正式发布了大模型开源开放评测体系「司南」 (OpenCompass2.0)，用于为大语言模型、多模态模型等提供一站式评测服务。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-347708a4c8c2193cfa064cf35e0129504a2.png" referrerpolicy="no-referrer"></p><p><strong>司南 OpenCompass2.0 评测体系官网：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopencompass.org.cn%2F" target="_blank">https://opencompass.org.cn/</a><br><strong>GitHub 主页：</strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fopen-compass%2FOpenCompass%2F" target="_blank">https://github.com/open-compass/OpenCompass/</a></p></blockquote><p>据介绍，「司南」全面量化模型在<strong>知识、语言、理解、推理和考试</strong>等五大能力维度的表现，评测榜单涉及的大语言模型和多模态大模型超过 150 个，客观中立地为大模型技术的创新提供坚实的技术支撑。截至目前，已有包括 Meta、阿里巴巴、腾讯、百度等 30 余家国内外企业和科研机构采用「司南」助力开展技术研发。</p><p>OpenCompass2.0 对过去一年来主流开源模型和商业 API 模型进行了全面评测，分析结果显示，GPT-4 Turbo 在各项评测中均获最佳表现，智谱清言 GLM-4、阿里巴巴 Qwen-Max、百度文心一言 4.0 紧随其后；大语言模型整体能力仍有较大提升空间，复杂推理相关能力仍是短板；中文场景下国内的模型更具优势，与此同时，开源模型进步很快，以较小的体量达到较高性能水平，表现出较大的发展潜力。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ba58dc3914ae82f80ebe074e7041caaf88f.png" referrerpolicy="no-referrer"></p><p>完整榜单：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frank.opencompass.org.cn%2Fhome" target="_blank">https://rank.opencompass.org.cn/home</a></u></em></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 02 Feb 2024 02:08:53 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/277396</guid>
+            <link>https://www.oschina.net/news/277396</link>
+            <author>
+                <![CDATA[来源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[2024 最新一期中国数据库流行榜公布：阿里云 PolarDB 登顶]]>
@@ -41,7 +834,7 @@
                 <![CDATA[<div class="content"><p><span style="color:#000000">「Linux 中国」微信公众号于今日发文<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F5a9zTiMn4hwOR5JU3kPzvw" target="_blank">宣布</a>，从即日起，「Linux 中国」 这个社区，包括它的主网（</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flinux.cn%2F%C2%A0" target="_blank">https://linux.cn/&nbsp;</a><span style="color:#000000"> ）、公众号、视频号，以及下属的《硬核观察》栏目，将无限期停止更新和运营。</span></p><p><span style="color:#000000">主理人「硬核老王」在公告中透露，停止运营的原因其实很平常，大抵包括以下几个方面：</span></p><blockquote><p><strong><span style="color:#000000">「Linux 中国」 已经完成了其历史使命</span></strong></p><p><span style="color:#000000">最初，我们的愿望是想把 「Linux 中国」 建设成一个传播开源技术的公益型社区。但是经过十几年的发展，目前开源文化和 Linux 相关的开源技术已经得到了广泛传播（在这期间，我们或许也做了一些小小的贡献）。因此，继续运营所能起到的作用并没有那么大了。</span></p><p><span style="color:#000000">出于偶然原因，「Linux 中国」 其实并未按照我们的最初设想发展，这么多年下来，真正坚持下来的项目也就是一个翻译团队 LCTT，翻译了数千篇文章，引导数百人参与了开源贡献。然而，近年来，随着计算机翻译技术的进步，尤其是 ChatGPT 的出现，翻译工作的必要性大为降低。自去年以来，我一直使用 ChatGPT 来翻译一些文章，尽管还需要一至两次校对，但基本没什么大问题。所以，LCTT 的存在也显得不那么重要了。</span></p><p><span style="color:#000000">事实上，LCTT 已经陷入了一种半死亡状态，数百名贡献者基本上都处于休眠了状态，甚至由于技术原因，连自动化选题工作都难以维持。唯一能持续翻译的，除了我，就是我们的首席译者 geekpi 了。从这个角度来看，这已经不再是一个社区化的翻译组织了。</span></p><p><strong><span style="color:#000000">最初的方向选择和理想主义无法避免的结果</span></strong></p><p><span style="color:#000000">2003 年，在创立 「Linux 中国」 之前，我还创立过另外一个叫做 「炎黄角马（CNGNU）」 的开源技术社区。但后来因为我创业失败，这个社区就关闭了。随后，我的弟弟王兴江利用我手中闲置的域名 </span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Flinux.cnlinux.cn" target="_blank"><span style="color:#000000">linux.cnlinux.cn</span></a><span style="color:#000000"> 建立了一个新的网站，我们给它起了一个狂妄的名字 「Linux 中国」 —— 实际上，需要澄清的是，我们和 Linux 的官方机构没有任何关联，也不代表 Linux 官方。</span></p><p><span style="color:#000000">建立这个网站（社区）的初衷是为了传播知识和文化，并没有考虑过未来的盈利模式，这也导致我们后来排斥将社区变成一个商业网站，去做一些培训、会议之类的商业活动。</span></p><p><span style="color:#000000">但这带来了巨大的资金压力，尤其是在托管服务器价格高昂的那段时期。幸运的是，我们得到了七牛云在 CDN 方面的赞助、阿里云在 PR 方面的投放，让我们得以发展。当然，还有一些其它的广告主和朋友的赞助，稍后容我一一致谢。</span></p><p><span style="color:#000000">2015 年，我离开了中国电信，成为了一名自由人，没有人再给我发工资了。这些年，「Linux 中国」 有一些收入，主要是为广告商撰写和发布的一些文章，但是收入不太稳定。而在众所周知的那三年里，收入状况甚至更惨淡。说实话，过去几年，我大致处于一种个人经济上的慢性失血状态。</span></p><p><span style="color:#000000">所以，现在，当整体经济不佳时，压力更大。</span></p><p><strong><span style="color:#000000">个人疲惫和人生的交叉路口</span></strong></p><p><span style="color:#000000">近些年，「Linux 中国」 越来越像是一个 「个人」 网站，几乎所有的流程都需要我亲自来完成。「Linux 中国」 的公众号自从开设的第一天起，就没有任何一天停止过更新 —— 无论是年三十还是我的身体抱恙，无论是在出差路上还是带家人出游。这两年，我又开始了《硬核观察》栏目，这需要我每天花费数小时采编、录制和发布视频，如今也有了 1263 期，从未停歇。</span></p><p><span style="color:#000000">累吗？累，但更累的是，没有尽头的累。</span></p><p><span style="color:#000000">我今年正好五十岁了，对我来说，这个年龄是我需要重新定位人生的一个标志点。当我三十岁时，我颇有一种 「顿觉昨日非」 的感觉，从此改变了人生轨迹；当我四十岁时，经历了父亲去世、稍后几年弟弟及其他亲人陆续去世的打击；今年，我再次站在人生的交叉口，我想我应该有所改变了。</span></p><p><span style="color:#000000">幸运的是，我一直非常担心的身体健康，目前还算还没有出现大问题。前段时间去做了好几年没敢做的体检，基本上没太大的问题。</span></p></blockquote><p><span style="color:#000000">硬核老王透露，他在作出这一决定前曾反复思考过，但始终没有找到合适托付 「Linux 中国」 的人或机构。</span></p><p><span style="color:#000000">「一个不盈利、持续亏损的社区，很难找到能保持其独立性和原则的托付人。我也不愿意将 「Linux 中国」 所有的资产都卖给商业机构。有人曾经愿意出高价买我们的域名，但是，他们出的价远远买不起我为此出售良心和名誉的代价。总的来说，就是因为这些大大小小的原因，我做出了艰难的决定，结束这些年的坚持。对不起了，大家。」</span></p><p><span style="color:#000000">除了对支持者们表达歉意以及感谢外，硬核老王表示，在这篇告别信发出后，除非有特殊情况，他将停止在 「Linux 中国」 的主网、公众号、视频号、B 站等所有渠道的内容发布。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">并在春节期间将 「Linux 中国」 所有发布的文章都打包成一份电子书，供大家收藏留用。主网和公众号也都会保持相当长的时间的访问，只是可能不会再更新了。</span></p><p style="color:#000000; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">此外，他个人则计划在今年躺平几个月，然后准备一个人出门走走，或许是自驾，或许是摩旅，去寻找一下人生的意义。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 01 Feb 2024 07:40:23 GMT</pubDate>
+            <pubDate>Thu, 01 Feb 2024 07:40:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/277277</guid>
             <link>https://www.oschina.net/news/277277</link>
             <author>
@@ -152,192 +945,6 @@
             <link>https://www.oschina.net/news/277214</link>
             <author>
                 <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Windows Terminal Preview 1.20 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><span style="background-color:#ffffff; color:#333333">Windows Terminal Preview 1.20 现已发布，这是 2024 年的第一个预览版本。引入了多项更改，例如 Windows Terminal 运行时自动推迟程序包更新、支持丰富多彩和疯狂的线条样式、更改搜索结果高亮显示的方式以及大量可用性更新和错误修复。</span></p><p style="text-align:left"><strong><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Keep long-running tasks running</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:left"><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Microsoft Store 现在将避免在使用时更新 Windows Terminal。通过 Store 团队的一些新增强功能，Terminal 已选择不自动终止适用 Windows 版本的更新。这种行为是不可配置的，项目团队认为，此举从长远来看这对用户更有利。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="text-align:left"><strong>线条</strong></p><p style="text-align:left"><span style="background-color:#ffffff; color:#333333">Windows </span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Terminal&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span style="background-color:#ffffff; color:#333333">现在可以显示彩色下划线、波浪线、虚线、点划线和双下划线。</span></p><p style="text-align:left"><img height="234" src="https://oscimg.oschina.net/oscnet/up-2e3343dfb6fbe565056bdc2980922296187.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">可以使用 SGR 58 和 SGR 4 进行测试。示例：</span></p><pre><code class="language-markdown">"<span style="color:#a31515">`e[58:2::255:192:203m`</span>e[4:3mCheck out this cool sentence with colorful curly lines!`e[m"
-
-"<span style="color:#a31515">`e[58:2::255:192:203m`</span>e[4:2mCheck out this cool sentence with colorful double lines!`e[m"
-
-"<span style="color:#a31515">`e[58:2::255:0:0m`</span>e[4:2mCheck out this cool sentence<span style="color:#a31515">`e[4:3m with a bunch`</span>e[58:2::135:206:235m of lines styles <span style="color:#a31515">`e[4:5mand colors!`</span>e[m"</code></pre><p><strong>搜索结果高亮显示</strong></p><p><span style="background-color:#ffffff; color:#333333">当用户现在在终端中搜索文本时，所有搜索结果都将高亮显示。</span></p><p><img height="235" src="https://oscimg.oschina.net/oscnet/up-7a19e417e7db13744a0d81fe7f714526998.png" width="500" referrerpolicy="no-referrer"></p><p><strong>性能改进</strong></p><p>大大提高了 HTML 和 RTF copy 的性能和正确性。</p><p style="text-align:left"><strong><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>辅助功能改进</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="text-align:left"><span><span><span><span><span style="color:#333333"><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>更新了"Settings UI Color Schemes"页面，</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span style="background-color:#ffffff; color:#333333">以在 tooltip 和 screen reader announcements 中包含 RGB 值。</span></p><p style="text-align:left"><span style="background-color:#ffffff; color:#333333">更多详情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fcommandline%2Fwindows-terminal-preview-1-20-release%2F" target="_blank">查看官方博客</a><span style="background-color:#ffffff; color:#333333">。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 09:30:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277103/windows-terminal-preview-1-20-released</guid>
-            <link>https://www.oschina.net/news/277103/windows-terminal-preview-1-20-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[德国铁路公司招聘熟悉 MS-DOS 和 Windows 3.11 的 IT 管理员]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>推特用户@konkretor 发帖介绍了一则乍看让人感觉时空错乱的招聘消息：一家德国铁路公司正在寻求<strong>熟悉 Windows 3.11 系统</strong>的 IT 管理员 —— <strong>有 MS-DOS 使用经验更佳</strong>。据称该岗位负责「德国几乎所有铁路的显示面板」。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-fc514ca3beb89e2b5bea97825fb37daba85.png" referrerpolicy="no-referrer"><br><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fkonkretor%2Fstatus%2F1751221660718444694" target="_blank">https://twitter.com/konkretor/status/1751221660718444694</a></u></em></p></blockquote><p>目前这则招聘信息已被删除，不过网友们已经在此之前进行了备份：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farchive.is%2FCKNYJ" target="_blank">https://archive.is/CKNYJ</a></u></em>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-e7247517dc0ca4714354ce989cc700cc4ce.png" referrerpolicy="no-referrer"></p></blockquote><p>招聘信息写道，该岗位的工作内容是<strong>维护对铁路运营仍然至关重要的旧系统，以及更新驱动。</strong>它们运行于高速和区域列车上的驾驶室显示面板，用于向驾驶员实时展示最重要的技术数据。</p><p>微软在 1992 年推出了 Windows 3.1，至今已有 30 多年历史。德国的工业和科技整体上起步较早，所以像铁路这样的关键基础设施依赖着「上古时代」的操作系统和硬件并不罕见。更何况这个岗位负责的显示面板只是用于展示信息数据，不涉及到关键功能——「如果没有坏到不能用，就用不着更换」。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9f502fa4b09a5d0cb9f235a05d2ed765139.png" referrerpolicy="no-referrer"></p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D39160956" target="_blank">在 Hacker News 的讨论贴中</a></u>，有网友提到德国的 ICE 1 和 ICE 2 列车目前使用的就是上述的老旧系统，并且在 2030 年或更晚之前可能仍需要依赖 MS-DOS 和 Windows 3.11 的软件。另一个有趣的细节是，运行 Windows 3.11 的铁路系统的 BIOS 可以追溯到 1996 年，这些机器配备了 166MHz 处理器和 8MB RAM。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 08:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277087/ms-dos-and-windows-311-still-run-train-dashboards</guid>
-            <link>https://www.oschina.net/news/277087/ms-dos-and-windows-311-still-run-train-dashboards</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微软组建新团队，帮助用 Rust 重写核心 Windows 库]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>微软一直在致力于用&nbsp;Rust&nbsp;重写其核心 Windows 组件。该公司最新发布的一则招聘信息<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fjobs.careers.microsoft.com%2Fglobal%2Fen%2Fjob%2F1633482%2FPrincipal-Software-Architect" target="_blank">透露</a>，正在招聘更多人员组建新团队，以实现这一目的。</p><ul></ul><blockquote><p>「我们正在组建一个新的团队，专注于将 Rust 编程语言作为实现全球规模平台服务现代化的基础。我们欢迎经验丰富的软件架构师加入我们的团队，帮助我们应对这一具有巨大全球影响力的挑战。成功的候选人必须具备深厚的 Rust 编程语言技能，或者愿意在短期内成为 Rust 专家，同时作为项目领导团队的一员做出贡献。他的职责包括指导技术方向、设计和实施 Rust 组件库、SDK，以及将现有的基于 C# 的全球规模服务重新实现为 Rust。&nbsp;」</p></blockquote><p><img height="234" src="https://oscimg.oschina.net/oscnet/up-10dcc114c5acb3ec6e1410ff094c9c24bfb.png" width="700" referrerpolicy="no-referrer"></p><p>具体来说，名为「M365 首席软件架构师」的职位要求，拥有构建服务器/服务应用程序的丰富经验。以及：</p><ul><li>提供大规模、大容量服务的经验</li><li>有深厚的系统设计经验者优先</li><li>精通 Rust 和 C# 等。</li></ul><p>此外，掌握分布式系统设计、Restful API 开发 、面向对象编程、SDK 开发技能的应聘者将被优先考虑。</p><p><strong>相关阅读：</strong></p><ul><li><a href="https://www.oschina.net/news/238894/microsoft-windows-rust" target="_blank">微软正在用 Rust 重写核心 Windows 库</a></li><li><a href="https://www.oschina.net/news/249719/rust-in-the-windows-kernel" target="_blank">微软：加大力度在 Windows 11 使用 Rust</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:36:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277061/microsoft-new-team-rewrite-core-windows-components-rust</guid>
-            <link>https://www.oschina.net/news/277061/microsoft-new-team-rewrite-core-windows-components-rust</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[业内首个代码大模型标准正式发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>2024 年 1 月 25 日，<strong>中国信息通信研究院</strong>（以下简称「中国信通院」）与<strong>中国工商银行</strong>联合牵头发起的《<strong>智能化软件工程技术和应用要求，第 1 部分：代码大模型</strong>》（标准编号 AIIA/PG 0110-2023）标准正式发布。</p><p><img src="https://oscimg.oschina.net/oscnet/up-17493f86ca4fc23f4bf04c9966da1136a69.png" referrerpolicy="no-referrer"></p><p><em>《智能化软件工程技术和应用要求》系列标准结构</em></p><p>该标准规定了代码大模型的技术能力和应用要求，适用于企业在代码大模型的研发、评估和验收等过程中，为代码大模型能力的建设和改进提供参考，为代码大模型的技术选型提供指引。</p><p>该标准分为通用能力、专用场景能力和应用成熟度三大部分，包括 16 个能力项，100 多个能力要求，主要从输入多样性、任务多样性、语言完备度、结果可接收性、结果准确度等维度，对代码大模型提出了全栈技术能力要求。</p><p><img src="https://oscimg.oschina.net/oscnet/up-bd265583840f7c2a1a2f4355c332c4d9473.png" referrerpolicy="no-referrer"></p><p>中国人工智能产业发展联盟（AIIA）表示，智能化软件工程领域持续涌现出以代码大模型为首的三类大模型，<strong>代码大模型数量最多，运维和测试大模型次之</strong>。</p><ul><li><p>代码大模型以其强大的代码理解、代码生成、代码检查、代码优化、研发问答等能力，助力软件编码效率和质量的提升；</p></li><li><p>测试大模型当前重点关注智能单测、测试脚本生成、测试数据生成等方面，未来将从系统测试和业务测试角度真正意义上提升测试能力；</p></li><li><p>运维大模型当前重点关注运维知识问答、工单处理等方面，未来将从故障识别、故障预测、运维安全等多维度推动 AIOps 全过程智能水平提升。</p></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5ed8594e70a8f39cd8ec922525ed46bc740.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:24:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277058</guid>
-            <link>https://www.oschina.net/news/277058</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[IntelliJ 负责人 Kirill Skrygan 成为 JetBrains 新任 CEO]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>JetBrains 公司正式对外宣布了最新人事任命：原负责领导 IntelliJ 部门的 Kirill Skrygan&nbsp;将于 2024 年 2 月 1 日起担任首席执行官。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-3943b858bab2621d791912e56f8421bca6a.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.jetbrains.com%2Fblog%2F2024%2F01%2F30%2Fjetbrains-ceo-transition%2F" target="_blank">https://blog.jetbrains.com/blog/2024/01/30/jetbrains-ceo-transition/</a></u></em></p></blockquote><p>JetBrains 在公告写道：</p><blockquote><p>在我们迈向人工智能发挥变革作用的新时代之际，公司已经建立了一个良好的底层基础，并且可以在此基础上继续推动公司向前发展。</p><p>作为新阶段的一部分，Kirill Skrygan 自 2010 年加入 JetBrains，并在过去几年里一直领导 IntelliJ 部门，他将于 2024 年 2 月 1 日担任首席执行官一职。</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 06:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277057/jetbrains-ceo-transition</guid>
-            <link>https://www.oschina.net/news/277057/jetbrains-ceo-transition</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Monibuca 2023 年终回顾]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>2023 年回顾</h1><ul><li>成立南京模拟不卡科技有限公司</li><li>monibuca.com 域名通过备案</li><li>开通 qq 频道</li><li>开通微信公众号</li><li>推出各产品的 docker 版</li><li>Jessibuca 亮相 LVS 大会</li><li>推出 API 调试工具（基于 ApiFox）</li></ul><h2>Monibuca</h2><ul><li>版本号从<code>v4.3.4</code> 到 <code>v4.7.4</code></li><li>修复大量 bug，稳定性大幅提升</li></ul><h3>重要功能</h3><ul><li>时光回溯 (v4.4.0)</li><li>内存回收 (v4.4.0)</li><li><code>WebRTC</code> 传输 <code>AAC</code>、<code>H265</code>(v4.4.13)</li><li>日志多语言 (v4.5.0)</li><li>配置功能优化，可以用环境变量覆盖配置 (v4.5.3)</li><li>鉴权机制 ( v4.5.5)</li><li>增加 <code>trace</code> 级别日志 (v4.5.5)</li><li>读取 <code>mp4</code> 流 (v4.5.5)</li><li>增加内部订阅者机制 (v4.5.5)</li><li>支持<code>EnhancedRTMP</code>规范 (v4.5.6)</li><li>新增<code>idletimeout</code>配置 (v4.5.7)</li><li>增加全局配置项<code>disableall</code>(v4.5.8)</li><li>配置支持<code>yaml tag name</code>(v4.5.9)</li><li>支持 <code>RTMPS</code> (v4.6.1)</li><li><code>http/ws-h264/h265</code> 裸流支持（v4.6.2)</li><li>引擎引入<code>sync.Cond</code>替代伪自旋锁（v4.6.2)</li><li>单元测试和基准测试（v4.6.5)</li><li>录制支持 mp4 格式（v4.6.8)</li><li>流新增一个状态（v4.7.0）</li><li>远端推拉增加正则表达式（v4.7.0）</li><li>增加 av1 和 opus 支持（v4.7.2)</li></ul><h3>新增插件</h3><ul><li><code>Monitor</code>监控插件 (v4.5.0)</li><li><code>PS</code>接受 PS 流插件 (v4.5.7)</li><li><code>LL-HL</code> llhls 格式插件 (v4.6.1)</li><li><code>CascadeServer/CascadeClient</code>级联插件 (付费)</li><li><code>Transcode</code>转码插件 (付费)</li><li><code>Snappro</code>快速截图插件 (付费)</li><li><code>CDN</code>转推 CDN 插件 (付费)</li><li><code>Crypto</code>加密插件 (付费)</li><li><code>Gb28181pro</code>高级 GB 插件 (付费)</li></ul><h2>Jessibuca</h2><h3>网络层</h3><ul><li>WebRTC 协议流（<code>h26x</code>）对接 <code>m7s</code>、<code>srs</code>、<code>zlm</code>、<code>阿里云</code> 等服务器</li><li>加密流（<code>M7S</code>）(<code>H26x</code>)</li><li><code>fmp4</code>协议</li><li><code>h26x</code>裸流格式</li><li><code>Hls</code>协议流（<code>h26x</code>）</li><li>TF 卡录像流（倍速、保持连接）</li><li>SEI 帧解析</li></ul><h3>解码层</h3><ul><li><code>H.26x</code><code>WASM</code>（<code>SIMD</code>) 多线程视频 (1080P 及以上)</li><li><code>Mpeg-4</code> 视频格式软解码</li><li><code>MP3</code>音频</li></ul><h3>编码层</h3><ul><li>语音通讯（<code>PCM</code>/<code>G711A</code>/<code>G711U</code>/<code>Opus</code>）</li><li>视频录制（<code>flv</code>、<code>mp4</code>）</li></ul><h3>UI 层</h3><ul><li>性能面板</li><li>底部 UI 按钮自定义</li><li>loading 效果</li><li>进度条</li><li>PTZ 云台</li><li>电子放大</li><li>水印（全屏、动态、幽灵）</li><li>AI（人脸识别、物品识别、遮挡物检测、黑/绿/花屏检测）</li><li>NxN 路多屏播放、拖拽排序、局部全屏</li></ul><h2>Rebebuca</h2><ul><li>1 月开发 v1 版本</li><li>11 月 v2 版本开源</li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 03:48:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/langhuihui/blog/10993892</guid>
-            <link>https://my.oschina.net/langhuihui/blog/10993892</link>
-            <author>
-                <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[开源日报：RISC-V 万兆开源交换机发售；npm 存在大量武林外传视频]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>欢迎阅读 OSCHINA 编辑部出品的开源日报，每天更新一期。</p><p><strong># 2024.1.30&nbsp;</strong></p><h2><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日要点</span></span></span></span></span></span></h2><p style="text-align:justify"><strong>OpenSource Daily</strong></p><h3><u><a href="https://www.oschina.net/news/276876/rwkv-5-world-7b-opensource" target="_blank">RWKV-5-World 7B 模型开源 —— 最环保、最节能的 AI 模型</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">2024 年 1 月 28 日，RWKV 开源基金会<strong><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F4hTFA2CMcInhGLZTqa_H4g" target="_blank">宣布</a></u></strong>开源 RWKV-5-World 7B 模型。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">据介绍，「RWKV-5-World 7B」 是 RWKV 第五代架构 7B 参数大模型，也是 RWKV 迄今为止多语言性能最强的开源大模型。根据性能评测数据显示，在 100% attention-free 和只训练 1.1T tokens 的前提下，RWKV-5 7B 模型的多语言性能超过 Mistral，英文性能看齐 LlaMa2。</p><p><img src="https://oscimg.oschina.net/oscnet/up-3d734a934d678a080b7392fed400e7c9c3a.png" referrerpolicy="no-referrer"></p><h3><u><a href="https://www.oschina.net/news/276901" target="_blank">Milk-V Vega: 全球首款 RISC-V 万兆开源交换机正式发售</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">MilkV 于去年 8 月亮相了 「全球首款开源万兆 RISC-V 网络交换机 Milk-V Vega」。时隔数月，该产品现已上架官方淘宝店开售，定价 799 元。</p><p><span style="background-color:#ffffff; color:#333333">据介绍，Milk-V Vega 是 Milk-V 面向新一代网络架构开发的一款小体积、高密度盒式开源万兆网络交换机，为用户提供宽带、语音、视频、监控等多业务统一承载平台，多网融合覆盖全业务；搭载国产 RISC-V 高可靠网络交换芯片，帮助企业与用户大幅简化网络架构，降低能耗成本与运维成本。</span></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Milk-V Vega 支持完备的二层网络协议处理功能，包括 L2 桥接，L2 组播和风暴抑制等；支持基于流、端口、协议、子网的 VLAN 功能；支持 STP，RSTP 和 QinQ 功能；支持防 DOS 攻击，黑白名单和协议包滤除功能；支持滤镜，链路聚合，OAM 报文发送和端口保护功能；支持入口及出口的 ACL 功能，还支持同步以太网，1588 功能。</p><p style="margin-left:.0001pt; margin-right:0; text-align:left"><img src="https://oscimg.oschina.net/oscnet/up-705210c8717e8741ceda531371652a2176d.png" referrerpolicy="no-referrer"></p><h3><u><a href="https://www.oschina.net/news/276877/meta-code-llama-70b" target="_blank">Meta 发布全新代码生成大模型 Code Llama 70B</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Meta 今天发布了全新的代码生成大模型 Code Llama 70B。据称其 HumanEval 评分达到 67.8，达到 GPT-4 水准，是目前评分最高的开源大模型。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Code Llama 70B 是此前<span>&nbsp;</span><strong><u><a href="https://www.oschina.net/news/255350/meta-code-llama">Code Llama<span>&nbsp;</span></a></u></strong>的升级版本，包括三个模型：</p><ul style="list-style-type:disc; margin-left:0; margin-right:0"><li>CodeLlama-70B</li><li>CodeLlama-70B-Python</li><li>CodeLlama-70B-Instruct</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>开源地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhuggingface.co%2Fcodellama%2FCodeLlama-70b-hf" target="_blank">https://huggingface.co/codellama/CodeLlama-70b-hf</a></u></em></strong></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">用户观点</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-f545e933088dc337f246103e4b82c375daa.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">媒体观点</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-e098404dded22f6bad87d9c419141da28f7.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">每日项目榜</span></span></span></span></span></span></strong></h2><p>GitHub 榜单：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a06e7992894706ed3ac49cab5b01c1cc732.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-1be56111bfc96a12468e0e12d2848382697.png" referrerpolicy="no-referrer"></p><blockquote><h4>在线阅读完整日报内容，访问：<strong><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC005%E6%9C%9F%EF%BC%9Anpm%20%E5%AD%98%E5%9C%A8%E5%A4%A7%E9%87%8F%E6%AD%A6%E6%9E%97%E5%A4%96%E4%BC%A0%E8%A7%86%E9%A2%91.pdf" target="_blank">开源日报第 005 期：npm 存在大量武林外传视频</a></u></strong></h4></blockquote><hr><p><strong>往期回顾</strong></p><ul><li><u><a href="https://www.oschina.net/news/276864" target="news">开源日报第 004 期：百度输入法在候选词区域植入广告；大神用 Excel 构建 CPU</a></u></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 03:28:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277040</guid>
-            <link>https://www.oschina.net/news/277040</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Python HTTP 库 urllib3 支持直接在浏览器运行]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Python HTTP 库 urllib3 最新版本 2.2.0 新增了一项重磅特性——<strong>可直接在浏览器运行</strong>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-7e0846ecd450824c3e2a7cea0f00651c22c.png" referrerpolicy="no-referrer"></p></blockquote><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Furllib3.readthedocs.io%2Fen%2Fstable%2Freference%2Fcontrib%2Femscripten.html" target="_blank">根据介绍</a>，从 2.2.0 开始，urllib3 支持在 Pyodide 运行时中使用 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FFetch_API" target="_blank">JavaScript fetch API</a>，或者在 fetch API 不可用时（例如当跨源隔离未激活时）返回 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FXMLHttpRequest" target="_blank">XMLHttpRequest</a>。这意味着开发者可以使用该库直接从浏览器发出 HTTP 请求。</p><p>由于 urllib3 的 Emscripten 支持与 API 兼容，这意味着依赖于 urllib3 的库现在也可以在 Emscripten 和 Pyodide 环境中使用。</p><p>此外，urllib3 已初步支持 HTTP/2，与此同时其团队正在筹集更多资金（大约 4 万美元）来完成该功能。他们表示这笔资金能确保项目在 2023 年财务支持急剧下降后获得长期可持续维护。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-eae61d14f918da17c8b18cf92c1ed05432d.png" referrerpolicy="no-referrer"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsethmlarson.dev%2Furllib3-is-fundraising-for-http2-support" target="_blank">https://sethmlarson.dev/urllib3-is-fundraising-for-http2-support</a></em></u></p></blockquote><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Furllib3%2Furllib3%2Freleases%2Ftag%2F2.2.0" target="_blank">详情查看 Release Notes</a></u>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 03:22:54 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277037/urllib3-works-in-the-browser</guid>
-            <link>https://www.oschina.net/news/277037/urllib3-works-in-the-browser</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[分析了 1.5 亿行代码发现：AI 编程助手降低代码质量]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h2>摘要</h2><p>2023 年是 GitHub Copilot 大放异彩的一年。在短短不到两年的时间里，这款 AI 编程助手已从一个初步的原型迅速成为众多开发者和企业中不可或缺的重要工具 [1]。它的迅猛发展开启了编写代码的新纪元。</p><p>GitHub 已经发布了数份关于 AI 如何影响软件开发的增长和影响的研究。他们的一项重要发现是，开发者在使用 Copilot 时，编码速度提升了「55%」。面对大量由 LLM 生成的代码，我们不禁要问：这些代码在质量和可维护性上与人工编写的代码相比如何？它们是不是更像经验丰富的高级开发者的精心作品，还是更接近短期合同工的零散拼凑？</p><p>为此，GitClear 收集了从 2020 年 1 月到 2023 年 12 月之间的 153 百万行代码变更记录 [A1]。这是目前已知最大的用于分析代码质量差异的高度结构化代码变更数据集 [A2]。</p><p>我们发现了一些关于代码可维护性的令人担忧的趋势。代码变更率 —— 指在编写后不到两周就被修改或撤销的代码行所占的比例 —— 预计在 2024 年将是 2021 年 AI 出现之前的两倍。我们还发现，「新增代码」和「复制/粘贴代码」的比例相比于「更新的」、「删除的」和「移动的」代码在上升。从这个角度来看，AI 生成的代码更像是一位频繁更换工作的合同工写的临时代码，容易违反他访问的代码库的 DRY（Donot Repeat Yourself，不重复自己）原则。。</p><p>我们以一些针对管理者如何在这种逆流中保持代码高质量的建议作为本文的总结。</p><h2>GitHub: 「使用 AI 编程，提升效率 55%，增加代码量 46%，为 GDP 贡献 1.5 万亿美元」</h2><p>这样惊人的数据背后，GitHub 的 CEO Thomas Dohmke 不仅忙于日常的 CEO 工作，还专门抽时间撰写了关于 AI 革命的博客文章和研究论文。他在 2023 年发布于 GitHub 的作品，详细敍述了 Copilot 快速普及的激动人心的故事。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-0d299b229f2006a677274efc1e61252dc26.png" referrerpolicy="no-referrer"></p><p><em>来自 Dohmke 2023 年的博客文章《AI 驱动开发者生命周期的经济影响及从 GitHub Copilot 学到的经验》</em></p><p>Dohmke 在博客中提出，目前已有超过 20,000 家组织在使用 GitHub Copilot for Business。这紧随其在 2023 年 2 月宣布的消息，即在 Copilot for Business 推出时，「已有超过一百万人」在使用个人版 Copilot。GitHub 在提高 AI 质量和公开透明地分享其成果方面取得了令人赞赏的进展。</p><p>到底有多少开发者正在使用 AI 编写代码？在 GitHub 2023 年 6 月与 Wakefield Research 合作的一项独立研究中，他们指出：「在美国大型公司工作的开发者中，有 92% 使用 AI 编程工具。」他们还强调，有 70% 的开发者认为使用 AI 带来了显著好处。不过，O’Reilly Publishing 在 2023 年 8 月的一项调查显示，67% 的受访开发者表示他们还没有使用 ChatGPT 或 Copilot。这暗示了 GitHub 在市场上仍有很大的增长潜力。</p><h2>AI 生成代码存在的问题</h2><p>开发者之所以采用 Copilot，是因为他们相信这款工具能够加快编码速度。GitHub 的研究发现，使用 Copilot 的开发者的满意度提高了 75%。这表明开发者普遍接受了这款产品。但是，这并不意味着那些负责维护代码的人也会感到同样满意。资深代码研究员 Adam Tornhill（著有《Your Code as a Crime Scene》）对此表示怀疑：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-bd20f9adfaf74d1818568d65d3765166e5d.png" referrerpolicy="no-referrer"></p><p><em>开发者研究人员对 AI 辅助编程的影响持担忧态度</em></p><p>GitHub 声称，使用 Copilot 编写代码的速度提高了 55%。但问题是，有些本不应编写的代码怎么办？正如《Clean Code: A Handbook of Agile Software Craftsmanship》的作者 Robert Martin 所说，代码的阅读时间是编写时间的十倍。更快地写出低质量代码，意味着后续阅读代码的人将面临更多困难。</p><p>这只是使用 AI 助手的开发者所面临的众多挑战之一。其他挑战包括：</p><ol><li>频繁收到增加代码的建议，却很少有关于更新、移动或删除代码的建议。这是源于文本环境中代码编写时的界面限制。</li><li>评估代码建议可能耗费大量时间，尤其是在有多个自动建议系统相互竞争的环境中，如流行的 JetBrains IDEs（参见 [11]）。</li><li>代码建议的优化并非基于和代码维护者相同的激励机制。代码建议算法旨在提出最可能被接受的建议，而代码维护者则努力减少需要阅读的代码量（即，理解如何调整现有系统）。</li></ol><p>这些问题可能解释了为什么初级开发者比经验丰富的开发者更倾向于接受代码建议。根据 GitHub 的研究：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-261e68ce302259933f0288c5bd57dc43fc8.png" referrerpolicy="no-referrer"></p><p><em>GitHub 的数据显示，相比经验丰富的开发者，初级开发者使用 Copilot 的频率高出大约 20%</em></p><p>经验丰富的开发者更深刻地理解维护代码的长期成本。如果他们更不愿使用 AI 的代码建议，那么这是否意味着初级开发者现在正以前所未有的速度贡献更多额外的代码呢？</p><h2>代码变更的分类</h2><p>为了探究代码质量如何随着时间变化，我们研究了在 AI 应用日益广泛的 2023 年与之前几年，代码变更类型的不同。GitClear 将代码的变更动作分为七大类别，本研究分析了其中的六种：</p><ol><li>新增代码。指新增加的独立代码行，不包含对现有代码的小幅修改（这类修改被标记为「更新」）。此外，新增代码也不包括那些被添加、删除后又重新加入的代码行（这些行被标记为「更新」和「变动」）。</li><li>删除代码。指被移除、提交并且在随后的至少两周内没有被重新加入的代码行。</li><li>移动代码。指被剪切并粘贴到新文件或同一文件中新的函数位置的代码行。按照定义，「移动」的操作中，提交时代码内容不变，除了代码前的空格部分可能会有所改变。</li><li>更新代码。基于已存在的代码行，通过修改大约三个词或更少的词汇来提交的新代码行。</li><li>查找/替换代码。这种变更模式中，同一字符串在三个或更多位置被替换为统一的新内容。</li><li>复制/粘贴代码。除了编程语言的关键字（例如，<code>end</code>，<code>}</code>，<code>[</code>）外，相同的代码内容被提交到一个提交中的多个文件或函数。</li><li>无效操作代码。微小的代码更改，如空格或同一代码块内的行号变更。这类无效操作的代码变更没有包含在本研究中。</li></ol><p>GitClear 对代码操作的具体实例可以在其「Diff Delta」文档中找到。自 2020 年起，GitClear 开始按这些操作分类 git 仓库。截至 2024 年 1 月，GitClear 已分析并分类了大约十亿行代码，这些代码来自于四年间的各种来源，包括商业客户（例如，NextGen Health, Verizon）和知名的开源项目（例如，Facebook 的 React 项目，谷歌的 Chrome 浏览器）。在这些代码中，有 1.53 亿行是有意义的非无效操作的代码变更，被用于本次研究。</p><p>随着代码变更操作的不断演进，我们也在研究所谓的「变动代码」（Churned code）的变化趋势。它并不算是一种标准的代码操作，因为一行变动代码可能涉及到多种不同的操作，如代码的「新增」（Added）、「删除」（Deleted）或「更新」（Updated）。一行代码要被视作「变动的」，它必须被创建并推送到 git 仓库中，之后在随后的两周内被回退或进行重大修改。可以将 Churn 理解为最初由作者编写、提交并推送到公司 git 仓库时，那些不完整或错误的更改。</p><h2>Copilot 对代码编辑操作趋势的影响</h2><p>为了深入了解 Copilot 如何影响代码质量，我们对 GitClear 观察到的各种代码行操作进行了分析，这些操作按照代码编写的年份来分类（依据 git 提交记录中的 authored_at 日期 [12]）。相关的详细数据可以在附录中找到。下面是各年份的操作百分比：</p><table><tbody><tr><th>&nbsp;</th><th>新增</th><th>删除</th><th>更新</th><th>移动</th><th>复制/粘贴</th><th>查找/替换</th><th>代码波动</th></tr></tbody><tbody><tr><td>2020</td><td>39.2%</td><td>19.5%</td><td>5.2%</td><td>25.0%</td><td>8.3%</td><td>2.9%</td><td>3.3%</td></tr><tr><td>2021</td><td>39.5%</td><td>19.0%</td><td>5.0%</td><td>24.8%</td><td>8.4%</td><td>3.4%</td><td>3.6%</td></tr><tr><td>2022</td><td>41.0%</td><td>20.2%</td><td>5.2%</td><td>20.5%</td><td>9.4%</td><td>3.7%</td><td>4.0%</td></tr><tr><td>2023</td><td>42.3%</td><td>21.1%</td><td>5.5%</td><td>16.9%</td><td>10.5%</td><td>3.6%</td><td>5.5%</td></tr><tr><td>2024</td><td>43.6%</td><td>22.1%</td><td>5.8%</td><td>13.4%</td><td>11.6%</td><td>3.6%</td><td>7.1%</td></tr></tbody></table><p>这些数据在图表中的展现方式是这样的：左轴显示了代码变更操作的比例（这些百分比总和为 100%）。右轴和浅蓝色线条则展示了与之相应的「代码波动」变化。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5056ad3d85208cd11c97d7cbc2e08f934a3.png" referrerpolicy="no-referrer"></p><p>对于 2024 年的预测，我们利用 OpenAI 的 gpt-4-1106-preview 模型，通过对现有数据进行二次回归分析得出。附录中详细介绍了我们如何使用 OpenAI 模型进行这一分析。鉴于 GitHub 报告的 Copilot 的迅猛发展以及 AI 智能体的普遍应用，可以预见 2024 年的趋势将延续 2022 年开始显现的模式，并在 2023 年得到加速。单从 2022 年到 2023 年各种操作频率的变化来看，我们可以发现三个可能影响代码质量的警示信号：</p><table><tbody><tr><th>操作</th><th>同比变化</th></tr></tbody><tbody><tr><td>添加</td><td>+3.1%</td></tr><tr><td>删除</td><td>+4.8%</td></tr><tr><td>更新</td><td>+5.2%</td></tr><tr><td>移动</td><td>-17.3%</td></tr><tr><td>复制/粘贴</td><td>+11.3%</td></tr><tr><td>查找/替换</td><td>-1.3%</td></tr><tr><td>代码变动率 (Churn)</td><td>+39.2%</td></tr></tbody></table><h2>解读代码操作变化的含义</h2><p>2023 年最显著的代码操作变化发生在「代码变动率 (Churn)」、「移动」和「复制/粘贴」这几个方面。我们在这一节将详细探讨这些变化背后的意义。</p><h3>代码变动率的显著增长</h3><p>所谓的「代码变动率 (Churn)」是指代码被推送到仓库后，接着在两周内被撤销、移除或更新的比例。在开发者亲自编写所有代码的情况下，这种情况相对较少见——2023 年之前，只有 3-4% 的代码会发生这样的变动。不过，在 2022 年就已经出现了这种趋势的上升，当时代码变动率跃升至 9%。值得注意的是，2022 年是人工智能编程助手 Copilot 首次以测试版形式推出，同时也是 ChatGPT 开始被广泛使用的一年。</p><p>在 2022 至 2023 年期间，AI 辅助工具的兴起与推送到代码仓库的「错误代码」密切相关。根据引用资料 [1] 和 [8]，如果我们假设 Copilot 在 2021 年的普及率为 0%，2022 年为 5-10%，2023 年为 30%，那么这些因素之间的相关性极高，皮尔森相关系数高达 0.98（更多关于这一计算的细节，请参见附录中的「代码变动率与 Copilot 的相关性」部分）。这意味着，随着 AI 辅助工具的使用增加，代码变动率也在相应增长。</p><p>随着代码变动率的普遍增加，错误代码被部署到生产环境的风险也随之增大。如果这一趋势持续到 2024 年，那么超过 7% 的代码更改可能会在两周内被撤销，这将是 2021 年的两倍。根据这些数据，我们预计 Google DORA 的「变更失败率」将在今年晚些时候发布的「2024 年 DevOps 状态报告」中有所增加，前提是该研究包含了 2023 年使用 AI 辅助的开发者数据。</p><h3>代码移动越少意味着重构和复用的减少</h3><p>通常在重构现有代码系统时，我们会发现代码的移动。重构的系统，尤其是代码的移动，是实现代码复用的关键。随着产品的不断扩展，开发者往往需要将现有代码重组到新的模块和文件中，以便于新功能的复用。对于经验丰富的开发者来说，代码复用的优势非常明显——与新编写的代码相比，已经在实际环境中被测试并证实稳定的代码显得更加可靠。而且，经过多人修改的代码往往包含了丰富的文档，这大大加快了新手开发者对模块的理解速度。</p><p>结合「复制/粘贴」代码的增加，可以清楚地看到，当前的 AI 助手似乎在一定程度上阻碍了代码的复用。相较于进行重构和遵循 DRY（「不要重复自己」）原则，这些助手更倾向于提供一种快捷方式，让开发者重复使用现有代码。</p><h3>复制/粘贴的代码会导致未来的维护困难</h3><p>复制/粘贴的代码可能是长期维护代码中最大的难题之一。当开发者重复使用非关键字的代码行时，实际上是在暗示他们没有时间去深入研究之前的实现方式。这种重复添加代码的做法，将整合实现重复功能的任务留给了未来的维护者。</p><p>大多数开发者更喜欢「实现新功能」而不是「审视潜在可复用的代码」，因此复制/粘贴的代码往往会过期仍然被使用。尤其在经验不足的团队中，可能缺乏有权威的代码维护者来移除这些重复的代码。即便是资深开发者，也需要付出巨大的努力和决心去充分理解代码，以便将其删除。</p><p>如果没有 CTO 或工程副总裁定期安排时间来减少技术债务，那么由于高层的时间压力，新添加的复制/粘贴代码可能永远不会被整合到支撑长期开发速度的组件库中。</p><p>根据 GitClear 的操作，只有在单次提交中重复的代码才会被计算。因此，2023 年测量到的 11% 的复制/粘贴比例，可能只是 2024 年代码库中悄然增加的总复制量的一小部分。</p><h2>修订代码年龄趋势分析</h2><p>我们使用了一个独立的方法来评估 2023 年相比之前代码质量的变化：分析 GitClear 提供的「代码溯源」数据。所谓「代码溯源」，其实就是要看代码从被写出到最终被更新或删除的时间长度。</p><table><tbody><tr><th>年份</th><th>少于 2 周</th><th>少于一个月</th><th>少于一年</th><th>1-2 年</th></tr></tbody><tbody><tr><td>2020</td><td>65.9%</td><td>8.7%</td><td>21.8%</td><td>3.6%</td></tr><tr><td>2021</td><td>66.7%</td><td>9.0%</td><td>20.5%</td><td>3.8%</td></tr><tr><td>2022</td><td>64.7%</td><td>9.9%</td><td>21.1%</td><td>4.4%</td></tr><tr><td>2023</td><td>71.3%</td><td>9.3%</td><td>16.4%</td><td>3.0%</td></tr><tr><td>2024</td><td>74.4%</td><td>9.1%</td><td>14.1%</td><td>2.4%</td></tr></tbody></table><p>根据这些数据，我们可以看到：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1d1e4582aa2a1e3988d79b7610eac2f0736.png" referrerpolicy="no-referrer"></p><h2>解读代码年龄的趋势</h2><p>对「代码溯源」的数据分析揭示了一个有趣的现象，即在 2022 年到 2023 年间，代码的更新速度加快了。特别是，不到两周就被替换的代码比例增加了 10%。同时，超过一个月的代码更新频率在 2023 年比 2022 年下降了 24%（2023 年为 19.4%，而 2022 年为 25.5%）。</p><p>这一趋势显示，在 AI 助手普及之前，开发者更可能会选择最近编写的代码进行改进和再利用。根据 Techreport 的一项调查[5]，早在 2020 年代初，大约 70% 的项目采用了敏捷开发方法。在敏捷方法中，每个 Sprint（通常持续 2-3 周）都会规划和执行新的功能。这与我们的数据相符，表明大约在 2020 年左右，团队在每个 Sprint 结束后，可能会聚在一起讨论最近的工作成果，以及如何在接下来的 Sprint 中再次利用这些成果。</p><h2>后续研究的思考题</h2><p>我们能否设定激励措施来应对 2024 年代码建议引擎中普遍的「添加后即忘记」的问题？</p><p>尽管我们可以训练 AI 识别代码整合的机会，关键在于它何时被触发？我们需要一个新的用户界面来复查代码的删除和更新，以及潜在的新增内容。同时，那些导致团队今天无法腾出时间来减轻技术债务的管理层压力，可能也会妨碍他们采用一种假设性的「代码清理」工具。但如果有代码助手的开发者对探索如何整合代码感兴趣，GitClear 愿意与他们合作，详细联系方式见附录。</p><p>另一个值得关注的问题是：额外代码对开发进度的影响速度有多大？特别是对于复制/粘贴的代码，库中代码行数与开发者修改这些代码的速度之间几乎肯定存在负相关关系。现在的疑问是：「累积的复制/粘贴技术债务何时变得不可忽视？」了解这种减速效应发生的速率可以帮助未来的工具指导管理者何时应该减少开发新功能的时间。</p><p>最后一个探索的问题是：与 2020-2022 年相比，现在发生的复制/粘贴代码的总比例是多少？由于 GitClear 目前仅测量单个提交中的复制/粘贴代码，因此整体的复制/粘贴量（文件中重复的所有非关键字、非注释代码行）可能是 GitClear 当前测量值的两倍。2024 年，复制/粘贴代码真的会占到所有代码操作的 20-25% 吗？</p><p>GitClear 将在未来的研究中探讨这些问题，并鼓励该领域的其他研究人员共享他们的数据。如果您有兴趣与 GitClear 合作进行进一步研究，请查阅附录中的联系信息。</p><h2>结论：开发者为何保持谨慎？</h2><p>根据我们分析的两项关键数据，2023 年代码质量面临明显下滑，这与大语言模型 (LLMs) 特别是 AI 代码助手的广泛应用密切相关。</p><p>GitHub 与 Wakefield 研究所在 2023 年的一项调查显示，开发者已经意识到代码质量的降低。当被问及「在没有 AI 的情况下，应以哪些指标评估你的工作？」时，他们最关注的是「协作和沟通」，其次是「代码质量」。</p><p>但当问题转向「在使用 AI 时，应以哪些指标评估你的工作？」时，他们的关注点发生变化，「代码质量」成为了最关注的问题，而「生产事件数量」上升为第三大关注点：</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-c3c950cc95effe8fe6f9b6d78a0706b2ea6.png" referrerpolicy="no-referrer"></p><p><em>摘自 GitHub 关于 AI 影响的调查</em></p><p>尽管开发者个人可能没有足够的数据来解释为什么使用 AI 时「代码质量」和「生产事件」成为更加紧迫的问题，我们的数据提供了一个可能的解释：当开发者被大量快速且简单的短期有效建议所淹没时，他们往往会不断增加代码行数，却忽视了检查现有系统是否可以优化重用。</p><p>对于那些通过 Tab 键得到复制/粘贴建议的经验不足的开发者来说，解决这一问题并非易事。工程领导们需要密切关注新数据，并思考这些数据对未来产品维护的潜在影响。开发者分析工具，如 GitClear，能够帮助识别问题代码的累积速度。需要考虑的关键问题有：</p><ol><li>代码复用比例是否在下降？</li><li>代码的移动和复制/粘贴量是否有所变化？</li><li>开发者发现代码复用机会的难易程度如何？</li></ol><p>关于 GitClear 如何应对这些问题的进一步讨论见 [A3]。</p><p>AI 助手和 Copilot 如何重塑开发者的角色？无疑，随着 AI 的普及，我们进入了一个代码行数增加速度空前的时代。2024 年更值得关注的问题是：谁将负责整理这一切留下的烂摊子？</p><h2>引用</h2><ol><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.blog%2F2023-06-27-the-economic-impact-of-the-ai-powered-developer-lifecycle-and-lessons-from-github-copilot%2F" target="_blank">探索 AI 驱动的开发者生命周期带来的经济效益：GitHub Copilot 的案例分析</a>[GitHub]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.blog%2F2023-02-14-github-copilot-for-business-is-now-available%2F" target="_blank">GitHub Copilot for Business：企业级智能编程助手</a>[GitHub]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2306.15033" target="_blank">软件开发领域的重大变革：AI 驱动下的开发者生命周期经济与生产力分析</a>[GitHub]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.google.com%2Fpresentation%2Fd%2F1_zHZSSU5GsuORb776sRVNkuKoHXS7e2smJWWkn1Kxds%2Fedit%23slide%3Did.g9a6371a948_0_732" target="_blank">深入了解 Diff Delta 和 Commit 组</a>[GitClear]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftechreport.com%2Fstatistics%2Fhow-many-companies-use-agile%2F" target="_blank">Techreport 调查显示：超过七成团队采用敏捷开发模式</a>[Techreport]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.gitclear.com%2Fhelp%2Ftechnical%2Fcode_provenance" target="_blank">代码溯源：它是什么，为何重要？</a>[GitClear]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.blog%2F2023-06-13-survey-reveals-ais-impact-on-the-developer-experience%2F" target="_blank">调查显示 AI 如何改变开发者的工作体验</a>[GitHub]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.oreilly.com%2Fradar%2Fthe-next-generation-of-developer-productivity%2F" target="_blank">领略下一代开发者生产力的风采</a>[O’reilly]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpragprog.com%2Ftitles%2Fatcrime2%2Fyour-code-as-a-crime-scene-second-edition%2F" target="_blank">当你的代码变成犯罪现场</a>[Pragmatic Programmers]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.goodreads.com%2Fbook%2Fshow%2F3735293-clean-code" target="_blank">敏捷软件工艺中的代码洁净之道：实用手册及其引用</a>[Robert C. Martin, 作者]</li><li>[JetBrains AI：提升你的编程工具，迎接新的自由 (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.jetbrains.com%2Fai%2F" target="_blank">https://www.jetbrains.com/ai/</a>)[JetBrains]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-commit" target="_blank">Git 提交指南：深入了解 git-commit</a>[Git 文档]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.gitclear.com%2Fhelp%2Ftech_debt_inspector_list_directories_by_developer_velocity" target="_blank">如何使用 Tech Debt 浏览器优化代码</a>[GitClear]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FDon%2527t_repeat_yourself" target="_blank">「不要重复自己」原则的智慧</a>[Wikipedia]</li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FAdamTornhill%2Fstatus%2F1729592297887502611" target="_blank">X：Adam Tornhill 分享的思考</a>[X/Twitter]</li></ol><blockquote><p>本文已获授权转载。</p><p>原文：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgitclear-public.s3.us-west-2.amazonaws.com%2FCoding-on-Copilot-2024-Developer-Research.pdf" target="_blank">Coding on Copilot</a><br> 作者：William Harding,Matthew Kloster<br> 译文：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbaoyu.io%2Ftranslations%2Fllm%2Fcoding-on-copilot-2024-developer-research" target="_blank">在 Copilot 的协助下编程白皮书——2023 年的数据显示了代码质量面临的挑战</a><br> 译者：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbaoyu.io%2F" target="_blank">宝玉</a></p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 02:43:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277025/coding-on-copilot-2024-developer-research</guid>
-            <link>https://www.oschina.net/news/277025/coding-on-copilot-2024-developer-research</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GLM-4 模型开放 API 正式上线]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">2024 年 01 月 16 日，智谱 AI 正式推出了新一代基座大模型 GLM-4，并宣布了一系列产品升级。时至今日，GLM-4 模型的开放 API 正式上线。所有开发者均可通过智谱 AI 的开放平台接入 GLM-4 模型开放 API。</span></p><p><strong><span style="color:#000000">网址：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopen.bigmodel.cn%2Fdev%2Fapi%23glm-4" target="_blank">https://open.bigmodel.cn/dev/api#glm-4</a></strong></p><p><span style="color:#000000">根据介绍，新一代基座大模型 GLM-4，支持更长上下文；更强的多模态；支持更快推理速度，更多并发，大大降低推理成本；同时 GLM-4 增强了智能体能力。</span></p><ul><li><p><span style="color:#000000"><strong>基础能力（英文）：</strong>GLM-4 在 MMLU、GSM8K、MATH、BBH、HellaSwag、HumanEval 等数据集上，分别达到 GPT-4 94%、95%、91%、99%、90%、100% 的水平。</span></p></li><li><p><span style="color:#000000"><strong>指令跟随能力：</strong>GLM-4 在 IFEval 的 prompt 级别上中、英分别达到 GPT-4 的 88%、85% 的水平，在 Instruction 级别上中、英分别达到 GPT-4 的 90%、89% 的水平。</span></p></li><li><p><span style="color:#000000"><strong>对齐能力：</strong>GLM-4 在中文对齐能力上整体超过 GPT-4。</span></p></li><li><p><span style="color:#000000"><strong>长文本能力：</strong>在 LongBench（128K）测试集上对多个模型进行评测，GLM-4 性能超过 Claude 2.1；在「大海捞针」（128K）实验中，GLM-4 的测试结果为 128K 以内全绿，做到 100% 精准召回。</span></p></li><li><p><span style="color:#000000"><strong>多模态-文生图：</strong>CogView3 在文生图多个评测指标上，相比 DALLE3 约在 91.4% ~99.3% 的水平之间。</span></p></li></ul><p><img height="380" src="https://oscimg.oschina.net/oscnet/up-4fe971d080041b4d60fc9d6078b26f54d9f.png" width="500" referrerpolicy="no-referrer">&nbsp;</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 31 Jan 2024 02:42:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277024</guid>
-            <link>https://www.oschina.net/news/277024</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[简单一招竟把 nginx 服务器性能提升 50 倍]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/action/visit/ad?id=1576" target="_blank">【直播预告】DBA 会被云淘汰吗？ <img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><h2>需求背景</h2><p>接到重点业务需求要分轮次展示数据，预估最高承接 9w 的 QPS，作为后端工程师下意识的就是把接口写好，分级缓存、机器扩容、线程拉满等等一系列连招准备，再因为数据更新频次两只手都数得过来，我们采取了最稳妥的处理方式，直接生成静态文件拿 CDN 抗量</p><p>架构流程大致如下所示：</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2024-01-02-11-59FwLpwnTQRa2sueb..jpg" alt="" referrerpolicy="no-referrer"></p><p>数据更新后会重新生成新一轮次的文件，刷新 CDN 的时候会触发大量回源请求，应用服务器极端情况得 hold 住这 9w 的 QPS</p><h2>第一次压测</h2><p>双机房一共 40 台 4C 的机器，25KB 数据文件，5w 的 QPS 直接把 CPU 打到 90%</p><p>这明显不符合业务需求啊，咋办？先无脑加机器试试呗</p><p>就在这时测试同学反馈压测的数据不对，最后一轮文件最大会有 125KB，雪上加霜</p><p>于是乎文件替换，机器数量整体翻一倍扩到 80 台，服务端 CPU 依然是瓶颈，QPS 加不上去了</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2024-01-02-11-59591UDaNqz2ejKgeO.png" alt="" referrerpolicy="no-referrer"></p><p>到底是哪里在消耗 CPU 资源呢，整体架构已经简单到不能再简单了</p><p>这时候我们注意到为了节省网络带宽 nginx 开启了 gzip 压缩，是不是这小子搞的鬼</p><pre><code>server
-{
-      listen 80;
-      
-      gzip on;
-      gzip_disable "msie6";
-      gzip_vary on;
-      gzip_proxied any;
-      gzip_comp_level 6;
-      gzip_buffers 16 8k;
-      gzip_http_version 1.1;
-      gzip_types text/plain application/css text/css application/xml text/javascript application/javascript application/x-javascript;
-
-......
-}
-
-
-</code></pre><h2>第二次压测</h2><p>为了验证这个猜想，我们把 nginx 中的 gzip 压缩率从 6 调成 2，以减少 CPU 的计算量</p><blockquote><p>gzip_comp_level 2;</p></blockquote><p>这轮压下来 CPU 还是很快被打满，但 QPS 勉强能达到 9w，坐实了确实是 gzip 在耗 CPU</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2024-01-02-11-5911xGuMeD522kE2Orh.png" alt="" referrerpolicy="no-referrer"></p><p>nginx 作为家喻户晓的 web 服务器，以高性能高并发著称，区区一个静态数据文件就把应用服务器压的这么高，一定是哪里不对</p><h2>第三次压测</h2><p>明确了 gzip 在耗 CPU 之后我们潜下心来查阅了相关资料，发现了一丝进展</p><p>html/css/js 等静态文件通常包含大量空格、标签等重复字符，重复出现的部分使用「距离加长度」表达可以减少字符数，进而大幅降低带宽，这就是 gzip 无损压缩的基本原理</p><p>作为一种端到端的压缩技术，gzip 约定文件<strong>在服务端压缩完成</strong>，传输中保持不变，直到抵达客户端。这不妥妥的理论依据嘛～</p><p>nginx 中的 gzip 压缩分为动态压缩和静态压缩两种</p><p>•动态压缩</p><p>服务器给客户端返回响应时，消耗自身的资源进行实时压缩，保证客户端拿到 gzip 格式的文件</p><p>这个模块是默认编译的，详情可以查看 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnginx.org%2Fen%2Fdocs%2Fhttp%2Fngx_http_gzip_module.html" target="_blank">https://nginx.org/en/docs/http/ngx_http_gzip_module.html</a></p><p>•静态压缩</p><p>直接将预先压缩过的 .gz 文件返回给客户端，不再实时压缩文件，如果找不到 .gz 文件，会使用对应的原始文件</p><p>这个模块需要单独编译，详情可以查看 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnginx.org%2Fen%2Fdocs%2Fhttp%2Fngx_http_gzip_static_module.html" target="_blank">https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html</a></p><p>如果开启了 gzip_static always，而且客户端不支持 gzip，还可以在服务端加装 gunzip 来帮助客户端解压，这里我们就不需要了</p><p>查了一下 jdos 自带的 nginx 已经编译了 ngx_http_gzip_static_module，省去了重新编译的麻烦事</p><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2024-01-14-21-44VgvTdUt25t44PAPy.jpg" alt="" referrerpolicy="no-referrer"></p><p>接下来通过 GZIPOutputStream 在本地额外生成一个 .gz 的文件，nginx 配置上静态压缩再来一次</p><blockquote><p>gzip_static on;</p></blockquote><p><img src="https://s3.cn-north-1.jdcloud-oss.com/shendengbucket1/2024-01-02-11-59bMIHDM9dOrJ8soD.png" alt="" referrerpolicy="no-referrer"></p><p>面对 9w 的 QPS，40 台机器只用了 7% 的 CPU 使用率完美扛下</p><p>为了探底继续加压，应用服务器 CPU 增长缓慢，直到网络流出速率被拉到了 89MB/s，担心影响宿主机其他容器停止压力，此时 QPS 已经来到 27w</p><p>qps 5w-&gt;27w 提升 5 倍，CPU 90%-&gt;7% 降低 10 倍，整体性能翻了 50 倍不止，这回舒服了～</p><h2>写在最后</h2><p>经过一连串的分析实践，似乎静态压缩存在「压倒性」优势，那什么场景适合动态压缩，什么场景适合静态压缩呢？一番探讨后得出以下结论</p><blockquote><p>纯静态不会变化的文件适合静态压缩，提前使用 gzip 压缩好避免 CPU 和带宽的浪费。动态压缩适合 API 接口返回给前端数据这种动态的场景，数据会发生变化，这时候就需要 nginx 根据返回内容动态压缩，以节省服务器带宽</p></blockquote><p>作为一名后端工程师，nginx 是我们的老相识了，抬头不见低头见。日常工作中配一配转发规则，查一查 header 设置，基本都是把 nginx 作为反向代理使用。这次是直接访问静态资源，调整过程的一系列优化加深了我们对 gzip 的动态压缩和静态压缩的基本认识，这在 NG 老炮儿眼里显得微不足道，但对于我们来说却是一次难得的技能拓展机会</p><p>在之前的职业生涯里，我们一直聚焦于业务架构设计与开发，对性能的优化似乎已经形成思维惯性。面对大数据量长事务请求，减少循环变批量，增大并发，增加缓存，实在不行走异步任务解决，一般瓶颈都出现在 I/O 层面，毕竟磁盘慢嘛，减少与数据库的交互次数往往就有效果，其他大概率不是问题。这回有点儿不一样，CPU 被打起来的原因就是出现了大量数据计算，在高并发请求前，任何一个环节都可能产生性能问题</p><p>作者：京东零售，闫创</p><p>来源：京东云开发者社区，转载请注明来源</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 29 Jan 2024 02:49:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/4090830/blog/10979685</guid>
-            <link>https://my.oschina.net/u/4090830/blog/10979685</link>
-            <author>
-                <![CDATA[京东云开发者]]>
             </author>
         </item>
     </channel>
