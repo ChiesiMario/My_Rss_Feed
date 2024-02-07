@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 07 Feb 2024 07:53:46 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 07 Feb 2024 11:57:44 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[開源大模型 MaLA-500 發佈，支持 534 種語言]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>大語言模型推進了自然語言處理的最先進水平。然而，它們的主要設計針對英語或有限的一組語言，這在它們對資源匱乏的語言的有效性方面造成了巨大的差距。為了彌補這一差距，慕尼黑大學、赫爾辛基大學等研究人員聯合開源了 MaLA-500，旨在涵蓋廣泛的 534 種語言。</p><p>MaLA-500 基於 LLaMA 2 7B 構建，再用多語言數據集 Glot500-c 進行語言擴展訓練。研究人員在 SIB-200 上的實驗結果表明，MaLA-500 已經實現了最先進的上下文學習結果。</p><p>Glot500-c 包含了 534 種語言，涵蓋 47 種不同種族語言，數據量高達 2 萬億 tokens。研究人員表示，選擇 Glot500-c 數據集的原因在於可以大幅擴展現有語言模型的語言覆蓋範圍，幷包含極其豐富的語言家族，這對於模型學習語言內在的語法和語義規律幫助巨大。</p><p>此外，雖然一些高資源語言的比例相對較低，但 Glot500-c 的整體數據量對訓練大規模語言模型而言足夠用。在後續的預處理中，又對語料數據集進行了加權隨機採樣，以增加低資源語言在訓練數據中的比例，讓模型更加聚焦特定語言。</p><p>在 LLaMA 2-7B 基礎之上，MaLA-500 進行了兩大技術點創新：</p><ul><li>增強詞彙表，研究人員通過 Glot500-c 數據集，訓練了一個多語言分詞器,將 LLaMA 2 的原英文詞彙表擴展到了 260 萬,大幅增強了模型對非英語和低資源語言的適配能力。</li></ul><p><img height="239" src="https://oscimg.oschina.net/oscnet/up-65dfc2043cc510a65d1d610f0206a22f682.png" width="500" referrerpolicy="no-referrer"></p><ul><li>模型增強，使用了 LoRA 技術在 LLaMA 2 的基礎上進行低秩適配。只訓練適配矩陣而凍結基礎模型權重,可以高效地實現模型在新語言上的持續學習能力，同時保留模型原有的知識。</li></ul><p><strong>訓練流程</strong></p><p>訓練方面，研究人員用了 24 張 N 卡 A100 GPU 進行訓練，並使用了包括 Transformers、PEFT 和 DeepSpeed 三個主流深度學習框架。</p><p>其中,DeepSpeed 提供了分佈式訓練的支持,可以實現模型並行;PEFT 實現了高效的模型微調;Transformers 提供了模型功能的實現，例如，文本生成、提示詞理解等。</p><p>為了提升訓練的高效性，MaLA-500 還使用了各種顯存和計算優化算法,如 ZeRO 冗餘優化器,可最大化利用 GPU 算力資源;以及混合精度訓練的 bfloat16 數格式加速訓練流程。</p><p>此外，研究人員還對模型參數進行了大量優化，使用了學習率為 2e-4 的常規 SGD 訓練,並使用了 0.01 的 L2 權重衰減以防止模型過大，出現過擬合、內容輸出不穩定等情況。</p><p><img height="311" src="https://oscimg.oschina.net/oscnet/up-7b3116b3510c14535988e1d4be7f8f894de.png" width="500" referrerpolicy="no-referrer"></p><p>為了測試 MaLA-500 的性能，研究人員在 SIB-200 等數據集上進行了綜合實驗。</p><p>結果顯示，相比原始 LLaMA 2 模型,MaLA-500 在主題分類等評測任務上的準確率提高了 12.16%，這説明 MaLA-500 的多語言優於，現有的眾多開源大語言模型。</p><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2401.13303" target="_blank">查看完整論文</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 07 Feb 2024 08:34:55 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/278159/mala-500</guid>
+            <link>https://www.oschina.net/news/278159/mala-500</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[中國信通院牽頭制定的軟件安全相關團體標準正式發佈]]>
@@ -26,7 +41,7 @@
                 <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">2024 年 1 月 29 日，由中國信息通信研究院（簡稱「中國信通院」）牽頭制定的軟件安全相關團體標準《軟件安全開發能力評估技術規範》（標準編號 T/ISC 0042—2024）、《軟件代碼自主率測評方法》（標準編號 T/ISC 0043—2024）、《軟件供應鏈安全要求》（標準編號 T/ISC 0044—2024）正式批准發佈。軟件安全相關團體標準於 2023 年 4 月在中國互聯網協會申請立項，由中國信通院數字安全護航計劃組織起草，20 餘家單位共同參與編制。</span></p><p><img height="261" src="https://oscimg.oschina.net/oscnet/up-b15b7a689662f2766fa48f6093db349fd46.png" width="500" referrerpolicy="no-referrer"></p><p><span>軟件安全相關團體標準圍繞軟件及應用安全開發體系在不同等級中的實踐活動要求、對軟件和應用產品代碼自主率的技術要求、對自身的軟件供應鏈安全的建設、評估和改進三個方面進行編寫。主要提出三大核心內容：</span></p><p><strong>0</strong><strong>1&nbsp;</strong><span><strong><strong>軟件安全開發能力成熟度模型 (SSDCMM)</strong></strong></span></p><p style="margin-left:0; margin-right:0"><span>模型分別由安全能力維度、能力成熟度等級維度、安全開發過程維度三個維度組成，覆蓋需求、設計、編碼、測試、部署/發佈、運維全生命週期開發階段，以業務安全和信息安全為出發點，通過對流程、制度、規範的梳理，以及開展相關人員安全意識的培訓、威脅資源庫、安全測試資源庫等相關資源的建設，充分保障業務系統滿足業務安全和信息安全的需求，有效提升軟件開發團隊的安全意識和安全開發能力，做到信息安全的「早預防、早發現、早響應」，實現安全左移。</span></p><p><strong>0</strong><strong>2&nbsp;</strong><strong><strong>代碼自主率檢測方法</strong></strong></p><p style="margin-left:0; margin-right:0"><span>代碼自主率反映了軟件產品的自主創新能力和知識產權保護程度。一般來説，代碼自主率越高，軟件產品越具有競爭優勢和市場價值。基於此，我們將代碼自主率的技術要求以及檢測方法寫入標準，幫助軟件開發企業開展軟件和應用產品代碼自主率的檢測評價工作，減少對開源源代碼和組件的依賴，提升自主率，實現自主可控。</span></p><p><strong>0</strong><strong>3 軟件供應鏈安全體系模型</strong></p><p style="margin-left:0; margin-right:0"><span>體系主要包括安全管理和安全技術兩部分，以管理和技術兩個方面實現對軟件供應鏈生命週期的把控，通過開展代碼評審、代碼檢測、代碼走查等方式，識別並修復源代碼安全漏洞，通過建立漏洞庫，持續對漏洞進行管理和整改來規範開源組件的使用，從而保障軟件供應鏈的安全性。</span></p><p style="margin-left:0; margin-right:0"><img height="231" src="https://oscimg.oschina.net/oscnet/up-ab2bac204c1beec0a21235dc018ce848119.png" width="500" referrerpolicy="no-referrer"></p><p><span>2024 年，中國信通院數字安全護航計劃將繼續推動軟件安全相關標準評估體系的建設與完善，重點任務包括：啓動軟件安全開發、代碼自主率等評估測試工作，推進標準體系中其他部分的發佈與實施等。旨在幫助企業提升安全意識，制定合理的安全體系，從而提升軟件質量。</span></p></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 07 Feb 2024 07:44:45 GMT</pubDate>
+            <pubDate>Wed, 07 Feb 2024 07:43:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/278154</guid>
             <link>https://www.oschina.net/news/278154</link>
             <author>
@@ -501,21 +516,6 @@ mainClass = "org.example.AppKt"
             <pubDate>Mon, 05 Feb 2024 05:59:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/277856/gradle-8-6-released</guid>
             <link>https://www.oschina.net/news/277856/gradle-8-6-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[開源日報：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><p><strong># 2024.2.4</strong></p><h2><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日要點</span></span></span></span></span></span></h2><p style="text-align:justify"><strong>OpenSource Daily</strong></p><h3><u><a href="https://www.oschina.net/news/277597/vuejs-10yr" target="_blank">10 年前的今天 —— Vue.js 正式問世</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">10 年前的今天（2014 年 2 月 3 日），Vue 在 Hacker News 上首次對外亮相：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D7169288" target="_blank">news.ycombinator.com/item?id=7169288</a></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">10 年後，Vue 已成為使用最廣泛的前端項目之一，在世界各地擁有多元化的社區。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img src="https://oscimg.oschina.net/oscnet/up-581bff0bf554afab956437fa62cb1777d18.png" referrerpolicy="no-referrer"></p><h3><u><a href="https://www.oschina.net/news/277568" target="_blank">扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></u></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Meta 開源其 AI 技術是出於推動技術創新、提升模型質量、建立行業標準、吸引人才、增加透明度和支持其長期戰略的考慮。這不僅有助於 Meta 在競爭激烈的 AI 領域保持領先地位，也有助於推動整個行業的前進。</p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日推薦</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-41e1b46b27f9899b2f2893d8ed2b70534e9.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">開源之聲</span></span></span></span></span></span></strong></h2><p><img height="1430" src="https://oscimg.oschina.net/oscnet/up-32c6e76e1aeb2f3d27d77abe42640a381f6.png" width="2400" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">每日項目榜</span></span></span></span></span></span></strong></h2><p>Gitee 榜單：</p><p><img src="https://oscimg.oschina.net/oscnet/up-c6a5d161821e5d48ee96c57b0e92da312f7.png" referrerpolicy="no-referrer"></p><blockquote><h4><span style="background-color:#e67e22">在線閲讀完整日報內容，訪問：</span><br><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC008%E6%9C%9F%EF%BC%9A%E6%8E%A8%E5%8A%A8%E4%B8%AD%E5%9B%BD%E5%BC%80%E6%BA%90%E8%BD%AF%E7%A1%AC%E4%BB%B6%E5%8F%91%E5%B1%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B8%8E%E5%BB%BA%E8%AE%AE.pdf" target="_blank">開源日報 009 期：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></h4></blockquote><hr><p><strong>往期回顧</strong></p><ul><li><u><a href="https://www.oschina.net/news/277585" target="_blank">開源日報第 008 期：推動中國開源軟硬件發展的經驗與建議</a></u></li><li><u><a href="https://www.oschina.net/news/277415">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></u></li><li><u><a href="https://www.oschina.net/news/277214" target="_blank">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></u></li><li><a href="http://www.oschina.net/news/277040"><u>開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</u></a></li><li><u><a href="https://www.oschina.net/news/276864" target="news">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></u></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Mon, 05 Feb 2024 04:09:04 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/277841</guid>
-            <link>https://www.oschina.net/news/277841</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
