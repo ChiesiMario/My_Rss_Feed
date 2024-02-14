@@ -16,8 +16,58 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 14 Feb 2024 08:21:18 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 14 Feb 2024 14:40:18 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Socket.D 開源輸傳協議的集羣轉發特性]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h3>1、簡介</h3><p style="color:#24292e; text-align:start">Socket.D 是基於"事件"和"語義消息""流"的網絡應用層協議。底層可以依賴 TCP、UDP、KCP、WebSocket 等傳輸層協議。其開發背後的動機是用開銷更少的協議取代超文本傳輸協議 (HTTP)，HTTP 協議對於許多任務 (如微服務通信) 來説效率低下。</p><h3>2、Socket.D 的集羣應用</h3><p style="color:#24292e; text-align:start">在 Socket.D 的集羣故事裏，會有三個角色：</p><ul><li>請求者</li><li>經理人（或者中間人）</li><li>響應者</li></ul><p style="color:#24292e; text-align:start">客户端通過 url 連接經理人後，就會成為集羣的一部分。它可以是請求者，也可以是響應者。</p><pre><code class="language-php">sd:tcp:<em>//127.0.0.1:8602?@=demoapp</em></code></pre><p style="color:#24292e; text-align:start">url 會包括：</p><ul><li>協議頭（sd 表示 socket.d 協議，tcp 表示傳輸方案）</li><li>地址與端口</li><li>路徑</li><li>還有<code>@</code>參數，這個參數會申明自己的應用名字。連接經理人時，也相當於完成身份註冊了。</li></ul><p style="color:#24292e; text-align:start">在集羣內部，相互間通過<span>&nbsp;</span><code>At</code><span>&nbsp;</span>進行發起向「響應者」的請求。就像：</p><pre><code class="language-java">session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp"</span>));
+</code></pre><h3>3、集羣的四種轉發</h3><p style="color:#24292e; text-align:start">在集羣的活動中，請求者會發消息給經理人，經理人根據 at name 再轉發給相應的響應者。</p><ul><li>四種轉發方式（單播，單播!，組播，廣播）：</li></ul><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:960px; word-spacing:0px"><tbody><tr><th>at</th><th>描述</th><th>備註</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">單播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">給叫這個名的其中一個會話發（使用，平均輪詢 「負載均衡」策略）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp!</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">單播!</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">給叫這個名的其中一個會話發（使用 ip_hash 「負載均衡」策略）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp*</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">組播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">給叫這個名的整組會話發（如果自己也叫這個名，則自己除外）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>*</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">廣播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">給集羣裏的全部會話發（自己除外）</td></tr></tbody></table><ul><li>通過 at 方式進行轉發，示例：</li></ul><pre><code class="language-java">session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp!"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp*"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"*"</span>));
+</code></pre><h3>4、演示</h3><p style="color:#24292e; text-align:start">假設經理人（或者中間人） 的服務地址為：127.0.0.1:8602。下面以 Java 語言展示效果：</p><ul><li>創建經理人</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">BrokerDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        SocketD.createServer(<span style="color:#50a14f">"sd:tcp"</span>)
+                .config(c -&gt; c.port(<span style="color:#986801">8602</span>).fragmentHandler(<span style="color:#a626a4">new</span><span style="color:#c18401">BrokerFragmentHandler</span>()))
+                .listen(<span style="color:#a626a4">new</span><span style="color:#c18401">BrokerListener</span>())
+                .start();
+    }
+}
+</code></pre><ul><li>創建響應者（自己不需要端口啓動，連接經理人後即可提供服務）</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">ResponderDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        <em>//連接到 broker ，並給自己命名為：demoapp</em><span style="color:#986801">ClientSession</span><span style="color:#986801">session</span><span>=</span> SocketD.createClient(<span style="color:#50a14f">"sd:tcp://127.0.0.1:8602?@=demoapp"</span>)
+                .listen(<span style="color:#a626a4">new</span><span style="color:#c18401">EventListener</span>().doOn(<span style="color:#50a14f">"/hello"</span>, (s,m)-&gt;{
+                    <em>//監聽 "/hello" 事件，如果是請求則答覆</em><span style="color:#a626a4">if</span>(m.isRequest()){
+                        s.reply(m, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"me too!"</span>));
+                    }
+                }))
+                .open();
+    }
+}
+</code></pre><ul><li>創建請求者</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">RequesterDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        <em>//連接到 broker ，並給自己命名為：demotester</em><span style="color:#986801">ClientSession</span><span style="color:#986801">session</span><span>=</span> SocketD.createClient(<span style="color:#50a14f">"sd:tcp://127.0.0.1:8602?@=demotester"</span>)
+                .open();
+
+        <em>//發送消息，並要求轉發給 "demoapp"</em>
+        session.sendAndRequest(<span style="color:#50a14f">"/hello"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">""</span>).at(<span style="color:#50a14f">"demoapp"</span>)).thenReply(r-&gt;{
+            <em>//收到答覆後，打印結果</em>
+            print(r.dataAsString());
+        });
+    }
+}</code></pre><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 14 Feb 2024 10:48:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/278694</guid>
+            <link>https://www.oschina.net/news/278694</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[FreeBSD 計劃停止支持 32 位架構]]>
@@ -97,7 +147,7 @@
                 <![CDATA[<div class="content"><p>備受爭議的 Mozilla 聯合創始人 Mitchell Baker 宣佈辭去 CEO 一職。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-24ada4c3707caefa6869cb60d019439e5e6.png" referrerpolicy="no-referrer"></p><p>她將繼續留在 Mozilla 擔任執行主席專注於戰略層面：</p><ul><li>通過在社區中發表演講和直接參與，更加一致地在公眾中代表 Mozilla – 重點關注政策、開源和社區。</li><li>將 Mozilla 視為一個統一的實體——比各個部分的總和還要大，將繼續加強和完善所有實體的合作方式，以更大的緊迫性和速度推進我們的政策和社區目標。</li></ul><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-fff4e4ddc2fa484029434ab29518c8734e0.png" referrerpolicy="no-referrer"></p><p><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.mozilla.org%2Fen%2Fmozilla%2Fa-new-chapter-for-mozilla-laura-chambers-expanded-role%2F" target="_blank">https://blog.mozilla.org/en/mozilla/a-new-chapter-for-mozilla-laura-chambers-expanded-role/</a></em></p></blockquote><p>Mozilla 董事會成員、曾在 Airbnb、PayPal 和 eBay 工作過的 Laura Chambers 擔任臨時 CEO，負責公司運營直到找到新 CEO 為止。Baker 表示辭職是她做出的決定，以迴應對互聯網當前狀況和公眾信任的緊迫感。</p><p>Mitchell Baker 稱 Laura 的重點將放在 Mozilla 公司上，主要為兩個關鍵目標負責：</p><ol><li>未來願景和戰略：完善公司願景並調整其背後的公司和產品戰略。這將植根於 Mozilla 的使命和獨特優勢，並由他們對技術未來和我們在其中的作用的觀點所塑造。</li><li>出色的執行力：加倍努力開發核心產品（例如 Firefox），並構建創新渠道，將引人注目的新產品推向市場。</li></ol></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 13 Feb 2024 03:16:57 GMT</pubDate>
+            <pubDate>Tue, 13 Feb 2024 03:16:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/278569</guid>
             <link>https://www.oschina.net/news/278569</link>
             <author>
@@ -142,7 +192,7 @@
                 <![CDATA[<div class="content"><p><strong><span>近日，智源視覺團隊成功訓練併發布世界最大最強的 CLIP 模型 EVA-CLIP-18B，擁有 180 億參數。EVA-CLIP-18B 大幅突破了圖像、視頻和 3D 上的零樣本識別能力</span></strong><span>，在 27 個圖像分類基準測試上取得了 80.7% 的零樣本準確率，這一成績顯著優於其前代模型 EVA-CLIP-5B 和 Google, Apple 等公司取得 SOTA 的其他開源 CLIP 模型。</span></p><p><span>EVA-CLIP-18B 的成功訓練進一步驗證了 EVA 系列 weak-to-strong 規模擴增策略的潛力和有效性。團隊將公開 EVA-CLIP 18B 模型的權重和訓練代碼，為未來的計算機視覺和視覺-語言多模態研究提供強大的視覺基礎模型。</span></p><h3><span><strong><span style="color:#0052ff">技術亮點</span></strong></span></h3><h4><span style="color:#0052ff"><strong><span style="color:#0052ff">Weak-to-strong 策略：以小教大，以弱引強</span></strong></span></h4><div><div><p><span>EVA-CLIP-18B 沿用了 EVA 系列 weak-to-strong 的視覺模型 scale up 策略，實現了視覺模型規模的漸進式擴增。該策略遵循「<strong>以小教大，以弱引強</strong>」的規模擴增思想。</span></p><p><span>具體而言，團隊首先使用一個較小的 EVA-CLIP-5B 模型作為教師，以掩碼圖像建模為訓練目標，蒸餾出一個較大的 EVA-18B 純視覺模型。隨後，EVA-18B 作為 EVA-CLIP-18B 視覺-語言對比訓練中視覺編碼器的初始化，幫助 EVA-CLIP 模型進一步 scale up。</span></p><p><span>研究結果表明，使用較弱的 EVA-CLIP 模型引導更大的 EVA 模型完成視覺訓練，再使用得到的 EVA 模型作為更大 EVA-CLIP 訓練的初始化，這種漸進式地用弱模型引導大模型的 scale up 方式，<strong>可以有效解決大型視覺模型訓練中的不穩定問題，並加速模型訓練收斂。</strong></span></p><p><img height="216" src="https://oscimg.oschina.net/oscnet/up-2a0718f4131f0c98941eddf277470f57c44.png" width="500" referrerpolicy="no-referrer"></p><h4><strong><span style="color:#0052ff">Scaling Behaviour</span></strong></h4><p><span>除了最大規模的 EVA- CLIP-18B 模型，團隊還訓練了中等規模的 EVA-CLIP-8B 模型，並在實驗中設置不同規模的模型使用近乎相同規模的訓練數據，考察 EVA weak-to-strong vision scaling 在擴大模型規模方面的有效性。</span></p><p><span>實驗結果表明，在保持數據量幾乎不變的條件下，按照 EVA weak-to-strong 方法僅對模型規模進行擴增，模型性能實現了持續、穩定地提升，驗證了 EVA weak-to-strong 方法在擴大視覺模型規模方面的有效性。同時，<strong>模型性能並未呈現飽和趨勢</strong>，體現了 EVA weak-to-strong 方法的潛力。</span></p><p><img alt="" height="469" src="https://oscimg.oschina.net/oscnet/up-7e4bbe03c868bc9dc72fb6e1439b8b08e8a.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 系列模型隨着模型規模擴大性能變化曲線，和現存最大（InternVL-C）和最強（DFN5B）的 CLIP 模型對比</span></p><h4><strong><span style="color:#0052ff">更高的訓練效率</span></strong></h4><p><span>受益於 weak-to-strong 算法在 scale up 模型方面的高效性，相比於其他 CLIP 模型，EVA-CLIP-18B 具有更高的訓練效率，在 360 塊 40G A100 上 600 小時完成訓練。</span></p><p><span>值得注意的是，EVA-CLIP-18B 在僅僅使用 6B 訓練樣本的情況下，就取得了最先進的性能，而其他先進的 CLIP 模型通常需要在 10B+ 的樣本上進行訓練。</span></p><h4><strong><span style="color:#0052ff">有限數據規模下的無限潛力</span></strong></h4><p><span>數據集方面，EVA-CLIP-18B 模型的訓練僅使用了可公開獲取的 LAION-2B，COYO-700M 和少量的 LAION-COCO（僅 20M）數據集，相比於前代模型並沒有對數據規模進行擴大。</span></p><p><span>值得注意的是，此前最強的 CLIP 模型——Apple 公司的 DFN-5B 是在公司私有數據集上訓練的，比我們使用的公開數據集規模更大、質量更好。這進一步證明瞭 EVA weak-to-strong vision scaling 方法的優越性，以及 EVA-CLIP 模型在有限數據規模下的出色泛化能力。</span></p><p><span>在模型訓練的最後階段，團隊引入少量視頻數據（23M），顯著增強了模型零樣本視頻分類的性能。未來通過擴大數據集規模可以進一步提升模型性能，推動 EVA-CLIP-18B 模型的性能邊界。</span></p><h4><strong><span><span style="color:#0052ff">全方位最強性能的 CLIP 模型</span></span></strong></h4><p><span>相比於世界其他先進 CLIP 模型，EVA-CLIP-18B 取得了全方位的最強性能。我們的評估基準涵蓋了圖像分類、視頻分類、圖文檢索領域的 33 個常用評估數據集。EVA-CLIP-18B 在 27 個圖像分類的基準測試上取得了 80.7% 的零樣本分類準確率，相比於此前最強的 CLIP 模型（Apple 公司 DFN-5B）取得了 1.5% 的領先。</span></p><p><img height="177" src="https://oscimg.oschina.net/oscnet/up-b6a0157fcce3637965ddcc3a5ddc712474e.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 零樣本圖片分類性能</span></p><p><span>在視頻分類任務上，EVA-CLIP-18B 在 UCF-101、K-400/600/700 四個常用視頻理解基準上進行測試。相比於最先進的 CLIP 模型，上海人工智能實驗室的同期工作 InternVL，取得了平均 1.8% 的分類準確率提升。</span></p><p><img height="323" src="https://oscimg.oschina.net/oscnet/up-277e73aeebadcafbea7eac4dd4c3f939b1a.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 零樣本視頻分類性能</span></p><p><span>在另一項常用於 CLIP 模型評估的圖文檢索任務上，EVA-CLIP-18B 同樣取得了世界領先的最強性能。</span></p><p><img height="183" src="https://oscimg.oschina.net/oscnet/up-d18714f14fe80b1389a0a158a0735f69469.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA</span><span style="color:#888888">-CLIP 零樣本圖文檢索性能</span></p><p><span>在 3D 表示學習領域，使用和 Uni3D 一樣的訓練設置，我們使用更大的 EVA-CLIP 模型作為教師。實驗結果表明，CLIP 教師模型的 scale up 能夠對 3D 表示學習有恆定的提升作用，穩定增強模型 3D 零樣本分類的性能。</span></p><p><img height="205" src="https://oscimg.oschina.net/oscnet/up-7c46b9bf029b10537b0f8b46d7b60eb76d7.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 模型增強零樣本 3D 分類的性能</span></p></div></div></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 11 Feb 2024 11:35:18 GMT</pubDate>
+            <pubDate>Sun, 11 Feb 2024 11:34:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/278472</guid>
             <link>https://www.oschina.net/news/278472</link>
             <author>
@@ -297,21 +347,6 @@
             <link>https://my.oschina.net/oneflow/blog/10862007</link>
             <author>
                 <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[開源大模型 MaLA-500 發佈，支持 534 種語言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>大語言模型推進了自然語言處理的最先進水平。然而，它們的主要設計針對英語或有限的一組語言，這在它們對資源匱乏的語言的有效性方面造成了巨大的差距。為了彌補這一差距，慕尼黑大學、赫爾辛基大學等研究人員聯合開源了 MaLA-500，旨在涵蓋廣泛的 534 種語言。</p><p>MaLA-500 基於 LLaMA 2 7B 構建，再用多語言數據集 Glot500-c 進行語言擴展訓練。研究人員在 SIB-200 上的實驗結果表明，MaLA-500 已經實現了最先進的上下文學習結果。</p><p>Glot500-c 包含了 534 種語言，涵蓋 47 種不同種族語言，數據量高達 2 萬億 tokens。研究人員表示，選擇 Glot500-c 數據集的原因在於可以大幅擴展現有語言模型的語言覆蓋範圍，幷包含極其豐富的語言家族，這對於模型學習語言內在的語法和語義規律幫助巨大。</p><p>此外，雖然一些高資源語言的比例相對較低，但 Glot500-c 的整體數據量對訓練大規模語言模型而言足夠用。在後續的預處理中，又對語料數據集進行了加權隨機採樣，以增加低資源語言在訓練數據中的比例，讓模型更加聚焦特定語言。</p><p>在 LLaMA 2-7B 基礎之上，MaLA-500 進行了兩大技術點創新：</p><ul><li>增強詞彙表，研究人員通過 Glot500-c 數據集，訓練了一個多語言分詞器,將 LLaMA 2 的原英文詞彙表擴展到了 260 萬,大幅增強了模型對非英語和低資源語言的適配能力。</li></ul><p><img height="239" src="https://oscimg.oschina.net/oscnet/up-65dfc2043cc510a65d1d610f0206a22f682.png" width="500" referrerpolicy="no-referrer"></p><ul><li>模型增強，使用了 LoRA 技術在 LLaMA 2 的基礎上進行低秩適配。只訓練適配矩陣而凍結基礎模型權重,可以高效地實現模型在新語言上的持續學習能力，同時保留模型原有的知識。</li></ul><p><strong>訓練流程</strong></p><p>訓練方面，研究人員用了 24 張 N 卡 A100 GPU 進行訓練，並使用了包括 Transformers、PEFT 和 DeepSpeed 三個主流深度學習框架。</p><p>其中,DeepSpeed 提供了分佈式訓練的支持,可以實現模型並行;PEFT 實現了高效的模型微調;Transformers 提供了模型功能的實現，例如，文本生成、提示詞理解等。</p><p>為了提升訓練的高效性，MaLA-500 還使用了各種顯存和計算優化算法,如 ZeRO 冗餘優化器,可最大化利用 GPU 算力資源;以及混合精度訓練的 bfloat16 數格式加速訓練流程。</p><p>此外，研究人員還對模型參數進行了大量優化，使用了學習率為 2e-4 的常規 SGD 訓練,並使用了 0.01 的 L2 權重衰減以防止模型過大，出現過擬合、內容輸出不穩定等情況。</p><p><img height="311" src="https://oscimg.oschina.net/oscnet/up-7b3116b3510c14535988e1d4be7f8f894de.png" width="500" referrerpolicy="no-referrer"></p><p>為了測試 MaLA-500 的性能，研究人員在 SIB-200 等數據集上進行了綜合實驗。</p><p>結果顯示，相比原始 LLaMA 2 模型,MaLA-500 在主題分類等評測任務上的準確率提高了 12.16%，這説明 MaLA-500 的多語言優於，現有的眾多開源大語言模型。</p><p>更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2401.13303" target="_blank">查看完整論文</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 07 Feb 2024 08:34:55 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/278159/mala-500</guid>
-            <link>https://www.oschina.net/news/278159/mala-500</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
