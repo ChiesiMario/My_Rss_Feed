@@ -16,8 +16,58 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 14 Feb 2024 08:21:18 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 14 Feb 2024 14:40:18 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Socket.D 开源输传协议的集群转发特性]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h3>1、简介</h3><p style="color:#24292e; text-align:start">Socket.D 是基于"事件"和"语义消息""流"的网络应用层协议。底层可以依赖 TCP、UDP、KCP、WebSocket 等传输层协议。其开发背后的动机是用开销更少的协议取代超文本传输协议 (HTTP)，HTTP 协议对于许多任务 (如微服务通信) 来说效率低下。</p><h3>2、Socket.D 的集群应用</h3><p style="color:#24292e; text-align:start">在 Socket.D 的集群故事里，会有三个角色：</p><ul><li>请求者</li><li>经理人（或者中间人）</li><li>响应者</li></ul><p style="color:#24292e; text-align:start">客户端通过 url 连接经理人后，就会成为集群的一部分。它可以是请求者，也可以是响应者。</p><pre><code class="language-php">sd:tcp:<em>//127.0.0.1:8602?@=demoapp</em></code></pre><p style="color:#24292e; text-align:start">url 会包括：</p><ul><li>协议头（sd 表示 socket.d 协议，tcp 表示传输方案）</li><li>地址与端口</li><li>路径</li><li>还有<code>@</code>参数，这个参数会申明自己的应用名字。连接经理人时，也相当于完成身份注册了。</li></ul><p style="color:#24292e; text-align:start">在集群内部，相互间通过<span>&nbsp;</span><code>At</code><span>&nbsp;</span>进行发起向「响应者」的请求。就像：</p><pre><code class="language-java">session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp"</span>));
+</code></pre><h3>3、集群的四种转发</h3><p style="color:#24292e; text-align:start">在集群的活动中，请求者会发消息给经理人，经理人根据 at name 再转发给相应的响应者。</p><ul><li>四种转发方式（单播，单播!，组播，广播）：</li></ul><table cellspacing="0" style="-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&quot;system-ui&quot;,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Symbol&quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:960px; word-spacing:0px"><tbody><tr><th>at</th><th>描述</th><th>备注</th></tr></tbody><tbody><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">单播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">给叫这个名的其中一个会话发（使用，平均轮询 「负载均衡」策略）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp!</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">单播!</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">给叫这个名的其中一个会话发（使用 ip_hash 「负载均衡」策略）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>demoapp*</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">组播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">给叫这个名的整组会话发（如果自己也叫这个名，则自己除外）</td></tr><tr><td style="border-color:#dfe2e5; border-style:solid; border-width:1px"><code>*</code></td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">广播</td><td style="border-color:#dfe2e5; border-style:solid; border-width:1px">给集群里的全部会话发（自己除外）</td></tr></tbody></table><ul><li>通过 at 方式进行转发，示例：</li></ul><pre><code class="language-java">session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp!"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"demoapp*"</span>));
+session.send(<span style="color:#50a14f">"test"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"hello"</span>).at(<span style="color:#50a14f">"*"</span>));
+</code></pre><h3>4、演示</h3><p style="color:#24292e; text-align:start">假设经理人（或者中间人） 的服务地址为：127.0.0.1:8602。下面以 Java 语言展示效果：</p><ul><li>创建经理人</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">BrokerDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        SocketD.createServer(<span style="color:#50a14f">"sd:tcp"</span>)
+                .config(c -&gt; c.port(<span style="color:#986801">8602</span>).fragmentHandler(<span style="color:#a626a4">new</span><span style="color:#c18401">BrokerFragmentHandler</span>()))
+                .listen(<span style="color:#a626a4">new</span><span style="color:#c18401">BrokerListener</span>())
+                .start();
+    }
+}
+</code></pre><ul><li>创建响应者（自己不需要端口启动，连接经理人后即可提供服务）</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">ResponderDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        <em>//连接到 broker ，并给自己命名为：demoapp</em><span style="color:#986801">ClientSession</span><span style="color:#986801">session</span><span>=</span> SocketD.createClient(<span style="color:#50a14f">"sd:tcp://127.0.0.1:8602?@=demoapp"</span>)
+                .listen(<span style="color:#a626a4">new</span><span style="color:#c18401">EventListener</span>().doOn(<span style="color:#50a14f">"/hello"</span>, (s,m)-&gt;{
+                    <em>//监听 "/hello" 事件，如果是请求则答复</em><span style="color:#a626a4">if</span>(m.isRequest()){
+                        s.reply(m, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">"me too!"</span>));
+                    }
+                }))
+                .open();
+    }
+}
+</code></pre><ul><li>创建请求者</li></ul><pre><code class="language-java"><span style="color:#a626a4">public</span><span style="color:#a626a4">class</span><span style="color:#c18401">RequesterDemo</span> {
+    <span style="color:#a626a4">public</span><span style="color:#a626a4">static</span><span style="color:#a626a4">void</span><span style="color:#4078f2">main</span><span>(String[] args)</span><span style="color:#a626a4">throws</span> Exception {
+        <em>//连接到 broker ，并给自己命名为：demotester</em><span style="color:#986801">ClientSession</span><span style="color:#986801">session</span><span>=</span> SocketD.createClient(<span style="color:#50a14f">"sd:tcp://127.0.0.1:8602?@=demotester"</span>)
+                .open();
+
+        <em>//发送消息，并要求转发给 "demoapp"</em>
+        session.sendAndRequest(<span style="color:#50a14f">"/hello"</span>, <span style="color:#a626a4">new</span><span style="color:#c18401">StringEntity</span>(<span style="color:#50a14f">""</span>).at(<span style="color:#50a14f">"demoapp"</span>)).thenReply(r-&gt;{
+            <em>//收到答复后，打印结果</em>
+            print(r.dataAsString());
+        });
+    }
+}</code></pre><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Wed, 14 Feb 2024 10:48:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/278694</guid>
+            <link>https://www.oschina.net/news/278694</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[FreeBSD 计划停止支持 32 位架构]]>
@@ -97,7 +147,7 @@
                 <![CDATA[<div class="content"><p>备受争议的 Mozilla 联合创始人 Mitchell Baker 宣布辞去 CEO 一职。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-24ada4c3707caefa6869cb60d019439e5e6.png" referrerpolicy="no-referrer"></p><p>她将继续留在 Mozilla 担任执行主席专注于战略层面：</p><ul><li>通过在社区中发表演讲和直接参与，更加一致地在公众中代表 Mozilla – 重点关注政策、开源和社区。</li><li>将 Mozilla 视为一个统一的实体——比各个部分的总和还要大，将继续加强和完善所有实体的合作方式，以更大的紧迫性和速度推进我们的政策和社区目标。</li></ul><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-fff4e4ddc2fa484029434ab29518c8734e0.png" referrerpolicy="no-referrer"></p><p><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.mozilla.org%2Fen%2Fmozilla%2Fa-new-chapter-for-mozilla-laura-chambers-expanded-role%2F" target="_blank">https://blog.mozilla.org/en/mozilla/a-new-chapter-for-mozilla-laura-chambers-expanded-role/</a></em></p></blockquote><p>Mozilla 董事会成员、曾在 Airbnb、PayPal 和 eBay 工作过的 Laura Chambers 担任临时 CEO，负责公司运营直到找到新 CEO 为止。Baker 表示辞职是她做出的决定，以回应对互联网当前状况和公众信任的紧迫感。</p><p>Mitchell Baker 称 Laura 的重点将放在 Mozilla 公司上，主要为两个关键目标负责：</p><ol><li>未来愿景和战略：完善公司愿景并调整其背后的公司和产品战略。这将植根于 Mozilla 的使命和独特优势，并由他们对技术未来和我们在其中的作用的观点所塑造。</li><li>出色的执行力：加倍努力开发核心产品（例如 Firefox），并构建创新渠道，将引人注目的新产品推向市场。</li></ol></div>
                                     ]]>
             </description>
-            <pubDate>Tue, 13 Feb 2024 03:16:57 GMT</pubDate>
+            <pubDate>Tue, 13 Feb 2024 03:16:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/278569</guid>
             <link>https://www.oschina.net/news/278569</link>
             <author>
@@ -142,7 +192,7 @@
                 <![CDATA[<div class="content"><p><strong><span>近日，智源视觉团队成功训练并发布世界最大最强的 CLIP 模型 EVA-CLIP-18B，拥有 180 亿参数。EVA-CLIP-18B 大幅突破了图像、视频和 3D 上的零样本识别能力</span></strong><span>，在 27 个图像分类基准测试上取得了 80.7% 的零样本准确率，这一成绩显著优于其前代模型 EVA-CLIP-5B 和 Google, Apple 等公司取得 SOTA 的其他开源 CLIP 模型。</span></p><p><span>EVA-CLIP-18B 的成功训练进一步验证了 EVA 系列 weak-to-strong 规模扩增策略的潜力和有效性。团队将公开 EVA-CLIP 18B 模型的权重和训练代码，为未来的计算机视觉和视觉-语言多模态研究提供强大的视觉基础模型。</span></p><h3><span><strong><span style="color:#0052ff">技术亮点</span></strong></span></h3><h4><span style="color:#0052ff"><strong><span style="color:#0052ff">Weak-to-strong 策略：以小教大，以弱引强</span></strong></span></h4><div><div><p><span>EVA-CLIP-18B 沿用了 EVA 系列 weak-to-strong 的视觉模型 scale up 策略，实现了视觉模型规模的渐进式扩增。该策略遵循「<strong>以小教大，以弱引强</strong>」的规模扩增思想。</span></p><p><span>具体而言，团队首先使用一个较小的 EVA-CLIP-5B 模型作为教师，以掩码图像建模为训练目标，蒸馏出一个较大的 EVA-18B 纯视觉模型。随后，EVA-18B 作为 EVA-CLIP-18B 视觉-语言对比训练中视觉编码器的初始化，帮助 EVA-CLIP 模型进一步 scale up。</span></p><p><span>研究结果表明，使用较弱的 EVA-CLIP 模型引导更大的 EVA 模型完成视觉训练，再使用得到的 EVA 模型作为更大 EVA-CLIP 训练的初始化，这种渐进式地用弱模型引导大模型的 scale up 方式，<strong>可以有效解决大型视觉模型训练中的不稳定问题，并加速模型训练收敛。</strong></span></p><p><img height="216" src="https://oscimg.oschina.net/oscnet/up-2a0718f4131f0c98941eddf277470f57c44.png" width="500" referrerpolicy="no-referrer"></p><h4><strong><span style="color:#0052ff">Scaling Behaviour</span></strong></h4><p><span>除了最大规模的 EVA- CLIP-18B 模型，团队还训练了中等规模的 EVA-CLIP-8B 模型，并在实验中设置不同规模的模型使用近乎相同规模的训练数据，考察 EVA weak-to-strong vision scaling 在扩大模型规模方面的有效性。</span></p><p><span>实验结果表明，在保持数据量几乎不变的条件下，按照 EVA weak-to-strong 方法仅对模型规模进行扩增，模型性能实现了持续、稳定地提升，验证了 EVA weak-to-strong 方法在扩大视觉模型规模方面的有效性。同时，<strong>模型性能并未呈现饱和趋势</strong>，体现了 EVA weak-to-strong 方法的潜力。</span></p><p><img alt="" height="469" src="https://oscimg.oschina.net/oscnet/up-7e4bbe03c868bc9dc72fb6e1439b8b08e8a.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 系列模型随着模型规模扩大性能变化曲线，和现存最大（InternVL-C）和最强（DFN5B）的 CLIP 模型对比</span></p><h4><strong><span style="color:#0052ff">更高的训练效率</span></strong></h4><p><span>受益于 weak-to-strong 算法在 scale up 模型方面的高效性，相比于其他 CLIP 模型，EVA-CLIP-18B 具有更高的训练效率，在 360 块 40G A100 上 600 小时完成训练。</span></p><p><span>值得注意的是，EVA-CLIP-18B 在仅仅使用 6B 训练样本的情况下，就取得了最先进的性能，而其他先进的 CLIP 模型通常需要在 10B+ 的样本上进行训练。</span></p><h4><strong><span style="color:#0052ff">有限数据规模下的无限潜力</span></strong></h4><p><span>数据集方面，EVA-CLIP-18B 模型的训练仅使用了可公开获取的 LAION-2B，COYO-700M 和少量的 LAION-COCO（仅 20M）数据集，相比于前代模型并没有对数据规模进行扩大。</span></p><p><span>值得注意的是，此前最强的 CLIP 模型——Apple 公司的 DFN-5B 是在公司私有数据集上训练的，比我们使用的公开数据集规模更大、质量更好。这进一步证明了 EVA weak-to-strong vision scaling 方法的优越性，以及 EVA-CLIP 模型在有限数据规模下的出色泛化能力。</span></p><p><span>在模型训练的最后阶段，团队引入少量视频数据（23M），显著增强了模型零样本视频分类的性能。未来通过扩大数据集规模可以进一步提升模型性能，推动 EVA-CLIP-18B 模型的性能边界。</span></p><h4><strong><span><span style="color:#0052ff">全方位最强性能的 CLIP 模型</span></span></strong></h4><p><span>相比于世界其他先进 CLIP 模型，EVA-CLIP-18B 取得了全方位的最强性能。我们的评估基准涵盖了图像分类、视频分类、图文检索领域的 33 个常用评估数据集。EVA-CLIP-18B 在 27 个图像分类的基准测试上取得了 80.7% 的零样本分类准确率，相比于此前最强的 CLIP 模型（Apple 公司 DFN-5B）取得了 1.5% 的领先。</span></p><p><img height="177" src="https://oscimg.oschina.net/oscnet/up-b6a0157fcce3637965ddcc3a5ddc712474e.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 零样本图片分类性能</span></p><p><span>在视频分类任务上，EVA-CLIP-18B 在 UCF-101、K-400/600/700 四个常用视频理解基准上进行测试。相比于最先进的 CLIP 模型，上海人工智能实验室的同期工作 InternVL，取得了平均 1.8% 的分类准确率提升。</span></p><p><img height="323" src="https://oscimg.oschina.net/oscnet/up-277e73aeebadcafbea7eac4dd4c3f939b1a.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 零样本视频分类性能</span></p><p><span>在另一项常用于 CLIP 模型评估的图文检索任务上，EVA-CLIP-18B 同样取得了世界领先的最强性能。</span></p><p><img height="183" src="https://oscimg.oschina.net/oscnet/up-d18714f14fe80b1389a0a158a0735f69469.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA</span><span style="color:#888888">-CLIP 零样本图文检索性能</span></p><p><span>在 3D 表示学习领域，使用和 Uni3D 一样的训练设置，我们使用更大的 EVA-CLIP 模型作为教师。实验结果表明，CLIP 教师模型的 scale up 能够对 3D 表示学习有恒定的提升作用，稳定增强模型 3D 零样本分类的性能。</span></p><p><img height="205" src="https://oscimg.oschina.net/oscnet/up-7c46b9bf029b10537b0f8b46d7b60eb76d7.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#888888">EVA-CLIP 模型增强零样本 3D 分类的性能</span></p></div></div></div>
                                     ]]>
             </description>
-            <pubDate>Sun, 11 Feb 2024 11:35:18 GMT</pubDate>
+            <pubDate>Sun, 11 Feb 2024 11:34:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/278472</guid>
             <link>https://www.oschina.net/news/278472</link>
             <author>
@@ -297,21 +347,6 @@
             <link>https://my.oschina.net/oneflow/blog/10862007</link>
             <author>
                 <![CDATA[原创]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[开源大模型 MaLA-500 发布，支持 534 种语言]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>大语言模型推进了自然语言处理的最先进水平。然而，它们的主要设计针对英语或有限的一组语言，这在它们对资源匮乏的语言的有效性方面造成了巨大的差距。为了弥补这一差距，慕尼黑大学、赫尔辛基大学等研究人员联合开源了 MaLA-500，旨在涵盖广泛的 534 种语言。</p><p>MaLA-500 基于 LLaMA 2 7B 构建，再用多语言数据集 Glot500-c 进行语言扩展训练。研究人员在 SIB-200 上的实验结果表明，MaLA-500 已经实现了最先进的上下文学习结果。</p><p>Glot500-c 包含了 534 种语言，涵盖 47 种不同种族语言，数据量高达 2 万亿 tokens。研究人员表示，选择 Glot500-c 数据集的原因在于可以大幅扩展现有语言模型的语言覆盖范围，幷包含极其丰富的语言家族，这对于模型学习语言内在的语法和语义规律帮助巨大。</p><p>此外，虽然一些高资源语言的比例相对较低，但 Glot500-c 的整体数据量对训练大规模语言模型而言足够用。在后续的预处理中，又对语料数据集进行了加权随机采样，以增加低资源语言在训练数据中的比例，让模型更加聚焦特定语言。</p><p>在 LLaMA 2-7B 基础之上，MaLA-500 进行了两大技术点创新：</p><ul><li>增强词汇表，研究人员通过 Glot500-c 数据集，训练了一个多语言分词器,将 LLaMA 2 的原英文词汇表扩展到了 260 万,大幅增强了模型对非英语和低资源语言的适配能力。</li></ul><p><img height="239" src="https://oscimg.oschina.net/oscnet/up-65dfc2043cc510a65d1d610f0206a22f682.png" width="500" referrerpolicy="no-referrer"></p><ul><li>模型增强，使用了 LoRA 技术在 LLaMA 2 的基础上进行低秩适配。只训练适配矩阵而冻结基础模型权重,可以高效地实现模型在新语言上的持续学习能力，同时保留模型原有的知识。</li></ul><p><strong>训练流程</strong></p><p>训练方面，研究人员用了 24 张 N 卡 A100 GPU 进行训练，并使用了包括 Transformers、PEFT 和 DeepSpeed 三个主流深度学习框架。</p><p>其中,DeepSpeed 提供了分布式训练的支持,可以实现模型并行;PEFT 实现了高效的模型微调;Transformers 提供了模型功能的实现，例如，文本生成、提示词理解等。</p><p>为了提升训练的高效性，MaLA-500 还使用了各种显存和计算优化算法,如 ZeRO 冗余优化器,可最大化利用 GPU 算力资源;以及混合精度训练的 bfloat16 数格式加速训练流程。</p><p>此外，研究人员还对模型参数进行了大量优化，使用了学习率为 2e-4 的常规 SGD 训练,并使用了 0.01 的 L2 权重衰减以防止模型过大，出现过拟合、内容输出不稳定等情况。</p><p><img height="311" src="https://oscimg.oschina.net/oscnet/up-7b3116b3510c14535988e1d4be7f8f894de.png" width="500" referrerpolicy="no-referrer"></p><p>为了测试 MaLA-500 的性能，研究人员在 SIB-200 等数据集上进行了综合实验。</p><p>结果显示，相比原始 LLaMA 2 模型,MaLA-500 在主题分类等评测任务上的准确率提高了 12.16%，这说明 MaLA-500 的多语言优于，现有的众多开源大语言模型。</p><p>更多详情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Farxiv.org%2Fabs%2F2401.13303" target="_blank">查看完整论文</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 07 Feb 2024 08:34:55 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/278159/mala-500</guid>
-            <link>https://www.oschina.net/news/278159/mala-500</link>
-            <author>
-                <![CDATA[来源: 投稿]]>
             </author>
         </item>
     </channel>
