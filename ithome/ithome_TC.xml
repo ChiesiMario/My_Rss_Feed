@@ -16,8 +16,38 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 15 Feb 2024 07:50:35 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 15 Feb 2024 09:55:13 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Stability AI 公開下一代圖像生成模型 Stable Cascade，比 SDXL 更快更好]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/collage_1.jpg?itok=NpNNSMsq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Stability AI 發表新的文字轉圖像模型<a href="https://stability.ai/news/introducing-stable-cascade">Stable Cascade</a>，其建立在 Würstchen 架構上，可以簡單地在消費級硬體上訓練和微調。經過官方的測試，Stable Cascade 不只效能較好，產生的結果也比 SDXL 更好。Stable Cascade 模型的相關資料已經在 GitHub 頁面上公開，不過僅採用非商用授權，僅允許非商業用途使用。</p><p>Stable Cascade 將文字轉換成為圖像，會經過三個步驟 A、B 與 C 流程，分別是潛在生成階段的步驟 C，以及潛在解碼階段的步驟 A 與步驟 B。潛在生成階段中，用戶的輸入會被轉換成為壓縮的 24x24 潛在表示，也就是小型圖像資料，這些小型圖像資料會被傳遞給潛在解碼階段。潛在解碼階段的工作則是類似 Stable Diffusion 變分自編碼器（VAE）的角色，將壓縮的潛在表示解碼成高解析度圖像。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/model-overview.jpg" style="width: 580px;" referrerpolicy="no-referrer"></p><p>簡單來説，Stable Cascade 步驟 C 就是將用戶的指令，轉換成一張小型且簡化的圖像草稿，草稿僅包含重要的資訊，接著草稿被輸入到步驟 A 與步驟 B，並被加入更多細節並且放大，形成一張詳細且高解析度的圖片。由於將文字條件生成的步驟 C，以及解碼到高解析度畫素空間的步驟 A、B 分離，因此便可以單獨對步驟 C 進行額外的訓練和微調，包括 ControlNets 和 LoRAs 的訓練。</p><p>官方解釋，這與訓練一個類似大小的 Stable Diffusion 模型相比，節省的成本可達 16 倍。雖然步驟 A 與步驟 B 也可以選擇性進行微調以獲得更多控制，但對大多數用途來説，其帶來的額外好處有限，因此用戶只要訓練步驟 C，並且使用原始狀態的步驟 A 和步驟 B 即可達到良好的成果。</p><p>Stability AI 發布步驟 C 和步驟 B 各兩種模型，步驟 C 具有 10 億參數與 36 億參數模型，而步驟 B 有 7 億與 15 億參數兩種模型。官方建議用戶使用步驟 C 的 36 億參數模型，以擁有最高品質的輸出，而對於追從低硬體要求的用戶則可以選擇 10 億參數版本的模型。至於步驟 B 的兩個模型，都能提供良好的結果，只是 15 億參數的模型更擅長重建細節。</p><p>由於 Stable Cascade 的模組化方法，推理使用的顯示卡記憶體約只需要 20 GB，而使用更小的模型則需要的記憶體量也會降低。</p><p>Stable Cascade 在與 Playground v2、SDXL、SDXL Turbo、Würstchen v2 文字轉圖形生成模型比較，無論是提示詞對齊（Prompt Alignment）和美學品質上，Stable Cascade 幾乎都是表現最佳的模型。而且在推理速度的比較上，即便 Stable Cascade 最大的模型比 Stable Diffusion XL 多出 14 億參數，仍然具有更快的推理速度。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/comparison.png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>官方提到，這代表 Stable Cascade 在架構設計和高度壓縮的潛在空間上，都有較好的效率，可以在保持高品質輸出的同時，又能維持高效的推理速度。而除了標準文字轉圖像生成之外，Stable Cascade 也具有生成圖像變體，還有以圖像生成圖像的能力。</p><p>Stability AI 不只發布 Stable Cascade，也同時將用於訓練、微調、ControlNet 和 LoRA 的所有程式碼一併公開，以降低研究人員實驗此架構的障礙。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 14 Feb 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161297</guid>
+            <link>https://www.ithome.com.tw/news/161297</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[DNSSEC 存在重大設計缺陷，特製封包可導致 DNS 服務癱瘓]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/csm_202402_keytrap-infrastrukturen_843a30472d.png?itok=pACKhdBO" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>德國資安研究機構同時也是歐洲最大的資安研究中心 National Research Center for Applied Cybersecurity ATHENE，<a href="https://www.athene-center.de/en/news/press/key-trap">發現</a>域名系統安全擴充（Domain Name System Security Extensions，DNSSEC）設計存在一個重大缺陷，允許攻擊者執行 KeyTrap 攻擊，洪水輸送有問題的封包就能讓所有實作 DNSSEC 驗證的 DNS 系統，以及公共 DNS 提供者如 Google 和 Cloudflare 癱瘓。</p><p>DNSSEC 是一系列針對 DNS 設計的安全擴充，其主要的功能是要保證 DNS 查詢結果的真實性和完整性。DNS 是可以將人類可讀的域名轉換成為機器可讀 IP 地址的系統，但是原始的 DNS 並未包含足夠的安全措施，存在 DNS 污染、中間人攻擊等安全風險，而 DNSSEC 增加了一系列重要的功能來解決這些問題。</p><p>ATHENE 團隊所發現的 KeyTrap 新型攻擊，主要是利用受廣泛使用的 DNS 服務軟體 BIND 9 上的高嚴重性漏洞<a href="https://kb.isc.org/docs/cve-2023-50387">CVE-2023-50387</a>，攻擊者只要使用特別製作的 DNSSEC 簽章區域回應，就能使 DNSSEC 驗證解析器 CPU 資源耗盡。CVE-2023-50387 允許攻擊者透過洪水攻擊，攻擊目標解析器，大幅降低解析器的效能，達到阻擋合法用戶存取 DNS 解析服務的目的。</p><p>簡單來説，由於 BIND 9 在處理 DNSSEC 簽章區域的回應時存在問題，因此攻擊者只要向 DNS 發送大量濫用該缺陷的查詢，就可以迅速耗盡 DNS 解析器的 CPU 資源，進而導致服務中斷或是效能明顯下降。</p><p>CVE-2023-50387 漏洞的 CVSS 分數為 7.5，影響多個 BIND 9 版本，就連受支援的預覽版本也存在該漏洞。雖然透過完全停用 DNSSEC 驗證就可以免受該漏洞影響，但因為 DNSSEC 本身就是強化 DNS 安全的機制，因此停用 DNSSEC 驗證並非上策。目前更好的做法是更新<a href="https://www.isc.org/blogs/2024-bind-security-release/">BIND 至 9.16.48、9.18.24 和 9.19.21</a>等版本。</p><p>而這些新版本也修正了 BIND 9 另一個 CVSS 分數同樣為 7.5，作用類似 KeyTrap 的<a href="https://kb.isc.org/docs/cve-2023-50868">CVE-2023-50868</a>漏洞，該漏洞會在 DNSSEC 驗證解析器處理使用 NSEC3 的 DNSSEC 簽章區域回應時，發生 CPU 耗盡的問題。NSEC3 是一種 DNSSEC 的規範，主要用於證明 DNS 查詢的否定回應，也就是證明特定 DNS 記錄不存在的狀況，可以提供更好的保護機制避免區域走訪攻擊。</p><p>攻擊者同樣也可以利用 CVE-2023-50868 洪水攻擊目標解析器，由於解析器必須耗費大量 CPU 資源處理這些查詢，因此同樣也會降低解析器的效能，影響正常的 DNS 查詢服務。</p><p>KeyTrap 漏洞並非新漏洞，早在 1999 年網際網路標準 RFC 2535 就已經存在，在 2012 年的時候，該漏洞就已經進入 DNSSEC 驗證、標準 RFC 6781 和 RFC 6840 的實作要求中。至少在 2000 年 8 月就已經出現在 Bind9 DNS 解析器中，並於 2007 年被帶入 Unbound DNS 解析器程式碼中。</p><p>不過，即便 KeyTrap 漏洞存在約 25 年，雖沒有被解決，但也沒有發現積極利用該漏洞的攻擊案例，研究團隊解釋，這其實並不奇怪，因為 DNSSEC 驗證要求使得要找出這個漏洞變得困難，要利用該漏洞需要結合許多要求。</p><p>KeyTrap 要解決並不容易，因為 KeyTrap 的問題並非是軟體實作錯誤，而是 DNSSEC 設計的根本問題，研究團隊提到，他們一直與主要供應商合作，試圖解決實作的問題，但是要完全解決該漏洞，需要重新思考 DNSSEC 底層設計理念，也就是需要修改 DNSSEC 標準。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Wed, 14 Feb 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161286</guid>
+            <link>https://www.ithome.com.tw/news/161286</link>
+            <author>
+                <![CDATA[李建興]]>
+            </author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>
                 <![CDATA[Slack 發表可總結、摘錄及問問題的 Slack AI 服務]]>
@@ -91,7 +121,7 @@
             <author>
                 <![CDATA[林妍溱]]>
             </author>
-            <category>新聞</category>
+            <category>AI</category>
         </item>
         <item>
             <title>
@@ -178,36 +208,6 @@
             <pubDate>Tue, 13 Feb 2024 16:00:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.ithome.com.tw/news/161271</guid>
             <link>https://www.ithome.com.tw/news/161271</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Rhysida 勒索軟體被研究人員破解，將釋出解密金鑰]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/rysida_ransomware_decrypting.jpg?itok=jXwffnby" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>南韓研究人員近日破解勒索軟體 Rhysida 的資料加密方法， 並且釋出解密金鑰。</p><p>南韓國民大學研究人員在韓國網際網路與安全管理署（Korea Internet and Security Agency，KISA）的經費支持下，研究發現 Rysida 的加密方法一個實作漏洞，進而找出破解之道，透過<a href="https://arxiv.org/abs/2402.06440">本月發表的論文公佈</a>破解成果。</p><p>Rhysida 在 2023 年下半造成重大災情。該勒索軟體組織去年 12 月曾聲稱成功入侵 Sony 旗下的電玩公司 Insomniac Games，竊得正在製作的遊戲內部資料，以及取得該公司員工護照檔案。</p><p>為避免被防毒軟體偵測，Rhysida 使用 AES-–256–CTR 演算法對檔案採用間歇性加密方法。這種加密法之下，只要對被加密的檔案再次加密就能解密，前提是必須計算出正確加密位置。研究人員發現，Rhysida 對受害檔案加密時會增加檔案位元大小，因此減去附加的資料位元即可正確計算出加密位置，再以加密金鑰進行間歇性加密，藉此完成解密。</p><p>這項研究是 Rhysida 勒索軟體首個成功破解的計畫，可望不久後，會透過 KISA 的網站公開供下載。KISA 一直以來就提供多種勒索軟體解密金鑰供企業與個人下載。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/Rysida%20Ransomware%20Decrypting_2.jpg" style="width: 600px;" referrerpolicy="no-referrer"></p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Tue, 13 Feb 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161270</guid>
-            <link>https://www.ithome.com.tw/news/161270</link>
-            <author>
-                <![CDATA[林妍溱]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Gemini 拒絕執行要求，無法整合自家服務，Google 承諾改善]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/gemini_.jpg?itok=xmn2sA-J" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>由 Bard 改名為 Gemini 後有諸多令人不盡滿意的地方，包括拒絕執行用戶交辦任務、限制太多、無法整合 Google 現有服務等，Google 表示將對有問題的地方加速改善。</p><p>上週 Google 聊天機器人 Bard 改名為 Gemini，Gemini 產品經理<a href="https://twitter.com/JackK/status/1756114082632220717">Jack Krawczyk 説明</a>收到的用戶正、反評價。其中用戶有正面迴響的地方，包括它的寫作風格、給用戶建議很有創意的字詞與想法、回應速度、不用罄回應上限、連線品質、回應的圖片品質、以及和 Gmail、Maps 的整合度。</p><p>他也説明一些用戶反映的問題，並説 Google 將會及早解決。首先是 Gemini 會拒絕用戶某些指令，Google 視為第一要務。其次，Gemini 的安全護欄原則，導致它不願回應用戶要求，甚至還出令人啼笑皆非的情形，Google 也會設法修正，並承諾提供開發人員需要的程式直譯器（interpreter）。</p><p>用戶並反映，Gemini App 還有很多地方用不到，而且 App 還不夠完善。Gemini App 已在拉丁美洲、亞太區、加拿大上線，Google 説會儘快在英國及歐洲地區推出，並改善 Android App 中指示上傳的選擇，還表示會儘快增加 Gemini 和行事曆、提醒通知及例行工作整合的擴充功能。</p><p>Google 這次似乎相當重視用戶的意見。Google 回應 X 平台上，用戶把 Gemini 整合 Google Workspace 帳號、整合新聞的 API、查詢最新股價／市值、及上傳 PDF 檔的要求，表示正在進行中，也正在檢查 iOS 平台上的執行問題。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 12 Feb 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161268</guid>
-            <link>https://www.ithome.com.tw/news/161268</link>
             <author>
                 <![CDATA[林妍溱]]>
             </author>
