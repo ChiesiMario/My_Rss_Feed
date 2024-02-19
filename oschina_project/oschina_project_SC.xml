@@ -16,8 +16,179 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 19 Feb 2024 10:52:59 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 19 Feb 2024 14:57:08 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[JimuReport 积木报表 v1.7.0 变革版本发布，低代码报表设计工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h3>项目介绍</h3><blockquote><p style="margin-left:0; margin-right:0">一款免费的数据可视化报表，含报表和大屏设计，像搭建积木一样在线设计报表！功能涵盖，数据报表、打印设计、图表报表、大屏设计等！</p><ul><li>Web 版报表设计器，类似于 excel 操作风格，通过拖拽完成报表设计。</li><li>秉承 「简单、易用、专业」 的产品理念，极大的降低报表开发难度、缩短开发周期、节省成本、解决各类报表难题。</li><li>领先的企业级 Web 报件，采用纯 Web 在线技术，专注于解决企业报表快速制作难题。</li></ul></blockquote><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><strong>当前版本</strong>：v1.7.0 | 2024-02-18</p><h4>集成依赖</h4><pre><code><span style="color:#333333">&lt;<span style="color:#22863a">dependency</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">groupId</span>&gt;</span>org.jeecgframework.jimureport<span style="color:#333333">&lt;/<span style="color:#22863a">groupId</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">artifactId</span>&gt;</span>jimureport-spring-boot-starter<span style="color:#333333">&lt;/<span style="color:#22863a">artifactId</span>&gt;</span><span style="color:#333333">&lt;<span style="color:#22863a">version</span>&gt;</span>1.7.0<span style="color:#333333">&lt;/<span style="color:#22863a">version</span>&gt;</span><span style="color:#333333">&lt;/<span style="color:#22863a">dependency</span>&gt;</span></code></pre><h4>:: 授权变更::</h4><blockquote><p style="margin-left:0; margin-right:0">从 v1.7.0 + 开始，积木报表做出重大变革，推出付费版本。免费版本会持续发布，不过功能会受到限制，以便于本项目更好的发展。</p></blockquote><ul><li>积木报表自 2019 年研发以来，一直坚持免费向用户提供服务。然而，随着项目的不断发展和运营成本的增加，目前面临着一些困难。为了保障项目的良性发展和持续运营，团队决定从 1.7.0 版本开始变更开源协议，并推出付费版本和免费版。</li><li>付费版本的推出将有助于筹集资金，用于软件的维护、更新和改进，以及提供更加稳定和优质的服务。同时，免费版仍将继续存在，但部分功能会受到一定的限制。如果用户不希望受到影响，可以选择继续使用 1.7 以下的版本，这些版本将遵循原来开源协议，并会进行一段时间的维护，以保障安全漏洞等级别问题。</li><li>这一变更旨在确保积木报表软件能够持续稳定地为用户提供服务，并为未来的发展奠定坚实的基础，团队希望用户能够理解并支持这一决定。</li></ul><h4>升级日志</h4><p>#升级 SQL</p><pre><code><span style="color:#d73a49">ALTER</span><span style="color:#d73a49">TABLE</span><span style="color:#032f62">`jimu_report_share`</span><span style="color:#d73a49">ADD</span><span style="color:#d73a49">UNIQUE</span><span style="color:#d73a49">INDEX</span><span style="color:#032f62">`uniq_report_id`</span>(<span style="color:#032f62">`report_id`</span>);
+
+<span style="color:#d73a49">ALTER</span><span style="color:#d73a49">TABLE</span> jimu_report_share 
+<span style="color:#d73a49">ADD</span><span style="color:#d73a49">COLUMN</span> share_token <span>varchar</span>(<span>50</span>) <span style="color:#005cc5">NULL</span><span style="color:#d73a49">COMMENT</span><span style="color:#032f62">'分享 token'</span><span style="color:#d73a49">AFTER</span> preview_lock_status,
+<span style="color:#d73a49">ADD</span><span style="color:#d73a49">UNIQUE</span><span style="color:#d73a49">INDEX</span> uniq_jrs_share_token(share_token);
+
+<span style="color:#d73a49">ALTER</span><span style="color:#d73a49">TABLE</span><span style="color:#032f62">`jimu_report`</span><span style="color:#d73a49">ADD</span><span style="color:#d73a49">COLUMN</span><span style="color:#032f62">`py_str`</span><span>text</span><span>CHARACTER</span><span style="color:#d73a49">SET</span> utf8mb3 <span style="color:#d73a49">COLLATE</span> utf8mb3_general_ci <span style="color:#005cc5">NULL</span><span style="color:#d73a49">COMMENT</span><span style="color:#032f62">'py 增强'</span><span style="color:#d73a49">AFTER</span><span style="color:#032f62">`js_str`</span>;
+</code></pre><p>#新功能</p><ul><li>缩放打印</li><li>支持批量、接口、定时导出 PDF/EXCEL</li><li>格式化增加年 / 月 / 年月</li><li>支持隐藏，数据计算单元格</li><li>支持主子表循环打印</li><li>报表分享带临时令牌（更安全）</li></ul><p>#issues</p><ul><li>最新版本的搜索框搜索失效・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2255" target="_blank">Issue #2255</a></li><li>配置了 「多租户模式」=「tenant」，并且 「数据源安全」=「false」 后：访问报表提示 「安全模式下，不允许使用平台数据源（请配置数据源）！」・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2244" target="_blank">Issue #2244</a></li><li>Posgresql 数据库， timestamp 字段，查询，提示 timestamp without time zone &gt;= character varying・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2166" target="_blank">Issue #2166</a></li><li>查询报表中日期范围和数据集求和同时存在时，查询报错，sql 缺失 and 条件・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2258" target="_blank">Issue #2258</a></li><li>积木报表 API 数据显示不出来・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F881" target="_blank">Issue #881</a></li><li>【1.6.6 版本】SQL 中字段别名使用中文查询时会报错，无法解析中文・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2269" target="_blank">Issue #2269</a></li><li>API 数据返回非集合数据，处理时使用了 JSONArray 处理・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2261" target="_blank">Issue #2261</a></li><li>报表条件表达式 case 无短路特性・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2265" target="_blank">Issue #2265</a></li><li>积木报表 API 数据显示不出来・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2Fjeecgboot-vue3%2Fissues%2F881" target="_blank">Issue #881</a></li><li>函数不能和文字进行组合了・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2211" target="_blank">Issue #2211</a></li><li>通过 api 解析查询到数据，分组后排序错乱，不是 sql 查询，1.5.2 版本还没有问题，更新到最新版本后错乱。・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2203" target="_blank">Issue #2203</a></li><li>官网在线体验，图表设置单元格背景色后打印和导出 PDF 显示异常・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2354" target="_blank">Issue #2354</a></li><li>导入报表配置报错・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2333" target="_blank">Issue #2333</a></li><li>自定义横向分组，日期排序错误，不能排序・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2355" target="_blank">Issue #2355</a></li><li>删除线，下划线使用之后再点取消，导出的 excel 仍有两线・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2345" target="_blank">Issue #2345</a></li><li>图表 PDF 导出内容异常・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2332" target="_blank">Issue #2332</a></li><li>DBSUM 加查询条件统计时报 SQL 语法错误，条件字段前缺少 and・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2367" target="_blank">Issue #2367</a></li><li>多租户模式下，报表钻取 url 参数没有 tenantId・<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2288" target="_blank">Issue #2288</a></li><li>重构分组合计计算逻辑，解决合计的系列问题</li><li>报表名称前后有空格，模糊搜索不显示</li><li>查询条件，选中后，点击不出现下拉项</li><li>查询框鼠标上下滚动，会出现闪动的情况</li><li>安全模式下存在 select * 的时候，判断拥有 sql 解析权限的角色，如果有可以走数据库</li><li>数据源测试连接，测试不了</li><li>年月选中未显示</li><li>【issues/2194】多租户模式，报表名称的唯一性校验逻辑问题</li><li>[issue/#881] api 报表增加字段映射功能</li><li>函数表达式，有空格时失效</li><li>日期函数支持小时显示</li><li>带背景导出图片错乱<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2379" target="_blank">#2379</a></li><li>带背景导出图片时报错<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport%2Fissues%2F2377" target="_blank">#2377</a></li><li>提供 SpringBoot3+JDK17 支持版本</li></ul><h4>代码下载</h4><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjeecgboot%2FJimuReport" target="_blank">https://github.com/jeecgboot/JimuReport</a></li><li><a href="https://gitee.com/jeecg/JimuReport">https://gitee.com/jeecg/JimuReport</a></li></ul><h4>技术文档</h4><ul><li>体验官网：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fjimureport.com%2F" target="_blank">http://jimureport.com</a></li><li>快速集成文档 ：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fjimureport%2Fquick.html" target="_blank">https://help.jeecg.com/jimureport/quick.html</a></li><li>技术文档：<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhelp.jeecg.com%2Fjimureport" target="_blank">https://help.jeecg.com/jimureport</a></li></ul><h4>为什么选择 JimuReport?</h4><blockquote><p style="margin-left:0; margin-right:0">永久免费，支持各种复杂报表，并且傻瓜式在线设计，非常的智能，低代码时代，这个是你的首选！</p></blockquote><ul><li>采用 SpringBoot 的脚手架项目，都可以快速集成</li><li>Web 版设计器，类似于 excel 操作风格，通过拖拽完成报表设计</li><li>通过 SQL、API 等方式，将数据源与模板绑定。同时支持表达式，自动计算合计等功能，使计算工作量降低</li><li>开发效率很高，傻瓜式在线报表设计，一分钟设计一个报表，又简单又强大</li><li>支持 ECharts，目前支持 28 种图表，在线拖拽设计，支持 SQL 和 API 两种数据源</li><li>支持分组、交叉，合计、表达式等复杂报表</li><li>支持打印设计（支持套打、背景打印等）可设置打印边距、方向、页眉页脚等参数，一键快速打印，同时可实现套打，不动产证等精准、无缝打印</li><li>大屏设计器支持几十种图表样式，可自由拼接、组合，设计炫酷大屏</li><li>可设计各种类型的单据、大屏，如出入库单、销售单、财务报表、合同、监控大屏、旅游数据大屏等</li></ul><h4>报表设计效果</h4><ul><li>报表设计器（专业一流，数据可视化，解决各类报表难题）<span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-a2a8557722593e6c5a5e8f015a0df2b70e9.png" referrerpolicy="no-referrer"></li><li>报表设计器（完全在线设计，简单易用）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-752b454f64ed87c798b3e8a083fbd6622d4.gif" referrerpolicy="no-referrer"></p><ul><li>打印设计（支持套打、背景打印）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9b6cd73719de68e0e45e1cf95cd6104a103.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-8863ea4e67c02dbd844bb8022652f1be651.png" referrerpolicy="no-referrer"></p><ul><li>数据报表（支持分组、交叉，合计等复杂报表）</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fe2ac0dfc3933734961924de0538b3049d2.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-be956cbc19287e4df9cc46c9d15e96da99d.png" referrerpolicy="no-referrer"></p><ul><li>图形报表（目前支持 28 种图表）<span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-3eda428ef182cb64a1a8e132e4bfeb87718.png" referrerpolicy="no-referrer"><span>&nbsp;</span><img alt="" src="https://oscimg.oschina.net/oscnet/up-22096123c5b6a10a801967c33cc33a7af11.png" referrerpolicy="no-referrer"></li><li>数据报表斑马线</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-e77ba28f6fb56d1147c13388e7e5d19d1bc.png" referrerpolicy="no-referrer"></p><p>仪表盘设计器</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-9c9d41288c31398d76b390bdd400f13a582.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-8ebff9357b6a22161f668586af28be31488.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fad98d42b2cf92f92a903c9cff7579f18ec.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-4be5b44bf771d8c55aba2adf9ae074eac18.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-57676eb5dcf4726933e0f6e429a4b2e31a9.png" referrerpolicy="no-referrer"></p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="" src="https://oscimg.oschina.net/oscnet/up-7938331a342ba363a9691d76a53f34298fc.png" referrerpolicy="no-referrer"></p><h4>功能清单</h4><pre><code>├─报表设计器
+│  ├─数据源
+│  │  ├─支持多种数据源，如 Oracle,MySQL,SQLServer,PostgreSQL 等主流的数据库
+│  │  ├─支持 SQL 编写页面智能化，可以看到数据源下面的表清单和字段清单
+│  │  ├─支持参数
+│  │  ├─支持单数据源和多数数据源设置
+│  │  ├─支持 Nosql 数据源 Redis，MongoDB
+│  │  ├─支持存储过程
+│  ├─单元格格式
+│  │  ├─边框
+│  │  ├─字体大小
+│  │  ├─字体颜色
+│  │  ├─背景色
+│  │  ├─字体加粗
+│  │  ├─支持水平和垂直的分散对齐
+│  │  ├─支持文字自动换行设置
+│  │  ├─图片设置为图片背景
+│  │  ├─支持无线行和无限列
+│  │  ├─支持设计器内冻结窗口
+│  │  ├─支持对单元格内容或格式的复制、粘贴和删除等功能
+│  │  ├─等等
+│  ├─报表元素
+│  │  ├─文本类型：直接写文本；支持数值类型的文本设置小数位数
+│  │  ├─图片类型：支持上传一张图表；支持图片动态生成
+│  │  ├─图表类型
+│  │  ├─函数类型
+│  │  └─支持求和
+│  │  └─平均值
+│  │  └─最大值
+│  │  └─最小值
+│  ├─背景
+│  │  ├─背景颜色设置
+│  │  ├─背景图片设置
+│  │  ├─背景透明度设置
+│  │  ├─背景大小设置
+│  ├─数据字典
+│  ├─报表打印
+│  │  ├─自定义打印
+│  │  └─医药笺、逮捕令、介绍信等自定义样式设计打印
+│  │  ├─简单数据打印
+│  │  └─出入库单、销售表打印
+│  │  └─带参数打印
+│  │  └─分页打印
+│  │  ├─套打
+│  │  └─不动产证打印
+│  │  └─打印
+│  ├─数据报表
+│  │  ├─分组数据报表
+│  │  └─横向数据分组
+│  │  └─纵向数据分组
+│  │  └─多级循环表头分组
+│  │  └─横向分组小计
+│  │  └─纵向分组小计
+│  │  └─分版
+│  │  └─分栏
+│  │  └─动态合并格
+│  │  └─自定义分页条数
+│  │  └─合计
+│  │  ├─交叉报表
+│  │  ├─明细表
+│  │  ├─带条件查询报表
+│  │  ├─表达式报表
+│  │  ├─带二维码/条形码报表
+│  │  ├─多表头复杂报表
+│  │  ├─主子报表
+│  │  ├─预警报表
+│  │  ├─数据钻取报表
+│  ├─图形报表
+│  │  ├─柱形图
+│  │  ├─堆叠柱形图
+│  │  ├─折线图
+│  │  ├─饼图
+│  │  ├─动态轮播图
+│  │  ├─折柱图
+│  │  ├─散点图
+│  │  ├─漏斗图
+│  │  ├─雷达图
+│  │  ├─象形图
+│  │  ├─地图
+│  │  ├─仪盘表
+│  │  ├─关系图
+│  │  ├─图表背景
+│  │  ├─图表动态刷新
+│  │  ├─图表数据字典
+│  ├─参数
+│  │  ├─参数配置
+│  │  ├─参数管理
+│  ├─导入导出
+│  │  ├─支持导入 Excel
+│  │  ├─支持导出 Excel、pdf；支持导出 excel、pdf 带参数
+│  ├─打印设置
+│  │  ├─打印区域设置
+│  │  ├─打印机设置
+│  │  ├─预览
+│  │  ├─打印页码设置
+├─大屏设计器
+│  ├─系统功能
+│  │  ├─静态数据源和动态数据源设置
+│  │  ├─基础功能
+│  │  └─支持拖拽设计
+│  │  └─支持增、删、改、查大屏
+│  │  └─支持复制大屏数据和样式
+│  │  └─支持大屏预览、分享
+│  │  └─支持系统自动保存数据，同时支持手动恢复数据
+│  │  └─支持设置大屏密码
+│  │  └─支持对组件图层的删除、组合、上移、下移、置顶、置底等
+│  │  ├─背景设置
+│  │  └─大屏的宽度和高度设置
+│  │  └─大屏简介设置
+│  │  └─背景颜色、背景图片设置
+│  │  └─封面图设置
+│  │  └─缩放比例设置
+│  │  └─环境地址设置
+│  │  └─水印设置
+│  │  ├─地图设置
+│  │  └─添加地图
+│  │  └─地图数据隔离
+│  ├─图表
+│  │  ├─柱形图
+│  │  ├─折线图
+│  │  ├─折柱图
+│  │  ├─饼图
+│  │  ├─象形图
+│  │  ├─雷达图
+│  │  ├─散点图
+│  │  ├─漏斗图
+│  │  ├─文本框
+│  │  ├─跑马灯
+│  │  ├─超链接
+│  │  ├─实时时间
+│  │  ├─地图
+│  │  ├─全国物流地图
+│  │  ├─地理座标地图
+│  │  ├─城市派件地图
+│  │  ├─图片
+│  │  ├─图片框
+│  │  ├─轮播图
+│  │  ├─滑动组件
+│  │  ├─iframe
+│  │  ├─video
+│  │  ├─翻牌器
+│  │  ├─环形图
+│  │  ├─进度条
+│  │  ├─仪盘表
+│  │  ├─字浮云
+│  │  ├─表格
+│  │  ├─选项卡
+│  │  ├─万能组件
+└─其他模块
+   └─更多功能开发中。。</code></pre><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 19 Feb 2024 11:44:17 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279228/jimureport-1-7-0-released</guid>
+            <link>https://www.oschina.net/news/279228/jimureport-1-7-0-released</link>
+            <author>
+                <![CDATA[来源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[RustDesk 新增选择连接特定 Windows 会话功能]]>
@@ -554,35 +725,6 @@ sudo docker-compose up -d --force-recreate --build php
             <link>https://www.oschina.net/news/278888</link>
             <author>
                 <![CDATA[来源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[PHP 8.3.3 发布]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>PHP 8.3.3 现已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.php.net%2Farchive%2F2024.php%232024-02-15-1" target="_blank">发布</a>，这是一个错误修复版本。具体更新内容包括：</p><ul><li>Core： 
-  <ul><li>修复了 zend-max-execution-timers 构建中的计时器泄漏。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F12349" target="_blank">GH-12349</a>（ARM 与&nbsp;mold&nbsp;的链接失败）。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13097" target="_blank">GH-13097</a>（trigger_error /&nbsp;中的匿名类引用抛出异常）。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13177" target="_blank">GH-13177</a>（PHP 8.3.2：在&nbsp;trait&nbsp;中使用时不允许使用最终私有构造函数）。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13215" target="_blank">GH-13215</a>（GCC 14 build 失败）。</li></ul></li><li>Curl： 
-  <ul><li>修复 curl_multi_init() 中缺少的错误检查。</li></ul></li><li>FPM： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F12996" target="_blank">GH-12996</a>（在路径中加上 Apache ProxyPassMatch 时，SCRIPT_NAME 不正确）。</li></ul></li><li>GD： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F10344" target="_blank">GH-10344</a>（imagettfbbox()：无法找到/打开字体 UNC 路径）。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F10614" target="_blank">GH-10614</a>（当旋转 90 度时，imagerotate 会将图片变成全黑）。</li></ul></li><li>LibXML： 
-  <ul><li>修复实体引用和预定义实体的崩溃。</li></ul></li><li>MySQLnd： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F12107" target="_blank">GH-12107</a>（运行存储过程（返回结果集）两次时，PHP 崩溃）。</li></ul></li><li>Opcache： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13145" target="_blank">GH-13145</a>（strtok() 不是 comptime）。</li><li>修复了 range() 的类型推断。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13232" target="_blank">GH-13232</a>（当 JIT 关闭但 JIT_debug 仍然打开时会报告 Segmentation fault）。</li></ul></li><li>OpenSSL： 
-  <ul><li>修复了未设置 OPENSSL_NO_ENGINE 时 LibreSSL 未定义的引用。</li></ul></li><li>PDO_Firebird： 
-  <ul><li>修复<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13119" target="_blank">GH-13119</a>（更改为使用 `H` 格式将 float 和 double 值转换为字符串）。</li></ul></li><li>Phar： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fbugs.php.net%2F71465" target="_blank">#71465</a>（PHAR 不了解 litespeed）。</li><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13037" target="_blank">GH-13037</a>（PharData 错误地提取 zip 文件）。</li></ul></li><li>Random： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13138" target="_blank">GH-13138</a>（Randomizer::pickArrayKeys() 无法检测损坏的引擎）。</li></ul></li><li>Session： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F12504" target="_blank">GH-12504</a>（自动加载器中出现致命错误时写入的会话已损坏）。</li></ul></li><li>Standard： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13094" target="_blank">GH-13094</a>（range(9.9, '0') 会导致 segmentation fault）。</li></ul></li><li>Streams： 
-  <ul><li>修复了错误<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fphp%2Fphp-src%2Fissues%2F13071" target="_blank">GH-13071</a>（使用 mmap-able source streams 复制大文件可能会耗尽可用内存并失败）。</li></ul></li></ul><p>更多详情可查看&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.php.net%2FChangeLog-8.php%238.3.3" target="_blank">ChangeLog</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 16 Feb 2024 04:23:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/278818/php-8-3-3-released</guid>
-            <link>https://www.oschina.net/news/278818/php-8-3-3-released</link>
-            <author>
-                <![CDATA[来源: OSCHINA]]>
             </author>
         </item>
     </channel>
