@@ -16,7 +16,7 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 23 Feb 2024 06:55:04 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 23 Feb 2024 08:55:46 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
@@ -31,6 +31,114 @@
             <link>https://www.oschina.net/news/279954/java-virtual-threads-pinning-issue</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Koordinator v1.4 正式發佈！為用户帶來更多的計算負載類型和更靈活的資源管理機制]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><span id="OSC_h3_1"></span><h3>背景</h3><p style="text-align:justify">Koordinator 作為一個積極發展的開源項目，自 2022 年 4 月發佈 v0.1.0 版本以來，經歷了多次迭代，持續為 Kubernetes 生態系統帶來創新和增強。項目的核心是提供混部工作負載編排、混部資源調度、混部資源隔離和混部性能調優的綜合解決方案，幫助用户優化容器性能，並提升集羣資源使用效率。</p><p style="text-align:justify">在過去的版本迭代中，Koordinator 社區不斷壯大，已經得到了包括阿里巴巴、螞蟻科技、Intel、小米、小紅書、愛奇藝、360、有贊、趣玩、美亞柏科、PITS 等知名企業工程師的積極參與和貢獻。每一個版本都是在社區共同努力下推進的，反映了項目在實際生產環境中解決問題的能力。</p><p style="text-align:justify"><strong>今天我們很高興的向大家宣佈，Koordinator v1.4.0 版本正式發佈。</strong>在本次發佈中，Koordinator 引入了 Kubernetes 與 YARN 負載混部、NUMA 拓撲對齊策略、CPU 歸一化和冷內存上報等新特性，同時重點增強了彈性配額管理、宿主機非容器化應用的 QoS 管理、重調度防護策略等領域的功能。這些新增和改進點旨在更好地支持企業級 Kubernetes 集羣環境，特別是對於複雜和多樣化的應用場景。</p><p style="text-align:justify">v1.4.0 版本的發佈，將為用户帶來更多的計算負載類型支持和更靈活的資源管理機制，我們期待這些改進能夠幫助用户應對更多企業資源管理挑戰。在 v1.4.0 版本中，共有 11 位新加入的開發者參與到了 Koordinator 社區的建設，他們是&nbsp;<em>@shaloulcy，@baowj-678，@zqzten，@tan90github，@pheianox，@zxh326，@qinfustu，@ikaven1024，@peiqiaoWang，@bogo-y，@xujihui1985</em>，感謝期間各位社區同學的積極參與和貢獻，也感謝所有同學在社區的持續投入。</p><span id="OSC_h3_2"></span><h3>版本功能特性解讀</h3><span id="OSC_h4_3"></span><h4>1. 支持 K8s 與 YARN 混部</h4><p style="text-align:justify">Koordinator 已經支持了 K8s 生態內的在離線混部，然而在 K8s 生態外，仍有相當數量的大數據任務運行在傳統的 Hadoop YARN 之上。YARN 作為發展多年的大數據生態下的資源管理系統，承載了包括 MapReduce、Spark、Flink 以及 Presto 等在內的多種計算引擎。</p><p style="text-align:justify">Koordinator 社區會同來自阿里雲、小紅書、螞蟻金服的開發者們共同啓動了 Hadoop YARN 與 K8s 混部項目 Koordinator YARN Copilot，支持將 Hadoop NodeManager 運行在 kubernetes 集羣中，充分發揮不同類型負載錯峯複用的技術價值。Koordinator YARN Copilot 具備以下特點：</p><ul><li><strong>面向開源生態</strong></li></ul><p style="text-align:justify">基於 Hadoop YARN 開源版本，不涉及對 YARN 的侵入式改造；</p><ul><li><strong>統一資源優先級和 QoS 策略</strong></li></ul><p style="text-align:justify">YARN NM 使用 Koordinator 的 Batch 優先級資源，遵循 Koordinator QoS 管理策略；</p><ul><li><strong>節點級別的資源共享</strong></li></ul><p style="text-align:justify">Koordinator 提供的混部資源，既可被 K8s Pod 使用，也可被 YARN task 使用，不同類型的離線應用可運行在同一節點。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-ac0aa93eb176110201a885bb0d474c31_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">關於 Koordinator YARN Copilot 的詳細設計，以及在小紅書生產環境的使用情況，請參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttp%253A%2F%2Fmp.weixin.qq.com%2Fs%253Fspm%253Da2c6h.13046898.publish-article.4.5bb96ffaCJHZTt%2526__biz%253DMzUzNzYxNjAzMg%253D%253D%2526mid%253D2247559704%2526idx%253D1%2526sn%253D3aed8968e50c85f7af7d7e79387b9365%2526chksm%253Dfae7e1d7cd9068c10df63fa4cc9362ee259bcb9c5a4f7d68439d6f9779bb31492b072142582e%2526scene%253D21%2523wechat_redirect" target="_blank">往期文章：《Koordinator 助力雲原生應用性能提升：小紅書混部技術實踐》</a>以及社區官方文檔<strong>[1]</strong>。</p><span id="OSC_h4_4"></span><h4>2. 引入 NUMA 拓撲對齊策略</h4><p style="text-align:justify">運行在 Kubernetes 集羣中的工作負載日益多樣化。尤其是在機器學習等領域，對於高性能計算資源的需求持續上升。在這些領域中，不僅需要大量 CPU 資源，還經常需要 GPU 和 RDMA 等其他高速計算資源配合使用；並且，為了獲得最佳的性能，這些資源往往需要在同一個 NUMA 節點，甚至同一個 PCIE 中。</p><p style="text-align:justify">Kubernetes 的 Kubelet 提供了 Topology Manager 來管理資源分配的 NUMA 拓撲，試圖在 Kubelet 的 Admission 階段從節點層面對齊多種資源的拓撲。然而，節點組件沒有調度器的全局視角以及為 Pod 選擇節點的時機，可能導致 Pod 被調度到無法滿足拓撲對齊策略的節點上，從而導致 Pod 由於 Topology Affinity 錯誤無法啓動。</p><p style="text-align:justify">為瞭解決這一問題，Koordinator 將 NUMA 拓撲選擇和對齊的時機放在中心調度器中，從集羣級別優化資源之間的 NUMA 拓撲。在本次發佈的版本中，Koordinator 將 CPU 資源（包含 Batch 資源）的 NUMA 感知調度和 GPU 設備的 NUMA 感知調度作為 alpha 功能支持，整套 NUMA 感知調度快速演進中。</p><p style="text-align:justify">Koordinator 支持用户通過節點的 Label 配置節點上多種資源的 NUMA 拓撲對齊策略，可配置策略如下：</p><ul><li>None 是默認策略，不執行任何拓撲對齊。</li><li>BestEffort 表示節點不嚴格按照 NUMA 拓撲對齊來分配資源。只要節點的剩餘總量滿足 Pods 的需求，調度器總是可以將這樣的節點分配給 Pods。</li><li>Restricted 表示節點嚴格按照 NUMA 拓撲對齊來分配資源，即調度器在分配多個資源時必須只選擇相同的一個或多個 NUMA 節點，否則不應使用該節點；可以使用多個 NUMA 節點。例如，如果一個 Pod 請求 33C，並且每個 NUMA 節點有 32C，那麼它可以被分配使用兩個 NUMA 節點。如果這個 Pod 還需要請求 GPU/RDMA，那麼它需要位於與 CPU 相同的 NUMA 節點上。</li><li>SingleNUMANode 與 Restricted 類似，也是嚴格按照 NUMA 拓撲對齊，但與 Restricted 不同的是，Restricted 允許使用多個 NUMA 節點，而 SingleNUMANode 只允許使用一個 NUMA 節點。</li></ul><p style="text-align:justify">舉例，我們可以為 node-0 設置策略 SingleNUMANode：</p><pre><code>apiVersion: v1
+kind: Node
+metadata:
+  labels:
+    node.koordinator.sh/numa-topology-policy: "SingleNUMANode"
+  name: node-0
+spec:
+  ...</code></pre><p style="text-align:justify">在生產環境中，用户可能已經開啓了 Kubelet 的拓撲對齊策略，這個策略會由 koordlet 更新到 NodeResourceTopologyCRD 對象中的 TopologyPolicies 字段。當 Kubelet 的策略和用户在 Node 上設置的策略相沖突時，以 Kubelet 策略為準。Koordinator 調度器基本採用與 Kubelet Topology Manager 相同的 NUMA 對齊策略語義，Kubelet 策略 SingleNUMANodePodLevel 和 SingleNUMANodeContainerLevel 被映射為 SingleNUMANode。</p><p style="text-align:justify">在為節點配置好 NUMA 對齊策略的前提下，調度器可以為每個 Pod 選出許多個符合條件的 NUMA Node 分配結果。Koordinator 當前支持 NodeNUMAResource 插件配置 CPU 和內存資源的 NUMA Node 分配結果打分策略，包括 LeastAllocated 和 MostAllocated，默認為 LeastAllocated 策略，資源支持配置權重。調度器最終將選擇得分最高的 NUMA Node 分配結果。如下例，我們配置 NUMA Node 分配結果打分策略為 MostAllocated：</p><pre><code>apiVersion: kubescheduler.config.k8s.io/v1beta2
+kind: KubeSchedulerConfiguration
+profiles:
+  - pluginConfig:
+      - name: NodeNUMAResource
+        args:
+          apiVersion: kubescheduler.config.k8s.io/v1beta2
+          kind: NodeNUMAResourceArgs
+          scoringStrategy:  # Here configure Node level scoring strategy
+            type: MostAllocated
+            resources:
+              - name: cpu
+                weight: 1
+              - name: memory
+                weight: 1
+              - name: "kubernetes.io/batch-cpu"
+                weight: 1
+              - name: "kubernetes.io/batch-memory"
+                weight: 1
+          numaScoringStrategy: # Here configure NUMA-Node level scoring strategy
+            type: MostAllocated
+            resources:
+              - name: cpu
+                weight: 1
+              - name: memory
+                weight: 1
+              - name: "kubernetes.io/batch-cpu"
+                weight: 1
+              - name: "kubernetes.io/batch-memory"
+                weight: 1</code></pre><span id="OSC_h4_5"></span><h4>3. ElasticQuota 再進化</h4><p style="text-align:justify">為了充分地利用集羣資源、降低管控系統成本，用户常常將多個租户的負載部署在一個集羣中。在集羣資源有限的情況下，不同租户之間必然會發生資源爭搶。有的租户的負載可能一直被滿足，而有的租户的負載一直無法得到執行。這就產生對公平性的訴求。配額機制是非常自然地保障租户間公平性的方式，給每個租户一個配額，租户可以使用配額內的資源，超過配額的任務將不被調度和執行。然而，簡單的配額管理無法滿足租户對雲的彈性期待。用户希望除了配額之內的資源請求可以被滿足外，配額之外的資源請求也可以按需地被滿足。</p><p style="text-align:justify">在之前的版本中，Koordinator 複用了上游 ElasticQuota 的協議，允許租户設置 Min 表達其一定要滿足的資源訴求，允許設置 Max 限制其最大可以使用的資源和表達在集羣資源不足的情況下對集羣剩餘資源的使用權重。另外，Koordinator 觀察到，一些租户可能通過 Min 申請了配額，但是實際的任務申請可能並沒有充分利用該配額。由此，為了更近一步地提高資源利用率，Koordinator 允許租户間借用/歸還資源。</p><p style="text-align:justify">除了提供彈性的配額機制滿足租户按需訴求外，Koordinator 在 ElasticQuota 上增加註解將其組織成樹的結構，方便用户表達樹形的組織架構。</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-0f15360828d04b31ebe10218c08a8758_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">上圖是使用了 Koordinator 彈性配額的集羣中常見的 Quota 結構樹。Root Quota 是連接配額與集羣中實際資源之間的橋樑。在之前的設計中，Root Quota 只在調度器邏輯中存在，在本次發佈中，我們將 Root Quota 也通過 CRD 的形式暴露給用户，用户可以通過 koordinator-root-quota 這個 ElasticQuota CRD 查看 Root Quota 信息。</p><p style="text-align:justify"><strong>3.1 引入 Multi QuotaTree</strong></p><p style="text-align:justify">大型集羣中的節點的形態是多樣的，例如雲廠商提供的 ECS VM 會有不同的架構，常見的是 amd64 和 arm64，相同架構又會有不同種類的機型，而且一般會把節點按可用區劃分。不同類型的節點放到同一個 Quota Tree 中管理時，其特有的屬性將丟失，當用户希望精細化管理機器的特有屬性時，當前的 ElasticQuota 顯得不夠精確。為了滿足用户靈活的資源管理或資源隔離訴求，Koordinator 支持用户將集羣中的資源劃分為多份，每一份由一個 Quota Tree 來管理，如下圖所示：</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-e673d71606d710f3a447f0e504527d43_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">同時，為了幫助用户簡化管理複雜性，Koordinator 在 v1.4.0 中，引入了 ElasticQuotaProfile 機制，用户可以通過 nodeSelector 快速的將節點關聯到不同的 QuotaTree 中，如下實例所示：</p><pre><code>apiVersion: quota.koordinator.sh/v1alpha1
+kind: ElasticQuotaProfile
+metadata:
+  labels:
+    kubernetes.io/arch: amd64
+  name: amd64-profile
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/arch: amd64 // 挑選 amd64 節點
+  quotaName: amd64-root-quota   // 匹配的 root quota 名稱
+---
+apiVersion: quota.koordinator.sh/v1alpha1
+kind: ElasticQuotaProfile
+metadata:
+  labels:
+    kubernetes.io/arch: arm64   
+  name: arm64-profile
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/arch: arm64  // 挑選 arm64 節點
+  quotaName: arm64-root-quota    // 匹配的 root quota 名稱</code></pre><p style="text-align:justify">關聯好 QuotaTree 之後，用户在每一個 QuotaTree 中與之前的 ElasticQuota 用法一致。當用户提交 Pod 到對應的 Quota 時，當前仍然需要用户完成 Pod NodeAffinity 的管理，以確保 Pod 運行在正確的節點上。未來，我們會增加一個特性幫助用户自動管理 Quota 到 Node 的映射關係。</p><p style="text-align:justify"><strong>3.2 支持 non-preemptible</strong></p><p style="text-align:justify">Koordinator ElasticQuota 支持把 ElasticQuota 中 min 未使用的部分共享給其他 ElasticQuota 使用從而提高資源利用效率，但當資源緊張時，會通過搶佔機制把借用配額的 Pod 搶佔驅逐走拿回資源。</p><p style="text-align:justify">在實際生產環境中，有一些在線服務如果從其他 ElasticQuota 中借用了這部分額度，後續又發生了搶佔，是可能影響服務質量的。這類工作負載實質上是不能被搶佔的。</p><p style="text-align:justify">為了實現這個機制，Koordinator v1.4.0 引入了新的 API，用户只需要在 Pod 上聲明 quota.scheduling.koordinator.sh/preemptible: false 表示這個 Pod 不可以被搶佔。</p><p style="text-align:justify">調度器調度時發現 Pod 聲明瞭不可搶佔，那麼此類 Pod 的可用配額的上限不能超過 min，所以這裏也需要注意的是，啓用該能力時，一個 ElasticQuota 的 min 需要設置的合理，並且集羣內有相應的資源保障。</p><p style="text-align:justify">這個特性不會破壞原有的行為。</p><pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-example
+  namespace: default
+  labels:
+    quota.scheduling.koordinator.sh/name: "quota-example"
+    quota.scheduling.koordinator.sh/preemptible: false
+spec:
+...</code></pre><p style="text-align:justify"><strong>3.3 其它改進</strong></p><p style="text-align:justify">1. Koordinator Scheduler 過去支持跨 Namespace 使用同一個 ElasticQuota 對象，但有一些場景下，希望只被一個或者多個有限的 Namespace 可以共享同一個對象，為了支持這個場景，用户可以在 ElasticQuota 上增加 annotation quota.scheduling.koordinator.sh/namespaces，對應的值為一個 JSON 字符串數組。</p><p style="text-align:justify">2. 性能優化：過去的實現中，當 ElasticQuota 發生變化時，ElasticQuota 插件會重建整棵 Quota 樹，在 v1.4.0 版本中做了優化。</p><p style="text-align:justify">3. 支持忽略 Overhead：當 Pod 使用一些安全容器時，一般是在 Pod 中聲明 Overhead 表示安全容器自身的資源開銷，但這部分資源成本最終是否歸於終端用户承擔取決於資源售賣策略。當期望不用用户承擔這部分成本時，那麼就要求 ElaticQuota 忽略 overhead。在 v1.4.0 版本中，可以開啓 featureGate ElasticQuotaIgnorePodOverhead 啓用該功能。</p><span id="OSC_h4_6"></span><h4>4. CPU 歸一化</h4><p style="text-align:justify">隨着 Kubernetes 集羣中節點硬件的多樣化，不同架構和代數的 CPU 之間性能差異顯著。因此，即使 Pod 的 CPU 請求相同，實際獲得的計算能力也可能大不相同，這可能導致資源浪費或應用性能下降。CPU 歸一化的目標是通過標準化節點上可分配 CPU 的性能，來保證每個 CPU 單元在 Kubernetes 中提供的計算能力在異構節點間保持一致。</p><p style="text-align:justify">為瞭解決該問題，Koordinator 在 v1.4.0 版本中實現了一套支持 CPU 歸一化機制，根據節點的資源放大策略，調整節點上可分配的 CPU 資源數量，使得集羣中每個可分配的 CPU 通過縮放實現算力的基本一致。整體的架構如下圖所示：</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-b0e335f164d52e400107a5294a2a7dbb_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">CPU 歸一化分為兩個步驟：</p><p style="text-align:justify">1. CPU 性能評估，計算不同 CPU 的性能基準，可以參考工業級性能評測標準 SPEC CPU<strong>[2]</strong>，這部分 Koordinator 項目未提供；</p><p style="text-align:justify">2. 配置 CPU 歸一化係數到 Koordinator，調度系統基於歸一化係數來調度資源，這部分 Koordinator 提供。</p><p style="text-align:justify">將 CPU 歸一化比例信息配置到 koord-manager 的 slo-controller-config 中，配置示例如下：</p><pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: slo-controller-config
+  namespace: koordinator-system
+data:
+  cpu-normalization-config: |
+    {
+      "enable": true,
+      "ratioModel": {
+         "Intel(R) Xeon(R) Platinum 8269CY CPU @ 2.50GHz": {
+           "baseRatio": 1.29,
+           "hyperThreadEnabledRatio": 0.82,
+           "turboEnabledRatio": 1.52,
+           "hyperThreadTurboEnabledRatio": 1.0
+         },
+         "Intel Xeon Platinum 8369B CPU @ 2.90GHz": {
+           "baseRatio": 1.69,
+           "hyperThreadEnabledRatio": 1.06,
+           "turboEnabledRatio": 1.91,
+           "hyperThreadTurboEnabledRatio": 1.20
+         }
+      }
+    }
+  # ...</code></pre><p style="text-align:justify">對於配置了 CPU 歸一化的節點，Koordinator 通過 Webhook 攔截 Kubelet 對 Node.Status.Allocatable 的更新以實現 CPU 資源的縮放，最終在節點上呈現出歸一後的 CPU 資源可分配量。</p><span id="OSC_h4_7"></span><h4>5. 改進的重調度防護策略</h4><p style="text-align:justify">Pod 遷移是一個複雜的過程，涉及審計、資源分配、應用啓動等步驟，並且與應用升級、擴展場景以及集羣管理員的資源操作和維護操作混合在一起。因此，如果同時有大量 Pods 正在進行遷移，可能會對系統的穩定性產生影響。此外，如果同一工作負載的許多 Pods 同時被遷移，也會影響應用的穩定性。此外，如果同時遷移多個作業中的 Pods，可能會造成驚羣效應。因此，我們希望順序處理每個作業中的 Pods。</p><p style="text-align:justify">Koordinator 在之前提供的 PodMigrationJob 功能中已經提供了一些防護策略來解決上述問題。在 v1.4.0 版本中，Koordinator 將之前的防護策略增強為仲裁機制。當有大量的 PodMigrationJob 可以被執行時，由仲裁器通過排序和篩選，來決定哪些 PodMigrationJob 可以得到執行。</p><p style="text-align:justify">排序過程如下：</p><ul><li>根據遷移開始時間與當前時間的間隔進行排序，間隔越小，排名越高。</li><li>根據 PodMigrationJob 的 Pod 優先級進行排序，優先級越低，排名越高。</li><li>按照工作負載分散 Jobs，使得同一作業中的 PodMigrationJobs 靠近。</li><li>如果作業中已有 Pods 正在遷移，則該 PodMigrationJob 的排名更高。</li></ul><p style="text-align:justify">篩選過程如下：</p><ul><li>根據工作負載、節點、命名空間等對 PodMigrationJob 進行分組和篩選。</li><li>檢查每個工作負載中正在運行狀態的 PodMigrationJob 數量，達到一定閾值的將被排除。</li><li>檢查每個工作負載中不可用副本的數量是否超出了最大不可用副本數，超出的將被排除。</li><li>檢查目標 Pod 所在節點上正在遷移的 Pod 數量是否超過單個節點的最大遷移量，超出的將被排除。</li></ul><span id="OSC_h4_8"></span><h4>6. 冷內存上報</h4><p style="text-align:justify">為提升系統性能，內核一般儘可能不讓應用程序請求的頁面緩存空閒，而是儘可能將其分配給應用程序。雖然內核分配了這些內存，但是應用可能不再訪問，這些內存被稱為冷內存。</p><p style="text-align:justify">Koordinator 在 1.4 版本中引入冷內存上報功能，主要為未來冷內存回收功能打下基礎。冷內存回收主要用於應對兩個場景：</p><ul><li>對於標準的 Kubernetes 集羣，當節點內存水位過高時，突發的內存請求容器導致系統直接內存回收，操作系統的直接內存回收觸發時會影響已經運行容器的性能，如果回收不及時極端場景可能觸發整機 oom。保持節點內存資源的相對空閒，對提升運行時穩定性至關重要。</li><li>在混部場景中，高優先級應用程序請求但未使用的資源可以被低優先級應用程序回收利用。對內存而言，操作系統未回收的內存，是不能被 Koordinator 調度系統看到的。為了提高混部資源效率，回收容器未使用的內存頁面可以提高整機的資源利用效率。</li></ul><p style="text-align:justify">Koordlet 在 Collector Plugins 中添加了一個冷頁面回收器，用於讀取由 kidled（Anolis 內核）、kstaled（Google）或 DAMON（Amazon）導出的 cgroup 文件 memory.idle_stat。該文件包含頁面緩存中的冷頁面信息，並存在於 memory 的每個層次結構中。目前 koordlet 已經對接了 kidled 冷頁面收集器並提供了其他冷頁面收集器接口。</p><p style="text-align:justify">在收集冷頁面信息後，冷頁面回收器將把收集到的指標（例如節點、Pod 和容器的熱頁面使用量和冷頁面大小）存到 metriccache 中，最後該數據會被上報到 NodeMetric CRD 中。</p><p style="text-align:justify">用户可以通過 NodeMetric 啓用冷內存回收和配置冷內存收集策略，當前提供了 usageWithHotPageCache、usageWithoutPageCache 和 usageWithPageCache 三種策略，更多的細節詳見社區設計文檔<strong>[3]</strong>。</p><span id="OSC_h4_9"></span><h4>7. 非容器化應用的 QoS 管理</h4><p style="text-align:justify">在企業容器化過程中，除了已經運行在 K8s 上的應用，可能還會存在一些非容器化的應用運行在主機上。為了更好兼容企業在容器化過程這一過渡態，Koordinator 開發了節點資源預留機制，可以在尚未容器化的應用預留資源並賦予特定的 QoS 特性。與 Kubelet 提供的資源預留配置不同，Koordinator 主要目標是解決這些非容器化應用與容器化應用運行時的 QoS 問題，整體的方案如下圖所示：</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-5edba11d4ab8bac0dcef2bc16d12d4f6_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">目前，應用程序需要按照規範將進程啓動到對應的 cgroup 中，Koordinator 未實現自動的 cgroup 搬遷工具。針對宿主機非容器化應用，支持 QoS 如下：</p><ul><li><strong>LS (Latency Sensitive)</strong><ul><li>CPU QoS(Group Identity)：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 根據 CPU QoS 的配置 resource-qos-config 為其設置 Group Identity 參數；</li><li>CPUSet Allocation：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 將為其設置 cpu share pool 中的所有 CPU 核心。</li></ul></li><li><strong>BE (Best-effort)</strong><ul><li>CPU QoS(Group Identity)：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 根據 CPU QoS 的配置為其設置 Group Identity 參數。</li></ul></li></ul><p style="text-align:justify">關於宿主機應用 QoS 管理的詳細設計，可以參考社區文檔<strong>[4]</strong>，後續我們將陸續增加其他 QoS 策略對宿主機應用的支持。</p><span id="OSC_h4_10"></span><h4>8. 其它特性</h4><p style="text-align:justify">除了上述新特性和功能增強外，Koordinator 在 v1.4.0 版本還做了一些如下的 bugfix 和優化：</p><ul><li><strong>RequiredCPUBindPolicy</strong></li></ul><p style="text-align:justify">精細化 CPU 編排支持 Required 的 CPU 綁定策略配置，表示嚴格按照指定的 CPU 綁定策略分配 CPU，否則調度失敗。</p><ul><li><strong>CICD</strong></li></ul><p style="text-align:justify">Koordinator 社區在 v1.4.0 提供了一套 e2e 測試的 Pipeline；提供了 ARM64 鏡像。</p><ul><li><strong>Batch 資源計算策略優化</strong></li></ul><p style="text-align:justify">支持了 maxUsageRequest 的計算策略，用於更保守地超賣高優資源；優化了節點上短時間大量 Pod 啓停時，Batch allocatable 被低估的問題；完善了對 hostApplication、thirdparty allocatable、dangling pod used 等特殊情況的考慮。</p><ul><li><strong>其它</strong></li></ul><p style="text-align:justify">利用 libpfm4&amp;perf group 優化 CPI 採集、SystemResourceCollector 支持自定義的過期時間配置、BE Pod 支持根據 evictByAllocatable 策略計算 CPU 滿足度、Koordlet CPUSetAllocator 修復了對於 LS 和 None Qos 的 Pod 的過濾邏輯、RDT 資源控制支持獲得 sandbox 容器的 task IDs 等。</p><p style="text-align:justify">通過 v1.4.0 Release<strong>[5]</strong>頁面，可以看到更多包含在 v1.4.0 版本的新增功能。</p><span id="OSC_h3_11"></span><h3>未來計劃</h3><p style="text-align:justify">在接下來的版本中，Koordinator 目前規劃了以下功能：</p><ul><li><strong>Core Scheduling</strong></li></ul><p style="text-align:justify">在運行時側，Koordinator 開始探索下一代 CPU QoS 能力，通過利用 Linux Core Scheduling 等內核機制，增強的物理核維度的資源隔離，降低混部的安全性風險，相關工作詳見 Issue #1728<strong>[6]</strong>。</p><ul><li><strong>設備聯合分配</strong></li></ul><p style="text-align:justify">在 AI 大模型分佈式訓練場景中，不同機器 GPU 之間通常需要通過高性能網卡相互通信，且 GPU 和高性能網卡就近分配的時候性能更好。Koordinator 正在推進支持多種異構資源的聯合分配，目前已經在協議上和調度器分配邏輯上支持聯合分配；單機側關於網卡資源的上報邏輯正在探索中。</p><p style="text-align:justify">更多信息，敬請關注 Milestone v1.5.0<strong>[7]</strong>。</p><span id="OSC_h3_12"></span><h3>結語</h3><p style="text-align:justify">最後，我們十分感謝 Koordinator 社區的所有貢獻者和用户，是您們的積極參與和寶貴意見讓 Koordinator 不斷進步。我們期待您繼續提供反饋，並歡迎新的貢獻者加入我們的行列。</p><p style="text-align:justify"><strong>相關鏈接：</strong></p><p style="text-align:justify">[1] 社區官方文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fkoordinator.sh%2Fzh-Hans%2Fdocs%2Fnext%2Fdesigns%2Fkoordinator-yarn%2F%253Fspm%253Da2c6h.13046898.publish-article.5.5bb96ffaCJHZTt" target="_blank">https://koordinator.sh/zh-Hans/docs/next/designs/koordinator-yarn/</a></em></u></p><p style="text-align:justify">[2] SPEC CPU</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fwww.spec.org%2Fcpu2017%2F%253Fspm%253Da2c6h.13046898.publish-article.6.5bb96ffaCJHZTt" target="_blank">https://www.spec.org/cpu2017/</a></em></u></p><p style="text-align:justify">[3] 設計文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fblob%2Fmain%2Fdocs%2Fproposals%2Fkoordlet%2F20230728-support-cold-memory-compute.md%253Fspm%253Da2c6h.13046898.publish-article.7.5bb96ffaCJHZTt%2526file%253D20230728-support-cold-memory-compute.md" target="_blank">https://github.com/koordinator-sh/koordinator/blob/main/docs/proposals/koordlet/20230728-support-cold-memory-compute.md</a></em></u></p><p style="text-align:justify">[4] 社區文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fkoordinator.sh%2Fzh-Hans%2Fdocs%2Fnext%2Fuser-manuals%2Fhost-application-qos%2F%253Fspm%253Da2c6h.13046898.publish-article.8.5bb96ffaCJHZTt" target="_blank">https://koordinator.sh/zh-Hans/docs/next/user-manuals/host-application-qos/</a></em></u></p><p style="text-align:justify">[5] v1.4.0 Release</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Freleases%2Ftag%2Fv1.4.0%253Fspm%253Da2c6h.13046898.publish-article.9.5bb96ffaCJHZTt%2526file%253Dv1.4.0" target="_blank">https://github.com/koordinator-sh/koordinator/releases/tag/v1.4.0</a></em></u></p><p style="text-align:justify">[6] Issue #1728</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fissues%2F1728%253Fspm%253Da2c6h.13046898.publish-article.10.5bb96ffaCJHZTt" target="_blank">https://github.com/koordinator-sh/koordinator/issues/1728</a></em></u></p><p style="text-align:justify">[7] Milestone v1.5.0</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fmilestone%2F14%253Fspm%253Da2c6h.13046898.publish-article.11.5bb96ffaCJHZTt" target="_blank">https://github.com/koordinator-sh/koordinator/milestone/14</a></em></u></p><p style="text-align:justify"><em>作者：喬普</em></p><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1423263%3Futm_content%3Dg_1000390303" target="_blank">原文鏈接</a></strong></p><p style="text-align:justify"><strong>本文為阿里雲原創內容，未經允許不得轉載。</strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 06:36:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/11044520</guid>
+            <link>https://my.oschina.net/yunqi/blog/11044520</link>
+            <author>
+                <![CDATA[阿里云云棲號]]>
             </author>
         </item>
         <item>
@@ -530,21 +638,6 @@ spec:
             <pubDate>Wed, 21 Feb 2024 09:01:13 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/279630</guid>
             <link>https://www.oschina.net/news/279630</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[法國電信公司 Orange 違反 GPL 許可協議，被罰 65 萬歐元]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>根據 2024 年 2 月 14 日下達的判決，法國上訴法院判定當地電信公司 <strong>Orange 因未遵守 GNU GPL v2 許可證條款而侵權</strong>，並且需要向 Entr'Ouvert 支付&nbsp;<strong>50 萬歐元的經濟損失賠償和 15 萬歐元的精神損失賠償</strong>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-aba84da216106bb416ed362f90f6181cab6.png" referrerpolicy="no-referrer"></p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweb.archive.org%2Fweb%2F20240216164701%2Fhttps%3A%2F%2Fwww.legalis.net%2Factualite%2Forange-condamne-a-650-000-e-pour-non-respect-de-la-licence-gpl%2F" target="_blank">https://web.archive.org/web/20240216164701/https://www.legalis.net/actualite/orange-condamne-a-650-000-e-pour-non-respect-de-la-licence-gpl/</a></u></em></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6928315e1d404157b8404126515b42d68a7.png" referrerpolicy="no-referrer"></p><p><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.orange.com%2Fen" target="_blank">Orange</a></u><span>&nbsp;是一家法國電信運營商。根據上文的判決，</span>Orange 的 IDMP 平台使用了名叫 Lasso 的庫，該庫的版權所有者為 Entr'Ouvert 公司。<strong>Lasso 採用 GPLv2 License —— 併為私有項目提供了商業許可證</strong>。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-7e59b5839901ae3f8dc0da42fd32d14c3d1.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flasso.entrouvert.org%2F" target="_blank">https://lasso.entrouvert.org/</a></u></em></p></blockquote><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-2d0135e65a7b51a798b2692a65007c31a65.png" referrerpolicy="no-referrer"></p><p>2005 年年底，Orange 參與了電子管理局關於實施 My Public Service 門户網站的招標活動，為身份管理提供一套 IT 解決方案，其中包括<strong>通過軟件接口將 IDMP 平台與 Entr'ouvert 公司發佈的 Lasso 軟件庫連接起來，Lasso 庫採用 GPL 許可證</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-7d0ef557e10594da586685534b7728c372e.png" referrerpolicy="no-referrer"></p><p>法院認為，Entr'Ouvert 首先蒙受了與其在公共市場 Mon.service-public.fr 上收益受損相關的經濟損失，「因為如果 Orange 公司遵守許可合同，並簽訂付費許可，他們就應該向對方支付版税。」</p><p>此外，上訴法院特別指出，「Orange 免費使用 Lasso 軟件為這個持續 7 年的大規模公開市場帶來了利潤，此外還有 Lasso 給這個門户網站在形象方面帶來的好處。<strong>這番操作讓 Orange 得以節省投入從而受益，因為通過免費使用 Lasso 軟件，Orange 公司可以滿足通信安全和隱私管理局 (ADAE) 要求的安全標準，從而能夠節省研發成本</strong>。」</p><p>Entr'ouvert 着重批評 Orange 違反了 Lasso 程序的許可合同條款，這些條款涉及它作為該程序版權持有人所擁有的知識產權，因此它以涉嫌侵犯其權利為由起訴了 Orange。</p><p>上訴法院首先要求 Entr'ouvert 證明 Lasso 軟件具有原創性。</p><p>根據 Entr'ouvert 出示的證據，上訴法院得出的結論是，<strong>Lasso 「在軟件組成、結構和表達方面都是原創的，符合版權保護的條件」</strong>。</p><p>上訴法院隨後審查了 Entr'Ouvert 援引的三起違反 GNU GPL v2 許可協議的行為。</p><p><strong>首先，法院認為 Orange 違反了許可合同第 2 條，因為它對 IDMP 所基於的 Lasso 進行了修改，卻沒有將 IDMP 作為一個免費整體授予政府。</strong></p><p><strong>其次，法院判定 Orange 沒有進一步遵守第 3 條，因為沒有提供修改後的源代碼。</strong></p><p><strong>最後，法院特別指出，Orange 在沒有遵守許可合同的所有條件、特別是第 4 條的情況下，複製、修改和分發了 Lasso。</strong></p><p><strong>法院還認為 Lasso 被整合到 IDMP 平台中，而 IDMP 平台的發行條件不一樣，且沒有徵得 Entr'Ouvert 公司的授權，此舉也違反了許可合同第 10&nbsp;條。</strong></p><p>總而言之，Orange 的 IDMP 產品使用了 Lasso，要麼按照 GPLv2 許可證要求公佈它的源代碼，要麼從版權所有者 Entr'Ouvert 購買許可證。Orange 沒有付費也沒有遵守 GPL 許可協議。法國上訴法庭判決 Orange 侵權行為成立。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 08:09:45 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279616/orange-condamne-a-650-000-e-pour-non-respect-de-la-licence-gpl</guid>
-            <link>https://www.oschina.net/news/279616/orange-condamne-a-650-000-e-pour-non-respect-de-la-licence-gpl</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
