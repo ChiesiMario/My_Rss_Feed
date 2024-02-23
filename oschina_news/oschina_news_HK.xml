@@ -16,8 +16,97 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 22 Feb 2024 06:28:30 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 23 Feb 2024 02:46:06 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[和 Gmail 基本 HTML 視圖説再見]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>谷歌已開始<u><a href="https://www.oschina.net/news/259383">停止支持 Gmail </a><a href="https://www.oschina.net/news/259383">基本 HTML 視圖</a></u>。自 2024 年 2 月起，Gmail 會自動將用户從基本 HTML 視圖轉換為標準視圖。</p><p><img src="https://oscimg.oschina.net/oscnet/up-0cdd4e28b49bf3c37718b40baee96da1d75.png" referrerpolicy="no-referrer"></p><p><em>基本 HTML 視圖允許用户以簡陋的方式查看電子郵件，但對所有的瀏覽器提供了最大的兼容性。</em></p><p>Gmail 更新了其<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsupport.google.com%2Fmail%2Fanswer%2F15049%3Fhl%3Dzh-Hans" target="_blank">支持頁面</a>，以反映 Gmail 將在截止日期後自動切換到標準視圖。不僅如此，有用户在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D37558372" target="_blank">Hacker News</a>上發帖稱，他們收到了一封來自 Google 的郵件，表明該功能已經結束。</p><blockquote><p>"我們寫信通知您，從 2024 年 1 月初開始，桌面網頁和移動網頁的 Gmail Basic HTML 視圖將被禁用。Gmail Basic HTML 視圖是 Gmail 的舊版本，10 多年前就已被現代版本取代，不包含完整的 Gmail 功能。"</p></blockquote><p>即使在今天，當你嘗試訪問 HTML 版本時，Google 也會顯示一條信息，稱該版本是為"較慢的連接速度和傳統瀏覽器"設計的，並要求你確認是否不想使用標準版本。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-cca03ff735c3d625769511865800215a87d.png" referrerpolicy="no-referrer"></p><p>HTML 版本缺少很多功能，如聊天、拼寫檢查、搜索過濾器、鍵盤快捷鍵和豐富的格式。但在連接性較差的地區或只想瀏覽電子郵件而不想使用任何額外功能的情況下，HTML 版還是很有用的。目前還不清楚 Google 是否計劃添加低連接模式。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 02:41:03 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279900/goodbye-html-gmail</guid>
+            <link>https://www.oschina.net/news/279900/goodbye-html-gmail</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[記一次 Rust 內存泄漏排查之旅]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>在某次持續壓測過程中，我們發現 GreptimeDB 的 Frontend 節點內存即使在請求量平穩的階段也在持續上漲，直至被 OOM kill。我們判斷 Frontend 應該是有內存泄漏了，於是開啓了排查內存泄漏之旅。</p><h2>Heap Profiling</h2><p>大型項目幾乎不可能只通過看代碼就能找到內存泄漏的地方。所以我們首先要對程序的內存用量做統計分析。幸運的是，GreptimeDB 使用的 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fjemalloc%2Fjemalloc%2Fwiki%2FUse-Case%253A-Heap-Profiling" target="_blank">jemalloc 自帶 heap profiling</a>，我們也<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreptimeTeam%2Fgreptimedb%2Fblob%2Fdevelop%2Fsrc%2Fcommon%2Fmem-prof%2FREADME.md" target="_blank">支持了導出 jemalloc 的 profile dump 文件</a>。於是我們在 GreptimeDB 的 Frontend 節點內存達到 300MB 和 800MB 時，分別 dump 出了其內存 profile 文件，再用 jemalloc 自帶的 <code>jeprof</code> 分析兩者內存差異（<code>--base</code> 參數），最後用火焰圖顯示出來：</p><p><img src="https://oscimg.oschina.net/oscnet/up-002154d38e6da2e50485895918972b1b8a1.png" alt="" referrerpolicy="no-referrer"></p><p>顯然圖片中間那一大長塊就是不斷增長的 500MB 內存佔用了。仔細觀察，居然有 thread 相關的 stack trace。難道是創建了太多線程？簡單用 <code>ps -T -p</code> 命令看了幾次 Frontend 節點的進程，線程數穩定在 84 個，而且都是預知的會創建的線程。所以「線程太多」這個原因可以排除。</p><p>再繼續往下看，我們發現了很多 Tokio runtime 相關的 stack trace，而 Tokio 的 task 泄漏也是常見的一種內存泄漏。這個時候我們就要祭出另一個神器：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftokio-rs%2Fconsole" target="_blank">Tokio-console</a>。</p><h2>Tokio Console</h2><p>Tokio Console 是 Tokio 官方的診斷工具，輸出結果如下：</p><p><img src="https://oscimg.oschina.net/oscnet/up-1772a99dbc1b17d9b0ab49532e083a4234f.png" alt="" referrerpolicy="no-referrer"></p><p>我們看到居然有 5559 個正在運行的 task，且絕大多數都是 Idle 狀態！於是我們可以確定，內存泄漏發生在 Tokio 的 task 上。 現在問題就變成了：GreptimeDB 的代碼裏，哪裏 spawn 了那麼多的無法結束的 Tokio task？</p><p>從上圖的 "Location" 列我們可以看到 task 被 spawn 的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreptimeTeam%2Fgreptimedb%2Fblob%2Fdevelop%2Fsrc%2Fcommon%2Fruntime%2Fsrc%2Fruntime.rs%23L63" target="_blank">地方</a>：</p><pre><code class="language-rust">impl Runtime {
+    /// Spawn a future and execute it in this thread pool
+    ///
+    /// Similar to Tokio::runtime::Runtime::spawn()
+    pub fn spawn&lt;F&gt;(&amp;self, future: F) -&gt; JoinHandle&lt;F::Output&gt;
+    where
+        F: Future + Send + 'static,
+        F::Output: Send + 'static,
+    {
+        self.handle.spawn(future)
+    }
+}
+</code></pre><p>接下來的任務是找到 GreptimeDB 裏所有調用這個方法的代碼。</p><h2><code>..Default::default()</code>！</h2><p>經過一番看代碼的仔細排查，我們終於定位到了 Tokio task 泄漏的地方，並在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreptimeTeam%2Fgreptimedb%2Fpull%2F1512" target="_blank">PR #1512</a> 中修復了這個泄漏。簡單地説，就是我們在某個會被經常創建的 struct 的構造方法中，spawn 了一個可以在後台持續運行的 Tokio task，卻未能及時回收它。對於資源管理來説，在構造方法中創建 task 本身並不是問題，只要在 <code>Drop</code> 中能夠順利終止這個 task 即可。而我們的內存泄漏就壞在忽視了這個約定。</p><p>這個構造方法同時在該 struct 的 <code>Default::default()</code> 方法當中被調用了，更增加了我們找到根因的難度。</p><p>Rust 有一個很方便的，可以用另一個 struct 來構造自己 struct 的方法，即 "<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdoc.rust-lang.org%2Fbook%2Fch05-01-defining-structs.html%23creating-instances-from-other-instances-with-struct-update-syntax" target="_blank">Struct Update Syntax</a>"。如果 struct 實現了 <code>Default</code>，我們可以簡單的在 struct 的 field 構造中使用 <code>..Default::default()</code>。如果 <code>Default::default()</code> 內部有 「side effect」（比如我們本次內存泄漏的原因——創建了一個後台運行的 Tokio task），一定要特別注意：struct 構造完成後，<code>Default</code> 創建出來的臨時 struct 就被丟棄了，一定要做好資源回收。</p><p>例如下面這個小例子：（<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplay.rust-lang.org%2F%3Fversion%3Dstable%26mode%3Ddebug%26edition%3D2021%26gist%3Dc121ffd32d2ff0fa8e1241a62809bcef" target="_blank">Rust Playground</a>）</p><pre><code class="language-rust">struct A {
+    i: i32,
+}
+
+impl Default for A {
+    fn default() -&gt; Self {
+        println!("called A::default()");
+        A { i: 42 }
+    }
+}
+
+#[derive(Default)]
+struct B {
+    a: A,
+    i: i32,
+}
+
+impl B {
+    fn new(a: A) -&gt; Self {
+        B {
+            a,
+            // A::default() is called in B::default(), even though "a" is provided here.
+            ..Default::default()
+        }
+    }
+}
+
+fn main() {
+    let a = A { i: 1 };
+    let b = B::new(a);
+    println!("{}", b.a.i);
+}
+</code></pre><p>struct A 的 <code>default</code> 方法是會被調用的，打印出 <code>called A::default()</code>。</p><h2>總結</h2><ul><li>排查 Rust 程序的內存泄漏，我們可以用 jemalloc 的 heap profiling 導出 dump 文件；再生成火焰圖可直觀展現內存使用情況。</li><li>Tokio-console 可以方便地顯示出 Tokio runtime 的 task 運行情況；要特別注意不斷增長的 idle tasks。</li><li>儘量不要在常用 struct 的構造方法中留下有副作用的代碼。</li><li><code>Default</code> 只應該用於值類型 struct。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-3d33a6c61f7c37725020cbe267d0c2d0f01.jpg" alt="" referrerpolicy="no-referrer"></p><h3>關於 Greptime</h3><p>Greptime 格睿科技於 2022 年創立，目前正在完善和打造時序數據庫 GreptimeDB 和格睿雲 GreptimeCloud 這兩款產品。</p><p>GreptimeDB 是一款用 Rust 語言編寫的時序數據庫，具有分佈式、開源、雲原生、兼容性強等特點，幫助企業實時讀寫、處理和分析時序數據的同時，降低長期存儲的成本。</p><p>GreptimeCloud 基於開源的 GreptimeDB，為用户提供全託管的 DBaaS，以及與可觀測性、物聯網等領域結合的應用產品。利用雲提供軟件和服務，可以達到快速的自助開通和交付，標準化的運維支持，和更好的資源彈性。GreptimeCloud 已正式開放內測，歡迎關注公眾號或官網瞭解最新動態！</p><p>官網：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreptime.com%2F" target="_blank">https://greptime.com/</a></p><p>公眾號：GreptimeDB</p><p>GitHub: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreptimeTeam%2Fgreptimedb" target="_blank">https://github.com/GreptimeTeam/greptimedb</a></p><p>文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.greptime.com%2F" target="_blank">https://docs.greptime.com/</a></p><p>Twitter: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FGreptime" target="_blank">https://twitter.com/Greptime</a></p><p>Slack: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreptime.com%2Fslack" target="_blank">https://greptime.com/slack</a></p><p>LinkedIn: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fgreptime%2F" target="_blank">https://www.linkedin.com/company/greptime/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 02:23:03 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6839317/blog/11044292</guid>
+            <link>https://my.oschina.net/u/6839317/blog/11044292</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Stability AI 發佈 Stable Diffusion 3 早期預覽版]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>AI 創業公司 Stability AI <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstability.ai%2Fnews%2Fstable-diffusion-3" target="_blank">宣佈</a></u>其最新一代的文本圖像模型 Stable Diffusion 3 開放預覽，該版本目前僅限部分用户參與測試，主要是為了在正式發佈前收集與性能和安全性相關的用户反饋。感興趣的用户可以申請加入等候名單。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3fa2fd390f1fbdd7808ee91a4ed1a0ef4fd.png" referrerpolicy="no-referrer"></p><p>Stable Diffusion 3 早期預覽版相比前代產品在圖片質量、多主題展示和文字展示方面有大幅提升。Stable Diffusion 3 模型的參數規模從 8 億，到 80 億不等，其架構組合了 diffusion transformer（擴散變換架構）和 flow matching（流匹配），技術報告將在晚些時候公佈。</p><p><img height="582" src="https://oscimg.oschina.net/oscnet/up-25784ed1b6a0b80ca5fc50b3c842456064f.png" width="3052" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-377f7b831888b11ab490f50cafe8931753d.png" referrerpolicy="no-referrer"></p><p>性能的具體提升內容包括：</p><ol><li>多主題提示處理能力： 新模型對於包含多個主題或元素的提示具有更好的理解和處理能力。這意味着用户可以在一個提示中描述更復雜的場景，而模型能夠更準確地根據這些描述生成圖像。</li><li>圖像質量： Stable Diffusion 3 在生成的圖像質量上有顯著提高，包括更細膩的細節表現、更準確的顏色匹配以及更自然的光影處理。這些改進使得生成的圖像更加逼真，更能捕捉到用户的創意意圖。</li><li>拼寫和文本處理能力： 這個版本在處理文本元素，尤其是在圖像中直接展現的文本（如標語、標籤等）時，有更好的拼寫能力和文本理解。這包括更準確地識別和渲染用户提示中的文字，甚至是在複雜的視覺背景中。</li></ol><p>Stable Diffusion 3 的性能提升不僅基於其先進的擴散變換架構，還包括了以下關鍵的技術創新和改進：</p><ol><li>新型擴散變換器： Stable Diffusion 3 採用了一種新型的擴散變換技術，與 Sora 類似，這種新技術為模型提供了更強大的圖像生成能力。 Transformer 是一種深度學習模型，專門設計來逐步構建圖像的細節，從而生成高質量的視覺內容。</li><li>流匹配與其他改進： 模型還整合了流匹配技術和其他技術改進，進一步增強了生成圖像的質量和多樣性。流匹配技術有助於模型更好地理解和模擬圖像中的動態元素和結構，使得生成的圖像在視覺上更加連貫和自然。</li><li>利用 Transformer 的改進： Stable Diffusion 3 充分利用了 Transformer 技術的最新進展，這不僅使模型能夠進一步擴展其能力，還使其能夠接受多模態輸入。這意味着模型能夠處理更復雜和多樣化的數據類型，如結合文本和圖像的輸入，從而在理解和生成圖像內容方面提供更大的靈活性和精確度。</li></ol><p>加入等候名單：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fstability.ai%2Fstablediffusion3" target="_blank">https://stability.ai/stablediffusion3</a></em></u></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 02:12:30 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279886/stable-diffusion-3-preview</guid>
+            <link>https://www.oschina.net/news/279886/stable-diffusion-3-preview</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[「未來產業劃定發展路線圖」出爐]]>
@@ -388,80 +477,6 @@ spec:
             <link>https://www.oschina.net/news/279556</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Java 21 虛擬線程如何限流控制吞吐量]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>虛擬線程（Virtual Threads）是 Java 21 所有新特性中最為吸引人的內容，它可以大大來簡化和增強 Java 應用的併發性。但是，隨着這些變化而來的是如何最好地管理此吞吐量的問題。本文，就讓我們看一下開發人員在使用虛擬線程時，應該如何管理吞吐量。</p><p>在大多數情況下，開發人員不需要自己創建虛擬線程。例如，對於 Web 應用程序，Tomcat 或 Jetty 等底層框架將為每個傳入請求自動生成一個虛擬線程。</p><p>如果在應用程序內部需要自行調用來提供業務併發能力時，我們可以使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Fjava-features%2Fjava21%2Fjep444-virtual-threads.html" target="_blank">Java 21 新特性：虛擬線程（Virtual Threads）</a>中介紹的方法去創建和使用，比如較為常用的就是<code>Executors.newVirtualThreadPerTaskExecutor()</code>。</p><pre><code class="language-java">Runnable runnable = () -&gt; {
-    System.out.println("Hello, www.didispace.com");
-};
-
-try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
-    for (int i = 0; i &lt; 100; i++) {
-        executorService.submit(runnable);
-    }
-}
-</code></pre><p>我們可以像上面開啓 100 個虛擬線程來執行任務。那麼問題來了，我們要如何對虛擬線程限流控制吞吐量呢？</p><h2>虛擬線程的限流</h2><p>對於虛擬線程併發控制的答案是：信號量！**劃重點：不要池化虛擬線程，因為它們不是稀缺資源。**所以，對於虛擬線程併發控制的最佳方案是使用<code>java.util.concurrent.Semaphore</code>。</p><p>下面的代碼示例演示瞭如何實現<code>java.util.concurrent.Semaphore</code>來控制虛擬線程的併發數量：</p><pre><code class="language-java">public class SemaphoreExample {
-
-    // 定義限流併發的信號量，這裏設置為：10
-private static final Semaphore POOL = new Semaphore(10); 
-
-public void callOldService(...) {
-try{
-POOL.acquire(); // 嘗試通過信號量獲取執行許可
-} catch(InterruptedException e){
-            // 執行許可獲取失敗的異常處理
-}
-
-try {
-// 獲取到執行許可，這裏是使用虛擬線程執行任務的邏輯
-} finally {
-            // 釋放信號量
-POOL.release(); 
-}
-}
-}
-</code></pre><p>是不是很簡單呢？今天的分享就到這裏，希望對你有所幫助，更多關於 Java 新特性的學習可以關注我的免費專欄<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Fjava-features%2F" target="_blank">Java 新特性</a>。</p><h2>擴展閲讀</h2><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Farticle%2Fjava-21-virtaul-threads.html" target="_blank">啓動 1000 萬個虛擬線程需要多少時間？需要多少平台線程？</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.didispace.com%2Farticle%2Fspring-boot%2Fspring-boot-virtual-threads-vs-webflux.html" target="_blank">Spring Boot 虛擬線程與 Webflux 在 JWT 驗證和 MySQL 查詢上的性能比較</a></li></ul><blockquote><p>歡迎關注我的公眾號：程序猿 DD。第一時間瞭解前沿行業消息、分享深度技術乾貨、獲取優質學習資源</p></blockquote></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 03:02:42 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/didispace/blog/11044187</guid>
-            <link>https://my.oschina.net/didispace/blog/11044187</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[芯片架構師 Jim Keller：英偉達的 CUDA 不是護城河，是沼澤]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>曾從事 x86、Arm、MISC 和 RISC-V 處理器研究的芯片架構師 Jim Keller 批評了英偉達的 CUDA 架構和軟件技術棧，他認為 CUDA 是英偉達的沼澤而非護城河。</p><blockquote><p><strong>「CUDA 是沼澤，而不是護城河。x86 也是一片沼澤。[…] CUDA 並不美好，它是通過一次堆積一件東西來構建的。」</strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-bb29c91be732d8384401f752fab63b43fa2.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fjimkxa%2Fstatus%2F1758943525662769498" target="_blank">https://twitter.com/jimkxa/status/1758943525662769498</a></u></em></p></blockquote><p>他指出，就連英偉達本身也有多個專用軟件包，出於性能原因，這些軟件包依賴於開源框架。</p><p>就像 x86 一樣，CUDA 在保持軟件和硬件向後兼容性的同時逐漸增加了功能。這確保英偉達的平台完整且向後兼容，但它影響了性能並使程序開發變得更加困難。同時，很多開源軟件開發框架可以比 CUDA 更高效地使用。</p><p>Jim Keller 寫道：「<strong><em>基本上沒有人編寫 CUDA，如果你確實編寫 CUDA，它可能不會很快。[...] Triton、Tensor RT、Neon 和 Mojo 的存在是有充分理由的。</em></strong>」</p><p>甚至英偉達本身也有不完全依賴 CUDA 的工具。例如，Triton Inference Server 是英偉達的一款開源工具，可簡化 AI 模型的大規模部署，支持 TensorFlow、PyTorch 和 ONNX 等框架。Triton 還提供模型版本控制、多模型服務和併發模型執行等功能，以優化 GPU 和 CPU 資源的利用率。</p><p>英偉達的 TensorRT 是一種高性能深度學習推理優化器和運行時庫，可加速英偉達 GPU 上的深度學習推理。TensorRT 從各種框架（例如 TensorFlow 和 PyTorch）中獲取經過訓練的模型，並對其進行優化以進行部署，從而減少延遲並提高圖像分類、對象檢測和自然語言處理等實時應用程序的吞吐量。</p><p>儘管像 Arm、CUDA 和 x86 這樣的架構可能會被認為是沼澤，因為它們的演進速度相對較慢、必須向後兼容並且體積龐大，但這些平台也不像 GPGPU 這樣分散，這可能根本不是一件壞事。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 03:01:42 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279549</guid>
-            <link>https://www.oschina.net/news/279549</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[MariaDB 可能會以 3700 萬美元被私有化]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">MariaDB 董事會<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.businesswire.com%2Fnews%2Fhome%2F20240219857559%2Fen%2FAnnouncement-Regarding-Possible-Offer" target="_blank">確認</a>，已於 2024 年 2 月 15 日收到了來自加利福尼亞 K1 投資管理公司的臨時收購要約。K1 於 2024 年 2 月 16 日<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fk1.com%2Fmeridian%2F" target="_blank">公開</a>宣佈了這一要約。MariaDB 董事會正在審查可能要約並聽取建議。</span></p><p><span style="color:#000000">這是一份非約束性的探索性提議，可能會根據未來幾周的談判進展而發生變化。該提議包括以每股 0.55 美元的價格購買所有 MariaDB 股票，按照該公司 2 月 5 日的收盤估值計算，約合 3700 萬美元。</span></p><p><span style="color:#000000">擬定交易將通過愛爾蘭法律安排計劃進行，K1 或其附屬公司將收購該公司 100% 的已發行股份。然而，K1 保留以合同要約的方式實施該提議的權利。尚未確定該提議將採取何種形式。</span></p><p><span style="color:#000000">值得一提的是，這一消息的發佈正值該公司發生重大變化和動盪之際，新任首席執行官上任後，該公司進行了大規模裁員，並剝離了數據庫即服務和地理空間業務。</span></p><p><img height="223" src="https://oscimg.oschina.net/oscnet/up-1da31f278849ce4cdcc7e6d0a823d84c4f4.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">2009 年，甲骨文公司斥資數十億美元對 MySQL 進行了一系列收購，使 MySQL 實際上成為甲骨文公司的資產，MySQL 項目的創建者因此對 MySQL 的獨立性產生了擔憂，於是 MariaD B 在 15 年前作為 MySQL 的一個分支而出現。對於那些尋求完全開源的 MySQL 替代品的人來説，MariaDB 被認為是一個"drop-in"的替代品，並已被一些大公司用於在其應用程序中存儲和處理數據。</span></p><p><span style="color:#000000">多年來，MariaDB 背後的商業實體籌集了大約 2.3 億美元的風險資金，最終於 2022 年 12 月通過 SPAC 上市。但正如 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftechcrunch.com%2F2024%2F02%2F19%2Fstruggling-database-company-mariadb-could-be-taken-private-in-a-37m-deal%2F" target="_blank">TechCrunch</a> 所指出，MariaDB 的上市遠未取得巨大成功，從 2022 年底上市首日 4.45 億美元的市值（與之前 D 輪融資時 6.72 億美元的私有企業價值相比，市值本身已大幅下降）跌入常年低谷，自今年年初以來一直徘徊在 1 千萬美元關口附近。</span></p><p><span style="color:#000000">紐約證券交易所曾在 9 月份警告 MariaDB，稱其不符合上市規則 —— 該規則規定公司的全球平均市值在連續 30 天的交易期內不得低於 5000 萬美元。在隨後的幾個月裏，MariaDB 收到了第一份收購要約，來自其現有投資者 Runa Capital，初步報價為每股 0.56 美元現金。三週後，Runa 表示最終不會收購 MariaDB，而是由一家名為 RP Ventures 的公司提供 2650 萬美元的貸款。</span></p><p><span style="color:#000000">今年二月初，MariaDB 宣佈與債權人達成臨時暫緩協議，即在尋求替代融資方案期間，債權人將不行使貸款協議中規定的任何補救措施。這一消息導致 MariaDB 的股價在幾天內上漲了一倍多，這也是為什麼 K1 的出價與宣佈任何暫緩協議前 MariaDB 的收盤價相對應。</span></p><p><span style="color:#000000">事實上，K1 表示，它的報價比 MariaDB 2 月 5 日的收盤價（0.19 美元）高出 189%，相當於市值約為 1290 萬美元。雖然不能保證 K1 會正式競購 MariaDB，但與更像傳統風險投資公司的 Runa Capital 不同，K1 在其 12 年的歷史中擁有後期投資記錄，這使其更接近私募股權投資領域。且 K1 已經進行了多次收購，包括在 2022 年斥資 3.19 億美元收購澳大利亞 ELMO 軟件公司，並在收購過程中將其私有化。</span></p><p><span style="color:#000000">因此，從很多方面來説，K1 可能比 Runa 更適合接管 MariaDB。根據愛爾蘭收購規則第 2.6 條，K1 必須在 2024 年 3 月 29 日下午 5:00（紐約時間）（即 K1 公告後的第 42 天）之前，正式確定其收購要約或完全放棄該計劃。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 02:36:17 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279540/mariadb-could-be-taken-private-37m-k1</guid>
-            <link>https://www.oschina.net/news/279540/mariadb-could-be-taken-private-37m-k1</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
