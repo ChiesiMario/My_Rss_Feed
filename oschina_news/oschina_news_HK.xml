@@ -16,8 +16,138 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 23 Feb 2024 02:46:06 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 23 Feb 2024 06:55:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[Oracle 致力解決 Java 虛擬線程「Pinning」問題]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>虛擬線程在 2023 年 9 月發佈的 JDK 21 中正式成為一項穩定功能。該功能在 Java 生態系統中反響極佳，但仍存在一些痛點。Oracle 日前在&nbsp;Inside Java 網站上詳細<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Finside.java%2F2024%2F02%2F21%2Fquality-heads-up%2F" target="_blank">介紹</a>了虛擬線程的「Pinning」問題。</p><p>最常見的兩種情況是：(a) 虛擬線程在 synchronized method 中駐留（如執行 socket I/O）；(b) <span style="color:#333333">虛擬線程阻塞進入&nbsp;synchronized method</span>，因為對象的相關監視器被另一個線程持有。</p><p>在這兩種情況下，載體或本地線程都不會被釋放去做其他工作。因此可能會影響性能和可擴展性，並可能<span style="color:#333333">在某些情況下</span>導致飢餓和死鎖。官方最近發佈的一個<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Finside.java%2F2024%2F02%2F17%2Fvirtual-threads-next-steps%2F" target="_blank">Virtual Threads Next Steps</a>&nbsp;視頻中則更詳細地解釋了其中的原因，並討論了一些潛在的解決方案。</p><p><img height="196" src="https://oscimg.oschina.net/oscnet/up-6a2e93ce6802a570c1704258c9a589e998e.png" width="500" referrerpolicy="no-referrer"></p><p>項目團隊正在努力解決這些問題。Java Project Loom 的新早期訪問版本<span style="color:#4e4242">引入了對對象監視器實現的更改</span><span style="color:#333333">，但不適用這兩種常見情況。因此 </span><span style="color:#4e4242">Loom&nbsp;</span><span style="color:#333333">團隊正在尋求用户的幫助，以測試這些更新的對象監控器在使用虛擬線程的代碼和大量同步的庫中的可靠性和性能。可通過&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmail.openjdk.org%2Fpipermail%2Floom-dev%2F" target="_blank">Loom 郵件列表</a>&nbsp;<span style="color:#333333">報告或反饋問題。</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 06:47:02 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279954/java-virtual-threads-pinning-issue</guid>
+            <link>https://www.oschina.net/news/279954/java-virtual-threads-pinning-issue</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源日報 | 目前的人工智能技術連貓的智能水平都沒達到]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><h3><span style="color:#e67e22"><strong># 2024.2.22</strong></span></h3><h2><strong><span style="color:#16a085">今日要點</span></strong></h2><p><strong>OpenSource Daily</strong></p><h3><a href="https://www.oschina.net/news/279713/google-gemma-open-models" target="_blank">谷歌發佈輕量級開源大語言模型 Gemma</a></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Gemma 是一款輕量級、先進的開源模型，供開發者和研究人員用於 AI 構建。Gemma 模型家族包括 2B（20 億參數）和 7B（70 億參數）兩種尺寸，能夠在不同的設備類型上運行，包括筆記本電腦、桌面電腦、IoT 設備、移動設備和雲端。</p><p><img src="https://oscimg.oschina.net/oscnet/up-fb557d3a75a71eccd7300352b8e419f6dd5.png" referrerpolicy="no-referrer"></p><h3><a href="https://www.oschina.net/news/279741/nightingale-7-0-0-beta-0-released" target="_blank">夜鶯監控 V7 第一個 beta 版本</a></h3><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">夜鶯項目從 2024 開始開發 V7 版本，重點做體驗優化，V7 和 V6 版本兼容可以平滑升級<span style="background-color:#ffffff; color:#333333">（V6 升級到 V7 只需要替換一下二進制重啓即可，如果是容器部署，只需要更新鏡像並重啓）</span>，第一個 beta 的優化項包括：</p><ul><li>全站暗黑主題</li><li>優化邊緣機房機器失聯告警的實現邏輯，真正做到邊緣機房告警自閉環</li><li>優化內置大盤、內置告警規則的列表頁面 UI</li><li>全局回調地址頁面展示優化，增加詳盡的文檔提示信息</li></ul><p style="color:#333333; margin-left:0; margin-right:0; text-align:left"><img alt="20240221141801" src="https://download.flashcat.cloud/ulric/20240221141801.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span style="color:#16a085">今日觀察</span></strong></h2><p><img height="554" src="https://oscimg.oschina.net/oscnet/up-14e1acb77ab8633d225b3117ebbc7dc7920.png" width="1522" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">- 微博<span>&nbsp;</span></span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1233486457%2FO1MdFaqZm" target="_blank">高飛</a></em></u></p><p><img src="https://oscimg.oschina.net/oscnet/up-a2ff0599a45c140a6bf468a7d85524102fa.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">- 微博<span>&nbsp;</span></span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1856404484%2FO1JFSAEg0" target="_blank">鳳凰網科技</a></em></u></p><hr><h2><span style="color:#16a085"><strong>今日推薦</strong></span></h2><p><img src="https://oscimg.oschina.net/oscnet/up-da11d19579f9cc14d57a12c12f4479f067a.png" referrerpolicy="no-referrer"></p><hr><h2><span style="color:#16a085"><strong>開源之聲</strong></span></h2><p><img src="https://oscimg.oschina.net/oscnet/up-33430582a60711cf56a923991e1fef04da9.png" referrerpolicy="no-referrer"></p><hr><h2><span style="color:#16a085"><strong>每日項目榜</strong></span></h2><p>GitHub Trending</p><p><img src="https://oscimg.oschina.net/oscnet/up-291d0213846cc3efbd09b526da6bac5ae29.png" referrerpolicy="no-referrer"></p><hr><p><strong>往期回顧</strong></p><ul><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC013%E6%9C%9F%EF%BC%9A%E7%AD%89%E5%88%B0%20Sora%20%E5%BC%80%E6%BA%90%E4%BA%86%E7%AB%8B%E5%88%BB%E6%8E%A8%E5%87%BA%E5%B1%9E%E4%BA%8E%E6%88%91%E4%BB%AC%E8%87%AA%E5%B7%B1%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B.pdf">開源日報第 013 期：等到 Sora 開源了立刻推出屬於我們自己的大模型</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC012%E6%9C%9F%EF%BC%9ASora%20%E7%BB%99%E4%B8%AD%E5%9B%BD%20AI%20%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8F%98%E5%8C%96%EF%BC%9BDart%203.3%20%E5%8F%91%E5%B8%83.pdf">開源日報第 012 期：Sora 給中國 AI 帶來的真實變化；Dart 3.3 發佈</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC11%E6%9C%9F%EF%BC%9A%E7%9B%AE%E5%89%8D%E8%BF%98%E6%B2%A1%E6%9C%89%E2%80%9C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%89%88Linux%E2%80%9D.pdf">開源日報第 011 期：目前還沒有「大模型版 Linux」</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC010%E6%9C%9F%EF%BC%9ATauri%20v2%20%E6%94%AF%E6%8C%81%20Android%20%E5%92%8C%20iOS%EF%BC%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%96%B0%E9%80%89%E6%8B%A9.pdf">開源日報第 010 期：Tauri v2 支持 Android 和 iOS，跨平台開發新選擇</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5009%E6%9C%9F%EF%BC%9AVue.js%E8%AF%9E%E7%94%9F10%E5%91%A8%E5%B9%B4%EF%BC%9B%E6%89%8E%E5%85%8B%E4%BC%AF%E6%A0%BC%E8%A7%A3%E9%87%8AMeta%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E6%BA%90%E5%85%B6AI%E6%8A%80%E6%9C%AF.pdf">開源日報第 009 期：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></li><li><a href="https://www.oschina.net/news/277585">開源日報第 008 期：推動中國開源軟硬件發展的經驗與建議</a></li><li><a href="https://www.oschina.net/news/277415">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></li><li><a href="https://www.oschina.net/news/277214">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></li><li><a href="http://www.oschina.net/news/277040">開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</a></li><li><a href="https://www.oschina.net/news/276864">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 03:53:48 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279923</guid>
+            <link>https://www.oschina.net/news/279923</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Altman 迴應 7 萬億美元半導體計劃：所需投資遠超想象]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">在英偉達發佈了強勁的 2024 財年第四季度財報之後的幾小時，英特爾首席執行官 Pat Gelsinger 和 OpenAI 首席執行官 Sam Altman 在加利福尼亞州聖何塞的一個會議中心展開了一場對話，<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapnews.com%2Farticle%2Fintel-openai-nvidia-chips-boom-dbf20077caafc9b33870f9f6d32d3794" target="_blank">暢談</a>半導體在 AI 時代塑造社會所扮演的角色。</span></p><p><span style="color:#000000"><img alt="" height="375" src="https://oscimg.oschina.net/oscnet/up-67bd113ff9160357624584468c53d04258a.webp" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">在活動中，Gelsinger 詢問了 Altman 有關最近報道的計劃從中東地區籌集高達 7 萬億美元的資金，以支持 OpenAI 的一項半導體計劃，並與英偉達展開競爭的傳聞。對此，Altman 則反駁稱，這種匿名人士未經證實的説法比比皆是，「我的主要工作不是到處修正這些錯誤的文章」。</span></p><p><span style="color:#000000">但 Altman 同時也承認，AI 的發展需要大量的資金。「事實是，我們認為世界將需要更多的 AI 計算（芯片）。這將需要全球範圍內大量的投入，超出我們的想象。我們現在還沒有一個具體數字。」</span></p><p><span style="color:#000000">他還強調了過去一年加快人工智能發展的重要性。他認為人工智能的進步將為人類帶來更美好的未來，不過奧特曼也承認，在前進的過程中會有不利的一面。"我們正在走向這樣一個世界：人工智能生成的內容將多於人類生成的內容。這將不僅僅是一個 good story，而是一個 net good story。"</span></p><p><span style="color:#000000">此外，Altman 重申了在 AI 領域進行監管的必要性，強調了政府在制定框架以降低潛在風險方面的關鍵作用。</span></p><p><span style="color:#000000">Gelsinger 預測，</span><span style="background-color:#ffffff; color:#000000">到 2030 年，英特爾將成為全球第二大代工企業，僅次於台積電。</span></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 03:12:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279911/intel-openai-chips</guid>
+            <link>https://www.oschina.net/news/279911/intel-openai-chips</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Apache ECharts 5.5.0 引入服務端渲染的新利器：1KB 的客户端輕量運行時]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Apache ECharts 5.5.0 版本已於 2024.2.18 正式發佈。</p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fecharts%2Freleases%2Ftag%2F5.5.0" target="_blank">https://github.com/apache/echarts/releases/tag/5.5.0</a></u></em></p><p><strong>主要變化</strong></p><ul><li><p>增強了代碼的 ESM 識別，對&nbsp;Node.js&nbsp;環境開發更加友好；</p></li><li><p>為服務端渲染方案提供了一個 gzip 後僅 1KB 的輕量運行時，極大地降低了加載時間；</p></li><li><p>為數據下鑽支持了過渡動畫，開發者可以方便地實現多級數據的動畫效果；</p></li><li><p>為餅圖和極座標系圖表增加了更多配置項，可以實現更豐富的樣式；</p></li><li><p>新增阿拉伯語和荷蘭語兩種語言的翻譯</p></li><li><p>……</p></li></ul><p>以下內容轉自：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FIpGQS1GspyXzNe-u9F4B-A" target="_blank">https://mp.weixin.qq.com/s/IpGQS1GspyXzNe-u9F4B-A</a></u></em></p><hr><h2>增強的 ESM 支持</h2><p>為了讓開發者在測試和 Node.js 環境使用更方便，我們在這個版本中對 ESM 的識別問題進行了優化。</p><p>以前，ECharts 只在 npm（npm 包的 lib 目錄中）導出&nbsp;<code>*.esm</code>&nbsp;文件。雖然這在 bundlers 環境表現良好，但 Node.js 環境和一些基於 Node.js 的測試框架（如 vitest 和 jest）中的表現並不理想。</p><p>有了這個新功能，我們做了幾個改變以改善這個問題：</p><ul><li><p>在&nbsp;<code>package.json</code>&nbsp;中添加了&nbsp;<code>"type": "module"</code></p></li><li><p>在&nbsp;<code>package.json</code>&nbsp;中添加了&nbsp;<code>"exports": {...}</code></p></li><li><p>在子目錄中添加了一些只包含&nbsp;<code>"type": "commonjs"</code>&nbsp;的&nbsp;<code>package.json</code>&nbsp;文件</p></li></ul><p>這些改變意味着，像&nbsp;<code>echarts/core.js</code>&nbsp;這樣的文件現在可以在像純 Node.js、vitest、jest 和 create-react-app 這樣的環境中解析為 ESM。</p><p>我們還確保了這個新功能與各種環境兼容，包括運行時（Node.js/vitest/jest（create-react-app）/ssr/…）和打包器（webpack/rollup/vite/esbuild/…）。</p><p>我們非常期待這一新功能，並相信它將極大地改善開發者的體驗。</p><h2>服務端渲染 + 客户端輕量運行時</h2><p>Apache ECharts 功能強大，相應地，包體積也比較大。我們在之前的版本中也做了各種努力來改進這一點。開發者可以使用 TreeShaking 按需加載部分代碼，以減少加載的代碼量。從 Apache ECharts 5.3 版本起，我們支持了零依賴的服務端 SVG 字符串渲染方案，並支持圖表的初始動畫。這樣，使用服務端渲染的結果作為首屏渲染的畫面，可以大大減少首屏加載時間。</p><p>服務端渲染雖然是一種很有效減少包體積的解決方案，但如果需要在客户端實現一些交互，那麼不得不仍舊加載 echarts.js，這可能會增加更多的加載時間。對於一些對頁面加載速度要求較高的場景，這可能不是一個理想的選擇。</p><p><strong>在 5.5.0 版本中，我們新增了客户端輕量運行時</strong>，客户端無需加載完整 ECharts 即可實現部分交互。這樣，我們可以在服務端渲染圖表，然後在客户端加載輕量運行時，實現一些常見的交互。這意味着，<strong>只需要加載&nbsp;4KB 的輕量運行時（gzip 後 1KB），即可實現帶初始動畫和部分常用交互形式的圖表</strong>。這一改進將極大地提升頁面加載速度，特別是對於移動端的體驗。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-5c9857523986e92155d29f453c6307014c1.png" referrerpolicy="no-referrer"></p><p>以這個帶標題的餅圖為例，如果按客户端僅打包餅圖和標題組件的方案，gzip 後需要 135KB；如果按服務端渲染的方案，渲染結果 SVG gzip 後 1 KB、客户端運行時 gzip 後 1KB，僅為前者體積的 1.5%。交互方面，後者也可以做到初始動畫、鼠標移動到圖表元素後的高亮，並且獲取到點擊事件，能夠滿足大部分的常見交互需求。</p><p>如需使用客户端輕量運行時方案，服務端代碼和之前一樣，但需要保證 ECharts 版本號在 5.5.0 以上。</p><pre><code>//&nbsp;服務端代碼
+const&nbsp;echarts&nbsp;=&nbsp;require('echarts');
+
+//&nbsp;在&nbsp;SSR&nbsp;模式下第一個參數不需要再傳入&nbsp;DOM&nbsp;對象
+const&nbsp;chart&nbsp;=&nbsp;echarts.init(null,&nbsp;null,&nbsp;{
+&nbsp;&nbsp;renderer:&nbsp;'svg',&nbsp;//&nbsp;必須使用&nbsp;SVG&nbsp;模式
+&nbsp;&nbsp;ssr:&nbsp;true,&nbsp;//&nbsp;開啓&nbsp;SSR
+&nbsp;&nbsp;width:&nbsp;400,&nbsp;//&nbsp;需要指明高和寬，如果是根據客户端容器大小動態的，該值需要從客户端得到
+&nbsp;&nbsp;height:&nbsp;300
+});
+
+//&nbsp;像正常使用一樣&nbsp;setOption
+chart.setOption({
+&nbsp;&nbsp;//...
+});
+
+//&nbsp;輸出字符串
+const&nbsp;svgStr&nbsp;=&nbsp;chart.renderToSVGString();
+
+//&nbsp;調用&nbsp;dispose&nbsp;以釋放內存
+chart.dispose();
+chart&nbsp;=&nbsp;null;
+
+//&nbsp;通過 HTTP Response 返回 svgStr 給前端或者緩存到本地（這裏以 Express.js 為例）：
+res.writeHead(200,&nbsp;{
+&nbsp;&nbsp;'Content-Type':&nbsp;'application/xml'
+});
+res.write(svgStr);
+res.end();
+
+</code></pre><p>客户端將得到的 SVG 字符串添加到容器中，並綁定輕量運行時：</p><pre><code>&lt;div&nbsp;id="chart-container"&nbsp;style="width:800px;height:600px"&gt;&lt;/div&gt;
+
+&lt;script&nbsp;src="https://cdn.jsdelivr.net/npm/echarts/ssr/client/dist/index.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+const&nbsp;ssrClient&nbsp;=&nbsp;window['echarts-ssr-client'];
+
+let&nbsp;isSeriesShown&nbsp;=&nbsp;{
+&nbsp;&nbsp;a:&nbsp;true,
+&nbsp;&nbsp;b:&nbsp;true
+};
+
+function&nbsp;updateChart(svgStr)&nbsp;{
+&nbsp;&nbsp;const&nbsp;container&nbsp;=&nbsp;document.getElementById('chart-container');
+&nbsp;&nbsp;container.innerHTML&nbsp;=&nbsp;svgStr;
+
+&nbsp;&nbsp;//&nbsp;使用輕量運行時賦予圖表交互能力
+&nbsp;&nbsp;ssrClient.hydrate(main,&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;on:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;click:&nbsp;(params)&nbsp;=&gt;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(params.ssrType&nbsp;===&nbsp;'legend')&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;點擊圖例元素，請求服務器進行二次渲染
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isSeriesShown[params.seriesName]&nbsp;=&nbsp;!isSeriesShown[params.seriesName];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetch('...?series='&nbsp;+&nbsp;JSON.stringify(isSeriesShown))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(res&nbsp;=&gt;&nbsp;res.text())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(svgStr&nbsp;=&gt;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChart(svgStr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;});
+}
+
+//&nbsp;通過&nbsp;AJAX&nbsp;請求獲取服務端渲染的&nbsp;SVG&nbsp;字符串
+fetch('...')
+&nbsp;&nbsp;.then(res&nbsp;=&gt;&nbsp;res.text())
+&nbsp;&nbsp;.then(svgStr&nbsp;=&gt;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;updateChart(svgStr);
+&nbsp;&nbsp;});
+&lt;/script&gt;
+</code></pre><p>客户端輕量運行時必須配合 SVG 形式的服務端渲染結果使用，支持以下交互：</p><ul><li><p>圖表初始動畫（實現原理：服務端渲染的 SVG 帶有 CSS 動畫）</p></li><li><p>高亮樣式（實現原理：服務端渲染的 SVG 帶有 CSS 動畫）</p></li><li><p>動態改變數據（實現原理：輕量運行時請求服務器進行二次渲染）</p></li><li><p>點擊圖例切換系列是否顯示（實現原理：輕量運行時請求服務器進行二次渲染）</p></li></ul><p>可以發現，這能夠滿足大部分的交互場景需求。如果需要更復雜的交互，則客户端需要加載&nbsp;<code>echarts.js</code>&nbsp;實現完整功能。</p><p>完整的介紹請參見官網使用手冊的「應用篇 - 跨平台方案 - 服務端渲染」。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 23 Feb 2024 02:59:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/279907/echarts-5-5-0</guid>
+            <link>https://www.oschina.net/news/279907/echarts-5-5-0</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[和 Gmail 基本 HTML 視圖説再見]]>
@@ -417,66 +547,6 @@ spec:
             <link>https://www.oschina.net/news/279616/orange-condamne-a-650-000-e-pour-non-respect-de-la-licence-gpl</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[清華大學文生視頻專利公佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#222222">國家知識產權局網站顯示，近日，清華大學申請的「一種定製化多主體文生視頻方法、裝置、設備及介質」專利公佈，發明人為王鑫；朱文武；陳虹。</span></p><p><span style="background-color:#ffffff; color:#222222">摘要顯示，該申請涉及神經網絡技術領域，通過多種損失對文生視頻模型的參數進行優化，使優化的模型基於文本描述生成視頻中的圖像時，文本描述與定製化主體保持一致，且在每個主體在生成過程中的特徵不會發生混淆的同時消除合成痕跡。</span></p><p><span style="background-color:#ffffff; color:#222222"><img alt="" height="453" src="https://oscimg.oschina.net/oscnet/up-1ec28ceb1ad4ccf2dfbde602d461109e5a2.jpg" width="700" referrerpolicy="no-referrer"></span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 07:17:06 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279604</guid>
-            <link>https://www.oschina.net/news/279604</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[開源日報：Sora 給中國 AI 帶來的真實變化；Dart 3.3 發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><h3><span style="color:#e67e22"><strong># 2024.2.20</strong></span></h3><h2><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日要點</span></span></span></span></span></span></h2><p style="text-align:justify"><strong>OpenSource Daily</strong></p><h3><u><a href="https://www.oschina.net/news/279326/linux-kernel-is-a-cna" target="_blank">Linux 內核成為 CVE 編號機構 (CNA)</a></u></h3><p>Linux 內核已被接受為 CVE 編號機構 (CNA)，這意味着他們將直接管理內核的 CVE。Linus Torvalds 近日在郵件列表發佈了 Linux 6.8-rc5，並介紹稱文檔添加了 CVE 漏洞處理相關的指南。</p><p>文檔寫道，Linux 內核開發團隊有能力為潛在的內核安全問題分配 CVE，而分配的 CVE 編號將在 linux-cve-announce 郵件列表上公佈，修復的安全漏洞才會分配 CVE 編號，未修復的不會自動分配編號。</p><h3><u><a href="https://www.oschina.net/news/279389/dart-3-3-released" target="_blank">Dart 3.3 發佈：擴展類型、JavaScript Interop 等</a></u></h3><p>Dart 3.3 現已發佈，公告稱此版本改變了性能和跨平台開發的遊戲規則。</p><p>增強的擴展類型（Extension Types）將徹底改變性能優化以及用户與本地代碼的交互方式。JavaScript interop 模型也得到了改進，引入了強大的類型安全性和開發人員友好的方式來利用 Web 平台的強大功能。「所有這些都為 WebAssembly 支持鋪平了道路」。此外，新版本還增加了 Google AI 功能。</p><p><img height="300" src="https://oscimg.oschina.net/oscnet/up-3949a01f3c180246795018315421f62eccc.webp" width="300" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日觀察</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-50e80801ccee84a0972ddbf9328c862d87b.png" referrerpolicy="no-referrer"></p><p>- 微博 <em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1609119537%2FO1t7Mj9XJ" target="_blank">2gua</a></u></em></p><p><img src="https://oscimg.oschina.net/oscnet/up-1d42d0aba38b933d17c04033962ce1cc5e5.png" referrerpolicy="no-referrer"></p><p>-<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapp.myzaker.com%2Fnews%2Farticle.php%3Fpk%3D65d353d4b15ec004b02314b1" target="_blank">腦極體</a></u></em></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">今日推薦</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-048ed3535e056a8b2c5037aadf05b7b881b.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">開源之聲</span></span></span></span></span></span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-ce33753dcaf6809a8c2305f7b0fee44604a.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span><span><span style="color:#000000"><span><span><span style="color:#00b050">每日項目榜</span></span></span></span></span></span></strong></h2><p>Gitee 榜單：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8d2c1aa11cc57bc0bfb89a2a2bc2f10afdd.png" referrerpolicy="no-referrer"></p><h4><span style="background-color:#e67e22">在線閲讀完整日報內容，訪問：</span><br><em><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC012%E6%9C%9F%EF%BC%9ASora%20%E7%BB%99%E4%B8%AD%E5%9B%BD%20AI%20%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8F%98%E5%8C%96%EF%BC%9BDart%203.3%20%E5%8F%91%E5%B8%83.pdf" target="_blank">開源日報第 012 期：Sora 給中國 AI 帶來的真實變化；Dart 3.3 發佈</a></u></em></h4><hr><p><strong>往期回顧</strong></p><ul><li><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC11%E6%9C%9F%EF%BC%9A%E7%9B%AE%E5%89%8D%E8%BF%98%E6%B2%A1%E6%9C%89%E2%80%9C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%89%88Linux%E2%80%9D.pdf" target="_blank">開源日報第 011 期：目前還沒有「大模型版 Linux」</a></u></li><li><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC010%E6%9C%9F%EF%BC%9ATauri%20v2%20%E6%94%AF%E6%8C%81%20Android%20%E5%92%8C%20iOS%EF%BC%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%96%B0%E9%80%89%E6%8B%A9.pdf">開源日報第 010 期：Tauri v2 支持 Android 和 iOS，跨平台開發新選擇</a></u></li><li><u><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5009%E6%9C%9F%EF%BC%9AVue.js%E8%AF%9E%E7%94%9F10%E5%91%A8%E5%B9%B4%EF%BC%9B%E6%89%8E%E5%85%8B%E4%BC%AF%E6%A0%BC%E8%A7%A3%E9%87%8AMeta%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E6%BA%90%E5%85%B6AI%E6%8A%80%E6%9C%AF.pdf" target="_blank">開源日報第 009 期：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></u></li><li><u><a href="https://www.oschina.net/news/277585" target="_blank">開源日報第 008 期：推動中國開源軟硬件發展的經驗與建議</a></u></li><li><u><a href="https://www.oschina.net/news/277415">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></u></li><li><u><a href="https://www.oschina.net/news/277214" target="_blank">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></u></li><li><a href="http://www.oschina.net/news/277040"><u>開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</u></a></li><li><u><a href="https://www.oschina.net/news/276864" target="news">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></u></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 05:47:05 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279578</guid>
-            <link>https://www.oschina.net/news/279578</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2023 年度 Rust 調查報告]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">2023 年度 Rust 調查報告現已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.rust-lang.org%2F2024%2F02%2F19%2F2023-Rust-Annual-Survey-2023-results.html" target="_blank">出爐</a>，基於 2023 年 12 月 18 日至 2024 年 1 月 15 日期間進行的調查結果。此次調查問卷共收到 11950 份回覆，其中 9710 份完成了所有問題。</span></p><p><span style="color:#000000"><strong>參與情況</strong></span></p><p><span style="color:#000000">參與調查的開發者來自世界各地，最多的是美國（22%），其次是德國（12%）、中國（6%）、英國 (6%)、法國 (6) %）、加拿大（3%）、俄羅斯（3%）、荷蘭（3%）、日本（3%）和波蘭（3%）。92.7% 的受訪者更趨向於採用英語交流技術主題，相較 2022 年的 93% 略有下降；中文是第二選擇，佔比為 6.1%（ 2022 年為 7%）。</span></p><p><span style="color:#000000"><strong>Rust 使用情況</strong></span></p><p><span style="color:#000000">有 93% 的受訪者稱自己是 Rust 用户，其中 49% 的人每天（或幾乎每天）都會使用 Rust，相較上一年小幅增加 2 個百分點。在沒有使用 Rust 的用户中，31% 的人表示主要原因時使用 Rust 有難度；67% 的人表示他們還沒有機會優先學習 Rust，這也是最常見的原因。</span></p><p><span style="color:#000000">46% 的受訪者表示其不再使用 Rust 的原因在於「無法控制的因素」（比 2022 年減少了 1 個百分點），31% 的人是因為更喜歡另一種語言（比 2022 年增加了 9 個百分點），還有 24% 是因為難度（比 2022 年減少了 6 個百分點）。</span></p><p><span style="color:#000000"><img alt="" height="429" src="https://oscimg.oschina.net/oscnet/up-335afef97d65f03d34d0f08eb8831153557.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">操作系統的選擇方面，Linux 是最受 Rust 用户歡迎的選擇，其次是 macOS 和 Windows，兩者份額相近。IDE 的選擇上，Visual Studio Code 仍然是最受歡迎的選擇，RustRover（去年發佈）也獲得了一些關注。</span></p><p><span style="color:#000000"><strong>Rust 在工作中的使用情況</strong></span></p><p><span style="color:#000000">34% 的受訪者表示他們在工作中的大部分編碼業務都使用 Rust，相較 2022 年增加了 5 個百分點。86% 的受訪者僱主投資 Rust 的首要原因是能夠構建相對正確且無 bug 的軟件，第二個原因是 Rust 的優秀性能（83%）。77% 的受訪者表示，他們的組織可能會在未來再次使用 Rust。</span></p><p><span style="color:#000000">就技術領域而言，Rust 似乎在創建服務器後端、Web 和網絡服務以及雲技術方面特別受歡迎。</span></p><p><span style="color:#000000"><img alt="" height="429" src="https://oscimg.oschina.net/oscnet/up-956fdb129c803494d840f04071cceb0996b.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><strong>對 Rust 未來的擔憂和期待</strong></span></p><p><span style="color:#000000">共有 9374 名受訪者分享了他們對 Rust 未來的主要擔憂，其中 43% 的受訪者擔心 Rust 變得過於複雜，相較 2022 年增加了 5 個百分點。42% 的受訪者擔心 Rust 在科技行業的使用率過低。32% 的受訪者最擔心 Rust 開發人員和維護人員得不到適當的支持，相較 2022 年增加了 6 個百分點。</span></p><p><span style="color:#000000">另一方面，完全不關心 Rust 未來的受訪者明顯減少，2023 年為 18%，2022 年為 30%。</span></p><p><span style="color:#000000">就 Rust 用户希望實現、穩定或改進的功能而言，最需要的改進是 traits（trait aliases、associated type defaults 等）、const execution（generic const expressions、const trait methodsconst 等）以及 async（async closures、coroutines）。</span></p><p><span style="color:#000000"><img alt="" height="429" src="https://oscimg.oschina.net/oscnet/up-bcaf516c155cafe4eb2d721dc6e86434a9e.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">可能是出於對複雜度的擔憂，還有 20% 的受訪者希望 Rust 放慢新功能的開發速度。此外，Rust 中最令用户頭疼的似乎是 asynchronous Rust、traits、generics system 以及 borrow checker。</span></p><p><span style="color:#000000"><img alt="" height="429" src="https://oscimg.oschina.net/oscnet/up-de1d95566f02a3dccfae6db246605f3684a.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">受訪者希望 Rust 維護者主要優先考慮修復編譯器錯誤 (68%)、提高 Rust 程序的運行時性能 (57%) 以及縮短編譯時間 (45%)。受訪者指出，編譯時間是需要改進的最重要領域之一；但有趣的是，受訪者似乎也認為運行時性能比編譯時間更重要。</span></p><p><span style="color:#000000"><img alt="" height="571" src="https://oscimg.oschina.net/oscnet/up-b59d67be36c91976d230c9e2d43ae22ac9e.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000">更多詳情可查看</span>完整的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fraw.githubusercontent.com%2Frust-lang%2Fsurveys%2Fmain%2Fsurveys%2F2023-annual-survey%2Freport%2Fannual-survey-2023-report.pdf" target="_blank">調查報告</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 04:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279563/rust-survey-2023-results</guid>
-            <link>https://www.oschina.net/news/279563/rust-survey-2023-results</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2024，RISC-V 可期]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><blockquote><p>轉載自：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F6WLBNUfHyfLCq7AR9Ortuw" target="_blank">中國電子報（ID：cena1984）</a></u></em></p></blockquote><p>2023 年，長期被冠以「低端」帽子的 RISC-V 架構，終於實現了高端化過程中的兩個「小目標」：一個是單核性能走高，可與 ARM Cortex-A7 對標；另一個是應用場景拓展到 PC 領域，首台搭載 RISC-V 架構的筆記本電腦<u><a href="https://www.oschina.net/news/234292">面世</a></u>。</p><p>如此勢頭下， 2024 年 RISC-V 的發展似乎「一片坦途」。</p><p><strong>在數據中心市場「掘金」</strong></p><p>為了實現「高端化」轉型，RISC-V 架構設計企業在持續嘗試將市場拓展到對算力、穩定性等指標要求更高的領域。2023 年，業界推出多個面向數據中心的 RISC-V 產品，其中包括算能科技流片業內首顆 RISC-V 服務器芯片 SG2042、賽昉科技推出的超大規模總線 IP「昉·星鏈-700」及 256 核 RISC-V 眾核 IP 子系統平台。</p><p>在數據中心領域，當前湧現了多家劍指服務器 CPU 的 RISC-V 初創公司。賽昉科技董事長兼 CEO 徐滔認為，不只是服務器 CPU，「數據中心」市場可謂遍地是黃金，BMC 芯片、存儲芯片、AI 加速器、DPU 等都可以用 RISC-V 來做。「我認為， 2024 年將有多款不同類型的 RISC-V 芯片在數據中心場景中量產落地。」徐滔向《中國電子報》表示。</p><p>此外，還有多家 RISC-V 廠商設計的 「大芯片」有流片可能，其中包括 Ventana 的 192 核、4nm 的 RISC-V 服務器 CPU——Veyron V2，Tenstorrent 的 3nm AI &amp; CPU Chiplets——Grendel 等，它們都有機會在 2024 年流片。</p><p><strong>趕上「AI 特快」</strong></p><p>「人工智能是目前正在開發的新興技術中最重要的類別，該類應用需要新型的編程模型、新型的 SoC 以及新型的系統，我們看到 RISC-V 在其中扮演着非常重要的角色。」 SiFive 企業營銷與業務開發資深副總裁剛至堅在接受《中國電子報》記者採訪時表示。</p><p>剛至堅認為，RISC-V 提供了一個奇妙的、共享的生態系統， 一個 AI 編程環境以及開發新軟件的環境，隨着性能、可定製化能力不斷提升，RISC-V 將越來越多地進入人工智能主導的新興市場中，其應用場景包括數據中心、汽車以及消費電子等領域。</p><p><strong>高端 SoC 可商用</strong></p><p>在深度數智總裁卜祥敏看來，2024 年最關鍵的是 SoC 可商用產品的落地。</p><p>「2023 年我們做了一年基於 RISC-V 的整體解決方案，我深刻地感受到，現在 SoC 芯片與真正的可商業化落地之間還有不少距離。」卜祥敏告訴《中國電子報》記者，「2023 年深度數智推出了基於 RISC-V 架構的筆記本電腦。2024 年，我們計劃和生態圈的合作伙伴一同推出搭載新一代基於 RISC-V 架構設計的 SoC 筆記本電腦和服務器。」</p><p>2023 年，谷歌與安卓宣佈支持 RISC-V 生態。卜祥敏表示，這將推動 RISC-V 的生態系統走向完善。更加完備的生態系統，將有助於提升 RISC-V 在桌面、智能終端等領域的可用性。</p><p>徐滔認為，垂直整合是 RISC-V 處理器在高端市場落地的有效方式。「垂直整合，即通過應用定義芯片。RISC-V 在商業上標準開放、技術上架構靈活，廠商可以更好地根據應用需求設計芯片。高端應用定義芯片，更能釋放垂直整合的價值，這也是 RISC-V 最大的機會。」徐滔表示。</p><p><strong>軟件生態加速建設</strong></p><p>2023 年 6 月，全球 RISC-V 軟件生態計劃 RISE（RISC-V Software Ecosystem）組織成立。該計劃由谷歌、英特爾、高通、聯發科、Andes、平頭哥、Rivos、SiFive、Ventana、三星、英偉達、Imagination 等共 13 家產業巨頭共同發起的，旨在協助 RISC-V 國際基金會共同加速 RISC-V 商用軟件生態建設。它的成立，標誌着 RISC-V 軟件生態從純開源主導、基金會主導進入商業化主導、全球大規模共建的時代。</p><p>中國科學院軟件研究所副所長、總工程師武延軍在接受《中國電子報》記者採訪時表示，由於 RISC-V 得到 Debian 和 OpenEuler 兩大開源操作系統社區的官方主線支持，加之 RISE 組織成立，頭部軟硬件企業正式加入 RISC-V 生態，2024 年 RISC-V 軟件生態將加速建設。</p><p>武延軍認為，2024 年，市面上將會在 2023 年已有產品的基礎上，再次出現 RISC-V 標誌性高性能處理器，服務器軟件生態規模化適配正式開啓。開源開放和全球協作理念，使得 RISC-V 開發者的規模持續快速增長。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 21 Feb 2024 03:24:42 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279556</guid>
-            <link>https://www.oschina.net/news/279556</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
