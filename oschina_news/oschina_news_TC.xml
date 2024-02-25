@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 24 Feb 2024 11:08:09 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 25 Feb 2024 15:29:18 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[基於 Rust 開發的終端應用 Warp 發佈 Linux 版本]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Warp 是一個基於 Rust 開發的現代化終端應用，內置 AI 功能，支持 CPU 加速。</p><p>此前 Warp 僅面向 Mac 平台提供，近日其開發團隊終於<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.warp.dev%2Fblog%2Fwarp-for-linux" target="_blank">發佈</a></u>了 Linux 版本，用戶可在大多數主流 Linux 發行版上安裝 Warp，包括 Ubuntu、Fedora、Arch Linux 或 Red Hat，目前提供的安裝包格式包括：</p><ul><li><strong>.deb (apt)</strong></li><li><strong>.rpm (yum/dnf/zypper)</strong></li><li><strong>.pkg.tar.zst (pacman)</strong></li><li><strong>.AppImage</strong></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-4de6b7dfa97856c11c9134895a8dd615060.png" referrerpolicy="no-referrer"></p><p><strong>Warp for Linux 特性</strong></p><ul><li><p>基於 Rust 編寫，所有圖形渲染都直接在 GPU 上完成，性能極佳</p></li><li><p>支持 zsh、bash 和 fish 等 shell</p></li><li><p>擁有現代化的編輯特性，比如鼠標支持、自動完成、語法高亮和多光標支持</p></li><li><p>Warp AI 可以幫助開發者查找忘記的命令、調試錯誤或通過自然語言轉換為命令行</p></li><li><p>Warp Drive 可以將終端變得協作化，開發者可以將重要的命令保存為可重用的工作流，並與團隊成員共享</p></li></ul><hr><p>Warp 團隊介紹了開發 Linux 版本的一些技術挑戰。由於 Linux 上的 GPU API 與 macOS 上的 Metal API 有很大區別，因此 Warp 團隊使用了開源的 Rust 庫來實現跨平台渲染，例如 wgpu、winit 和 cosmic-text。<strong>除了平台特定的抽象之外，Linux 版本的 Warp 與 Mac 版本共享了大約 98% 的代碼</strong>。</p><p>值得一提的是，為了更好地支持跨平台抽象，Warp 團隊還擴展了其內部基於 Rust 的 UI 框架，並計劃在未來開源該框架。</p><p>現在，Warp 已經支持 macOS 和 Linux 兩個主流平台。Warp 團隊正在積極開發 Windows 版本，預計將在今年晚些時候發佈。下載地址：<u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapp.warp.dev%2Fget_warp%3Flinux%3Dtrue%26auto_download%3Dfalse" target="_blank">https://app.warp.dev/get_warp</a></em></u></p><p><img src="https://oscimg.oschina.net/oscnet/up-606dd90d1e674b566bbb400477a9e8f3704.png" referrerpolicy="no-referrer"></p><hr><p><strong>延伸閲讀：<u><em><a href="https://www.oschina.net/news/276588/zed-is-now-open-source" target="news">Rust 編寫的 Zed 編輯器正式開源</a></em></u></strong></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 25 Feb 2024 11:09:37 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280197/warp-for-linux</guid>
+            <link>https://www.oschina.net/news/280197/warp-for-linux</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[Wubuntu：披着 Windows 11 外衣的 Ubuntu]]>
@@ -394,7 +409,7 @@ fn main() {
 </code></pre><p>struct A 的 <code>default</code> 方法是會被調用的，打印出 <code>called A::default()</code>。</p><h2>總結</h2><ul><li>排查 Rust 程序的內存泄漏，我們可以用 jemalloc 的 heap profiling 導出 dump 文件；再生成火焰圖可直觀展現內存使用情況。</li><li>Tokio-console 可以方便地顯示出 Tokio runtime 的 task 運行情況；要特別注意不斷增長的 idle tasks。</li><li>儘量不要在常用 struct 的構造方法中留下有副作用的代碼。</li><li><code>Default</code> 只應該用於值類型 struct。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-3d33a6c61f7c37725020cbe267d0c2d0f01.jpg" alt="" referrerpolicy="no-referrer"></p><h3>關於 Greptime</h3><p>Greptime 格睿科技於 2022 年創立，目前正在完善和打造時序數據庫 GreptimeDB 和格睿雲 GreptimeCloud 這兩款產品。</p><p>GreptimeDB 是一款用 Rust 語言編寫的時序數據庫，具有分佈式、開源、雲原生、兼容性強等特點，幫助企業實時讀寫、處理和分析時序數據的同時，降低長期存儲的成本。</p><p>GreptimeCloud 基於開源的 GreptimeDB，為用戶提供全託管的 DBaaS，以及與可觀測性、物聯網等領域結合的應用產品。利用雲提供軟件和服務，可以達到快速的自助開通和交付，標準化的運維支持，和更好的資源彈性。GreptimeCloud 已正式開放內測，歡迎關注公眾號或官網瞭解最新動態！</p><p>官網：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreptime.com%2F" target="_blank">https://greptime.com/</a></p><p>公眾號：GreptimeDB</p><p>GitHub: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FGreptimeTeam%2Fgreptimedb" target="_blank">https://github.com/GreptimeTeam/greptimedb</a></p><p>文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.greptime.com%2F" target="_blank">https://docs.greptime.com/</a></p><p>Twitter: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FGreptime" target="_blank">https://twitter.com/Greptime</a></p><p>Slack: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgreptime.com%2Fslack" target="_blank">https://greptime.com/slack</a></p><p>LinkedIn: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fgreptime%2F" target="_blank">https://www.linkedin.com/company/greptime/</a></p></div>
                                     ]]>
             </description>
-            <pubDate>Fri, 23 Feb 2024 02:23:03 GMT</pubDate>
+            <pubDate>Fri, 23 Feb 2024 02:22:00 GMT</pubDate>
             <guid isPermaLink="false">https://my.oschina.net/u/6839317/blog/11044292</guid>
             <link>https://my.oschina.net/u/6839317/blog/11044292</link>
             <author>
@@ -511,7 +526,7 @@ fn main() {
                 <![CDATA[StarkNet 撒錢，程序員在 Web3 領了 14 萬 ​​​]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>StarkNet 啓動空投活動，GitHub 排名前 5000 開源項目的貢獻者可領取價值 $200 獎勵。</p><h2>背景</h2><ul><li>StarkNet 公鏈項目為了激勵開發者參與其平台建設，啓動了空投活動。</li><li>如果曾向 GitHub 上獲得較多 Star 的項目提交過 PR ，就有資格領取 111.1 STRK 的空投獎勵。</li><li>只需要使用 OAuth 2.0 登錄，就可以直接領取。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-44f62dafa84c34781d15d46c71c7c8c862c.jpg" referrerpolicy="no-referrer"></p><p>有程序員曬出自己在這次空投活動獲得的獎勵——近 14 萬人民幣。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-96e62f68c4891cdbfd1f43b86ddfcdcbf79.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fstrrlthedev%2Fstatus%2F1760182038504837287" target="_blank">https://twitter.com/strrlthedev/status/1760182038504837287</a></u></em></p></blockquote><h2>領取規則</h2><ol><li>截止到 2023 年 11 月 15 日，至少對全球排名前 5000 的倉庫提交過三次代碼貢獻。</li><li>其中至少有一次貢獻是在 2018 年或之後完成的。</li></ol><h2>領取步驟</h2><p>領取地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fprovisions.starknet.io%2F" target="_blank">https://provisions.starknet.io/</a></u></em></p><ol><li>訪問獎勵領取頁面並連接錢包（推薦使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fargent-x-starknet-wallet%2Fdlcobpjiigpikoobohmabehhmhfoodbb" target="_blank">Argent X</a>）。</li><li>通過 GitHub 登錄，採用 OAuth 2.0 驗證方式。</li><li>直接領取獎勵。後續的治理投票和問卷調查可忽略不計。</li></ol></div>
+                <![CDATA[<div class="content"><p>StarkNet 啓動空投活動，GitHub 排名前 5000 開源項目的貢獻者可領取價值 $200 獎勵。</p><h2>背景</h2><ul><li>StarkNet 公鏈項目為了激勵開發者參與其平台建設，啓動了空投活動。</li><li>如果曾向 GitHub 上獲得較多 Star 的項目提交過 PR ，就有資格領取 111.1 STRK 的空投獎勵。</li><li>只需要使用 OAuth 2.0 登錄，就可以直接領取。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-44f62dafa84c34781d15d46c71c7c8c862c.jpg" referrerpolicy="no-referrer"></p><p>有程序員曬出自己在這次空投活動獲得的獎勵——近 14 萬人民幣。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-96e62f68c4891cdbfd1f43b86ddfcdcbf79.png" referrerpolicy="no-referrer"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2Fstrrlthedev%2Fstatus%2F1760182038504837287" target="_blank">https://twitter.com/strrlthedev/status/1760182038504837287</a></u></em></p></blockquote><h2>領取規則</h2><ol><li>截止到 2023 年 11 月 15 日，至少對全球排名前 5000 的倉庫提交過三次代碼貢獻。</li><li>其中至少有一次貢獻是在 2018 年或之後完成的。</li></ol><h2>領取步驟</h2><p>領取地址：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fprovisions.starknet.io%2F" target="_blank">https://provisions.starknet.io/</a></u></em></p><ol><li>訪問獎勵領取頁面並連接錢包（推薦使用<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fargent-x-starknet-wallet%2Fdlcobpjiigpikoobohmabehhmhfoodbb" target="_blank">Argent X</a>）。</li><li>通過 GitHub 登錄，採用 OAuth 2.0 驗證方式。</li><li>直接領取獎勵。後續的治理投票和問卷調查可忽略不計。</li></ol><hr><p>最後，提醒各位程序員，請注意下面這種「空手套白狼」騷操作：</p><p><img src="https://oscimg.oschina.net/oscnet/up-a8822bc079294f3f98548cf7421eda43c71.png" referrerpolicy="no-referrer"></p></div>
                                     ]]>
             </description>
             <pubDate>Thu, 22 Feb 2024 02:30:00 GMT</pubDate>
@@ -519,21 +534,6 @@ fn main() {
             <link>https://www.oschina.net/news/279720</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[華為：2 月 26 日將首發華為通信大模型]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">華為官方微信公眾號消息<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F7dnrCXQoOqWSfKBrCJWl6Q" target="_blank">顯示</a>， 在 2 月 26 日華為產品與解決方案發佈會上，即將首發華為通信大模型。</span></p><p><img height="677" src="https://oscimg.oschina.net/oscnet/up-59659387ba8ade9e0cf71c6f84d476a728e.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:rgba(0, 0, 0, 0.9)">華為稱，2024 年，5G-A 商用元年正式開啓！萬兆時代已來，共同見證將 5G-A 帶入現實。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 22 Feb 2024 02:23:42 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279717</guid>
-            <link>https://www.oschina.net/news/279717</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
