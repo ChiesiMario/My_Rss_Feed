@@ -16,8 +16,119 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 26 Feb 2024 09:46:13 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 26 Feb 2024 15:54:50 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[fastjson 2.0.47 發佈，大幅提升 Android 版首次序列化/反序列化性能]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>這個版本主要是大幅度提升 android 版本的首次序列化/反序列化的性能。在序列化大約 1M 的 JSON 對象時性能也有了較大提升。</p><h1>Issues</h1><ol><li>在非 android 版本某些 Android 設備上處理數據時崩潰<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2263" target="_blank">#2263</a></li><li>JSONField Annotation defaultValue 配置支持 Enum<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2239" target="_blank">#2239</a></li><li>修復反序列化 List 類型字段輸入 null 時報錯的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2233" target="_blank">#2233</a></li><li>修復反序列化時 JSON.toJavaObject 方法有錯誤識別 setter 方法的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2230" target="_blank">#2230</a></li><li>修復引用類型、Boolean、Short 不支持 JSONWriter.Feature.WriteNulls<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2234" target="_blank">#2234</a></li><li>修復序列化 kotlin data cass 調用 copy 方法的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2231" target="_blank">#2231</a></li><li>修復有些場景 JSON.isValid 方法拋異常的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2222" target="_blank">#2222</a></li><li>修復 JSONPath 不支持中劃線的問題<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2228" target="_blank">#2228</a></li><li>提升 android 下首次序列化的性能<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fissues%2F2189" target="_blank">#2189</a></li></ol><h1>MAVEN 依賴配置</h1><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba.fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><ul><li>android5 針對優化版本<br> 這個版本和 android4 兼容版本基本一致，只是使用了 java.nio.charset.StandardCharsets，後續將會不再升級 android4 兼容版本。</li></ul><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba.fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47.android5&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><ul><li>android8 針對優化版本<br> 這個版本支持 java.time 和 Optional</li></ul><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba.fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47.android8&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><ul><li>1.x 兼容版本</li></ul><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><ul><li>Spring 5 extension 配置</li></ul><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba.fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson2-extension-spring5&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><ul><li>Spring 6 extension 配置</li></ul><div><pre>&lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;com.alibaba.fastjson2&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">groupId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;fastjson2-extension-spring6&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">artifactId</span>&gt;
+    &lt;<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;2.0.47&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">version</span>&gt;
+&lt;/<span style="color:var(--color-prettylights-syntax-entity-tag)">dependency</span>&gt;</pre><div>
+  &nbsp;
+ </div></div><h1>相關鏈接</h1><ul><li>FASTJSON 1.x 用户升級指南<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fwiki%2Ffastjson_1_upgrade_cn" target="_blank">https://github.com/alibaba/fastjson2/wiki/fastjson_1_upgrade_cn</a></li><li>相關 issues<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fmilestone%2F47" target="_blank">https://github.com/alibaba/fastjson2/milestone/47</a></li><li>代碼 tag<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Ftree%2F2.0.47" target="_blank">https://github.com/alibaba/fastjson2/tree/2.0.47</a></li><li>Maven 下載<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Falibaba%2Ffastjson2%2Ffastjson2%2F2.0.47%2F" target="_blank">https://repo1.maven.org/maven2/com/alibaba/fastjson2/fastjson2/2.0.47/</a></li><li>Android5 特別優化版本<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Falibaba%2Ffastjson2%2Ffastjson2%2F2.0.47.android5%2F" target="_blank">https://repo1.maven.org/maven2/com/alibaba/fastjson2/fastjson2/2.0.47.android5/</a></li><li>Android8 特別優化版本<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Falibaba%2Ffastjson2%2Ffastjson2%2F2.0.47.android8%2F" target="_blank">https://repo1.maven.org/maven2/com/alibaba/fastjson2/fastjson2/2.0.47.android8/</a></li><li>1.x 兼容版本<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Falibaba%2Ffastjson%2F2.0.47%2F" target="_blank">https://repo1.maven.org/maven2/com/alibaba/fastjson/2.0.47/</a></li><li>性能測試報告<span>&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Falibaba%2Ffastjson2%2Fblob%2Fmain%2Fdocs%2Fbenchmark%2Fbenchmark_2.0.47.md" target="_blank">https://github.com/alibaba/fastjson2/blob/main/docs/benchmark/benchmark_2.0.47.md</a></li></ul><p>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 26 Feb 2024 11:37:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280377/fastjson-2-0-47-released</guid>
+            <link>https://www.oschina.net/news/280377/fastjson-2-0-47-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[凌鯊 0.7.25 版本更新]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>0.7.25 2024 年 02 月 26 日<br> 服務端版本: 0.2.33</p><ul><li>新增: 新增項目默認入口設置</li><li>新增: 知識點倉庫可根據標題進行搜索</li><li>改進: 管理後台自動進行會話保活</li><li>改進: 管理後台使用浮層修改知識點</li><li>修復: 修復編輯中表格菜單被遮擋的問題</li><li>新增: 管理後台新增知識庫管理</li><li>新增: 新增導入知識庫功能</li><li>調整: 知識點標籤改為知識點分組</li></ul><h1>相關截圖</h1><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-23d81616f2a60663a43548e2c9ec85190ca.png" width="1500" referrerpolicy="no-referrer"></p><p>&nbsp;</p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-a7bd9c407c4fe2560022a545b902a04c63e.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-cd1b73cd279a76f835785f63f89d58a79bc.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-a3560d91de673aa9598559406db5bfe197c.png" width="1500" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 26 Feb 2024 11:18:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280374/linsha-0-7-25-released</guid>
+            <link>https://www.oschina.net/news/280374/linsha-0-7-25-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[鴻蒙程序員平均月薪超 1 萬 8]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>據智聯招聘數據顯示，春招鴻蒙崗位需求是去年近 3 倍。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-47729617a06471ca213c42bdadb7fd974ad.png" referrerpolicy="no-referrer"></p><p>本月初，華為 HarmonyOS 在新年賀詞中提到，基於開源鴻蒙開發的 HarmonyOS NEXT 鴻蒙星河版將在今年秋天正式和消費者見面，這也促使大量企業急需鴻蒙人才。</p><p>春節後開工第一週，鴻蒙相關職位數同比增長 163%，投遞人數同比增長 349%，同時，鴻蒙開發崗的招聘薪資，達到 18191 元/月，比總體開發崗的平均薪資（16617 元/月）高出 9%。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-bb038ad20fec544a0619fbde6c5f4049059.png" referrerpolicy="no-referrer"></p><p>來自：<em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1656737654%2FO2miyxjc4" target="_blank">現代快報</a></u></em></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 26 Feb 2024 10:49:02 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280369</guid>
+            <link>https://www.oschina.net/news/280369</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[雲原生週刊：Docker 推出 Docker Build Cloud]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>開源項目推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fkube-vip%2Fkube-vip" target="_blank">Kube-Vip</a></h3><p>Kube-Vip 旨在為 Kubernetes 集羣提供高可用性和負載均衡功能。它提供了一個可插拔的 VIP（虛擬 IP）管理器，可以為集羣中的服務分配一個虛擬 IP 地址，並自動將流量路由到正確的節點。該項目提供了多種配置選項，可以根據需要選擇適合的負載均衡算法和 IP 模式。Kube-Vip 還支持一些高級功能，如自定義健康檢查和故障轉移。通過使用 Kube-Vip，用户可以輕鬆地實現 Kubernetes 集羣的高可用性和可靠性，提供穩定的服務和無縫的故障恢復能力。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fselefra%2Fselefra" target="_blank">Selefra</a></h3><p>Selefra 的意思是「從基礎設施中選擇*」。它是一款開源策略即代碼軟件，可為多雲和 SaaS 環境提供分析，包括 AWS、GCP、Azure、阿里雲、Kubernetes、Github、Cloudflare 和 Slack 等 30 多種服務。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmarvasgit%2Fkubernetes-statemonitor" target="_blank">KubeStateWatch</a></h3><p>KubeStateWatch 是 Kubernetes 的狀態監視器，用於向多個通道發送通知，告知更改的時間和內容。</p><p>它可以獨立使用，也可以部署在 Kubernetes 中。但它的主要目的是部署在 Kubernetes 中。</p><p>KubeStateWatch 是 kubewatch 的擴展和簡化版本。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fweaveworks%2Ftf-controller" target="_blank">Weave GitOps' Terraform Controller</a></h3><p>Weave GitOps 的 Terraform 控制器（又名 Weave TF-Controller）是 Flux 的控制器，用於以 GitOps 方式協調 Terraform 資源。藉助 Flux 與 Terraform 的強大功能，TF-controller 允許您按照自己的節奏在 Kubernetes 和 Terraform 領域中對基礎設施和應用程序資源進行 GitOps 化。</p><h2>文章推薦</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmedium.com%2F%40deepaksharma2494%2Funderstanding-kubernetes-and-docker-easiest-explanation-9505638107e3" target="_blank">瞭解 Docker 和 Kubernetes：一個簡單的解釋</a></h3><p>這篇文章以簡單易懂的方式解釋了 Kubernetes 和 Docker 的概念。文章首先介紹了 Docker 的作用，將應用程序和其依賴項打包成容器，實現跨平台的可移植性。然後，文章詳細解釋了 Kubernetes 的作用，它是一個容器編排和管理工具，用於自動化應用程序的部署、擴展和管理。文章強調了 Kubernetes 的重要性，它可以幫助解決容器化應用程序的挑戰，如負載均衡、服務發現和自動容錯。通過理解這兩個概念，讀者可以更好地瞭解如何使用 Docker 打包應用程序，並如何使用 Kubernetes 管理和運行這些容器化應用程序。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fovercast.blog%2Fzero-downtime-deployments-with-kubernetes-a-full-guide-71019397b924" target="_blank">使用 Kubernetes 進行零停機部署：完整指南</a></h3><p>這篇文章提供了關於使用 Kubernetes 實現零停機時間部署的全面指南。它介紹了零停機時間部署的基本原理和重要性，並詳細解釋了 Kubernetes 支持的各種部署策略，如滾動更新、藍綠部署和金絲雀發佈。文章還深入探討瞭如何通過 Kubernetes 的服務和 Ingress 來優化流量管理，確保應用程序的高可用性和用户體驗。此外，文章還介紹了一些高級的零停機時間技術，如特性標誌和 A/B 測試，以進一步提升部署的彈性和可靠性。</p><h2>雲原生動態</h2><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.infoq.com%2Fnews%2F2024%2F02%2Fdocker-build-cloud%2F%3FtopicPageSponsorship%3Defb5f5b6-1e14-4b4f-8fdb-fd15c9d625f9" target="_blank">Docker 推出 Docker Build Cloud</a></h3><p>Docker 最近宣佈了他們基於雲的容器鏡像構建工具 Docker Build Cloud 的正式推出。Docker Build Cloud 提供遠程共享緩存和針對 AMD64 和 ARM64 CPU 架構的本地構建器，旨在"改善協作"並減少鏡像構建時間。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcloudnativenow.com%2Ffeatures%2Fcrossplane-maintainers-add-python-support-to-control-plane%2F" target="_blank">Crossplane 增加對 Python 的支持</a></h3><p>用於管理混合 IT 環境的開源 Crossplane 平台的維護者除了現有的 Go 支持之外，還增加了對 Python 編程語言的支持。</p><p>此外，除了現在將項目託管在 xpkg.upbound.io 上之外，命令行界面 (CLI) 還通過其他子命令進行了擴展，以簡化 DevOps 工作流程，xpkg.upbound.io 是唯一符合開放容器計劃 (OCI) 規範的註冊中心瞭解 Crossplane 包的內部結構。</p><p>Crossplane 最初由 Upbound 開發，是 Kubernetes 控制平面的擴展，它使用複合資源定義 (XRD) 和 Kubernetes 自定義資源定義 (CRD) 將該控制平面的覆蓋範圍擴展到舊平台。該功能使得跨多個雲和本地 IT 環境集中管理控制平面成為可能。隨着 Crossplane 1.15 版本的發佈，IT 團隊現在還可以使用 Kubernetes 應用程序編程接口 (API) 服務器中的驗證庫根據其模式離線驗證資源。</p><h3><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.infoq.com%2Fnews%2F2024%2F02%2Fgrab-kafka-kubernetes-aws-nth%2F%3FtopicPageSponsorship%3Defb5f5b6-1e14-4b4f-8fdb-fd15c9d625f9" target="_blank">Grab 改進 K8s 上的 Kafka 容錯能力</a></h3><p>Grab 更新了 Kubernetes 上的 Kafka 設置，以提高容錯能力，並完全消除 Kafka 代理意外終止時的人為幹預。為瞭解決初始設計的缺點，團隊集成了 AWS Node Termination Handler (NTH)，使用負載均衡器控制器進行目標組映射，並切換到 ELB 捲進行存儲。</p><p>兩年來，Grab 一直在生產環境中使用 Strimzi 在 Kubernetes ( EKS ) 上運行 Apache Kafka，作為其 Coban 實時數據平台的一部分。該團隊之前利用 Strimzi（現在是 CNCF 孵化項目），通過將經過驗證的身份驗證、授權和機密性機制應用於所有服務器-服務器和客户端-服務器集成來增強 Kafka 集羣安全性。</p><blockquote><p>本文由博客一文多發平台 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenwrite.cn%3Ffrom%3Darticle_bottom" target="_blank">OpenWrite</a> 發佈！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 26 Feb 2024 09:55:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/4197945/blog/11044789</guid>
+            <link>https://my.oschina.net/u/4197945/blog/11044789</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[2024 年 Apache DolphinScheduler RoadMap：引領開源調度系統的未來]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>非常歡迎大家來到 Apache DolphinScheduler 社區！隨着開源技術在全球範圍內的快速發展，社區的貢獻者 <strong>「同仁」</strong> 一直致力於構建一個強大而活躍的開源調度系統社區，為用户提供高效、可靠的任務調度和工作流管理解決方案。</p><p><img src="https://oscimg.oschina.net/oscnet/up-6e52878282cac3d28604d1cbd49899728c9.png" alt="file" referrerpolicy="no-referrer"></p><p>在過去的一段時間裏，我們取得了一些重要的成就，但我們的願景遠未實現。為了更好地滿足用户需求和推動項目的發展，我們在 2024 新春伊始，制定了以下 Roadmap，將在未來的版本中實現一系列激動人心的功能和改進。</p><h2>當前社區狀態</h2><p>2024 年 roadmap 有兩個來源，部分是來自 2023 年發起但是沒有開始實施，或者實施了部分的議題，另一部分是最新新增的議題。2024 年 roadmap 可以分成如下幾個部分</p><p><strong>雲原生相關</strong>： 我們希望增加 K8S executor 複用 K8S 提供的能力做彈性資源管理、監控和失敗重試等</p><p><strong>任務插件增強</strong>： 我們收到了用户關於任務插件的訴求，將會進一步支持 streaming 類型的任務、trigger 類型插件等，除此之外，我們還希望統一在 worker 和 master 中運行的任務、以及為任務插件增加生命週期的接口。於此同時我們會持續關注動態任務組件的功能，希望以後可以對任務組件單獨發版保證迭代頻率</p><p><strong>DataOps 相關</strong>：希望引入 data ops 相關功能，通過集成 git 供應商來實現 git ops，最終實現工作流 CICD&nbsp;</p><p><strong>測試</strong>： 我們會繼續完善和增加項目單元測試覆蓋率，並且逐步補充 API 部分的測試</p><p><strong>其他優化</strong>：引入工作流事件觸發功能；優化審計日誌</p><h3>雲原生相關</h3><p>我們希望引入 K8S executor 作為 dispatcher 將 dolphinscheduler 的任務分發到 K8S 中，K8S executor 的好處是我們可以有更高的資源利用率；沿用 K8S 的監控機制，實現 pod level 的監控；沿用 pod 容錯做任務容錯。</p><p>這個設計的核心是將 executor 的抽象出來變成可配置的， 用户可以選擇 K8S 或者非 K8S 的 executor，如果選擇 K8S executor ，dolphinscheduler 會將任務提交到 K8S API server ，每個任務啓動一個 worker，運行一個 pod。這一點的好處是 worker 不是一個長期運行的資源，而是僅當有任務的時候才需要啓動。當業務低谷的時候，我們有空運行的 worker 來等待任務運行。</p><p>詳情請看鏈接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F13316" target="_blank">https://github.com/apache/dolphinscheduler/issues/13316</a></p><p><img src="https://oscimg.oschina.net/oscnet/up-bcabca103a55182159cc091dd62f7578835.png" alt="file" referrerpolicy="no-referrer"></p><h3>任務插件增強</h3><p><strong>streaming 任務類型增強</strong></p><p>2023 年 dolphinscheduler 社區增加了 streaming 任務類型的支持，但是是使用 shell 提交 flink 任務，一經推出收穫了不少用户。當時實現的是一個簡單版本，想看看用户反饋，開發者在開發過程，以及用户的使用中發現了部分可優化項。這部分優化項目我們希望能在 2024 年有部分進展，其中包括</p><ul><li>使用 flink sdk 去創建和提交任務，目前的 shell 方式提交不能很好的監控和處理運行中的任務，使用 sdk 可以有更多功能的支持，詳情請看鏈接：&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F11440" target="_blank">https://github.com/apache/dolphinscheduler/issues/11440</a></li><li>支持 flink sql</li><li>增加 flink 的指標</li><li>增加 checkpoints savepoint 管理，保證任務失敗重試等異常情況能繼續執行</li></ul><p>詳情請查看 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F11352" target="_blank">https://github.com/apache/dolphinscheduler/issues/11352</a></p><p><strong>動態任務組件 &amp; 任務單獨發版</strong></p><p>這個任務是引入動態任務組件的概念，將任務組件的參數通過後端定義，然後在前端渲染，希望通過這樣方法化簡任務組件的開發流程，在參數的輸入類型沒有新增的情況下，可以不修改或者少修改前端代碼而實現任務組件的新增和修改。</p><p>詳情請看鏈接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F12526" target="_blank">https://github.com/apache/dolphinscheduler/issues/12526</a></p><p>同時這個任務也是我們將任務插件單獨發版的前置任務，任務插件單獨發版也是非常重要的功能，實現了這個功能後，我們可以加快任務插件的發版頻率，保證用户使用的是功能豐富、最新的任務插件。例如我們有一個新的任務插件 A ，這個插件在昨天被 merge 到 dev 分支，那麼我們今天就能安排這個插件的發版。又例如我們發現了已經發版的任務插件 B 有比較嚴重的 bug，在，這個 bug 被 fix 後，我們就能安排插件的 bugfix 版本發版。</p><p>這個任務已經實現了已經簡單的 demo，詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F12526" target="_blank">https://github.com/apache/dolphinscheduler/issues/12526</a></p><p><strong>任務插件生命週期管理</strong></p><p>為任務插件增加 close 方法從而更好的管理任務插件，特別是需要關閉資源的的任務組件，如數據庫、雲計算資源任務等。我們目前為任務插件定義了 init、handle、cancel 等方法，對於關閉資源的方法都是在任務中單獨實現的，所以希望抽象一個 close 方法統一處理需要關閉資源的任務。</p><p>詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F14877" target="_blank">https://github.com/apache/dolphinscheduler/issues/14877</a></p><p><strong>統一 worker 和邏輯任務</strong></p><p>dolphinscheduler 現在有兩個類型的任務 spi，分別是 worker 任務和邏輯任務，這兩種任務類型分別是運行在 worker 上的，以及運行在 master 上的。不同的 spi 導致兩種任務有不同的生命週期管理，並且不利於後面動態任務組件的實現，所以需要將兩種任務儘可能弄成統一 spi。</p><p>詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F14823" target="_blank">https://github.com/apache/dolphinscheduler/issues/14823</a></p><h3>Git Ops</h3><p>dolphinscheduler 在處理生產和開發環境的時候，只能通過 json 導入導出來實現，社區部分夥伴建議我們可以使用 gitops 方法論來實現開發到生產環境的部署。GitOps 是一種基於版本控制系統的持續交付和基礎設施管理的方法。它的核心理念是將整個系統的狀態和配置存儲在版本控制庫中，通過 Git 的特性實現對系統的自動化管理和持續交付。</p><p><strong>gitops 支持</strong></p><p>希望將工作流相關資源的校驗、工作流部署到生產環境的功能集成到 dolphinscheduler 中，集成之後只需要在 dolphinscheduler 配置 git 供應商的 url 和鑑權信息，就能在遠程倉庫中有新的 push 事件後，立馬觸發工作流的更新操作，從而保證生產中的工作流和遠端 git 供應商的定義是一樣的，實現客户的 cicd ，保證流程簡單便捷</p><p><strong>測試</strong></p><p>測試對於開源軟件至關重要，它不僅確保軟件質量和穩定性，還提高了用户體驗。通過全面的測試，可以及時發現和修復潛在的問題，增強軟件的可靠性。測試也是保證新功能引入不破壞現有功能的關鍵，為開源項目的可持續發展提供了堅實的基礎。dolphinscheduler 社區從 2023 年一直在努力提高測試覆蓋度、並做了優化讓貢獻者更加方便的寫測試，但是測試的增強是一個長期的工作，2024 年我們會堅持這部分內容</p><p><strong>API 測試</strong></p><p>在 api 層面的測試，確保我們核心的 api 接口能正常運行。當被 api 測試覆蓋的接口，可以確保每次提交新代碼時，API 接口邏輯和依賴關係都正確，不會破壞之前已有的功能。補充缺失的單元測試，確保接口與接口之間的連接性。dolphinscheduler 社區在 2023 年已經啓動 api 測試的補充，目前部分核心接口已經覆蓋，希望在 2024 年將盡可能多的 api 接口進行覆蓋。</p><p>詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F10411" target="_blank">https://github.com/apache/dolphinscheduler/issues/10411</a></p><p><strong>UT 增強</strong></p><p>單元測試對比 API 測試是粒度更加小的，他能保證部分代碼塊如預期般工作，在此之前我們升級到了 junit5，並且增加了 worker 部分的測試覆蓋率，與 api 測試一樣的是，這是一個長期的工作，同時需要更多有激情的貢獻者參與到該功能的建設中。</p><p>詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F10573" target="_blank">https://github.com/apache/dolphinscheduler/issues/10573</a></p><h3>其他優化</h3><p><strong>工作流 trigger 支持</strong></p><p>引入 trigger 插件實現事件觸發，目前我們工作流的啓動方式有兩種，用户手動觸發；定時觸發。事件觸發是希望增加其中的範圍，讓工作流可以被更多的事件觸發。目前打算支持的事件包括</p><ul><li>定時觸發： 目前已經有的觸發方式</li><li>消息隊列觸發：通過消息監聽消息隊列的方式觸發工作流</li><li>HTTP、TCP、SMTP 觸發：通過監聽 HTTP、TCP、SMTP 特定事件觸發工作流</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-b839753a55a744119a2477182268d00ef2f.png" alt="file" referrerpolicy="no-referrer"></p><p>詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F15330" target="_blank">https://github.com/apache/dolphinscheduler/issues/15330</a></p><p><strong>審計日誌增強</strong></p><p>Apache Dolphinscheduler 會在 2024 年增加更多的審計日誌相關的功能，保證將用户對資源的操作能記錄下來，這裏的資源包括項目、工作流、任務、資源中心文件、udf、數據源等在 dolphinscheduler 中會被創建、修改、刪除、更新的資源。</p><p>我們目前打算通過 AOP 的方式實現這個功能，<strong>實現了審計日誌後</strong>，用户可以更好的查看資源創建情況，當出現意外情況時及時通過審計日誌發現歷史操作。</p><p>目前有一個 PR 初步實現了這個功能，詳情請看鏈接： <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fapache%2Fdolphinscheduler%2Fissues%2F15423" target="_blank">https://github.com/apache/dolphinscheduler/issues/15423</a></p><p>隨着這份路線圖的實施，Apache DolphinScheduler 社區將持續優化和擴展我們的調度系統，為用户提供更加強大、靈活和高效的解決方案。</p><p>我們相信，通過社區成員的共同努力和用户的積極反饋，Apache DolphinScheduler 將繼續領跑開源調度和工作流管理領域，為企業和開發者帶來更多的價值和可能性。讓我們攜手並進，共同見證 Apache DolphinScheduler 的蓬勃發展和創新旅程。</p><p>&nbsp;</p><blockquote><p>本文由 <a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.whaleops.com" target="_blank">白鯨開源科技</a> 提供發佈支持！</p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Mon, 26 Feb 2024 09:47:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/dailidong/blog/11044801</guid>
+            <link>https://my.oschina.net/dailidong/blog/11044801</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[基於 Qt5 的 Windows 截圖工具，可代替微信和搜狗截圖]]>
@@ -25,7 +136,7 @@
             <description>
                 <![CDATA[<p><img src="https://gitee.com/tujiaw/ntscreenshot/raw/master/ntscreenshot_demo.png" alt="ntscreenshot" referrerpolicy="no-referrer"><img src="https://gitee.com/tujiaw/ntscreenshot/raw/master/ntscreenshot_demo2.png" alt="ntscreenshot" referrerpolicy="no-referrer"></p><p><a href="https://gitee.com/tujiaw/ntscreenshot/tree/master/release">已編譯好的綠色包下載</a></p><h1><a id="user-content-ntscreenshot" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#ntscreenshot"></a>ntscreenshot</h1><p>Windows 截圖工具，基本功能都實現了，陸陸續續也花了不少時間，<a href="https://gitee.com/tujiaw/ntscreenshot">源碼地址</a>有興趣的 Star 一下吧。</p><h1><a id="user-content-功能列表" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8"></a>功能列表</h1><h2><a id="user-content-基本的截圖功能" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%88%AA%E5%9B%BE%E5%8A%9F%E8%83%BD"></a>基本的截圖功能</h2><ul><li>託盤菜單</li><li>全局快捷鍵設置，默認 F5 截圖，F6 貼圖</li><li>開機自啓動設置</li><li>移動鼠標自動感知選區</li><li>放大器，放大當前鼠標所在像素點周圍區域</li><li>顯示選區大小，鼠標光標座標，光標所在位置像素的顏色</li><li>c 鍵複製當前顏色</li><li>移動鼠標選擇選區</li><li>方向鍵進行像素級移動</li><li>截圖背景透明度設置</li><li>保存截圖到剪切板</li><li>保存截圖到文件目錄</li></ul><h2><a id="user-content-貼圖" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E8%B4%B4%E5%9B%BE"></a>貼圖</h2><ul><li>貼圖管理</li><li>貼圖邊框</li></ul><h2><a id="user-content-標註" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E6%A0%87%E6%B3%A8"></a>標註</h2><ul><li>基本圖形文字標註</li><li>支持改顏色，畫筆、字體大小</li><li>支持馬賽克</li><li>支持撤銷</li></ul><h2><a id="user-content-上傳圖牀" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E4%B8%8A%E4%BC%A0%E5%9B%BE%E5%BA%8A"></a>上傳圖牀</h2><p>需要配置服務器</p><h2><a id="user-content-設置" class="anchor" href="https://gitee.com/tujiaw/ntscreenshot#%E8%AE%BE%E7%BD%AE"></a>設置</h2><p>託盤右鍵菜單打開設置窗口</p>]]>
             </description>
-            <pubDate>Mon, 26 Feb 2024 09:45:10 GMT</pubDate>
+            <pubDate>Mon, 26 Feb 2024 09:44:00 GMT</pubDate>
             <guid isPermaLink="false">https://gitee.com/tujiaw/ntscreenshot</guid>
             <link>https://gitee.com/tujiaw/ntscreenshot</link>
         </item>
@@ -232,185 +343,6 @@
             <pubDate>Sat, 24 Feb 2024 10:06:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/280083/wubuntu-windows-ubuntu</guid>
             <link>https://www.oschina.net/news/280083/wubuntu-windows-ubuntu</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Databend 開源週報第 132 期]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><img src="https://oscimg.oschina.net/oscnet/up-42f77d1f307b752e9544a0efaded2715eae.png" alt="" referrerpolicy="no-referrer"></p><blockquote><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend" target="_blank">Databend</a> 是一款現代雲數倉。專為彈性和高效設計，為您的大規模分析需求保駕護航。自由且開源。即刻體驗雲服務：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapp.databend.cn" target="_blank">https://app.databend.cn</a> 。</p></blockquote><h2>What's On In Databend</h2><p>探索 Databend 本週新進展，遇到更貼近你心意的 Databend 。</p><h3>提供對 <code>CREATE [ OR REPLACE ]</code> 的全面支持</h3><p>Databend 現已提供對 <code>CREATE [ OR REPLACE ]</code> 語法糖的全面支持，以覆蓋潛在的 <code>DROP IF EXISTS ...</code> + <code>CREATE ...</code> 用例。</p><p>目前支持該語法糖的對象包括：<code>DATABASE</code>、<code>TABLE</code>、<code>VIEW</code>、<code>AGGREGATING INDEX</code>、<code>STREAM</code>、<code>CONNECTION</code>、<code>FUNCTION</code>、<code>FILE FORMAT</code>、<code>MASKING POLICY</code> 等。</p><p>如果您想了解更多信息，歡迎聯繫 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatabend.cn%2Fcontact-us%2F" target="_blank">Databend 團隊</a>，或查看下面列出的資源。</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend%2Fissues%2F14299" target="_blank">Issue #14299 | tracking: CREATE OR REPLACE</a></li></ul><h2>Code Corner</h2><p>一起來探索 Databend 和周邊生態中的代碼片段或項目。</p><h3>利用 Databend Cloud 進行查詢剖析</h3><p>Databend Cloud 提供可視化分析工具以簡化對複雜查詢的剖析和理解。</p><p>該剖析工具可以跟蹤每個步驟的性能，從 TableScan 持續時間到 HashJoin 的詳細信息，並監控數據外溢情況。幫助您輕鬆分析查詢成本和時間，進行針對性優化。</p><p><img src="https://oscimg.oschina.net/oscnet/up-fc41fb6d19013fb622f80bea9d8bcac3ac8.png" alt="" referrerpolicy="no-referrer"></p><p>Databend 團隊也充分利用該工具評估代碼變更對查詢執行的影響。例如 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend%2Fpull%2F14561" target="_blank">PR #14561 | feat: use materialized cte for standard stream</a> 。</p><h2>Highlights</h2><p>以下是一些值得注意的事件，也許您可以找到感興趣的內容。</p><ul><li>支持 JSON 運算符 <code>#-</code> 。</li><li>在標準流中使用物化公用表表達式（Materialized CTE），以避免重複掃描。</li><li>閲讀文檔 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdocs.databend.com%2Fguides%2Fdata-management%2F" target="_blank">Docs | Data Management</a> 瞭解如何利用 Databend 管理、恢復和保護您的數據。</li></ul><h2>What's Up Next</h2><p>我們始終對前沿技術和創新理念持開放態度，歡迎您加入社區，為 Databend 注入活力。</p><h3>支持多表插入</h3><p>Databend 計劃支持多表插入以允許使用一條語句有條件地或無條件地插入多個表。</p><p>多表插入語句可以減少執行多個條件插入所需的表掃描和 SQL 。主要適用於數據倉庫中的 ETL 過程，支持並行化和/或將非關係型數據轉換為關係型格式。</p><pre><code class="language-sql">-- Unconditional multi-table insert
-INSERT [ OVERWRITE ] ALL
-  intoClause [ ... ]
-&lt;subquery&gt;
-
--- Conditional multi-table insert
-INSERT [ OVERWRITE ] { FIRST | ALL }
-  { WHEN &lt;condition&gt; THEN intoClause [ ... ] }
-  [ ... ]
-  [ ELSE intoClause ]
-&lt;subquery&gt;
-</code></pre><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend%2Fissues%2F14565" target="_blank">Issue #14565 | Feature: Multi-table Inserts support</a></p><p>如果你對這個主題感興趣，可以嘗試解決其中的部分問題或者參與討論和 PR review 。或者，你可以點擊 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.databend.rs%2Fi-m-feeling-lucky" target="_blank">https://link.databend.rs/i-m-feeling-lucky</a> 來挑選一個隨機問題，祝好運！</p><h2>Changelog</h2><p>前往查看 Databend 每日構建的變更日誌，以瞭解開發的最新動態。</p><p>地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend%2Freleases" target="_blank">https://github.com/datafuselabs/databend/releases</a></p><h2>Contributors</h2><p>非常感謝貢獻者們在本週的卓越工作。</p><p><img src="https://oscimg.oschina.net/oscnet/up-c21d62bccf01220d44b5608d571b364bb7e.png" alt="" referrerpolicy="no-referrer"></p><h2>Connect With Us</h2><p>Databend 是一款開源、彈性、低成本，基於對象存儲也可以做實時分析的新式數倉。期待您的關注，一起探索雲原生數倉解決方案，打造新一代開源 Data Cloud。</p><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdatabend.rs" target="_blank">Databend Website</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdatafuselabs%2Fdatabend%2Fdiscussions" target="_blank">GitHub Discussions</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftwitter.com%2FDatafuse_Labs" target="_blank">Twitter</a></li><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.databend.rs%2Fjoin-slack" target="_blank">Slack Channel</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Sat, 24 Feb 2024 04:13:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/u/5489811/blog/11044054</guid>
-            <link>https://my.oschina.net/u/5489811/blog/11044054</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[2024 年，只有搞顏色的 P 站真正關心網站性能]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>2024 年，大家覺得一個網站 JS 文件的平均大小應該是多少？1MB、5MB、10MB，還是更加大呢？</p><p>近年來，層出不窮的現代化前端技術讓人眼花繚亂，再加上終端設備的配置越來越高，許多網站似乎不用再過分擔心性能問題 —— 常常打開網站就要下載超過 10M 的&nbsp;<span>JS 文件。</span></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-25992e8199a790e84d4276053e0858e1b77.png" referrerpolicy="no-referrer"></p><p>知名開源開發者 Nikita Prokopov 對常見網站的 JS 文件大小進行了統計（未壓縮），結果有點令人出乎意料。</p><hr><h3><strong><span style="background-color:#e67e22">以靜態頁面為主的網站</span></strong></h3><ul><li><h4>Wikipedia, 0.2&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1421231d12c5140f4dc29b93285f2916686.png" referrerpolicy="no-referrer"></p><ul><li><h4>Linear, 3&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e8a9b91df6faa5480f2103efd9cd244aa66.png" referrerpolicy="no-referrer"></p><ul><li><h4>Zoom, 6&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-63b072146754bdd245d2af6dcb63dc79c3e.png" referrerpolicy="no-referrer"></p><ul><li><h4>Vercel, 6&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-158a201b80b904688e2a4f9590f8345b4df.png" referrerpolicy="no-referrer"></p><ul><li><h4>Gitlab,<span style="background-color:#f1c40f"> 13&nbsp;MB</span></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3de67d966870abe2b064d536d3f770d66bc.png" referrerpolicy="no-referrer"></p><ul><li><h4>Medium, 3&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a132d36ae636b6435528e8d174ad233f7d2.png" referrerpolicy="no-referrer"></p><ul><li><h4>Quora, 4.5&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-3a6c4a73ff80a50c4052aa7faeced43118b.png" referrerpolicy="no-referrer"></p><ul><li><h4>Pinterest, <span style="background-color:#f1c40f">10&nbsp;MB</span></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-bb825579fd8f6d787be8051e5b32e081fed.png" referrerpolicy="no-referrer"></p><hr><h3><strong><span style="background-color:#e67e22">以搜索功能為主的網站</span></strong></h3><ul><li><h4>StackOverflow, 3.5&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-860ef367515f1ea0ae55c567ed403a1a9c4.png" referrerpolicy="no-referrer"></p><ul><li><h4>NPM, 4&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e55316c24ebe2e2a885a576106ac801e0b9.png" referrerpolicy="no-referrer"></p><ul><li><h4>Airbnb, 7&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a59cfa95b748bb2888d93b3b647a63ca416.png" referrerpolicy="no-referrer"></p><ul><li><h4>Booking.com, <span style="background-color:#f1c40f">12&nbsp;MB</span></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-fee82c93858ef67b723612d9e1ae53314ed.png" referrerpolicy="no-referrer"></p><ul><li><h4>Google, 9&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d677500f815f8156922beb9938670463a68.png" referrerpolicy="no-referrer"></p><h3><span style="background-color:#e67e22">具有簡單交互的單應用網站</span></h3><ul><li><h4>Google Translate, 2.5&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-31a83dfa4eba4b19f6010f5479ce06fc03b.png" referrerpolicy="no-referrer"></p><ul><li><h4>ChatGPT, 7&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-76109ab4826fd1e649be9e2d303e44be5ff.png" referrerpolicy="no-referrer"></p><h3><span style="background-color:#e67e22">視頻/多媒體類網站</span></h3><ul><li><h4>Loom, 7&nbsp;MB</h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-35a3913d214fb0b4ee6edc2929f9cec5b77.png" referrerpolicy="no-referrer"></p><ul><li><h4>YouTube, <span style="background-color:#f1c40f">12&nbsp;MB</span></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-11c1827cfb0fcf18a4d1ab929ce533a8d42.png" referrerpolicy="no-referrer"></p><ul><li><h4>Pornhub, <span style="background-color:#16a085">&nbsp;1.4&nbsp;MB</span></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-6531a939e4e613a4503e6bec46e4e5eb0eb.png" referrerpolicy="no-referrer"></p><p>目前看下來，維基百科網站的 JS 文件最小，僅有 0.2MB。Pornhub 次之，為 1.4MB。</p><p>但這倆在下面這個網站前面都是弟弟——</p><ul><li><h4><strong>jQuery, 0.1 MB</strong></h4></li></ul><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-a30ca6a8e2eb8cbc214df1411e42772b4c4.png" referrerpolicy="no-referrer"></p><hr><p>最後看看本站：</p><p><img src="https://oscimg.oschina.net/oscnet/up-8c7490be3117d1e5730f1bb2d6ab1bb8e77.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 23 Feb 2024 09:26:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279994/js-bloat-2024</guid>
-            <link>https://www.oschina.net/news/279994/js-bloat-2024</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Oracle 致力解決 Java 虛擬線程「Pinning」問題]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>虛擬線程在 2023 年 9 月發佈的 JDK 21 中正式成為一項穩定功能。該功能在 Java 生態系統中反響極佳，但仍存在一些痛點。Oracle 日前在&nbsp;Inside Java 網站上詳細<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Finside.java%2F2024%2F02%2F21%2Fquality-heads-up%2F" target="_blank">介紹</a>了虛擬線程的「Pinning」問題。</p><p>最常見的兩種情況是：(a) 虛擬線程在 synchronized method 中駐留（如執行 socket I/O）；(b) <span style="color:#333333">虛擬線程阻塞進入&nbsp;synchronized method</span>，因為對象的相關監視器被另一個線程持有。</p><p>在這兩種情況下，載體或本地線程都不會被釋放去做其他工作。因此可能會影響性能和可擴展性，並可能<span style="color:#333333">在某些情況下</span>導致飢餓和死鎖。官方最近發佈的一個<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Finside.java%2F2024%2F02%2F17%2Fvirtual-threads-next-steps%2F" target="_blank">Virtual Threads Next Steps</a>&nbsp;視頻中則更詳細地解釋了其中的原因，並討論了一些潛在的解決方案。</p><p><img height="196" src="https://oscimg.oschina.net/oscnet/up-6a2e93ce6802a570c1704258c9a589e998e.png" width="500" referrerpolicy="no-referrer"></p><p>項目團隊正在努力解決這些問題。Java Project Loom 的新早期訪問版本<span style="color:#4e4242">引入了對對象監視器實現的更改</span><span style="color:#333333">，但不適用這兩種常見情況。因此 </span><span style="color:#4e4242">Loom&nbsp;</span><span style="color:#333333">團隊正在尋求用户的幫助，以測試這些更新的對象監控器在使用虛擬線程的代碼和大量同步的庫中的可靠性和性能。可通過&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmail.openjdk.org%2Fpipermail%2Floom-dev%2F" target="_blank">Loom 郵件列表</a>&nbsp;<span style="color:#333333">報告或反饋問題。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 23 Feb 2024 06:46:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/279954/java-virtual-threads-pinning-issue</guid>
-            <link>https://www.oschina.net/news/279954/java-virtual-threads-pinning-issue</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Koordinator v1.4 正式發佈！為用户帶來更多的計算負載類型和更靈活的資源管理機制]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><span id="OSC_h3_1"></span><h3>背景</h3><p style="text-align:justify">Koordinator 作為一個積極發展的開源項目，自 2022 年 4 月發佈 v0.1.0 版本以來，經歷了多次迭代，持續為 Kubernetes 生態系統帶來創新和增強。項目的核心是提供混部工作負載編排、混部資源調度、混部資源隔離和混部性能調優的綜合解決方案，幫助用户優化容器性能，並提升集羣資源使用效率。</p><p style="text-align:justify">在過去的版本迭代中，Koordinator 社區不斷壯大，已經得到了包括阿里巴巴、螞蟻科技、Intel、小米、小紅書、愛奇藝、360、有贊、趣玩、美亞柏科、PITS 等知名企業工程師的積極參與和貢獻。每一個版本都是在社區共同努力下推進的，反映了項目在實際生產環境中解決問題的能力。</p><p style="text-align:justify"><strong>今天我們很高興的向大家宣佈，Koordinator v1.4.0 版本正式發佈。</strong>在本次發佈中，Koordinator 引入了 Kubernetes 與 YARN 負載混部、NUMA 拓撲對齊策略、CPU 歸一化和冷內存上報等新特性，同時重點增強了彈性配額管理、宿主機非容器化應用的 QoS 管理、重調度防護策略等領域的功能。這些新增和改進點旨在更好地支持企業級 Kubernetes 集羣環境，特別是對於複雜和多樣化的應用場景。</p><p style="text-align:justify">v1.4.0 版本的發佈，將為用户帶來更多的計算負載類型支持和更靈活的資源管理機制，我們期待這些改進能夠幫助用户應對更多企業資源管理挑戰。在 v1.4.0 版本中，共有 11 位新加入的開發者參與到了 Koordinator 社區的建設，他們是&nbsp;<em>@shaloulcy，@baowj-678，@zqzten，@tan90github，@pheianox，@zxh326，@qinfustu，@ikaven1024，@peiqiaoWang，@bogo-y，@xujihui1985</em>，感謝期間各位社區同學的積極參與和貢獻，也感謝所有同學在社區的持續投入。</p><span id="OSC_h3_2"></span><h3>版本功能特性解讀</h3><span id="OSC_h4_3"></span><h4>1. 支持 K8s 與 YARN 混部</h4><p style="text-align:justify">Koordinator 已經支持了 K8s 生態內的在離線混部，然而在 K8s 生態外，仍有相當數量的大數據任務運行在傳統的 Hadoop YARN 之上。YARN 作為發展多年的大數據生態下的資源管理系統，承載了包括 MapReduce、Spark、Flink 以及 Presto 等在內的多種計算引擎。</p><p style="text-align:justify">Koordinator 社區會同來自阿里雲、小紅書、螞蟻金服的開發者們共同啓動了 Hadoop YARN 與 K8s 混部項目 Koordinator YARN Copilot，支持將 Hadoop NodeManager 運行在 kubernetes 集羣中，充分發揮不同類型負載錯峯複用的技術價值。Koordinator YARN Copilot 具備以下特點：</p><ul><li><strong>面向開源生態</strong></li></ul><p style="text-align:justify">基於 Hadoop YARN 開源版本，不涉及對 YARN 的侵入式改造；</p><ul><li><strong>統一資源優先級和 QoS 策略</strong></li></ul><p style="text-align:justify">YARN NM 使用 Koordinator 的 Batch 優先級資源，遵循 Koordinator QoS 管理策略；</p><ul><li><strong>節點級別的資源共享</strong></li></ul><p style="text-align:justify">Koordinator 提供的混部資源，既可被 K8s Pod 使用，也可被 YARN task 使用，不同類型的離線應用可運行在同一節點。</p><p style="text-align:center"><img src="https://pic2.zhimg.com/80/v2-ac0aa93eb176110201a885bb0d474c31_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">關於 Koordinator YARN Copilot 的詳細設計，以及在小紅書生產環境的使用情況，請參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttp%253A%2F%2Fmp.weixin.qq.com%2Fs%253Fspm%253Da2c6h.13046898.publish-article.4.5bb96ffaCJHZTt%2526__biz%253DMzUzNzYxNjAzMg%253D%253D%2526mid%253D2247559704%2526idx%253D1%2526sn%253D3aed8968e50c85f7af7d7e79387b9365%2526chksm%253Dfae7e1d7cd9068c10df63fa4cc9362ee259bcb9c5a4f7d68439d6f9779bb31492b072142582e%2526scene%253D21%2523wechat_redirect" target="_blank">往期文章：《Koordinator 助力雲原生應用性能提升：小紅書混部技術實踐》</a>以及社區官方文檔<strong>[1]</strong>。</p><span id="OSC_h4_4"></span><h4>2. 引入 NUMA 拓撲對齊策略</h4><p style="text-align:justify">運行在 Kubernetes 集羣中的工作負載日益多樣化。尤其是在機器學習等領域，對於高性能計算資源的需求持續上升。在這些領域中，不僅需要大量 CPU 資源，還經常需要 GPU 和 RDMA 等其他高速計算資源配合使用；並且，為了獲得最佳的性能，這些資源往往需要在同一個 NUMA 節點，甚至同一個 PCIE 中。</p><p style="text-align:justify">Kubernetes 的 Kubelet 提供了 Topology Manager 來管理資源分配的 NUMA 拓撲，試圖在 Kubelet 的 Admission 階段從節點層面對齊多種資源的拓撲。然而，節點組件沒有調度器的全局視角以及為 Pod 選擇節點的時機，可能導致 Pod 被調度到無法滿足拓撲對齊策略的節點上，從而導致 Pod 由於 Topology Affinity 錯誤無法啓動。</p><p style="text-align:justify">為瞭解決這一問題，Koordinator 將 NUMA 拓撲選擇和對齊的時機放在中心調度器中，從集羣級別優化資源之間的 NUMA 拓撲。在本次發佈的版本中，Koordinator 將 CPU 資源（包含 Batch 資源）的 NUMA 感知調度和 GPU 設備的 NUMA 感知調度作為 alpha 功能支持，整套 NUMA 感知調度快速演進中。</p><p style="text-align:justify">Koordinator 支持用户通過節點的 Label 配置節點上多種資源的 NUMA 拓撲對齊策略，可配置策略如下：</p><ul><li>None 是默認策略，不執行任何拓撲對齊。</li><li>BestEffort 表示節點不嚴格按照 NUMA 拓撲對齊來分配資源。只要節點的剩餘總量滿足 Pods 的需求，調度器總是可以將這樣的節點分配給 Pods。</li><li>Restricted 表示節點嚴格按照 NUMA 拓撲對齊來分配資源，即調度器在分配多個資源時必須只選擇相同的一個或多個 NUMA 節點，否則不應使用該節點；可以使用多個 NUMA 節點。例如，如果一個 Pod 請求 33C，並且每個 NUMA 節點有 32C，那麼它可以被分配使用兩個 NUMA 節點。如果這個 Pod 還需要請求 GPU/RDMA，那麼它需要位於與 CPU 相同的 NUMA 節點上。</li><li>SingleNUMANode 與 Restricted 類似，也是嚴格按照 NUMA 拓撲對齊，但與 Restricted 不同的是，Restricted 允許使用多個 NUMA 節點，而 SingleNUMANode 只允許使用一個 NUMA 節點。</li></ul><p style="text-align:justify">舉例，我們可以為 node-0 設置策略 SingleNUMANode：</p><pre><code>apiVersion: v1
-kind: Node
-metadata:
-  labels:
-    node.koordinator.sh/numa-topology-policy: "SingleNUMANode"
-  name: node-0
-spec:
-  ...</code></pre><p style="text-align:justify">在生產環境中，用户可能已經開啓了 Kubelet 的拓撲對齊策略，這個策略會由 koordlet 更新到 NodeResourceTopologyCRD 對象中的 TopologyPolicies 字段。當 Kubelet 的策略和用户在 Node 上設置的策略相沖突時，以 Kubelet 策略為準。Koordinator 調度器基本採用與 Kubelet Topology Manager 相同的 NUMA 對齊策略語義，Kubelet 策略 SingleNUMANodePodLevel 和 SingleNUMANodeContainerLevel 被映射為 SingleNUMANode。</p><p style="text-align:justify">在為節點配置好 NUMA 對齊策略的前提下，調度器可以為每個 Pod 選出許多個符合條件的 NUMA Node 分配結果。Koordinator 當前支持 NodeNUMAResource 插件配置 CPU 和內存資源的 NUMA Node 分配結果打分策略，包括 LeastAllocated 和 MostAllocated，默認為 LeastAllocated 策略，資源支持配置權重。調度器最終將選擇得分最高的 NUMA Node 分配結果。如下例，我們配置 NUMA Node 分配結果打分策略為 MostAllocated：</p><pre><code>apiVersion: kubescheduler.config.k8s.io/v1beta2
-kind: KubeSchedulerConfiguration
-profiles:
-  - pluginConfig:
-      - name: NodeNUMAResource
-        args:
-          apiVersion: kubescheduler.config.k8s.io/v1beta2
-          kind: NodeNUMAResourceArgs
-          scoringStrategy:  # Here configure Node level scoring strategy
-            type: MostAllocated
-            resources:
-              - name: cpu
-                weight: 1
-              - name: memory
-                weight: 1
-              - name: "kubernetes.io/batch-cpu"
-                weight: 1
-              - name: "kubernetes.io/batch-memory"
-                weight: 1
-          numaScoringStrategy: # Here configure NUMA-Node level scoring strategy
-            type: MostAllocated
-            resources:
-              - name: cpu
-                weight: 1
-              - name: memory
-                weight: 1
-              - name: "kubernetes.io/batch-cpu"
-                weight: 1
-              - name: "kubernetes.io/batch-memory"
-                weight: 1</code></pre><span id="OSC_h4_5"></span><h4>3. ElasticQuota 再進化</h4><p style="text-align:justify">為了充分地利用集羣資源、降低管控系統成本，用户常常將多個租户的負載部署在一個集羣中。在集羣資源有限的情況下，不同租户之間必然會發生資源爭搶。有的租户的負載可能一直被滿足，而有的租户的負載一直無法得到執行。這就產生對公平性的訴求。配額機制是非常自然地保障租户間公平性的方式，給每個租户一個配額，租户可以使用配額內的資源，超過配額的任務將不被調度和執行。然而，簡單的配額管理無法滿足租户對雲的彈性期待。用户希望除了配額之內的資源請求可以被滿足外，配額之外的資源請求也可以按需地被滿足。</p><p style="text-align:justify">在之前的版本中，Koordinator 複用了上游 ElasticQuota 的協議，允許租户設置 Min 表達其一定要滿足的資源訴求，允許設置 Max 限制其最大可以使用的資源和表達在集羣資源不足的情況下對集羣剩餘資源的使用權重。另外，Koordinator 觀察到，一些租户可能通過 Min 申請了配額，但是實際的任務申請可能並沒有充分利用該配額。由此，為了更近一步地提高資源利用率，Koordinator 允許租户間借用/歸還資源。</p><p style="text-align:justify">除了提供彈性的配額機制滿足租户按需訴求外，Koordinator 在 ElasticQuota 上增加註解將其組織成樹的結構，方便用户表達樹形的組織架構。</p><p style="text-align:center"><img src="https://pic1.zhimg.com/80/v2-0f15360828d04b31ebe10218c08a8758_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">上圖是使用了 Koordinator 彈性配額的集羣中常見的 Quota 結構樹。Root Quota 是連接配額與集羣中實際資源之間的橋樑。在之前的設計中，Root Quota 只在調度器邏輯中存在，在本次發佈中，我們將 Root Quota 也通過 CRD 的形式暴露給用户，用户可以通過 koordinator-root-quota 這個 ElasticQuota CRD 查看 Root Quota 信息。</p><p style="text-align:justify"><strong>3.1 引入 Multi QuotaTree</strong></p><p style="text-align:justify">大型集羣中的節點的形態是多樣的，例如雲廠商提供的 ECS VM 會有不同的架構，常見的是 amd64 和 arm64，相同架構又會有不同種類的機型，而且一般會把節點按可用區劃分。不同類型的節點放到同一個 Quota Tree 中管理時，其特有的屬性將丟失，當用户希望精細化管理機器的特有屬性時，當前的 ElasticQuota 顯得不夠精確。為了滿足用户靈活的資源管理或資源隔離訴求，Koordinator 支持用户將集羣中的資源劃分為多份，每一份由一個 Quota Tree 來管理，如下圖所示：</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-e673d71606d710f3a447f0e504527d43_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">同時，為了幫助用户簡化管理複雜性，Koordinator 在 v1.4.0 中，引入了 ElasticQuotaProfile 機制，用户可以通過 nodeSelector 快速的將節點關聯到不同的 QuotaTree 中，如下實例所示：</p><pre><code>apiVersion: quota.koordinator.sh/v1alpha1
-kind: ElasticQuotaProfile
-metadata:
-  labels:
-    kubernetes.io/arch: amd64
-  name: amd64-profile
-  namespace: kube-system
-spec:
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/arch: amd64 // 挑選 amd64 節點
-  quotaName: amd64-root-quota   // 匹配的 root quota 名稱
----
-apiVersion: quota.koordinator.sh/v1alpha1
-kind: ElasticQuotaProfile
-metadata:
-  labels:
-    kubernetes.io/arch: arm64   
-  name: arm64-profile
-  namespace: kube-system
-spec:
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/arch: arm64  // 挑選 arm64 節點
-  quotaName: arm64-root-quota    // 匹配的 root quota 名稱</code></pre><p style="text-align:justify">關聯好 QuotaTree 之後，用户在每一個 QuotaTree 中與之前的 ElasticQuota 用法一致。當用户提交 Pod 到對應的 Quota 時，當前仍然需要用户完成 Pod NodeAffinity 的管理，以確保 Pod 運行在正確的節點上。未來，我們會增加一個特性幫助用户自動管理 Quota 到 Node 的映射關係。</p><p style="text-align:justify"><strong>3.2 支持 non-preemptible</strong></p><p style="text-align:justify">Koordinator ElasticQuota 支持把 ElasticQuota 中 min 未使用的部分共享給其他 ElasticQuota 使用從而提高資源利用效率，但當資源緊張時，會通過搶佔機制把借用配額的 Pod 搶佔驅逐走拿回資源。</p><p style="text-align:justify">在實際生產環境中，有一些在線服務如果從其他 ElasticQuota 中借用了這部分額度，後續又發生了搶佔，是可能影響服務質量的。這類工作負載實質上是不能被搶佔的。</p><p style="text-align:justify">為了實現這個機制，Koordinator v1.4.0 引入了新的 API，用户只需要在 Pod 上聲明 quota.scheduling.koordinator.sh/preemptible: false 表示這個 Pod 不可以被搶佔。</p><p style="text-align:justify">調度器調度時發現 Pod 聲明瞭不可搶佔，那麼此類 Pod 的可用配額的上限不能超過 min，所以這裏也需要注意的是，啓用該能力時，一個 ElasticQuota 的 min 需要設置的合理，並且集羣內有相應的資源保障。</p><p style="text-align:justify">這個特性不會破壞原有的行為。</p><pre><code>apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-example
-  namespace: default
-  labels:
-    quota.scheduling.koordinator.sh/name: "quota-example"
-    quota.scheduling.koordinator.sh/preemptible: false
-spec:
-...</code></pre><p style="text-align:justify"><strong>3.3 其它改進</strong></p><p style="text-align:justify">1. Koordinator Scheduler 過去支持跨 Namespace 使用同一個 ElasticQuota 對象，但有一些場景下，希望只被一個或者多個有限的 Namespace 可以共享同一個對象，為了支持這個場景，用户可以在 ElasticQuota 上增加 annotation quota.scheduling.koordinator.sh/namespaces，對應的值為一個 JSON 字符串數組。</p><p style="text-align:justify">2. 性能優化：過去的實現中，當 ElasticQuota 發生變化時，ElasticQuota 插件會重建整棵 Quota 樹，在 v1.4.0 版本中做了優化。</p><p style="text-align:justify">3. 支持忽略 Overhead：當 Pod 使用一些安全容器時，一般是在 Pod 中聲明 Overhead 表示安全容器自身的資源開銷，但這部分資源成本最終是否歸於終端用户承擔取決於資源售賣策略。當期望不用用户承擔這部分成本時，那麼就要求 ElaticQuota 忽略 overhead。在 v1.4.0 版本中，可以開啓 featureGate ElasticQuotaIgnorePodOverhead 啓用該功能。</p><span id="OSC_h4_6"></span><h4>4. CPU 歸一化</h4><p style="text-align:justify">隨着 Kubernetes 集羣中節點硬件的多樣化，不同架構和代數的 CPU 之間性能差異顯著。因此，即使 Pod 的 CPU 請求相同，實際獲得的計算能力也可能大不相同，這可能導致資源浪費或應用性能下降。CPU 歸一化的目標是通過標準化節點上可分配 CPU 的性能，來保證每個 CPU 單元在 Kubernetes 中提供的計算能力在異構節點間保持一致。</p><p style="text-align:justify">為瞭解決該問題，Koordinator 在 v1.4.0 版本中實現了一套支持 CPU 歸一化機制，根據節點的資源放大策略，調整節點上可分配的 CPU 資源數量，使得集羣中每個可分配的 CPU 通過縮放實現算力的基本一致。整體的架構如下圖所示：</p><p style="text-align:center"><img src="https://pic4.zhimg.com/80/v2-b0e335f164d52e400107a5294a2a7dbb_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">CPU 歸一化分為兩個步驟：</p><p style="text-align:justify">1. CPU 性能評估，計算不同 CPU 的性能基準，可以參考工業級性能評測標準 SPEC CPU<strong>[2]</strong>，這部分 Koordinator 項目未提供；</p><p style="text-align:justify">2. 配置 CPU 歸一化係數到 Koordinator，調度系統基於歸一化係數來調度資源，這部分 Koordinator 提供。</p><p style="text-align:justify">將 CPU 歸一化比例信息配置到 koord-manager 的 slo-controller-config 中，配置示例如下：</p><pre><code>apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: slo-controller-config
-  namespace: koordinator-system
-data:
-  cpu-normalization-config: |
-    {
-      "enable": true,
-      "ratioModel": {
-         "Intel(R) Xeon(R) Platinum 8269CY CPU @ 2.50GHz": {
-           "baseRatio": 1.29,
-           "hyperThreadEnabledRatio": 0.82,
-           "turboEnabledRatio": 1.52,
-           "hyperThreadTurboEnabledRatio": 1.0
-         },
-         "Intel Xeon Platinum 8369B CPU @ 2.90GHz": {
-           "baseRatio": 1.69,
-           "hyperThreadEnabledRatio": 1.06,
-           "turboEnabledRatio": 1.91,
-           "hyperThreadTurboEnabledRatio": 1.20
-         }
-      }
-    }
-  # ...</code></pre><p style="text-align:justify">對於配置了 CPU 歸一化的節點，Koordinator 通過 Webhook 攔截 Kubelet 對 Node.Status.Allocatable 的更新以實現 CPU 資源的縮放，最終在節點上呈現出歸一後的 CPU 資源可分配量。</p><span id="OSC_h4_7"></span><h4>5. 改進的重調度防護策略</h4><p style="text-align:justify">Pod 遷移是一個複雜的過程，涉及審計、資源分配、應用啓動等步驟，並且與應用升級、擴展場景以及集羣管理員的資源操作和維護操作混合在一起。因此，如果同時有大量 Pods 正在進行遷移，可能會對系統的穩定性產生影響。此外，如果同一工作負載的許多 Pods 同時被遷移，也會影響應用的穩定性。此外，如果同時遷移多個作業中的 Pods，可能會造成驚羣效應。因此，我們希望順序處理每個作業中的 Pods。</p><p style="text-align:justify">Koordinator 在之前提供的 PodMigrationJob 功能中已經提供了一些防護策略來解決上述問題。在 v1.4.0 版本中，Koordinator 將之前的防護策略增強為仲裁機制。當有大量的 PodMigrationJob 可以被執行時，由仲裁器通過排序和篩選，來決定哪些 PodMigrationJob 可以得到執行。</p><p style="text-align:justify">排序過程如下：</p><ul><li>根據遷移開始時間與當前時間的間隔進行排序，間隔越小，排名越高。</li><li>根據 PodMigrationJob 的 Pod 優先級進行排序，優先級越低，排名越高。</li><li>按照工作負載分散 Jobs，使得同一作業中的 PodMigrationJobs 靠近。</li><li>如果作業中已有 Pods 正在遷移，則該 PodMigrationJob 的排名更高。</li></ul><p style="text-align:justify">篩選過程如下：</p><ul><li>根據工作負載、節點、命名空間等對 PodMigrationJob 進行分組和篩選。</li><li>檢查每個工作負載中正在運行狀態的 PodMigrationJob 數量，達到一定閾值的將被排除。</li><li>檢查每個工作負載中不可用副本的數量是否超出了最大不可用副本數，超出的將被排除。</li><li>檢查目標 Pod 所在節點上正在遷移的 Pod 數量是否超過單個節點的最大遷移量，超出的將被排除。</li></ul><span id="OSC_h4_8"></span><h4>6. 冷內存上報</h4><p style="text-align:justify">為提升系統性能，內核一般儘可能不讓應用程序請求的頁面緩存空閒，而是儘可能將其分配給應用程序。雖然內核分配了這些內存，但是應用可能不再訪問，這些內存被稱為冷內存。</p><p style="text-align:justify">Koordinator 在 1.4 版本中引入冷內存上報功能，主要為未來冷內存回收功能打下基礎。冷內存回收主要用於應對兩個場景：</p><ul><li>對於標準的 Kubernetes 集羣，當節點內存水位過高時，突發的內存請求容器導致系統直接內存回收，操作系統的直接內存回收觸發時會影響已經運行容器的性能，如果回收不及時極端場景可能觸發整機 oom。保持節點內存資源的相對空閒，對提升運行時穩定性至關重要。</li><li>在混部場景中，高優先級應用程序請求但未使用的資源可以被低優先級應用程序回收利用。對內存而言，操作系統未回收的內存，是不能被 Koordinator 調度系統看到的。為了提高混部資源效率，回收容器未使用的內存頁面可以提高整機的資源利用效率。</li></ul><p style="text-align:justify">Koordlet 在 Collector Plugins 中添加了一個冷頁面回收器，用於讀取由 kidled（Anolis 內核）、kstaled（Google）或 DAMON（Amazon）導出的 cgroup 文件 memory.idle_stat。該文件包含頁面緩存中的冷頁面信息，並存在於 memory 的每個層次結構中。目前 koordlet 已經對接了 kidled 冷頁面收集器並提供了其他冷頁面收集器接口。</p><p style="text-align:justify">在收集冷頁面信息後，冷頁面回收器將把收集到的指標（例如節點、Pod 和容器的熱頁面使用量和冷頁面大小）存到 metriccache 中，最後該數據會被上報到 NodeMetric CRD 中。</p><p style="text-align:justify">用户可以通過 NodeMetric 啓用冷內存回收和配置冷內存收集策略，當前提供了 usageWithHotPageCache、usageWithoutPageCache 和 usageWithPageCache 三種策略，更多的細節詳見社區設計文檔<strong>[3]</strong>。</p><span id="OSC_h4_9"></span><h4>7. 非容器化應用的 QoS 管理</h4><p style="text-align:justify">在企業容器化過程中，除了已經運行在 K8s 上的應用，可能還會存在一些非容器化的應用運行在主機上。為了更好兼容企業在容器化過程這一過渡態，Koordinator 開發了節點資源預留機制，可以在尚未容器化的應用預留資源並賦予特定的 QoS 特性。與 Kubelet 提供的資源預留配置不同，Koordinator 主要目標是解決這些非容器化應用與容器化應用運行時的 QoS 問題，整體的方案如下圖所示：</p><p style="text-align:center"><img src="https://pic3.zhimg.com/80/v2-5edba11d4ab8bac0dcef2bc16d12d4f6_720w.webp" referrerpolicy="no-referrer"></p><p style="text-align:justify">目前，應用程序需要按照規範將進程啓動到對應的 cgroup 中，Koordinator 未實現自動的 cgroup 搬遷工具。針對宿主機非容器化應用，支持 QoS 如下：</p><ul><li><strong>LS (Latency Sensitive)</strong><ul><li>CPU QoS(Group Identity)：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 根據 CPU QoS 的配置 resource-qos-config 為其設置 Group Identity 參數；</li><li>CPUSet Allocation：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 將為其設置 cpu share pool 中的所有 CPU 核心。</li></ul></li><li><strong>BE (Best-effort)</strong><ul><li>CPU QoS(Group Identity)：應用按照規範將進程運行在 cgroup 的 cpu 子系統中，koordlet 根據 CPU QoS 的配置為其設置 Group Identity 參數。</li></ul></li></ul><p style="text-align:justify">關於宿主機應用 QoS 管理的詳細設計，可以參考社區文檔<strong>[4]</strong>，後續我們將陸續增加其他 QoS 策略對宿主機應用的支持。</p><span id="OSC_h4_10"></span><h4>8. 其它特性</h4><p style="text-align:justify">除了上述新特性和功能增強外，Koordinator 在 v1.4.0 版本還做了一些如下的 bugfix 和優化：</p><ul><li><strong>RequiredCPUBindPolicy</strong></li></ul><p style="text-align:justify">精細化 CPU 編排支持 Required 的 CPU 綁定策略配置，表示嚴格按照指定的 CPU 綁定策略分配 CPU，否則調度失敗。</p><ul><li><strong>CICD</strong></li></ul><p style="text-align:justify">Koordinator 社區在 v1.4.0 提供了一套 e2e 測試的 Pipeline；提供了 ARM64 鏡像。</p><ul><li><strong>Batch 資源計算策略優化</strong></li></ul><p style="text-align:justify">支持了 maxUsageRequest 的計算策略，用於更保守地超賣高優資源；優化了節點上短時間大量 Pod 啓停時，Batch allocatable 被低估的問題；完善了對 hostApplication、thirdparty allocatable、dangling pod used 等特殊情況的考慮。</p><ul><li><strong>其它</strong></li></ul><p style="text-align:justify">利用 libpfm4&amp;perf group 優化 CPI 採集、SystemResourceCollector 支持自定義的過期時間配置、BE Pod 支持根據 evictByAllocatable 策略計算 CPU 滿足度、Koordlet CPUSetAllocator 修復了對於 LS 和 None Qos 的 Pod 的過濾邏輯、RDT 資源控制支持獲得 sandbox 容器的 task IDs 等。</p><p style="text-align:justify">通過 v1.4.0 Release<strong>[5]</strong>頁面，可以看到更多包含在 v1.4.0 版本的新增功能。</p><span id="OSC_h3_11"></span><h3>未來計劃</h3><p style="text-align:justify">在接下來的版本中，Koordinator 目前規劃了以下功能：</p><ul><li><strong>Core Scheduling</strong></li></ul><p style="text-align:justify">在運行時側，Koordinator 開始探索下一代 CPU QoS 能力，通過利用 Linux Core Scheduling 等內核機制，增強的物理核維度的資源隔離，降低混部的安全性風險，相關工作詳見 Issue #1728<strong>[6]</strong>。</p><ul><li><strong>設備聯合分配</strong></li></ul><p style="text-align:justify">在 AI 大模型分佈式訓練場景中，不同機器 GPU 之間通常需要通過高性能網卡相互通信，且 GPU 和高性能網卡就近分配的時候性能更好。Koordinator 正在推進支持多種異構資源的聯合分配，目前已經在協議上和調度器分配邏輯上支持聯合分配；單機側關於網卡資源的上報邏輯正在探索中。</p><p style="text-align:justify">更多信息，敬請關注 Milestone v1.5.0<strong>[7]</strong>。</p><span id="OSC_h3_12"></span><h3>結語</h3><p style="text-align:justify">最後，我們十分感謝 Koordinator 社區的所有貢獻者和用户，是您們的積極參與和寶貴意見讓 Koordinator 不斷進步。我們期待您繼續提供反饋，並歡迎新的貢獻者加入我們的行列。</p><p style="text-align:justify"><strong>相關鏈接：</strong></p><p style="text-align:justify">[1] 社區官方文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fkoordinator.sh%2Fzh-Hans%2Fdocs%2Fnext%2Fdesigns%2Fkoordinator-yarn%2F%253Fspm%253Da2c6h.13046898.publish-article.5.5bb96ffaCJHZTt" target="_blank">https://koordinator.sh/zh-Hans/docs/next/designs/koordinator-yarn/</a></em></u></p><p style="text-align:justify">[2] SPEC CPU</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fwww.spec.org%2Fcpu2017%2F%253Fspm%253Da2c6h.13046898.publish-article.6.5bb96ffaCJHZTt" target="_blank">https://www.spec.org/cpu2017/</a></em></u></p><p style="text-align:justify">[3] 設計文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fblob%2Fmain%2Fdocs%2Fproposals%2Fkoordlet%2F20230728-support-cold-memory-compute.md%253Fspm%253Da2c6h.13046898.publish-article.7.5bb96ffaCJHZTt%2526file%253D20230728-support-cold-memory-compute.md" target="_blank">https://github.com/koordinator-sh/koordinator/blob/main/docs/proposals/koordlet/20230728-support-cold-memory-compute.md</a></em></u></p><p style="text-align:justify">[4] 社區文檔</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fkoordinator.sh%2Fzh-Hans%2Fdocs%2Fnext%2Fuser-manuals%2Fhost-application-qos%2F%253Fspm%253Da2c6h.13046898.publish-article.8.5bb96ffaCJHZTt" target="_blank">https://koordinator.sh/zh-Hans/docs/next/user-manuals/host-application-qos/</a></em></u></p><p style="text-align:justify">[5] v1.4.0 Release</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Freleases%2Ftag%2Fv1.4.0%253Fspm%253Da2c6h.13046898.publish-article.9.5bb96ffaCJHZTt%2526file%253Dv1.4.0" target="_blank">https://github.com/koordinator-sh/koordinator/releases/tag/v1.4.0</a></em></u></p><p style="text-align:justify">[6] Issue #1728</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fissues%2F1728%253Fspm%253Da2c6h.13046898.publish-article.10.5bb96ffaCJHZTt" target="_blank">https://github.com/koordinator-sh/koordinator/issues/1728</a></em></u></p><p style="text-align:justify">[7] Milestone v1.5.0</p><p style="text-align:justify"><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%253A%2F%2Fgithub.com%2Fkoordinator-sh%2Fkoordinator%2Fmilestone%2F14%253Fspm%253Da2c6h.13046898.publish-article.11.5bb96ffaCJHZTt" target="_blank">https://github.com/koordinator-sh/koordinator/milestone/14</a></em></u></p><p style="text-align:justify"><em>作者：喬普</em></p><p style="text-align:justify"><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.aliyun.com%2Farticle%2F1423263%3Futm_content%3Dg_1000390303" target="_blank">原文鏈接</a></strong></p><p style="text-align:justify"><strong>本文為阿里雲原創內容，未經允許不得轉載。</strong></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 23 Feb 2024 06:36:00 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/yunqi/blog/11044520</guid>
-            <link>https://my.oschina.net/yunqi/blog/11044520</link>
-            <author>
-                <![CDATA[阿里云云棲號]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[為什麼 Chromebook 鍵盤採用小寫字母？]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Chromebook 鍵盤上的所有按鍵都是小寫字母。自 2010 年推出第一款 Chromebook 原型機 CR-48 以來，他們就一直如此。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-fdbc3ca95eb510cf632ffad2f3b12b6bf02.png" referrerpolicy="no-referrer"></p><p>谷歌最近<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.google%2Fproducts%2Fchromebooks%2Fchromebooks-lowercase-keyboard%2F" target="_blank">解釋</a></u>了他們對「全小寫鍵盤」的設計思路。當時參與早期 Chromebook 設計的 ChromeOS 團隊高級主管 Alexander Kuscher 認為可以對按鍵進行精簡，從而打造一款易於使用、對用户友好的鍵盤。</p><p>Chromebook 團隊高級產品經理 Donny Reynolds 提出：</p><blockquote><p>我們已經習慣了鍵盤上的大寫字母，但如果你進入一個文本開始編寫文檔，並開始在傳統鍵盤上鍵入，按鍵就會與屏幕上顯示的不一致，對吧？你按下大寫'D'鍵，但出現的卻是小寫'd'。</p></blockquote><p>因此，他們決定不再為 Chromebook 鍵盤印上大寫字母——確保用户「所見即所得」。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-f381533dbaf1652c58fb82ffd2f52aa40f7.png" referrerpolicy="no-referrer"></p><p>其實當時許多手機和平板電腦已經配備了簡化的現代鍵盤——Android 手機在 2008 年首次亮相時就採用了小寫鍵盤。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-e678bff4959ef28477371fd4d648545eed9.png" referrerpolicy="no-referrer"></p><p><em>早在 2008 年初代 G1 推出時，Android 就開啓了小寫鍵盤革命</em>。</p><p>因此 Donny Reynolds 表示：「當我們開始製造 Chromebook 時，我們自問‘計算機如何才能與眾不同，而且沒有幾十年來的包袱？看起來更友好是我們計算機設計的一個重要組成部分，我認為小寫鍵盤確實已經成為幾乎自己的標誌性品牌，以幫助實現這一目標。」</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 23 Feb 2024 04:45:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280052/chromebooks-lowercase-keyboard</guid>
-            <link>https://www.oschina.net/news/280052/chromebooks-lowercase-keyboard</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
             </author>
