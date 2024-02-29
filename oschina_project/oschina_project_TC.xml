@@ -16,8 +16,88 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 29 Feb 2024 06:57:09 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 29 Feb 2024 10:59:32 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[【比較 mybatis、lazy、sqltoy、lambda、操作數據 】操作批量新增、分頁查詢]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h3>orm 框架使用 Lambda 性能比較</h3><h4>環境：</h4><pre><code>idea 
+jdk17
+spring boot 3.0.7
+mysql 8.0
+</code></pre><h3>測試條件常規對象</h3><table><tbody><tr><th>orm 框架</th><th>是否支持 xml</th><th>是否支持 Lambda</th><th>對比版本</th></tr></tbody><tbody><tr><td>mybatis</td><td>☑️</td><td>☑️</td><td>3.5.4</td></tr><tr><td>sqltoy</td><td>☑️</td><td>☑️</td><td>5.2.98</td></tr><tr><td>lazy</td><td>✖️</td><td>☑️</td><td>1.2.3-JDK17</td></tr></tbody></table><h3>數據庫表 (含有唯一性索引 s_u)</h3><pre><code class="language-sql">CREATE TABLE `sys_user` (
+  `column_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '額外字段',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '創建時間',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用戶 ID',
+  `is_deleted` tinyint(1) DEFAULT NULL COMMENT 'null',
+  `password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密碼',
+  `scope` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'null',
+  `status` tinyint(1) DEFAULT NULL COMMENT '狀態',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
+  `username` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用戶名',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `s_u` (`scope`,`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=9223371632070323791 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+</code></pre><h3>比較方法:增加、修改、刪除、分頁查詢（當前項目暫時只比較批量新增和分頁）</h3><h4>項目設計</h4><p>聲明 SysUserRepository 接口提供對應增刪改查方法</p><p><img height="213" src="https://oscimg.oschina.net/oscnet/up-7aa2e1be2eb54e368b7582f0033cbe81c76.png" width="426" referrerpolicy="no-referrer"></p><p>聲明抽象類 SysUserRepositoryAbstractRecord 繼承 SysUserRepository 並且提供對應的框架執行結果存儲&nbsp;</p><p><img height="287" src="https://oscimg.oschina.net/oscnet/up-1738540aef84b046f737031612385f4b8c2.png" width="774" referrerpolicy="no-referrer"></p><p>三種框架 mybatis、sqltoy、Lazy 創建 SysUserRepository 的實現</p><p><img height="244" src="https://oscimg.oschina.net/oscnet/up-155fd5be8183f998dffa1f85c9e70d616e7.png" width="374" referrerpolicy="no-referrer"></p><p>不同 ORM 操作數據的實現</p><p><img height="642" src="https://oscimg.oschina.net/oscnet/up-50a250e861fcadbf0a0517c5fd908167d8b.png" width="668" referrerpolicy="no-referrer"></p><h3>測試條件，批量插入數據 10、100、1000、10000、100000 ，分頁查詢數據 10、100、1000、10000、100000</h3><pre><code>項目啓動後使用瀏覽器打開 http://localhost:1003/sys/user/run-compare
+</code></pre><h3>測試執行過程</h3><pre><code>清空需要插入表中所有數據
+通過三種 ORM 框架進行數據批量新增、而後進行分頁查詢，記錄消耗時間，輸出 md 文檔
+</code></pre><h3>測試結果（因為當前只對 lambda 操作測試，mybatis 針對有唯一性索引的增加或者修改沒有做優化，所以結果只提供參考）</h3><table><tbody><tr><th>MYBATIS(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>218 毫秒</strong></td><td><strong>338 毫秒</strong></td><td><strong>889 毫秒</strong></td><td><strong>5017 毫秒</strong></td><td><strong>50961 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>LAZY(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>7 毫秒</strong></td><td><strong>21 毫秒</strong></td><td><strong>53 毫秒</strong></td><td><strong>417 毫秒</strong></td><td><strong>3997 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>SQLTOY(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>57 毫秒</strong></td><td><strong>75 毫秒</strong></td><td><strong>267 毫秒</strong></td><td><strong>1750 毫秒</strong></td><td><strong>18456 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>1234 毫秒</strong></td><td><strong>1130 毫秒</strong></td><td><strong>957 毫秒</strong></td><td><strong>966 毫秒</strong></td><td><strong>945 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>LAZY(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>28 毫秒</strong></td><td><strong>18 毫秒</strong></td><td><strong>19 毫秒</strong></td><td><strong>133 毫秒</strong></td><td><strong>1107 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>SQLTOY(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>88 毫秒</strong></td><td><strong>38 毫秒</strong></td><td><strong>45 毫秒</strong></td><td><strong>98 毫秒</strong></td><td><strong>334 毫秒</strong></td></tr></tbody></table><h4>寫在最後</h4><p>批量保存： lazy 性能和 sqltoy 更接近原生 sql 耗時相對最短</p><p>分頁查詢： sqltoy 性能最高、mybatis 次之 lazy 框架在數據上萬後反射性能明顯下降</p><h4><a href="https://gitee.com/wujiawei1207537021/wu-compare-orm-demo">當前項目地址</a></h4><h4><a href="https://gitee.com/wujiawei1207537021/wu-framework-parent/tree/master/wu-inner-intergration/wu-database-parent">lazy-orm 地址</a></h4><h4><a href="https://gitee.com/baomidou/mybatis-plus">mybatis 地址</a></h4><h4><a href="https://gitee.com/sagacity/sagacity-sqltoy">sqltoy 地址</a></h4></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 29 Feb 2024 10:14:28 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280857</guid>
+            <link>https://www.oschina.net/news/280857</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源社區驅動高速演進，1Panel 發佈首個 LTS 版本]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p style="color:#000000; text-align:start">2024 年 2 月 28 日，現代化、開源的 Linux 服務器運維管理面板 1Panel 宣佈推出 v1.10 LTS 版本。這是 1Panel 開源項目自 2023 年 3 月發佈以來推出的首個 LTS（Long Term Support，長期支持）版本。</p><p style="color:#000000; text-align:start"><img alt="" height="756" src="https://oscimg.oschina.net/oscnet/up-f91a31be9fbd21851860ca389bf5996d7a1.png" width="1352" referrerpolicy="no-referrer"></p><p>1Panel 開源項目組將對 1Panel v1.10 LTS 版本提供長期支持，定期迭代發佈小版本，持續進行問題修復更新並針對部分功能進行優化。v1.10 LTS 版本的發佈也標誌着 1Panel 開源面板已經具備了完整和成熟的 Linux 服務器運維管理能力，歡迎廣大社區用戶下載並使用 1Panel v1.10 LTS 版本。</p><h1>開源社區驅動產品高速演進</h1><p style="color:#000000; text-align:start">1Panel（<em>https://github.com/1Panel-dev</em>）是中國領先的開源軟件提供商 FIT2CLOUD 飛致雲旗下的開源項目，是新一代的 Linux 服務器運維管理面板，遵循 GPL v3 開源許可協議。</p><p style="color:#000000; text-align:start">與傳統的 Linux 運維管理面板相比，1Panel 的界面設計簡單直觀，用戶體驗更佳，使用 Golang 語言編寫，基於容器技術使其更簡潔，符合雲原生時代的發展趨勢。</p><p style="color:#000000; text-align:start">1Panel 項目自發布後受到了廣大社區用戶的關注和喜愛，自 2023 年 3 月發佈 v1.1.0 版本後，按月度迭代至今，其產品功能規劃與演進路線由開源社區所驅動，並且由社區用戶持續驗證其功能的完整性和穩定性。</p><p style="color:#000000; text-align:start">截至 2024 年 2 月，1Panel 開源項目在代碼託管平台 GitHub 所獲得的 Star 數超過 16,000 個，Fork 數量超過 1,400 次，累計有 61 位社區開發者參與項目開發，擁有超過 2,400 次 Commit 提交，累計下載次數超過 320,000 次。</p><p style="color:#000000; text-align:start"><img alt="" height="1308" src="https://oscimg.oschina.net/oscnet/up-b251d46030cf7b19998d03618d9a1c20535.png" width="1832" referrerpolicy="no-referrer"></p><p><span>▲ 圖 1 1Panel 開源項目 GitHub Star 增長曲線</span></p><p><img alt="" height="1153" src="https://oscimg.oschina.net/oscnet/up-0bc2153c78ee07dbbc9e8b8d85b25381c6c.png" width="1839" referrerpolicy="no-referrer"></p><p><span>▲ 圖 2 1Panel 開源面板操作界面</span></p><p style="color:#000000; text-align:start"><strong>1Panel v1.10 LTS 版本的發佈標誌着 1Panel 已經具備一款主流 Linux 面板所應該具備的能力。</strong>其核心技術能力包括：</p><p style="color:#000000; text-align:start"><span style="color:#005eeb">●</span><span>&nbsp;</span>高效管理：用戶可以通過 Web 圖形界面輕鬆管理 Linux 服務器，實現主機監控、文件管理、數據庫管理、容器管理等功能；</p><p style="color:#000000; text-align:start"><span style="color:#005eeb">●</span><span>&nbsp;</span>快速建站：深度集成開源建站軟件 WordPress 和 Halo，域名綁定、SSL 證書配置等操作一鍵搞定；</p><p style="color:#000000; text-align:start"><span style="color:#005eeb">●</span><span>&nbsp;</span>應用商店：精選上架各類高質量的開源工具和應用軟件，協助用戶輕鬆安裝並升級；</p><p style="color:#000000; text-align:start"><span style="color:#005eeb">●</span><span>&nbsp;</span>安全可靠：基於容器管理並部署應用，實現最小的漏洞暴露面，同時提供防火牆和日誌審計等功能；</p><p style="color:#000000; text-align:start"><span style="color:#005eeb">●</span><span>&nbsp;</span>一鍵備份：支持一鍵備份和恢復，用戶可以將數據備份到各類雲端存儲介質，永不丟失。</p><h1>應用商店推動更多優質開源軟件落地</h1><p style="color:#000000; text-align:start">1Panel 所推出的應用商店（<em>apps.fit2cloud.com/1panel</em>）有效解決了個人或者企業用戶服務器開源應用軟件選擇難、安裝難的問題。目前 1Panel 應用商店已經上架了超過 100 款高質量的開源應用軟件<span>，涉及建站、數據庫、Web 服務器、運行環境、實用工具、雲存儲、AI、BI、安全等類別，能夠滿足個人或者企業用戶不同使用場景下的實際需求。</span></p><p style="color:#000000; text-align:start"><img alt="" height="1662" src="https://oscimg.oschina.net/oscnet/up-a8d05bd85b68d5d21af5574e0021fcd018d.png" width="2950" referrerpolicy="no-referrer"></p><p><span>▲ 圖 3 1Panel 應用商店主頁</span></p><p style="color:#000000; text-align:start">自 1Panel 應用商店發佈以後，應用商店中軟件的安裝次數持續按月增長，月度安裝下載次數在 2024 年 1 月已經突破 10 萬次。</p><p style="color:#000000; text-align:start"><img alt="" height="1580" src="https://oscimg.oschina.net/oscnet/up-fbeb77f57bdf0d6ff14e462e03c41caf1ce.png" width="1996" referrerpolicy="no-referrer"></p><p><span>▲ 圖 4 1Panel 應用商店應用下載趨勢圖（按月）</span></p><h1>獲得社區用戶廣泛認可</h1><p style="color:#000000; text-align:start">1Panel 項目發佈至今，多次入選 GitHub 趨勢榜主榜和 GitHub Go 語言趨勢榜榜單。</p><p style="color:#000000; text-align:start">2023 年第二季度和第三季度，在知名風險投資機構 Runa Capital 發佈的 ROSS 指數（Runa Open Source Startup Index）中，1Panel 開源項目成功進入《The fastest-growing open-source startups》（最具成長性初創項目）季度榜單。</p><p style="color:#000000; text-align:start">在由開源社發佈的《2023 中國開源年度報告》中，1Panel 因其在 2023 年的亮眼表現被報告所提及。根據面向 GitHub 上的企業、項目以及開發者進行活躍度和影響力排名的 OpenLeaderboard 榜單顯示（<em>https://open-leaderboard.x-lab.info/</em>），2023 年度，在中國開源項目活躍度排名中，1Panel 開源面板項目位列第 27 位；中國開源項目 OpenRank 指數排名中，1Panel 開源面板項目位列第 34 位。</p><p style="color:#000000; text-align:start">1Panel 開源項目組感謝每一位關注者、貢獻者和使用者的支持與信任。<strong>對於 1Panel 用戶而言，1Panel v1.10 LTS 版本已經具備了充分的可靠性和穩定性，能夠滿足個人和企業用戶日常的 Linux 服務器運維管理需求。</strong>1Panel 開源項目組將針對該版本進行長期維護，持續優化並修復漏洞，歡迎廣大用戶升級使用 1Panel v1.10 LTS 版本。</p><p style="color:#000000; text-align:start">1Panel 開源項目組期待與廣大社區用戶攜手，共同打造一款現代化、開源的 Linux 服務器運維管理面板。我們將持續關注用戶的需求和反饋，不斷優化和完善產品，為用戶交付更好的產品和服務。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 29 Feb 2024 07:56:15 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280825/1panel-1-10-lts</guid>
+            <link>https://www.oschina.net/news/280825/1panel-1-10-lts</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Pale Moon 33.0.1 發佈，蒼月瀏覽器]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Pale Moon 33.0.1 現已發佈，這是一個錯誤修復和安全更新。</p><p><strong>Changes/fixes：</strong></p><ul><li>由於損壞，刪除了 Amazon.com 的 site-specific override。</li><li>修復了 branding 中無意覆蓋的腳本超時值。</li><li>修復了空 MIME 類型註冊會破壞 UI 某些部分的問題。</li><li>（僅限 Linux）默認情況下，現在將 URL 粘貼到內容不會導航到該 URL。</li><li>如果啓用了內容粘貼導航（通過<code>middlemouse.contentLoadURL</code>），導航現在僅限於粘貼到活動正文類型元素（以防止將 URL 粘貼到輸入框時出現不必要的導航）。</li><li>&nbsp;修復了 JS 模塊妨礙<code>ExportEntries</code>正常工作的問題。</li><li>（僅限 Linux）修復了使用系統提供的 cairo 庫（不受支持）進行構建時的構建問題。</li><li>修復了了一個問題，即如果設置的<code>SetInterval</code>值超出範圍（太小），工作程序可能會鎖定瀏覽器。現在已根據 HTML 規範將該值限制為 4ms。</li><li>修復了內置開發人員工具的一些可用性問題。</li><li>修復了&nbsp;Web Worker&nbsp;中潛在的崩潰問題。</li><li>修復了 image maps 中潛在的溢出問題。</li><li>修復了多部分/混合內容的潛在安全問題 (CVE-2024-1551)。</li></ul><p>此外，從此版本開始，此昂木團隊將不再列出 UXP Mozilla 安全補丁摘要，「因為它們大多無關緊要」。</p><p><span style="background-color:#ffffff; color:#333333">詳情可查看：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.palemoon.org%2Freleasenotes.shtml" target="_blank">https://www.palemoon.org/releasenotes.shtml</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 29 Feb 2024 07:24:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280819/pale-moon-33-0-1-released</guid>
+            <link>https://www.oschina.net/news/280819/pale-moon-33-0-1-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Electron v29.1.0 發佈，跨平台桌面應用開發工具]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Electron 是一個使用 JavaScript、HTML 和 CSS 構建跨平台的桌面應用程序。它基於 Node.js 和 Chromium，被 Atom 編輯器和許多其他應用程序使用。Electron 兼容 Mac、Windows 和 Linux，可以構建出三個平台的應用程序。</p><p style="color:#333333; margin-left:0; margin-right:0; text-align:left">Electron<span>&nbsp;v29.1.0<span>&nbsp;</span></span><span style="color:#333333">更新內容如下：</span></p><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>Features</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li><p>添加了對實用程序進程中使用 net 模塊發出的請求的代理配置支持。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Felectron%2Felectron%2Fpull%2F41416" target="_blank">#41416&nbsp;</a></p></li></ul><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>修復</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li><p>確保 ScreenCaptureKit 僅在 macOS 14.4 及更高版本上使用，以避免權限提示。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Felectron%2Felectron%2Fpull%2F41403" target="_blank">#41403</a></p></li></ul><p style="text-align:start"><strong><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>其他變化</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>將 Chromium 更新至 122.0.6261.70。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Felectron%2Felectron%2Fpull%2F41446" target="_blank">#41446</a></li></ul><p>更新説明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Felectron%2Felectron%2Freleases%2Ftag%2Fv29.1.0" target="_blank">https://github.com/electron/electron/releases/tag/v29.1.0</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Thu, 29 Feb 2024 07:08:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/280815/electron-29-1-0-released</guid>
+            <link>https://www.oschina.net/news/280815/electron-29-1-0-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[warm-flow 工作流，支持 orm 方便擴展]]>
@@ -281,7 +361,7 @@ Token 是一個 01 年的.NET 程序員，熱愛開源，Token 經常對於 Masa
                 <![CDATA[<div class="content"><p style="color:#333333; margin-left:.8em; margin-right:.8em; text-align:start"><span>親愛的社區小夥伴們，</span><span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdoris.apache.org%2Fdownload%2F" target="_blank"><span>Apache Doris 2.0.5 </span></a></span><span> 版本已於 2024 年 2 月 27 日正式與大家見面。這次更新帶來一系列行為變更和功能更新，並進行了若干的改進與優化，旨在為用戶提供更為穩定高效的數據查詢與分析體驗。新版本已經上線，歡迎大家下載體驗！</span></p><h2><span><strong><span>行為變更</span></strong></span></h2><ul><li><p style="margin-left:.5rem; margin-right:0"><span><code>select char(0) = '\0'</code></span><span> 返回 true，跟 MySQ L 的行為保持一致</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>Export 導出數據支持空表</span></p></li></ul><h2><span><strong><span>新增功能</span></strong></span></h2><ul><li><p style="margin-left:.5rem; margin-right:0"><span>利用過濾條件中的</span><span><code>is null</code></span><span>謂詞，將 OUTER JOIN 轉換為 ANTI JOIN</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>增加</span><span><code>SHOW TABLETS BELONG</code></span><span>語法，用於獲取 Tablet 所屬 Tablet</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>InferPredicates 支持 IN，例如：</span><span><code>a = b &amp; a in [1, 2] -&gt; b in [1, 2]</code></span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>支持對物化視圖收集統計信息</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span><code>SHOW PROCESSLIST</code></span><span>支持輸出連接對應的 FE</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>Export 導出 CSV 文件支持通過 </span><span><code>with_bom</code></span><span> 參數控制其是否帶有 Windows BOM</span></p></li></ul><h2><span><strong><span>改進優化</span></strong></span></h2><ul><li><p style="margin-left:.5rem; margin-right:0"><span>在無統計信息時對 Query Plan 進行優化</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>基於 Rollup 的統計信息對 Query Plan 進行優化</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>用戶停止 Auto Analyze 後，將盡快停止統計信息收集任務</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>緩存統計信息收集異常，避免冗餘異常棧信息</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>支持在 SQL 中自定義使用某一物化視圖</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>優化 JDBC Catalog 謂詞下推列的名字符轉義</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>修復 MySQL Catalog 中</span><span><code>to_date</code></span><span>函數下推的問題</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>優化 JDBC 客戶端連接關閉的邏輯異常，異常時正常取消查詢</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>優化 JDBC 連接池的參數</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>通過 HMS API 獲取 Hudi 外表的分區信息</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>優化 Routine Load 的內存佔用和錯誤信息</span></p></li><li><p style="margin-left:.5rem; margin-right:0"><span>如果</span><span><code>max_backup_restore_job_num_per_db</code></span><span>參數為 0，將跳過所有備份恢復任務</span></p></li></ul></div>
                                     ]]>
             </description>
-            <pubDate>Wed, 28 Feb 2024 10:11:19 GMT</pubDate>
+            <pubDate>Wed, 28 Feb 2024 10:11:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/280666/apache-doris-2-0-5-released</guid>
             <link>https://www.oschina.net/news/280666/apache-doris-2-0-5-released</link>
             <author>
@@ -342,106 +422,6 @@ Token 是一個 01 年的.NET 程序員，熱愛開源，Token 經常對於 Masa
             <link>https://www.oschina.net/news/280614/data-jellyfish-1-1-0-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[企業級快速開發框架 nbsaas-boot 1.1.7-2024 發佈了]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><div><pre><code><span><span><span><span><span><span>&lt;</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>parent</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span><span><span><span><span><span><span>&lt;</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>groupId</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span>com.nbsaas.boot<span><span><span><span><span><span>&lt;/</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>groupId</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span><span><span><span><span><span><span>&lt;</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>artifactId</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span>nbsaas-boot<span><span><span><span><span><span>&lt;/</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>artifactId</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span><span><span><span><span><span><span>&lt;</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>version</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span>1.1.7-2024<span><span><span><span><span><span>&lt;/</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>version</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span><span><span><span><span><span><span>&lt;/</span></span></span></span></span><span><span><span><span><span><span><span><span><span><span><span>parent</span></span></span></span></span></span></span></span></span></span></span><span><span><span><span><span>&gt;</span></span></span></span></span></span></code></pre><p><img alt="" src="https://foruda.gitee.com/images/1692714554881768744/cdda40bc_1029.png" referrerpolicy="no-referrer"></p><p><strong>本次更新內容</strong></p><p>1. 數據請求全面採用 json 格式數據提交，增加前端參數加密和後端響應加密功能。</p><p>2. 修改代碼生成器，單個對象字段要是實體類，會拋出異常，需要進行相應的處理。</p><p>3. 修改後台 vue3 代碼生成模板</p><p>4. &nbsp;新增用戶搜索註解</p><p>5. 新增系統判斷，解決不能在 mac 系統代碼生成的問題</p><p>6. 修改後台代碼生成器模板代碼</p><p><strong>nbsaas-boot 具有以下特點：</strong></p><p>自動建表：nbsaas-boot 提供了自動建表功能，根據用戶定義的數據模型自動生成數據庫表結構，減少手動操作，提高開發效率。</p><p>支持 jpa，mybatis-plus 等數據庫 orm。內置一套訪問數據的註解 DSL</p><p>開發規範：nbsaas-boot 提供一套開發規範，包括代碼風格、命名規範、註釋規範等，使團隊開發更加規範化和高效化。</p><p>代碼生成器：nbsaas-boot 提供代碼生成器，根據數據模型自動生成前端和後端代碼，提高開發效率和代碼質量。</p><p>多租戶支持：nbsaas-boot 支持多租戶，為不同客戶提供獨立的數據存儲空間和訪問權限，保證數據安全性和隔離性</p><p><strong>通過 Command 處理複雜的業務</strong></p><pre><code>InputRequestObject context = <span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> InputRequestObject();
-context.setConfig(config);
-context.setFormBean(formBean);
-
- 
-
-    <span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> DomainCommand()
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> ApiCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> ConvertCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> ControllerFrontCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> RestCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> ExtApiCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> RepositoryCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> FieldCommand())
-        .after(<span><span><span><span><span><span><span>new</span></span></span></span></span></span></span> FinishCommand()).execute(context);</code></pre><p><strong>模型構建</strong></p><pre><code><span><span><span><span><span><span><span>@CatalogClass</span></span></span></span></span></span></span><span><span><span><span><span><span><span>@FormAnnotation</span></span></span></span></span></span></span>(title = <span><span><span><span><span><span><span>"組織架構管理"</span></span></span></span></span></span></span>, model = <span><span><span><span><span><span><span>"組織架構"</span></span></span></span></span></span></span>, menu = <span><span><span><span><span><span><span>"1,27,88"</span></span></span></span></span></span></span>)
-<span><span><span><span><span><span><span>@Data</span></span></span></span></span></span></span><span><span><span><span><span><span><span>@Entity</span></span></span></span></span></span></span><span><span><span><span><span><span><span>@Table</span></span></span></span></span></span></span>(name = <span><span><span><span><span><span><span>"sys_structure"</span></span></span></span></span></span></span>)
-public class Structure extends CatalogEntity {
-
-    <span><span><span><span><span><span><span>@FormField</span></span></span></span></span></span></span>(title = <span><span><span><span><span><span><span>"父分類名稱"</span></span></span></span></span></span></span>)
-    <span><span><span><span><span><span><span>@Comment</span></span></span></span></span></span></span>(<span><span><span><span><span><span><span>"父分 id"</span></span></span></span></span></span></span>)
-    <span><span><span><span><span><span><span>@FieldName</span></span></span></span></span></span></span><span><span><span><span><span><span><span>@FieldConvert</span></span></span></span></span></span></span>(classType = <span><span><span><span><span><span><span>"Integer"</span></span></span></span></span></span></span>)
-    <span><span><span><span><span><span><span>@ManyToOne</span></span></span></span></span></span></span>(fetch = FetchType.LAZY)
-    private Structure parent;
-
-    <span><span><span><span><span><span><span>@OneToMany</span></span></span></span></span></span></span>(fetch = FetchType.LAZY, mappedBy = <span><span><span><span><span><span><span>"parent"</span></span></span></span></span></span></span>)
-    private List&lt;Structure&gt; children;
-
-}</code></pre><p>搜索模型</p><pre><code class="language-java"><span><span>@Data</span></span><span><span>public</span></span><span><span><span><span>class</span></span></span><span></span><span><span><span>ArticleSearch</span></span></span><span></span><span><span><span>extends</span></span></span><span></span><span><span><span>PageRequest</span></span></span><span></span><span><span><span>implements</span></span></span><span></span><span><span><span>Serializable</span></span></span><span></span></span>{
-
-    <span><span>/**
-     * 主鍵 id  ==查詢
-     **/</span></span><span><span>@Search</span></span>(name = <span><span>"id"</span></span>, operator = Operator.eq)
-    <span><span>private</span></span> Long id;
-
-    <span><span>/**
-     * 文章標題，模糊查詢
-     **/</span></span><span><span>@Search</span></span>(name = <span><span>"title"</span></span>, operator = Operator.like)
-    <span><span>private</span></span> String title;
-
-
-}</code></pre><p>通過模型數據提取，然後通過代碼生成器生成後端代碼 + vue3 後端管理代碼</p><p>項目最佳實踐:https://gitee.com/quhaodian/nbsaas-mall2</p><p>基礎功能項目 https://gitee.com/cng1985/nbsaas-boot-starter<br> 項目腳手架 https://gitee.com/cng1985/nbsaas-admin<br> vue3 後台管理腳手架 https://gitee.com/cng1985/nbsaas-admin-vue3</p></div></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 28 Feb 2024 05:20:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280598/nbsaas-boot-1-1-7-2024</guid>
-            <link>https://www.oschina.net/news/280598/nbsaas-boot-1-1-7-2024</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[apfree-wifidog v7.02.1977 版本發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#1f1f1f; margin-left:0; margin-right:0; text-align:start"><strong>apfree-wifidog</strong><span> 是一個基於 OpenWrt 平台的高性能網絡認證解決方案，</span><span>適用於 WiFi 熱點認證。</span><span>它完全兼容原版 wifیدog，</span><span>並在功能、</span><span>性能和穩定性方面做了大量改進和優化。</span></p><p style="color:#1f1f1f; margin-left:0; margin-right:0; text-align:start"><strong>項目地址:</strong><span></span>https://gitee.com/apfree/apfree-wifidog</p><p style="color:#1f1f1f; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><p style="color:#1f2328; text-align:start"><strong>功能:</strong></p><ol><li>為客戶端添加臨時訪問互聯網接口。</li><li>添加信任的域名、IP 和 MAC 地址。</li><li>在 ping 協議中添加了 apfree-wifidog 和固件版本。</li><li>添加 websocket 客戶端線程以改善通信。</li><li>支持通過 websocket 從認證服務器端允許客戶端上網功能。</li><li>支持通過 websocket 從認證服務器端臨時訪問互聯網。</li></ol><p style="color:#1f2328; text-align:start"><strong>修復:</strong></p><ol><li>解決了 COPS 問題。</li><li>當 websocket 斷開連接時，重新連接。</li><li>修復了 nft set set_wifidogx_bypass_clients 中的錯誤。</li></ol></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 28 Feb 2024 04:56:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280596/apfree-wifidog-7-02-1977</guid>
-            <link>https://www.oschina.net/news/280596/apfree-wifidog-7-02-1977</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[ModStartCMS v8.1.0 圖片前端壓縮，抖音授權登錄]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><div><p style="margin-left:.5em; margin-right:.5em">ModStart 是一個基於 Laravel 模塊化極速開發框架。模塊市場擁有豐富的功能應用，支持後台一鍵快速安裝，讓開發者能快的實現業務功能開發。</p><p style="margin-left:.5em; margin-right:.5em">系統完全開源，基於 Apache 2.0 開源協議，免費且不限制商業使用。</p><p style="margin-left:.5em; margin-right:.5em"><img alt="系統演示" src="https://ms-assets.modstart.com/data/image/2022/04/18/22368_pbcb_2452.png" referrerpolicy="no-referrer"></p><h2>功能特性</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">豐富的模塊市場，後台一鍵快速安裝</p></li><li><p style="margin-left:.5em; margin-right:.5em">會員模塊通用且完整，支持完整的 API 調用</p></li><li><p style="margin-left:.5em; margin-right:.5em">大文件分片上傳，進度條顯示，已上傳文件管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">強大的模塊擴展功能，所有模塊可以無縫集成，支持在線安裝、卸載模塊</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的開發助手，實現模塊、主題的的一鍵創建</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的後台權限管理，支持基於 RBAC 的權限管理系統</p></li><li><p style="margin-left:.5em; margin-right:.5em">後台管理支持使用手機、平板、PC，無論何時何地都可方便管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方登錄（QQ、微信、微博、支付寶、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方支付支持（微信、支付寶、支付寶當面付、微信掃碼、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方雲存儲支持，支持雲儲存分片上傳（阿里雲、百度雲、華為雲、騰訊雲、FTP、七牛雲、UCloud、又拍雲）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方短信支持（阿里雲、騰訊雲、華為雲、百度雲、253 雲通訊、聚合、七牛雲、融雲、賽郵、UCloud、雲片、網易雲）</p></li></ul><h2>V8.1.0 版本更新</h2><p style="margin-left:.5em; margin-right:.5em">2024 年 02 月 28 日 ModStartCMS 發佈 v8.1.0 版本，增加了以下 20 個特性：</p><ul><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 富文本編輯器迷你版增加 markdown 內容導入功能</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] JS 庫增強 MS.ui.elementMover，支持元素動態移動效果</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Decimal 組件增加 unit、unitPosition 屬性，支持單位顯示</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 用戶積分新增凍結、提交、取消三階段操作功能</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 用戶積分流水增加其他信息，支持凍結交易、管理員變更等信息展示</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 用戶積分後台操作支持記錄管理員 ID</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 後台用戶錢包流水增加其他信息，可記錄後台管理員變更信息</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 用戶前台積分凍結記錄顯示功能</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 圖片上傳是否壓縮可通過配置文件配置（默認開啓壓縮）</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 默認圖標增加抖音圖標（iconfont icon-douyin）</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Redis 增加 isEnableSuccess 判斷是否啓用成功</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 用戶刪除事件觸發 MemberUserDeletedEvent</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 進程運行命令 runInNewProcess，支持進程隔離運行</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 時間工具類增加 tomorrowDate 方法</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] UEditorPlus 版本到 3.8.0</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Form 表單組件增加 hookResponse 屬性，支持自定義返回數據</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 文件上傳事件增加參數，用於區別用戶、後台等文件上傳類型</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Select 組件增加 gridEditable 屬性，支持表格編輯模式</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 異常錯誤日誌 URL 獲取優化，提高定位效率</p></li><li><p style="margin-left:.5em; margin-right:.5em">[Bug 修復] 用戶刪除自動清除授權登錄信息</p></li></ul><h2>功能特性</h2><h3>用戶積分流水增加其他信息，支持凍結交易、管理員變更等信息展示</h3><p style="margin-left:.5em; margin-right:.5em"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/02/27/26579_5wai_3886.png" referrerpolicy="no-referrer"></p><h3>後台用戶錢包流水增加其他信息，可記錄後台管理員變更信息</h3><p style="margin-left:.5em; margin-right:.5em"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/02/27/27092_or4h_2761.png" referrerpolicy="no-referrer"></p><h3>用戶前台積分凍結記錄顯示功能</h3><p style="margin-left:.5em; margin-right:.5em"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/02/27/27485_5srk_6172.png" referrerpolicy="no-referrer"></p><h3>圖片上傳是否壓縮可通過配置文件配置（默認開啓壓縮）</h3><p style="margin-left:.5em; margin-right:.5em"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/02/27/57392_54yf_9246.png" referrerpolicy="no-referrer"></p><h2>模塊市場一鍵安裝</h2><p style="margin-left:.5em; margin-right:.5em">系統內置模塊市場，有行業應用、插件、雲存儲、雲短信等功能模塊，後台支持一鍵安裝、啓用、禁用、卸載，可快速搭建屬於自己的系統應用。</p><p style="margin-left:.5em; margin-right:.5em"><img alt="功能模塊" src="https://ms-assets.modstart.com/data/image/2022/04/18/22844_bgyg_5120.jpeg" referrerpolicy="no-referrer"></p><h2>系統演示與文檔</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">碼雲倉庫：<a href="https://gitee.com/modstart/ModStartCMS">https://gitee.com/modstart/ModStartCMS</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">Github 倉庫：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmodstart%2FModStartCMS" target="_blank">https://github.com/modstart/ModStartCMS</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">系統演示：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcms.demo.tecmz.com%2F" target="_blank">https://cms.demo.tecmz.com/</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">下載試用：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdownload" target="_blank">https://modstart.com/download</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">開發者文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdoc" target="_blank">https://modstart.com/doc</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">模塊市場：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fstore" target="_blank">https://modstart.com/store</a></p></li></ul></div></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 28 Feb 2024 03:19:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280587/modstartcms-8-1-0-released</guid>
-            <link>https://www.oschina.net/news/280587/modstartcms-8-1-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Memcached 1.6.24 發佈，高性能分佈式緩存系統]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">Memcached 1.6.24 現已發佈，此版本主要是 backlog 修復和代理更新中的修復。</span></p><p><span style="background-color:#ffffff; color:#333333">值得注意的是，如果使用試驗性的</span><code>-o slab_chunk_max</code><span style="background-color:#ffffff; color:#333333">功能，參數已從字節改為千字節。</span>如果使用 debug<code>me</code>命令，則過期時間始終為負數的問題也已經得到解決。</p><p><strong style="color:#333333"><span><span><span><span><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>修復</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><ul><li>core：修復<code>-o slab_chunk_max=kb</code>問題</li><li>proto：修復調試命令中的 exptime</li><li>修復：防止使用 -R、-m 選項給出負數</li><li>logger.c：initialize rport</li><li>crawler：在&nbsp;metadump 輸出中包含&nbsp;client flags</li><li>extstore：修復重新緩存期間 CAS 更改的問題</li><li>labs：修復 page move rescues 期間 CAS 更改的問題</li><li>proxy：添加全局速率限制器</li><li>proxy：修復釋放 funcgens 時的內存泄漏</li><li>proxy：修復重新加載期間<code>nil</code>的泄漏</li><li>proxy：修復未分配的 fgen 的泄漏</li><li>proxy：修復<code>stats proxyfuncs</code>中的 router accounting 問題</li><li>proxy：修復<code>stats proxyfuncs</code>中的崩潰</li><li>proxy：修復配置重載清理階段的錯誤</li><li>proxy：修復配置虛擬機的&nbsp;unlocked usage 問題</li></ul><p><span style="background-color:#ffffff; color:#333333">詳情可</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmemcached%2Fmemcached%2Fwiki%2FReleaseNotes1624" target="_blank">查看更新説明</a><span style="background-color:#ffffff; color:#333333">。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 28 Feb 2024 03:05:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280583/memcached-1-6-24-released</guid>
-            <link>https://www.oschina.net/news/280583/memcached-1-6-24-released</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
             </author>
         </item>
     </channel>
