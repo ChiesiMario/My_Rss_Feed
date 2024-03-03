@@ -16,8 +16,23 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 03 Mar 2024 04:07:02 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 03 Mar 2024 08:04:11 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[英特爾開源其 Python NPU 加速庫]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#000000">英特爾已將其 NPU 加速庫 (intel-npu-acceleration-library) 在 Apache-2.0 協議下開源。這是一個 Python 庫，旨在利用英特爾神經處理單元 (NPU) 的強大功能在兼容硬件上執行高速計算，從而提高應用程序的效率。</span></p><p><span style="color:#000000">該庫目前正處於積極開發狀態。為了顯着提高庫的性能，項目團隊正在努力實現一系列關鍵功能。其中已實現的包括支持 8 位量化、Float16 支持、torch.compile 支持和 Static shape inference。計劃實現的有：</span></p><ul><li><span style="color:#000000">4 位量化和 GPTQ</span></li><li><span style="color:#000000">NPU-Native 混合精度推理</span></li><li><span style="color:#000000">BFloat16 (Brain Floating Point Format)</span></li><li><span style="color:#000000">LLM MLP horizontal fusion 實現</span></li><li><span style="color:#000000">MHA NPU 推理</span></li><li><span style="color:#000000">NPU/GPU 異構計算</span></li><li><span style="color:#000000">Paper</span></li></ul><p><span style="color:#000000">倉庫頁面上的 Python 代碼示例還展示了在 NPU 上進行單矩陣乘法運算、為 NPU 編譯模型，甚至在 NPU 上運行 Tiny-Llama 模型。</span></p><div style="text-align:start"><pre><span><span><span><span><span><span><span style="background-color:var(--bgColor-muted, var(--color-canvas-subtle))"><span style="color:#1f2328"><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span style="color:var(--fgColor-default, var(--color-fg-default))"><span style="background-color:var(--bgColor-muted, var(--color-canvas-subtle))"><span><span><span><span style="color:var(--color-prettylights-syntax-keyword)">from</span></span><span>intel_npu_acceleration_library</span>.<span>backend</span><span><span style="color:var(--color-prettylights-syntax-keyword)">import</span></span><span><span style="color:var(--color-prettylights-syntax-variable)">MatMul</span></span><span><span style="color:var(--color-prettylights-syntax-keyword)">import</span></span><span>numpy</span><span><span style="color:var(--color-prettylights-syntax-keyword)">as</span></span><span>np</span><span>inC</span>, <span>outC</span>, <span>batch</span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span> ... <span><span style="color:var(--color-prettylights-syntax-comment)"># Define your own values</span></span><span><span style="color:var(--color-prettylights-syntax-comment)"># Create both inputs</span></span><span><span style="color:var(--color-prettylights-syntax-variable)">X1</span></span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span><span>np</span>.<span>random</span>.<span><span style="color:var(--color-prettylights-syntax-entity)">uniform</span></span>(<span><span style="color:var(--color-prettylights-syntax-constant)">-</span></span><span><span style="color:var(--color-prettylights-syntax-constant)">1</span></span>, <span><span style="color:var(--color-prettylights-syntax-constant)">1</span></span>, (<span>batch</span>, <span>inC</span>)).<span><span style="color:var(--color-prettylights-syntax-entity)">astype</span></span>(<span>np</span>.<span>float16</span>) <span><span style="color:var(--color-prettylights-syntax-variable)">X2</span></span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span><span>np</span>.<span>random</span>.<span><span style="color:var(--color-prettylights-syntax-entity)">uniform</span></span>(<span><span style="color:var(--color-prettylights-syntax-constant)">-</span></span><span><span style="color:var(--color-prettylights-syntax-constant)">1</span></span>, <span><span style="color:var(--color-prettylights-syntax-constant)">1</span></span>, (<span>outC</span>, <span>inC</span>)).<span><span style="color:var(--color-prettylights-syntax-entity)">astype</span></span>(<span>np</span>.<span>float16</span>) <span>mm</span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span><span><span style="color:var(--color-prettylights-syntax-variable)">MatMul</span></span>(<span>inC</span>, <span>outC</span>, <span>batch</span>, <span>profile</span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span><span><span style="color:var(--color-prettylights-syntax-constant)">False</span></span>) <span>result</span><span><span style="color:var(--color-prettylights-syntax-constant)">=</span></span><span>mm</span>.<span><span style="color:var(--color-prettylights-syntax-entity)">run</span></span>(<span><span style="color:var(--color-prettylights-syntax-variable)">X1</span></span>, <span><span style="color:var(--color-prettylights-syntax-variable)">X2</span></span>)</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre></div><p>更多詳情可查看<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fintel%2Fintel-npu-acceleration-library" target="_blank">此處</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 03 Mar 2024 03:56:49 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/281262/intel-npu-acceleration-library</guid>
+            <link>https://www.oschina.net/news/281262/intel-npu-acceleration-library</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[深圳發佈政策支持鴻蒙原生應用發展]]>
@@ -463,21 +478,6 @@ CREATE PROPERTY GRAPH BANDS_GRAPH
             <link>https://www.oschina.net/news/280981</link>
             <author>
                 <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[黃仁勳：別讓你的孩子長大後成為程序員]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">英偉達公司（Nvidia）首席執行官黃仁勳（Jensen Huang）認為，人工智能已經發展到了不再需要優先為全球青年提供計算機科學和編碼教育的地步。</span></p><p><span style="color:#000000">他在一次關於人工智能未來的演講中<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fyoutu.be%2F8Pm2xEViNIo%3Fsi%3DAi7BOUQT9u9b4W6x%26t%3D1094" target="_blank">表示</a>，在過去的 10 年、15 年裏，幾乎所有站在這樣的舞台上的人都會告訴你，讓孩子們學習計算機科學至關重要。但現在，情況幾乎完全相反。黃仁勳認為，人工智能的所帶來的奇蹟除了讓英偉達的影響力和股價飆升之外</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.theregister.com%2F2024%2F02%2F22%2Fnvidia_q4_fy_2024%2F" target="_blank"><span style="color:#000000">，</span></a><span style="color:#000000">還在於它可以讓每個人都成為程序員。</span></p><blockquote><p><span style="color:#000000">"這就是今天這麼多人談論人工智能的原因，因為你第一次可以想象公司裏的每個人都是技術專家。技術鴻溝已經完全消除。"</span></p></blockquote><p><img height="281" src="https://oscimg.oschina.net/oscnet/up-21396d6cbaa72a797d1aa181f21795a19eb.png" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">黃仁勳預測，人工智能將使那些需要綜合大量信息的工人變得更有價值，因為他們不需要掌握編碼技能，也不需要與開發人員合作。未來的科學家、製造專家和農民將能夠自己利用最先進的計算系統。</span></p><p><span style="color:#000000">「你現在擁有一台計算機，它會按照你的指令做事，幫助你實現工作自動化，提高你的生產力，讓你更有效率。提高每個人的技能至關重要，而我相信，當我們意識到這台計算機可以完成你指示它做的所有這些事情，而且做起來如此輕鬆時，這個提高技能的過程將是令人愉悦[和]驚喜的。」</span></p><p><span style="color:#000000">但行業分析師&nbsp;Patrick Moorhead 並不認可黃仁勳的觀點，他表示，自己在這 30 多年來一直有聽聞「XYZ will kill coding」的相關説法，但事實卻是市場上的程序員供給仍然趕不上需求。</span></p><p><span style="color:#000000">Moorhead 還反面例舉了低代碼/無代碼工具、集成開發環境、Swift、Java、Python 甚至編譯器等一些曾被認為會 kill coding&nbsp;的東西。並類推預測，人工智能暫時也不會終結編碼。「[AI] 將 [coding] 交到了更多人的手中。就像 desktop publishing 並沒有扼殺 'creativity'，而是將其進行了擴大。」</span></p><p><span style="color:#000000">因此，不要絕望地認為你的學位毫無用處。即使是"進取號"也需要時不時地請來專門的程序員進行檢查，而《星際迷航》中的生成式 AI 絕對比我們現有的能力更強。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Fri, 01 Mar 2024 03:08:04 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/280966</guid>
-            <link>https://www.oschina.net/news/280966</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
             </author>
         </item>
     </channel>
