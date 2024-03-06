@@ -16,350 +16,519 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 06 Mar 2024 02:06:02 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 06 Mar 2024 10:53:13 GMT</lastBuildDate>
         <ttl>120</ttl>
         <item>
             <title>
-                <![CDATA[Cloudflare 發布 AI 防火牆，保護大型語言模型不被濫用與攻擊]]>
+                <![CDATA[【資安日報】3 月 6 日，國家級駭客跟進利用 ScreenConnect 漏洞並用來散佈惡意程式]]>
             </title>
             <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2281_-_cloudflare_announces_firewall_for_ai_-_blog.cloudflare.com_.jpg?itok=vP_S6cGQ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Cloudflare 針對大型語言模型應用推出<a href="https://blog.cloudflare.com/firewall-for-ai">Firewall for AI</a>，目的是要在大型語言模型部署之前，提供一個保護層，阻擋有問題的請求輸入模型，避免模型遭到濫用。Firewall for AI 是一個針對大型語言模型設計的進階網頁應用防火牆（WAF），不只能夠偵測漏洞也提供視覺化工具，方便用户管理人工智慧應用的安全性。</p><p>企業正大量地採用大型語言模型，但由於應用程式與網際網路連接，因此同時也引入了新的漏洞，可能遭惡意攻擊者濫用。Cloudflare 提到，大型語言模型應用除了需要面對傳統網頁和 API 應用程式領域，諸如注入或是資料外洩等資安威脅之外，由於大型語言模型在操作上的不確定性，還須面對像是模型劫持並執行未經授權操作等問題。</p><p>而 Cloudflare 推出的 Firewall for AI，主要是針對提示詞注入（Prompt Injection）、模型拒絕服務（Model Denial of Service），以及敏感資訊洩漏（Sensitive Information Disclosure）三種模型攻擊提供保護措施，減少被濫用的風險。</p><p>Firewall for AI 的部署方式與傳統網頁應用防火牆相同，每個帶有大型語言模型提示詞的 API 請求都會經防火牆掃描，以偵測可能的攻擊模式和特徵。Firewall for AI 可以部署在託管於 Cloudflare Workers AI 平台，或是其他第三方基礎架構的模型之前，並且能夠與 Cloudflare AI Gateway 合併使用，透過網頁應用防火牆控制平面來控制和設定 Firewall for AI。</p><p>模型拒絕服務與傳統應用程式所面對的流量攻擊（Volumetric Attack）類似，都是藉由消耗大量資源，進而導致服務品質下降或是增加模型運作成本的攻擊方式。Firewall for AI 會透過速率限制策略，來控制各個對話請求的速率，以限制脈絡長度（Context Window）降低 DoS 的風險。</p><p>在偵測敏感資料方面，Firewall for AI 讓用户使用敏感資料偵測（Sensitive Data Detection，SDD）網頁應用防火牆管理規則集，辨識模型在回應中回傳的個人識別資訊（PII）。用户可以在網頁應用防火牆安全事件中審查 SDD 的比對狀況。</p><p>目前 SDD 提供了一套管理規則，掃描信用卡號碼等財務資訊，以及 API 金鑰等機密資訊，Cloudflare 將會讓用户創建自己定義的規則。另一方面，Cloudflare 也將擴展 SDD，避免使用者向外部大型語言模型供應商例如 OpenAI 或 Anthropic 等，共享 PII 或其他敏感資訊。</p><p>而模型濫用則是一個廣泛的類別，包括提示詞注入，攻擊者透過特別設計的輸入來操縱語言模型。抑或是提交導致模型產生幻覺、不準確或冒犯性回應，甚至是偏離主題的請求等行為。另一方面 Cloudflare 也提到，企業也希望避免人工智慧應用生成有毒或是冒犯性的回應。</p><p>Firewall for AI 會進行一系列偵測，針對提示詞注入和各種濫用，防火牆將自動尋找嵌入在 HTTP 請求或是 JSON Body 中的提示詞。一旦用户啟用防火牆，系統將會分析每個提示詞並根據惡意可能性給予分數，搭配上機器人分數或是攻擊分數，用户可以創建規則阻擋符合一或是兩個維度以上，具特定分數的請求，達到保護大型語言應用的目的。</p><p>要使用 Firewall for AI，企業用户需要訂閲 Application Security Advanced 方案。目前已經能夠使用進階速率限制與 SDD 功能，而 Cloudflare 還在開發 Firewall for AI 的提示詞驗證功能，預計還需要幾個月才會正式推出。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161627</guid>
-            <link>https://www.ithome.com.tw/news/161627</link>
-            <author>
-                <![CDATA[李建興]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[美國運通因第三方服務供應商遭駭導致用户資料外洩]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2279_-_-_www.mass_.gov_.jpg?itok=6iHdmIi_" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>美國運通向用户<a href="https://www.mass.gov/doc/assigned-data-breach-number-2024-210-american-express-travel-related-services-company-inc/download">發出</a>資料洩漏警示，並且已經<a href="https://www.mass.gov/doc/data-breach-report-2024/download">通報</a>監管機構。事件起因為一家在買家和賣家之間，負責處理信用卡交易的第三方服務供應商，其系統遭駭客入侵，發生未授權存取事件，導致部分美國運通卡會員的帳户資訊外洩，但美國運通強調，公司系統並未受此事件影響。</p><p>已知洩漏的資訊包含美國運通卡帳户號碼、用户姓名，以及諸如到期日等資訊，目前外界並不清楚受影響的用户數量。美國運通正在監控這些帳號是否被用於詐騙，官方也提醒，用户信用卡若仍在啟用狀態，可定期登入帳户查看對帳單，尤其是在接下來 12 到 24 個月之間。</p><p>針對因資料洩漏所產生的盜刷行為，官方強調用户無須對費用負責，並且建議用户啟用美國運通應用程式的通知功能，以即時接受詐騙警告和購買通知。</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161626</guid>
-            <link>https://www.ithome.com.tw/news/161626</link>
-            <author>
-                <![CDATA[李建興]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[GovTech 月報第 27 期：氣象署靠新超級電腦提高象氣預報精細度；數位部要用數位簽章打擊投資詐騙廣告]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/cwa-gen6_crop_image_0.jpg?itok=P1_-xU6g" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>氣象署</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重點新聞 (0125~0229)</span></p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">超級電腦</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">氣象</span></font></strong></p><p><span style="font-size:22px;"><strong>氣象署啟用新一代超級電腦，強化氣象預報對抗極端氣候</strong></span></p><p>全球極端氣候影響，為提升我國氣象預報能力，交通部中央氣象署近期啟用第 6 代超級電腦，取代使用多年的前一代系統，新的超級電腦耗費 3 年時間建置完成，採用 Arm 架構處理器，總算力達到 10PFlops，使現有氣象預報區域水平解析度，從 3 公里縮減至 1 公里，提升對區域內複雜地形的預報精細度。</p><p>新的超級電腦採用富士通的「富嶽」超級電腦技術，採用台積電 7 奈米製程的 Arm 架構 A64FX 處理器，內建 48 個核心及 4 個輔助核心，氣象署更以新的超級電腦，在去年 11 月最新的全球 500 大超級電腦排名中取得第 69 名，目前已用於氣象預報作業。</p><p>除了 CPU 架構，氣象署也建置一套由 192 個 Nvidia A100 GPU 建置的系統，未來將和相關的產學及國網中心合作，主要用於 AI 氣象應用開發，包括開發可適用於台灣鄰近區域的 AI 高解析度區域天氣預報模式，以解決現有氣象作業時效的瓶頸。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位部</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位簽章</span></font></strong></p><p><span style="font-size: 22px;"><strong>數位部將要求網路平台登刊廣告使用數位簽章，加速 KYC 審核流程、打擊投資詐騙廣告</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/ES-4.jpg" style="width: 600px; height: 400px;" referrerpolicy="no-referrer"></p><p>為杜絕網路平台上的投資詐騙廣告，數位發展部長唐鳳近期指出，數位部身為網路平台的主管機關，將和 Line、臉書等平台業者合作，要求廣告刊登採用數位簽章，一方面協助業者自動化 KYC 審核流程，另方面也能從源頭管理打擊投資詐騙廣告。</p><p>行政院近期通過數位部提出的電子簽章法修正草案，接下來將送立法院審議，修正草案重點之一是明定電子簽章與數位簽章的關係，並明定數位簽章因具有政府許可的憑證機構所發憑證，在法律上可推定具有本人親簽或蓋章的效力。</p><p>由於數位簽章具有本人親簽效力，數位部舉例説明，目前在 Meta 的臉書或 IG 刊登政治廣告，要求平台盡到 KYC 責任，由刊登者提供身分證正反面影本資料，由網路平台業者人工審核，未來若是修法通過，就可以數位簽章自動化 KYC 審核流程；另外，在打擊投資詐騙廣告方面，目前網路平台刊登投資廣告，經檢舉後 24 小時內才會下架，數位部將與金管會、內政部合作，要求刊登廣告需使用數位簽章，一互檢警認定廣告為詐騙時，透過聯防機制，通知其他平台對同一身分簽署者刊登的廣告也要下架，加強源頭管理打擊詐騙廣告。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">無人機</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">救災</span></font></strong></p><p><span style="font-size: 22px;"><strong>提高防救災效率及人員安全，政院將投入 6.6 億元採購無人機、救災機器人</strong></span></p><p>為提升救災效率及現場救難人員安全，行政院近期通過決議，將花費 6.6 億元，協助 22 各縣市採購無人機、救災機器人，包括從空中拍攝災害現場畫面，或是利用救災機器人執行高危險性救援工作。</p><p>該計畫是由內政部消防署提出，計畫採購 88 組無人機、救災機器人 88 台，結合設備操作、訓練計畫，供各縣市消防單位救災使用。行政院長陳建仁指出，透過無人機、救災機器人採購，強化第一線消防救災能量，並確保救災人員安全，蒐集空拍資訊，作為指揮作業的決策參考。</p><p>消防署長蕭煥章表示，去年屏東發生明揚大火，導致多位消防人員傷亡，經檢討可強化科技救災能量，因此政府擬投入 6.6 億元充實直轄市、縣市消防機關的無人載具裝備，以因應化學工廠、鐵皮工廠等救災工作，包括陸地上利用救災機器人進行高危險性救災工作，並由空中的無人機拍攝災害現場畫面。</p><p>根據消防署統計，國內原本就有 261 台無人機、34 台救災機器人，此次 2024 年無人載具裝備採購計畫再增加 88 台無人機、88 台災機器人，2025 年在建構國家安全化學與韌性永續計畫之下，預期再以 4.6 億元經費採購 72 台無人機、33 台救災機器人，國內累積將有 421 台無人機及 155 台救災機器人。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">少子化</span></font></strong></p><p><span style="font-size:22px;"><strong>日本政府運用 AI 輔助男女配對提高婚姻率，試圖解決少子化人口危機</strong></span></p><p>由於結婚人數逐年下滑，日本政府面臨少子化的人口危機問題，除了傳統婚配媒合之外，也運用大數據、AI 等技術，來提高男女「婚活」相親配對的成功率，希望能挽救逐年減少的日本人口。</p><p>日本政府擔憂出生率下降，該國已將出生率連年下降視為重大危機，日本首相岸田文雄曾宣佈國家緊急狀態，祭出一系列措施扭轉人少子化的趨勢，其中一項是，政府以經費補助運用 AI 技術協助的婚活聯誼活動，根據統計，2023 年 3 月為止，在日本的 47 個都道府縣中，包括東京都在內有 31 個提供相關的配對服務。</p><p>有別於傳統相親大多以年齡、收入、職業等條件進行配對，日本政府希望透過 AI 找出可能潛在配對條件，他們利用 AI 分析個人資訊，包括來自婚姻介紹中心的資訊、參加者填答的問卷，甚至一些地方政府會將參加者的網路瀏覽紀錄也納入 AI 演算法。由於 AI 輔助的婚活配對條件更廣，有成功配對者坦承和原本不會考慮的伴侶見面。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">空氣品質</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font></strong></p><p><span style="font-size:22px;"><strong>台中港設空維區科技執法，檢驗合格車輛比率提高至 9 成</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/AIR.jpg" style="width: 600px; height: 393px;" referrerpolicy="no-referrer"></p><p>為維護空氣品質，台中市環保局自 2021 年公告畫設台中港空氣品質維護區，在台中港管制站利用車牌辨識技術，對進入台中港大型柴油車輛進行辨識，以找出違規車輛，經過近 2 年的宣導，空維區在 2023 年 9 月正式生效，近期台中市環保局公佈合格車輛已提高至 9 成。</p><p>根據台中市環保局規定，進入台中港空維區主要管制車輛為 1999 年 6 月 30 日以前出廠的大型柴油車，凡是進入台中港應取得前一年排煙檢驗合格，環保局在台中港 7 個管制站設置車牌辨識系統，利用科技執法取代人工方式，全天候掌握進入車輛，自動比對找出違規車輛，如發現違規車輛則要求改善，若未改善且通行空維區則按次處罰，累計至今已開罰 134 件違規。</p><p>在宣導期間，進入車輛的合格率顯著提高，例如在 2022 年合格率約 3 成，2023 年 10 月提高到 85.5%，到 2024 年 1 月已提高至 90.8%。由於畫設空維區的成效良好，環保局計畫將台中港的成功經驗擴大到遊憩地點，例如目前已完成水湳生態公園、中央公園、谷關風景區等 3 個空維區草案規劃及意見收集，未來送至環境部審核，核定後予以公告。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">無人機</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">交通</span></font></strong></p><p><strong><span style="font-size:22px;">美俄亥俄州將測試無人機交通監控計畫</span></strong></p><p>無人機除了軍事、救災等用途，美國俄亥俄州近期獲得 FAA 聯邦航空管理局同意，將在哥倫布市郊一段高速道路上，測試利用空中無人機施行交通監控，以補足地面攝影機的不足，未來應用在交通管理。</p><p>由於該無人機交通監控計畫，會在市郊一段高速道路上，由地面操控員控制進行視線外的飛行，飛越因此需獲得 FAA 核可。俄亥俄州政府將利用無人機，在哥倫布市西北方的 33 號公路長 4 英里路段操控飛行，該路段被設計為智慧道路，設置光纖電纜、道路感測器及其他設備，用以測試未來的汽車技術。</p><p>該無人機具備感測器，以偵測附近飛行載具，相較於設置於地面的攝影，無人機在空中可以更靈活，用於監控碰撞或減速，並且協助救援任務，在緊急事件發生時，協助緊急救援人員應對。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">英國</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font></strong></p><p><span style="font-size:22px;"><strong>英國利用生成式 AI 提高政府工作效率</strong></span></p><p>英國首相 Rishi Sunak 上任後，積極推動政府部門運用 AI 提升工作效率，近期英國政府透露內部正在試用生成式 AI 工具，用來協助政府部門回應諮詢，以及編寫回應議會的答覆。</p><p>這些 AI 工具包括由政府管理的 ChatGPT 版本，以及開源的 AI 模型，幫助英國內閣編寫議員對部長的提問答覆，或是基於資訊自由向政府索取的資訊，編寫的內容仍會由人工進行檢視，並且產生的內容確實引用來源，並且可以被驗證。</p><p>英國政府認為，AI 不適合用於有爭議、高度敏感的領域，但是適合用於常規的政府工作，例如過去對於公眾諮詢的答覆，要花費不少人力及時間處理，英國政府試圖運用 AI 工具，閲讀、摘要、分類對公眾諮詢的答覆。</p><p>&nbsp;</p><p>&nbsp;</p><p>圖片來源／氣象署、數位部、台中市環保局</p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;更多 GovTech 動態&nbsp;</span></strong></span></p><p><strong>1.南投縣政府建立 5G 緊急救護機制</strong></p><p><strong>2.數位部將提出 AI 評測指引</strong></p><p>資料來源：iThome 整理，2024 年 2 月</p></div></div></div><div></div></div></div></div>]]>
-            </description>
-            <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161611</guid>
-            <link>https://www.ithome.com.tw/news/161611</link>
-            <author>
-                <![CDATA[蘇文彬]]>
-            </author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【資安日報】3 月 5 日，中國駭客組織 Earth Lusca 在台灣總統大選前夕對關心台海局勢的人士發動網路釣魚攻擊]]>
-            </title>
-            <description>
-                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240305.png?itok=PcZezYTI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>上個月有資安業者 Trellix 揭露針對台灣總統大選而來的網路攻擊行動，並指出攻擊行動在投票日前 24 個小時達到高峯，駭客的目的是收集特定候選人情資。而針對這場選舉而來的網路攻擊不僅止於此，最近有研究人員公佈與此有關的資安威脅活動。</p><p>趨勢科技近期公佈中國駭客組織 Earth Lusca 的網路釣魚攻擊，巧合的是，這起事故發生在選舉前 2 天，駭客疑似透過地緣政治議題來引誘使用者上鈎。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.ithome.com.tw/news/161607"><strong style="font-size: 22px;">中國駭客組織 Earth Lusca 使用地緣政治議題為誘餌，在台灣總統大選前夕從事網釣攻擊</strong></a></p>
-                <!-- notionvc: 781d768e-c1fe-4dad-83f9-4aadbda428a1 -->
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240306.png?itok=Kubf22Uh" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>2 月下旬公佈的 ScreenConnect 漏洞 CVE-2024-1709、CVE-2023-1708，不久後就傳出遭到利用，而且利用這些漏洞的主要是勒索軟體駭客組織，最初被發現的是甫被執法單位圍剿基礎設施的 LockBit，但隨後也傳出 Black Basta、Bl00y 兩個組織將漏洞用於攻擊行動。</p><p>但現在也有國家級駭客加入行列，將這項漏洞用於散佈惡意軟體。Kroll 旗下的威脅情報團隊發現，北韓駭客組織 Kimsuky 將其用於散佈新的後門程式。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.kroll.com/en/insights/publications/cyber/screenconnect-vulnerability-exploited-to-deploy-babyshark"><strong style="font-size: 22px;">北韓駭客 Kimsuky 加入利用 ScreenConnect 漏洞的行列，散佈惡意軟體 ToddleShark</strong></a></p>
+                <!-- notionvc: 4ef99225-a36c-4621-8a98-6217bd3bd5bb -->
                 <p></p>
                 <p>
-                    <a href="https://s4.itho.me/sites/default/files/images/Eath%20Lusca%20Timeline.jpg">
-                        <img alt="" src="https://s4.itho.me/sites/default/files/images/Eath%20Lusca%20Timeline.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                        </a>資安業者趨勢科技指出，他們長期追蹤的中國駭客組織 Earth Lusca，從去年 12 月至今年 1 月，從事網路釣魚攻擊，其中使用談論兩岸地緣政治議題的文件檔案，但引起研究人員關注的地方在於，該檔案在台灣總統大選投票日的兩天前（1 月 11 日）建立，其內容疑似盜用尚未發表的台灣地緣政治專家文章。對此，他們認為這些政治專家或所屬組織也遭到入侵，駭客才能盜用這些文章。
+                    <a href="https://s4.itho.me/sites/default/files/images/fig-5-information-stealer-proces.png">
+                        <img alt="" src="https://s4.itho.me/sites/default/files/images/fig-5-information-stealer-proces.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                        </a>2 月 20 日資安業者 ConnectWise 公佈合稱為「SlashAndGrab」的 ScreenConnect 漏洞 CVE-2024-1709、CVE-2023-1708，隨後勒索軟體駭客組織 LockBit、Black Basta、Bl00dy 陸續被查出正在利用這個管道發動攻擊，如今也有國家級駭客跟進。
                     </p>
-                    <p>另一方面，他們也根據這起攻擊行動使用的工具及手法，發現該駭客組織與與日前資料外洩的中國資安業者安洵（i-Soon）可能有高度關連，但兩者之間的關係仍有待進一步調查。</p>
+                    <p>企業金融與風險顧問公司 Kroll 旗下的威脅情報團隊指出，他們看到北韓駭客組織 Kimsuky 近期也開始利用 SlashAndGrab，對方先是透過曝露的 ScreenConnect 安裝程式存取受害電腦，並藉由手動輸入的方式，利用 cmd.exe 執行 mshta.exe，取得以 Visual Basic 打造的惡意程式 ToddlerShark 並執行，然後竄改 Windows 電腦的登錄機碼，從而允許 Office 軟體執行位於網際網路的巨集檔，此惡意程式會定期收集受害電腦的系統資訊，並傳送到攻擊者的 C2 基礎設施。</p>
+                    <p>研究人員指出，此惡意程式是後門程式 BabyShark、ReconShark 的變種，並具備多態屬性的特性，採用隨機字串及功能程式碼定位，而能夠改變其結構，導致防毒軟體的特徵碼可能無法將其視為有害。</p>
                     <p>
-                        <a href="https://www.nis.go.kr:4016/CM/1_4/view.do?seq=286">
-                            <strong style="font-size: 22px;">韓國 2 家晶片廠遭北韓駭客鎖定，工程資料外洩</strong>
+                        <a href="https://www.lookout.com/threat-intelligence/article/cryptochameleon-fcc-phishing-kit">
+                            <strong style="font-size: 22px;">美國聯邦通訊委員會、加密貨幣業者員工與用户遭到網釣工具包 CryptoChameleon 鎖定，駭客偽造單一簽入網頁進行網路釣魚</strong>
                         </a>
                     </p>
-                    <!-- notionvc: 16858589-44b2-477f-b5a2-b25935db0281 -->
-                    <p></p>
-                    <p>3 月 4 日韓國國家情報院（NIS）針對半導體業者提出警告，揭露北韓駭客去年下半開始集中針對該產業進行網路攻擊。對方主要使用寄生攻擊（LotL）手法，使用目標伺服器的合法程式從事攻擊，而且大幅減少惡意程式碼的使用，進而隱匿攻擊行動。其中，有兩家公司分別在去年 12 月和今年 2 月，他們的組態管理伺服器（configuration management server）及資安政策伺服器（security policy server）遭到入侵，導致產品設計圖、生產設施的照片被偷走。</p>
-                    <p>而對於北韓駭客集中火力針對韓國半導體產業的原因，很有可能是北韓遭到制裁晶片而難以取得這些產品，再加上衞星、飛彈等軍事系統的開發，導致需求增加，NIS 認為，北韓可能打算竊取相關技術，自行生產所需的晶片。</p>
                     <p>
-                        <a href="https://www.bleepingcomputer.com/news/security/american-express-credit-cards-exposed-in-third-party-data-breach/">
-                            <strong style="font-size: 22px;">美國運通信用卡資料外流，起因是第三方支付處理業者的系統被入侵</strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: a7a6d3ef-1b80-483b-bc17-19fc35617cf3 -->
-                    <p></p>
-                    <p>美國運通近日向麻薩諸塞州通報他們發生資料外洩事故，指出他們得知許多商店合作的支付處理業者遭駭，導致客户的信用卡資料可能外洩，這些資料包含卡號、姓名、有效期限，但該公司強調本身的系統並未受到影響。</p>
-                    <p>不過，究竟有多少客户受到影響、攻擊發生的時間，以及支付處理業者的身分，美國運通並未透露。</p>
-                    <p>
-                        <!-- notionvc: d67a77cd-efe7-4a2d-8233-b54a97a16cb4 -->
-                    </p>
-                    <p>
-                        <a href="https://www.theguardian.com/technology/2024/feb/29/pegasus-surveillance-code-whatsapp-meta-lawsuit-nso-group">
-                            <strong style="font-size: 22px;">美國法院要求 NSO Group 交出間諜軟體 Pegasus 原始碼</strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: b2f2b02e-d1f9-4af8-a228-356720c8e8cd -->
-                    <p></p>
-                    <p>2019 年 10 月 Meta 控告駭入即時通訊軟體 WhatsApp 的間諜軟體製造商 NSO Group，最近有新的進展，根據衞報的報導，法官要求該公司必須提供 Meta 間諜程式 Pegasus 的原始碼，以及 WhatsApp 用户遭到攻擊前、後 1 年的所有版本間諜軟體，並包含全部的功能模組。</p>
-                    <p>由於此事牽涉軟體與行動裝置產業的安全，微軟、Google、思科、GitHub、LinkedIn、VMware、網際網路協會（Internet Association）皆曾出面聲援 Meta。</p>
-                    <p>&nbsp;</p>
-                    <h3>
-                        <strong>【資安產業動態】</strong>
-                    </h3>
-                    <p>
-                        <a href="https://github.blog/2024-02-29-keeping-secrets-out-of-public-repositories/">
-                            <strong style="font-size: 22px;">因應開發者程式碼不慎外洩帳密資料過於浮濫，GitHub 宣佈全面預設啟用「推送保護」機制</strong>
-                        </a>
-                    </p>
-                    <!-- notionvc: a1592155-8d10-4a86-a208-4b216f2b71ff -->
-                    <p></p>
-                    <p>
-                        <a href="https://s4.itho.me/sites/default/files/images/Prevent-secret-leaks.jpg">
-                            <img alt="" src="https://s4.itho.me/sites/default/files/images/Prevent-secret-leaks.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
-                            </a>2 月 29 日程式碼儲存庫 GitHub 宣佈，有鑑於意外洩露的 API 金鑰、Token，以及其他機敏資訊（統稱為 secrets）不慎洩露的情況太過氾濫，他們在 2024 年前 8 週的時間，在公共儲存庫偵測到超過 100 萬個曝光的機敏資訊，相當於每分鐘就有至少 10 筆這類資料出現。對此，他們宣佈，所有用户提交至公開儲存庫的內容，預設啟用「推送保護（Push Protection）」的功能，希望能藉此防堵機敏資訊不慎被開發人員程式碼曝光的情況。
+                        <a href="https://s4.itho.me/sites/default/files/images/65df3f918e2f3cb1f4974dfb_tvrViLnFcfhNWpJWsZOCQaJLxMHHvyBOftJDxm4I5daImYd-QYaflN3tSvzZ9HGok1UYcxA5W8S2QaAuz9a2m6nfHcjWc1cpscRonYqtI73QHlXgwJwk_qIKl9vg5OBUPOknVUqZgJ9ikAKdOGddN5s.png">
+                            <img alt="" src="https://s4.itho.me/sites/default/files/images/65df3f918e2f3cb1f4974dfb_tvrViLnFcfhNWpJWsZOCQaJLxMHHvyBOftJDxm4I5daImYd-QYaflN3tSvzZ9HGok1UYcxA5W8S2QaAuz9a2m6nfHcjWc1cpscRonYqtI73QHlXgwJwk_qIKl9vg5OBUPOknVUqZgJ9ikAKdOGddN5s.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                            </a>資安業者 Lookout 揭露名為 CryptoChameleon 的網路釣魚套件，此套件主要功能是能打造冒牌單一簽入（SSO）網頁，從而騙取使用者的帳密資料。
                         </p>
-                        <p>這項防護措施去年 5 月先針對儲存庫的管理者開放啟用，到了 8 月，該公司宣佈開發人員可針對自己上傳的所有程式碼，在提交時進行相關的檢查。</p>
-                        <p>&nbsp;</p>
-                        <h3>
-                            <strong>【資安防禦措施】</strong>
-                        </h3>
+                        <p>研究人員從 2023 年下半，看到駭客將其用於攻擊美國聯邦通訊委員會（FCC）員工，也針對幣安（Binance）、Coinbase、Gemini 加密貨幣業者員工或用户而來，此外，他們也看到攻擊者針對 AOL、Gmail、Okta 等電子郵件服務及單一簽入服務的情況。特別的是，這些駭客策畫了複雜的網路釣魚及社交工程攻擊，運用的手法涵蓋電子郵件、簡訊，甚至也有使用語音網路釣魚。</p>
+                        <p>在其中一起攻擊行動裡，受害者接到佯稱公司 IT 人員的電話，對方聲稱受害者的帳號遭到入侵，將會引導他們奪回帳號。接著，受害者就會收到帶有連結的簡訊，一旦點選就會被導向釣魚網頁。而對於攻擊者的身分，研究人員指出手法與駭客組織 Scattered Spider 相似，但尚未有足夠證據證明就是這組人馬所為。</p>
                         <p>
-                            <a href="https://www.ithome.com.tw/news/161545">
-                                <strong style="font-size: 22px;">拜登發布行政命令，禁止敏感個資輸出至敵對國家</strong>
+                            <a href="https://www.cisa.gov/news-events/alerts/2024/02/29/cisa-fbi-and-ms-isac-release-advisory-phobos-ransomware">
+                                <strong style="font-size: 22px;">勒索軟體 Phobos 積極鎖定美國關鍵基礎設施而來</strong>
                             </a>
                         </p>
-                        <!-- notionvc: 627ca15a-c94b-4782-be2f-6312d288e91d -->
+                        <p>2 月 29 日美國網路安全暨基礎設施安全局（CISA）、聯邦調查局（FBI）、多州資訊共享分析中心（MS-ISAC）針對近期勒索軟體 Phobos 的攻擊態勢提出警告，因為他們今年 2 月看到新的變種出現。</p>
+                        <p>這些機構指出，此勒索軟體自 2019 年 5 月活動，迄今已出現 Eking、Eight、Elbie、Devos、Faust、Backmydata 等多個變種，此外，勒索軟體駭客組織 8Base 也在去年年底，在部分攻擊行動採用 Phobos。關於惡意軟體的攻擊目標，上述機構表示，長期以來，這羣駭客鎖定的對象，涵蓋關鍵基礎設施、地方政府、緊急服務、教育機構、醫療單位。</p>
+                        <p>一旦攻擊者成功入侵目標組織，通常會部署惡意程式載入工具 SmokeLoader，或是暴力破解遠端桌面連線（RDP）服務，然後進行權限提升及偵察，最終部署勒索軟體。</p>
+                        <p>
+                            <a href="https://twitter.com/DarkWebInformer/status/1763218044581462217">
+                                <strong style="font-size: 22px;">勒索軟體駭客宣稱攻入安瑞科技，該公司證實資訊系統遭到病毒攻擊，目前營運不受影響</strong>
+                            </a>
+                        </p>
+                        <!-- notionvc: 4f3985e2-e3b3-4024-aa35-074246fb0e46 -->
                         <p></p>
-                        <p>2 月 28 日美國總統拜登發布行政命令，指出由於企業大量收集個資並交給資料掮客獲利，但這類公司很有可能將其賣給外國情報機構，不只會造成嚴重的隱私問題，甚至有可能引發國家安全的隱患，對此，他指示司法部制訂法規，明確規範美國民眾敏感個資免於遭到特定國家的存取和利用，這些資料範圍涵蓋基因、生物識別、個人健康、地理位置、財務，以及某些能夠識別個人的資料，當局也將加強對於政府敏感資料的保護。</p>
-                        <p>同時，司法部與國土安全局將設立高安全標準，防止特定國家透過投資、供應商、承攬關係等商業手段來取得該國人民個資。此外，美國電信服務部門外國參與評估委員會也在審核海底電纜許可的過程，評估對美國民眾敏感個資帶來的潛在威脅。</p>
-                        <p>對此，司法部表示將會徵求公眾意見，首波打算將中國、俄羅斯、伊朗、北韓、古巴、委內瑞拉列為重點關注國家。</p>
-                        <p>資料來源</p>
-                        <p>1.&nbsp;
-                            <a href="https://www.whitehouse.gov/briefing-room/statements-releases/2024/02/28/fact-sheet-president-biden-issues-sweeping-executive-order-to-protect-americans-sensitive-personal-data/">https://www.whitehouse.gov/briefing-room/statements-releases/2024/02/28/fact-sheet-president-biden-issues-sweeping-executive-order-to-protect-americans-sensitive-personal-data/</a>
-                            <br>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/GHg1dw4XcAAJZ-M.png">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/GHg1dw4XcAAJZ-M.png" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>2 月 29 日勒索軟體駭客組織 Dunghill 聲稱入侵資安業者安瑞科技（Array Networks），但並未透露竊得的資料內容，或是對賣家開價的金額。
+                            </p>
+                            <p>對此，我們詢問安瑞確認是否有此事，該公司表示子公司 Array US 於 3 月 1 日，偵測到資訊系統遭受病毒攻擊。截自目前調查結果，並未有客户敏感個人資料和機密資訊遭外洩；另外，公司生產、銷售及營運皆無受到影響。&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h3>
+                                <strong>【漏洞與修補】</strong>
+                            </h3>
+                            <p>
+                                <a href="https://www.ithome.com.tw/news/161631">
+                                    <strong style="font-size: 22px;">JetBrains 修補 TeamCity 身分驗證繞過漏洞</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: d0a202b5-8eb8-4ee0-8d9a-eb1d087c443e -->
+                            <p></p>
+                            <p>3 月 4 日開發工具供應商 JetBrains 針對 CI/CD 軟體平台 TeamCity 宣佈推出 2023.11.4 版更新，並表示本次更新的內容包含對於重要的安全性漏洞修補，以及數項軟體錯誤。而對於本次 JetBrains 修補的漏洞類型，皆為身分驗證繞過漏洞，影響所有本地建置版本 TeamCity。</p>
+                            <p>其中，CVE-2024-27198 存在於網頁元件，原因與替代路徑有關，CVSS 風險評分為 9.8；另一個漏洞是 CVE-2024-27199，則是網頁元件的路徑穿越弱點，CVSS 風險評分為 7.3。一旦上述漏洞遭到利用，未經身分驗證的攻擊者就有機會控制 TeamCity 伺服器。</p>
+                            <p>值得留意的是本次漏洞的處理流程，出現通報者與軟體開發者認知不一致的情況。這些漏洞是資安業者 Rapid7 於 2 月通報，但起初 JetBrains 回應，希望在公開揭露前私下向客户發布修補程式，以便讓客户有較為充裕的時間進行處置，而 Rapid7 則認為這種「靜默修補（silent patching）」的行為，不僅違反他們的漏洞揭露政策，更認為這種做法是姑息惡意行為，讓大眾曝險。</p>
+                            <p>資料來源</p>
+                            <p>1.&nbsp;
+                                <a href="https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/">https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/</a>
+                                <br>
 2.&nbsp;
-                                <a href="https://www.justice.gov/opa/pr/justice-department-implement-groundbreaking-executive-order-addressing-national-security">https://www.justice.gov/opa/pr/justice-department-implement-groundbreaking-executive-order-addressing-national-security</a>
+                                    <a href="https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/">https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/</a>
+                                    <br>
+3.&nbsp;
+                                        <a href="https://blog.jetbrains.com/teamcity/2024/03/our-approach-addressing-recently-discovered-vulnerabilities-in-teamcity-on-premises/">https://blog.jetbrains.com/teamcity/2024/03/our-approach-addressing-recently-discovered-vulnerabilities-in-teamcity-on-premises/</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.vmware.com/security/advisories/VMSA-2024-0006.html">
+                                            <strong style="font-size: 22px;">VMware 修補虛擬化平台的 USB 控制器漏洞</strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 2145b408-8d54-4554-aab0-a95d6a322e8c -->
+                                    <p></p>
+                                    <p>3 月 5 日 VMware 發布資安公告，指出旗下的虛擬化平台 ESXi、Workstation、Fusion、Cloud Foundation 存在 4 項高風險漏洞，其中較為嚴重的是記憶體釋放後濫用（UAF）漏洞 CVE-2024-22252、CVE-2024-22253，這兩項漏洞分別存在於 XHCI 及 UHCI 的 USB 控制器，一旦攻擊者取得虛擬化主機的本機管理員權限，就有可能利用虛擬機器配置檔案（VMX）執行程式碼。</p>
+                                    <p>值得留意的是，這兩個漏洞在不同虛擬化平台帶來的危險也有所差異，在 VMware Workstation、Fusion 的 CVSS 風險評為 9.3 分，而在 ESXi 的 CVSS 風險評分則是 8.4。</p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【資安防禦措施】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/161573">
+                                            <strong style="font-size: 22px;">美國呼籲開發人員改用具有記憶體安全防護特性的程式語言</strong>
+                                        </a>
+                                    </p>
+                                    <p>美國國家網路主任辦公室（ONCD）呼籲科技業者改用記憶體安全程式語言（memory safe programming language），如 Rust，從而大幅降低與記憶體存取方式有關的漏洞，並提高軟體的安全性。ONCD 表示，35 年來記憶體安全一直對數位生態系統帶來嚴重困擾，消除這種弱點背後的問題相當複雜，但態勢已相當緊迫，因此必須設法從開發源頭降低相關風險。</p>
+                                    <p>上述呼籲源於美國總統去年 3 月簽署的國家網路安全戰略（National Cybersecurity Strategy），這項政策特別指出，軟體供應商與服務供應商應承擔保衞美國網路空間安全的責任。</p>
+                                    <p>針對 ONCD 的呼籲，開放原始碼安全基金會（OpenSSF）公開聲援，並表明他們提倡開發人員採用這類程式語言，但對於無法遷移的開發人員，他們也提供了部分 C 與 C++編譯器配置的強化指引。</p>
+                                    <p>資料來源</p>
+                                    <p>1.&nbsp;
+                                        <a href="https://www.whitehouse.gov/wp-content/uploads/2024/02/Final-ONCD-Technical-Report.pdf">https://www.whitehouse.gov/wp-content/uploads/2024/02/Final-ONCD-Technical-Report.pdf</a>
+                                        <br>
+2.&nbsp;
+                                            <a href="https://openssf.org/blog/2024/02/26/openssf-supports-efforts-to-build-more-secure-and-measurable-software/">https://openssf.org/blog/2024/02/26/openssf-supports-efforts-to-build-more-secure-and-measurable-software/</a>
+                                            <br>
+3.&nbsp;
+                                                <a href="https://best.openssf.org/Compiler-Hardening-Guides/Compiler-Options-Hardening-Guide-for-C-and-C++">https://best.openssf.org/Compiler-Hardening-Guides/Compiler-Options-Hardening-Guide-for-C-and-C++</a>
+                                            </p>
+                                            <p>&nbsp;</p>
+                                            <h3>
+                                                <strong>【其他新聞】</strong>
+                                            </h3>
+                                            <p>
+                                                <a href="https://media.defense.gov/2024/Mar/05/2003405462/-1/-1/0/CSI-ZERO-TRUST-NETWORK-ENVIRONMENT-PILLAR.PDF">
+                                                    <strong>
+                                                        <span style="font-size: 20px;">美國國家安全局發布零信任指引</span>
+                                                    </strong>
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    <a href="https://securelist.com/network-tunneling-with-qemu/111803/">
+                                                        <span style="font-size: 20px;">虛擬化平台 QEMU 遭到濫用，駭客設置秘密隧道隱匿攻擊流量</span>
+                                                    </a>
+                                                </strong>
+                                            </p>
+                                            <!-- notionvc: c3261fd6-835e-4794-9939-2799f693f9f3 -->
+                                            <p></p>
+                                            <p>
+                                                <a href="https://www.trendmicro.com/en_ae/research/24/c/multistage-ra-world-ransomware.html">
+                                                    <strong>
+                                                        <span style="font-size: 20px;">勒索軟體 RA World 濫用羣組原則物件，鎖定醫療產業及金融領域而來</span>
+                                                    </strong>
+                                                </a>
+                                            </p>
+                                            <!-- notionvc: 808912b5-f073-4804-9da1-bf9ee4b69568 -->
+                                            <p></p>
+                                            <p>
+                                                <a href="https://blog.talosintelligence.com/ghostsec-ghostlocker2-ransomware/">
+                                                    <strong>
+                                                        <span style="font-size: 20px;">勒索軟體 GhostLocker 2.0 鎖定中東、非洲、亞洲企業而來</span>
+                                                    </strong>
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    <a href="https://asec.ahnlab.com/en/62446/">
+                                                        <span style="font-size: 20px;">RAT 木馬程式 WogRAT 透過雲端文字共享平台 aNotepad 散佈，鎖定亞洲國家而來</span>
+                                                    </a>
+                                                </strong>
+                                            </p>
+                                            <!-- notionvc: 9b2cadd3-f9e5-41d1-a249-8ca87e280e83 -->
+                                            <p></p>
+                                            <p>&nbsp;</p>
+                                            <h3>
+                                                <strong>近期資安日報</strong>
+                                            </h3>
+                                            <p>
+                                                <a href="https://www.ithome.com.tw/news/161613">
+                                                    <strong>【3 月 5 日】中國駭客組織 Earth Lusca 在台灣總統大選前夕對關心台海局勢的人士發動網路釣魚攻擊</strong>
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <a href="https://www.ithome.com.tw/news/161590">
+                                                    <strong>【3 月 4 日】駭客組織 Savvy Seahorse 從事投資詐騙攻擊並濫用 DNS CNAME 紀錄鎖定目標</strong>
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <a href="https://www.ithome.com.tw/news/161571">
+                                                    <strong>【3 月 1 日】惡意程式 Gtpdoor 埋伏於電信網路環境從事網路間諜攻擊</strong>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div></div>
+                            </div>
+                        </div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161636</guid>
+                    <link>https://www.ithome.com.tw/news/161636</link>
+                    <author>
+                        <![CDATA[周峻佑]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[Google 揭露因應《數位市場法》而作出的搜尋及 Android 政策變更]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0306-google_dma-960.jpg?itok=g47ckkfQ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>就在歐盟《數位市場法》（Digital Markets Act，DMA）正式對業者生效（3/6）的前一天，Google<a href="https://blog.google/around-the-globe/google-europe/complying-with-the-digital-markets-act/" target="_blank">揭露</a>了為因應該法令而針對搜尋及 Android 政策所作的變更，在搜尋上，中介平台的排序可能會優於個別的供應商，而在 Android 上的更動則包括支援搜尋引擎與瀏覽器的選擇，連結 Google 服務的使用者許可，以及開放更多的支付選項等。</p><p>Google 表示，為了遵循《數位市場法》，他們面臨了許多艱難的取捨，例如搜尋結果的變更可能會替大型仲介機構及聚合服務業者帶來更多流量，而對飯店、航空公司、商家與餐廳等直接供應商帶來較少的流量，對消費者來説，原本由 Google 所開發、用來協助人們快速於網路上完成工作的功能（如不同產品的推薦），將不再以同樣的方式運作，例如 Google 於搜尋結果中移除了 Google Flights。</p><p>不管是蘋果的 iOS 或是 Google Android 都名列《數位市場法》所規範的 22 項服務，與本週釋出的 iOS 17.4 一樣，Android 上將列出使用者可選擇的各種搜尋引擎及瀏覽器，以方便使用者直接將它們設為預設值；此外，原本 Google 各種產品與服務之間的資料是共享的，但現在歐盟使用者可透過 Google Account 的設定來決定是否同意分享。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0306-Google%20DMA-600-1.png" style="width: 544px;" referrerpolicy="no-referrer"></p><p><span style="color:#696969;"><span style="font-size:14px;">圖片來源／Google</span></span></p><p>有別於 App Store 的封閉系統，Google 原本就允許第三方程式市集的存在，現在則進一步改善對第三方市集的支援，也支援第三方支付系統，還允許開發者只向用户提供自己的支付系統，不一定要支援 Google Play 的支付系統，也開放開發者直接將使用者導至程式以外來提供優惠服務。</p><p>現在 Google 也承諾讓歐洲經濟區的廣告主與行銷業者可取得不涉及用户隱私或商業機密的額外資料，亦將在本週發表供開發者使用的資料可攜 API（Data Portability API ）。</p><p>與蘋果一樣，上述的變更目前都鎖定歐盟市場，並非全球通用。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161634</guid>
+                    <link>https://www.ithome.com.tw/news/161634</link>
+                    <author>
+                        <![CDATA[陳曉莉]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[Google 著手降低來自 AI 與 SEO 等低品質內容的搜尋排序]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0705-google_search-photo_by_bastian_riccardi_on_unsplash-960_1.jpg?itok=yBM-rnO2" width="960" height="420" alt="" title="圖片取自<a href=&quot;https://unsplash.com/@shutter_speed_?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Bastian Riccardi</a> on <a href=&quot;https://unsplash.com/photos/a-close-up-of-a-cell-phone-with-the-google-logo-in-the-background-0uMU42uRw28?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash&quot;>Unsplash</a>   " referrerpolicy="no-referrer"></div></div></div><p class="caption"> 圖片取自<a href="https://unsplash.com/@shutter_speed_?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Bastian Riccardi</a> on <a href="https://unsplash.com/photos/a-close-up-of-a-cell-phone-with-the-google-logo-in-the-background-0uMU42uRw28?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a></p></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google 週二（3/5）<a href="https://blog.google/products/search/google-search-update-march-2024/" target="_blank">宣佈</a>，正在強化搜尋引擎，以讓使用者看到更多有用的資訊，降低那些專為搜尋引擎而設計，或是大規模自動化之內容的排序。</p><p>許多網站都透過搜尋引擎優化（Search Engine Optimization，SEO）來提高於搜尋引擎中的排序，它依據搜尋引擎運作的方式、主宰搜尋引擎行為的演算法、人們搜尋的內容，或是關鍵字來設計網站，然而，基於 SEO 的網站或內容並不見得對使用者有用，且 Google 發現有許多網站是專為搜尋引擎而非使用者而設計的，因此決定更新部分的核心排序系統，以釐清網頁內容對使用者是否無益，體驗是否不佳，是否專為搜尋引擎建立的，以於搜尋結果中減少那些低品質內容的數量。</p><p>其實 Google 在 2022 年便開始降低那些非原創內容的網站排序，若再加上此次的更新，估計可減少搜尋結果中的低品質及非原創內容排序。</p><p>另一方面，過去 Google 原本即抵制那些藉由自動化而大規模產生的低品質或非原創內容，隨著大規模建立內容的方法日益複雜，現在 Google 亦針對此一大規模生成內容以提高搜尋排名的濫用行為採取行動，包括自動化、人工，或是自動化加上人工產生的內容，例如假裝對熱門搜尋有答案但內容卻毫無幫助的網站。</p><p>除了上述之外，某些網站也會利用代管平台的良好聲譽來發布低品質的內容，自今年 5 月 5 日起，Google 將會將相關內容視為垃圾訊息。而那些原本擁有良好聲譽的網域在遭到棄置之後，被重新購買或用來發布無用的內容，也會被 Google 視作垃圾訊息。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161633</guid>
+                    <link>https://www.ithome.com.tw/news/161633</link>
+                    <author>
+                        <![CDATA[陳曉莉]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[蘋果正式釋出遵循歐盟《數位市場法》的 iOS 17.4]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0306-ios-safari-app_store-digital_markets_act-960.jpg?itok=_3z6eImh" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>蘋果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>蘋果於本週二（3/5）正式釋出了遵循歐盟《數位市場法》（Digital Markets Act，DMA）規定的 iOS 17.4，蘋果於此一版本中首度開放了第三方程式市集、第三方瀏覽器引擎，以及第三方支付機制，不過這些規定都只適用於歐盟市場，蘋果在其它市場並未開放上述服務。</p><p>目前<a href="https://www.ithome.com.tw/news/158633" target="_blank">《數位市場法》主要規範</a>Alphabet、Amazon、蘋果、Meta、微軟與字節跳動等六大科技業者履行更多的責任與義務，歐盟將這些業者稱為守門員，認為它們應該要讓歐盟企業存取更公平的商業環境，避免扼殺當地新創企業的發展，進而令歐盟消費者有更好的服務與更多的選擇，並要求上述業者必須在今年的 3 月 6 日以前遵循。</p><p>自 iOS 17.4 開始，歐盟使用者將可從 App Store 以外的市集下載 iOS 程式；在首次開啟 iOS 上的 Safari 瀏覽器時，將會出現新的選擇螢幕，列出包括 Microsoft Edge、Brave、DuckDuckGo、Opera、Firefox 及 Chrome 等十多種不同的瀏覽器，讓使用者自行選擇裝置上的預設瀏覽器；另也支援程式中的第三方支付。</p><p>不過，即使位於歐盟的使用者可於 iPhone 上下載第三方程式市集，但根據<a href="https://support.apple.com/en-gb/118110" target="_blank">蘋果的説明</a>，如果只是短暫離開歐盟，還可繼續存取第三方市集，可若是離開太久（gone for too long），便無法再安裝新的第三方市集，原先自第三方市集下載的程式，也無法再自該市集取得更新。惟蘋果並未明訂「太久」的時間。</p><p>對於全球的 iOS 用户而言，iOS 17.4 還是有些功能上的改善，包括<a href="https://www.apple.com/newsroom/2024/03/apple-introduces-transcripts-for-apple-podcasts/" target="_blank">Apple Podcasts 將提供字幕</a>，目前支援英文、法文、西班牙文與德文的播客字幕，根據蘋果的規畫，新的播客節目上線後不久，就會出現字幕功能，還可搜尋字幕，但現階段並不具備翻譯能力。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0306-iOS%2017_4-transcripts%20for%20Apple%20Podcasts.jpg" style="width: 450px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_蘋果</span></span></p><p>另外，蘋果也於 iOS 17.4 及同一天發表的 iPadOS 17.4 上<a href="https://support.apple.com/en-us/HT214081" target="_blank">修補了 4 個安全漏洞</a>，分別是位於輔助（Accessibility）功能中的位置資訊外洩漏洞 CVE-2024-23243，位於核心中的記憶體毀損漏洞 CVE-2024-23225，RTKit 中的記憶體毀損漏洞 CVE-2024-23296，以及 Safari 隱私瀏覽上的資訊外洩漏洞 CVE-2024-23256。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161632</guid>
+                    <link>https://www.ithome.com.tw/news/161632</link>
+                    <author>
+                        <![CDATA[陳曉莉]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[104 用 AI 強化人力銀行功能，從寫履歷到找職缺都有虛擬顧問相伴]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/1709698962470.jpg?itok=c8DJQvUb" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>104 人力銀行昨（3/5）揭露自家如何運用 AI，尤其是 NLP 技術，來強化求職網功能。這些功能囊括了求職者從履歷製作到搜尋職缺等求職歷程的不同階段，也有給企業用的職缺描述生成、企業形象文案生成等。</p><p>當求職者有預先製作好的履歷，104 履歷自動輸入功能可以將原始履歷檔案轉化為 104 履歷格式。上傳原始 PDF 檔案後，系統會用 CV 搭配 NLP 技術，掃描履歷文字，再輸入內容到 104 履歷對應欄位，例如學歷、工作經歷等。若原始履歷中有圖片，則會將其轉化為 104 履歷圖片附件。104 平台暨新產品發展處副總陳仁財坦言，這個功能仍有不足之處，如果原始履歷有大量非結構化資訊，例如長篇自傳，系統會比較不容易判斷對應欄位，難以轉換到 104 格式履歷中。</p><p>填寫履歷時，104 系統會利用自建 NLP 模型來理解輸入內容，再根據一系列規則表來檢查履歷是否有改善空間，並提醒求職者。例如，如果履歷內有工作經歷，但沒有填寫就職期間、工作職責、實績等，系統就會建議求職者補充這些內容。</p><p>填寫完履歷，系統還能自動摘要，方便快速呈現履歷亮點給企業。</p><p>找職缺階段，104 開發了 2 個新 AI 找工作功能，一個是 AI 求職顧問聊天機器人，會根據求職者履歷特徵及對話中提及的職位偏好，搭配企業瀏覽履歷的行為分析結果，來推薦職缺。</p><p>另一個則是自然語言搜尋功能，系統會將輸入內容轉化為後台 RAG 搜尋引擎更容易理解的結構化資訊，並提取出符合求職者語意的職缺。這樣一來，求職者搜尋時不用知道具體職缺名稱，也不用熟知 104 職業分類方法。</p><p>104 也為企業端開發了生成式 AI 功能，包括職缺説明生成及企業品牌經營文案生成。前者會根據企業用自然語言輸入的職缺名稱或職務內容，來生成職缺描述範本。後者則是可以根據簡單提示文字來企業動態牆文案。這 2 個功能中，若企業不滿意生成結果，都可以重新生成或自行編輯</p><p>陳仁財表示，這些功能背後的技術，主要使用了 104 自行開發的 NLP 模型以及企業版 ChatGPT，前者用來理解履歷內容及職缺描述，後者則負責生成任務，例如履歷亮點摘要及職缺文案生成等。</p><p>104 總經理黃於純則補充，他們原本還有意開發 AI 面試功能，不過 AI 歧視風險難以完全避免，因而作罷。未來若開發類似功能，也只會用於求職者自己練習面試用，不會應用在實際面試場景。</p><p>&nbsp;</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161630</guid>
+                    <link>https://www.ithome.com.tw/news/161630</link>
+                    <author>
+                        <![CDATA[郭又華]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[JetBrains 緊急修補 TeamCity 漏洞，但惹毛通報的資安廠商]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0306-teamcity-cve-960.jpg?itok=P-n2E2NV" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>捷克開發工具供應商 JetBrains 週二緊急修補旗下 TeamCity 平台軟體二個已有濫用行為的重大風險漏洞，但是遭到通報資安廠商批評，軟體業者單方向修補漏洞未告知，已違反其安全政策，揚言公佈漏洞細節。</p><p>JetBrains 本週一<a href="https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/" target="_blank">修補</a>其 CI/CD 工具 TeamCity 的 CVE-2024-27198 及 CVE-2024-27199 漏洞。兩漏洞是在 2 月中由 Rapid7<a href="https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/" target="_blank">通報</a>。其中 CVE-2024-27198 是 TeamCity Web 元件的驗證繞過漏洞，源於 TeamCity 的 Web 元件中的替代路徑，其 CVSS 風險值為 9.8。CVE-2024-27199 也是身份驗證繞過漏洞，源自於 TeamCity 的 Web 元件中的路徑遍歷問題（path traversal），CVSS 風險值為 7.3。JetBrains 發布了軟體更新及修補程式外掛，也呼籲用户更新軟體版本。</p><p>通常資安業者及軟體公司針對安全漏洞的新聞在此告一段落，Rapid7 卻對 JetBrains 漏洞修補未告知感到不滿。雙方在 2 月中首次取得聯繫，2 月 20 日 Rapid7 提供二項漏洞的技術細節，也提及「協同揭露」（coordinated disclosure）的重要性，要求 JetBrains 提供修補時程、緩解方法及影響的軟體版本等資訊，並且提醒未告知修補是 Rapid7 所謂的「靜默修補」（silent patching）行為，違反其政策。</p><p>Rapid7 的靜默修補是指，軟體業者對資安廠商通報的漏洞，在神不知鬼不覺情況下修補起來。不公開歸功於資安研究人員，隱藏漏洞技術細節、攻擊手法、也不發布漏洞編號，認為愈少人知道對用户愈安全。但 Rapid7 指出，這種作法只會讓少部份攻擊者和惡意人士獨擁攻擊手法及防衞知識，反而陷大眾於險境。</p><p>在雙方溝通未果後，3 月 4 日 Rapid7 發現 JetBrains 藉由<a href="https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/" target="_blank">更新</a>去年 11 月的安全公告來重新發布軟體更新版本，即已在未告知情況下修補了漏洞。Rapid7 指控 JetBrains 的靜默修補行為，揚言將在 24 小時內公佈漏洞細節。當天 Rapid7 於是<a href="https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/" target="_blank">公佈</a>了漏洞技術細節。同一天 JetBrains 正式發布新的安全公告，包括漏洞編號及發布説明。</p><p class="rtecenter"><a href="http://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0306-TeamCity-CVE-Rapid%207.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>另一家資安業者 Shadowserver<a href="https://twitter.com/Shadowserver/status/1764960110659478012" target="_blank">偵測到</a>，已經有針對 TeamCity CVE-2024-27198 漏洞的濫用程式，目前已掃瞄到 16 個來源 IP 位址。</p><p>JetBrains<a href="https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/" target="_blank">表示</a>，公司政策一般保留不公開技術細節，讓客户有時間部署防護。該公司<a href="https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/" target="_blank">提供 2 項方案</a>，一是升級 TeamCity 伺服器到 2023 年 11 月版本，二是修補程式外掛，供來不及安裝修補程式的用户安裝。</p><p class="rtecenter"><a href="http://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0306-TeamCity-CVE-600.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161631</guid>
+                    <link>https://www.ithome.com.tw/news/161631</link>
+                    <author>
+                        <![CDATA[林妍溱]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[Windows 11 Subsystem 明年將終止支援 Android App]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0306-wsa-960.jpg?itok=Fbsnpyqq" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>微軟</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟<a href="https://learn.microsoft.com/en-gb/windows/android/wsa/" target="_blank">公告</a>將在 2025 年 3 月終止支援 Windows 11 上的 Windows Subsystem for Android，但現有已安裝的 Android App 還可以使用一年。</p><p>Windows 11 推出時，大加宣揚將可支援 Android 應用程式。2021 年微軟並<a href="https://www.ithome.com.tw/news/147387" target="_blank">釋出</a>適用於 Windows 11 的 Windows Subsystem for Android（WSA），讓使用者在 Windows 11 裝置上，執行從 Amazon Appstore 下載的 Android 應用程式。</p><p>但是在近日更新的<a href="https://learn.microsoft.com/en-gb/windows/android/wsa/" target="_blank">相關網頁上</a>，微軟説明自明年 3 月 5 日起不再支援 WSA，此後微軟也不再支援 Windows 版 Amazon Appstore 及所有仰賴 WSA 的應用程式及遊戲程式。2024 年 3 月 5 日，也就是昨日前安裝 Amazon Appstore 及 Android App 的用户還是可以持續使用一年。</p><p>微軟<a href="https://support.microsoft.com/zh-tw/windows/%E5%9C%A8-windows-%E4%B8%8A%E5%AE%89%E8%A3%9D%E8%A1%8C%E5%8B%95%E8%A3%9D%E7%BD%AE-app-%E5%92%8Camazon-appstore-f8d0abb5-44ad-47d8-b9fb-ad6b1459ff6c" target="_blank">説明</a>，明年 3 月 5 日 Microsoft Store 上才會移除 Amazon Appstore 和 Android App，但根據 Amazon 的<a href="https://www.developer.amazon.com/apps-and-games/blogs/2024/03/amazon-appstore-on-windows-11-discontinued" target="_blank">説法</a>，從今（6）日開始，Windows 11 用户現在已無法從 Microsoft Store 搜尋到 Amazon Appstore 及 Android App。如果你是 Android App 開發人員，從昨日起已無法將預計執行在 Windows 11 上的 App 提交給 App Store。已經上傳的現有 App 則還可以持續更新，直到明年此時。</p><p class="rtecenter"><a href="http://www.developer.amazon.com/apps-and-games/blogs/2024/03/amazon-appstore-on-windows-11-discontinued" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0306-WSA-600-1.jpg" style="width: 600px;" referrerpolicy="no-referrer"></a></p><p>雖然在 Windows 上執行 Android App 對一些用户來説相當方便，但是 WSA 有不少不足之處。最大的是用户只能從 Amazon Appstore 下載，而非最大 Android App 市集 Google Play Store，因此 App 數量及選擇相當有限。其次，用户還必須從 Microsoft Store 安裝 Amazon Appstore 及 WSA，在使用經驗上相當麻煩。最後，如果用户想在 Windows 上操作 Android App，例如在桌機上收發簡訊或同步桌機和 Android 手機，只要使用 Phone Link App 可以辦到，也無需使用 WSA。因此，微軟終止支援 Appstore 及 WSA 或許令人意外，但影響層面應該有限。</p><p>Amazon 表示，明年 3 月後，其 Appstore 在其 Fire TV、Fire Tablet 以及其他 Android 裝置上，都還會持續提供和支援。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161628</guid>
+                    <link>https://www.ithome.com.tw/news/161628</link>
+                    <author>
+                        <![CDATA[林妍溱]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[Cloudflare 發布 AI 防火牆，保護大型語言模型不被濫用與攻擊]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2281_-_cloudflare_announces_firewall_for_ai_-_blog.cloudflare.com_.jpg?itok=vP_S6cGQ" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Cloudflare 針對大型語言模型應用推出<a href="https://blog.cloudflare.com/firewall-for-ai">Firewall for AI</a>，目的是要在大型語言模型部署之前，提供一個保護層，阻擋有問題的請求輸入模型，避免模型遭到濫用。Firewall for AI 是一個針對大型語言模型設計的進階網頁應用防火牆（WAF），不只能夠偵測漏洞也提供視覺化工具，方便用户管理人工智慧應用的安全性。</p><p>企業正大量地採用大型語言模型，但由於應用程式與網際網路連接，因此同時也引入了新的漏洞，可能遭惡意攻擊者濫用。Cloudflare 提到，大型語言模型應用除了需要面對傳統網頁和 API 應用程式領域，諸如注入或是資料外洩等資安威脅之外，由於大型語言模型在操作上的不確定性，還須面對像是模型劫持並執行未經授權操作等問題。</p><p>而 Cloudflare 推出的 Firewall for AI，主要是針對提示詞注入（Prompt Injection）、模型拒絕服務（Model Denial of Service），以及敏感資訊洩漏（Sensitive Information Disclosure）三種模型攻擊提供保護措施，減少被濫用的風險。</p><p>Firewall for AI 的部署方式與傳統網頁應用防火牆相同，每個帶有大型語言模型提示詞的 API 請求都會經防火牆掃描，以偵測可能的攻擊模式和特徵。Firewall for AI 可以部署在託管於 Cloudflare Workers AI 平台，或是其他第三方基礎架構的模型之前，並且能夠與 Cloudflare AI Gateway 合併使用，透過網頁應用防火牆控制平面來控制和設定 Firewall for AI。</p><p>模型拒絕服務與傳統應用程式所面對的流量攻擊（Volumetric Attack）類似，都是藉由消耗大量資源，進而導致服務品質下降或是增加模型運作成本的攻擊方式。Firewall for AI 會透過速率限制策略，來控制各個對話請求的速率，以限制脈絡長度（Context Window）降低 DoS 的風險。</p><p>在偵測敏感資料方面，Firewall for AI 讓用户使用敏感資料偵測（Sensitive Data Detection，SDD）網頁應用防火牆管理規則集，辨識模型在回應中回傳的個人識別資訊（PII）。用户可以在網頁應用防火牆安全事件中審查 SDD 的比對狀況。</p><p>目前 SDD 提供了一套管理規則，掃描信用卡號碼等財務資訊，以及 API 金鑰等機密資訊，Cloudflare 將會讓用户創建自己定義的規則。另一方面，Cloudflare 也將擴展 SDD，避免使用者向外部大型語言模型供應商例如 OpenAI 或 Anthropic 等，共享 PII 或其他敏感資訊。</p><p>而模型濫用則是一個廣泛的類別，包括提示詞注入，攻擊者透過特別設計的輸入來操縱語言模型。抑或是提交導致模型產生幻覺、不準確或冒犯性回應，甚至是偏離主題的請求等行為。另一方面 Cloudflare 也提到，企業也希望避免人工智慧應用生成有毒或是冒犯性的回應。</p><p>Firewall for AI 會進行一系列偵測，針對提示詞注入和各種濫用，防火牆將自動尋找嵌入在 HTTP 請求或是 JSON Body 中的提示詞。一旦用户啟用防火牆，系統將會分析每個提示詞並根據惡意可能性給予分數，搭配上機器人分數或是攻擊分數，用户可以創建規則阻擋符合一或是兩個維度以上，具特定分數的請求，達到保護大型語言應用的目的。</p><p>要使用 Firewall for AI，企業用户需要訂閲 Application Security Advanced 方案。目前已經能夠使用進階速率限制與 SDD 功能，而 Cloudflare 還在開發 Firewall for AI 的提示詞驗證功能，預計還需要幾個月才會正式推出。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Tue, 05 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161627</guid>
+                    <link>https://www.ithome.com.tw/news/161627</link>
+                    <author>
+                        <![CDATA[李建興]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[美國運通因第三方服務供應商遭駭導致用户資料外洩]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2279_-_-_www.mass_.gov_.jpg?itok=6iHdmIi_" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>美國運通向用户<a href="https://www.mass.gov/doc/assigned-data-breach-number-2024-210-american-express-travel-related-services-company-inc/download">發出</a>資料洩漏警示，並且已經<a href="https://www.mass.gov/doc/data-breach-report-2024/download">通報</a>監管機構。事件起因為一家在買家和賣家之間，負責處理信用卡交易的第三方服務供應商，其系統遭駭客入侵，發生未授權存取事件，導致部分美國運通卡會員的帳户資訊外洩，但美國運通強調，公司系統並未受此事件影響。</p><p>已知洩漏的資訊包含美國運通卡帳户號碼、用户姓名，以及諸如到期日等資訊，目前外界並不清楚受影響的用户數量。美國運通正在監控這些帳號是否被用於詐騙，官方也提醒，用户信用卡若仍在啟用狀態，可定期登入帳户查看對帳單，尤其是在接下來 12 到 24 個月之間。</p><p>針對因資料洩漏所產生的盜刷行為，官方強調用户無須對費用負責，並且建議用户啟用美國運通應用程式的通知功能，以即時接受詐騙警告和購買通知。</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161626</guid>
+                    <link>https://www.ithome.com.tw/news/161626</link>
+                    <author>
+                        <![CDATA[李建興]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[GovTech 月報第 27 期：氣象署靠新超級電腦提高象氣預報精細度；數位部要用數位簽章打擊投資詐騙廣告]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/cwa-gen6_crop_image_0.jpg?itok=P1_-xU6g" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>氣象署</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><span style="color: rgb(0, 0, 255);">重點新聞 (0125~0229)</span></p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">超級電腦</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">氣象</span></font></strong></p><p><span style="font-size:22px;"><strong>氣象署啟用新一代超級電腦，強化氣象預報對抗極端氣候</strong></span></p><p>全球極端氣候影響，為提升我國氣象預報能力，交通部中央氣象署近期啟用第 6 代超級電腦，取代使用多年的前一代系統，新的超級電腦耗費 3 年時間建置完成，採用 Arm 架構處理器，總算力達到 10PFlops，使現有氣象預報區域水平解析度，從 3 公里縮減至 1 公里，提升對區域內複雜地形的預報精細度。</p><p>新的超級電腦採用富士通的「富嶽」超級電腦技術，採用台積電 7 奈米製程的 Arm 架構 A64FX 處理器，內建 48 個核心及 4 個輔助核心，氣象署更以新的超級電腦，在去年 11 月最新的全球 500 大超級電腦排名中取得第 69 名，目前已用於氣象預報作業。</p><p>除了 CPU 架構，氣象署也建置一套由 192 個 Nvidia A100 GPU 建置的系統，未來將和相關的產學及國網中心合作，主要用於 AI 氣象應用開發，包括開發可適用於台灣鄰近區域的 AI 高解析度區域天氣預報模式，以解決現有氣象作業時效的瓶頸。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位部</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">數位簽章</span></font></strong></p><p><span style="font-size: 22px;"><strong>數位部將要求網路平台登刊廣告使用數位簽章，加速 KYC 審核流程、打擊投資詐騙廣告</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/ES-4.jpg" style="width: 600px; height: 400px;" referrerpolicy="no-referrer"></p><p>為杜絕網路平台上的投資詐騙廣告，數位發展部長唐鳳近期指出，數位部身為網路平台的主管機關，將和 Line、臉書等平台業者合作，要求廣告刊登採用數位簽章，一方面協助業者自動化 KYC 審核流程，另方面也能從源頭管理打擊投資詐騙廣告。</p><p>行政院近期通過數位部提出的電子簽章法修正草案，接下來將送立法院審議，修正草案重點之一是明定電子簽章與數位簽章的關係，並明定數位簽章因具有政府許可的憑證機構所發憑證，在法律上可推定具有本人親簽或蓋章的效力。</p><p>由於數位簽章具有本人親簽效力，數位部舉例説明，目前在 Meta 的臉書或 IG 刊登政治廣告，要求平台盡到 KYC 責任，由刊登者提供身分證正反面影本資料，由網路平台業者人工審核，未來若是修法通過，就可以數位簽章自動化 KYC 審核流程；另外，在打擊投資詐騙廣告方面，目前網路平台刊登投資廣告，經檢舉後 24 小時內才會下架，數位部將與金管會、內政部合作，要求刊登廣告需使用數位簽章，一互檢警認定廣告為詐騙時，透過聯防機制，通知其他平台對同一身分簽署者刊登的廣告也要下架，加強源頭管理打擊詐騙廣告。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">無人機</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">救災</span></font></strong></p><p><span style="font-size: 22px;"><strong>提高防救災效率及人員安全，政院將投入 6.6 億元採購無人機、救災機器人</strong></span></p><p>為提升救災效率及現場救難人員安全，行政院近期通過決議，將花費 6.6 億元，協助 22 各縣市採購無人機、救災機器人，包括從空中拍攝災害現場畫面，或是利用救災機器人執行高危險性救援工作。</p><p>該計畫是由內政部消防署提出，計畫採購 88 組無人機、救災機器人 88 台，結合設備操作、訓練計畫，供各縣市消防單位救災使用。行政院長陳建仁指出，透過無人機、救災機器人採購，強化第一線消防救災能量，並確保救災人員安全，蒐集空拍資訊，作為指揮作業的決策參考。</p><p>消防署長蕭煥章表示，去年屏東發生明揚大火，導致多位消防人員傷亡，經檢討可強化科技救災能量，因此政府擬投入 6.6 億元充實直轄市、縣市消防機關的無人載具裝備，以因應化學工廠、鐵皮工廠等救災工作，包括陸地上利用救災機器人進行高危險性救災工作，並由空中的無人機拍攝災害現場畫面。</p><p>根據消防署統計，國內原本就有 261 台無人機、34 台救災機器人，此次 2024 年無人載具裝備採購計畫再增加 88 台無人機、88 台災機器人，2025 年在建構國家安全化學與韌性永續計畫之下，預期再以 4.6 億元經費採購 72 台無人機、33 台救災機器人，國內累積將有 421 台無人機及 155 台救災機器人。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">少子化</span></font></strong></p><p><span style="font-size:22px;"><strong>日本政府運用 AI 輔助男女配對提高婚姻率，試圖解決少子化人口危機</strong></span></p><p>由於結婚人數逐年下滑，日本政府面臨少子化的人口危機問題，除了傳統婚配媒合之外，也運用大數據、AI 等技術，來提高男女「婚活」相親配對的成功率，希望能挽救逐年減少的日本人口。</p><p>日本政府擔憂出生率下降，該國已將出生率連年下降視為重大危機，日本首相岸田文雄曾宣佈國家緊急狀態，祭出一系列措施扭轉人少子化的趨勢，其中一項是，政府以經費補助運用 AI 技術協助的婚活聯誼活動，根據統計，2023 年 3 月為止，在日本的 47 個都道府縣中，包括東京都在內有 31 個提供相關的配對服務。</p><p>有別於傳統相親大多以年齡、收入、職業等條件進行配對，日本政府希望透過 AI 找出可能潛在配對條件，他們利用 AI 分析個人資訊，包括來自婚姻介紹中心的資訊、參加者填答的問卷，甚至一些地方政府會將參加者的網路瀏覽紀錄也納入 AI 演算法。由於 AI 輔助的婚活配對條件更廣，有成功配對者坦承和原本不會考慮的伴侶見面。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">空氣品質</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font></strong></p><p><span style="font-size:22px;"><strong>台中港設空維區科技執法，檢驗合格車輛比率提高至 9 成</strong></span></p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/AIR.jpg" style="width: 600px; height: 393px;" referrerpolicy="no-referrer"></p><p>為維護空氣品質，台中市環保局自 2021 年公告畫設台中港空氣品質維護區，在台中港管制站利用車牌辨識技術，對進入台中港大型柴油車輛進行辨識，以找出違規車輛，經過近 2 年的宣導，空維區在 2023 年 9 月正式生效，近期台中市環保局公佈合格車輛已提高至 9 成。</p><p>根據台中市環保局規定，進入台中港空維區主要管制車輛為 1999 年 6 月 30 日以前出廠的大型柴油車，凡是進入台中港應取得前一年排煙檢驗合格，環保局在台中港 7 個管制站設置車牌辨識系統，利用科技執法取代人工方式，全天候掌握進入車輛，自動比對找出違規車輛，如發現違規車輛則要求改善，若未改善且通行空維區則按次處罰，累計至今已開罰 134 件違規。</p><p>在宣導期間，進入車輛的合格率顯著提高，例如在 2022 年合格率約 3 成，2023 年 10 月提高到 85.5%，到 2024 年 1 月已提高至 90.8%。由於畫設空維區的成效良好，環保局計畫將台中港的成功經驗擴大到遊憩地點，例如目前已完成水湳生態公園、中央公園、谷關風景區等 3 個空維區草案規劃及意見收集，未來送至環境部審核，核定後予以公告。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">無人機</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">交通</span></font></strong></p><p><strong><span style="font-size:22px;">美俄亥俄州將測試無人機交通監控計畫</span></strong></p><p>無人機除了軍事、救災等用途，美國俄亥俄州近期獲得 FAA 聯邦航空管理局同意，將在哥倫布市郊一段高速道路上，測試利用空中無人機施行交通監控，以補足地面攝影機的不足，未來應用在交通管理。</p><p>由於該無人機交通監控計畫，會在市郊一段高速道路上，由地面操控員控制進行視線外的飛行，飛越因此需獲得 FAA 核可。俄亥俄州政府將利用無人機，在哥倫布市西北方的 33 號公路長 4 英里路段操控飛行，該路段被設計為智慧道路，設置光纖電纜、道路感測器及其他設備，用以測試未來的汽車技術。</p><p>該無人機具備感測器，以偵測附近飛行載具，相較於設置於地面的攝影，無人機在空中可以更靈活，用於監控碰撞或減速，並且協助救援任務，在緊急事件發生時，協助緊急救援人員應對。</p><p><strong><font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">英國</span></font>&nbsp;<font color="#ffffff"><span style="background-color: rgb(51, 153, 255);">AI</span></font></strong></p><p><span style="font-size:22px;"><strong>英國利用生成式 AI 提高政府工作效率</strong></span></p><p>英國首相 Rishi Sunak 上任後，積極推動政府部門運用 AI 提升工作效率，近期英國政府透露內部正在試用生成式 AI 工具，用來協助政府部門回應諮詢，以及編寫回應議會的答覆。</p><p>這些 AI 工具包括由政府管理的 ChatGPT 版本，以及開源的 AI 模型，幫助英國內閣編寫議員對部長的提問答覆，或是基於資訊自由向政府索取的資訊，編寫的內容仍會由人工進行檢視，並且產生的內容確實引用來源，並且可以被驗證。</p><p>英國政府認為，AI 不適合用於有爭議、高度敏感的領域，但是適合用於常規的政府工作，例如過去對於公眾諮詢的答覆，要花費不少人力及時間處理，英國政府試圖運用 AI 工具，閲讀、摘要、分類對公眾諮詢的答覆。</p><p>&nbsp;</p><p>&nbsp;</p><p>圖片來源／氣象署、數位部、台中市環保局</p><p><span style="color: rgb(255, 255, 255);"><strong><span style="background-color: rgb(51, 153, 255);">&nbsp;更多 GovTech 動態&nbsp;</span></strong></span></p><p><strong>1.南投縣政府建立 5G 緊急救護機制</strong></p><p><strong>2.數位部將提出 AI 評測指引</strong></p><p>資料來源：iThome 整理，2024 年 2 月</p></div></div></div><div></div></div></div></div>]]>
+                    </description>
+                    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
+                    <guid isPermaLink="false">https://www.ithome.com.tw/news/161611</guid>
+                    <link>https://www.ithome.com.tw/news/161611</link>
+                    <author>
+                        <![CDATA[蘇文彬]]>
+                    </author>
+                    <category>新聞</category>
+                </item>
+                <item>
+                    <title>
+                        <![CDATA[【資安日報】3 月 5 日，中國駭客組織 Earth Lusca 在台灣總統大選前夕對關心台海局勢的人士發動網路釣魚攻擊]]>
+                    </title>
+                    <description>
+                        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240305.png?itok=PcZezYTI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>上個月有資安業者 Trellix 揭露針對台灣總統大選而來的網路攻擊行動，並指出攻擊行動在投票日前 24 個小時達到高峯，駭客的目的是收集特定候選人情資。而針對這場選舉而來的網路攻擊不僅止於此，最近有研究人員公佈與此有關的資安威脅活動。</p><p>趨勢科技近期公佈中國駭客組織 Earth Lusca 的網路釣魚攻擊，巧合的是，這起事故發生在選舉前 2 天，駭客疑似透過地緣政治議題來引誘使用者上鈎。</p><p>&nbsp;</p><h3><strong>【攻擊與威脅】</strong></h3><p><a href="https://www.ithome.com.tw/news/161607"><strong style="font-size: 22px;">中國駭客組織 Earth Lusca 使用地緣政治議題為誘餌，在台灣總統大選前夕從事網釣攻擊</strong></a></p>
+                        <!-- notionvc: 781d768e-c1fe-4dad-83f9-4aadbda428a1 -->
+                        <p></p>
+                        <p>
+                            <a href="https://s4.itho.me/sites/default/files/images/Eath%20Lusca%20Timeline.jpg">
+                                <img alt="" src="https://s4.itho.me/sites/default/files/images/Eath%20Lusca%20Timeline.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                </a>資安業者趨勢科技指出，他們長期追蹤的中國駭客組織 Earth Lusca，從去年 12 月至今年 1 月，從事網路釣魚攻擊，其中使用談論兩岸地緣政治議題的文件檔案，但引起研究人員關注的地方在於，該檔案在台灣總統大選投票日的兩天前（1 月 11 日）建立，其內容疑似盜用尚未發表的台灣地緣政治專家文章。對此，他們認為這些政治專家或所屬組織也遭到入侵，駭客才能盜用這些文章。
                             </p>
+                            <p>另一方面，他們也根據這起攻擊行動使用的工具及手法，發現該駭客組織與與日前資料外洩的中國資安業者安洵（i-Soon）可能有高度關連，但兩者之間的關係仍有待進一步調查。</p>
+                            <p>
+                                <a href="https://www.nis.go.kr:4016/CM/1_4/view.do?seq=286">
+                                    <strong style="font-size: 22px;">韓國 2 家晶片廠遭北韓駭客鎖定，工程資料外洩</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: 16858589-44b2-477f-b5a2-b25935db0281 -->
+                            <p></p>
+                            <p>3 月 4 日韓國國家情報院（NIS）針對半導體業者提出警告，揭露北韓駭客去年下半開始集中針對該產業進行網路攻擊。對方主要使用寄生攻擊（LotL）手法，使用目標伺服器的合法程式從事攻擊，而且大幅減少惡意程式碼的使用，進而隱匿攻擊行動。其中，有兩家公司分別在去年 12 月和今年 2 月，他們的組態管理伺服器（configuration management server）及資安政策伺服器（security policy server）遭到入侵，導致產品設計圖、生產設施的照片被偷走。</p>
+                            <p>而對於北韓駭客集中火力針對韓國半導體產業的原因，很有可能是北韓遭到制裁晶片而難以取得這些產品，再加上衞星、飛彈等軍事系統的開發，導致需求增加，NIS 認為，北韓可能打算竊取相關技術，自行生產所需的晶片。</p>
+                            <p>
+                                <a href="https://www.bleepingcomputer.com/news/security/american-express-credit-cards-exposed-in-third-party-data-breach/">
+                                    <strong style="font-size: 22px;">美國運通信用卡資料外流，起因是第三方支付處理業者的系統被入侵</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: a7a6d3ef-1b80-483b-bc17-19fc35617cf3 -->
+                            <p></p>
+                            <p>美國運通近日向麻薩諸塞州通報他們發生資料外洩事故，指出他們得知許多商店合作的支付處理業者遭駭，導致客户的信用卡資料可能外洩，這些資料包含卡號、姓名、有效期限，但該公司強調本身的系統並未受到影響。</p>
+                            <p>不過，究竟有多少客户受到影響、攻擊發生的時間，以及支付處理業者的身分，美國運通並未透露。</p>
+                            <p>
+                                <!-- notionvc: d67a77cd-efe7-4a2d-8233-b54a97a16cb4 -->
+                            </p>
+                            <p>
+                                <a href="https://www.theguardian.com/technology/2024/feb/29/pegasus-surveillance-code-whatsapp-meta-lawsuit-nso-group">
+                                    <strong style="font-size: 22px;">美國法院要求 NSO Group 交出間諜軟體 Pegasus 原始碼</strong>
+                                </a>
+                            </p>
+                            <!-- notionvc: b2f2b02e-d1f9-4af8-a228-356720c8e8cd -->
+                            <p></p>
+                            <p>2019 年 10 月 Meta 控告駭入即時通訊軟體 WhatsApp 的間諜軟體製造商 NSO Group，最近有新的進展，根據衞報的報導，法官要求該公司必須提供 Meta 間諜程式 Pegasus 的原始碼，以及 WhatsApp 用户遭到攻擊前、後 1 年的所有版本間諜軟體，並包含全部的功能模組。</p>
+                            <p>由於此事牽涉軟體與行動裝置產業的安全，微軟、Google、思科、GitHub、LinkedIn、VMware、網際網路協會（Internet Association）皆曾出面聲援 Meta。</p>
                             <p>&nbsp;</p>
                             <h3>
-                                <strong>【其他新聞】</strong>
+                                <strong>【資安產業動態】</strong>
                             </h3>
                             <p>
-                                <a href="https://www.cna.com.tw/news/asoc/202403040057.aspx">
-                                    <strong>
-                                        <span style="font-size: 20px;">竊取晶圓製程投靠中國廠商，南亞科前員工被判 1 年 10 個月</span>
-                                    </strong>
+                                <a href="https://github.blog/2024-02-29-keeping-secrets-out-of-public-repositories/">
+                                    <strong style="font-size: 22px;">因應開發者程式碼不慎外洩帳密資料過於浮濫，GitHub 宣佈全面預設啟用「推送保護」機制</strong>
                                 </a>
                             </p>
-                            <!-- notionvc: 6b70965d-52ac-4539-8b6b-285a42820b1d -->
+                            <!-- notionvc: a1592155-8d10-4a86-a208-4b216f2b71ff -->
                             <p></p>
                             <p>
-                                <strong>
-                                    <a href="https://therecord.media/new-predator-spyware-infrastructure-identified">
-                                        <span style="font-size: 20px;">研究人員在 11 個國家發現新的攻擊基礎設施，疑被用於間諜軟體 Predator 攻擊</span>
+                                <a href="https://s4.itho.me/sites/default/files/images/Prevent-secret-leaks.jpg">
+                                    <img alt="" src="https://s4.itho.me/sites/default/files/images/Prevent-secret-leaks.jpg" style="width: 300px; float: right;" referrerpolicy="no-referrer">
+                                    </a>2 月 29 日程式碼儲存庫 GitHub 宣佈，有鑑於意外洩露的 API 金鑰、Token，以及其他機敏資訊（統稱為 secrets）不慎洩露的情況太過氾濫，他們在 2024 年前 8 週的時間，在公共儲存庫偵測到超過 100 萬個曝光的機敏資訊，相當於每分鐘就有至少 10 筆這類資料出現。對此，他們宣佈，所有用户提交至公開儲存庫的內容，預設啟用「推送保護（Push Protection）」的功能，希望能藉此防堵機敏資訊不慎被開發人員程式碼曝光的情況。
+                                </p>
+                                <p>這項防護措施去年 5 月先針對儲存庫的管理者開放啟用，到了 8 月，該公司宣佈開發人員可針對自己上傳的所有程式碼，在提交時進行相關的檢查。</p>
+                                <p>&nbsp;</p>
+                                <h3>
+                                    <strong>【資安防禦措施】</strong>
+                                </h3>
+                                <p>
+                                    <a href="https://www.ithome.com.tw/news/161545">
+                                        <strong style="font-size: 22px;">拜登發布行政命令，禁止敏感個資輸出至敵對國家</strong>
                                     </a>
-                                </strong>
-                            </p>
-                            <!-- notionvc: bbb2b5a0-974f-4404-ba74-21a2c40d287e -->
-                            <p></p>
-                            <p>
-                                <a href="https://www.bleepingcomputer.com/news/security/blackcat-ransomware-turns-off-servers-amid-claim-they-stole-22-million-ransom/">
-                                    <strong>
-                                        <span style="font-size: 20px;">勒索軟體駭客 BlackCat 聲稱從醫療支付平台 Change Healthcare 收到 2,200 萬美元贖金，然後關閉網站伺服器</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: 1c8b8fc6-2deb-4f90-bb33-460436a4163b -->
-                            <p></p>
-                            <p>
-                                <a href="http://gur.gov.ua/content/soft-shyfry-sekretni-dokumenty-kiberfakhivtsi-hur-zlamaly-minoborony-rosii.html">
-                                    <strong>
-                                        <span style="font-size: 20px;">烏克蘭駭客聲稱入侵俄羅斯國防部伺服器</span>
-                                    </strong>
-                                </a>
-                            </p>
-                            <!-- notionvc: bec29eb2-0fd1-473a-93b6-59a83c9454ff -->
-                            <p></p>
-                            <p>
-                                <strong>
-                                    <a href="https://www.darkreading.com/vulnerabilities-threats/voltzite-zaps-african-utilities-volt-typhoon-onslaught">
-                                        <span style="font-size: 20px;">海康威視修補安全管理系統的高風險漏洞</span>
-                                    </a>
-                                </strong>
-                            </p>
-                            <!-- notionvc: 8cf76f1b-600f-48f0-b2c8-d2e2e95cdecc -->
-                            <p></p>
-                            <p>&nbsp;</p>
-                            <h3>
-                                <strong>近期資安日報</strong>
-                            </h3>
-                            <p>
-                                <a href="https://www.ithome.com.tw/news/161590">
-                                    <strong>【3 月 4 日】駭客組織 Savvy Seahorse 從事投資詐騙攻擊並濫用 DNS CNAME 紀錄鎖定目標</strong>
-                                </a>
-                            </p>
-                            <p>
-                                <a href="https://www.ithome.com.tw/news/161571">
-                                    <strong>【3 月 1 日】惡意程式 Gtpdoor 埋伏於電信網路環境從事網路間諜攻擊</strong>
-                                </a>
-                            </p>
-                            <p>
-                                <a href="https://www.ithome.com.tw/news/161549">
-                                    <strong>【2 月 29 日】Hugging Face 平台上面出現惡意模型！能在用户電腦部署後門程式</strong>
-                                </a>
-                            </p>
+                                </p>
+                                <!-- notionvc: 627ca15a-c94b-4782-be2f-6312d288e91d -->
+                                <p></p>
+                                <p>2 月 28 日美國總統拜登發布行政命令，指出由於企業大量收集個資並交給資料掮客獲利，但這類公司很有可能將其賣給外國情報機構，不只會造成嚴重的隱私問題，甚至有可能引發國家安全的隱患，對此，他指示司法部制訂法規，明確規範美國民眾敏感個資免於遭到特定國家的存取和利用，這些資料範圍涵蓋基因、生物識別、個人健康、地理位置、財務，以及某些能夠識別個人的資料，當局也將加強對於政府敏感資料的保護。</p>
+                                <p>同時，司法部與國土安全局將設立高安全標準，防止特定國家透過投資、供應商、承攬關係等商業手段來取得該國人民個資。此外，美國電信服務部門外國參與評估委員會也在審核海底電纜許可的過程，評估對美國民眾敏感個資帶來的潛在威脅。</p>
+                                <p>對此，司法部表示將會徵求公眾意見，首波打算將中國、俄羅斯、伊朗、北韓、古巴、委內瑞拉列為重點關注國家。</p>
+                                <p>資料來源</p>
+                                <p>1.&nbsp;
+                                    <a href="https://www.whitehouse.gov/briefing-room/statements-releases/2024/02/28/fact-sheet-president-biden-issues-sweeping-executive-order-to-protect-americans-sensitive-personal-data/">https://www.whitehouse.gov/briefing-room/statements-releases/2024/02/28/fact-sheet-president-biden-issues-sweeping-executive-order-to-protect-americans-sensitive-personal-data/</a>
+                                    <br>
+2.&nbsp;
+                                        <a href="https://www.justice.gov/opa/pr/justice-department-implement-groundbreaking-executive-order-addressing-national-security">https://www.justice.gov/opa/pr/justice-department-implement-groundbreaking-executive-order-addressing-national-security</a>
+                                    </p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>【其他新聞】</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.cna.com.tw/news/asoc/202403040057.aspx">
+                                            <strong>
+                                                <span style="font-size: 20px;">竊取晶圓製程投靠中國廠商，南亞科前員工被判 1 年 10 個月</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 6b70965d-52ac-4539-8b6b-285a42820b1d -->
+                                    <p></p>
+                                    <p>
+                                        <strong>
+                                            <a href="https://therecord.media/new-predator-spyware-infrastructure-identified">
+                                                <span style="font-size: 20px;">研究人員在 11 個國家發現新的攻擊基礎設施，疑被用於間諜軟體 Predator 攻擊</span>
+                                            </a>
+                                        </strong>
+                                    </p>
+                                    <!-- notionvc: bbb2b5a0-974f-4404-ba74-21a2c40d287e -->
+                                    <p></p>
+                                    <p>
+                                        <a href="https://www.bleepingcomputer.com/news/security/blackcat-ransomware-turns-off-servers-amid-claim-they-stole-22-million-ransom/">
+                                            <strong>
+                                                <span style="font-size: 20px;">勒索軟體駭客 BlackCat 聲稱從醫療支付平台 Change Healthcare 收到 2,200 萬美元贖金，然後關閉網站伺服器</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: 1c8b8fc6-2deb-4f90-bb33-460436a4163b -->
+                                    <p></p>
+                                    <p>
+                                        <a href="http://gur.gov.ua/content/soft-shyfry-sekretni-dokumenty-kiberfakhivtsi-hur-zlamaly-minoborony-rosii.html">
+                                            <strong>
+                                                <span style="font-size: 20px;">烏克蘭駭客聲稱入侵俄羅斯國防部伺服器</span>
+                                            </strong>
+                                        </a>
+                                    </p>
+                                    <!-- notionvc: bec29eb2-0fd1-473a-93b6-59a83c9454ff -->
+                                    <p></p>
+                                    <p>
+                                        <strong>
+                                            <a href="https://www.darkreading.com/vulnerabilities-threats/voltzite-zaps-african-utilities-volt-typhoon-onslaught">
+                                                <span style="font-size: 20px;">海康威視修補安全管理系統的高風險漏洞</span>
+                                            </a>
+                                        </strong>
+                                    </p>
+                                    <!-- notionvc: 8cf76f1b-600f-48f0-b2c8-d2e2e95cdecc -->
+                                    <p></p>
+                                    <p>&nbsp;</p>
+                                    <h3>
+                                        <strong>近期資安日報</strong>
+                                    </h3>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/161590">
+                                            <strong>【3 月 4 日】駭客組織 Savvy Seahorse 從事投資詐騙攻擊並濫用 DNS CNAME 紀錄鎖定目標</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/161571">
+                                            <strong>【3 月 1 日】惡意程式 Gtpdoor 埋伏於電信網路環境從事網路間諜攻擊</strong>
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="https://www.ithome.com.tw/news/161549">
+                                            <strong>【2 月 29 日】Hugging Face 平台上面出現惡意模型！能在用户電腦部署後門程式</strong>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+                        <div></div>
                     </div>
-                </div>
-                <div></div>
-            </div>
-        </div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161613</guid>
-    <link>https://www.ithome.com.tw/news/161613</link>
-    <author>
-        <![CDATA[周峻佑]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[蘋果 M3 處理器進駐 MacBook Air]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-new_13-and15-inch_macbook_air-m3_chip-960.jpg?itok=CItk3Y50" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>蘋果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>繼去年 10 月<a href="https://www.ithome.com.tw/news/159571" target="_blank">發表</a>M3 系列處理器，以及搭載 M3 的 MacBook Pro 與 iMac 之後，蘋果週一（3/4）<a href="https://www.apple.com/newsroom/2024/03/apple-unveils-the-new-13-and-15-inch-macbook-air-with-the-powerful-m3-chip/" target="_blank">宣佈</a>，M3 處理器已進駐 13 吋及 15 吋的 MacBook Air，最低配置的售價分別為 1,099 美元（新台幣 35,900 元）與 1,299 美元（新台幣 42,900 元），美國預計於 3 月 8 日上架，台灣則尚未公佈上市日期。</p><p>M3 處理器在效率上比 M1 快上 50%，比 M2 快上 30%，神經引擎的效能則是比 M1 快上 60%，比 M2 快上 15%。它讓 MacBook Pro 的電池續航力達到 22 小時，而在 MacBook Air 上的電池續航力亦有 18 小時。</p><p>M3 版 MacBook Air 的規格基本上與 M2 版 MacBook Air 差不多，主要的差異在於處理器，以及前者支援 Wi-Fi 6E 標準，後者則支援 Wi-Fi 6。</p><p>不少蘋果粉絲認為，蘋果最令人驚豔的處理器產品就是第一代的 M1，之後就是屬於例行性的更新，沒有太多驚喜。不過，相較於過去採用英特爾核心的 MacBook Air，M3 版 MacBook Air 的效能是它的 13 倍，相較於採用 Intel Core i7 處理器的 PC 筆電，M3 版 MacBook Air 則有 2 倍的效能，瀏覽速度可快上 50%，電池續航力亦多出 40%。</p><p>根據 Gartner 在去年第四季針對全球 PC 出貨量的<a href="https://www.gartner.com/en/newsroom/press-releases/01-10-2024-gartner-says-worldwide-pc-shipments-increased-zero-point-three-percent-in-fourth-quarter-of-2023-but-declined-fourteen-point-eight-percent-for-the-year" target="_blank">調查</a>，該季全球 PC 出貨量為 6,330 萬台，成長 0.3%，前三名依序是聯想（市佔率 25.6%）、HP（22.0%）與 Dell（15.8%），而蘋果則以 10% 位居第四，不過，在前四名的業者中，蘋果該季出貨量的成長幅度最高，成長了 7.2%。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161612</guid>
-    <link>https://www.ithome.com.tw/news/161612</link>
-    <author>
-        <![CDATA[陳曉莉]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[Anthropic 發表宣稱可擊敗 OpenAI GPT-4 與 Google Gemini 1.0 Ultra 的 Claude 3 模型]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-anthropic_claude_3-960.jpg?itok=HdLb2apG" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Anthropic</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>新興的 AI 業者 Anthropic 週一（3/4）<a href="https://www.anthropic.com/news/claude-3-family" target="_blank">發表</a>了全新的 Claude 3 系列模型，涵蓋功能最低階的 Claude 3 Haiku、中階的 Claude 3 Sonnet，以及最強大的 Claude 3 Opus，它們的預設值皆支援 20 萬個 Token 的脈絡，並宣稱其中的 Claude 3 Opus 在許多基準測試上超越了 OpenAI GPT-4 與 Google Gemini 1.0 Ultra。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Anthropic 在 2021 年由曾擔任 OpenAI 研究副總裁的 Dario Amodei，以及其妹妹、同樣身為 OpenAI 資深員工的 Daniela Amodei 共同創立，是 OpenAI 最大的競爭對手之一，而 OpenAI 與微軟在資金及服務上的緊密關係，使得 Anthropic 成為其它科技巨頭競逐的對象，包括 Google 在 2022 年注資 3 億美元取得 10% 的 Anthropic 股份，去年底承諾加碼投資 20 億美元，至於 Amazon 也在去年宣佈將挹注 40 億美元至 Anthropic，並換得讓 AWS 成為 Anthropic 主要雲端服務供應商的交易。</p><p>Anthropic 本週所發表的 Claude 3 模型強化了各方面的能力，涵蓋分析、預測、細緻的內容建立、程式碼生成，以及在西班牙文、日文與法文等非英文語言的對話能力；它也擁有更複雜的視覺功能，得以處理各種不同的視覺格式，包括照片、圖表、圖像與技術圖等；還可帶來近乎即時的結果，可支援即時客户聊天、自動完成與資料汲取任務。</p><p>另一方面，過去的 Claude 模型經常作出不必要的拒絕，顯示它缺乏對語意的理解，最新的 Claude 3 則對提示表現出更細緻的理解能力，可辨識真正的傷害，明顯降低了拒絕回答無害提示的頻率。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model-600-1.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Claude 3 最受矚目的是其中的 Claude 3 Opus 模型在許多基準測試上，超越了 OpenAI GPT-4 與 Google Gemini 1.0 Ultra。例如在 MMLU 本科水平專家知識上達到 86.8%，擊敗 GPT-4 的 86.4% 與 Gemini 1.0 Ultra 的 83.7%，研究生專家推論（GPQA）以 50.4% 超越 OpenAI GPT-4 的 35.7%。其它凌駕這兩大模型的基礎測試還有基礎數學（GSM8K）、程式碼生成能力 HumanEval 與文字推論等。</p><p class="rtecenter"><a href="https://s4.itho.me/sites/default/files/files/0305-Anthropic%20claude%20family%20model-600-2B.png" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model-600-2A.png" style="width: 548px;" referrerpolicy="no-referrer"></a></p><p>儘管 Claude 3 模型初期僅支援 20 萬個 Token 的脈絡，但 3 種型號都可接受超過 100 萬個 Token 的輸入，Anthropic 將根據需求提供給需要強化處理能力的客户。為了有效地處理冗長的上下文，這些模型需要強大的回憶能力，在評估模型記憶的「大海撈針」（Needle In A Haystack，NIAH）基準測試中，Claude 3 Opus 不僅達到超過 99% 的準確率，在某些情況下，甚至能夠辨識出此針是否是人為插入的。</p><p>Anthropic 亦標榜 Claude 3 模型的偏差少於先前的模型，也更擅長遵循複雜的多步驟指令，或是生成諸如 JSON 等格式的結構化輸出，以更輕鬆地將 Claude 3 模型應用在自然語言分類或情緒分析上。</p><p>Claude 3 Haiku、Claude 3 Sonnet 與 Claude 3 Opus 各自可支援不同的應用，Claude 3 Haiku 是最袖珍及最快速的模型，專為模仿人類互動的即時回應與無縫 AI 體驗而設計，每 100 萬個 Token 的輸入費用為 0.25 美元，輸出為 1.25 美元；Claude 3 Sonnet 屬於相對均衡的模型，在智慧與速度中取得平衡，適用於企業負載及大規模的 AI 部署，每 100 萬個 Token 的輸入/輸出費用分別是 3 美元及 15 美元；最強大的 Claude 3 Opus 可處理高度複雜的任務，可帶來人類等級的理解能力，每 100 萬個 Token 的輸入/輸出費用分別是 15 美元與 75 美元。</p><p>Anthropic 的 API 現已支援 Claude 3 Sonnet 與 Claude 3 Opus，使用者亦可透過 claude.ai、Amazon Bedrock 與 Google Cloud 的 Vertex AI Model Garden 使用 Claude 3 Sonnet，Claude 3 Opus 目前則僅開放 Claude Pro 訂閲用户使用。至於 Claude 3 Haiku 也會在近期上市。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Anthropic</span></span></p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161610</guid>
-    <link>https://www.ithome.com.tw/news/161610</link>
-    <author>
-        <![CDATA[陳曉莉]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[Google 祭出 500 萬美元獎金尋找量子電腦應用]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-xprize_quantum_applications-960.jpg?itok=Yfo2bAVp" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google<a href="https://blog.google/technology/research/google-gesda-and-xprize-launch-new-competition-in-quantum-applications/" target="_blank">贊助</a>發起一項 XPRIZE 競賽，將提供 500 萬獎金鼓勵研究人員開發量子應用解決真實世界所需。</p><p>名為<a href="http://www.xprize.org/prizes/qc-apps" target="_blank">XPRIZE 量子應用大賽</a>的活動，是由 Google Quantum AI 及 Google.org，連同研究機構 GESDA（Geneva Science and Diplomacy Anticipator）贊助 XPRIZE 基金會共同舉辦，規劃 3 年期程，獎酬 500 萬美元，鼓勵開發可實際用於真實世界的量子運算演算法。</p><p>Google Quantum AI 部門主管 Ryan Babbush 指出，現今學界開發的大部份量子演算法是為瞭解決抽象的數學問題，較少用於實際應用場景，目前大家也不清楚，量子運算用在實際世界有多少效用、何時或用在哪裏最有幫助。一如 Google Quantum AI 建立大規模、糾錯的量子電腦、及開發有用處的量子應用的目標，XPRIZE Quantum Application 競賽目的正是為瞭解決這些問題。XPRIZE Quantum Application 競賽希望能催生今天還沒有的 NISQ（Noisy Intermediate Scale Quantum，含噪音中等規模的量子系統）處理器應用，以及未來大規模具容錯能力的量子電腦應用。主辦單位希望在建立起大規模量子電腦之前先找出這些應用，以便硬體問世時可以加快部署。</p><p>主辦方<a href="https://www.xprize.org/prizes/qc-apps" target="_blank">列出</a>的應用範例包括，精準預測候選藥和人體蛋白質互動、改進微分方程中模型的電容與電感參數以更有效模擬電網負載、以及在電池或核融合反應器中材料和分子的預測模型，以減少碳排和提升能源效率。</p><p>這項競賽已在今天啟動，也已公佈<a href="https://www.xprize.org/prizes/qc-apps" target="_blank">報名網頁</a>。主辦方找來集結跨領域專家組成顧問及競賽裁判。實際評選時將分成三個次類，包括創新演算法、新式應用及提升效能類。</p><p>欲參加的隊伍需先描述其參賽專案的應用欲解決的問題，並分析其演算法需要在量子電腦上執行多久。大會會選出 20 隊進入準決賽，各隊需描述執行其演算法需要的硬體規格，並證明比傳統電腦更快、更準確，以及實際部署後的預計成效。</p><p>在獎金方面，準決賽團隊每隊獲得 5 萬美元獎金。500 萬獎金中，3 個獲獎團隊將可共同獲得 300 萬美元獎金，而之後 5 個團隊則可共享 100 萬美元獎金。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161609</guid>
-    <link>https://www.ithome.com.tw/news/161609</link>
-    <author>
-        <![CDATA[林妍溱]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[限制音樂串流 App 開發商繞過自家支付機制，蘋果遭加重處罰 18.4 億歐元]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-apple_store-guan_fang_tu_pian_-960.jpg?itok=Ze4a9prI" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>蘋果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>歐盟週一<a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_24_1161" target="_blank">宣佈</a>將針對蘋果 App Store 禁止音樂串流 App 開發商提供用户第三方支付，以違法情節重大及持續將近 10 年時間，重罰 18.4 億歐元（約 633 億台幣）。</p><p>歐盟執委會指控蘋果濫用市場壟斷地位，限制音樂串流應用程式對 iPhone 及 iPad 用户間的傳布。執委會認為蘋果對第三方應用程式業者做出限制，不許它們告知 iOS 用户 App Store 以外更便宜的音樂訂閲服務，被裁定違反歐盟反托拉斯法。</p><p>本案是起於 2019 年 Spotify 向歐盟申訴蘋果實施「限制導引規定」（anti-steering rules），防止音樂串流或播放程式開發商向用户提供外部支付資訊，使用户只能透過 App Store 程式內支付（in-app payment）機制付費，蘋果藉此抽取每筆消費者交易的 30%，即所謂「蘋果税」。歐盟於 2020 年介入調查，去年初歐盟縮小對蘋果的訴訟範疇，並在本週終於公佈判決結果。</p><p>根據歐盟調查，在限制導引規定中，蘋果限制開發商告知用户第三方網站支付的價格、外部網站連結，也不得知告知蘋果和外部 App 的 IAP 價差，或是以電子郵件等方式直接和新用户聯繫，透露其他付費方案的選項。和去年初歐盟的説詞大致相同，歐盟認為蘋果的限制導引條款對保護蘋果在智慧型行動裝置上的 App Store 商業利益，「既不必要也不相稱」，而且對 iOS 用户造成不利影響，使其未能被充份告知、做出串流訂閲服務的有利採購決策。</p><p>歐盟指出，蘋果此番行為持續將近 10 年，可能導致眾多 iOS 用户支付更高的音樂串流費用，消費者也因更惡劣的使用體驗，蒙受非金錢的損害。在決定罰款金額時，歐盟考量蘋果違法行為的期間及嚴重性，以及蘋果總營收和市值，同時也考量蘋果在調查期間陳述的不正確資訊。主管機關決定加重處份，確保產生足夠嚇阻作用，歐盟相信這等罰款有其必要性，以確保蘋果不會再犯，並對其他公司產生警惕作用。</p><p>上週《<a href="https://www.ft.com/content/1e677a7e-9494-4f5b-a724-9e58ef26b34fv" target="_blank">金融時報</a>》及《<a href="https://www.reuters.com/world/europe/eu-set-fine-apple-spotify-music-streaming-case-sources-say-2024-02-27/" target="_blank">路透社</a>》率先報導歐盟開罰的消息，但金額僅為 5 億歐元。</p><p>蘋果對此判決<a href="https://www.apple.com/newsroom/2024/03/the-app-store-spotify-and-europes-thriving-digital-music-market/" target="_blank">表達</a>不服。蘋果指歐盟主管機關並未找到任何消費者傷害的可信證據，也忽略市場正繁榮、激烈競爭且成長快速的事實。例如蘋果引述資料指出，Spotify 在歐洲串流音樂服務市場市佔達 56%。</p><p>此外，蘋果也指出，歐盟這項處份並未考量蘋果已經調整 AppStore 對第三方軟體市集及支付服務作法。因應即將生效的《數位市場法》（Digital Markets Act，DMA），蘋果 1 月已<a href="https://www.ithome.com.tw/news/161035" target="_blank">公佈</a>即將在 3 月上路的遵循措施。透過 iOS 17.4，歐盟用户將可從 App Store 以外的市集下載 iOS 程式。而 27 個歐盟國家開發商也可於程式中直接使用第三方支付服務、提供連結以連至外部網頁完成交易，並且顯示提供產品促銷活動或折扣的説明。因此，蘋果認為歐盟消費者也已擁有更多選擇。</p><p>蘋果表示，根據上述理由，該公司將提出上訴。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161608</guid>
-    <link>https://www.ithome.com.tw/news/161608</link>
-    <author>
-        <![CDATA[林妍溱]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[中國駭客組織 Earth Lusca 使用地緣政治議題為誘餌，在台灣總統大選前夕從事網釣攻擊]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/eath_lusca_timeline-156.jpg?itok=Sm0bveIV" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>1 月 13 日台灣進行總統與立委選舉，選前中國不斷文攻武嚇，並揚言若是民進黨繼續執政，將使得兩岸關係遠離和平。</p><p>中國駭客在台灣選舉前發動假訊息、網路釣魚、DDoS 攻擊已是常態。但截至目前為止，環顧全球資安研究領域，僅有 2 月 13 日<a href="https://www.ithome.com.tw/news/161289#2024-taiwan-vote">資安業者 Trellix 公佈選前觀察到的網路攻擊態勢</a>，並指出在投票當天前的 24 小時之內，中國駭客針對台灣企業組織而來的網路攻擊活動大幅增加，而其惡意行為主要是探測與收集候選人情資。</p><p>直到 3 月，終於又有這方面的威脅情資分析結果出爐，顯見這場全球關注的選舉背後，的確存在一股或多股勢力，企圖影響選情發展與攻擊關切此議題的國際政經人士。</p><p>資安業者趨勢科技指出，他們長期追蹤的中國駭客組織 Earth Lusca，<a href="https://www.trendmicro.com/zh_tw/research/24/b/earth-lusca-uses-geopolitical-lure-to-target-taiwan.html">從去年 12 月至今年 1 月，從事網路釣魚攻擊</a>，其中使用談論兩岸地緣政治議題的文件檔案，但引起研究人員關注的地方在於，該檔案在台灣總統大選兩天前（1 月 11 日）建立，其內容疑似盜用台灣地緣政治專家的文章。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/Eath%20Lusca%20Timeline.jpg" style="width: 580px;" referrerpolicy="no-referrer"></p><blockquote><p>根據研究人員公佈的攻擊鏈，駭客在迴避偵測上採用的手法最為多元，包含了採用 Windows 捷徑檔案（LNK）圖示挾持的欺騙手法、DLL 循序搜尋挾持、程式碼經過封裝處理等，但在這些手法之外，對方還使用多種罕見的做法，讓使用者更難以招架。（圖片來源／趨勢科技）</p></blockquote><h3><span style="color:#0000FF;"><strong>攻擊行動出現數種罕見手法</strong></span></h3><p>研究人員指出，他們推測攻擊者可能是經由電子郵件對目標下手，挾帶名為 China_s gray zone warfare against Taiwan.7z 的壓縮檔，其內容含有 2 個 Windows 捷徑檔（LNK），以及「__MACOS」資料夾。</p><p><a href="https://s4.itho.me/sites/default/files/images/lusca-242.jpg"><img alt="" src="https://s4.itho.me/sites/default/files/images/lusca-242.jpg" style="width: 580px;" referrerpolicy="no-referrer"></a></p><blockquote><p>從壓縮檔的內容來看，包含了 2 個 Windows 捷徑檔（LNK），分別偽裝成 Word 檔案及 PDF 檔案，但與多數攻擊行動不同之處在於，駭客建立了名為__MACOS 的資料夾，想要讓使用者誤以為檔案來自 Mac 電腦。再者，則是這些檔案都是在 1 月 11 日製作，也就是駭客在總統大選前 2 天從事網釣攻擊。（圖片來源／趨勢科技）</p></blockquote><p>乍看之下，上述資料夾名稱與 macOS 作業系統用來儲存資料夾組態的「__MACOSX」相似，但實際上，該資料夾內含攻擊鏈下個階段的惡意檔案。</p><p>特別的是，雖然是以台灣軍事情報作為誘餌，但駭客使用的檔案名稱皆為英文，這起網釣攻擊的對象，顯然並非專門針對使用正體中文的人士，趨勢科技對此並未有相關的分析，但我們推測攻擊目標很有可能是全球關心台海議題的政治專家、軍事專家、記者。</p><p>上述提及的 LNK 檔案，分別偽裝成 PDF 及 Word 檔案，一旦使用者點選，電腦就會__MACOS 資料夾裡的 JavaScript 指令碼。</p><p>接著，攻擊者將會進行寄生攻擊（LOLBin），先是輸出帶有 4d534346 字串的純文字檔，然後呼叫 certutil.exe 將其中的十六進位字串還原成可執行檔，並利用 expand.exe 解開 CAB 封裝檔案。</p><p>此 CAB 檔案的內容包含誘餌 Word 檔案、具有合法簽章的可執行檔、惡意 DLL 程式庫。其中的可執行檔，實際上是奇虎 360 瀏覽器的主程式，然而一旦執行，就會觸發惡意 DLL 檔案，最終於受害電腦部署 Cobalt Strike。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/lusca-247.jpg" style="width: 580px;" referrerpolicy="no-referrer"></p><blockquote><p>圖中的檔案為 CAB 封裝檔的內容，其中的 Word 檔案是誘餌，而 pfexec.exe 其實是奇虎 360 瀏覽器的主程式（360se.exe）更名而成，具有合法、有效簽章，一旦使用者執行，電腦就會載入惡意 DLL 檔案 chrome_elf.dll。（圖片來源／趨勢科技）</p></blockquote><p>研究人員指出，這些駭客用了不少隱匿攻擊行動的手法。首先是啟動 JavaScript 指令碼的 LNK 檔案，駭客在路徑加入了 255 個空白字元，而使得命令看起來僅是呼叫 Windows 檔案總管；再者，則是 JavaScript 檔案經過 Dean Edward’s JavaScript Packer 進行加密處理，而使得資安系統難以察覺有異。</p><p><img alt="" src="https://s4.itho.me/sites/default/files/images/lusca-243a.jpg" style="width: 333px;" referrerpolicy="no-referrer"></p><blockquote><p>假如使用者對駭客提供的 LNK 檔案檢視內容，便會在「目標（Target）」欄位看到圖中指令，而以為是點選 LNK 檔案後會啟動 Windows 檔案總管。但研究人員指出，駭客在 LNK 檔的目標欄位當中，在「explorer.exe」敍述後面插入 255 個空白字元，目的是避免使用者發現實際上會執行惡意 JavaScript 指令碼。（圖片來源／趨勢科技）</p></blockquote><p>附帶一提的是，對方使用的誘餌文件檔案，研究人員發現，這些由兩岸政治專家署名撰寫的文件似乎並未公開發表，因此他們懷疑駭客是直接入侵作者或是所屬組織的電腦竊得，並循線向作者及其組織通報。</p><h3><span style="color:#0000FF;"><strong>可能與中國資安業者安洵信息有所關連</strong></span></h3><p>值得留意的是，在 Earth Lusca 發動攻擊的過程當中，使用中國資安業者奇虎出品的瀏覽器主程式，而該公司曾經投資另一家資安業者安洵信息（i-Soon），而引起研究人員關注，並對 Earth Lusca 與安洵的攻擊型態進行比對。</p><p>為什麼是安洵？原因是<a href="https://www.ithome.com.tw/news/161454">該公司日前資料外洩</a>，有人將其內部資料上傳到 GitHub，外界從而得知該公司開發多種網路攻擊工具，並承攬中國國安單位與地方政府的標案，對包含台灣在內的超過 20 個國家從事網路間諜攻擊。</p><p>研究人員指出，這兩組人馬的發動攻擊的受害組織名單有所交集，其中安洵外洩的資料裡，曝光的受害組織也曾遭遇 Earth Lusca 攻擊。</p><p>再者，則是他們採用的作案工具有部分高度重疊，特別是 Winnti，以及安洵參與開發的 ShadowPad，都是兩組駭客頻繁使用的惡意程式。</p><p>另外一個共通點就是他們所在的地理位置，研究人員指出，Earth Lusca 與安洵滲透團隊的主要辦公室都位於四川成都。雖然兩組人馬的特點有許多共通之處，但他們之間的關係為何？研究人員表示仍有待進一步追查。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161607</guid>
-    <link>https://www.ithome.com.tw/news/161607</link>
-    <author>
-        <![CDATA[周峻佑]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[Google 釋出最新 Android Studio Iguana，重點強化程式碼除錯功能]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/android-studio-iguana-social.png?itok=MsvaWSmR" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Google 正式推出最新<a href="https://android-developers.googleblog.com/2024/02/android-studio-iguana-is-stable.html" target="_blank">Android Studio Iguana</a>，官方在這個版本的 App Quality Insights 功能中整合 Git 版本控制系統，還擴展 Firebase Crashlytics 崩潰報告的支援，協助開發者更好地分析應用程式崩潰原因。此外，此版本還針對 Jetpack Compose 應用程式，支援基準配置檔（Baseline Profiles）以加速應用程式啟動效率。</p><p>Android Studio Iguana 中的 App Quality Insights 更新，可以改善應用程式發布版的原始碼，比本地原始碼落後數個提交時，無法有效地從崩潰報告導航至對應程式碼行號的問題。官方解釋，該功能對於使用 Firebase Crashlytics 崩潰報告特別有用，因為程式碼行號可能因為版本落後而不準確。</p><p>當開發者使用 Git 版本控制系統，Android Gradle Plugin 會將 Git 提交訊息包含在發布到 Play Store 的構件中，因此在發生應用程式崩潰時，Crashlytics 會將 Git 資訊附加在報告中，而 Android Studio Iguana 便會使用該資訊，將開發者本地端副本與實際導致崩潰的程式碼進行比較。</p><p>開發者需要使用 Android Gradle Plugin 8.3 或是更高版本，以及最新的 Crashlytics SDK 建置並發布應用程式，App Quality Insights 視窗中的崩潰報告，便能夠引導開發者到當前 Git 副本中的程式碼行號，或是查看當前副本與生成崩潰報告的應用程式碼版本之間的差異，讓開發者更精準診斷和修復問題。</p><p>另一個 App Quality Insights 中的更新，是能夠讓開發者更好地分析和理解崩潰根本原因。過去開發者在 App Quality Insights 查看 Firebase Crashlytics 問題時，可能會看到程式碼共用相同的故障點，但其實際上卻可能是不同事件的聚合資料。而在 App Quality Insights 的 Firebase Crashlytics 更新中，現在非常類似的堆疊追蹤事件，會被分組為不同問題的變體以改善錯誤分析。</p><p>新版 Android Studio 中的 Compose Previews 加入 UI 檢查模式，可協助開發者建置自適應和無障礙介面。UI 檢查模式可看作是視覺 Linting 和無障礙檢查工具，其會自動審查 Compose UI，並在不同大小的螢幕偵測自適應和無障礙性問題，像是文字變形或低色彩對比度等狀況。</p><p>Compose Previews 還有一項新功能，現在提供漸進式渲染 (下圖），供開發者能夠以更少的載入時間迭代設計，該功能會自動降低視野外的預覽細節以加速效能，官方提到，這項更新之後，即便開發者滾動瀏覽複雜的佈局，都不會出現延遲。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/image3(22).png" style="width: 580px;" referrerpolicy="no-referrer"></p><p>Android Studio Iguana 還加入了基準配置檔，這是可以改進 Jetpack Compose 應用程式啟動速度的好用工具。不少時候在裝置上第一次執行 Android 應用程式時，因為作業系統必須執行 JIT 編譯，因此導致應用程式啟動速度受到影響，而 Google 現在供開發者建立基準配置檔，來改善這個問題。</p><p>新的模組精靈（Module Wizard）提供基準配置檔產生器範本，該範本可以配置專案以支援基準配置檔，於最新的基準配置檔 Gradle 套件，開發者就能以單一 Gradle 命令，自動執行任務來簡化設定。運用這項新功能，開發者便可以加速應用程式的啟動，大幅減少等待時間。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Sun, 03 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161604</guid>
-    <link>https://www.ithome.com.tw/news/161604</link>
-    <author>
-        <![CDATA[李建興]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[Compose Multiplatform 1.6.0 強化資源管理 API，新增 iOS 輔助功能支援]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2277_-_compose_multiplatform_1.6.0_-_resources_ui_testing_ios_accessibili_-_blog.jetbrains.com_.jpg?itok=trcffLKe" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>JetBrains 釋出了新版跨平台 UI 開發框架<a href="https://blog.jetbrains.com/kotlin/2024/02/compose-multiplatform-1-6-0-release/#common-resources-api">Compose Multiplatform 1.6.0</a>。這個新版本加入多項新功能，像是改進資源管理函式庫，並且新增 UI 測試 API 以及 iOS 輔助功能支援，同時也強化與新版 Kotlin，以及 Google 最新 Jetpack Compose 變更的相容性。</p><p>Compose Multiplatform 1.6.0 中的一項重要變更，便是改進共用和存取資源 API，新的 API 讓開發者在 Compose Multiplatform 應用程式中匯入和存取更多類型的資源，像是圖像、字體、字串和各種檔案。新的資源 API 讓開發者於不同情境使用相同資源的變體，包括地區設置、螢幕密度和主題，因此開發者可以根據地區設置在地化文字，或是根據螢幕解析度提供替代圖像，甚至是深色模式下的圖標顏色，都可以透過在相對應的目錄名稱，增加特定符號來表達這些限制。</p><p>開發者現在也可以使用新的 UI 測試工具，確保應用程式按照預期運作。Compose Multiplatform 1.6.0 中的實驗性 API，讓開發者可以編寫通用 UI 測試，以驗證應用程式介面在不同平台上的行為。</p><p>另外，該框架也進一步支援 iOS 的輔助功能，使身心障礙者更容易操作 Compose UI。在這項更新之後，iOS 的螢幕閲讀器和 VoiceOver 功能，都能夠存取 Compose Multiplatform UI 的內容，而且 Compose Multiplatform UI 也支援 iOS 原生 UI 相同的操作手勢。官方解釋，Compose Multiplatform 的語義資料會自動對應到輔助功能樹（Accessibility Tree）中，開發者可以將這些資料提供給輔助功能，並且使用 Apple XCTest 框架測試。</p><p>在這個新版本中，Compose Multiplatform 也更新加入通用@Preview 註解，過去@Preview 僅適用於 Android 和桌面平台，現在該註解由 JetBrains Fleet 1.31 版本提供通用支援，而透過使用@Preview，開發者可以簡單地預覽 UI 創建函式@Composable，不需要執行整個應用程式。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0304-Compose%20Multiplatform-%40Preview.png" style="width: 418px;" referrerpolicy="no-referrer"></p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源／JetBrains</span></span></p><p>在@Composable 函式前添加@Preview 註解，JetBrains Fleet 會在旁邊程式碼旁提供預覽，讓開發者可以直接瀏覽@Composable 的渲染結果，這對於快速迭代和檢查 UI 變更非常有用，因為可省去開發者重新編譯和部署應用程式的時間。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Sun, 03 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161603</guid>
-    <link>https://www.ithome.com.tw/news/161603</link>
-    <author>
-        <![CDATA[李建興]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[微軟.NET 程式碼評估工具整合 GitHub Copilot]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/copilot-in-appcat-dashboard.png?itok=s0ybkmNL" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>微軟<a href="https://devblogs.microsoft.com/dotnet/azure-migrate-application-and-code-assessment-march-2024-update/">更新</a>其.NET 程式碼評估工具 Azure Migrate Application and Code Assessment，包括整合 GitHub Copilot、考量不同 Azure 環境，以及提供開發者更多自訂靈活性等，協助開發者找出和解決搬遷 Azure 可能遭遇的問題，更順利地在雲端平台重新部署應用程式。</p><p>微軟在今年 1 月初的時候推出 Azure Migrate Application and Code Assessment 工具，讓開發者可以方便地將本地端.NET 應用程式搬遷到 Azure 雲端。該工具能夠評估.NET 應用程式原始碼、配置和二進位檔案，在搬遷之前先找出可能發生的潛在問題，並且提供開發者雲端原生解決方案建議，以解決效能、擴展性和資安問題。</p><p>而微軟現在於 Azure Migrate Application and Code Assessment 整合 GitHub Copilot，官方解釋，該工具很適合在搬遷之前進行審查，而藉由整合 Copilot Chat，就可以進一步針對已發現的問題，提供客製化指引。</p><p>Copilot Chat 透過 Visual Studio 擴充套件和命令列工具，整合至 Azure Migrate Application and Code Assessment。開發者安裝 Visual Studio 擴充套件之後，在報告儀錶板中便會看到 Copilot Chat 的按鈕，點擊之後 Copilot 會閲讀專案報告，總結出重要問題，開發者便可就想解決的問題與 Copilot 深入討論。</p><p>另外，報告中的所有問題，旁邊也都會有一個 Ask Copilot 按鈕，可以啟動與 Copilot Chat 的新對話，微軟提到，Ask Copilot 功能會將開發者的描述，還有觸發問題的程式碼片段共享給 Copilot Chat，使得 Copilot 能根據具體程式碼和問題提供建議，而這將有助於 Copilot Chat 提供更準確的指引。也就是説，開發者必須謹慎考慮提交的內容，避免提及不想提供給 Copilot Chat 的程式碼和敏感資訊。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0304-Ask%20Copilot-600.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Azure Migrate Application and Code Assessment 可以評估需要調整的程式碼模式，以便.NET 應用程式在 Azure 中良好的運作。之前該工具的問題分析都是針對一般 Azure 環境，並沒有考慮到不同 Azure 託管選項間的差異，在新版中，開發者可選擇諸如 Azure App Service（Windows）、Azure App Service（Linux 容器化）或 Azure Container Apps 等目標環境。</p><p>微軟指出，雖然無論開發者選擇的環境，Azure Migrate Application and Code Assessment 都以相同的規則分析應用程式，但是依據環境的不同，問題的嚴重性和描述可能會有所不同。而現在該工具可以反應所選環境的具體要求。</p><p>另外，在 Azure Migrate Application and Code Assessment 的最新版本，還支援直接掃描編譯後的.NET 應用程式二進位檔案，因此可用於掃描建置輸出，或是直接評估部署在 IIS 的.NET 應用程式，這對於原始碼不可用，或是想直接掃描已部署的應用程式特別有用。不過 Visual Studio 擴充套件僅適用於專案程式碼，所以這項功能僅在命令列工具中可用。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0304-Azure%20Migrate%20application%20and%20code%20assessment-Scanning%20binary-600.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>而現在開發者還能夠靈活地自訂評估規則，只要使用 JSON 配置檔就能夠啟用和停用特定規則，甚至是變更規則的嚴重性、排除規則等。Visual Studio 擴充套件和命令列工具皆支援此功能。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Sun, 03 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161595</guid>
-    <link>https://www.ithome.com.tw/news/161595</link>
-    <author>
-        <![CDATA[李建興]]>
-    </author>
-    <category>新聞</category>
-</item>
-<item>
-    <title>
-        <![CDATA[美國法院要求 NSO Group 交出間諜程式 Pegasus 原始碼]]>
-    </title>
-    <description>
-        <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0220-nso_group.jpg?itok=rwdAXbbL" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>臉書（現為 Meta）在 2019 年 10 月<a href="https://www.ithome.com.tw/news/133908" target="_blank">控告</a>駭進 WhatsApp 的以色列公司 NSO Group，此案目前仍在美國法院由 Phyllis Hamilton 法官進行審理，根據外電報導，上週 Hamilton 要求 NSO Group 必須提供所開發的間諜程式 Pegasus 原始碼予 Meta。</p><p>Pegasus 主要被安裝在受害者的手機上，它能夠讀取簡訊、監聽電話、蒐集密碼、追蹤位置，還能存取裝置上的麥克風與攝影機，為全球最普及的間諜程式之一，受害者涵蓋異見人士、人權活動人士、記者或政治家等，NSO Group 還負責利用各種平台或是程式的漏洞，趁機於受害者手機上植入 Pegasus，主要客户為各國政府。</p><p>由於它牽涉到軟體與整個行動產業的安全性，使得該案件受到微軟、Google、思科、GitHub、LinkedIn、VMware 與網際網路協會（Internet Association）的<a href="https://www.ithome.com.tw/news/141807" target="_blank">大力支持</a>。</p><p>根據《衞報》（Guardian）的<a href="https://www.theguardian.com/technology/2024/feb/29/pegasus-surveillance-code-whatsapp-meta-lawsuit-nso-group" target="_blank">報導</a>，在此一仍在審理的訴訟中，Hamilton 要求 NSO Group 必須生產 WhatsApp 用户遭到攻擊之前後一年的所有間諜軟體予 Meta，也必須提供相關間諜軟體的所有功能。不過，Hamilton 並未要求 NSO Group 揭露客户名稱或伺服器架構。</p></div></div></div><div></div></div></div></div>]]>
-    </description>
-    <pubDate>Sun, 03 Mar 2024 16:00:00 GMT</pubDate>
-    <guid isPermaLink="false">https://www.ithome.com.tw/news/161597</guid>
-    <link>https://www.ithome.com.tw/news/161597</link>
-    <author>
-        <![CDATA[陳曉莉]]>
-    </author>
-    <category>新聞</category>
-</item>    </channel>    </rss>
+                </div></div>]]>
+            </description>
+            <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161613</guid>
+            <link>https://www.ithome.com.tw/news/161613</link>
+            <author>
+                <![CDATA[周峻佑]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[蘋果 M3 處理器進駐 MacBook Air]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-new_13-and15-inch_macbook_air-m3_chip-960.jpg?itok=CItk3Y50" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>蘋果</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>繼去年 10 月<a href="https://www.ithome.com.tw/news/159571" target="_blank">發表</a>M3 系列處理器，以及搭載 M3 的 MacBook Pro 與 iMac 之後，蘋果週一（3/4）<a href="https://www.apple.com/newsroom/2024/03/apple-unveils-the-new-13-and-15-inch-macbook-air-with-the-powerful-m3-chip/" target="_blank">宣佈</a>，M3 處理器已進駐 13 吋及 15 吋的 MacBook Air，最低配置的售價分別為 1,099 美元（新台幣 35,900 元）與 1,299 美元（新台幣 42,900 元），美國預計於 3 月 8 日上架，台灣則尚未公佈上市日期。</p><p>M3 處理器在效率上比 M1 快上 50%，比 M2 快上 30%，神經引擎的效能則是比 M1 快上 60%，比 M2 快上 15%。它讓 MacBook Pro 的電池續航力達到 22 小時，而在 MacBook Air 上的電池續航力亦有 18 小時。</p><p>M3 版 MacBook Air 的規格基本上與 M2 版 MacBook Air 差不多，主要的差異在於處理器，以及前者支援 Wi-Fi 6E 標準，後者則支援 Wi-Fi 6。</p><p>不少蘋果粉絲認為，蘋果最令人驚豔的處理器產品就是第一代的 M1，之後就是屬於例行性的更新，沒有太多驚喜。不過，相較於過去採用英特爾核心的 MacBook Air，M3 版 MacBook Air 的效能是它的 13 倍，相較於採用 Intel Core i7 處理器的 PC 筆電，M3 版 MacBook Air 則有 2 倍的效能，瀏覽速度可快上 50%，電池續航力亦多出 40%。</p><p>根據 Gartner 在去年第四季針對全球 PC 出貨量的<a href="https://www.gartner.com/en/newsroom/press-releases/01-10-2024-gartner-says-worldwide-pc-shipments-increased-zero-point-three-percent-in-fourth-quarter-of-2023-but-declined-fourteen-point-eight-percent-for-the-year" target="_blank">調查</a>，該季全球 PC 出貨量為 6,330 萬台，成長 0.3%，前三名依序是聯想（市佔率 25.6%）、HP（22.0%）與 Dell（15.8%），而蘋果則以 10% 位居第四，不過，在前四名的業者中，蘋果該季出貨量的成長幅度最高，成長了 7.2%。</p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161612</guid>
+            <link>https://www.ithome.com.tw/news/161612</link>
+            <author>
+                <![CDATA[陳曉莉]]>
+            </author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Anthropic 發表宣稱可擊敗 OpenAI GPT-4 與 Google Gemini 1.0 Ultra 的 Claude 3 模型]]>
+            </title>
+            <description>
+                <![CDATA[<header><div class="img-wrapper"><div class="field field-name-field-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0305-anthropic_claude_3-960.jpg?itok=HdLb2apG" width="960" height="420" alt="" referrerpolicy="no-referrer"></div></div></div></div></header><div class="row-fluid"><div class="contents-wrap"><div class="content"><div class="side-extra"></div><div class="field field-name-field-photo-source field-type-text field-label-inline clearfix"><div class="field-label">圖片來源:&nbsp;</div><div class="field-items"><div class="field-item even"><p>Anthropic</p></div></div></div><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>新興的 AI 業者 Anthropic 週一（3/4）<a href="https://www.anthropic.com/news/claude-3-family" target="_blank">發表</a>了全新的 Claude 3 系列模型，涵蓋功能最低階的 Claude 3 Haiku、中階的 Claude 3 Sonnet，以及最強大的 Claude 3 Opus，它們的預設值皆支援 20 萬個 Token 的脈絡，並宣稱其中的 Claude 3 Opus 在許多基準測試上超越了 OpenAI GPT-4 與 Google Gemini 1.0 Ultra。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Anthropic 在 2021 年由曾擔任 OpenAI 研究副總裁的 Dario Amodei，以及其妹妹、同樣身為 OpenAI 資深員工的 Daniela Amodei 共同創立，是 OpenAI 最大的競爭對手之一，而 OpenAI 與微軟在資金及服務上的緊密關係，使得 Anthropic 成為其它科技巨頭競逐的對象，包括 Google 在 2022 年注資 3 億美元取得 10% 的 Anthropic 股份，去年底承諾加碼投資 20 億美元，至於 Amazon 也在去年宣佈將挹注 40 億美元至 Anthropic，並換得讓 AWS 成為 Anthropic 主要雲端服務供應商的交易。</p><p>Anthropic 本週所發表的 Claude 3 模型強化了各方面的能力，涵蓋分析、預測、細緻的內容建立、程式碼生成，以及在西班牙文、日文與法文等非英文語言的對話能力；它也擁有更複雜的視覺功能，得以處理各種不同的視覺格式，包括照片、圖表、圖像與技術圖等；還可帶來近乎即時的結果，可支援即時客户聊天、自動完成與資料汲取任務。</p><p>另一方面，過去的 Claude 模型經常作出不必要的拒絕，顯示它缺乏對語意的理解，最新的 Claude 3 則對提示表現出更細緻的理解能力，可辨識真正的傷害，明顯降低了拒絕回答無害提示的頻率。</p><p class="rtecenter"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model-600-1.png" style="width: 600px;" referrerpolicy="no-referrer"></p><p>Claude 3 最受矚目的是其中的 Claude 3 Opus 模型在許多基準測試上，超越了 OpenAI GPT-4 與 Google Gemini 1.0 Ultra。例如在 MMLU 本科水平專家知識上達到 86.8%，擊敗 GPT-4 的 86.4% 與 Gemini 1.0 Ultra 的 83.7%，研究生專家推論（GPQA）以 50.4% 超越 OpenAI GPT-4 的 35.7%。其它凌駕這兩大模型的基礎測試還有基礎數學（GSM8K）、程式碼生成能力 HumanEval 與文字推論等。</p><p class="rtecenter"><a href="https://s4.itho.me/sites/default/files/files/0305-Anthropic%20claude%20family%20model-600-2B.png" target="_blank"><img alt="" src="https://s4.itho.me/sites/default/files/images/0305-Anthropic%20claude%20family%20model-600-2A.png" style="width: 548px;" referrerpolicy="no-referrer"></a></p><p>儘管 Claude 3 模型初期僅支援 20 萬個 Token 的脈絡，但 3 種型號都可接受超過 100 萬個 Token 的輸入，Anthropic 將根據需求提供給需要強化處理能力的客户。為了有效地處理冗長的上下文，這些模型需要強大的回憶能力，在評估模型記憶的「大海撈針」（Needle In A Haystack，NIAH）基準測試中，Claude 3 Opus 不僅達到超過 99% 的準確率，在某些情況下，甚至能夠辨識出此針是否是人為插入的。</p><p>Anthropic 亦標榜 Claude 3 模型的偏差少於先前的模型，也更擅長遵循複雜的多步驟指令，或是生成諸如 JSON 等格式的結構化輸出，以更輕鬆地將 Claude 3 模型應用在自然語言分類或情緒分析上。</p><p>Claude 3 Haiku、Claude 3 Sonnet 與 Claude 3 Opus 各自可支援不同的應用，Claude 3 Haiku 是最袖珍及最快速的模型，專為模仿人類互動的即時回應與無縫 AI 體驗而設計，每 100 萬個 Token 的輸入費用為 0.25 美元，輸出為 1.25 美元；Claude 3 Sonnet 屬於相對均衡的模型，在智慧與速度中取得平衡，適用於企業負載及大規模的 AI 部署，每 100 萬個 Token 的輸入/輸出費用分別是 3 美元及 15 美元；最強大的 Claude 3 Opus 可處理高度複雜的任務，可帶來人類等級的理解能力，每 100 萬個 Token 的輸入/輸出費用分別是 15 美元與 75 美元。</p><p>Anthropic 的 API 現已支援 Claude 3 Sonnet 與 Claude 3 Opus，使用者亦可透過 claude.ai、Amazon Bedrock 與 Google Cloud 的 Vertex AI Model Garden 使用 Claude 3 Sonnet，Claude 3 Opus 目前則僅開放 Claude Pro 訂閲用户使用。至於 Claude 3 Haiku 也會在近期上市。</p><p><span style="font-size:14px;"><span style="color:#696969;">圖片來源_Anthropic</span></span></p></div></div></div><div></div></div></div></div>]]>
+            </description>
+            <pubDate>Mon, 04 Mar 2024 16:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161610</guid>
+            <link>https://www.ithome.com.tw/news/161610</link>
+            <author>
+                <![CDATA[陳曉莉]]>
+            </author>
+            <category>新聞</category>
+        </item>
+    </channel>
+</rss>
