@@ -16,8 +16,371 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 07 Mar 2024 12:53:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 08 Mar 2024 14:11:01 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[重磅發佈｜AutoMQ 1.0.0 GA 版本官宣：已驗證生產環境可用性]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><div><div><strong>AutoMQ 是基於雲構建的無服務、極速彈性、極具成本效益的下一代 Kafka。100% 兼容 Apache Kafka，無分區數據複製。在無副作用的前提下解決了 Kafka 彈性、運維上的諸多痛點並且帶來了數量級的成本降低。</strong></div><div>
+  &nbsp;
+ </div><div>
+  AutoMQ 1.0.0 GA 版本現已在 Github 倉庫 (https://github.com/AutoMQ/automq-for-kafka) 正式發佈，歡迎大家關注與下載使用。
+ </div><div>
+  &nbsp;
+ </div><div>
+  我們自信地認為 1.0.0 可以作為 GA 版本，用於生產環境主要是基於以下事實：
+ </div><ul><li><div>
+    通過我們自研 Long Running 自動化測試框架長時間穩定運行，對 GA 版本兼容性、穩定性、性能有全面的長時間可靠驗證。
+   </div></li><li><div>
+    通過自研 Long Running Chaos 自動化測試長時間穩定運行，對各故障注入場景注入網絡問題、磁盤 hang 等都可以正常及時恢復。
+   </div></li><li><div>
+    長時間穩定運行 E2E 測試，覆蓋 Apache Kafka 所有測試用例 (Kraft 相關部分) 合計 387 個測試用例。
+   </div></li><li><div>
+    支持統一完整的指標透出，可用於全面監控 AutoMQ，滿足投產標準。
+   </div></li><li><div>
+    內核大量優化與改進，保證 AutoMQ 在各種功能、性能上滿足我們的 GA 標準。性能白皮書可以從官網 (https://www.automq.com) 下載。
+   </div></li></ul><div>
+  版本更新細節包括：
+ </div><ul><li><div>
+    在 AutoMQ 多個早期用戶真實場景經過打磨與驗證。
+   </div></li><li><div>
+    ci: Bump version to 1.0.0-rc8 by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmooc9988" target="_blank">@mooc9988</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F785" target="_blank">#785</a></u></div></li><li><div>
+    build(s3stream): switch back to dev mode by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F786" target="_blank">#786</a></u></div></li><li><div>
+    fix(e2e): wait for more time for broker hard bounce by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmooc9988" target="_blank">@mooc9988</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F787" target="_blank">#787</a></u></div></li><li><div>
+    feat(issues791): change s3.stream.object.compaction.max.size.bytes default 1GB by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F792" target="_blank">#792</a></u></div></li><li><div>
+    fix(auth): throw an exception when failed to create a credential from env by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F793" target="_blank">#793</a></u></div></li><li><div>
+    fix(e2e): fix transaction timeout; merge streams tests by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmooc9988" target="_blank">@mooc9988</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F795" target="_blank">#795</a></u></div></li><li><div>
+    feat(core): verify stream epoch for stream object commit by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F796" target="_blank">#796</a></u></div></li><li><div>
+    fix(core): prevent generate stream object record for noop object id by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F797" target="_blank">#797</a></u></div></li><li><div>
+    fix(issues798): checkpoint NPE by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F800" target="_blank">#800</a></u></div></li><li><div>
+    fix(e2e): add consumer api timeout to 90s in hard bounce tests by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmooc9988" target="_blank">@mooc9988</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F803" target="_blank">#803</a></u></div></li><li><div>
+    feat(issues801): stream trim only update stream metadata by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F805" target="_blank">#805</a></u></div></li><li><div>
+    feat(core): add metrics to monitor auto balancer metrics delay by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F807" target="_blank">#807</a></u></div></li><li><div>
+    fix(issues806): stream object leak by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F808" target="_blank">#808</a></u></div></li><li><div>
+    fix: range end offset isn't revertable by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F809" target="_blank">#809</a></u></div></li><li><div>
+    chore: rename s3ObjectRetention* to s3ObjectDeleteRetention for a more precise description by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdaniel-y" target="_blank">@daniel-y</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F810" target="_blank">#810</a></u></div></li><li><div>
+    fix: set destroyed object size by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F811" target="_blank">#811</a></u></div></li><li><div>
+    chore: suppress out of order error by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F812" target="_blank">#812</a></u></div></li><li><div>
+    fix(metrics): present metrics from active controller only by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F815" target="_blank">#815</a></u></div></li><li><div>
+    fix(core): prevent anomaly detect exit on inactive controller by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F816" target="_blank">#816</a></u></div></li><li><div>
+    fix(issues817): txn index fetch out of bound by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F818" target="_blank">#818</a></u></div></li><li><div>
+    feat(shell): add metadata summary to metadata shell by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F813" target="_blank">#813</a></u></div></li><li><div>
+    fix(ReplicaManager): fix memory leak caused by uncaught exception by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F821" target="_blank">#821</a></u></div></li><li><div>
+    fix(core): remove topic partition metrics on partition offline by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F820" target="_blank">#820</a></u></div></li><li><div>
+    feat(core): add metrics to monitor s3 objects by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F823" target="_blank">#823</a></u></div></li><li><div>
+    fix(core): record s3 object metrics on active controller only by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F824" target="_blank">#824</a></u></div></li><li><div>
+    feat: add object ttl reach log by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F825" target="_blank">#825</a></u></div></li><li><div>
+    fix(issues826): fix consume records leak in closing channel by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F827" target="_blank">#827</a></u></div></li><li><div>
+    fix(pr-827): fix release 
+    <code>PooledMemoryRecords</code> twice by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F828" target="_blank">#828</a></u></div></li><li><div>
+    chore: support release tgz file in workflow by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKaimingWan" target="_blank">@KaimingWan</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F832" target="_blank">#832</a></u></div></li><li><div>
+    fix(core): catch exceptions on replaying records by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F836" target="_blank">#836</a></u></div></li><li><div>
+    feat(core): refine grafana dashboards by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F837" target="_blank">#837</a></u></div></li><li><div>
+    fix(core): fix auto balancer metrics delay time calculation by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F838" target="_blank">#838</a></u></div></li><li><div>
+    fix(ReplicaManager): release permits after sending responses by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F831" target="_blank">#831</a></u></div></li><li><div>
+    fix: log permanet fail by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F839" target="_blank">#839</a></u></div></li><li><div>
+    feat(core): redirect JUL log to sl4j and remove unused logging exporter by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F843" target="_blank">#843</a></u></div></li><li><div>
+    perf(DelayedFetch): only try to fast read on complete a delayed fetch by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F844" target="_blank">#844</a></u></div></li><li><div>
+    perf(ReplicaManager): return fast if slow fetch timeout by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F845" target="_blank">#845</a></u></div></li><li><div>
+    fix(core): fix node id regex in broker dashboard by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F841" target="_blank">#841</a></u></div></li><li><div>
+    feat: record pooled record memory usage by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F846" target="_blank">#846</a></u></div></li><li><div>
+    ci: skip nightly schedule on forks by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftisonkun" target="_blank">@tisonkun</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F842" target="_blank">#842</a></u></div></li><li><div>
+    fix(metrics): add label 'version' to kafka.request.count by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F847" target="_blank">#847</a></u></div></li><li><div>
+    feat(telemetry): add host name to OTel resource by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F849" target="_blank">#849</a></u></div></li><li><div>
+    feat(metrics): metrics on fetch limiters and executors by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F848" target="_blank">#848</a></u></div></li><li><div>
+    feat(metrics): add buffer and thread metrics by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FShadowySpirits" target="_blank">@ShadowySpirits</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F851" target="_blank">#851</a></u></div></li><li><div>
+    feat(telemetry): add direct memory panels by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F853" target="_blank">#853</a></u></div></li><li><div>
+    fix(telemetry): fix read ahead throughput panel unit by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F854" target="_blank">#854</a></u></div></li><li><div>
+    feat(metrics): rename DirectByteBufAlloc to ByteBufAlloc by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FShadowySpirits" target="_blank">@ShadowySpirits</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F855" target="_blank">#855</a></u></div></li><li><div>
+    fix(telemetry): fix memory allocation metrics name by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F856" target="_blank">#856</a></u></div></li><li><div>
+    feat(metrics): enable buffer pools metrics by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FShadowySpirits" target="_blank">@ShadowySpirits</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F857" target="_blank">#857</a></u></div></li><li><div>
+    fix: remove special char from issue template file name by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F858" target="_blank">#858</a></u></div></li><li><div>
+    fix(telemetry): fix jvm metrics by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F859" target="_blank">#859</a></u></div></li><li><div>
+    fix(telemetry): refine grafana dashboard by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FSCNieh" target="_blank">@SCNieh</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F860" target="_blank">#860</a></u></div></li><li><div>
+    feat: release automq 1.0.0 by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F861" target="_blank">#861</a></u></div></li><li><div>
+    ci: Bump version to 1.0.0 by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fsuperhx" target="_blank">@superhx</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F862" target="_blank">#862</a></u></div></li><li><div>
+    ci: fix regex on release by 
+    <u><strong><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FChillax-0v0" target="_blank">@Chillax-0v0</a></strong></u> in 
+    <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq-for-kafka%2Fpull%2F863" target="_blank">#863</a></u></div></li></ul><div><strong>END</strong></div><h3>關於我們</h3><div>
+  AutoMQ 是來自 Apache RocketMQ 和 Linux LVS 項目的核心團隊，曾經見證並應對過消息隊列基礎設施在大型互聯網公司和雲計算公司的挑戰。現在我們基於對象存儲優先、存算分離、多雲原生等技術理念，重新設計並實現了 Apache Kafka 和 Apache RocketMQ，帶來高達 10 倍的成本優勢和百倍的彈性效率提升。
+ </div><div>
+  🌟 GitHub 地址：
+  <span style="color:#245bdb"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ">https://github.com/AutoMQ</a></span></div><div>
+  💻 官網：
+  <span style="color:#245bdb"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.automq.com">https://www.automq.com</a></span></div><div>
+  👀 B 站：
+  <span style="color:#245bdb"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F3546572478482870">AutoMQ 官方賬號</a></span></div><div>
+  🔍 視頻號：AutoMQ
+ </div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 10:47:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282187/automq-1-0-0-ga</guid>
+            <link>https://www.oschina.net/news/282187/automq-1-0-0-ga</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[中國開發者團隊打造、AI 原⽣編程語⾔——MoonBit（月兔）宣佈開源核心庫]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><strong>MoonBit（月兔）</strong>是中國開發者團隊創建的編程語言（類似 Rust，支持 GC），由粵港澳大灣區數字經濟研究院（IDEA 研究院）基礎軟件中心負責人張宏波領導的團隊開發，目標是打造下一代智能開發平台。</p><p>更確切地説，MoonBit 是一個用於雲計算和邊緣計算的 WebAssembly 端到端<strong><span style="background-color:#e67e22">編程語言工具鏈</span></strong>，集開發、編譯、測試、部署於一體 —— 涵蓋了<strong>通用程序語言設計、編譯器、構建系統、<span style="background-color:#ffffff; color:#3e3e3e">編輯器和語言服務器、</span></strong><strong>IDE、部署工具</strong>等。</p><p><img src="https://oscimg.oschina.net/oscnet/up-e5e0b28951654b436ae58851ccd89e23a74.png" referrerpolicy="no-referrer"></p><p>MoonBit 宣稱是國內首個工業級編程語言及完整工具鏈，專為雲 + AI 打造，其核心技術自主研發，通過專注 Wasm 形成後發優勢，目前在覈心指標（<strong>編譯速度、運行速度、體積大小</strong>）已成功領先傳統語言。</p><p><img src="https://oscimg.oschina.net/oscnet/up-9e98befd4e414666b4cec2e6eaec0a287ef.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-3560401c3111f53d706370aa0ff14fe13b9.png" referrerpolicy="no-referrer"></p><p><em>via&nbsp;<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FywFwp2tuyACBQRvnf9Pwcg" target="_blank">https://mp.weixin.qq.com/s/ywFwp2tuyACBQRvnf9Pwcg</a></u></em></p><p>近日 MoonBit <u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.moonbitlang.com%2Fblog%2Fmoonbitlang-core-opensource" target="_blank">宣佈正式開源核心庫</a></u>，並表示已接近 Beta 測試階段，語言功能也趨於穩定。目前已建立了用於支持核心庫開發的重要基礎設施，確保提升語言功能的穩定性。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-81a4f0c79951695bfffeca223ae5fff4029.png" referrerpolicy="no-referrer"></p></blockquote><p>MoonBit 核心庫已託管至 GitHub：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoonbitlang%2Fcore" target="_blank">https://github.com/moonbitlang/core</a></p><p><img src="https://oscimg.oschina.net/oscnet/up-12af06ca111ce715a0c8b40fea3926aceff.png" referrerpolicy="no-referrer"></p><p>按照發布計劃，MoonBit 將於今年 Q2 發佈 Beta 測試，並將編譯器源代碼開源。</p><p><img src="https://oscimg.oschina.net/oscnet/up-f6cad2b32b15b432636c4a34391f3fe3f99.png" referrerpolicy="no-referrer"></p><p>延伸閲讀：</p><ul><li><a href="https://www.oschina.net/news/269052" target="_blank">國產編程語言 MoonBit（月兔）需要支持中文關鍵字嗎？</a></li><li><a href="https://www.oschina.net/news/255951/moonbit-first-announce" target="_blank">中國開發者團隊創建的編程語言：MoonBit（月兔）</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 09:25:38 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282169/moonbitlang-core-opensource</guid>
+            <link>https://www.oschina.net/news/282169/moonbitlang-core-opensource</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[阿里巴巴集團 CEO 吳泳銘：通義千問正加快追趕 GPT-4]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>阿里巴巴集團 CEO 吳泳銘在《中國網信》雜誌發文表示，人工智能大模型開啓全新的智能時代，引發人機交互、計算範式和認知協作三場革命，正在加快形成新質生產力、增強發展新動能。其中，人機交互革命將重構一切軟件，大模型將驅動一切硬件，並催生出人形機器人等人工智能原生終端產業。</p><blockquote><p><img src="https://oscimg.oschina.net/oscnet/up-38880f78cb87b35d70913e5494121ae0c55.png" referrerpolicy="no-referrer"></p></blockquote><p>在計算範式方面，當前正處於從 CPU（中央處理器）主導的通用計算模式向以 GPU（圖形處理器）為核心的人工智能計算加速切換的技術拐點。未來的雲計算發展模式將以人工智能大模型驅動的計算為核心，帶動全行業進入新一輪的技術創新期。</p><p>吳泳銘表示，<span style="color:#222222">通義千問正加快追趕 GPT-4，並把基礎大模型能力釋放出來。通過開放 API/SDK 調用等方式，千行百業的開發者和企業用戶不僅可以便捷開發人工智能原生應用，還可以與合作伙伴高效實現產業協同，促進大模型上下游產業鏈融合發展。</span></p><p><span style="color:#222222">作為國內基礎大模型的代表之一，</span><span style="color:#222222">通義千問同時開源了可在消費級終端部署的 18 億參數模型以及視覺理解、音頻理解兩款多模態大模型，實現「全尺寸、全模態」開源。</span></p><blockquote><p><em>原文：<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FxaBrKq3bCoZ0ex4_R-6g2w" target="_blank">吳泳銘：擁抱人工智能驅動的產業智能革命</a></u></em></p></blockquote></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 06:20:21 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282129</guid>
+            <link>https://www.oschina.net/news/282129</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[開源日報 | RISC-V 能否和 x86、Arm 一起成為三大主流架構；給閻王開發地府管理系統]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><h3><span style="color:#e67e22"><strong># 2024.3.6</strong></span></h3><h2><strong><span style="color:#16a085">今日要點</span></strong></h2><p><strong>OpenSource Daily</strong></p><h3><a href="https://www.oschina.net/news/281958" target="_blank">人形機器人訓練框架 Humanoid-Gym 開源</a></h3><p>具身智能與人形機器人公司星動紀元聯合清華大學、上海期智研究院開源了人形機器人強化學習訓練框架 Humanoid-Gym。據稱用戶可以通過該框架使用 sim-to-sim 轉換接口，在更高精度的仿真環境 Mujoco 中進行驗證，繼而提升 sim-to-real 轉換的效率和成功率。</p><p><img src="https://oscimg.oschina.net/oscnet/up-95a8171d1abfb99f48eb5c4100d0f64b981.png" referrerpolicy="no-referrer"></p><h3><a href="https://www.oschina.net/news/281899/beta-node-js-org" target="_blank">Node.js 新版官網開啓 Beta 測試：全新現代化 UI、優化交互</a></h3><p style="margin-left:.0001pt; margin-right:0"><img src="https://oscimg.oschina.net/oscnet/up-d7f75fbfacc0c0f7aa4bd49a44845da9c0e.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-c9984afc8c57cf2cc9b031519ad713980ba.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">體驗地址：</span><strong style="color:#333333"><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbeta-node-js-org.vercel.app%2Fen" target="_blank">https://beta-node-js-org.vercel.app/en</a></u></em></strong></p><hr><h2><strong><span style="color:#16a085">今日觀察</span></strong></h2><p><img src="https://oscimg.oschina.net/oscnet/up-6ec3b20f675b27562c05f71a7f68b0feeea.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">- 微博&nbsp;</span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F2194035935%2FO3MFRyhUM" target="_blank">蟻工廠</a></em></u></p><p><img src="https://oscimg.oschina.net/oscnet/up-f79882793f2c3b5ba0d8ef389f91762bb0a.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">-&nbsp;&nbsp;</span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzA4NjMxNTMyNA%3D%3D%26mid%3D2650024520%26idx%3D1%26sn%3D27ada577f394f4cd84730bc226f97d55%26chksm%3D87ca121bb0bd9b0d8310b2e67031d026aa8086433326d1bee68b7d22984cbddfae42c880bb70%26token%3D1369750951%26lang%3Dzh_CN" target="_blank">與非網 eefocus</a></em></u></p><hr><h2><span style="color:#16a085"><strong>今日推薦</strong></span></h2><p><img src="https://oscimg.oschina.net/oscnet/up-45a4fc134e321b61b047e5dab22fc904087.png" referrerpolicy="no-referrer"></p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fupscayl%2Fupscayl" target="_blank">https://github.com/upscayl/upscayl</a></u></em></p><hr><h2><span style="color:#16a085"><strong>開源之聲</strong></span></h2><p><img src="https://oscimg.oschina.net/oscnet/up-2ba28e306747a770ec1cfa3080a160bc9cf.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-5dbb425a68782d320559ece122394be5db8.png" referrerpolicy="no-referrer"></p><hr><h2><span style="color:#16a085"><strong>每日項目榜</strong></span></h2><p><strong><span style="background-color:#e67e22">每日 GitHub 精選</span></strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-25880e79ca4957bcef3f0121f8720f50f26.png" referrerpolicy="no-referrer"></p><blockquote><h4><strong><span style="background-color:#e67e22">在線閲讀完整日報內容，訪問：</span></strong><br><em><u><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/7xd6teyhekcvamw/24_risc_v_x86_arm_5LsjoStPUn.pdf" target="_blank">開源日報第 024 期：RISC-V 能否和 x86、Arm 一起成為三大主流架構；給閻王開發地府管理系統</a></u></em></h4></blockquote><hr><p><strong>往期回顧</strong></p><ul><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/svxac61bjmbmmw5/23_google_microsoft_cM5zZacKru.pdf" target="_blank">開源日報第 023 期：Google=開源，好評；Microsoft=閉源收入還低，差評</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/3vmzfjvp7mpvv26/22_sora_cuda_Syy7OJyUvc.pdf" target="_blank">開源日報第 022 期：輕鬆復現 Sora 模型；事關 CUDA 兼容，英偉達禁止了；百度還差一個「遙遙領先」</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/z3rhs3qkyeqwoax/21_open_ai_JROaEZat3b.pdf" target="_blank">開源日報第 021 期：閉源模型就是比開源安全；起訴 OpenAI 不能更贊同；中國算力產業出現五個真問題</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/lv84pwvd03it00i/20_open_ai_pingora_yaml_mE5RuB20Vl.pdf" target="_blank">開源日報第 020 期：為什麼王炸都來自 OpenAI；Pingora 最好不要用 YAML 當配置文件</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/mx86z1dhywrw71p/19_ai_c_llm_IgpNOVZtCz.pdf" target="_blank">開源日報第 019 期：我讓 AI 用 C 語言寫一個算法；微軟三進制 LLM</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/qdljicvqiqsshd6/187ZiLwG48lc_CngfQJ1Qxs.pdf" target="_blank">開源日報第 018 期：蘋果十年造車夢碎；這個開源項目有點...「大膽」</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/7r8dkz3232v4e7a/17_maria_db_v_linux_GoyNoM85IZ.pdf">開源日報第 017 期：MariaDB 消亡史；寫代碼我有三不沾；V 神建議馬斯克用 Linux</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/6typ9w3u98f5mxn/16_1_8_2efTeNfFjN.pdf">開源日報第 016 期：鴻蒙程序員平均月薪超 1 萬 8；中美 AI 差距有多大？</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/92n4c9ryegpcq1z/015_sora_KcAkRNX93Y.pdf">開源日報第 015 期：為什麼擋不住英偉達；Sora 不靠蠻力</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/s7n800w84o6guyv/014_kyezhNxOGD.pdf">開源日報第 014 期：目前的人工智能技術連貓的智能水平都沒達到</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC013%E6%9C%9F%EF%BC%9A%E7%AD%89%E5%88%B0%20Sora%20%E5%BC%80%E6%BA%90%E4%BA%86%E7%AB%8B%E5%88%BB%E6%8E%A8%E5%87%BA%E5%B1%9E%E4%BA%8E%E6%88%91%E4%BB%AC%E8%87%AA%E5%B7%B1%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B.pdf">開源日報第 013 期：等到 Sora 開源了立刻推出屬於我們自己的大模型</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC012%E6%9C%9F%EF%BC%9ASora%20%E7%BB%99%E4%B8%AD%E5%9B%BD%20AI%20%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8F%98%E5%8C%96%EF%BC%9BDart%203.3%20%E5%8F%91%E5%B8%83.pdf">開源日報第 012 期：Sora 給中國 AI 帶來的真實變化；Dart 3.3 發佈</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC11%E6%9C%9F%EF%BC%9A%E7%9B%AE%E5%89%8D%E8%BF%98%E6%B2%A1%E6%9C%89%E2%80%9C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%89%88Linux%E2%80%9D.pdf">開源日報第 011 期：目前還沒有「大模型版 Linux」</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC010%E6%9C%9F%EF%BC%9ATauri%20v2%20%E6%94%AF%E6%8C%81%20Android%20%E5%92%8C%20iOS%EF%BC%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%96%B0%E9%80%89%E6%8B%A9.pdf">開源日報第 010 期：Tauri v2 支持 Android 和 iOS，跨平台開發新選擇</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5009%E6%9C%9F%EF%BC%9AVue.js%E8%AF%9E%E7%94%9F10%E5%91%A8%E5%B9%B4%EF%BC%9B%E6%89%8E%E5%85%8B%E4%BC%AF%E6%A0%BC%E8%A7%A3%E9%87%8AMeta%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E6%BA%90%E5%85%B6AI%E6%8A%80%E6%9C%AF.pdf">開源日報第 009 期：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></li><li><a href="https://www.oschina.net/news/277585">開源日報第 008 期：推動中國開源軟硬件發展的經驗與建議</a></li><li><a href="https://www.oschina.net/news/277415">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></li><li><a href="https://www.oschina.net/news/277214">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></li><li><a href="http://www.oschina.net/news/277040">開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</a></li><li><a href="https://www.oschina.net/news/276864">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 04:32:37 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282115</guid>
+            <link>https://www.oschina.net/news/282115</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[工信部：準備試點開放互聯網數據中心]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#222222">今天（8 日）上午，</span>在十四屆全國人大二次會議第二場「部長通道」集中採訪活動上，工信部部長金壯龍<span style="background-color:#ffffff; color:#222222">介紹推進新型工業化舉措時表示</span>，今年的重點工作主要有四項：</p><ul><li>一是全面保持回升向好態勢，深入實施十大行業穩增長工作方案。</li><li>二是全力推進製造業、重點產業鏈高質量行動計劃，發揮聯組企業，發揮產業鏈供應鏈韌性和競爭力。</li><li>三是加快推進以先進製造業為骨幹的現代化產業體系。推動傳統產業向高端化、智能化、綠色化轉型。打造一批具有國際影響力的中國製造品牌，比如國產大飛機、燃氣輪機、大郵輪等，都是這幾年經過重大攻關突破的。還要創建國家制造業創新中心，發展高科技，實現產業化，快速形成新質生產力，培育壯大先進製造業集羣。</li><li>四是，着力推進產業科技創新能力，發揮企業在創新中的主體作用。首先要推進科技創新與產業創新深度融合，另一個要推進信息化與工業化深度融合，包括超前建設 5g 算力等信息設施，促進製造業向數字化、網絡化、智能化發展等。金壯龍説，推進新型工業化要深化改革、擴大開放，所以我們國家全面取消了製造業領域外資准入限制，同時我們準備試點開放互聯網數據中心等增值電信服務。</li></ul><p><span style="background-color:#ffffff; color:#222222">金壯龍表示，推進新型工業化要深化改革、擴大開放，所以我們國家全面取消了製造業領域外資准入限制，同時我們準備試點開放互聯網數據中心等增值電信服務。</span>&nbsp;</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 03:44:11 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282111</guid>
+            <link>https://www.oschina.net/news/282111</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[央視評「某自助建站軟件」系列案：知識產權]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.cctv.com%2F2024%2F03%2F08%2FARTIdzXtam1xEcKQJptkU89a240308.shtml" target="_blank">央視新聞發佈獨家視頻</a>，列舉了一些被寫入今年最高法的工作報告的典型案例，其中包括一起【 知識產權「釣魚式維權」案】：</p><blockquote><p>某公司宣傳其「自助建網」軟件可「免費」下載使用，卻以用戶未在網站頁面保留其版權標識等為由，提起訴訟 9000 多件。法院審理認為，其以不當經營方式誘發大批量「侵權」，靠索賠獲利不應支持，遂大幅下調判賠標準，批量訴訟應聲而落。各級人民法院嚴格依法保護知識產權，遏制「釣魚式維權」。</p></blockquote><p><img alt="" src="https://static.oschina.net/uploads/space/2024/0308/113006_IZ8Z_4489239.png" referrerpolicy="no-referrer"></p><p>此前<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbaijiahao.baidu.com%2Fs%3Fid%3D1710072119651876226%26wfr%3Dspider%26for%3Dpc" target="_blank">湖南媒體報道</a>相關案件時提到了某公司的三步「釣魚」模式：</p><p><img src="https://oscimg.oschina.net/oscnet/up-a7d67974c0289259343f730292c08a3f115.png" referrerpolicy="no-referrer"></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 03:40:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282109</guid>
+            <link>https://www.oschina.net/news/282109</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[微軟計劃 3 月底發佈首款 AI PC]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.windowscentral.com%2Fhardware%2Fsurface%2Fexclusive-microsoft-will-unveil-oled-surface-pro-10-and-arm-surface-laptop-6-this-month-ahead-of-major-windows-11-ai-update" target="_blank">據 Windows Centra 報道</a>，微軟計劃在本月晚些時候發佈新款 Surface Pro 和 Surface Laptop 硬件產品，<strong>而這些產品將會作為微軟首款人工智能 PC 推出</strong>。</p><p>全新 Surface Pro 10 和 Surface Laptop 6 將是首批搭載基於英特爾酷睿 Ultra 和高通驍龍 X Elite 處理器的 Surface PC，配備新一代 NPU，可增強 AI 性能。</p><p>Windows Central 報道稱，AI Explorer 功能是 AI PC 與普通 PC 的區別所在。它被看作是一個「升級版 Copilot」，內置歷史/時間軸功能，用戶在電腦上所有活動都將轉化為可以用自然語言搜索的時刻（moment）。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-877fbcc3a3bb7964562c57c2352094e6958.png" referrerpolicy="no-referrer"></p><p>該功能適用於所有應用程序，用戶可以通過該功能直接搜索之前打開的對話、文檔、網頁與圖片。</p><blockquote><p>例如，用戶可以輸入「找一下上次李梅説她喜歡哪些餐廳」，AI Explorer 就會顯示出李梅之前提到這些餐廳時的確切對話。</p></blockquote><blockquote><p>提示詞含糊一些也同樣奏效，例如「幫我找找和恐龍有關的東西」，AI Explorer 便會調出之前用戶在電腦上打開過的有關恐龍的所有單次、短語、圖片以及相關主題。</p></blockquote><blockquote><p>AI Explorer 還可以根據現有情況，幫助用戶啓動工作流程或項目，甚至可以基於當前屏幕內容提出任務建議。比如，當用戶正在瀏覽一張圖片時，AI Explorer 會自動彈出「編輯圖片」按鍵，用戶可以輸入「用照片應用程序移除這張圖片的背景」等相關操作。</p></blockquote><p>之前新一代操作系統 Windows11 23H2 已重點強調了 AI 功能，並提供多項 AI 工具：集成基於 Bing Chat 和 GPT-4 的 Copilot，並對一些操作系統中的基礎功能進行 AI 升級，包括畫圖（Point）、視頻編輯器（Clichamp）、截圖工具（Snipping Tool）和照片等。</p><p>但 Windows Central 提醒，上述 AI 功能將作為 Windows 11 24H2 版本更新的一部分，在今年秋季發佈，這也意味着，本次新款 Surface Pro 和 Surface Laptop 不會在發佈之初即擁有 AI Explorer 功能。</p><p>除了微軟之外，多家廠商也早已緊鑼密鼓地展開佈局，儲備多款產品搶灘 AI PC。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-adbd9a7447864da92e1b6848acd57f22df9.png" referrerpolicy="no-referrer"></p><p>有報告指出，端側 AI 部署是當前 AI 實現規模化擴展及應用落地的關鍵。作為底層技術和上層應用之間的載體，AI PC 在模型側、硬件側、軟件及應用側均存在產業升級趨勢，AI PC 將是 AI 端側落地第一站。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 03:19:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282104</guid>
+            <link>https://www.oschina.net/news/282104</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Visual Studio 2022 v17.9：面向 C++ 開發人員的全面更新]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="color:#333333">Visual Studio 2022 版本 17.9 為 C++ 開發人員引入了許多新功能和改進。</span></p><p><span style="color:#333333"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fvisualstudio%2Fvisual-studio-2022-version-17-9-a-comprehensive-update-for-c-developers%2F" target="_blank">公告</a>指出，用戶現在可以使用&nbsp;</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fvisualstudio%2Fsize-alignment-and-memory-layout-insights-for-c-classes-structs-and-unions%2F" target="_blank"><strong>Memory Layout</strong></a>&nbsp;<span style="color:#333333">功能直接在編輯器中可視化類、結構和聯合的內存佈局。此外，</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fcppblog%2Finclude-diagnostics-in-visual-studio%2F" target="_blank"><strong>#include Diagnostics&nbsp;</strong></a><span style="color:#333333">功能還可以深入瞭解包含文件中的元素使用頻率，以及每個 #include 指令對當前正在編輯的文件的構建時間的影響。這些信息會方便地顯示在編輯器中，便於參考。</span></p><p><span style="color:#333333">對於 Unreal Engine 開發人員，IntelliSense 的一致性和準確性得到了提高，UE Blueprint 引用也得到了簡化。對於 C++ 跨平台開發人員，現在可以直接從 Visual Studio 在遠程 Linux 機器上運行單元測試，併為自己的項目指定自定義 CMake 可執行文件。</span></p><p><span style="color:#333333">且新版 Visual Studio 2022 17.9 為包括 C++ 用戶在內的所有 Visual Studio 用戶帶來了多項增強功能。譬如：</span></p><ul><li><span style="color:#333333">現在可以利用 AI 生成的 Git commit 信息，它有助於創建清晰、相關的提交描述。</span></li></ul><p><span style="color:#333333"><img alt="" height="322" src="https://oscimg.oschina.net/oscnet/up-20df20c246618c8c70f75818e54617dd782.png" width="300" referrerpolicy="no-referrer">​​​​​​​</span></p><ul><li><span style="color:#333333">還引入了一個 secondary link，讓你不僅能在 Visual Studio 中打開拉取請求，還能在網頁瀏覽器中打開拉取請求。</span></li><li><span style="color:#333333">Git 倉庫窗口現在採用了響應式 Git Ref 標籤，可根據可用空間調整內容，從而簡化了倉庫導航。</span></li><li><span style="color:#333333">新的"Multi Project Configuration"功能可以為多項目解決方案中的特定項目設置配置文件。</span></li></ul><p><span style="color:#333333">有關 Visual Studio 版本 17.9 中最新 C++ 功能的詳細概述，可參閲</span><strong style="color:#333333"><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdevblogs.microsoft.com%2Fcppblog%2Fwhats-new-for-cpp-developers-in-visual-studio-2022-17-9%2F" target="_blank">公告博客文章</a></strong><span style="color:#333333">。</span>&nbsp;</p><p>下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fvisualstudio.microsoft.com%2Fzh-hans%2Fdownloads%2F" target="_blank">https://visualstudio.microsoft.com/zh-hans/downloads/</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 03:02:02 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282097/visual-studio-2022-version-17-9-update-for-c-developers</guid>
+            <link>https://www.oschina.net/news/282097/visual-studio-2022-version-17-9-update-for-c-developers</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[IntelliJ IDEA 2024.1 Beta 發佈，解綁 AI 助手]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>IntelliJ IDEA 2024.1 Beta 版本現已<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.jetbrains.com%2Fidea%2F2024%2F03%2Fintellij-idea-2024-1-beta%2F" target="_blank">發佈</a>。最新版本集成了 IntelliJ IDEA 2024.1 早期訪問計劃期間引入的所有重要更新，以下是旨在增強開發工作流程各個方面的新功能的簡短回顧：</p><ul><li>支持 Java 22 功能</li><li>全行代碼自動補全</li><li>改進的終端工具窗口</li><li>條件語句覆蓋範圍</li><li>編輯器中的 Sticky lines</li><li>項目索引期間 IDE 功能的早期可用性</li><li>編輯器內代碼審查</li><li>豐富的 GitHub Actions 支持</li><li>改進了日誌的工作流程</li><li>多個語句的內聯斷點</li><li>Maven 項目的打開速度提升</li><li>支持 OpenRewrite</li><li>WireMock 服務器支持，等等</li></ul><p>與此同時，項目團隊正在進一步完善 v2024.1 中所包含的功能：</p><h4><span>Java</span></h4><p><strong>改進的「Detected Conflicts」對話框</strong></p><p>在 v2024.1 中改進了「Detected Conflicts」對話框，以改善用戶體驗和可讀性。現在，代碼上下文反映了編輯器，使用戶可以更清楚地瞭解 conflicts。優化了文本顯示，IDE 現在會自動保存窗口大小調整以供將來使用。還更新了按鈕及其行為以簡化重構工作流程。現在可以通過鍵盤完全訪問該對話框，這意味着用戶可以使用快捷鍵和箭頭鍵進行無縫交互。</p><p><img height="282" src="https://oscimg.oschina.net/oscnet/up-fb3e830774429c43d2c93a5c1fd5b61456b.png" width="500" referrerpolicy="no-referrer"></p><p style="margin-left:0px; margin-right:0px; text-align:start"><strong><span><span><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span>重命名&nbsp;refactoring inlay hint</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p><p style="margin-left:0px; margin-right:0px; text-align:start"><span><span><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span>為了讓重命名過程更簡單、更直觀，項目團隊在已更改的代碼元素上添加了一個新的 inlay hint。要更新代碼庫中對新版本的所有引用，只需點擊提示並確認更改即可。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:0px; margin-right:0px; text-align:start"><span><span><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span><img alt="" height="200" src="https://oscimg.oschina.net/oscnet/up-4028277552a55f988d2beadf612b4715a3a.gif" width="500" referrerpolicy="no-referrer"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><h4 style="margin-left:0px; margin-right:0px; text-align:start">&nbsp;</h4><div style="text-align:start"><h4 style="margin-left:0px; margin-right:0px"><strong><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span><span><span><span style="color:#19191c"><span><span><span><span>Kotlin</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></h4><p style="margin-left:0px; margin-right:0px"><strong><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span><span><span><span style="color:#19191c"><span><span><span><span>在所有項目上傳播官方 Kotlin 代碼風格</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p></div><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>從 2024.1 版本開始，除非另有明確指定，IDE 統一應用官方 Kotlin 樣式指南作為所有項目的默認選項。如果你的現有項目使用較舊的代碼風格而沒有顯式配置，IDE 將自動切換到 Kotlin 編碼約定代碼風格，並提供通知以提醒用戶此更改。為了防止任何不需要的格式更改，官方建議用戶熟悉此<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fkotlinlang.org%2Fdocs%2Fcode-style-migration-guide.html%23migration-to-a-new-code-style-discussion" target="_blank">代碼樣式遷移指南</a>。&nbsp;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:0; margin-right:0; text-align:start"><img height="200" src="https://oscimg.oschina.net/oscnet/up-9aeaee456e34a161f4cfce3aebd0fe591eb.png" width="500" referrerpolicy="no-referrer"></p><div style="text-align:start"><p style="margin-left:0px; margin-right:0px"><strong><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><span><span><span><span><span><span style="color:#19191c"><span><span><span><span>複製粘貼時保留的&nbsp;Static imports</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></strong></p></div><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span>在版本 2024.1 中對複製和粘貼功能進行了一項期待已久的改進，在處理嵌套對象、枚舉和 Java static imports 時特別有價值。IDE 現在可以準確保留 static imports，確保它們的傳輸方式與源代碼中顯示的方式完全相同。</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><p style="margin-left:0; margin-right:0; text-align:start"><span><span><span><span style="color:#19191c"><span><span><span><span><span><span><span><span><span><span><span><span style="background-color:#ffffff"><span><span><span><img alt="" height="200" src="https://oscimg.oschina.net/oscnet/up-857afb8e728fb28d75776d69f08cb63fb1b.gif" width="500" referrerpolicy="no-referrer"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p><h4 style="margin-left:0px; margin-right:0px; text-align:start"><strong>AI 助手</strong></h4><p style="margin-left:0; margin-right:0; text-align:start">從 IntelliJ IDEA 2024.1 Beta 版本開始，AI Assistant 已解綁，現在作為單獨的<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplugins.jetbrains.com%2Fplugin%2F22282-ai-assistant" target="_blank">插件</a>提供。公告稱，「這一變化的原因是，我們需要為您的各種偏好和要求提供更大的靈活性和控制力，使您能夠選擇是否以及何時在工作環境中使用人工智能驅動的技術。」</p><p style="margin-left:0; margin-right:0; text-align:start"><strong>延伸閲讀：</strong><a href="https://www.oschina.net/news/277463/jetbrains-unremovable-ai-assistant" target="news">JetBrains 捆綁 AI 助手引起用戶不滿</a></p><p style="margin-left:0; margin-right:0; text-align:start">更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.jetbrains.com%2Fidea%2F2024%2F03%2Fintellij-idea-2024-1-beta%2F" target="_blank">查看官方博客</a>。</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 02:43:02 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282088/intellij-idea-2024-1-beta</guid>
+            <link>https://www.oschina.net/news/282088/intellij-idea-2024-1-beta</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Bytebase 2.14.0 - 自定義角色支持自定義權限]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><img src="https://oscimg.oschina.net/oscnet/up-7a870fb5ce9429fbcf559a3d5891101ac45.png" alt="" referrerpolicy="no-referrer"></p><h2>🚀 新功能</h2><ul><li>自定義角色支持自定義權限。</li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-a4b9b9ed9eca8068b3303df1ca77c287471.png" alt="file" referrerpolicy="no-referrer"></p><ul><li>SQL 審核 CI 支持 BitBucket。</li><li>數據脫敏支持跨庫查詢。</li><li>SQL 編輯器中可分享表的鏈接。</li></ul><h2>🎄 改進</h2><ul><li>支持 MongoDB TLS/SSL 連接。</li><li>優化 Redis 查詢展示結果。</li><li>在工單列表上顯示失敗的任務狀態。</li><li>添加了一個 SQL 審核規則，建議用戶為大型表啓用 gh-ost 在線變更。</li><li>PostgreSQL 工單中 SET ROLE 語句對 CREATE INDEX CONCURRENTLY 語句生效。</li><li>數據脫敏支持 PostgreSQL 函數作為數據源。</li><li>將批量變更模式項目中新建的數據庫添加到待執行的 DDL 工單中。</li><li>允許在 MySQL 5.6 版本上使用 gh-ost。</li></ul><h2>🐞 Bug 修復</h2><ul><li>修復了 AWS DocumentDB 的兼容性問題。</li><li>修復了 PostgreSQL TLS/SSL 連接的的問題。</li></ul><h2>📕 安裝及升級</h2><p>參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fbytebase%2Fbytebase%23installation" target="_blank">升級指南</a>。如果從之前版本升級，獲取新版本後，重新啓動升級即可。</p><hr><p>💡 更多資訊，請關注 Bytebase 公號：Bytebase</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 02:14:53 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/6148470/blog/11046384</guid>
+            <link>https://my.oschina.net/u/6148470/blog/11046384</link>
+            <author>
+                <![CDATA[原創]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[姜寧三連任 Apache 軟件基金會董事]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>Apache 軟件基金會於近日舉行了一年一度的成員會議，並<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnews.apache.org%2Ffoundation%2Fentry%2Fannouncing-the-new-asf-board-of-directors" target="_blank">選舉</a>出了 2024 年度新的董事會成員：</p><ul><li>Rich Bowen</li><li>Shane Curcuru</li><li>Christofer Dutz</li><li>Jeff Jirsa</li><li>Willem Jiang</li><li>Jean-Baptiste Onofre</li><li>Justin Mclean</li><li>Craig L Russell</li><li>Sander Striker</li></ul><p><img height="304" src="https://oscimg.oschina.net/oscnet/up-3497b100ece60279decc1be3604bf382c93.png" width="500" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#24292e">這也是姜寧繼 <a href="https://www.oschina.net/news/184964/new-asf-board">2022</a>、2023 後，在 2024 年三連任進入 ASF 董事會。此外，去年的董事成員&nbsp;</span><span style="color:#24292e">Bertrand Delacretaz 和 Sharan Foga</span>&nbsp;卸任，<span style="background-color:#ffffff; color:#24292e">ASF<span>&nbsp;</span></span>表達了對他們的感謝，並對新任董事和迴歸董事表示了歡迎。</p><p><span style="background-color:#ffffff; color:#24292e">有關 ASF 治理的概述以及 ASF 董事會、執行官和項目/委員會副主席的完整列表可訪問：</span><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F_9-GJwLqQy2leglLxXNblg" target="_blank">http://apache.org/foundation/</a><span style="background-color:#ffffff; color:#24292e">。</span></p><p><strong><span style="background-color:#ffffff; color:#24292e">延伸閲讀：</span></strong></p><ul><li><a href="https://my.oschina.net/u/3859945/blog/5504643" target="news">姜寧，帶程序員前往開源「烏託邦」</a></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Fri, 08 Mar 2024 02:07:53 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/282078</guid>
+            <link>https://www.oschina.net/news/282078</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[前谷歌軟件工程師被控竊取機密 AI 技術]]>
@@ -157,286 +520,17 @@
         </item>
         <item>
             <title>
-                <![CDATA[如果企圖在人工智能上搞「小院高牆」，將會犯下新歷史錯誤]]>
+                <![CDATA[大模型在產品原型生成中的應用實踐]]>
             </title>
             <description>
-                <![CDATA[<div class="content"><p>3 月 7 日上午 10 時，十四屆全國人大二次會議在梅地亞中心新聞發佈廳舉行記者會，中共中央政治局委員、外交部長王毅就「中國外交政策和對外關係」相關問題回答中外記者提問。</p><p><img src="https://oscimg.oschina.net/oscnet/up-9567f8c994b50351b847eed70b2d4975657.png" referrerpolicy="no-referrer"></p><p>鳳凰衞視記者提問：國際社會非常關注人工智能問題，很多國家提出關於人工智能全球治理方案，我們關注到中國也提出了關於《全球人工智能治理倡議》，中方認為如何才能確保人工智能朝着真正有利於人類文明進步的方向發展？另外，中方對大國人工智能合作持何立場？</p><p>王毅説，人工智能進入爆發式發展的關鍵階段。我們主張發展與安全並重，既要擁抱新事物新機遇，也要裝好剎車再上路，共同推進人工智能全球治理。去年 10 月，習近平主席提出《全球人工智能治理倡議》，清楚闡明瞭中方的態度和主張。</p><p>我們關注的主要是三個確保：<strong>一是確保有益</strong>。人工智能的發展有利於人類共同福祉，符合人類倫理規範，符合國際法規則，符合人類文明進步方向。<strong>二是確保安全</strong>。人工智能始終處於人類控制之下，不斷提高可解釋性和可預測性，為此要建立各種風險評估和管控機制。<strong>三是確保公平</strong>。在聯合國框架下成立人工智能國際治理機構，各國都能在人工智能的發展進程中平等參與、平等受益。</p><p>王毅説，我還要強調的是，<strong>如果企圖在人工智能上也搞什麼「小院高牆」，將會犯下新的歷史錯誤，不僅阻擋不了各國的科技發展，還會破壞國際產業鏈供應鏈完整，削弱人類應對風險挑戰的能力</strong>。中國對與各國開展人工智能合作持積極開放態度，迄今已經與一些國家建立了對話機制。人工智能大國之間的合作很重要，發展中國家的能力建設也很重要。我們將適時向聯大提交「加強人工智能能力建設國際合作」的決議草案，促進各方加強技術共享，努力彌合智能鴻溝，不讓任何國家掉隊。謝謝！</p></div>
+                <![CDATA[<div class="content"><div class="ad-wrap" style="margin-bottom: 8px;"><div data-traceid="news_comment_top_ad" data-tracepid="news_comment_top" style="text-align: center;"><a style="color:#A00;font-weight:bold;" href="https://www.oschina.net/news/281031/oschina-app-2024" target="_blank">【開源中國 APP 全新上線】「動彈」 迴歸、集成大模型對話、暢讀技術報告 <img src="https://www.oschina.net/img/hot3.png" align="absmiddle" style="max-height: 32px;max-width: 32px;margin-top: -4px;" referrerpolicy="no-referrer"></a></div></div><span id="OSC_h1_1"></span><h1>一、背景</h1><p style="color:#24292f; text-align:start">在 B 端研發過程中，產品原型在產品需求文檔中起着重要的作用。然而，在實際的開發過程中，我們發現了一些問題。首先，在需求評審階段，有些產品需求文檔可能缺少原型或者原型與研發團隊的規範不一致，這需要研發同學與產品同學溝通補充原型圖或者按照研發團隊的規範進行繪製，這增加了產品同學和研發團隊之間的溝通成本以及增加了產品同學的學習成本。其次，在業務驗收階段，開發的頁面或效果可能不符合業務側的期望，這又需要產品和研發團隊反覆溝通，導致業務側對效果的感知鏈路過長。此外，產品同學還需要花費大量時間來根據需求文檔描述輸出樣式固定的原型文檔。</p><p style="color:#24292f; text-align:start">為瞭解決這些問題，我們想到了利用產品在『市場需求文檔（MRD）——產品需求文檔（PRD）——頁面（Page）』溝通過程中沉澱的『共識』，即產品需求文檔中的頁面描述。我們可以利用大語言模型強大的推理能力，將這些共識『翻譯』成符合研發團隊規範的頁面，從而減少溝通成本並縮短業務側對效果的感知鏈路。另外，為了減少產品在不同界面切換頻次，可以讓產品利用瀏覽器插件在 PRD 文檔頁面進行文字選擇，然後喚起原型生成工具生成頁面原型和修改原型。本文主要介紹了我們利用大模型輔助產品同學生成頁面原型的實踐經驗。</p><span id="OSC_h1_2"></span><h1>二、流程設計</h1><p style="color:#24292f; text-align:start">一般來説，產品同學是根據業務同學或者運營同學的 MRD 來細化產品需求。如果業務有視覺要求，則會由設計同學負責產品的界面和交互設計，否則由產品同學利用常見市面上常見的原型工具來設計界面和交互。我們自研的智能原型工具的定位是作為產品同學在原型設計時的可選工具，且不改變產品的原有工作流。基於此，我們設計瞭如下原型生成流程：<img alt="231.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/231.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">該流程主要是將用戶利用常見市面上常見的原型工具變成利用智能原型工具插件選中 PRD 文檔中的產品描述，利用 LLM 基於得物自研低代碼平台配置規範生成原型圖。產品同學工作的空間還是在文檔中，不用切換到其他軟件或者界面，即可利用 Chrome 插件來生成原型。產品同學保存生成的記錄後，可以供自己查詢，也可以供業務同學查看效果，還可以供研發同學快速開發使用。</p><span id="OSC_h1_3"></span><h1>三、實現原理</h1><p style="color:#24292f; text-align:start">智能原型工具將產品所寫的頁面描述、修改指令、拖拽動作作為輸入，低代碼領域知識作為補充，大模型或可視化編輯器作為處理器，低代碼 SDK 作為渲染器，頁面原型作為輸出。智能頁面原型工具從輸入到輸出的具體實現原理如圖所示：<img alt="2008.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/2008.png" referrerpolicy="no-referrer"></p><span id="OSC_h1_4"></span><h1>四、架構設計</h1><p style="color:#24292f; text-align:start">根據上述生成流程設計，我們設計的產品原型生成分層架構如圖所示：<img alt="1209.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/1209.png" referrerpolicy="no-referrer"></p><p style="color:#24292f; text-align:start">產品原型生成工具的架構可以分為四層，分別是<strong>應用場景、能力層、引擎層和基礎層</strong>，具體如下：</p><ul><li><p><strong>應用場景</strong>：主要是產品同學利用智能頁面原型工具生成原型和研發利用原型對應低代碼平台配置完成從 0 到 1 的頁面開發。</p></li><li><p><strong>能力層</strong>：則是輔助產品同學生產原型的能力集合。這些能力支撐了產品快速生成、快速修改原型，生成內容可以管理，不影響產品同學使用流程等場景。</p></li><li><p><strong>引擎層：</strong><span>&nbsp;</span>是得物自研低代碼引擎和推理引擎，是生成原型配置和渲染配置的發動機。得物自研低代碼引擎不僅包括得物自研低代碼 SDK，還有得物 B 端組件 Poizon Design、精品組件 Poizon Components 以及業務組件。推理引擎則包括文生文的通用模型、圖生文的通用模型、生成低代碼平台配置的 Coder 模型。推理引擎部署在得物自研大模型平台上。選擇使用內部部署大模型的原因是，調用外部模型有數據泄露風險，外部模型 API 有一定穩定性風險，訓練成本較高。場景知識庫是依據對內部各業務域的 PRD 進行分析得到的高頻場景而構建的。目前場景知識庫已包含了列表、表單、彈窗等等高頻場景。</p></li><li><p><strong>基礎層</strong>：則是產品原型智能生成工具的接口服務、記錄存儲、模型部署和監控。</p></li></ul><span id="OSC_h1_5"></span><h1>五、實踐效果</h1><span id="OSC_h2_6"></span><h2>界面展示</h2><p style="color:#24292f; text-align:start">下圖是界面原型智能生成工具的主界面，主要包括新建與刷新區、生成記錄列表區、快捷操作區、輔助操作區、頁面效果預覽區、分享與評價區、對話修改區，具體如下：</p><ul><li><strong>新建與刷新區</strong>主要是在當前界面直接配置頁面原型、根據頁面描述智能生成界面原型以及刷新生成記錄列表。</li><li><strong>生成記錄列表區</strong>主要是展示生成的界面原型關聯的 PRD、原型描述、生成時間。</li><li><strong>快捷操作區</strong>是界面原型編輯、截圖、保存、重新生成、低代碼平台配置編輯、複製低代碼平台配置等操作的快捷按鈕。</li><li><strong>輔助操作區</strong>是界面描述模板、歷史記錄、問題反饋、幫助文檔等幫助按鈕。</li><li><strong>頁面效果與預覽區</strong>是生成的原型展示區域，原型是可以交互操作的。</li><li><strong>分享與評價</strong>是方便產品同學將生成的原型分享給業務或研發同學預覽以及可以對智能生成的原型質量做評價幫助提升模型生成的準確性。</li><li><strong>對話修改區</strong>是方便產品同學通過對話形式來利用模型對生成的界面原型做修改。</li></ul><p style="color:#24292f; text-align:start"><img alt="7809.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/7809.png" referrerpolicy="no-referrer"></p><span id="OSC_h2_7"></span><h2>使用效果</h2><p style="color:#24292f; text-align:start">下面視頻中展示了從 PRD 文檔到頁面原型的過程。從視頻中可以看到，智能原型生成工具支持對生成的原型進行微調，還生成了相對應的低代碼平台配置。</p><span id="OSC_h2_8"></span><h2>落地情況</h2><p style="color:#24292f; text-align:start">智能原型工具生成原型的用時在 15 秒以內，具備生成記錄可查、可修改。同時，智能原型工具已實現關鍵使用鏈路埋點，可以及時發現產品同學使用卡點。目前內部已有較多的產品同學正在使用智能原型工具生成 B 端頁面原型。通過與產品同學的溝通，收到的使用反饋總體體驗是正向的。也有產品同學參與共建智能原型工具。</p><span id="OSC_h1_9"></span><h1>六、後續規劃</h1><ul><li><p><strong>場景擴展：</strong><span>&nbsp;</span>目前，智能原型工具主要支持表單、列表、彈窗等等高頻場景，後續將支持複雜表單、複雜列表、圖表等等產品同學在工作中會涉及的頁面場景。</p></li><li><p><strong>大模型訓練</strong>：在上文中可以看到模型是智能原型工具的加速器，但目前只用到了大模型的推理能力，需要外掛知識庫才能生成符合規範的頁面原型。這制約了生成原型的生成速度和擴展性。後續將利用工程化手段對得物自研低代碼平台的使用教程、示例、用戶使用數據等數據做結構化處理，然後利用大模型和知識庫生成訓練數據，對通用大模型進行微調，得到智能原型工具模型。同時，將訓練過程工程化和自動化。從而進一步提升原型生成效率和質量，批量覆蓋更多場景。模型訓練思路如圖所示：<img alt="7800.png" src="https://h5cdn.dewu.com/efe/ctoo-open-blog-admin/10569101/7800.png" referrerpolicy="no-referrer"></p></li><li><p><strong>優化 MRD2PRD2Code 鏈路</strong>：與自研低代碼平台協同，縮短 MRD2PRD2Code 鏈路，使每一個產研鏈路中的每個節點的結論都可以得到一個可見的結果，從而進一步減少溝通成本與提升交付效率。</p></li><li><p><strong>Web2Code 鏈路</strong>：Web2Code 主要是為了產品同學需要對老頁面做修改的場景，產品同學打開老頁面即可生成原型，然後在生成原型上做修改。</p></li><li><p><strong>編輯功能增強</strong>：上文中提到智能原型工具的編輯功能是通過表單配置來對大模型生成的低代碼平台配置進行修改，還不夠靈活，後續組件拖拽式編輯功能。另外，支持產品通過組件拖拽生成原型以及相應產品描述功能。</p></li></ul><p style="color:#24292f; text-align:start">*<strong>文/bigboy</strong></p><p style="color:#24292f; text-align:start">&nbsp;</p><p style="color:#000000; text-align:start">本文屬得物技術原創，更多精彩文章請看：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftech.dewu.com%2F" rel="nofollow" target="_blank">得物技術官網</a></p><p style="color:#000000; text-align:start">未經得物技術許可嚴禁轉載，否則依法追究法律責任！</p></div>
                                     ]]>
             </description>
-            <pubDate>Thu, 07 Mar 2024 07:03:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281963</guid>
-            <link>https://www.oschina.net/news/281963</link>
+            <pubDate>Wed, 06 Mar 2024 03:01:00 GMT</pubDate>
+            <guid isPermaLink="false">https://my.oschina.net/u/5783135/blog/11046041</guid>
+            <link>https://my.oschina.net/u/5783135/blog/11046041</link>
             <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[星動紀元開源人形機器人訓練框架 Humanoid-Gym]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>2024 年 3 月 5 日，具身智能與人形機器人公司星動紀元聯合清華大學、上海期智研究院開源了<strong>人形機器人強化學習訓練框架 Humanoid-Gym</strong>。</p><ul><li>項目主頁：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsites.google.com%2Fview%2Fhumanoid-gym%2F" target="_blank">https://sites.google.com/view/humanoid-gym/</a></li><li>代碼倉庫：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Froboterax%2Fhumanoid-gym" target="_blank">https://github.com/roboterax/humanoid-gym</a></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-03d076aeda9ad21f6cc644bd6eeb25408c4.png" referrerpolicy="no-referrer"></p><p>公開資料顯示，星動紀元於 2023 年 8 月在北京成立，由清華大學交叉信息研究院孵化，致力於具身智能以及人形通用機器人技術和產品的研發。創始人陳建宇是清華大學交叉信息研究院助理教授、博士生導師，同時也是清華大學特聘研究員、擁有 10+年機器人和 AI 研發經驗。</p><p>這次開源的 Humanoid-Gym 框架，旨在通過精心設計的獎勵函數以及域隨機化技術， 顯著簡化人形機器人的訓練以及實現 sim-to-real 轉換的難度，從而解決由於人形機器人結構高度複雜性導致其在強化學習訓練以及從模擬環境向真實世界遷移（即 sim-to-real transfer）的過程中遇到的挑戰。</p><p>星動紀元表示，除了用 sim-to-real 驗證以外，另一個常見的做法是用第二個更高精度的仿真環境來做初步做驗證（sim-to-sim）。Humanoid-Gym 開源後，用戶可以通過該框架輕鬆運用 sim-to-sim 轉換功能，先在更高精度的仿真環境 Mujoco 中進行初步驗證與篩選，從而提升 sim-to-real 轉換的效率和成功率。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-95a8171d1abfb99f48eb5c4100d0f64b981.png" referrerpolicy="no-referrer"></p><p>除此之外，該開源項目還引入了若干評估指標，用以衡量訓練策略的效果，包括但不限於速度追蹤、動作絲滑程度等。</p><p>目前，星動紀元有兩款型號的人形機器人產品：小星（1.2 米高）和小星 max（1.65 米高），來適配不同應用場景的需求。</p><p><img src="https://oscimg.oschina.net/oscnet/up-6e747fd3917cdd43b86821147b1cc37e93c.png" referrerpolicy="no-referrer"></p><p>小星體型更小巧，動態性能強，可完成室內外跑、跳、高速行走等動作。小星 Max 為全尺寸人形機器人，身型高度和成年人相當，手臂、腰部以及全身其他部位具備更高的自由度，還配有高自由度靈巧手，未來目標場景是在工廠製造場景或服務場景，替代人類完成各種各樣較為精細的操作。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 06:36:33 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281958</guid>
-            <link>https://www.oschina.net/news/281958</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[微信即將推出原生 Linux 版本]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>吾愛破解社區用戶 @白水 1573 爆料，微信將迎來 Linux 原生版重構，全新 1.0 版本已開啓內測，並放出了測試截圖和安裝包。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-9af837ce67f19fb7b329d4d0fb71207f1ea.png" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-ed1aeefda777af4ff1f935bef63f397b5aa.png" referrerpolicy="no-referrer"></p><p>根據爆料，<strong>微信 Linux 原生版將支持 X86、ARM、龍芯 LoongArch64 架構，系統方面支持麒麟和統信 UOS</strong>。</p><p><img src="https://oscimg.oschina.net/oscnet/up-45d02b4e7f43abf0340d5c2eccc4338b445.png" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-4ea81dfeb9ddcea5859b67b6c9ce8607969.png" referrerpolicy="no-referrer"></p><p>網友總結原生 Linux 版微信使用體驗：</p><blockquote><h3>（一）優點</h3><p><span style="color:#333333">1、運行，不卡頓、不閃退、界面不花屏、託盤提醒正常</span><br><span style="color:#333333">2、能用小程序、視頻號、看一看、搜一搜</span><br><span style="color:#333333">3、手機端、電腦端消息同步</span><br><span style="color:#333333">4、截圖正常</span><br><span style="color:#333333">5、文件收發正常</span><br><span style="color:#333333">6、可以視頻、語音通話</span></p><h3>（二）暫存在缺點</h3><p><span style="color:#333333">1、消息不能撤回</span><br><span style="color:#333333">2、消息轉發不能多選</span><br><span style="color:#333333">3、截圖快捷鍵無效</span><br><span style="color:#333333">4.、文件（除視頻）接收雙擊無法調用本地應用，僅打開下載文件夾目錄</span><br><span style="color:#333333">5、不能發送語音消息</span><br><span style="color:#333333">6、只能拖入文件，不能拖出</span><br><span style="color:#333333">7、部分 Linux 發行版登錄失敗（疑是白名單，可以用麒麟商店舊微信登錄再安裝新微信解決）</span><br><span style="color:#333333">8、不能導入和導出聊天記錄</span><br><span style="color:#333333">9、部分發行版託盤顯示異常</span></p></blockquote><p>下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fcloud.cnxclm.com%2Fs%2FXOxIb%3Fpath%3D%252F" target="_blank">https://cloud.cnxclm.com/s/XOxIb?path=%2F</a></p><p><img height="474" src="https://oscimg.oschina.net/oscnet/up-9b3b17a7b964a53f15342935405455f1582.png" width="1884" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 04:26:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281936/wechat-linux-1-0-beta</guid>
-            <link>https://www.oschina.net/news/281936/wechat-linux-1-0-beta</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[開源日報 | Google=開源，好評；Microsoft=閉源收入還低，差評]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>歡迎閲讀 OSCHINA 編輯部出品的開源日報，每天更新一期。</p><h3><span style="color:#e67e22"><strong># 2024.3.6</strong></span></h3><h2><strong><span style="color:#16a085">今日要點</span></strong></h2><p><strong>OpenSource Daily</strong></p><h3><a href="https://www.oschina.net/news/281751/swift-5-10-released" target="_blank">Swift 5.10 發佈</a></h3><p>Swift 5.10 中的完全數據隔離為下一個主要版本 Swift 6 奠定了基礎。Swift 6.0 編譯器將提供新的、可選的 Swift 6 語言模式，該模式將默認強制執行完全數據隔離，項目團隊將着手進行過渡消除所有用 Swift 編寫的軟件之間的數據競爭。</p><h3><a href="https://www.oschina.net/news/281816/lf-tazama-for-real-time-fraud-management" target="_blank">Linux 基金會推出 「反詐」 開源項目 Tazama，獲蓋茨基金會資助</a></h3><p style="margin-left:.0001pt; margin-right:0"><span><span><span><span>在比爾及梅琳達・蓋茨基金會（Bill &amp; Melinda GatesFoundation）的支持下，Linux 基金會慈善機構（LF Charities）宣佈推出 Tazama，這是一套用於實時欺詐預防的開源軟件解決方案。</span></span></span></span></p><p style="margin-left:.0001pt; margin-right:0"><img src="https://oscimg.oschina.net/oscnet/up-935f8d1d736dc3d5b53baa4a2e1caebd24b.png" referrerpolicy="no-referrer"></p><hr><h2><strong><span style="color:#16a085">今日觀察</span></strong></h2><p><img height="754" src="https://oscimg.oschina.net/oscnet/up-a7d0f80f5cc09d8135b50ee8615dcfab582.png" width="3036" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">- 微博&nbsp;</span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1441019625%2FO3J0EzPjG" target="_blank">雪龍郎</a></em></u></p><p><img src="https://oscimg.oschina.net/oscnet/up-d892b5e238e2be9cee6852210c513370dd2.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">- 微博&nbsp;</span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fweibo.com%2F1644684112%2FO3JANzqLf" target="_blank">木遙</a></em></u></p><p><img src="https://oscimg.oschina.net/oscnet/up-67b3f765a8ae3a15bca297368a0aa7ee939.png" referrerpolicy="no-referrer"></p><p><span style="background-color:#ffffff; color:#333333">-&nbsp;&nbsp;</span><u><em><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F7ObcyT-kHe-pyhU5rCfFjQ" target="_blank">機器之心</a></em></u></p><hr><h2><span style="color:#16a085"><strong>今日推薦</strong></span></h2><p><img src="https://oscimg.oschina.net/oscnet/up-c1dd9862156321ccd63412b122bf6c838d6.png" referrerpolicy="no-referrer"></p><p><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmli%2Fautocut" target="_blank">https://github.com/mli/autocut</a></u></em></p><hr><h2><span style="color:#16a085"><strong>開源之聲</strong></span></h2><p>&nbsp;<img height="1354" src="https://oscimg.oschina.net/oscnet/up-37f0bd8def5cbfad73ac2145f10540b8f91.png" width="2800" referrerpolicy="no-referrer"></p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-1908be40e2e08058e93c95f9f86722ac5d1.png" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-7d1341f9d2e5187641d562c7134862c184d.png" referrerpolicy="no-referrer"></p><hr><h2><span style="color:#16a085"><strong>每日項目榜</strong></span></h2><p><strong><span style="background-color:#e67e22">每日 GitHub 精選</span></strong></p><p><img src="https://oscimg.oschina.net/oscnet/up-4191abfd5a0da45ae85d2eb79430cc2e943.png" referrerpolicy="no-referrer"></p><blockquote><h4><strong><span style="background-color:#e67e22">在線閲讀完整日報內容，訪問：</span></strong><br><em><u><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/svxac61bjmbmmw5/23_google_microsoft_cM5zZacKru.pdf" target="_blank">開源日報第 023 期：Google=開源，好評；Microsoft=閉源收入還低，差評</a></u></em></h4></blockquote><hr><p><strong>往期回顧</strong></p><ul><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/3vmzfjvp7mpvv26/22_sora_cuda_Syy7OJyUvc.pdf" target="_blank">開源日報第 022 期：輕鬆復現 Sora 模型；事關 CUDA 兼容，英偉達禁止了；百度還差一個「遙遙領先」</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/z3rhs3qkyeqwoax/21_open_ai_JROaEZat3b.pdf" target="_blank">開源日報第 021 期：閉源模型就是比開源安全；起訴 OpenAI 不能更贊同；中國算力產業出現五個真問題</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/lv84pwvd03it00i/20_open_ai_pingora_yaml_mE5RuB20Vl.pdf" target="_blank">開源日報第 020 期：為什麼王炸都來自 OpenAI；Pingora 最好不要用 YAML 當配置文件</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/mx86z1dhywrw71p/19_ai_c_llm_IgpNOVZtCz.pdf" target="_blank">開源日報第 019 期：我讓 AI 用 C 語言寫一個算法；微軟三進制 LLM</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/qdljicvqiqsshd6/187ZiLwG48lc_CngfQJ1Qxs.pdf" target="_blank">開源日報第 018 期：蘋果十年造車夢碎；這個開源項目有點...「大膽」</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/7r8dkz3232v4e7a/17_maria_db_v_linux_GoyNoM85IZ.pdf">開源日報第 017 期：MariaDB 消亡史；寫代碼我有三不沾；V 神建議馬斯克用 Linux</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/6typ9w3u98f5mxn/16_1_8_2efTeNfFjN.pdf">開源日報第 016 期：鴻蒙程序員平均月薪超 1 萬 8；中美 AI 差距有多大？</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/92n4c9ryegpcq1z/015_sora_KcAkRNX93Y.pdf">開源日報第 015 期：為什麼擋不住英偉達；Sora 不靠蠻力</a></li><li><a href="https://report.oschina.net/api/files/jhim80u9qm1ofsw/s7n800w84o6guyv/014_kyezhNxOGD.pdf">開源日報第 014 期：目前的人工智能技術連貓的智能水平都沒達到</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC013%E6%9C%9F%EF%BC%9A%E7%AD%89%E5%88%B0%20Sora%20%E5%BC%80%E6%BA%90%E4%BA%86%E7%AB%8B%E5%88%BB%E6%8E%A8%E5%87%BA%E5%B1%9E%E4%BA%8E%E6%88%91%E4%BB%AC%E8%87%AA%E5%B7%B1%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B.pdf">開源日報第 013 期：等到 Sora 開源了立刻推出屬於我們自己的大模型</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC012%E6%9C%9F%EF%BC%9ASora%20%E7%BB%99%E4%B8%AD%E5%9B%BD%20AI%20%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8F%98%E5%8C%96%EF%BC%9BDart%203.3%20%E5%8F%91%E5%B8%83.pdf">開源日報第 012 期：Sora 給中國 AI 帶來的真實變化；Dart 3.3 發佈</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC11%E6%9C%9F%EF%BC%9A%E7%9B%AE%E5%89%8D%E8%BF%98%E6%B2%A1%E6%9C%89%E2%80%9C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%89%88Linux%E2%80%9D.pdf">開源日報第 011 期：目前還沒有「大模型版 Linux」</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5%E7%AC%AC010%E6%9C%9F%EF%BC%9ATauri%20v2%20%E6%94%AF%E6%8C%81%20Android%20%E5%92%8C%20iOS%EF%BC%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%96%B0%E9%80%89%E6%8B%A9.pdf">開源日報第 010 期：Tauri v2 支持 Android 和 iOS，跨平台開發新選擇</a></li><li><a href="https://oscimg.oschina.net/public_shard/%E5%BC%80%E6%BA%90%E6%97%A5%E6%8A%A5009%E6%9C%9F%EF%BC%9AVue.js%E8%AF%9E%E7%94%9F10%E5%91%A8%E5%B9%B4%EF%BC%9B%E6%89%8E%E5%85%8B%E4%BC%AF%E6%A0%BC%E8%A7%A3%E9%87%8AMeta%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%80%E6%BA%90%E5%85%B6AI%E6%8A%80%E6%9C%AF.pdf">開源日報第 009 期：Vue.js 誕生 10 週年；扎克伯格解釋 Meta 為什麼要開源其 AI 技術</a></li><li><a href="https://www.oschina.net/news/277585">開源日報第 008 期：推動中國開源軟硬件發展的經驗與建議</a></li><li><a href="https://www.oschina.net/news/277415">開源日報第 007 期：「Linux 中國」 開源社區宣佈停止運營</a></li><li><a href="https://www.oschina.net/news/277214">開源日報第 006 期：選擇技術棧一定要選擇開源的</a></li><li><a href="http://www.oschina.net/news/277040">開源日報第 005 期：RISC-V 萬兆開源交換機發售；npm 存在大量武林外傳視頻</a></li><li><a href="https://www.oschina.net/news/276864">開源日報第 004 期：百度輸入法在候選詞區域植入廣告；大神用 Excel 構建 CPU</a></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 04:11:08 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281931</guid>
-            <link>https://www.oschina.net/news/281931</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【比較 ORM 操作數據】總結]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h4>寫在最後</h4><p>經過將近一週時間的框架收集、學習、實驗、編碼、測試市面上常見的 ORM 框架，過程中拜讀了很多作者的博文、樣例，學習很多收穫很多。 重新梳理下整理的框架：mybatis-plus、lazy、sqltoy、mybatis-flex、easy-query、mybatis-mp、jpa、dbvisitor、beetlsql</p><p>下面從一下幾點出發作出總結</p><ul><li>文檔方面：學習過程中 mybatis-plus、jpa 提供的文檔資料是比較全和晚上，經得住市場的考驗</li><li>技術方面：beetlsql、easy-query、mybatis 系列，三類框架都已經支持 spring 和 solon 生態，其技術架構設計可以推薦大家學習</li><li>併發方面：jpa、db_visitor 還需要開發時候深度優化處理</li><li>大數據存儲方面： Lazy 具有一定優勢，大數據查詢方面：sqltoy 反射處理的比較優秀</li></ul><p>以上是個人整理的觀點，如果大家有不同的想法和意見可以在<a href="https://gitee.com/wujiawei1207537021">gitee</a>或者個人博客留言<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.csdn.net%2Fqq_22903677%3Ftype%3Dblog" target="_blank">CSDN</a></p><p>細節數據對比（一萬以內基本相差不大）</p><ul><li>細節數據對比，數據屬於併發行測試數據，如果測試總數是一百，那麼會執行一百次 batchStory，一百次 findPage 每次執行的條數在之前數據的基礎上+1</li></ul><p>從形成的折線圖看（具體趨勢看排名與測試結果）</p><ul><li>存儲性能對比: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql 更適合併發性數據存儲。jpa、db_visitor 處理耗時較長</li><li>分頁查詢性能對比: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、db_visitor、beetlSql 都比較穩定。jpa 處理時間明顯起伏</li></ul><p><img height="679" src="https://oscimg.oschina.net/oscnet/up-108d2b6dbb2cbdc219a75ca4040c5d2ab0a.png" width="1406" referrerpolicy="no-referrer"></p><p><img height="698" src="https://oscimg.oschina.net/oscnet/up-0738f46c7c49b88bb0b6c58ca71c33372cd.png" width="1402" referrerpolicy="no-referrer"></p><p>批量保存：</p><ul><li>一萬條數據以內 lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql、jpa、db_visitor 性能趨於一致</li><li>十萬數據時，處理時間由快到慢依次是: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql、db_visitor、jpa，其中 db_visitor、jpa 處理時間明顯起伏</li></ul><p>分頁查詢：</p><ul><li>一萬條數據以內，幾款 ORM 均保持在 200 毫秒內</li><li>十萬數據時，處理時間由快到慢依次是: sqltoy、db_visitor、easy-query、lazy、beetlSql、mybatis、mybatis-mp、jpa、mybatis-flex</li><li>&nbsp;</li></ul><h3>快速數據對比 (大數據曲線圖)</h3><p><img height="674" src="https://oscimg.oschina.net/oscnet/up-b50ab90449379aba424545ef66277f5b0ce.png" width="1391" referrerpolicy="no-referrer"></p><p><img height="691" src="https://oscimg.oschina.net/oscnet/up-15d9a6ed061150752d3225078a5b7199560.png" width="1402" referrerpolicy="no-referrer"></p><h4><a href="https://gitee.com/wujiawei1207537021/wu-compare-orm-demo">當前項目地址</a></h4><h4><a href="https://gitee.com/wujiawei1207537021/wu-framework-parent/tree/master/wu-inner-integration/wu-database-parent">lazy-orm 地址</a></h4><h4><a href="https://gitee.com/baomidou/mybatis-plus">mybatis 地址</a></h4><h4><a href="https://gitee.com/sagacity/sagacity-sqltoy">sqltoy 地址</a></h4><h4><a href="https://gitee.com/mybatis-flex/mybatis-flex">mybatis-flex 地址</a></h4><h4><a href="https://gitee.com/xuejm/easy-query">easy-query 地址</a></h4><h4><a href="https://gitee.com/mybatis-mp/mybatis-mp">mybatis-mp 地址</a></h4><h4><a href="https://gitee.com/zycgit/dbvisitor">dbvisitor 地址</a></h4><h4><a href="https://gitee.com/xiandafu/beetlsql">beetlsql 地址</a></h4></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 03:04:52 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281908</guid>
-            <link>https://www.oschina.net/news/281908</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Node.js 新版官網開啓 Beta 測試：全新現代化 UI、優化交互]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>Node.js 新版官網已開啓 Beta 測試，體驗地址：<strong><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fbeta-node-js-org.vercel.app%2Fen" target="_blank">https://beta-node-js-org.vercel.app/en</a></u></em></strong>。</p><ul><li><strong>Node.js 新版官網首頁</strong></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-d7f75fbfacc0c0f7aa4bd49a44845da9c0e.png" referrerpolicy="no-referrer"></p><ul><li><strong>當前官網首頁</strong></li></ul><p><img src="https://oscimg.oschina.net/oscnet/up-d7fdf3a71b012fa030e0d8da045acd8a078.png" referrerpolicy="no-referrer"><br><em><u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fnodejs.org%2Fen" target="_blank">https://nodejs.org/en</a></u></em></p><p>可以看到，與當前版本相比，新版官網的視覺效果、頁面佈局、展現內容都有了很大的提升，整體上更大氣、更現代化。而且首頁關於 Node.js 的介紹也變得更突出、描述更全面。</p><p>新版官網最大的交互變化是在首頁添加了「全局搜索」入口，方便用戶隨時檢索文檔、博客、下載等信息。</p><p><img src="https://oscimg.oschina.net/oscnet/up-c9984afc8c57cf2cc9b031519ad713980ba.png" referrerpolicy="no-referrer"></p><p>其他子頁面一覽：</p><p><img src="https://oscimg.oschina.net/oscnet/up-5219eed54c5df5855bb21a3c939725e914b.png" referrerpolicy="no-referrer"></p><p><img height="1854" src="https://oscimg.oschina.net/oscnet/up-82a9406af23007a8c812f31fd7c8bdce52f.png" width="3360" referrerpolicy="no-referrer"></p><p><img height="1852" src="https://oscimg.oschina.net/oscnet/up-c626de0d15afa528c4f04eb59658c79635e.png" width="3360" referrerpolicy="no-referrer"></p><p><img height="1858" src="https://oscimg.oschina.net/oscnet/up-9f4190b429a1060ceb08600f74698605af6.png" width="3360" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-432b101ae6fdf83b85ce42d68b8f7ca2b68.png" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 02:45:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281899/beta-node-js-org</guid>
-            <link>https://www.oschina.net/news/281899/beta-node-js-org</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[零一萬物開源 Yi-9B，代碼數學綜合能力全面增強]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">零一萬物<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F0CXIBlCZ7DJ2XjYT6Rm8tw" target="_blank">宣佈</a>開源 Yi-9B 模型，並聲稱該模型是當前 Yi 系列模型中的「理科狀元」——代碼和數學能力表現最佳；不偏科，中文能力也很強。「這是繼今年 1 月 23 日開源多模態模型 Yi-VL-34B 之後，零一萬物在開源方向上的又一重要成果。 」</span></p><p><span style="color:#000000">根據介紹，Yi-9B 是目前 Yi 系列模型中<strong>代碼和數學能力最強</strong>的模型，它的基本信息如下：</span></p><ul><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">參數大小：Yi-9B 的實際參數為 8.8B。</span></p></li><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">上下文長度：與 Yi 系列其他模型一樣，默認上下文長度是 4K tokens。</span></p></li><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">訓練數據：</span></p><ul><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">數據量：Yi-9B 是在 Yi-6B （使用了 3.1T tokens 訓練）的基礎上，使用了 0.8T tokens 進行繼續訓練。</span></p></li><li><p style="margin-left:0; margin-right:0"><span style="color:#000000">數據時間：使用截止至 2023 年 6 月的數據。</span></p></li></ul></li></ul><h4><span style="color:#000000"><strong>模型優勢</strong></span></h4><p><span style="color:#000000">一直以來，Yi 系列模型的中英文能力很強 ，但在代碼和數學方面還有提升空間。Yi-9B 補足了這一短板，增強了 Yi 系列模型全方位的能力。</span></p><p><span style="color:#000000"><strong>代碼和數學能力出色，綜合實力強勁</strong></span></p><ul><li><span style="color:#000000">在綜合能力方面（Mean-All），Yi-9B 的性能在尺寸相近的開源模型中最好，超越了 DeepSeek-Coder、DeepSeek-Math、Mistral-7B、SOLAR-10.7B 和 Gemma-7B。</span></li></ul><p><span style="color:#000000"><img height="378" src="https://oscimg.oschina.net/oscnet/up-1c17af91388b4e6acdee7ed9bf59f8bd2e5.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li><span style="color:#000000">在代碼能力方面（Mean-Code），Yi-9B 的性能僅次於 DeepSeek-Coder-7B，超越了 Yi-34B、SOLAR-10.7B、Mistral-7B 和 Gemma-7B。</span></li></ul><p><span style="color:#000000"><img height="312" src="https://oscimg.oschina.net/oscnet/up-a90214a7e2dad299b6a03ee6c2e6a898f49.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li><span style="color:#000000">在數學能力方面（Mean-Math），Yi-9B 的性能僅次於 DeepSeek-Math-7B，超越了 SOLAR-10.7B、Mistral-7B 和 Gemma-7B。</span></li></ul><p><span style="color:#000000"><img height="332" src="https://oscimg.oschina.net/oscnet/up-a0e32de51761ccbe2fc04b4a2faac111e6a.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li><span style="color:#000000">在常識和推理能力方面（Mean-Text），Yi-9B 的性能與 Mistral-7B、SOLAR-10.7B 和 Gemma-7B 不相上下。</span></li></ul><p><span style="color:#000000"><img height="370" src="https://oscimg.oschina.net/oscnet/up-85575f5ed5226bb33b1b2e59f15b6bc5d36.png" width="500" referrerpolicy="no-referrer"></span></p><ul><li><span style="color:#000000">在語言能力方面，相比於其他相近尺寸的模型，Yi-9B 不僅具備不錯的英文能力，還擁有 Yi 系列模型廣受好評的強大中文能力。</span></li></ul><p><span style="color:#000000"><img height="191" src="https://oscimg.oschina.net/oscnet/up-8e95430baa7a029eb10481b6919edfabb7d.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><img height="285" src="https://oscimg.oschina.net/oscnet/up-23517d9512aa2906a7fa63e150b50a3f6e7.png" width="500" referrerpolicy="no-referrer"></span></p><p><span style="color:#000000"><strong>消費級顯卡可用，使用成本友好</strong></span></p><ul><li><span style="color:#000000">Yi-9B（BF 16） 和其量化版 Yi-9B（Int8）都能在消費級顯卡上輕鬆部署，使用成本較低，開發者友好。</span></li></ul><p><span style="color:#000000"><img height="182" src="https://oscimg.oschina.net/oscnet/up-8ed07dfa90b5107e5affdd2e39bb9392cac.png" width="500" referrerpolicy="no-referrer"></span></p><h4><strong>未來展望</strong>&nbsp;</h4><p style="margin-left:0; margin-right:0">為了最大程度地提高模型性能，團隊計劃根據 scaling laws 動態調整算力資源在模型大小和數據大小上的分配，因此，團隊將繼續研究以下方向：</p><ul><li><p style="margin-left:0; margin-right:0">更優化的寬度擴增方法，儘量保留原模型的性能。</p></li><li><p style="margin-left:0; margin-right:0">更高效的分階段訓練和調參方式，儘量讓模型收斂得更好。</p></li></ul><p><span style="color:#000000">有關模型訓練方面等方面的更多詳情可<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F0CXIBlCZ7DJ2XjYT6Rm8tw" target="_blank">查看官方公告</a>。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 02:25:02 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281895</guid>
-            <link>https://www.oschina.net/news/281895</link>
-            <author>
-                <![CDATA[來源: OSCHINA]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Mac 上 Llama2 大語言模型安裝到使用]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h3>LLAMA 介紹</h3><p>LLaMA 是由 Facebook 的母公司 Meta AI 設計的一個新的大型語言模型。LLaMA 擁有 70 億到 650 億個參數的模型集合，是目前最全面的語言模型之一。</p><p>Llama 是目前唯一一個可以進行本地部署和本地訓練的大型模型，對各種提問有非常好的處理能力。非常適合個人和中小型企業，構建自己的大數據模型。</p><p>很多人都説是 ChatGPT 的平替。通過微調來滿足特定小眾行業的使用，將會在未來有非常大的潛力。</p><p>Mac 上由於沒有 Nvidia 顯卡的加持，無法配置 CUDA 進行深度學習。好在有大神製作了 C++的庫，能實現小成本在低配 Mac 上跑模型的能力。</p><p><img src="https://oscimg.oschina.net/oscnet/up-64e62fce89bbcc5b1c22eb21b07b7ed543b.png" alt="file" referrerpolicy="no-referrer"></p><h3>llama.cpp</h3><p>是一個推理框架，在沒有 GPU 跑 LLAMA 時，利用 Mac M1/M2 的 GPU 進行推理和量化計算。</p><p>Mac 跑 LLAMA 唯一的路。同樣也可以在 Windows 下面跑起來。</p><p>它是 ggml 這個機器學習庫的衍生項目，專門用於 Llama 系列模型的推理。llama.cpp 和 ggml 均為純 C/C++實現，針對 Apple Silicon 芯片進行優化和硬件加速，支持模型的整型量化 (Integer Quantization): 4-bit, 5-bit, 8-bit 等。社區同時開發了其他語言的 bindings，例如 llama-cpp-python，由此提供其他語言下的 API 調用。</p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fggerganov%2Fllama.cpp" target="_blank">https://github.com/ggerganov/llama.cpp</a></p><h3>安裝 llama.cpp</h3><p>本地快速部署體驗推薦使用經過指令精調的 Alpaca-2 模型，有條件的推薦使用 6-bit 或者 8-bit 模型，效果更佳。 下面以中文 Alpaca-2-7B 模型為例介紹，運行前請確保： 1、系統應有 make（MacOS/Linux 自帶）或 cmake（Windows 需自行安裝）編譯工具 2、建議使用 Python 3.10 以上編譯和運行該工具 3、必裝的 mac 依賴 xcode-select --install # Mac 的 Xcode 開發者工具，基本是必裝的，很多地方都需要用到。 brew install pkgconfig cmake # c 和 c++的編譯工具。</p><p>1、源碼編譯</p><pre><code>git clone https://github.com/ggerganov/llama.cpp
-</code></pre><p>2、編譯，對 llama.cpp 項目進行編譯，生成./main（用於推理）和./quantize（用於量化）二進制文件。</p><pre><code>make
-</code></pre><p>Windows/Linux 用戶如需啓用 GPU 推理，則推薦與 BLAS（或 cuBLAS 如果有 GPU）一起編譯，可以提高 prompt 處理速度。以下是和 cuBLAS 一起編譯的命令，適用於 NVIDIA 相關 GPU。</p><pre><code>make LLAMA_CUBLAS=1
-</code></pre><p>macOS 用戶無需額外操作，llama.cpp 已對 ARM NEON 做優化，並且已自動啓用 BLAS。M 系列芯片推薦使用 Metal 啓用 GPU 推理，顯著提升速度。只需將編譯命令改為：LLAMA_METAL=1 make，</p><pre><code>LLAMA_METAL=1 make
-</code></pre><p>3、檢查，編譯成功會在目錄下產生 main 等可執行的命令，下面轉換量化模型文件時，會用到的命令就準備好了。</p><h3>手動轉換模型文件為 GGUF 格式</h3><p>如果下載的是生成好的 gguf 模型就不需要手動轉換了。為啥要這個格式。這個格式的 LLAMA.cpp 才認。其它格式的數據不認。</p><p>1、下載 Llama 2 模型，首先，從 Hugging Face <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhuggingface.co%2Fmeta-llama" target="_blank">https://huggingface.co/meta-llama</a> 上下載你想要使用的 Llama 2 模型，比如 7B-Chat，我的 Mac 是 8G 內存，M2 芯片，估計也只能跑到這個模型，再大的機器跑不動。 值得一提的是：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhuggingface.co%2Fmeta-llama%2FLlama-2-7b-chat" target="_blank">https://huggingface.co/meta-llama/Llama-2-7b-chat</a> 下載時，第一次需要授權，需要到 meta 官網，下面這個鏈接 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fllama.meta.com%2Fllama-downloads" target="_blank">https://llama.meta.com/llama-downloads</a></p><p>去提交一下郵件。這裏選國家時會有意想不到的結果，自己思考一下。</p><p>如果要體驗英文原版，就用上面的，會比較麻煩，但是對英文的回覆比較好。 參考教程 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fymcui%2FChinese-LLaMA-Alpaca-2%2Fwiki%2Fmanual_conversion_zh" target="_blank">https://github.com/ymcui/Chinese-LLaMA-Alpaca-2/wiki/manual_conversion_zh</a></p><p>如果要使用中文語料庫，需要先合併為原始模型和中文的模型，再生成 bin，再去轉換為 gguf 格式。喜歡折騰的可以試試。</p><p>如果要使用我這個中文混合模型，可以直接下載 gguf 格式。下面這幾步都不用了。省事多了。</p><p>下載地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fhuggingface.co%2Fhfl%2Fchinese-llama-2-7b-gguf%2Ftree%2Fmain" target="_blank">https://huggingface.co/hfl/chinese-llama-2-7b-gguf/tree/main</a> 記得選 ggml-model-q4_0.gguf 這個模型。</p><p>2、下載 llama.cpp 庫，並按上面的流程進行編譯安裝成功</p><p>3、轉換模型格式，然後，你需要把模型的文件轉換成 GGUF 格式，使用 llama.cpp 庫中的 convert.py 腳本來完成。轉換時需要指定模型的路徑和上下文長度（模型可以處理的最大的文本長度），不同的模型可能有不同的上下文長度。</p><p>如果模型是 LLaMA v1，則使用 --ctx 2048，如果你的模型是 LLaMA v2，則使用 --ctx 4096。這裏使用 --ctx 4096。如下所示：</p><pre><code># 轉換模型文件
-python3 convert.py models/7B-Chat --ctx 4096
-</code></pre><p>如果安裝過程缺 python 包直接 pip install 安裝即可。</p><p>4、量化模型文件</p><p>使用 llama.cpp 庫中的 quantize 程序來進行模型量化，使用 quantize 命令：</p><pre><code># 運行 quantize 程序，指定輸入和輸出的模型文件和量化方式
-./quantize ./models/7B/ggml-model-f16.gguf ./models/7B/ggml-model-q4_0.gguf q4_0
-</code></pre><p>這樣，在 7B-Chat 文件夾中就生成一個 4 位整數的 GGUF 模型文件。</p><p>5、運行模型</p><pre><code>./main -m ./models/7B/ggml-model-q4_0.bin \
-        -t 8 \
-        -n 128 \
-        -p 'The first president of the USA was '
-
-# run the inference 推理
-./main -m ./models/llama-2-7b-hf/ggml-model-q4_0.bin -n 128
-#以交互式對話
-./main -m ./models/llama-2-7b-hf/ggml-model-q4_0.bin --color -f prompts/alpaca.txt -ins -c 2048 --temp 0.2 -n 256 --repeat_penalty 1.3
-#chat with bob
-./main -m ./models/llama-2-7b-hf/ggml-model-q4_0.bin -n 256 --repeat_penalty 1.0 --color -i -r "User:" -f prompts/chat-with-bob.txt
-</code></pre><p>此步驟過於煩鎖，主要是模型文件佔了幾十 GB。所以我直接下載別人的中文模型進行使用。不需要再手動進行轉換、量化等操作。</p><h3>以 WebServer 形式啓動</h3><p>調用手冊：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fggerganov%2Fllama.cpp%2Fblob%2Fmaster%2Fexamples%2Fserver%2FREADME.md" target="_blank">https://github.com/ggerganov/llama.cpp/blob/master/examples/server/README.md</a></p><p>用 WebServer 形式。可以對接到別的系統裏面，像 FastGPT 或者一些界面上，就可以無縫使用了。</p><p>1、啓動 server 參數請./server -h 查看，或者參考手冊</p><pre><code>./server --host 0.0.0.0 -m /Users/kyle/MyCodeEnv/models/ggml-model-q4_0.gguf -c 4096 --n-gpu-layers 1
-</code></pre><p>默認會開到 8080 端口上，配置可改。不加 gpu-layers 走 CPU，會報錯。設個 1 就行</p><p>2、用 CURL 進行測試</p><pre><code>curl --request POST \
-    --url http://127.0.0.1:8080/completion \
-    --header "Content-Type: application/json" \
-    --data '{"prompt": "給我講個冷笑話:","n_predict": 128}'
-</code></pre><p>3、效果如圖 <img src="https://oscimg.oschina.net/oscnet/up-13aad680a24849ac3eac3a0c10ea1a23746.png" alt="file" referrerpolicy="no-referrer"></p><p><img src="https://oscimg.oschina.net/oscnet/up-2ec06696d22e9fd8b9ce8c65280167f2454.png" alt="file" referrerpolicy="no-referrer"> 感覺，就是訓練的還是量少，有些問題會胡説。理解不了的問題反應會非常慢。會花很長的時間。</p><h3>Python 調用接口庫</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fabetlen%2Fllama-cpp-python" target="_blank">https://github.com/abetlen/llama-cpp-python</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fllama-cpp-python.readthedocs.io%2Fen%2Flatest%2Finstall%2Fmacos%2F" target="_blank">https://llama-cpp-python.readthedocs.io/en/latest/install/macos/</a></p><p>1、Mac 用戶，pip 編譯，最簡，安裝 llama-cpp-python (with Metal support) 為了啓用對於 Metal (Apple 的 GPU 加速框架) 的支持，使用以下命令安裝 llama-cpp-python: CMAKE_ARGS="-DLLAMA_METAL=on" FORCE_CMAKE=1 pip install llama-cpp-python</p><p>2、代碼中使用，安裝好之後可以直接用 requests 調用。無需第 1 步的 llama-cpp-python 依賴包。使用通用的 ChatGPT 的問答形式回答。 也可以不經 Server 直接調用模型文件</p><pre><code># -*- coding: utf-8 -*-
-import requests
-
-url = 'http://localhost:8080/v1/chat/completions'
-headers = {
-    'accept': 'application/json',
-    'Content-Type': 'application/json'
-}
-dataEn = {
-    'messages': [
-        {
-            'content': 'You are a helpful assistant.',
-            'role': 'system'
-        },
-        {
-            'content': 'What is the capital of France?',
-            'role': 'user'
-        }
-    ]
-}
-data = {
-    'messages': [
-        {
-            'content': '你是一個樂於助人的助手',
-            'role': 'system'
-        },
-        {
-            'content': '二戰是哪一年爆發的?',
-            'role': 'user'
-        }
-    ]
-}
-
-response = requests.post(url, headers=headers, json=data)
-print(response.json())
-print(response.json()['choices'][0]['message']['content'])
-</code></pre><p>3、直接調用模型文件，需要安裝 llama-cpp-python 包</p><pre><code># -*- coding: utf-8 -*-
-from llama_cpp import Llama
-
-# 加截模型
-# llm = Llama(model_path='/Users/kyle/MyCodeEnv/models/ggml-model-q4_0.gguf', chat_format="llama-2") # 可以指定聊天格式
-llm = Llama(model_path='/Users/kyle/MyCodeEnv/models/ggml-model-q4_0.gguf')
-
-# 提問
-response = llm("給我講一下英國建國多少年了", max_tokens=320, echo=True)
-# response = llm.create_chat_completion(
-#     messages=[
-#         {"role": "system", "content": "你是一個樂於助人的助手"},
-#         {
-#             "role": "user",
-#             "content": "給我講一個笑話"
-#         }
-#     ]
-# )
-# print(response)
-
-# 回答
-print(response['choices'][0])
-</code></pre><h3>最後貼個官方的教程</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fllama-cpp-python.readthedocs.io%2Fen%2Flatest%2Finstall%2Fmacos%2F" target="_blank">https://llama-cpp-python.readthedocs.io/en/latest/install/macos/</a></p><p>再慢慢研究研究微調和訓練自己的語料吧。</p><p>跟上 LLM 的步伐。不接觸 AI 就要落後了。 更多精彩內容，請關注我的公眾號：青塬科技。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 02:09:02 GMT</pubDate>
-            <guid isPermaLink="false">https://my.oschina.net/qyhstech/blog/11046186</guid>
-            <link>https://my.oschina.net/qyhstech/blog/11046186</link>
-            <author>
-                <![CDATA[原創]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[德國防部密碼 1234，德媒：這真的安全嗎]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p><span style="color:#000000">近日，德國軍方被曝出一段涉及「考慮協助烏克蘭襲擊克里米亞大橋」的錄音，從而遭致其國內的嚴厲批評。目前德國防部已就此進行迴應，但期間又發生了一個令人迷惑的安全細節，再遭當下神經已高度緊繃的德媒質疑。</span></p><p><span style="color:#000000">當地時間 3 月 3 日，德國國防部長鮑里斯·皮斯托留斯（ Boris Pistorius）就竊聽醜聞一事舉行新聞發佈會，其講話部分於 4 日以加密錄音文檔的形式被公佈在德國防部網站上。德國防部提醒，遊客可以通過點擊該文檔鏈接進入德國國防軍的雲存儲服務器，並輸入密碼「1234」來訪問一個 13MB 大小的 MP3 錄音文檔。</span></p><p><span style="color:#000000">3 月 3 日，德國柏林，德國國防部長皮斯托留斯就「德軍方談話遭俄羅斯竊聽」一事對媒體發表講話，指責俄方發動「信息站」。</span></p><p><span style="color:#000000"><strong>雖然該錄音文檔在雲存儲上未進行分類，密碼「1234」甚至可能只是個臨時佔位符，但密碼的簡單性仍遭到德媒批評。</strong>對此，德國《圖片報》就將國防部頁面的提示截圖貼在報道內，並反問「密碼是 1234，這真的安全嗎？」</span></p><p><img alt="" height="281" src="https://oscimg.oschina.net/oscnet/up-b2654287246cbfa96b4ee7b4fe41dff8488.webp" width="500" referrerpolicy="no-referrer"></p><p><span style="color:#000000">《圖片報》指出，目前仍不清楚俄方究竟是如何通過什麼手段竊聽獲得了長達 38 分鐘的德國高層軍官通話的錄音，但這些高層軍官因使用「WebEx」（第三方遠程會議軟件）進行高度機密的通話而被竊聽的事實，已經讓外界嚴重懷疑國防部的保密程度是否出現巨大漏洞。</span></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 07 Mar 2024 02:00:02 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281890</guid>
-            <link>https://www.oschina.net/news/281890</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[Linux 基金會推出「反詐」開源項目 Tazama，獲蓋茨基金會資助]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>在<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.gatesfoundation.org%2F" target="_blank">比爾及梅琳達•蓋茨基金會</a>（Bill &amp; Melinda GatesFoundation）的支持下，Linux 基金會慈善機構（LF Charities）<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.linuxfoundation.org%2Fpress%2Flinux-foundation-launches-tazama-for-real-time-fraud-management" target="_blank">宣佈</a></u>推出<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftazama.org%2F" target="_blank">Tazama</a>，這是一套用於實時欺詐預防的開源軟件解決方案。</p><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-935f8d1d736dc3d5b53baa4a2e1caebd24b.png" referrerpolicy="no-referrer"></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.gasa.org%2Fglobal-anti-scam-summit-2023" target="_blank">全球反詐騙聯盟 (Global Anti-Scam Alliance)</a>報告稱，2022 年因在線欺詐損失了近萬億美元。</p><p>Tazama 標誌着全球金融監管和合規方式的重大轉變。迄今為止，金融業一直在使用專有的、往往成本高昂的解決方案，這些解決方案限制了許多人（尤其是發展中經濟體）的使用和適應性。</p><p>Tazama 提供了一種強大、可擴展且成本效益高的開源反欺詐替代解決方案，實現了先進金融監控工具的平民化，有助於打擊欺詐行為，從而挑戰了這一現狀。</p><p>Tazama 解決了政府、民間社會、最終用戶、行業機構和金融服務業的主要問題，包括欺詐檢測、反洗錢合規性和數字金融交易的成本效益監控。該解決方案的架構強調數據主權、隱私和透明度，與世界各國政府的優先事項保持一致。Tazama 由 LF 慈善基金會主辦，該基金會將為項目的運行和功能提供支持，Tazama 展示了開源解決方案的可擴展性和穩健性，尤其是在國家支付交換機等關鍵基礎設施方面。</p><p>一些組織正在探索與 Tazama 的協同作用，包括 BankservAfrica、IPSL、JoPACC 和 BCEAO。協同作用包括評估 Tazama 解決方案在實際應用場景中的有效性、可擴展性和適應性，確保其滿足並超越各行業數字金融服務提供商（DFSP）的不同需求。</p><p>Tazama 歡迎各國中央銀行、監管機構、移動支付提供商、系統集成商、組織和個人參與其中。欲瞭解更多有關 Tazama 及其使命、社區和倡議的信息，請訪問 Tazama<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftazama.org%2F" target="_blank">網站</a>和<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ffrmscoe" target="_blank">GitHub</a>。</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Mar 2024 10:03:40 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281816/lf-tazama-for-real-time-fraud-management</guid>
-            <link>https://www.oschina.net/news/281816/lf-tazama-for-real-time-fraud-management</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[OpenAI 和 Elon Musk【譯】]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><blockquote><p style="color:#2a2a2a; margin-left:0; margin-right:0; text-align:start"><span>OpenAI 今天在官網<u><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fopenai.com%2Fblog%2Fopenai-elon-musk" target="_blank">發佈新聞稿</a></u>，迴應</span><span>埃隆·馬斯克</span><span>起訴一事。</span></p><p style="color:#2a2a2a; margin-left:0; margin-right:0; text-align:start"><span>該文章由 Sam Altman、Greg Brockman、Ilya Sutskever 等人共同署名。文章表示，OpenAI 打算</span><span>駁回</span><span>埃隆·馬斯克</span><span>的所有訴訟請求，</span><span>並公佈了一些高層和</span><span>埃隆·馬斯克</span><span>的歷史往來郵件作為證據。</span></p><p><img src="https://oscimg.oschina.net/oscnet/up-49bfb7cdaf49904c3a735c17f2ac5c4887e.png" referrerpolicy="no-referrer"></p></blockquote><p>以下為新聞稿原文翻譯：</p><p>&nbsp;</p><p>OpenAI 的使命是確保 AGI 造福全人類，這意味着既要構建安全有益的 AGI，又要幫助人類創造收益。現在，我們將與大家分享我們在完成使命方面的心得，以及我們與埃隆之間關係的一些事實情況。</p><p>我們正打算駁回埃隆的所有訴訟請求。</p><h3><strong>我們意識到，構建 AGI 所需的資源遠遠超出我們最初的想象</strong></h3><hr><p>埃隆説，我們應該布向 OpenAI 提供 10 億美元的初始資金承諾。實際上，這家非營利組織總共從埃隆那裏籌集了不到 4500 萬美元，從其他捐贈者那裏籌集了 9000 多萬美元。</p><p>在 2015 年底創辦 OpenAI 時，格雷格和薩姆最初計劃籌集 1 億美元。但是埃隆在一封電子郵件中表示&nbsp;「我們需要一個比 1 億美元大得多的數字，以免讓人聽起來覺得毫無希望……我認為我們應該從 10 億美元的資金承諾開始.如果其他人不提供的，我會承擔。「 [1]</p><p>我們花了很多時間來設想通往 AGI 的合理路徑。2017 年初，我們意識到構建 AGI 需要大量的計算。我們開始計算 AGI 可能需要多少計算量。我們都明白，要想成功完成使命，我們將需要更多的資金--這將達到每年數十億美元，遠遠超出了我們任何人的想象，尤其是埃隆，他認為我們作為非營利組織無法籌集到這麼多資金。</p><h3><strong>我們和埃隆都認識到，要獲得這些資源，就必須建立一個營利實體。</strong></h3><hr><p>在我們討論營利性結構以推進使命時，埃隆希望我們與特斯拉合併，否則他需要獲得全部的控制權。這之後埃隆離開了 OpenAI，他説需要有一個與谷歌/DeepMind 相對應的競爭對手，而他打算自己來做這件事。他同事表示，他會支持我們找到自己的道路。</p><p>2017 年底，我們和埃隆決定下一步的任務是創建一個營利實體。埃隆希望獲得多數股權以及最初的董事會控制權，並擔任首席執行官。在這些討論中，他扣留了資金。Reid Hoffman 填補了資金缺口，為我們支付了工資和運營費用。</p><p>我們無法就營利性公司的條款與埃隆達成一致，因為我們認為任何個人對 OpenAI 擁有絕對控制權都有悖於公司的使命。於是，他建議將 OpenAI 併入特斯拉。2018 年 2 月初，埃隆給我們轉發了一封郵件，建議 OpenAI 「依附於特斯拉，將其作為自己的資金來源「，並評論説 「完全正確……特斯拉是唯一一條甚至有望與谷歌相提並論的道路。即便如此，與谷歌抗衡的可能性也很小。但並不是零」。[2]</p><p>埃隆很快選擇離開 OpenAI，他説我們的成功概率為 0，他計劃在特斯拉內部建立一個 AGI 團隊與我們競爭。他在 2018 年 2 月底離開時告訴我們，他支持我們自己尋找籌集數十億美元的道路。2018 年 12 月，埃隆給我們發郵件説：「即使籌集到幾億美元也不夠。這需要每年籌集數十億美元，否則就算了。「 [3]</p><h3><strong>我們通過構建可廣泛使用的有益工具來推進我們的使命</strong></h3><hr><p>我們通過開源等方式，使我們的技術能夠廣泛使用，從而提高人們的效率，改善他們的日常生活。</p><p>我們向大眾提供了當今最強大的人工智能，包括每天有數億人使用的免費版本。舉個例子，阿爾巴尼亞正在使用 OpenAI 的工具將其加入歐盟的時間加快了 5.5 年；數字綠色公司正在幫助肯尼亞和印度提高農民收入，通過在 OpenAI 的基礎上將農業推廣服務的成本降低 100 倍；羅德島州最大的醫療保健提供商 Lifespan 使用 GPT-4 將其手術同意書從大學閲讀水平簡化到六年級水平；而冰島正在使用 GPT-4 保護越來越少人使用的冰島語。</p><p>埃隆明白，這些工作並不意味着開源 AGI。正如伊利亞告訴埃隆的那樣 「隨着我們越來越接近 AGI，開始降低開放程度是有意義的。OpenAI 中的 「開放 「是指人工智能建成後，每個人都應從人工智能的成果中受益，但不分享科學成果也完全沒問題……"，埃隆回答道： 「是的」。[4]</p><p>對於埃隆的起訴，我們倍感遺憾。我們深深欽佩的一個人走到了這一步。他曾激勵我們向更高的目標邁進，然後告訴我們會失敗，建立了一個競爭對手團隊，而當我們開始在沒有他的情況下朝着 OpenAI 的使命取得有意義的進展時，他又將我們告上法庭。</p><p>我們專注於推進自己的使命，這還有很長的路要走。我們相信隨着我們的產品越來越好，他們將更好地為每個人賦權。</p><p>&nbsp;</p><p><strong>以下為往來郵件翻譯：</strong></p><p><img alt="" src="https://static.oschina.net/uploads/img/202403/06173736_2J68.png" referrerpolicy="no-referrer"></p><p>[1]</p><p>發件人 &nbsp;埃隆-馬斯克</p><p>收件人 &nbsp;格雷格-布羅克曼</p><p>抄送： Sam Altman</p><p>Date： Sun, Nov 22, 2015 at 7:48 PM</p><p>主題： 通話後續</p><p>博客聽起來不錯，但要考慮到中立性和以青委會為中心。</p><p>我更傾向於將博客定位為更吸引普通大眾－－讓大眾支持我們取得成功有很大的價值－－然後為招聘工作準備一個更長、更詳細、更有內幕的版本，並在普通大眾版本的末尾提供鏈接。</p><p>我們需要一個比 1 億美元大得多的數字，以避免與谷歌或 Facebook 的支出相比顯得毫無希望。我認為我們應該説，我們將從 10 億美元的資金承諾開始。這是真的。其他人不提供的，我都會提供。</p><p>模板看起來還不錯，除了默認轉為歸屬現金紅利外，還可以選擇將其轉為 YC 或 SpaceX（需要了解具體數額）的股票。</p><hr><p><img alt="" src="https://static.oschina.net/uploads/img/202403/06173737_l1GG.png" referrerpolicy="no-referrer"></p><p>[2]</p><p>發件人 &nbsp;埃隆-馬斯克</p><p>收件人 &nbsp;Ilya Sutskever 、Greg Brockman</p><p>Date： 2018 年 2 月 1 日，星期四，凌晨 3:52</p><p>主題 Fwd： 今天的頂級人工智能機構</p><p>説得一點沒錯。我們或許希望如此，但在我看來，特斯拉是唯一能與谷歌抗衡的公司。即便如此，與谷歌抗衡的可能性也很小，但也不是零。</p><p>開始轉發信息：</p><p>發件人： &nbsp;&nbsp;&lt;&gt;</p><p>致 &nbsp;埃隆-馬斯克 &lt;&gt;</p><p>日期，太平洋標準時間 2018 年 1 月 31 日下午 11:54:30</p><p>主題 Re： 當今頂尖的人工智能機構</p><p>不幸的是，在人工智能的最前沿工作是昂貴的。除了 DeepMind，谷歌還有 Google Brain、Research 和 Cloud。還有 TensorFlow、TPU，它們擁有大約三分之一的研究成果（事實上，它們還舉辦自己的人工智能會議）。</p><p>我還強烈懷疑，要實現 AGI，計算能力將是必要的。如果歷史趨勢能夠説明問題，那麼人工智能的進步主要是由系統－－計算、數據、基礎設施－－驅動的。我們今天使用的核心算法與上世紀 90 年代相比基本沒有變化。不僅如此，任何發表在論文中的算法進展幾乎都可以立即被重新實現和整合。反過來説，如果沒有一定的規模，單靠算法的進步是沒有生命力的。</p><p>在我看來，如今的 OpenAI 正在燒錢，其融資模式無法達到與谷歌（一家 8000 億美元的公司）認真競爭的規模。如果你無法與谷歌認真競爭，卻繼續在開放環境中進行研究，那麼你可能會讓事情變得更糟，並 「免費 「幫助他們，因為他們很容易複製任何進步，並立即將其規模化。</p><p>以營利為目的的轉型可能會隨着時間的推移創造出更穩定的收入來源，而就目前的團隊而言，很可能會帶來大量投資。然而，從零開始打造產品會搶走人工智能研究的重點，而且需要很長時間，目前還不清楚一家公司能否 「趕上 「谷歌的規模，投資者也可能會在錯誤的方向上施加過多壓力。我所能想到的最有希望的方案，正如我之前提到的，就是讓 OpenAI 附屬於特斯拉，將其作為自己的資金來源。我認為，依附於其他大型公司（如蘋果、亞馬遜），會因公司基因不兼容而失敗。打個比方，特斯拉已經建造了火箭的 「第一級「，包括 Model 3 的整個供應鏈、車載電腦和持續的互聯網連接。第二階段 「將是基於大規模神經網絡訓練的完全自動駕駛解決方案，OpenAI 的專業技術可以大大幫助加快這一進程。在大約 2-3 年的時間裏，我們就能推出功能完善的完全自動駕駛解決方案，銷售大量汽車/卡車。如果我們真的做得很好，運輸行業的規模足夠大，我們可以將特斯拉的市值提高到 O（約 10 萬美金），並利用這筆收入為適當規模的人工智能工作提供資金。</p><p>我看不到有任何其他公司有潛力在十年內達到可持續的谷歌規模資本。</p><hr><p><img alt="" src="https://static.oschina.net/uploads/img/202403/06173737_gNCb.png" referrerpolicy="no-referrer"></p><p>[3]</p><p>發件人 &nbsp;埃隆-馬斯克</p><p>收件人 &nbsp;Ilya Sutskever 、Greg Brockman</p><p>抄送： Sam Altman</p><p>Date： Wed, Dec 26, 2018 at 12:07 PM</p><p>主題： 我覺得我應該重申</p><p>在執行和資源沒有發生巨大變化的情況下，我對 OpenAI 與 DeepMind/Google 相關性的概率評估是 0%。而不是 1%。我希望不是這樣。</p><p>即使籌集到幾億美元也不夠。這需要每年立即籌集數十億美元，否則就算了。</p><p>不幸的是，人類的未來掌握在【未透露名稱】手中。</p><p>他們所做的遠不止這些。</p><p>我真希望我錯了。</p><p>埃隆</p><hr><p><img src="https://oscimg.oschina.net/oscnet/up-9103940e18f26f6ed78e7c0e58a9b0be1dc.png" referrerpolicy="no-referrer"></p><p>【4】</p><p>Fwd: 恭喜獵鷹 9</p><p>包含 3 條信息</p><p>發件人 &nbsp;Elon Musk</p><p>收件人 &nbsp;Sam Altman、Ilya Sutskever、 Greg Brockman</p><p>日期 Sat, Jan 2, 2016 at 8:18 AM</p><p>主題，收件人： 恭喜獵鷹 9 號</p><p>開始轉發消息：</p><p>From：&nbsp;未透露姓名</p><p>To： &nbsp;埃隆-馬斯克</p><p>日期： 美國中部時間 2016 年 1 月 2 日上午 10:12:32</p><p>主題： 恭喜獵鷹 9 號</p><p>嗨，埃隆</p><p>祝你新年快樂，</p><p>首先祝賀獵鷹 9 號着陸，這是一項了不起的成就。現在是時候組建艦隊了！</p><p>我看到你（還有薩姆和其他 OpenAI 人士）最近接受了很多采訪，大肆宣揚人工智能開源的優點，但我想你應該意識到，這並不是某種能神奇地解決安全問題的靈丹妙藥吧？有很多很好的論據可以説明，為什麼你所採取的方法實際上是非常危險的，事實上可能會增加世界的風險。在這篇博文中，一些比較明顯的觀點得到了很好地闡述，我相信你已經看到了，但還有其他一些重要的考慮因素：</p><p><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fslatestarcodex.com%2F2015%2F12%2F17%2Fshould-ai-be-open%2F" target="_blank">http://slatestarcodex.com/2015/12/17/should-ai-be-open/</a></p><p>我很想聽聽你對這些觀點的反駁。</p><p>發件人 &nbsp;Ilya Sutskever</p><p>致 &nbsp;Elon Musk 、Sam Altman、 Greg Brockman</p><p>日期 Sat, Jan 2, 2016 at 9:06 AM</p><p>主題 Fwd: 恭喜獵鷹 9 號</p><p>這篇文章關注的是 「硬起飛 「</p><p>如果發生 「硬起飛「，而安全的人工智能比不安全的人工智能更難構建，那麼通過開放一切，我們就會讓那些能夠獲得大量硬件的不法分子輕而易舉地構建出不安全的人工智能，從而遭遇 「硬起飛」。</p><p>當我們越來越接近構建人工智能時，開始降低開放程度將變得更有意義。openAI 中的 「開放 「意味着，在人工智能建成後，每個人都應從人工智能的成果中獲益，但不分享科學知識也是完全可以的（儘管在短期和中期內，為了招聘的目的，分享一切絕對是正確的策略）。</p><p>來自 &nbsp;埃隆-馬斯克</p><p>收件人 &nbsp;Ilya Sutskever</p><p>日期 Sat, Jan 2, 2016 at 9:11 AM</p><p>主題 Fwd: 恭喜獵鷹 9 號</p><p>是的</p></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Mar 2024 09:37:56 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281801/openai-elon-musk</guid>
-            <link>https://www.oschina.net/news/281801/openai-elon-musk</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【Java 比較 ORM 框架操作數據】操作批量新增、分頁查詢（七）]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h3>orm 框架使用性能比較</h3><h4>比較 mybatis、lazy、sqltoy、mybatis-flex、easy-query、mybatis-mp、jpa、dbvisitor、beetlsql 操作數據</h4><h4>環境：</h4><pre><code>idea 
-jdk17
-spring boot 3.0.7
-mysql 8.0
-</code></pre><h3>測試條件常規對象</h3><table><tbody><tr><th>orm 框架</th><th>是否支持 xml</th><th>是否支持 Lambda</th><th>對比版本</th><th>編碼方式</th></tr></tbody><tbody><tr><td>mybatis</td><td>☑️</td><td>☑️</td><td>3.5.4</td><td>lambda +xml 優化</td></tr><tr><td>sqltoy</td><td>☑️</td><td>☑️</td><td>5.2.98</td><td>lambda</td></tr><tr><td>lazy</td><td>✖️</td><td>☑️</td><td>1.2.4-JDK17-SNAPSHOT</td><td>lambda</td></tr><tr><td>mybatis-flex</td><td>☑️</td><td>☑️</td><td>1.8.0</td><td>lambda +xml 優化</td></tr><tr><td>easy-query</td><td>✖️</td><td>☑️</td><td>1.10.31</td><td>lambda</td></tr><tr><td>mybatis-mp</td><td>☑️</td><td>☑️</td><td>1.4.1</td><td>xml 優化</td></tr><tr><td>jpa</td><td>☑️</td><td>☑️</td><td>3.0.7</td><td>----------------------</td></tr><tr><td>dbvisitor</td><td>☑️</td><td>☑️</td><td>5.4.1</td><td>xml 優化</td></tr><tr><td>beetlsql</td><td>支持 md</td><td>☑️</td><td>3.26.0-RELEASE</td><td>insert ignore into 優化</td></tr></tbody></table><h3>數據庫表 (含有唯一性索引 s_u)</h3><pre><code class="language-sql">CREATE TABLE `sys_user`
-(
-    `column_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '額外字段',
-    `create_time` datetime                                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '創建時間',
-    `id`          bigint NOT NULL AUTO_INCREMENT COMMENT '用戶 ID',
-    `is_deleted`  tinyint(1) DEFAULT NULL COMMENT 'null',
-    `password`    varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密碼',
-    `scope`       varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'null',
-    `status`      tinyint(1) DEFAULT NULL COMMENT '狀態',
-    `update_time` datetime                                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新時間',
-    `username`    varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用戶名',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `s_u` (`scope`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9223371632070323791 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-</code></pre><h3>比較方法:增加、修改、刪除、分頁查詢（當前項目暫時只比較批量新增和分頁）</h3><h4>項目設計</h4><ul><li><p>聲明 ORMRepository 接口提供對應增刪改查方法&nbsp;</p></li><li><p>聲明 ORMComparisonRepository 接口，繼承 ORMRepository 下游由不同 ORM 實現</p></li><li><p>聲明 SysUserRepository 接口，繼承 ORMRepository 用於循環調用不同 orm 實現方法執行方法測試產生測試結果</p></li><li><p>聲明抽象類 SysUserRepositoryAbstractRecord 繼承 ORMComparisonRepository 並且提供對應的框架執行結果存儲&nbsp;</p></li><li><p>不同 ORM 框架創建 ORMComparisonRepository 的實現</p></li><li><p>不同 ORM 操作數據的實現</p></li></ul><h3>測試條件，批量插入數據 10、100、1000、10000、100000 ，分頁查詢數據 10、100、1000、10000、100000</h3><pre><code>項目啓動後使用瀏覽器打開 http://localhost:1003/sys/user/run-compare
-</code></pre><h3>測試條件（細節比較） 批量插入數據 1～10000，分頁查詢數據 1～10000</h3><pre><code>項目啓動後使用瀏覽器打開 http://localhost:1003/sys/user/run-particulars-compare
-</code></pre><h3>測試執行過程</h3><pre><code>清空需要插入表中所有數據
-通過三種 ORM 框架進行數據批量新增、而後進行分頁查詢，記錄消耗時間，輸出 md 文檔
-</code></pre><h3><a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Flocalhost%3A1003%2F" target="_blank">查看結果曲線圖</a></h3><p><img height="757" src="https://oscimg.oschina.net/oscnet/up-61371d910485615d211e20a380e8457b728.png" width="1401" referrerpolicy="no-referrer"></p><h3>測試結果（結果只提供參考）</h3><table><tbody><tr><th>MYBATIS_FLEX(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>25 毫秒</strong></td><td><strong>18 毫秒</strong></td><td><strong>73 毫秒</strong></td><td><strong>671 毫秒</strong></td><td><strong>6653 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>51 毫秒</strong></td><td><strong>28 毫秒</strong></td><td><strong>84 毫秒</strong></td><td><strong>601 毫秒</strong></td><td><strong>5963 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>LAZY(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>4 毫秒</strong></td><td><strong>12 毫秒</strong></td><td><strong>48 毫秒</strong></td><td><strong>353 毫秒</strong></td><td><strong>3512 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS_MP(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>8 毫秒</strong></td><td><strong>16 毫秒</strong></td><td><strong>66 毫秒</strong></td><td><strong>589 毫秒</strong></td><td><strong>6060 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>DB_VISITOR(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>67 毫秒</strong></td><td><strong>155 毫秒</strong></td><td><strong>897 毫秒</strong></td><td><strong>8368 毫秒</strong></td><td><strong>82348 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>JPA(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>67 毫秒</strong></td><td><strong>64 毫秒</strong></td><td><strong>952 毫秒</strong></td><td><strong>8608 毫秒</strong></td><td><strong>95946 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>EASY_QUERY(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>58 毫秒</strong></td><td><strong>91 毫秒</strong></td><td><strong>395 毫秒</strong></td><td><strong>1608 毫秒</strong></td><td><strong>15802 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>SQLTOY(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>35 毫秒</strong></td><td><strong>36 毫秒</strong></td><td><strong>173 毫秒</strong></td><td><strong>1540 毫秒</strong></td><td><strong>15167 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>BEETL_SQL(batchStory)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>187 毫秒</strong></td><td><strong>106 毫秒</strong></td><td><strong>260 毫秒</strong></td><td><strong>1713 毫秒</strong></td><td><strong>16778 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS_FLEX(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>28 毫秒</strong></td><td><strong>8 毫秒</strong></td><td><strong>19 毫秒</strong></td><td><strong>113 毫秒</strong></td><td><strong>865 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>26 毫秒</strong></td><td><strong>7 毫秒</strong></td><td><strong>20 毫秒</strong></td><td><strong>98 毫秒</strong></td><td><strong>732 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>LAZY(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>5 毫秒</strong></td><td><strong>5 毫秒</strong></td><td><strong>9 毫秒</strong></td><td><strong>71 毫秒</strong></td><td><strong>474 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>MYBATIS_MP(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>28 毫秒</strong></td><td><strong>5 毫秒</strong></td><td><strong>16 毫秒</strong></td><td><strong>89 毫秒</strong></td><td><strong>752 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>DB_VISITOR(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>14 毫秒</strong></td><td><strong>4 毫秒</strong></td><td><strong>9 毫秒</strong></td><td><strong>50 毫秒</strong></td><td><strong>424 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>JPA(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>85 毫秒</strong></td><td><strong>11 毫秒</strong></td><td><strong>49 毫秒</strong></td><td><strong>117 毫秒</strong></td><td><strong>805 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>EASY_QUERY(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>39 毫秒</strong></td><td><strong>9 毫秒</strong></td><td><strong>22 毫秒</strong></td><td><strong>60 毫秒</strong></td><td><strong>474 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>SQLTOY(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>23 毫秒</strong></td><td><strong>4 毫秒</strong></td><td><strong>10 毫秒</strong></td><td><strong>45 毫秒</strong></td><td><strong>249 毫秒</strong></td></tr></tbody></table><table><tbody><tr><th>BEETL_SQL(findPage)</th><th>影響行數:10</th><th>影響行數:100</th><th>影響行數:1000</th><th>影響行數:10000</th><th>影響行數:100000</th></tr></tbody><tbody><tr><td>執行時間:</td><td><strong>43 毫秒</strong></td><td><strong>13 毫秒</strong></td><td><strong>21 毫秒</strong></td><td><strong>76 毫秒</strong></td><td><strong>633 毫秒</strong></td></tr></tbody></table><h4>寫在最後</h4><p>細節數據對比（一萬以內基本相差不大）</p><ul><li>細節數據對比，數據屬於併發行測試數據，如果測試總數是一百，那麼會執行一百次 batchStory，一百次 findPage 每次執行的條數在之前數據的基礎上+1</li></ul><p>從形成的折線圖看（具體趨勢看排名與測試結果）</p><ul><li>存儲性能對比: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql 更適合併發性數據存儲。jpa、db_visitor 處理耗時較長</li><li>分頁查詢性能對比: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、db_visitor、beetlSql 都比較穩定。jpa 處理時間明顯起伏</li></ul><p><img height="679" src="https://oscimg.oschina.net/oscnet/up-f09e3ee8efef84baba88890fb63e6d31a3b.png" width="1406" referrerpolicy="no-referrer"></p><p><img height="698" src="https://oscimg.oschina.net/oscnet/up-928ba767617bad09b2b47481d399c812a70.png" width="1402" referrerpolicy="no-referrer"></p><p>批量保存：</p><ul><li>一萬條數據以內 lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql、jpa、db_visitor 性能趨於一致</li><li>十萬數據時，處理時間由快到慢依次是: lazy、mybatis-flex、mybatis-mp、mybatis、easy-query、sqltoy、beetlSql、db_visitor、jpa，其中 db_visitor、jpa 處理時間明顯起伏</li></ul><p>分頁查詢：</p><ul><li>一萬條數據以內，幾款 ORM 均保持在 200 毫秒內</li><li>十萬數據時，處理時間由快到慢依次是: sqltoy、db_visitor、easy-query、lazy、beetlSql、mybatis、mybatis-mp、jpa、mybatis-flex</li><li>&nbsp;</li></ul><h3>快速數據對比 (大數據曲線圖)</h3><p><img height="674" src="https://oscimg.oschina.net/oscnet/up-6a71c9a1e912b97ed59450e7362b127b8cf.png" width="1407" referrerpolicy="no-referrer"></p><p><img height="686" src="https://oscimg.oschina.net/oscnet/up-f5898a01682ab16289012b658c8c02e3c2c.png" width="1389" referrerpolicy="no-referrer"></p><h4><a href="https://gitee.com/wujiawei1207537021/wu-compare-orm-demo">當前項目地址</a></h4><h4><a href="https://gitee.com/wujiawei1207537021/wu-framework-parent/tree/master/wu-database-parent">lazy-orm 地址</a></h4><h4><a href="https://gitee.com/baomidou/mybatis-plus">mybatis 地址</a></h4><h4><a href="https://gitee.com/sagacity/sagacity-sqltoy">sqltoy 地址</a></h4><h4><a href="https://gitee.com/mybatis-flex/mybatis-flex">mybatis-flex 地址</a></h4><h4><a href="https://gitee.com/xuejm/easy-query">easy-query 地址</a></h4><h4><a href="https://gitee.com/mybatis-mp/mybatis-mp">mybatis-mp 地址</a></h4><h4><a href="https://gitee.com/zycgit/dbvisitor">dbvisitor 地址</a></h4><h4><a href="https://gitee.com/xiandafu/beetlsql">beetlsql 地址</a></h4></div>
-                                    ]]>
-            </description>
-            <pubDate>Wed, 06 Mar 2024 09:24:40 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/281792</guid>
-            <link>https://www.oschina.net/news/281792</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
+                <![CDATA[得物技術]]>
             </author>
         </item>
     </channel>
