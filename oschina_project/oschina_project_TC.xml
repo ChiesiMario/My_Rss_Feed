@@ -16,8 +16,123 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 16 Mar 2024 13:38:38 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 17 Mar 2024 10:45:29 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>
+                <![CDATA[DaxPay 支付網關 v2.0.3: 增加雲閃付支付]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>背景</h2><p>在平時對接三方支付時，尤其需要對接多家支付的時候，是不是有以下痛點：</p><blockquote><ol><li><p>各家支付系統的調用方式、返回參數、數據簽名、回調格式等都不盡相同，對接時互相之間無法複用</p></li><li><p>各家支付系統提供的支付能力不盡相同，有時候業務系統為了對客戶展現的功能一致，需要寫大量的適配代碼才能實現</p></li><li><p>支付訂單、退款訂單、回調記錄、訂單關閉、對賬分賬等必要功能都需要進行實現，需要考慮各種場景才能保證不出問題</p></li><li><p>有時候業務上需要支持一些擴展的支付類型，如要支持錢包支付、支持多種支付方式進行組合支付、支持聚合支付實現一碼通掃等</p></li></ol></blockquote><p>如果你遇到這些問題，<strong>Dromara DaxPay</strong>（開源支付網關）或許能幫助到你：</p><p>它是<code>Dromara 開源社區</code>旗下新晉的一款開源支付網關係統，將各種支付通道（如支付寶、微信、雲閃付等）的調用方式進行抽象統一，隱藏開發者不需要關注的細節，只需要一份代碼就可以與多家支付通道對接。<code>DaxPay</code>獨立部署，提供獨立的管理界面，不侵入業務系統也不需要業務系統進行改造，只需要通過<code>http</code>進行調用就擁有相應的支付能力。除了對各類三方支付系統進行了對接，還對常用的支付方式進行了擴展，支持聚合支付、組合支付、錢包支付等功能。</p><h2>🧭 特色功能</h2><ol><li><p>基於<code>Spring Boot</code>、<code>Vue3</code>主流技術棧，方便對系統進行擴展和改造</p></li><li><p>已對接<code>微信支付、支付寶</code>、<code>雲閃付</code>的接口，後續版本將支持<code>V3</code>版本支付接口</p></li><li><p>對接各類支付通道對外提供統一的接口，簡化支付對接的複雜度，也方便後期快速替換或增加新的支付通道</p></li><li><p>提供<code>錢包支付</code>、<code>現金支付</code>、<code>儲值卡支付</code>等擴展支付方式，同時支持組合支付，滿足業務系統多樣的支付場景</p></li><li><p>提供<code>Java</code>版本的<code>SDK</code>工具包，簡化業務系統對接流程，同時也可以使用<code>HTTP</code>方式進行接口調用，保證了更低的耦合性和通用性</p></li><li><p>請求、響應、回調數據都支持啓用簽名機制，可根據實際需要進行開關，保證交易的安全可靠</p></li><li><p>提供管理平台，可以對各類訂單、記錄、配置進行便捷的操作，方便運營人員進行支付業務的管理</p></li><li><p>提供<code>聚合支付</code>、<code>電腦收銀台</code>和<code>手機收銀台</code>的演示模塊，供開發者參考其實現支付功能的邏輯</p></li><li><p>系統源碼為商業友好的<code>Apache-2.0</code>協議，文檔為更加寬鬆的<code>MIT</code>協議，不需要擔心後續代碼和文檔會突然進行收費</p></li></ol><h2>🥞&nbsp;本次更新內容</h2><ul><li>增加雲閃付通道，支持支付、退款、同步、回調處理</li><li>增加定時同步退款中的退款訂單任務</li><li>增加通知任務訂單的狀態類型，例如訂單關閉、成功、失敗等</li><li>增加退款操作支持重試</li><li>增加手動觸發通知任務消息的發送功能</li></ul><h2>🍒 文檔和源碼地址</h2><h3>文檔地址</h3><p>在<a href="https://bootx.gitee.io/">Bootx 開源文檔站</a>下的支付網關 (DaxPay) 模塊下可以進行查閲相關文檔，具體鏈接地址如下：<a href="https://bootx.gitee.io/daxpay/guides/overview/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D.html">快速指南</a>、<a href="https://bootx.gitee.io/daxpay/gateway/overview/%E6%8E%A5%E5%8F%A3%E6%B8%85%E5%8D%95.html">支付對接</a>、<a href="https://bootx.gitee.io/daxpay/admin/config/%E5%B9%B3%E5%8F%B0%E9%85%8D%E7%BD%AE.html">操作手冊</a></p><h2>🏬 項目和演示地址</h2><h3>源碼地址</h3><table><tbody><tr><th>項目</th><th>GITEE</th><th>GITHUB</th></tr></tbody><tbody><tr><td>後端地址</td><td><a href="https://gitee.com/dromara/dax-pay">https://gitee.com/dromara/dax-pay</a></td><td><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdromara%2Fdax-pay" target="_blank">https://github.com/dromara/dax-pay</a></td></tr><tr><td>Web 前端地址</td><td><a href="https://gitee.com/bootx/dax-pay-ui">https://gitee.com/bootx/dax-pay-ui</a></td><td><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxxm1995%2Fdax-pay-ui" target="_blank">https://github.com/xxm1995/dax-pay-ui</a></td></tr><tr><td>H5 前端地址</td><td><a href="https://gitee.com/bootx/dax-pay-h5">https://gitee.com/bootx/dax-pay-h5</a></td><td><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxxm1995%2Fdax-pay-h5" target="_blank">https://github.com/xxm1995/dax-pay-h5</a></td></tr></tbody></table><h3>管理平台:</h3><blockquote><p>注：演示賬號部分功能修改刪除權限未開放。</p></blockquote><p>地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaxpay.demo.bootx.cn" target="_blank">https://daxpay.demo.bootx.cn</a> 賬號：daxpay 密碼：123456</p><h3>網關接口</h3><blockquote><p>注：接口平台只開放支付網關相關的接口，不開放系統其他接口。</p></blockquote><p>地址: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaxpay.server.bootx.cn%2Fdoc.html" target="_blank">https://daxpay.server.bootx.cn/doc.html</a> 賬號: daxpay 密碼: 123456</p><h3>收銀台</h3><blockquote><p>請勿大額支付，可以通過後台管理平台進行退款</p></blockquote><p>電腦收銀台地址: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaxpay.demo.bootx.cn%2F%23%2Fcashier" target="_blank">https://daxpay.demo.bootx.cn/#/cashier</a></p><p>手機收銀台地址: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdaxpay.demo.bootx.cn%2Fh5%2F%23%2Fcashier%2FuniCashier" target="_blank">https://daxpay.demo.bootx.cn/h5/#/cashier/uniCashier</a></p><h2>🥞 核心技術棧</h2><table><tbody><tr><th>名稱</th><th>描述</th><th>版本要求</th></tr></tbody><tbody><tr><td>Jdk</td><td>Java 環境</td><td>1.8+，11 版本可以正常使用，但 17+版本暫不支持</td></tr><tr><td>Spring Boot</td><td>開發框架</td><td>2.7.x</td></tr><tr><td>Redis</td><td>分佈式緩存</td><td>5.x 版本及以上</td></tr><tr><td>MySQL</td><td>數據庫</td><td>基於 5.7.X 版本開發，基本支持 8.x 版本</td></tr><tr><td>Vue</td><td>前端框架</td><td>3.x</td></tr><tr><td>IJpay</td><td>支付 SDK 開發包</td><td>項目自動管理，不需要額外處理</td></tr></tbody></table><h2>🍎 系統截圖</h2><h3>H5 收銀台演示</h3><p><img alt="" src="https://jsd.cdn.zzko.cn/gh/xxm1995/bootx-img@master/daxpay/3.3e0781my8tc0.webp" referrerpolicy="no-referrer"></p><h3>收銀台演示</h3><p><img alt="" src="https://oscimg.oschina.net/oscnet/up-d6ae2e823c5910947b6d01679bbbfb08317.jpg" referrerpolicy="no-referrer"></p><h3>支付通道配置</h3><p><img alt="" src="https://jsd.cdn.zzko.cn/gh/xxm1995/bootx-img@master/daxpay/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20240215020450.3abki92bc6w0.webp" referrerpolicy="no-referrer"><img alt="" src="https://oscimg.oschina.net/oscnet/up-fc3b1c709335b70c619272af5f572be1389.jpg" referrerpolicy="no-referrer"></p><h2>🍻 鳴謝</h2><p>感謝 JetBrains 提供的免費開源 License：</p><p><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.jetbrains.com%2F%3Ffrom%3Dbootx"><img alt="JetBrains" src="https://gitee.com/bootx/dax-pay/raw/gateway/_doc/images/jetbrains.png" referrerpolicy="no-referrer"></a></p><p>感謝其他提供靈感和思路的開源項目</p><p><a href="https://gitee.com/bootx/dax-pay/blob/gateway/_license/LICENSE.md">部分參考的開源項目和開源許可列表</a></p><h2>🍷License</h2><p>Apache License Version 2.0</p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 17 Mar 2024 09:13:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/283448/daxpay2-0-3-released</guid>
+            <link>https://www.oschina.net/news/283448/daxpay2-0-3-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[增加 Telemetry 功能！Tianji v1.7.0 發佈]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><h2>Tianji:&nbsp;網站分析器 + 狀態監控器 + 服務狀態上報</h2><h3>動機</h3><p style="color:#1f2328; margin-left:0; margin-right:0; text-align:start">在我們對網站進行觀察時。我們往往需要多個應用一起來組合使用。比如我們需要 ga/umami 等分析工具來查看 pvuv 以及各個頁面的訪問量，我們需要 uptime 監控器來檢查服務器的網絡質量與連通性，我們需要通關 prometheus 獲取服務端上報的狀態來檢查服務器的質量。另外如果開發的是一個允許被開源部署的應用，我們往往還需要一個遙測系統來幫助我們對其他人的部署情況做一個最簡單的信息收集。</p><p style="color:#1f2328; margin-left:0; margin-right:0; text-align:start">我認為這些工具應當是為同一個目的而服務的，那麼有沒有一款應用能夠輕量級的將這些常見的需求整合為一體呢？畢竟在大部分時候我們並不需要非常專業與深入的功能。但是我為了實現全面的監控卻需要安裝如此多的服務。</p><p style="color:#1f2328; margin-left:0; margin-right:0; text-align:start">專精於一項這很好，如果我們是相關能力的專家我們需要這樣的專業工具。但是對於大部分只有輕量級需求的用戶而言，一個 all in one 的應用會更加方便與易於使用</p><ul><li>官方網站:&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftianji.msgbyte.com%2F" target="_blank">https://tianji.msgbyte.com/</a></li><li>Github:&nbsp;<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji" target="_blank">https://github.com/msgbyte/tianji</a></li></ul><h2>v1.7.0 版本更新內容</h2><p>主要更新內容:</p><ul><li>增加遙測功能</li><li>優化體積容器體積</li></ul><p><img height="521" src="https://oscimg.oschina.net/oscnet/up-59b37c7db21f7073c398664cdaf47a878a7.png" width="1312" referrerpolicy="no-referrer"></p><p>(uncompressed)</p><p><img height="60" src="https://oscimg.oschina.net/oscnet/up-a5bad89812d952f64bd97c76c09ca5d7b52.png" width="558" referrerpolicy="no-referrer"></p><h1>詳細改動</h1><div><div><div><div><div><div><div><div><div><div><h3>Features</h3><ul><li>add alpha mode and usage page (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fd3df3f2692b7bf97759d104f748710afd7b38f00" target="_blank">d3df3f2</a>)</li><li>add telemetry event count (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fe79c4b48190c9c1867210399b13e8e4d7386fcd0" target="_blank">e79c4b4</a>)</li><li>add telemetry feature desc (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F011ac6c71389f0430d995396992e649fa0d5bc91" target="_blank">011ac6c</a>)</li><li>add telemetry list (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F5e720abb11ae3615b07155aff320f46b5d8f95d1" target="_blank">5e720ab</a>)</li><li>add telemetry metrics table (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F38dd60feeec35142cd08e4fe4fe2151b5acee400" target="_blank">38dd60f</a>)</li><li>add telemetry overview (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F5bad815e62352fa2ee5835233e98d3f1370890b8" target="_blank">5bad815</a>)</li><li>add telemetry trpc feature (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F0bd98adf96fde351cda499ca215cedf36d5ec724" target="_blank">0bd98ad</a>)</li><li>add tianji anonymous telemetry (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fceef5c4b71e89bfdb60bf24406a5ab5b6eb930d7" target="_blank">ceef5c4</a>)</li><li>add usage button for telemetry (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fdaef9ff08471f3de5a7cf975265d7fae3b28062e" target="_blank">daef9ff</a>)</li><li>telemetry add telemetryId report (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F355690eb7505a3a3174e88eb7febd17fc0e288c7" target="_blank">355690e</a>)</li></ul><h3>Bug Fixes</h3><ul><li>fix audit log too long will broken style problem (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fb02e0b75d67cdf7e64e6606adad9496c2ff722af" target="_blank">b02e0b7</a>)</li><li>fix logic problem of retry (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fce891e9254ef82ace8993232b50dee4ffa0673f2" target="_blank">ce891e9</a>)</li><li>fix pageviews not include timezone problem (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F439eb83748b2fd6386027fdf63252f0a60ab8582" target="_blank">439eb83</a>)</li><li>fix telemetry lost timezone problem (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F40e1bac541c198fcd6e35600e17fffe1cdd4ddfd" target="_blank">40e1bac</a>)</li></ul><h3>Document</h3><ul><li>add framework support document (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F18027170b8da78a05f362c1fdcfc0cdbfa018514" target="_blank">1802717</a>)</li><li>add Q&amp;A for tianji reporter (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fb50de6b4e026491ecc7e33b876a68ba2282c2faf" target="_blank">b50de6b</a>)</li><li>update changelog (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F4b35cc0588e0e7d0ff54795b5c57fa9bef647b7c" target="_blank">4b35cc0</a>)</li><li>update docs, add account tip in intro page (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F5d99bffa87efc5b8279707041c63b6fbd6b42027" target="_blank">5d99bff</a>)</li><li>update intro document (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F2afb5e55f7689a02542af37e4e98d27f7d8bef53" target="_blank">2afb5e5</a>)</li><li>update keyword (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F1872a5d437a1e61a459c16372533b93f6e54a1e0" target="_blank">1872a5d</a>)</li><li>update openapi (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F5b36d10346477a047a0af801a7842ea0fa84e4ae" target="_blank">5b36d10</a>)</li><li>update openapi.json (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F6f77452ae9a8dff1849e139c9496a026868ab746" target="_blank">6f77452</a>)</li><li>update preview/wechat image, and add feature tag of i18n (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fa94e10b93f0233377bc1ac7edbeb5d65c1fc28d1" target="_blank">a94e10b</a>)</li><li>update tianji keywords (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fd0c8bf9f0e3e2e0b8d025998e47c0d182f3c6db1" target="_blank">d0c8bf9</a>)</li><li>update wechat qrcode (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F070f4990a65cf322611f4ecce798639ba51898dc" target="_blank">070f499</a>)</li></ul><h3>Others</h3><ul><li>add sealos config (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Ff87e5b32f9c08fa3fd31d15547ec559f3f897432" target="_blank">f87e5b3</a>)</li><li>improve dockerfile build (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F6464a59d791b3fa93ca0b97ca0e1776274bc09b6" target="_blank">6464a59</a>)</li><li>refactor chart render and perf pageview data handle logic (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F4fe61a6d7c11c99ce3fd4b8ec0cfa2c78cb5c077" target="_blank">4fe61a6</a>)</li><li>refactor website pageview endpoint to trpc (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fdd0ad8c5deb217673285ada601c3121815eb37b8" target="_blank">dd0ad8c</a>)</li><li>remove alpha mode for telemetry (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fe387b70c3a1511772a548f727bcadfc4a43a92d0" target="_blank">e387b70</a>)</li><li>rename MetricsTable to WebsiteMetricsTable (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F1306187f01e91d400f228bcd3f4c7ed4ad8576d4" target="_blank">1306187</a>)</li><li>update docker file to multi stage builds (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Febc91d95317418241a01cf580c423947559f593c" target="_blank">ebc91d9</a>)</li><li>update translation (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F49fc136fb836cfa178c20809f758bbc13cbdaa46" target="_blank">49fc136</a>)</li><li>upgrade @i18next-toolkit/cli version (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2Fd8b23a746801b3f35d9d86126b37eef53bd84f17" target="_blank">d8b23a7</a>)</li><li>upgrade i18next-toolkit cli version and add translation of telemetry (<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmsgbyte%2Ftianji%2Fcommit%2F4711987779733bc12a156767a87cfd6c19b6c8c7" target="_blank">4711987</a>)</li></ul></div></div></div></div></div></div></div></div></div></div></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 17 Mar 2024 07:38:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/283434/tianji-1-7-0-released</guid>
+            <link>https://www.oschina.net/news/283434/tianji-1-7-0-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[Ant Design 5.15.3 發佈，企業級 UI 設計語言和 React 實現]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><span style="background-color:#ffffff; color:#333333">An Design 5.15.3 現已發佈，主要變化如下：</span></p><ul><li>統一 Modal、Drawer、notification 和 Tour 關閉按鈕的樣式，並增大 Modal 和 Drawer 關閉按鈕的交互區域使其更容易點擊。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47909" target="_blank">#47909</a></li><li>修復 Badge 和文本元素在 Space 下排版不對齊的問題。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47908" target="_blank">#47908</a></li><li>修復 Upload 列表行動點換行的問題。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47898" target="_blank">#47898</a></li><li>修復 Typography 配置的<span>&nbsp;</span><code>ellipsis.symbol</code><span>&nbsp;</span>超出單行高度時，省略行數不正確的問題。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47889" target="_blank">#47889</a></li><li>修復 DatePicker 配置自定義<span>&nbsp;</span><code>controlHeight</code><span>&nbsp;</span>時展示高度不正確的問題。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47874" target="_blank">#47874</a></li><li>修復 DatePicker 設置<span>&nbsp;</span><code>multiple</code><span>&nbsp;</span>多選換行時行與行之間沒有間隙的問題。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47821" target="_blank">#47821</a></li><li>調深 Empty 文本色彩使其更清晰可讀一些。<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Fpull%2F47268" target="_blank">#47268</a></li></ul><p>更新説明：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fant-design%2Fant-design%2Freleases%2Ftag%2F5.15.3" target="_blank">https://github.com/ant-design/ant-design/releases/tag/5.15.3</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sun, 17 Mar 2024 03:00:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/283411/ant-design-5-15-3-released</guid>
+            <link>https://www.oschina.net/news/283411/ant-design-5-15-3-released</link>
+            <author>
+                <![CDATA[來源: OSCHINA]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[MapStructPlus 1.4.0 版本發佈，體積更輕量！性能更強！]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p><strong>MapStruct Plus 是 MapStruct 的增強工具，在 Mapstruct 的基礎上，實現了自動生成 Mapper 接口的功能，並強化了部分功能，使 Java 類型轉換更加便捷、優雅。</strong></p><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmapstruct.plus" target="_blank">MapStructPlus 官網</a></p><p>此次迎來了一次較大版本的更新，更新日誌如下：</p><ul><li><p><strong>優化複雜對象轉換邏輯，佔用元空間更小！性能更快！</strong></p></li></ul><p>此版本針對於複雜對象的自動轉換邏輯，進行了優化和部分的重新設計，減少了一些不必要的轉換方法，佔用元空間更小。</p><p>以 <a href="https://gitee.com/dromara/RuoYi-Vue-Plus">RuoYi-Vue-Plus</a> 為例，使用新版本後，元空間佔用減少了 7MB，根據項目的複雜程度不同，減少的內存佔用也有所不同。</p><p>且根據 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Flinpeilie%2Fmapstruct-plus%2Fissues%2F67" target="_blank">issue#67</a> 中提到，在 SpringBoot + Aop 場景下，性能會受影響， 在新版本中，修改了實現方式，性能比提升一半以上。</p><ul><li><p><strong>去除 hutool 等依賴，目前項目中只依賴了 MapStruct</strong></p></li></ul><p>從 1.4.0 版本之後，去除了 MapStruct 之外的依賴，打包後體積更小。</p><p>但當需要使用 <code>Map</code> 與對象轉換時，需要額外引入 <code>hutool-core</code> 依賴包。</p><ul><li><p><strong>適配對象循環嵌套場景</strong></p></li></ul><p>類循環嵌套是指兩個類互相引用，例如，源對象和目標對象結構都包含父對象和子對象之間的雙向關聯。 當存在這種情況時，直接進行轉換時，會導致棧溢出的問題（stack overflow error）。</p><p>示例：</p><pre><code><span>@Data</span><span>public</span>&nbsp;<span><span>class</span>&nbsp;<span>TreeNode</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;TreeNode&nbsp;parent;
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;List&lt;TreeNode&gt;&nbsp;children;
+}
+
+<span>@Data</span><span>public</span>&nbsp;<span><span>class</span>&nbsp;<span>TreeNodeDto</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;TreeNodeDto&nbsp;parent;
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;List&lt;TreeNodeDto&gt;&nbsp;children;
+}
+</code></pre><p><code>parent</code> 屬性可以是其他類型的，可能跨越一個更長的屬性鍊形成的嵌套循環。</p><p>為了適配這種情況，MapStructPlus 的 <strong><code>AutoMapper</code></strong> 註解中增加了 <strong><code>cycleAvoiding</code></strong> 屬性，該屬性用於標識，是否需要避免循環嵌套的問題。 默認為 <code>false</code>，如果需要避免循環嵌套，需要將該屬性設置為 <code>true</code>。</p><p>當配置為 <code>true</code> 時，在整個對象的轉換過程鏈路中，會傳遞一個 <code>CycleAvoidingMappingContext</code> 對象，臨時保存轉換生成的對象， 在轉換鏈路中，如果發現需要生成的對象已經存在，會直接返回該類型，從而避免棧溢出問題。</p><p>以上面的示例為例，在 <code>AutoMapper</code> 註解中，配置 <code>cycleAvoiding</code> 屬性為 <code>true</code>，如下所示：</p><pre><code><span>@Data</span><span>@AutoMapper</span>(target&nbsp;=&nbsp;TreeNodeDto<span>.<span>class</span>,&nbsp;<span>cycleAvoiding</span>&nbsp;</span>=&nbsp;<span>true</span>)
+<span>public</span>&nbsp;<span><span>class</span>&nbsp;<span>TreeNode</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;TreeNode&nbsp;parent;
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;List&lt;TreeNode&gt;&nbsp;children;
+}
+
+<span>@Data</span><span>@AutoMapper</span>(target&nbsp;=&nbsp;TreeNode<span>.<span>class</span>,&nbsp;<span>cycleAvoiding</span>&nbsp;</span>=&nbsp;<span>true</span>)
+<span>public</span>&nbsp;<span><span>class</span>&nbsp;<span>TreeNodeDto</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;TreeNodeDto&nbsp;parent;
+&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span>&nbsp;List&lt;TreeNodeDto&gt;&nbsp;children;
+}
+</code></pre><p>編譯生成的轉換邏輯如下：</p><pre><code><span><span>public</span>&nbsp;TreeNodeDto&nbsp;<span>convert</span><span>(TreeNode&nbsp;arg0,&nbsp;CycleAvoidingMappingContext&nbsp;arg1)</span>&nbsp;</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;TreeNodeDto&nbsp;target&nbsp;=&nbsp;arg1.getMappedInstance(arg0,&nbsp;TreeNodeDto<span>.<span>class</span>)</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span>&nbsp;(target&nbsp;!=&nbsp;<span>null</span>)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span>&nbsp;target;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span>&nbsp;(arg0&nbsp;==&nbsp;<span>null</span>)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span>&nbsp;<span>null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;TreeNodeDto&nbsp;treeNodeDto&nbsp;=&nbsp;<span>new</span>&nbsp;TreeNodeDto();
+
+&nbsp;&nbsp;&nbsp;&nbsp;arg1.storeMappedInstance(arg0,&nbsp;treeNodeDto);
+
+&nbsp;&nbsp;&nbsp;&nbsp;treeNodeDto.setParent(demoConvertMapperAdapterForCycleAvoiding.iglm_TreeNodeToTreeNodeDto(arg0.getParent(),&nbsp;arg1));
+&nbsp;&nbsp;&nbsp;&nbsp;treeNodeDto.setChildren(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demoConvertMapperAdapterForCycleAvoiding.iglm_TreeNodeToTreeNodeDto(arg0.getChildren(),&nbsp;arg1));
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span>&nbsp;treeNodeDto;
+}
+</code></pre><ul><li><p><strong><code>AutoMapping</code>、<code>ReverseAutoMapping</code> 支持 <code>qualifiedByName</code>、<code>conditionQualifiedByName</code> 和 <code>dependsOn</code> 屬性</strong></p></li><li><p><strong><code>AutoMappings</code> 支持配置在方法上面</strong></p></li></ul></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 16 Mar 2024 15:54:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/283380/mapstructplus-1-4-0-released</guid>
+            <link>https://www.oschina.net/news/283380/mapstructplus-1-4-0-released</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
+        <item>
+            <title>
+                <![CDATA[無魚 v1.3.0 已經發布，項目工時系統]]>
+            </title>
+            <description>
+                <![CDATA[<div class="content"><p>無魚 v1.3.0 已經發布，項目工時系統</p><p>此版本更新內容包括：</p><p>無魚工時系統標準版 1.3.0 發佈了</p><h3>一， 更新內容：</h3><p>1、#I954Q6 新增了項目月報的自定義統計範圍，可查看按自定義時間統計項目的工時統計和相關人員詳情。</p><p>2、修復用戶填報歷史無法訪問的問題</p><p>3、一些其他 bug。 #I93WF7</p><h3>二，效果預覽</h3><p><img alt="輸入圖片説明" src="https://foruda.gitee.com/images/1710600350226297184/e135ebdb_9653057.png" referrerpolicy="no-referrer"></p><p><img alt="輸入圖片説明" src="https://foruda.gitee.com/images/1710600363663901002/dbcbb1db_9653057.png" referrerpolicy="no-referrer"></p><p><img alt="輸入圖片説明" src="https://foruda.gitee.com/images/1710600393240742174/73b03e90_9653057.png" referrerpolicy="no-referrer"></p><h3>三，下載使用</h3><p>下載地址： <a href="https://gitee.com/link?target=https%3A%2F%2Fdoc.wuyusoft.com%2Fcost%2F13.downloads.html" target="_blank">下載</a> 查看部署手冊： <a href="https://gitee.com/link?target=https%3A%2F%2Fdoc.wuyusoft.com%2Fcost%2F5.install.html" target="_blank">部署</a></p><p>詳情查看：<a href="https://gitee.com/wy-soft/wyproject/releases/v1.3.0">https://gitee.com/wy-soft/wyproject/releases/v1.3.0</a></p></div>
+                                    ]]>
+            </description>
+            <pubDate>Sat, 16 Mar 2024 14:48:00 GMT</pubDate>
+            <guid isPermaLink="false">https://www.oschina.net/news/283370</guid>
+            <link>https://www.oschina.net/news/283370</link>
+            <author>
+                <![CDATA[來源: 投稿]]>
+            </author>
+        </item>
         <item>
             <title>
                 <![CDATA[凌夕文件管理系統 v1.0.0 發佈 - 網盤系統、文件轉碼系統]]>
@@ -256,205 +371,6 @@
             <pubDate>Fri, 15 Mar 2024 00:43:00 GMT</pubDate>
             <guid isPermaLink="false">https://www.oschina.net/news/283120/catchadmin-3-2-0-released</guid>
             <link>https://www.oschina.net/news/283120/catchadmin-3-2-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[MT-AUTH v1.19.0 發佈，多租戶權限系統]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>更新日誌</h1><h2>mt-ui</h2><ul><li>移除了 Patch 相關操作</li><li>移除了刪除用戶功能</li><li>代碼重構與簡化</li><li>移除了對 mt-form 的依賴</li><li>路由路徑 restful 設計</li></ul><h2>mt-access</h2><ul><li>移除了 Patch 相關 API</li></ul><h2>mt-integration-test</h2><ul><li>移除了 Patch 相關測試</li></ul><h2>通用</h2><ul><li>項目初始化數據優化</li></ul><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fpublicdevop2019%2Fmt-auth%2Fprojects%2F29" target="_blank">更多詳情</a></h1><p>&nbsp;</p><p style="color:#e6edf3; margin-left:0; margin-right:0; text-align:left"><span style="color:#000000"><strong>MT-AUTH 是一款多租戶權限管理系統，包含用戶管理與 API 路由、共享、鑑權、緩存、跨域、安全防護等功能</strong></span></p><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fpublicdevop2019%2Fmt-auth%2Ftree%2Fmain%23%25E5%25BA%2594%25E7%2594%25A8%25E5%259C%25BA%25E6%2599%25AF" target="_blank"><span style="color:#000000">應用場景</span></a></h1><p style="color:#e6edf3; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">對於個人開發者，您可以：</span></p><ul><li><span style="color:#000000">無需從零構建用戶相關功能，例如：用戶註冊，忘記密碼找回等</span></li><li><span style="color:#000000">輕鬆使用現成的權限管理模式（RBAC），更加專注於業務需求</span></li><li><span style="color:#000000">快速與您的應用集成單點登錄（SSO）</span></li><li><span style="color:#000000">一站式管理應用，API，用戶</span></li><li><span style="color:#000000">享受 API 級別的鑑權，緩存，跨域，限流，安全控制</span></li><li><span style="color:#000000">通過 API 市場分享或訂閲其它 API</span></li></ul><p style="color:#e6edf3; margin-left:0; margin-right:0; text-align:start"><span style="color:#000000">對於企業，如果您：</span></p><ul><li><span style="color:#000000">項目之間用戶通用，需要統一管理</span></li><li><span style="color:#000000">項目由不同的團隊管理，團隊相對獨立</span></li><li><span style="color:#000000">用戶在不同項目中有不同權限</span></li><li><span style="color:#000000">統一管理項目、應用與 API</span></li><li><span style="color:#000000">項目之間需要共享 API</span></li></ul><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fpublicdevop2019%2Fmt-auth%2Ftree%2Fmain%23%25E4%25BA%2591%25E7%2589%2588%25E6%259C%25AC" target="_blank"><span style="color:#000000">雲版本</span></a></h1><ul><li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.letsauth.cloud%2Flogin" target="_blank">官方地址 (www.letsauth.cloud)</a></li><li><span style="color:#000000">演示賬號：</span><a href="https://www.oschina.net/action/GoToLink?url=mailto%3Ademo%40sample.com" target="_blank"><span style="color:#000000">demo@sample.com</span></a><span style="color:#000000">&nbsp;密：Password1!</span></li><li><span style="color:#000000">演示賬號：</span><a href="https://www.oschina.net/action/GoToLink?url=mailto%3Aadmin%40sample.com" target="_blank"><span style="color:#000000">admin@sample.com</span></a><span style="color:#000000">&nbsp;密：Password1!</span></li><li><span style="color:#000000">演示賬號：</span><a href="https://www.oschina.net/action/GoToLink?url=mailto%3Auser1%40sample.com" target="_blank"><span style="color:#000000">user1@sample.com</span></a><span style="color:#000000">&nbsp;密：Password1!</span></li><li><span style="color:#000000"><strong>注：當前版本為 beta 版，不保證數據安全並且隨時回滾</strong></span></li></ul><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fpublicdevop2019%2Fmt-auth%2Ftree%2Fmain%23%25E7%25A4%25BA%25E6%2584%258F%25E5%259B%25BE" target="_blank"><span style="color:#000000">示意圖</span></a></h1><p style="color:#e6edf3; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><h1><img alt="" height="440" src="https://oscimg.oschina.net/oscnet/up-340644b27fece1bd183c7978e86bc25af6a.jpg" width="500" referrerpolicy="no-referrer"></h1><p style="color:#e6edf3; margin-left:0; margin-right:0; text-align:start">&nbsp;</p><h1><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fpublicdevop2019%2Fmt-auth%2Ftree%2Fmain%23%25E9%25A1%25B9%25E7%259B%25AE%25E7%2589%25B9%25E7%2582%25B9" target="_blank"><span style="color:#000000">項目特點</span></a></h1><ul><li><span style="color:#000000">事件驅動</span></li><li><span style="color:#000000">基於角色的權限控制 (RBAC)</span></li><li><span style="color:#000000">多租戶</span></li><li><span style="color:#000000">不對稱密匙</span></li><li><span style="color:#000000">OAuth2</span></li><li><span style="color:#000000">站內信，短信，郵件通知</span></li><li><span style="color:#000000">用戶密碼重置，註冊碼註冊</span></li><li><span style="color:#000000">已簽發 JWT 回收</span></li><li><span style="color:#000000">API 路由、緩存、跨域 CORS、CSRF 防護、壓縮、隱藏系統錯誤信息</span></li><li><span style="color:#000000">API 記錄與分析</span></li><li><span style="color:#000000">多因素認證 (MFA)</span></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 14 Mar 2024 14:25:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/283109/mt-auth-1-19-0-released</guid>
-            <link>https://www.oschina.net/news/283109/mt-auth-1-19-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[ModStartBlog v9.1.0 桌面快捷應用，圖片上傳前端壓縮]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">ModStart 是一個基於 Laravel 模塊化極速開發框架。模塊市場擁有豐富的功能應用，支持後台一鍵快速安裝，讓開發者能快的實現業務功能開發。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">系統完全開源，基於 Apache 2.0 開源協議。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="系統演示" src="https://ms-assets.modstart.com/data/image/2022/05/30/7459_smgt_9533.jpg" referrerpolicy="no-referrer"></p><h2>功能特性</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">豐富的模塊市場，後台一鍵快速安裝</p></li><li><p style="margin-left:.5em; margin-right:.5em">會員模塊通用且完整，支持完整的 API 調用</p></li><li><p style="margin-left:.5em; margin-right:.5em">大文件分片上傳，進度條顯示，已上傳文件管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">強大的模塊擴展功能，所有模塊可以無縫集成，支持在線安裝、卸載模塊</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的開發助手，實現模塊、主題的的一鍵創建</p></li><li><p style="margin-left:.5em; margin-right:.5em">完善的後台權限管理，支持基於 RBAC 的權限管理系統</p></li><li><p style="margin-left:.5em; margin-right:.5em">後台管理支持使用手機、平板、PC，無論何時何地都可方便管理</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方登錄（QQ、微信、微博、支付寶、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方支付支持（微信、支付寶、支付寶當面付、微信掃碼、微信小程序）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方雲存儲支持，支持雲儲存分片上傳（阿里雲、百度雲、華為雲、騰訊雲、FTP、七牛雲、UCloud、又拍雲）</p></li><li><p style="margin-left:.5em; margin-right:.5em">第三方短信支持（阿里雲、騰訊雲、華為雲、百度雲、253 雲通訊、聚合、七牛雲、融雲、賽郵、UCloud、雲片、網易雲）</p></li></ul><h2>V9.1.0 版本更新</h2><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">2024 年 03 月 14 日 ModStartBlog 發佈 v9.1.0 版本，增加了以下 22 個特性：</p><ul><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Redis 增加 isEnableSuccess 判斷是否啓用成功</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Display 組件 asLink 參數支持回調模式，支持自定義鏈接</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 分類快捷操作工具類 CategoryUtil</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] JS 庫增加【ijs】類型字符串，支持默認可執行代碼</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 系統全局消息提示 UI 全新優化</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] JS 庫增加 markdown 操作工具類，支持 markdown 轉 html</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Curl 工具類請求增加 writeFunctionCallback 參數，支持流式請求</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 桌面快捷應用，支持將網頁快捷方式添加到桌面（安裝 DesktopApp）</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 富文本編輯器迷你版增加 markdown 內容導入功能</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 圖片上傳是否壓縮可通過配置文件配置（默認開啓壓縮）</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] Decimal 組件增加 unit、unitPosition 屬性，支持單位顯示</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] JS 庫增強 MS.ui.elementMover，支持元素動態移動效果</p></li><li><p style="margin-left:.5em; margin-right:.5em">[新功能] 默認圖標增加抖音圖標（iconfont icon-douyin）</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 後台首頁概況頁面重構完成</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 後台管理首頁服務器信息顯示優化</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] GridFilter 篩選 range 查找邏輯優化</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 後台登錄界面左側寬度自動增加樣式問題，標題邊距調整</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 模塊管理模塊緩存優化，模塊存在真實性判斷</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 後台登錄界面自適應不同設備，界面升級</p></li><li><p style="margin-left:.5em; margin-right:.5em">[系統優化] 搜索引擎蜘蛛檢測庫優化</p></li><li><p style="margin-left:.5em; margin-right:.5em">[Bug 修復] 開啓圖片壓縮，圖片壓縮失敗的情況下繼續上傳</p></li><li><p style="margin-left:.5em; margin-right:.5em">[Bug 修復] 多語言部分書寫錯誤</p></li></ul><h2>功能特性</h2><h3>圖片上傳是否壓縮可通過配置文件配置（默認開啓壓縮）</h3><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/02/27/57392_54yf_9246.png" referrerpolicy="no-referrer"></p><h3>系統全局消息提示 UI 全新優化</h3><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/03/01/28665_cojo_8932.png" referrerpolicy="no-referrer"></p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/03/01/28717_lw80_3841.png" referrerpolicy="no-referrer"></p><h3>後台登錄界面自適應不同設備，界面升級</h3><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/03/01/32049_s33a_4548.png" referrerpolicy="no-referrer"></p><h3>後台管理首頁服務器信息顯示優化</h3><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="" src="https://mz-assets.tecmz.com/data/image/2024/03/11/41840_jdn5_5317.png" referrerpolicy="no-referrer"></p><h3>桌面快捷應用，支持將網頁快捷方式添加到桌面（安裝 DesktopApp）</h3><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="37022_8oxz_3086.png" src="https://ms-assets.modstart.com/data/image/2024/03/14/37022_8oxz_3086.png" referrerpolicy="no-referrer"></p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">&nbsp;</p><h2>模塊市場一鍵安裝</h2><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left">系統內置模塊市場，有行業應用、插件、雲存儲、雲短信等功能模塊，後台支持一鍵安裝、啓用、禁用、卸載，可快速搭建屬於自己的系統應用。</p><p style="color:#34495e; margin-left:.5em; margin-right:.5em; text-align:left"><img alt="功能模塊" src="https://ms-assets.modstart.com/data/image/2022/04/18/22844_bgyg_5120.jpeg" referrerpolicy="no-referrer"></p><h2>系統演示與文檔</h2><ul><li><p style="margin-left:.5em; margin-right:.5em">碼雲倉庫：<a href="https://gitee.com/modstart/ModStartBlog">https://gitee.com/modstart/ModStartBlog</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">Github 倉庫：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmodstart%2FModStartBlog" target="_blank">https://github.com/modstart/ModStartBlog</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">系統演示：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fblog.demo.tecmz.com%2F" target="_blank">https://blog.demo.tecmz.com/</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">下載試用：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdownload" target="_blank">https://modstart.com/download</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">開發者文檔：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fdoc" target="_blank">https://modstart.com/doc</a></p></li><li><p style="margin-left:.5em; margin-right:.5em">模塊市場：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmodstart.com%2Fstore" target="_blank">https://modstart.com/store</a></p></li></ul></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 14 Mar 2024 13:18:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/283097/modstartblog-9-1-0-released</guid>
-            <link>https://www.oschina.net/news/283097/modstartblog-9-1-0-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[【ddAdmin】基於 element-ui 的後台管理框架發佈]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p style="text-align:center">【ddAdmin】基於 element-ui 的後台管理框架發佈</p><p>1、頁面配置實現</p><p>目錄結構：每個業務數據處理的目錄</p><p><img height="150" src="https://oscimg.oschina.net/oscnet/up-3f061f8567628fdbb2b8bcb62435a15e9be.png" width="400" referrerpolicy="no-referrer"></p><p>每個業務處理分 2 個配置文件，一個是數據，一個是接口。</p><p>數據配置文件示例：</p><pre><code class="language-html">import { getCateList } from './api'
-
-/**
- * @Author: Wang chunsheng  email:2192138785@qq.com
- * @Date:   2024-02-07 21:48:04
- * @Last Modified by:   Wang chunsheng  email:2192138785@qq.com
- * @Last Modified time: 2024-02-08 00:51:26
- */
-export const form = {
-  'category_name': {
-    'type': 'input',
-    'label': '分類名稱'
-  },
-  parent_category_id: {
-    label: '父級分類',
-    // 只需要在這裏指定為 tree-select 即可
-    type: 'tree-select',
-    // 屬性參考: https://vue-treeselect.js.org/
-    attrs: {
-      multiple: false,
-      clearable: true
-    },
-    options: async data =&gt; {
-      const res = await getCateList({parent_category_id: 0})
-      const arr = [{
-        id: 0,
-        label: '一級類別'
-      }]
-      return arr.concat(res.data)
-    }
-  }
-}
-
-export const order = ['parent_category_id', 'category_name']
-
-export const tableColumns = [{
-  'label': 'Category ID',
-  'prop': 'category_id'
-}, {
-  'label': 'Category Name',
-  'prop': 'category_name'
-}, {
-  'label': 'Parent Category ID',
-  'prop': 'parent_category_id'
-}, {
-  'label': '創建時間',
-  'prop': 'create_time'
-}, {
-  'label': '更新時間',
-  'prop': 'update_time'
-}]
-
-export const filterInfo = {
-  fieldList: {
-    'label': '更新時間',
-    'type': 'input',
-    'value': 'DiandiSubscriptionHelpCategory[update_time]'
-  }
-
-}
-
-export const path = {
-  index: 'diandi-subscription-help-category-index',
-  update: 'diandi-subscription-help-category-update',
-  create: 'diandi-subscription-help-category-create',
-  api: '/diandi_subscription/help/category'
-}
-
-export const rowKey = ''
-</code></pre><p>&nbsp;</p><p>接口配置示例：</p><pre><code>/**
- * @Author: Wang chunsheng  email:2192138785@qq.com
- * @Date:   2024-02-07 21:48:04
- * @Last Modified by:   Wang chunsheng  email:2192138785@qq.com
- * @Last Modified time: 2024-02-08 00:51:48
- */
-
-import request from '@/utils/request'
-import { path } from './init'
-
-export function initList(data) {
-  return request({
-    url: path.api + '/index',
-    method: 'get',
-    params: data
-  })
-}
-
-export function getView(id) {
-  return request({
-    url: path.api + `/${id}`,
-    method: 'get'
-  })
-}
-
-export function itemCreate(data) {
-  return request({
-    url: path.api + '/create',
-    method: 'post',
-    data: data
-  })
-}
-
-export function itemUpdate(id, data) {
-  return request({
-    url: path.api + `/update/${id}`,
-    method: 'put',
-    data: data
-  })
-}
-
-export function itemDelete(id) {
-  return request({
-    url: path.api + `/delete/${id}`,
-    method: 'delete'
-  })
-}
-
-export function getCateList(data) {
-  return request({
-    url: path.api + `/list`,
-    method: 'post',
-    data: data
-  })
-}
-</code></pre><p>2、表單頁面配置效果</p><p><img height="657" src="https://oscimg.oschina.net/oscnet/up-f67c622e7ec164597d1010a52187e00b74a.png" width="1460" referrerpolicy="no-referrer"></p><p>3、vue 路由頁面快速配置實現</p><p><img height="483" src="https://oscimg.oschina.net/oscnet/up-d3098b3e5b2fd17163626871a45eedaa241.png" width="1040" referrerpolicy="no-referrer"></p><p>4、精細化權限控制</p><p><img height="516" src="https://oscimg.oschina.net/oscnet/up-a880cc274e6c46b910901433ce4c030f79e.png" width="473" referrerpolicy="no-referrer"></p><p>5、多租戶式的數據過濾和使用</p><p><img height="267" src="https://oscimg.oschina.net/oscnet/up-631f307aa433b1095cef2a41b47667a7389.png" width="793" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 14 Mar 2024 13:08:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/283093</guid>
-            <link>https://www.oschina.net/news/283093</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[凌鯊 0.7.36 版本更新]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><h1>凌鯊 0.7.36 版本更新</h1><ul><li>服務端版本: 0.2.40</li><li>新增: 新增 atomgit 賬號授權登錄</li><li>改進: 切換服務器放到頂部導航欄</li><li>改進: 頂部導航欄增加服務器管理入口</li><li>去除: 去除體驗賬號提示</li></ul><h1>相關截圖</h1><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-6e1139dec0639574fdc5c757449a26b4764.png" width="1500" referrerpolicy="no-referrer"><br> &nbsp;</p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-9dff201483eb6e40d78a39f20456a480bf0.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-70240b75a65b78dc4c1cb1e08f7ea2a9529.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-bd09eddb314aa92f3342b5e3494a8c796d5.png" width="1500" referrerpolicy="no-referrer"></p><p><img height="750" src="https://oscimg.oschina.net/oscnet/up-f5cc0b6a477c89518f64e886a6de11681cb.png" width="1500" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 14 Mar 2024 08:34:00 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/283054/linksaas-0-7-36-released</guid>
-            <link>https://www.oschina.net/news/283054/linksaas-0-7-36-released</link>
-            <author>
-                <![CDATA[來源: 投稿]]>
-            </author>
-        </item>
-        <item>
-            <title>
-                <![CDATA[PicList 2.8.0 發佈，圖牀管理和上傳工具，短鏈接服務新增]]>
-            </title>
-            <description>
-                <![CDATA[<div class="content"><p>PicList 是一款高效的雲存儲和圖牀平台管理工具，在 PicGo 的基礎上經過深度的二次開發，不僅完整保留了 PicGo 的所有功能，還增添了許多新的 feature。例如相冊支持同步雲端刪除文件，內置圖牀額外添加了 WebDav、本地圖牀和 SFTP 等。PicList 同時增加了完整的雲存儲管理功能，包括雲端目錄查看、文件搜索、批量上傳下載和刪除文件，複製多種格式文件鏈接和圖片/markdown/文本/視頻預覽等，另外還有更加強大的相冊和多項功能新增或優化。</p><h2>開源地址和軟件官網</h2><ul><li><p>Github: <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKuingsmile%2FPicList" target="_blank">https://github.com/Kuingsmile/PicList</a></p></li><li><p>Gitee: <a href="https://gitee.com/kuingsmile/PicList">https://gitee.com/kuingsmile/PicList</a></p></li><li><p>軟件官網：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fpiclist.cn" target="_blank">https://piclist.cn</a></p></li></ul><h2>下載地址</h2><h3>MacOS</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.8.0-arm64.dmg" target="_blank">PicList-2.8.0-arm64.dmg</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.8.0-x64.dmg" target="_blank">PicList-2.8.0-x64.dmg</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.8.0-universal.dmg" target="_blank">PicList-2.8.0-universal.dmg</a></p><h3>Windows</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.8.0-ia32.exe" target="_blank">PicList-Setup-2.8.0-ia32.exe</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.8.0-x64.exe" target="_blank">PicList-Setup-2.8.0-x64.exe</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-Setup-2.8.0.exe" target="_blank">PicList-Setup-2.8.0.exe</a></p><h3>Linux</h3><p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2FPicList-2.8.0.AppImage" target="_blank">PicList-2.8.0.AppImage</a><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.piclist.cn%2Flatest%2Fpiclist_2.8.0_amd64.snap" target="_blank">piclist_2.8.0_amd64.snap</a></p><h2>本次更新內容</h2><h3>💥 Breaking Change</h3><ul><li>由於<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.c1n.cn%2F" target="_blank">C1N 短網址</a>的收費策略修改，可使用 API 的團隊版在 1000 元/年，作者承擔費用壓力較大，現在修改為自己提供 API token</li><li>原軟件內置 token 即時失效</li></ul><h3>✨ Features</h3><ul><li>新增對 cf workers 短鏈接項目<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FxyTom%2FUrl-Shorten-Worker" target="_blank">xyTom/Url-Shorten-Worker</a>的支持</li><li>現在相冊頁面支持強制無視緩存刷新</li><li>優化了阿里雲圖牀對無擴增名文件的上傳處理</li><li>優化了短網址功能的錯誤日誌記錄</li></ul><h3>🐛 Bug Fixes</h3><ul><li>修復了 buffer 上傳時的文件名錯誤</li></ul><h2>特色功能</h2><ul><li>保留了 PicGo 的所有功能，兼容絕大部分已有的 PicGo 插件，包括和 Typora、Obsidian 等軟件的搭配</li><li>新增了多個內置圖牀，如 WebDav、本地圖牀和 SFTP 等，原內置 imgur 圖牀額外支持登錄賬號上傳</li><li>相冊中可同步刪除雲端圖片，支持所有內置圖牀和多個插件</li><li>相冊新增了高級搜索和排序，批量修改 URL 等功能</li><li>內置水印添加、圖片壓縮、圖片縮放、圖片旋轉和圖片格式轉換等功能，同時支持高級重命名</li><li>支持配置同步至 Github 或 Gitee 倉庫</li><li>支持管理十餘種圖牀，可以在線進行雲端目錄查看、文件搜索、批量上傳、批量下載、刪除文件等</li><li>支持預覽多種格式的文件，包括圖片、視頻、純文本文件和 markdown 文件等，具體支持的格式請參考<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKuingsmile%2FPicList%2Fblob%2Fdev%2Fsupported_format.md" target="_blank">支持的文件格式列表</a></li><li>支持啓用正則表達式的批量雲端文件重命名</li><li>對於私有存儲桶等支持複製預簽名鏈接進行分享</li><li>支持軟件自動更新，支持多種啓動模式，還有更多功能細節新增和優化</li><li>優化了 PicGo 的界面，解鎖了窗口大小限制，同時美化了部分界面佈局</li><li>mac 平台安裝包已簽名，從源頭解決了 PicGo 上的安裝包已損壞的日經問題</li></ul><h2>軟件截圖</h2><p><img alt="image.png" src="https://note.msq.pub/202308230137997.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230138231.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230138929.webp" referrerpolicy="no-referrer"><img alt="image.png" src="https://note.msq.pub/202308230139152.webp" referrerpolicy="no-referrer"></p></div>
-                                    ]]>
-            </description>
-            <pubDate>Thu, 14 Mar 2024 05:07:17 GMT</pubDate>
-            <guid isPermaLink="false">https://www.oschina.net/news/283017/piclist-2-8-0-released</guid>
-            <link>https://www.oschina.net/news/283017/piclist-2-8-0-released</link>
             <author>
                 <![CDATA[來源: 投稿]]>
             </author>
