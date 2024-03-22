@@ -9,8 +9,886 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>en</language>
-        <lastBuildDate>Thu, 21 Mar 2024 13:41:30 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 22 Mar 2024 16:01:49 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>JS 网页全自动翻译 v3.1 发布，解决动态数据渲染漏翻译问题</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;两行 js 实现 html 全自动翻译。 无需改动页面、无语言配置文件、无 API Key、对 SEO 友好！&lt;/p&gt; 
+&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://cdn.weiunity.com/site/7464/news/b4879f6a4e73449baf63e11672789ced.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;div&gt; 
+ &lt;ol&gt; 
+ &lt;/ol&gt; 
+&lt;/div&gt; 
+&lt;h2&gt;升级说明&lt;/h2&gt; 
+&lt;div&gt;
+ &amp;nbsp;
+&lt;/div&gt; 
+&lt;ol&gt; 
+ &lt;li&gt;增加 translate.request.listener ，解决某些框架动态加载数据页面渲染时，有时导致漏翻译的问题&lt;/li&gt; 
+ &lt;li&gt;增加 translate.language.translateLanguagesRange 设置只对指定语种进行翻译&lt;/li&gt; 
+ &lt;li&gt;增加 translate.selectLanguageTag.refreshRender(); 重新绘制 select 语种下拉选择;&lt;/li&gt; 
+ &lt;li&gt;大幅优化 translate.language.recognition 对批量文本语种识别的精确度；&amp;nbsp;&lt;/li&gt; 
+ &lt;li&gt;增加 translate.selectLanguageTag.documentId 的自定义设置；&amp;nbsp;&lt;/li&gt; 
+ &lt;li&gt;增加对元素整体翻译对特殊字符 \ { } ^ 的适配&lt;/li&gt; 
+ &lt;li&gt;增加一级缓存自定义重写方式的相关文档说明&lt;/li&gt; 
+ &lt;li&gt;修复翻译时的图片翻译，如果图片设置的是相对路径会导致图片翻译不生效的问题&lt;/li&gt; 
+ &lt;li&gt;优化 msg.js 引入有 http 变为 https&lt;/li&gt; 
+ &lt;li&gt;优化 input 的 placeholder 翻译问题&lt;/li&gt; 
+ &lt;li&gt;优化日语字符的识别&lt;/li&gt; 
+ &lt;li&gt;重新优化 translate.language.getLocal() 的识别精度；&amp;nbsp;&lt;/li&gt; 
+ &lt;li&gt;优化 translate.language.recognition 的计算方式，提高精确度&lt;/li&gt; 
+ &lt;li&gt;优化繁体中文的识别，全面覆盖本地语种是繁体中文的网页适配&lt;/li&gt; 
+ &lt;li&gt;TCDN 修复忽略 class name 失效的问题&lt;/li&gt; 
+ &lt;li&gt;TCDN 优化对大部分 HTTPS 协议源站的支持&lt;/li&gt; 
+ &lt;li&gt;TCDN 增加 html 源文件文本替换，能力，可自定义对源站 html 源码进行文本替换。&lt;/li&gt; 
+ &lt;li&gt;TCDN 增加源站 sitemap.xml 的自定义设置&lt;/li&gt; 
+ &lt;li&gt;TCDN 增加生成的目标翻译站的 sitemap.xml 自动生成&lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;h2&gt;在线体验&lt;/h2&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;a href=&quot;https://gitee.com/link?target=http%3A%2F%2Fres.zvo.cn%2Ftranslate%2Fdemo.html&quot;&gt;http://res.zvo.cn/translate/demo.html&lt;/a&gt;&lt;/p&gt; 
+&lt;h2&gt;快速使用&lt;/h2&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;在你的网页最末尾，&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;code&gt;&amp;lt;/html&amp;gt;&lt;/code&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;之前，加入以下代码，会在页面的最底部出现选择语言的标签：&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span style=&quot;color:#333333&quot;&gt;&amp;lt;&lt;span style=&quot;color:#22863a&quot;&gt;script&lt;/span&gt; &lt;span style=&quot;color:#6f42c1&quot;&gt;src&lt;/span&gt;=&lt;span style=&quot;color:#032f62&quot;&gt;&quot;https://cdn.staticfile.net/translate.js/3.1.7/translate.js&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span style=&quot;color:#333333&quot;&gt;&amp;lt;/&lt;span style=&quot;color:#22863a&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&quot;color:#333333&quot;&gt;&amp;lt;&lt;span style=&quot;color:#22863a&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span&gt; 
+translate.language.setLocal(&lt;span style=&quot;color:#032f62&quot;&gt;&#39;chinese_simplified&#39;&lt;/span&gt;); &lt;span style=&quot;color:#6a737d&quot;&gt;//设置本地语种（当前网页的语种）。如果不设置，默认就是 &#39;chinese_simplified&#39; 简体中文。 可填写如 &#39;english&#39;、&#39;chinese_simplified&#39; 等，具体参见文档下方关于此的说明。 &lt;/span&gt;
+translate.service.use(&lt;span style=&quot;color:#032f62&quot;&gt;&#39;client.edge&#39;&lt;/span&gt;); &lt;span style=&quot;color:#6a737d&quot;&gt;//设置机器翻译服务通道，直接客户端本身，不依赖服务端 。相关说明参考 http://translate.zvo.cn/43086.html&lt;/span&gt;
+translate.execute(); &lt;span style=&quot;color:#6a737d&quot;&gt;//进行翻译  &lt;/span&gt;
+&lt;/span&gt;&lt;span style=&quot;color:#333333&quot;&gt;&amp;lt;/&lt;span style=&quot;color:#22863a&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt; 
+&lt;h2&gt;开源适配&lt;/h2&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;如果您有开源项目，比如文档、cms、UI 框架、后台管理框架、等等，需要采用此进行多语言切换，欢迎喊我，无偿提供全程接入讨论及遇到的问题跟随优化，希望我们的开源项目能互相产生作用一起越来越好。&lt;/p&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284340</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284340</guid>
+            <pubDate>Fri, 22 Mar 2024 11:46:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>🍃 layui-vue v2.16.6 发布，一个 Vue 3 UI 框架</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;p&gt;更新日志：&lt;/p&gt; 
+&lt;p&gt;[新增] table 组件，新增单元格双击事件（cell-double）。&lt;br&gt; [新增] tree，treeSelect 组件，新增 lazy，load 参数，实现懒加载子节点。&lt;br&gt; [新增] table 组件，标题插槽新增 column，columnIndex 参数。&lt;br&gt; [修复] table 组件，数据改变 getCheckboxProps 未重新计算。&lt;br&gt; [修复] treeSelect 组件，单选清空二次选择相同值未触发改变。&lt;br&gt; [修复] table 组件，树形跨级展开隐藏错乱。&lt;br&gt; [修复] upload 组件，只有当开启裁剪且能够裁剪时才读取文件。&lt;br&gt; [修复] layer 组件，在使用 template 场景下 zIndex 属性并未更新为最新值。&lt;br&gt; [修复] layer.notify 组件 offset 为 rb 时，位置计算异常。&lt;br&gt; [修复] slider 组件，精度丢失。&lt;br&gt; [调整] layer.notifiy 方法为 notify。&lt;br&gt; [调整] layer 组件 options 属性 type 可选值 notifiy 为 notify。&lt;br&gt; [调整] col 组件所有属性可选值范围为 0 - 24。&lt;br&gt; [调整] upload 组件，新增 submit 外部函数，用于用户手动上传。&lt;br&gt; [移除] select 组件 items 属性，完全由 options 代替。&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284311</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284311</guid>
+            <pubDate>Fri, 22 Mar 2024 09:07:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>国产数据库管理工具 CloudDM v2.6.0 发布，数据生成功能上线</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;CloudDM&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#333333&quot;&gt;是&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;ClouGence&lt;/span&gt;&lt;span style=&quot;color:#333333&quot;&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;公司推出的一款&lt;/span&gt;&lt;strong&gt;&lt;span&gt;一站式多数据源开发管理工具&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;color:#333333&quot;&gt;，使用它可以方便地访问和管理&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;MySQL、Oracle、PostgreSQL、阿里云 RDS、Greenplum、TiDB、Redis、StarRocks、Doris、SelectDB、SQL SERVER、ClickHouse、OceanBase 、PolarDB-X 、IBM Db2 等多种不同类型的数据库。通过 CloudDM 丰富的数据源支持可以避免在多个专业工具之间切换，从而提高工作效率。&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;它是本地化的应用程序，没有后台进程。和&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;strong&gt;&lt;span&gt;DataGrip&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;、&lt;/span&gt;&lt;strong&gt;&lt;span&gt;Navicat&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;一样在安装完成后，只需要双击应用程序图标，便可以方便的管理位于本地计算机或远程计算机上的数据库。已经支持&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;strong&gt;&lt;span&gt;Windows&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;、&lt;/span&gt;&lt;strong&gt;&lt;span&gt;MacOS&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;和&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;strong&gt;&lt;span&gt;Linux&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;主流操作系统。&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://oscimg.oschina.net/oscnet/up-8a94365af948142b7db590d03c3dc5e8d5d.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;h2&gt;&lt;span&gt;本期亮点&lt;/span&gt;&lt;/h2&gt; 
+&lt;div&gt; 
+ &lt;ul&gt; 
+  &lt;li&gt;&lt;span&gt;测试数据生成功能&lt;/span&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/li&gt; 
+ &lt;/ul&gt; 
+&lt;/div&gt; 
+&lt;p style=&quot;text-align:center&quot;&gt;&lt;img height=&quot;720&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-07ed8233cd7167cffce71df3729843dac43.gif&quot; width=&quot;1444&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;h2&gt;&lt;span&gt;更新内容&lt;/span&gt;&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;[新增] 
+  &lt;ul&gt; 
+   &lt;li&gt;&lt;span&gt;新增 MySQL 等 &lt;/span&gt;&lt;strong&gt;&lt;span&gt;10 &lt;/span&gt;&lt;/strong&gt;&lt;span&gt;种数据库的&lt;/span&gt;&lt;strong&gt;&lt;span&gt;数据生成&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;功能，用于生成测试数据&lt;/span&gt;&lt;/li&gt; 
+   &lt;li&gt;新增，数据生成功能支持多表多字段自由选择&lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增，数据生成功能支持生成前系统配置，如自定义线程数，遇到错误继续，是否开启事务等&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;数据生成功能支持自定义表生成行数&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;数据生成功能支持字段生成器选项，可根据字段类型自由选择生成数字，字符串，时间等类型数据&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;数据生成功能支持字段设置，如是否为空，为空的比例，最大最小值等&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;数据生成功能支持进行生成前数据预览&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增，数据生成功能支持实时日志显示，包括数量与详细信息等&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;以&lt;span&gt; Oracle &lt;/span&gt;数据库为源端，对端支持&lt;span&gt; PostgreSQL &lt;/span&gt;等&lt;span&gt; &lt;strong&gt;11&lt;/strong&gt; &lt;/span&gt;种数据库的&lt;span&gt; &lt;strong&gt;DDL &lt;/strong&gt;&lt;/span&gt;&lt;strong&gt;语句生成&lt;/strong&gt;功能&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;&lt;span&gt;新增&lt;/span&gt; &lt;span&gt;以&lt;/span&gt; SQL SERVER &lt;span&gt;数据库为源端，对端支持&lt;/span&gt; Dameng &lt;span&gt;等&lt;/span&gt; &lt;strong&gt;6&lt;/strong&gt; &lt;span&gt;种数据库的&lt;/span&gt; DDL &lt;span&gt;语句生成功能&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;以&lt;span&gt; IBM Db2 &lt;/span&gt;数据库为源端，对端支持&lt;span&gt; Dameng &lt;/span&gt;等&lt;span&gt; &lt;strong&gt;4&lt;/strong&gt; &lt;/span&gt;种数据库的&lt;span&gt; DDL &lt;/span&gt;语句生成功能&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;以&lt;span&gt; TIDB &lt;/span&gt;数据库为源端，对端支持&lt;span&gt; StarRocks &lt;/span&gt;等&lt;span&gt; &lt;strong&gt;4&lt;/strong&gt; &lt;/span&gt;种数据库的&lt;span&gt; DDL &lt;/span&gt;语句生成功能&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; &lt;/span&gt;以&lt;span&gt; StarRocks &lt;/span&gt;数据库为源端，对端支持&lt;span&gt; MySQL &lt;/span&gt;等数据库的&lt;span&gt; DDL &lt;/span&gt;语句生成功能&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;新增&lt;span&gt; MySQL &lt;/span&gt;数据库支持创建、修改和删除&lt;strong&gt;触发器&lt;/strong&gt;功能&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;&lt;span&gt;新增&lt;/span&gt; MySQL&lt;span&gt;，&lt;/span&gt;Dameng&lt;span&gt;，&lt;/span&gt;SQL SERVER&lt;span&gt;，&lt;/span&gt;IBM Db2&lt;span&gt;，&lt;/span&gt;Oracle, PostgreSQL&lt;span&gt;等数据库删除触发器功能&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt;&amp;nbsp;新增&lt;span&gt; &lt;/span&gt;为支持视图和物化视图的数据库添加对应的双击生成模板语句功能&lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;[优化] 
+  &lt;ul&gt; 
+   &lt;li&gt; &lt;p&gt;优化&lt;span&gt; &lt;/span&gt;快捷操作如清空、删除表高级选项的文字显示，描述更精确&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt;优化&lt;span&gt; &lt;/span&gt;快捷操作如清空、删除表生成的&lt;span&gt; SQL &lt;/span&gt;语句显示，与编辑器保持同样的&lt;span&gt; UI &lt;/span&gt;效果&lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;[修复] 
+  &lt;ul&gt; 
+   &lt;li&gt; &lt;p&gt;修复&lt;span&gt; &lt;/span&gt;序列列表、同义词列表无图标问题&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;修复&lt;span&gt; &lt;/span&gt;表列表在搜索后，展开列会重置搜索的问题&lt;/p&gt; &lt;/li&gt; 
+   &lt;li&gt; &lt;p&gt;修复&lt;span&gt; &lt;/span&gt;展开数据源，在还在加载的时候右键点击删除，显示删除成功但列表中数据源仍然存在的问题&lt;/p&gt; &lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;&lt;span&gt;下载与反馈&lt;/span&gt;&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;&lt;span&gt;产品官网：&lt;/span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.clougence.com%2Fclouddm-personal&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://www.clougence.com/clouddm-personal&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; 
+ &lt;li&gt;&lt;span&gt;问题反馈：&lt;/span&gt;&lt;a href=&quot;https://gitee.com/clougence/clouddm-issue/issues&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://gitee.com/clougence/clouddm-issue/issues&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; 
+ &lt;li&gt;&lt;span style=&quot;color:#333333&quot;&gt;微信交流群：访问产品官网，扫描右侧二维码即可加入&lt;/span&gt;&lt;/li&gt; 
+&lt;/ul&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284295/clouddm-2-6-0</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284295/clouddm-2-6-0</guid>
+            <pubDate>Fri, 22 Mar 2024 08:26:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>【重磅消息】CXYGZL 华丽转身，全新名称「FlyFlow」惊艳亮相！共赴新篇章，体验升级服务！</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;&lt;span&gt;尊敬的用户们，您们好！&lt;/span&gt;&lt;/p&gt; 
+&lt;p&gt;在此，我们经过慎重的考虑，怀着激动与喜悦的心情，向大家宣布一个振奋人心的消息：CXYGZL 正式更名为 &lt;span style=&quot;color:#0070c0&quot;&gt;&lt;strong&gt;FlyFlow&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;p&gt;这次更名并非一时兴起，而是经过精心策划和深思熟虑的决策。新的名字 FlyFlow 将更加精准地诠释我们软件的核心理念与产品特性，与我们的发展方向和未来愿景相得益彰。我们坚信，这次更名将赋予我们更清晰、更具辨识度的品牌形象，为用户带来更加卓越的使用体验与满足感。&lt;/p&gt; 
+&lt;p&gt;在这个意义非凡的时刻，我们深感用户们对我们软件的厚爱与支持，同时也深知肩负的责任重大。我们郑重承诺，更名过程中将确保用户的使用体验不受任何影响，并会积极协助用户顺利适应新的名字，提供全方位的支持与帮助。&lt;/p&gt; 
+&lt;p&gt;&lt;span&gt;FlyFlow 新的官网已正式上线，地址为：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.flyflow.cc&quot; target=&quot;_blank&quot;&gt;https://www.flyflow.cc&lt;/a&gt;。我们诚邀您前往新官网，一同探索更多精彩内容。&lt;/span&gt;&lt;/p&gt; 
+&lt;p&gt;再次感谢大家一直以来的支持与信任，让我们携手共进，共同迎接这次重大更名，共同见证软件发展的新篇章！愿 FlyFlow 为您带来更加卓越的体验与服务，共创美好未来！&lt;/p&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt; 
+&lt;p&gt;&lt;strong&gt;FlyFlow 介绍&lt;/strong&gt;&lt;/p&gt; 
+&lt;p&gt;FlyFlow 借鉴了钉钉与飞书的界面设计理念，致力于打造一款用户友好、快速上手的工作流程工具。相较于传统的基于 BPMN.js 的工作流引擎，我们提供的解决方案显著简化了操作逻辑，使得用户能够在极短的时间内构建定制化的业务流程，即便是不具备深厚技术背景的普通用户也能迅速掌握，实现零门槛的高效工作流配置。&lt;/p&gt; 
+&lt;p&gt;&lt;img alt=&quot;未命名.jpg&quot; src=&quot;https://bexp.135editor.com/files/users/742/7427861/202403/GNPx6Mzq_RLQJ.jpg?auth_key=1711295999-0-0-a53b2a6ab200638e551d13a64cfbae96&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284246</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284246</guid>
+            <pubDate>Fri, 22 Mar 2024 05:48:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>🔥fastposter v2.19.0，一款很哇塞的海报生成器</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;h2&gt;&lt;span&gt;🔥fastposter v2.19.0 一款很哇塞的海报生成器&lt;/span&gt;&lt;/h2&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;🔥🔥🔥fastposter 是一款快速开发海报的工具，已经服务众多电商、分销系统、电商海报、电商主图、行业海报等海报生成和制作场景。&lt;/span&gt;&lt;/p&gt; 
+&lt;h3&gt;&lt;span&gt;什么是 fastposter&lt;/span&gt;&lt;/h3&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;fastposter 是一款海报生成器，它能够让您快速、轻松地创建各种类型的海报。&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;只需上传一张背景图，然后在需要的位置添加&lt;/span&gt;&lt;span&gt;&lt;code&gt;文字&lt;/code&gt;&lt;/span&gt;&lt;span&gt;、&lt;/span&gt;&lt;span&gt;&lt;code&gt;图片&lt;/code&gt;&lt;/span&gt;&lt;span&gt;、&lt;/span&gt;&lt;span&gt;&lt;code&gt;二维🐴&lt;/code&gt;&lt;/span&gt;&lt;span&gt;、&lt;/span&gt;&lt;span&gt;&lt;code&gt;头像&lt;/code&gt;&lt;/span&gt;&lt;span&gt;等组件。点击生成代码按钮，直接获取各种语言 SDK 的调用代码，无需编写复杂的绘图渲染代码，轻松完成海报制作。&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;fastposter 支持&lt;/span&gt;&lt;span&gt;&lt;code&gt;Docker&lt;/code&gt;&lt;/span&gt;&lt;span&gt;部署和&lt;/span&gt;&lt;span&gt;&lt;code&gt;云服务&lt;/code&gt;&lt;/span&gt;&lt;span&gt;两种方式，开箱即用，灵活易用，基于低代码理念设计，无需编写复杂代码，能够帮助开发者快速高效地生成各种类型的海报。&lt;/span&gt;&lt;/p&gt; 
+&lt;blockquote&gt; 
+ &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;&lt;span&gt;如果项目有帮到您，请点亮你点亮的小星星&lt;/span&gt;&lt;/p&gt; 
+&lt;/blockquote&gt; 
+&lt;h3&gt;&lt;span&gt;社区版 v2.19.0 发布&lt;/span&gt;&lt;/h3&gt; 
+&lt;ol&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;修复放大居中显示问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;增加示例海报模版&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;h3&gt;&lt;span&gt;专业版 v2.0.21&lt;/span&gt;&lt;/h3&gt; 
+&lt;ol&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;增加支持文字双击修改&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;修复图片第一次无法删除的 BUG&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;修复批量生成，切换海报缓存问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;修复&lt;/span&gt;&lt;span&gt;&lt;code&gt;docker&lt;/code&gt;&lt;/span&gt;&lt;span&gt;基础镜像无法拉取问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;解决排序导致海报图片错误问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;解决字体斜体冲突问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;修复初始化脚本 token 问题&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;h2&gt;&lt;span&gt;文档&lt;/span&gt;&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;开发文档：&lt;/span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffastposter.net%2Fdoc%2F&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://fastposter.net/doc/&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;Java 专业版-在线体验：&lt;/span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffastposter.net%2Fdemo%2Fjava%2F&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://fastposter.net/demo/java/&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;Python 专业版-在线体验：&lt;/span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffastposter.net%2Fdemo%2Fpython%2F&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://fastposter.net/demo/python/&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;社区版-在线体验：&lt;/span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffastposter.net%2Fdemo%2Fopen%2F&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://fastposter.net/demo/open/&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;🔥🔥云服务-免费试用：&lt;/span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ffastposter.net%2F&quot; target=&quot;_blank&quot;&gt;&lt;span&gt;https://fastposter.net/&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;&lt;span&gt;特性&lt;/span&gt;&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;支持&lt;/span&gt;&lt;span&gt;&lt;code&gt;docker&lt;/code&gt;&lt;/span&gt;&lt;span&gt;快速部署&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;支持电商级生产环境&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;主流的 SDK 支持，方便快速开发 &lt;/span&gt;&lt;span&gt;&lt;code&gt;Java&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;Python&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;PHP&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;Go&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;JavaScript&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;小程序&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;UniApp&lt;/code&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;无需编写复杂、繁琐的绘图渲染代码&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;支持多种文件格式 &lt;/span&gt;&lt;span&gt;&lt;code&gt;jpeg&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;png&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;webp&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;pdf&lt;/code&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&lt;code&gt;base64&lt;/code&gt;&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:.5rem; margin-right:0&quot;&gt;&lt;span&gt;快捷的代码生成&lt;/span&gt;&lt;/p&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;&lt;span&gt;快速开始&lt;/span&gt;&lt;/h2&gt; 
+&lt;h3&gt;&lt;span&gt;一、启动服务&lt;/span&gt;&lt;/h3&gt; 
+&lt;pre&gt;&lt;span&gt;docker run &lt;span style=&quot;color:#0000cc&quot;&gt;-it&lt;/span&gt; &lt;span style=&quot;color:#0000cc&quot;&gt;--name&lt;/span&gt; fastposter &lt;span style=&quot;color:#0000cc&quot;&gt;-p&lt;/span&gt; &lt;span style=&quot;color:#116644&quot;&gt;5000&lt;/span&gt;:5000 fastposter/fastposter&lt;/span&gt;&lt;/pre&gt; 
+&lt;h3&gt;&lt;span&gt;二、编辑海报&lt;/span&gt;&lt;/h3&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;&lt;img alt=&quot;image-20240320145745417.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145745417.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;h3&gt;&lt;span&gt;三、生成代码&lt;/span&gt;&lt;/h3&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;Java 代码&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;&lt;img alt=&quot;image-20240320145856100.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145856100.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;pre&gt;&lt;span&gt;&lt;span style=&quot;color:#aa5500&quot;&gt;// 进一步了解，请参考开发文档 https://fastposter.net/doc/sdk/&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#770088&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;net&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;fastposter&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;client&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;FastposterClient&lt;/span&gt;;&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#770088&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;java&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;util&lt;/span&gt;.&lt;span style=&quot;color:#981a1a&quot;&gt;*&lt;/span&gt;;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#770088&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#770088&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#0000ff&quot;&gt;FastposterClientDemo&lt;/span&gt; {&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#770088&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#770088&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color:#008855&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;main&lt;/span&gt;(&lt;span style=&quot;color:#008855&quot;&gt;String&lt;/span&gt;[] &lt;span style=&quot;color:#000000&quot;&gt;args&lt;/span&gt;) {&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#aa5500&quot;&gt;// 1.创建海报客户端对象&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#000000&quot;&gt;FastposterClient&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;client&lt;/span&gt; &lt;span style=&quot;color:#981a1a&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;FastposterClient&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;builder&lt;/span&gt;()&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;  .&lt;span style=&quot;color:#000000&quot;&gt;endpoint&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;http://127.0.0.1:5000&quot;&lt;/span&gt;) &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#aa5500&quot;&gt;// 设置接入端点&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;  .&lt;span style=&quot;color:#000000&quot;&gt;token&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;ApfrIzxCoK1DwNZOEJCwlrnv6QZ0PCdv&quot;&lt;/span&gt;) &amp;nbsp;&lt;span style=&quot;color:#aa5500&quot;&gt;// 设置 token&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;  .&lt;span style=&quot;color:#000000&quot;&gt;build&lt;/span&gt;();&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#aa5500&quot;&gt;// 2.准备海报参数&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#000000&quot;&gt;Map&lt;/span&gt;&lt;span style=&quot;color:#981a1a&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color:#008855&quot;&gt;String&lt;/span&gt;, &lt;span style=&quot;color:#008855&quot;&gt;Object&lt;/span&gt;&lt;span style=&quot;color:#981a1a&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt; &lt;span style=&quot;color:#981a1a&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color:#770088&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;HashMap&lt;/span&gt;&lt;span style=&quot;color:#981a1a&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt;();&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;put&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;NO&quot;&lt;/span&gt;, &lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;SN88888888&quot;&lt;/span&gt;);&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#aa5500&quot;&gt;// 3.生成海报并保存&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color:#000000&quot;&gt;client&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;buildPoster&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;6fba72004fa20aee&quot;&lt;/span&gt;).&lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt;(&lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt;).&lt;span style=&quot;color:#000000&quot;&gt;build&lt;/span&gt;().&lt;span style=&quot;color:#000000&quot;&gt;save&lt;/span&gt;();&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt; &amp;nbsp;  }&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;}&lt;/span&gt;&lt;/pre&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;Python 代码&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;&lt;img alt=&quot;image-20240320145914360.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145914360.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;pre&gt;&lt;span&gt;&lt;span style=&quot;color:#aa5500&quot;&gt;# 进一步了解，请参考开发文档 https://fastposter.net/doc/sdk/&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#770088&quot;&gt;from&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;fastposter&lt;/span&gt; &lt;span style=&quot;color:#770088&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;Client&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;​&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;client&lt;/span&gt; &lt;span style=&quot;color:#981a1a&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color:#000000&quot;&gt;Client&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&#39;ApfrIzxCoK1DwNZOEJCwlrnv6QZ0PCdv&#39;&lt;/span&gt;, &lt;span style=&quot;color:#22a2c9&quot;&gt;&#39;http://127.0.0.1:5000&#39;&lt;/span&gt;)&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt; &lt;span style=&quot;color:#981a1a&quot;&gt;=&lt;/span&gt; {&lt;/span&gt;
+&lt;span&gt; &amp;nbsp;&lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;NO&quot;&lt;/span&gt;: &lt;span style=&quot;color:#22a2c9&quot;&gt;&quot;SN88888888&quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;}&lt;/span&gt;
+&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;client&lt;/span&gt;.&lt;span style=&quot;color:#000000&quot;&gt;buildPoster&lt;/span&gt;(&lt;span style=&quot;color:#22a2c9&quot;&gt;&#39;6fba72004fa20aee&#39;&lt;/span&gt;, &lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt;&lt;span style=&quot;color:#981a1a&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color:#000000&quot;&gt;params&lt;/span&gt;).&lt;span style=&quot;color:#000000&quot;&gt;save&lt;/span&gt;()&lt;/span&gt;&lt;/pre&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;响应示例（返回海报图片）&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#34495e; margin-left:.8em; margin-right:.8em; text-align:start&quot;&gt;&lt;span&gt;&lt;img src=&quot;https://fastposter.net/dassets/image-20240320153953887.png&quot; width=&quot;300&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;h2&gt;&lt;span&gt;适用场景&lt;/span&gt;&lt;/h2&gt; 
+&lt;table cellspacing=&quot;0&quot; style=&quot;--tw-border-spacing-x:0; --tw-border-spacing-y:0; --tw-ring-color:rgb(59 130 246 / 0.5); --tw-ring-offset-color:#ffffff; --tw-ring-offset-shadow:0 0 #0000; --tw-ring-offset-width:0px; --tw-ring-shadow:0 0 #0000; --tw-rotate:0; --tw-scale-x:1; --tw-scale-y:1; --tw-scroll-snap-strictness:proximity; --tw-shadow-colored:0 0 #0000; --tw-shadow:0 0 #0000; --tw-skew-x:0; --tw-skew-y:0; --tw-translate-x:0; --tw-translate-y:0; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; break-inside:auto; cursor:text; margin:0px; overflow:auto; padding:0px; text-align:left; white-space:pre-wrap; width:800px; word-break:initial&quot;&gt; 
+ &lt;tbody&gt; 
+  &lt;tr&gt; 
+   &lt;th style=&quot;background-color:#f2f2f2; border-color:#dfe2e5 #dfe2e5 currentcolor; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;应用场景&lt;/span&gt;&lt;/span&gt;&lt;/th&gt; 
+   &lt;th style=&quot;background-color:#f2f2f2; border-color:#dfe2e5 #dfe2e5 currentcolor; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;描述&lt;/span&gt;&lt;/span&gt;&lt;/th&gt; 
+  &lt;/tr&gt; 
+ &lt;/tbody&gt; 
+ &lt;tbody&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;海报生成器&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;创建各类海报。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;海报自动生成工具&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;自动化生成海报，适用于批量生产需求。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;海报在线设计生成器&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;在线设计和生成个性化海报。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;电商海报编辑器&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;优化电子商务平台产品海报的编辑工具。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;证书制作&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;自动生成各种类型的证书，如学历证书、奖状。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;证书自动生成工具&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;自动创建证书的工具。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;二维码分享海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;将二维码嵌入海报，方便用户扫描分享信息。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;Python Pillow 绘图 Pillow 制作海报&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;利用 Python 的 Pillow 库进行图像处理和绘图。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;Java 生成二维码分享海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;使用 Java 生成含有二维码的海报图片。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;Java Graphics2D 绘制海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;利用 Java 中的 Graphics2D 进行图像绘制。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;微信小程序生成海报分享朋友圈&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;为微信小程序创建朋友圈分享用的海报。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;PHP 生成二维码海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;利用 PHP 生成带有二维码的海报图像。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;自定义商业海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;制作定制商业用途的海报图像。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;H5 生成海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;利用 HTML5 和相关技术生成在线海报图像。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;canvas 生成海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;使用 HTML5 的 Canvas 元素制作和编辑海报图像。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;通过 JSON 生成海报图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;利用 JSON 数据自动生成海报，适用于批量生产。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;BufferedImage 绘制图片&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;在 Java 中利用 BufferedImage 进行图像绘制。&lt;/span&gt;&lt;/span&gt;&lt;/td&gt; 
+  &lt;/tr&gt; 
+ &lt;/tbody&gt; 
+&lt;/table&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284197</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284197</guid>
+            <pubDate>Fri, 22 Mar 2024 02:37:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>Xmake 2.8.9 发布，一些稳定性改进</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;h3&gt;新特性&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4843&quot; target=&quot;_blank&quot;&gt;#4843&lt;/a&gt;: 添加 check_bigendian 接口实现大小端探测&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;改进&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4798&quot; target=&quot;_blank&quot;&gt;#4798&lt;/a&gt;: 改进 wasi sdk 检测&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4772&quot; target=&quot;_blank&quot;&gt;#4772&lt;/a&gt;: 改进 tools.cmake 去兼容支持 vs2022 preview (v144)&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4813&quot; target=&quot;_blank&quot;&gt;#4813&lt;/a&gt;: 添加 gb2312 编码&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4864&quot; target=&quot;_blank&quot;&gt;#4864&lt;/a&gt;: 改进抽取符号，支持 gdb 断点调试&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4831&quot; target=&quot;_blank&quot;&gt;#4831&lt;/a&gt;: 改进 target:fileconfig() 支持 headerfiles&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4846&quot; target=&quot;_blank&quot;&gt;#4846&lt;/a&gt;: 改进进度显示，解决顺序错乱问题&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;Bugs 修复&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;修复 select_script 的脚本模式匹配&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4763&quot; target=&quot;_blank&quot;&gt;#4763&lt;/a&gt;: 修复 {force = true}&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4807&quot; target=&quot;_blank&quot;&gt;#4807&lt;/a&gt;: 修复 nimble::find_package&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fxmake-io%2Fxmake%2Fissues%2F4857&quot; target=&quot;_blank&quot;&gt;#4857&lt;/a&gt;: 修复对 -P/-F 等基础选项的解析&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284191/xmake-2-8-9-released</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284191/xmake-2-8-9-released</guid>
+            <pubDate>Fri, 22 Mar 2024 02:27:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>基于 Java 的大语言模型应用开发框架，Agents-Flex alpha.4 发布</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;img src=&quot;https://gitee.com/agents-flex/agents-flex/raw/main/docs/assets/images/banner.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;h1&gt;Agents-Flex： 一个基于 Java 的 LLM（大语言模型）应用开发框架。&lt;/h1&gt; 
+&lt;hr&gt; 
+&lt;h2&gt;基本能力&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;LLM 的访问能力&lt;/li&gt; 
+ &lt;li&gt;Prompt、Prompt Template 定义加载的能力&lt;/li&gt; 
+ &lt;li&gt;Function Calling 定义、调用和执行等能力&lt;/li&gt; 
+ &lt;li&gt;记忆的能力（Memory）&lt;/li&gt; 
+ &lt;li&gt;Embedding&lt;/li&gt; 
+ &lt;li&gt;Vector Storage&lt;/li&gt; 
+ &lt;li&gt;文档处理 
+  &lt;ul&gt; 
+   &lt;li&gt;加载器（Loader） 
+    &lt;ul&gt; 
+     &lt;li&gt;Http&lt;/li&gt; 
+     &lt;li&gt;FileSystem&lt;/li&gt; 
+    &lt;/ul&gt; &lt;/li&gt; 
+   &lt;li&gt;分割器（Splitter）&lt;/li&gt; 
+   &lt;li&gt;解析器（Parser） 
+    &lt;ul&gt; 
+     &lt;li&gt;PoiParser&lt;/li&gt; 
+     &lt;li&gt;PdfBoxParser&lt;/li&gt; 
+    &lt;/ul&gt; &lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;LLM Chain&lt;/li&gt; 
+ &lt;li&gt;Agents Chain&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;简单对话&lt;/h2&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;使用 OpenAi 大语言模型:&lt;/p&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt; &lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;@Test&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;testChat&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;OpenAiLlmConfig&lt;/strong&gt; &lt;span&gt;config&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;OpenAiLlmConfig&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiKey&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;sk-rts5NF6n*******&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;Llm&lt;/strong&gt; &lt;span&gt;llm&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;OpenAiLlm&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;config&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;String&lt;/strong&gt; &lt;span&gt;response&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;llm&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;chat&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;请问你叫什么名字&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;out&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;response&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;使用 「通义千问」 大语言模型:&lt;/p&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;@Test&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;testChat&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;QwenLlmConfig&lt;/strong&gt; &lt;span&gt;config&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;QwenLlmConfig&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiKey&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;sk-28a6be3236****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setModel&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;qwen-turbo&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;Llm&lt;/strong&gt; &lt;span&gt;llm&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;QwenLlm&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;config&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;String&lt;/strong&gt; &lt;span&gt;response&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;llm&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;chat&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;请问你叫什么名字&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;out&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;response&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;使用 「讯飞星火」 大语言模型:&lt;/p&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;@Test&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;testChat&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;SparkLlmConfig&lt;/strong&gt; &lt;span&gt;config&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;SparkLlmConfig&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setAppId&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiKey&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiSecret&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;Llm&lt;/strong&gt; &lt;span&gt;llm&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;SparkLlm&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;config&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;String&lt;/strong&gt; &lt;span&gt;response&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;llm&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;chat&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;请问你叫什么名字&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;out&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;response&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;h2&gt;历史对话示例&lt;/h2&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;static&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;main&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span&gt;String&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;[]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;args&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt; &lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;SparkLlmConfig&lt;/strong&gt; &lt;span&gt;config&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;SparkLlmConfig&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setAppId&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiKey&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiSecret&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;****&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;Llm&lt;/strong&gt; &lt;span&gt;llm&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;SparkLlm&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;config&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;HistoriesPrompt&lt;/strong&gt; &lt;span&gt;prompt&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;HistoriesPrompt&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;out&lt;/span&gt;&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;您想问什么？&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;Scanner&lt;/strong&gt; &lt;span&gt;scanner&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;Scanner&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;in&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;String&lt;/strong&gt; &lt;span&gt;userInput&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;scanner&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;nextLine&lt;/span&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;while&lt;/span&gt;&lt;/strong&gt; &lt;span&gt;(&lt;/span&gt;&lt;span&gt;userInput&lt;/span&gt; &lt;span&gt;!=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#005cc5&quot;&gt;null&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;)&lt;/span&gt; &lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;        &lt;span&gt;prompt&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;addMessage&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;HumanMessage&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;userInput&lt;/span&gt;&lt;span&gt;));&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;        &lt;span&gt;llm&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;chatAsync&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;prompt&lt;/span&gt;&lt;span&gt;,&lt;/span&gt; &lt;span&gt;(&lt;/span&gt;&lt;span&gt;context&lt;/span&gt;&lt;span&gt;,&lt;/span&gt; &lt;span&gt;response&lt;/span&gt;&lt;span&gt;)&lt;/span&gt; &lt;span&gt;-&amp;gt;&lt;/span&gt; &lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;            &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;out&lt;/span&gt;&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;&amp;gt;&amp;gt;&amp;gt;&amp;gt; &quot;&lt;/span&gt;&lt;/span&gt; &lt;span&gt;+&lt;/span&gt; &lt;span&gt;response&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;getMessage&lt;/span&gt;&lt;span&gt;().&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;getContent&lt;/span&gt;&lt;span&gt;());&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;        &lt;span&gt;});&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;        &lt;span&gt;userInput&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;scanner&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;nextLine&lt;/span&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;h2&gt;Function Calling&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;第一步：通过注解定义本地方法&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt;&lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;class&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;WeatherUtil&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;@FunctionDef&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;name&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;&lt;span&gt;&quot;get_the_weather_info&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;description&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;&lt;span&gt;&quot;get the weather info&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;static&lt;/strong&gt; &lt;strong&gt;String&lt;/strong&gt; &lt;strong&gt;getWeatherInfo&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;        &lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;@FunctionParam&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;name&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;&lt;span&gt;&quot;city&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;,&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;description&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;&lt;span&gt;&quot;the city name&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;)&lt;/span&gt;&lt;/span&gt; &lt;strong&gt;String&lt;/strong&gt; &lt;span&gt;name&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;)&lt;/span&gt; &lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;        &lt;span style=&quot;color:#888888&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;//在这里，我们应该通过第三方接口调用 api 信息&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;        &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;return&lt;/span&gt;&lt;/strong&gt; &lt;span&gt;name&lt;/span&gt; &lt;span&gt;+&lt;/span&gt; &lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;的天气是阴转多云。 &quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;第二步：通过 Prompt、Functions 传入给大模型，然后得到结果&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;div&gt; 
+ &lt;div&gt; 
+  &lt;pre&gt;&lt;span&gt; &lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;static&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt; &lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span style=&quot;color:#6f42c1&quot;&gt;main&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;strong&gt;&lt;span&gt;&lt;span&gt;String&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;[]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;args&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;OpenAiLlmConfig&lt;/strong&gt; &lt;span&gt;config&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;OpenAiLlmConfig&lt;/strong&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span&gt;config&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;setApiKey&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;sk-rts5NF6n*******&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;OpenAiLlm&lt;/strong&gt; &lt;span&gt;llm&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;OpenAiLlm&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;config&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;FunctionPrompt&lt;/strong&gt; &lt;span&gt;prompt&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;strong&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;new&lt;/span&gt;&lt;/strong&gt; &lt;strong&gt;FunctionPrompt&lt;/strong&gt;&lt;span&gt;(&lt;/span&gt;&lt;span style=&quot;color:#dd2200&quot;&gt;&lt;span style=&quot;color:#032f62&quot;&gt;&quot;今天北京的天气怎么样&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt; &lt;strong&gt;WeatherUtil&lt;/strong&gt;&lt;span&gt;&lt;span&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;&lt;span&gt;&lt;span style=&quot;color:#d73a49&quot;&gt;class&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;)&lt;/span&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;strong&gt;FunctionResultResponse&lt;/strong&gt; &lt;span&gt;response&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;llm&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;chat&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;prompt&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;Object&lt;/strong&gt; &lt;span&gt;result&lt;/span&gt; &lt;span&gt;=&lt;/span&gt; &lt;span&gt;response&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;invoke&lt;/span&gt;&lt;span&gt;();&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;    &lt;strong&gt;System&lt;/strong&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;out&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span style=&quot;color:#008080&quot;&gt;println&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;result&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;    &lt;span style=&quot;color:#888888&quot;&gt;&lt;span style=&quot;color:#6a737d&quot;&gt;//&quot;北京的天气是阴转多云。 &quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt; 
+  &lt;div&gt;
+   &amp;nbsp;
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;h2&gt;模块构成&lt;/h2&gt; 
+&lt;p style=&quot;color:#40485b; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://gitee.com/agents-flex/agents-flex/raw/main/docs/assets/images/modules.jpg&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;注意：当前版本为 v1.0.0-alpha.4 ，还在开发中，请暂时勿使用于正式的商业产品中。&lt;/p&gt; 
+&lt;h2&gt;开源地址​：&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;Gitee:&amp;nbsp;&lt;a href=&quot;https://gitee.com/agents-flex/agents-flex&quot;&gt;https://gitee.com/agents-flex/agents-flex&lt;/a&gt;&lt;/li&gt; 
+ &lt;li&gt;Github:&amp;nbsp;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fagents-flex%2Fagents-flex&quot; target=&quot;_blank&quot;&gt;https://github.com/agents-flex/agents-flex&lt;/a&gt;&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284187/agents-flex-alpha-4-released</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284187/agents-flex-alpha-4-released</guid>
+            <pubDate>Fri, 22 Mar 2024 02:10:41 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>MyData v0.7.4 更新日志</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;MyData 是基于 Web API 的数据集成平台，提供数据集成服务，简化跨系统之间的数据对接；mydata-blade 是平台后端，基于 SpringBlade 微服务平台开发；&lt;/p&gt; 
+&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:black&quot;&gt;MyData 是针对多应用之间数据集成的场景，为开发人员提供更安全、更方便的对接集成；&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:black&quot;&gt;基于数据资产为核心思想设计和开发的，&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span style=&quot;color:black&quot;&gt;目标是：&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:black&quot;&gt;旨在让用户更好的掌控和管理数据。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;v0.7.4&amp;nbsp;主要更新内容：任务自动批量拉取数据，简化对接操作；&lt;/p&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;新功能 
+  &lt;ul&gt; 
+   &lt;li&gt;定时任务 
+    &lt;ul&gt; 
+     &lt;li&gt;增加分批模式，实现任务分为多个批次从接口拉取数据，直到接口没有数据为止；&lt;/li&gt; 
+    &lt;/ul&gt; &lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;优化 
+  &lt;ul&gt; 
+   &lt;li&gt;任务管理 
+    &lt;ul&gt; 
+     &lt;li&gt;表单界面改为 Tab 布局，更方便用户操作；&lt;/li&gt; 
+    &lt;/ul&gt; &lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;修复 
+  &lt;ul&gt; 
+   &lt;li&gt;安全漏洞 
+    &lt;ul&gt; 
+     &lt;li&gt;CVE-2023-42809 不可信数据的反序列化，升级 redisson 版本到 3.22.0；&amp;nbsp;&lt;/li&gt; 
+    &lt;/ul&gt; &lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+&lt;/ul&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284189/mydata-blade-0-7-4-released</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284189/mydata-blade-0-7-4-released</guid>
+            <pubDate>Fri, 22 Mar 2024 02:10:41 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>warm-flow 工作流，新增监听器和参数传递</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;h2&gt;v1.1.0 更新内容&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;可以跳转指定节点&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;增加全局变量&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;增加监听器&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;重构代码，解偶 orm，方便扩展不同 orm 和数据，新增代码示例&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;修复并行网关流程流程图显示错误问题&lt;/p&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;p&gt;&amp;nbsp;&lt;/p&gt; 
+&lt;h2&gt;介绍&lt;/h2&gt; 
+&lt;p&gt;此项目是极其简单的工作流，没有太多设计，代码量少，并且只有 6 张表，个把小时就可以看完整个设计。使用起来方便&lt;/p&gt; 
+&lt;ol&gt; 
+ &lt;li&gt;支持简单的流程流转，比如跳转、回退、审批&lt;/li&gt; 
+ &lt;li&gt;支持角色、部门和用户等权限配置&lt;/li&gt; 
+ &lt;li&gt;官方提供简单流程封装 demo 项目，很实用&lt;/li&gt; 
+ &lt;li&gt;支持多租户&lt;/li&gt; 
+ &lt;li&gt;支持代办任务和已办任务，通过权限标识过滤数据&lt;/li&gt; 
+ &lt;li&gt;支持互斥网关，并行网关（会签、或签）&lt;/li&gt; 
+ &lt;li&gt;可退回任意节点&lt;/li&gt; 
+ &lt;li&gt;支持条件表达式，可扩展&lt;/li&gt; 
+ &lt;li&gt;同时支持 spring 和 solon&lt;/li&gt; 
+ &lt;li&gt;兼容 java8 和 java17,理论 11 也可以&lt;/li&gt; 
+ &lt;li&gt;支持不同 orm 框架和数据库扩展&lt;/li&gt; 
+ &lt;li&gt;支持增加监听器，参数传递&lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;blockquote&gt;
+ &lt;strong&gt;git 地址&lt;/strong&gt;：
+ &lt;a href=&quot;https://gitee.com/warm_4/warm-flow.git&quot;&gt;https://gitee.com/warm_4/warm-flow.git&lt;/a&gt;
+&lt;/blockquote&gt; 
+&lt;p&gt;&lt;strong&gt;demo 项目&lt;/strong&gt;：&lt;/p&gt; 
+&lt;p&gt;springboot：&lt;a href=&quot;https://gitee.com/min290/hh-vue&quot;&gt;RuoYi-Vue-Warm-Flow&lt;/a&gt; ｜&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.hhzai.top%3A81&quot; target=&quot;_blank&quot;&gt;演示地址&lt;/a&gt; solon：&lt;a href=&quot;https://gitee.com/min290/warm-sun.git&quot;&gt;warm-sun&lt;/a&gt; ｜&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fwww.warm-sun.vip&quot; target=&quot;_blank&quot;&gt;演示地址&lt;/a&gt;&lt;/p&gt; 
+&lt;h2&gt;快速开始&lt;/h2&gt; 
+&lt;p&gt;在开始之前，我们假定您已经：&lt;/p&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;熟悉 Java 环境配置及其开发&lt;/li&gt; 
+ &lt;li&gt;熟悉，关系型，数据库，比如 MySQL&lt;/li&gt; 
+ &lt;li&gt;熟悉 Spring Boot 或者 Solon 及相关框架&lt;/li&gt; 
+ &lt;li&gt;熟悉 Java 构建工具，比如 Maven&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;表结构&lt;/h3&gt; 
+&lt;p&gt;&lt;a href=&quot;https://gitee.com/warm_4/warm-flow/wikis/%E8%A1%A8%E7%BB%93%E6%9E%84?sort_id=9330548&quot;&gt;https://gitee.com/warm_4/warm-flow/wikis/表结构?sort_id=9330548&lt;/a&gt;&lt;/p&gt; 
+&lt;h3&gt;maven 依赖&lt;/h3&gt; 
+&lt;p&gt;&lt;strong&gt;springboot 项目&lt;/strong&gt;&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-maven&quot;&gt;
+      io.github.minliuhua
+      warm-flow-mybatis-sb-starter
+      最新版本
+
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;p&gt;&lt;strong&gt;solon 项目&lt;/strong&gt;&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-maven&quot;&gt;
+      io.github.minliuhua
+      warm-flow-mybatis-solon-plugin
+      最新版本
+
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;h3&gt;支持数据库类型&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;[x] mysql&lt;/li&gt; 
+ &lt;li&gt;[ ] oracle&lt;/li&gt; 
+ &lt;li&gt;[ ] sqlserver&lt;/li&gt; 
+ &lt;li&gt;[ ] ......&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;支持 orm 框架类型&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;[x] mybatis 及其增强组件&lt;/li&gt; 
+ &lt;li&gt;[ ] jpa&lt;/li&gt; 
+ &lt;li&gt;[ ] easy-query&lt;/li&gt; 
+ &lt;li&gt;[ ] wood&lt;/li&gt; 
+ &lt;li&gt;[ ] sqltoy&lt;/li&gt; 
+ &lt;li&gt;[ ] beetlsql&lt;/li&gt; 
+ &lt;li&gt;[ ] ......&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;blockquote&gt;
+ &lt;strong&gt;有想扩展其他 orm 框架和数据库的可加 qq 群联系群主&lt;/strong&gt;
+&lt;/blockquote&gt; 
+&lt;h3&gt;代码示例&lt;/h3&gt; 
+&lt;p&gt;&lt;a href=&quot;https://gitee.com/min290/hh-vue/blob/master/ruoyi-admin/src/test/java/com/ruoyi/system/service/impl/FlowTest.java&quot;&gt;https://gitee.com/min290/hh-vue/blob/master/ruoyi-admin/src/test/java/com/ruoyi/system/service/impl/FlowTest.java&lt;/a&gt;&lt;/p&gt; 
+&lt;h4&gt;部署流程&lt;/h4&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public void deployFlow() throws Exception {
+        String path = &quot;/Users/minliuhua/Desktop/mdata/file/IdeaProjects/min/hh-vue/hh-admin/src/main/resources/leaveFlow-serial.xml&quot;;
+        System.out.println(&quot;已部署流程的 id：&quot; + defService.importXml(new FileInputStream(path)).getId());
+    }
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;h4&gt;发布流程&lt;/h4&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public void publish() throws Exception {
+        defService.publish(1212437969554771968L);
+    }
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;h4&gt;开启流程&lt;/h4&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public void startFlow() {
+        System.out.println(&quot;已开启的流程实例 id：&quot; + insService.start(&quot;1&quot;, getUser()).getId());
+    }
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;h4&gt;流程流转&lt;/h4&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public void skipFlow() throws Exception {
+        // 通过实例 id 流转
+        Instance instance = insService.skipByInsId(1219286332141080576L, getUser().skipType(SkipType.PASS.getKey())
+                .permissionFlag(Arrays.asList(&quot;role:1&quot;, &quot;role:2&quot;)));
+        System.out.println(&quot;流转后流程实例：&quot; + instance.toString());
+
+//        // 通过任务 id 流转
+//        Instance instance = insService.skip(1219286332145274880L, getUser().skipType(SkipType.PASS.getKey())
+//                .permissionFlag(Arrays.asList(&quot;role:1&quot;, &quot;role:2&quot;)));
+//        System.out.println(&quot;流转后流程实例：&quot; + instance.toString());
+    }
+
+ public void skipAnyNode() throws Exception {
+        // 跳转到指定节点
+        Instance instance = insService.skip(1219286332145274880L, getUser().skipType(SkipType.PASS.getKey())
+                .permissionFlag(Arrays.asList(&quot;role:1&quot;, &quot;role:2&quot;)).nodeCode(&quot;4&quot;));
+        System.out.println(&quot;流转后流程实例：&quot; + instance.toString());
+    }
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;h4&gt;监听器&lt;/h4&gt; 
+&lt;p&gt;实现 Listener 接口，然后在设计器中配置好监听器&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public class FinishListener implements Listener {
+
+    @Resource
+    private TestLeaveMapper testLeaveMapper;
+
+    private static final Logger log = LoggerFactory.getLogger(StartListener.class);
+
+    @Override
+    public void notify(ListenerVariable variable) {
+        log.info(&quot;完成监听器:{}&quot;, variable);
+        Instance instance = variable.getInstance();
+        Map&amp;lt;String, Object&amp;gt; testLeaveMap = variable.getVariable();
+        TestLeave testLeave = (TestLeave) testLeaveMap.get(&quot;testLeave&quot;);
+        /** 如果{@link com.ruoyi.system.service.impl.TestLeaveServiceImpl}中更新了，这里就不用更新了*/
+//        testLeave.setNodeCode(instance.getNodeCode());
+//        testLeave.setNodeName(instance.getNodeName());
+//        testLeave.setFlowStatus(instance.getFlowStatus());
+//        testLeave.setUpdateTime(DateUtils.getNowDate());
+//        testLeaveMapper.updateTestLeave(testLeave);
+        log.info(&quot;完成监听器结束;{}&quot;, &quot;任务完成&quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284181</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284181</guid>
+            <pubDate>Fri, 22 Mar 2024 01:47:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>word GPT Plus V0.4.0，利用 AI 辅助工作的 Word 加载项，支持 Ollama</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;p&gt;Word GPT Plus 是一款基于 Vue3 开发的 Word 加载项，它允许你基于文档中写的内容生成文本。你可以使用它来翻译、总结、润色或者从零开始写一篇文章。&lt;/p&gt; 
+&lt;h2&gt;开源地址和软件官网&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;Github &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FKuingsmile%2Fword-GPT-Plus&quot; target=&quot;_blank&quot;&gt;Kuingsmile/word-GPT-Plus&lt;/a&gt;&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;本次更新内容&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;新增 Ollama 支持&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;特色功能&lt;/h2&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;使用 GPT-3.5 API 生成文本并支持选择模型&lt;/li&gt; 
+ &lt;li&gt;支持设置 access token 调用 chatGPT web 接口（使用该方法免费，建议配合 chatGPT-plus）&lt;/li&gt; 
+ &lt;li&gt;支持 OpenAI 官方接口、Azure OpenAI API 和 PALM2 API，Gemini Pro API，Ollama&lt;/li&gt; 
+ &lt;li&gt;内置用于翻译、总结、润色和学术写作的提示&lt;/li&gt; 
+ &lt;li&gt;支持多种语言&lt;/li&gt; 
+ &lt;li&gt;可以自定义提示并保存以供将来使用&lt;/li&gt; 
+ &lt;li&gt;允许用户设置 temperature 和 max tokens&lt;/li&gt; 
+ &lt;li&gt;支持代理&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h2&gt;环境要求&lt;/h2&gt; 
+&lt;h3&gt;软件要求&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;Microsoft Word 2016/2019 零售版，Microsoft Word 2021 或 Microsoft 365&lt;/li&gt; 
+ &lt;li&gt;Edge WebView2 Runtime &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeveloper.microsoft.com%2Fen-us%2Fmicrosoft-edge%2Fwebview2%2F&quot; target=&quot;_blank&quot;&gt;https://developer.microsoft.com/en-us/microsoft-edge/webview2/&lt;/a&gt;&lt;/li&gt; 
+ &lt;li&gt;如果你使用自己搭建的服务，你需要 Node.js 16+&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;p&gt;&lt;strong&gt;注意：office 插件只能在 docx 文件中使用，不支持 doc 文件。&lt;/strong&gt;&lt;/p&gt; 
+&lt;h3&gt;账户要求&lt;/h3&gt; 
+&lt;p&gt;官方 API 需要一个 OpenAI api key，你可以从&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys&quot; target=&quot;_blank&quot;&gt;https://platform.openai.com/account/api-keys&lt;/a&gt;获取&lt;/p&gt; 
+&lt;h2&gt;使用截图&lt;/h2&gt; 
+&lt;p&gt;&lt;img alt=&quot;230424 091221.gif&quot; src=&quot;https://note.msq.pub/202304241041050.jpg&quot; referrerpolicy=&quot;no-referrer&quot;&gt; &lt;img alt=&quot;230424 091554.gif&quot; src=&quot;https://note.msq.pub/202304241041391.jpg&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;h2&gt;安装方法&lt;/h2&gt; 
+&lt;p&gt;有两种方法可以安装 Word GPT Plus：通过我的免费 web 服务，或者自己搭建服务。&lt;/p&gt; 
+&lt;p&gt;我强烈建议使用我的 web 服务，因为它安装简单快捷，也不需要安装额外的依赖项。此外，你将随时可以访问到最新版本的 Word GPT Plus。&lt;/p&gt; 
+&lt;p&gt;由于所有数据都是使用 localStorage 保存的，所以你的隐私是受到保护的。&lt;/p&gt; 
+&lt;p&gt;但是，如果你想要更快的速度，并且具有 Node.js 的专业知识，自己搭建服务也是一个选择。&lt;/p&gt; 
+&lt;h3&gt;由我提供的服务&lt;/h3&gt; 
+&lt;ol&gt; 
+ &lt;li&gt;下载&lt;code&gt;manifest.xml&lt;/code&gt;文件并保存到你的电脑上，例如 &lt;code&gt;C:\\Users\\username\\Documents\\WordGPT&lt;/code&gt;.&lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;ul&gt; 
+ &lt;li&gt; &lt;p&gt;非中国地区: &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fraw.githubusercontent.com%2FKuingsmile%2Fword-GPT-Plus%2Fmaster%2Frelease%2Fother%2Fmanifest.xml&quot; target=&quot;_blank&quot;&gt;release/other/manifest.xml&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;中国地区: &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fraw.githubusercontent.com%2FKuingsmile%2Fword-GPT-Plus%2Fmaster%2Frelease%2Fchina%2Fmanifest.xml&quot; target=&quot;_blank&quot;&gt;release/china/manifest.xml&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;ol&gt; 
+ &lt;li&gt;按照下面的，旁加载插件，说明安装插件。&lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;h3&gt;自己搭建服务&lt;/h3&gt; 
+&lt;p&gt;如果你想要自己搭建服务，你需要克隆这个仓库并安装依赖项，然后运行项目。需要 Node.js 18+。&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;
+git clone https://github.com/Kuingsmile/Word-GPT-Plus.git
+
+yarn
+
+yarn run serve
+
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;p&gt;然后，按照下面的，旁加载插件，说明安装插件。&lt;/p&gt; 
+&lt;h3&gt;旁加载插件&lt;/h3&gt; 
+&lt;p&gt;为了开始使用 Word GPT Plus，你需要将插件旁加载到 Microsoft Word 中。&lt;/p&gt; 
+&lt;p&gt;你可以在下面的链接中找到微软提供的说明：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Foffice%2Fdev%2Fadd-ins%2Ftesting%2Fcreate-a-network-shared-folder-catalog-for-task-pane-and-content-add-ins&quot; target=&quot;_blank&quot;&gt;sideload office add-ins&lt;/a&gt;&lt;/p&gt; 
+&lt;ol&gt; 
+ &lt;li&gt; &lt;p&gt;打开你保存了 &lt;code&gt;manifest.xml&lt;/code&gt; 文件的文件夹，例如 &lt;code&gt;C:\\Users\\username\\Documents\\WordGPT&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;右键点击文件夹打开菜单，选择 &lt;strong&gt;属性&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;在 &lt;strong&gt;属性&lt;/strong&gt; 对话框中，选择 &lt;strong&gt;共享&lt;/strong&gt; 选项卡，然后选择 &lt;strong&gt;共享&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;p&gt;&lt;img alt=&quot;image&quot; src=&quot;https://learn.microsoft.com/en-us/office/dev/add-ins/images/sideload-windows-properties-dialog.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;ol&gt; 
+ &lt;li&gt;在 &lt;strong&gt;网络访问&lt;/strong&gt; 对话框中，添加你自己和任何你想要共享的其他用户，选择 &lt;strong&gt;共享&lt;/strong&gt; 按钮，当你看到你的文件夹被共享的确认信息时，注意显示在文件夹名称后面的 &lt;strong&gt;完整网络路径&lt;/strong&gt;.&lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;p&gt;&lt;img alt=&quot;image&quot; src=&quot;https://learn.microsoft.com/en-us/office/dev/add-ins/images/sideload-windows-network-access-dialog.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;ol&gt; 
+ &lt;li&gt; &lt;p&gt;在 Word 中打开一个新文档，选择 &lt;strong&gt;文件&lt;/strong&gt; 选项卡，然后选择 &lt;strong&gt;选项&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;选择 &lt;strong&gt;信任中心&lt;/strong&gt;，然后选择 &lt;strong&gt;信任中心设置&lt;/strong&gt; 按钮.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;选择 &lt;strong&gt;信任的目录&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;在 &lt;strong&gt;目录 URL&lt;/strong&gt; 框中，输入 &lt;strong&gt;完整网络路径&lt;/strong&gt;，然后选择 &lt;strong&gt;添加目录&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;选择 &lt;strong&gt;在菜单中显示&lt;/strong&gt; 复选框，然后选择 &lt;strong&gt;确定&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;p&gt;&lt;img alt=&quot;image&quot; src=&quot;https://learn.microsoft.com/en-us/office/dev/add-ins/images/sideload-windows-trust-center-dialog.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;ol&gt; 
+ &lt;li&gt; &lt;p&gt;关闭并重新启动 Word.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;点击&lt;strong&gt;插入&lt;/strong&gt; -&amp;gt; &lt;strong&gt;获取加载项&lt;/strong&gt; -&amp;gt; &lt;strong&gt;共享目录&lt;/strong&gt;，选择 &lt;strong&gt;Word GPT&lt;/strong&gt;.&lt;/p&gt; &lt;/li&gt; 
+ &lt;li&gt; &lt;p&gt;享受 Word GPT Plus 的强大功能吧！&lt;/p&gt; &lt;/li&gt; 
+&lt;/ol&gt; 
+&lt;p&gt;&lt;img alt=&quot;image&quot; src=&quot;https://user-images.githubusercontent.com/96409857/234744280-9d9f13cf-536b-4fb5-adfa-cbec262d56a2.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284177</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284177</guid>
+            <pubDate>Fri, 22 Mar 2024 01:14:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>Socket.D v2.4.7 发布</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                                            &lt;h3&gt;Socket.D 是什么东东？&lt;/h3&gt; 
+&lt;p style=&quot;color:#24292e; text-align:start&quot;&gt;是基于&quot;事件&quot;和&quot;语义消息&quot;&quot;流&quot;的&lt;span style=&quot;background-color:#f1c40f&quot;&gt;网络应用协议&lt;/span&gt;。在微服务、移动应用、物联网等场景，可替代 http、websocket 等协议。支持 tcp, udp, ws, kcp 传输。协议特点可参考&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsocketd.noear.org%2Farticle%2F748&quot; target=&quot;_blank&quot;&gt;《官网介绍》&lt;/a&gt;。&lt;/p&gt; 
+&lt;p style=&quot;color:#24292e; text-align:start&quot;&gt;目前：javascript, java 已发布。pyton 已开发完成，再在测试中。go, rust, c++ 正在开发中。&lt;/p&gt; 
+&lt;h3&gt;for Java 更新&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;调整，读写缓冲大小配置默认 512 改为 4k（主要用在 bio 跟 aio 上）&lt;/li&gt; 
+ &lt;li&gt;调整 smartsocket 附件的处理（简化）&lt;/li&gt; 
+ &lt;li&gt;调整 client:open 改为无异常模式&lt;/li&gt; 
+ &lt;li&gt;调整 Config::isSequenceSend 更名为 isSerialSend&lt;/li&gt; 
+ &lt;li&gt;调整 Config::getIdGenerator 改为 genId&lt;/li&gt; 
+ &lt;li&gt;调整 HandshakeDefault path 为空时，默认为 /&lt;/li&gt; 
+ &lt;li&gt;调整，把发送锁改为配置决定的固定模式&lt;/li&gt; 
+ &lt;li&gt;简化，心跳异常日志&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;for JavaScript 更新&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;添加 Entity::metaAsDouble，metaAsLong，保持与 java 一至（方便文档统一）&lt;/li&gt; 
+ &lt;li&gt;调整 Config::getIdGenerator 改为 genId&lt;/li&gt; 
+ &lt;li&gt;调整 HandshakeDefault path 为空时，默认为 /&lt;/li&gt; 
+ &lt;li&gt;调整 ByteBuffer::getBytes 为异步模式，保持与 BlobBuffer 相同体验&lt;/li&gt; 
+ &lt;li&gt;修复 StrUtil::parseUri 没有 ? 时出错的问题&lt;/li&gt; 
+ &lt;li&gt;简化，心跳异常日志&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;视频演示效果：&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;for H5 
+  &lt;ul&gt; 
+   &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1ck4y197BV%2F&quot; target=&quot;_blank&quot;&gt;https://www.bilibili.com/video/BV1ck4y197BV/&lt;/a&gt;&lt;/li&gt; 
+   &lt;li&gt;&lt;a href=&quot;https://gitee.com/noear/socket.d/tree/main/javascript/socketd-examples/demo01-js-ws&quot;&gt;演示源码&lt;/a&gt;&lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+ &lt;li&gt;for UniAPP 
+  &lt;ul&gt; 
+   &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2FBV1T94y1T7sp%2F&quot; target=&quot;_blank&quot;&gt;https://www.bilibili.com/video/BV1T94y1T7sp/&lt;/a&gt;&lt;/li&gt; 
+   &lt;li&gt;&lt;a href=&quot;https://gitee.com/noear/socket.d/tree/main/javascript/socketd-examples/demo03-uniapp-ws&quot;&gt;演示源码&lt;/a&gt;&lt;/li&gt; 
+  &lt;/ul&gt; &lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;代码仓库：&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://gitee.com/noear/socketd&quot;&gt;https://gitee.com/noear/socketd&lt;/a&gt;&lt;/li&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fnoear%2Fsocketd&quot; target=&quot;_blank&quot;&gt;https://github.com/noear/socketd&lt;/a&gt;&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;h3&gt;官网：&lt;/h3&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fsocketd.noear.org%2F&quot; target=&quot;_blank&quot;&gt;https://socketd.noear.org&lt;/a&gt;&lt;/li&gt; 
+&lt;/ul&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284175</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284175</guid>
+            <pubDate>Fri, 22 Mar 2024 00:53:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
         <item>
             <title>🎉 漏洞扫描零漏洞，.NET 基础框架 Furion v4.9.1.56</title>
             <description>&lt;div class=&quot;content&quot;&gt;
@@ -85,7 +963,8 @@
         <item>
             <title>wlnmp 一键安装包更新 240321</title>
             <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;strong&gt;wlnmp 一键安装包 240321 更新内容如下：&lt;/strong&gt;&lt;/p&gt; 
+                                                                    
+                                                        &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;strong&gt;wlnmp 一键安装包 240321 更新内容如下：&lt;/strong&gt;&lt;/p&gt; 
 &lt;ul&gt; 
  &lt;li&gt;（更新）nginx、tengine、openresty 增加大量扩展模块以及安全性升级，如 mp4、flv、image_filter、realip 等，查看具体扩展，安装后详见 nginx -V。已安装的用户可以通过 update 直接升级，如 yum update wnginx，注意：升级前做好重要数据备份，避免由于某些因素导致升级失败。&lt;/li&gt; 
 &lt;/ul&gt; 
@@ -113,7 +992,7 @@
                                     </description>
             <link>https://www.oschina.net/news/284092/wlnmp-240321</link>
             <guid isPermaLink="false">https://www.oschina.net/news/284092/wlnmp-240321</guid>
-            <pubDate>Thu, 21 Mar 2024 08:36:46 GMT</pubDate>
+            <pubDate>Thu, 21 Mar 2024 08:36:00 GMT</pubDate>
             <author>来源: 投稿</author>
         </item>
         <item>
@@ -153,7 +1032,8 @@
         <item>
             <title>开放签电子签章系统 (企业版) V1.7 版本详细更新内容</title>
             <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p style=&quot;margin-left:0.0000pt; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;本次版本更新主要提升了系统签署能力，主要增加骑缝章签署、签章多页批量签署功能，优化 PC 端用户签署体验。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt; 
+                                                                    
+                                                        &lt;p style=&quot;margin-left:0.0000pt; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;本次版本更新主要提升了系统签署能力，主要增加骑缝章签署、签章多页批量签署功能，优化 PC 端用户签署体验。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt; 
 &lt;h1&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;&lt;strong&gt;&lt;strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;&lt;strong&gt;1.7 版详细更新内容如下：&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/h1&gt; 
 &lt;p style=&quot;margin-left:0.0000pt; text-align:left&quot;&gt;&lt;strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;1、企业签署增加骑缝章设置:&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
 &lt;p style=&quot;margin-left:0.0000pt; text-align:left&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#000000&quot;&gt;（1）用户可在业务线、文件发起、签署环节使用骑缝章进行文件签署；&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt; 
@@ -632,677 +1512,6 @@
             <link>https://www.oschina.net/news/284027/wfs-go-1-0-3-released</link>
             <guid isPermaLink="false">https://www.oschina.net/news/284027/wfs-go-1-0-3-released</guid>
             <pubDate>Thu, 21 Mar 2024 02:36:00 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>Linux Lab 发布 v1.3 正式版，完善 LoongArch 支持</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;img alt=&quot;&quot; height=&quot;551&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-392941fa2a63ce850acc605f74565074d10.jpg&quot; width=&quot;1024&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;h2&gt;&lt;span&gt;简介&lt;/span&gt;&lt;/h2&gt; 
-&lt;p&gt;自去年 7 月份发布 &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Flinux-lab-v1.1%2F&quot; target=&quot;_blank&quot;&gt;Linux Lab v1.2&lt;/a&gt; 后，终于迎来了 v1.3 正式版，同时也迎来了 &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Fcloud-lab&quot; target=&quot;_blank&quot;&gt;Cloud Lab&lt;/a&gt; v0.9 正式版，两者需同步升级配合使用。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt; &lt;p&gt;发布仓库&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;Gitee: &lt;a href=&quot;https://gitee.com/tinylab/linux-lab&quot;&gt;https://gitee.com/tinylab/linux-lab&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;Github: &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Ftinyclub%2Flinux-lab&quot; target=&quot;_blank&quot;&gt;https://github.com/tinyclub/linux-lab&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;用户手册&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Fpdfs%2Flinux-lab-v1.3-manual-zh.pdf&quot; target=&quot;_blank&quot;&gt;Linux Lab v1.3 中文手册&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Fpdfs%2Flinux-lab-v1.3-manual-en.pdf&quot; target=&quot;_blank&quot;&gt;Linux Lab v1.3 英文手册&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;为方便大家开箱即用，泰晓 Linux 实验盘同步集成最新版 Linux Lab v1.3，当前版本实验盘默认集成了 &lt;code&gt;arm/vexpress-a9&lt;/code&gt;, &lt;code&gt;x86_64/pc&lt;/code&gt; 和 &lt;code&gt;riscv64/virt&lt;/code&gt; 虚拟开发板，并内置了 Linux Lab v1.3 中文用户手册和 RISC-V Linux v0.2 实验手册。&lt;/p&gt; 
-&lt;h2&gt;&lt;span&gt;更新情况&lt;/span&gt;&lt;/h2&gt; 
-&lt;p&gt;v1.3 升级部分内核到 v6.6，新增上游内核工具链支持，完善 riscv64 和 nolibc 开发支持，另有新增 2 款虚拟开发板：&lt;code&gt;ppc64le/pseries&lt;/code&gt; 和 &lt;code&gt;ppc64le/powernv&lt;/code&gt;。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt; &lt;p&gt;v1.3 rc3&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;riscv64: 默认工具链改为更轻量的上游内核工具链&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;toolchain: 新增内置工具链的自动解压支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;boot: Shell 从 &lt;code&gt;/bin/bash&lt;/code&gt; 改为更为通用的 &lt;code&gt;/bin/sh&lt;/code&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;examples: 修复 C 语言例子的编译参数，确保可以在 RISC-V Lab 下编译&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;README: 新增 RISC-V Linux 公开课视频链接，新增网络冲突说明&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;v1.3 rc2&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;loongarch：新增 v6.5.4, v6.6 和 buildroot 支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;riscv64: 修复 riscv64-hello.s 的 &lt;code&gt;#ifdef&lt;/code&gt; 错误&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;patch: 完善二进制补丁的检测与 Apply 支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;notice: 调整部分 errors 为 warnings，提高可用性&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;v1.3 rc1&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;ppc64: 新增 &lt;code&gt;ppc64le/pseries&lt;/code&gt; 和 &lt;code&gt;ppc64le/powernv&lt;/code&gt; 等虚拟开发板支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;toolchain: 新增支持 &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmirrors.edge.kernel.org%2Fpub%2Ftools%2Fcrosstool%2F&quot; target=&quot;_blank&quot;&gt;https://mirrors.edge.kernel.org/pub/tools/crosstool/&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;riscv64: 新增图形显示支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;nolibc: 新增 &lt;code&gt;arm/versatilepb&lt;/code&gt; 等多个板子的测试支持&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;test: 完善 timeout 机制&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;Cloud Lab v0.9 主要变更如下：&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt; &lt;p&gt;设定容器的 soft/hard openmax，确保可以在最新 manjaro 工作&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;关闭 Web 容器的部分服务，进一步提升使用性能&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;新增 xfce4-terminal, epiphany-browser 支持&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;升级 Linux Lab 镜像，新增多个工具&lt;/p&gt; &lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;接下来简单看看 Linux Lab 和 Cloud Lab 的变更数据，累计 258 笔。&lt;/p&gt; 
-&lt;pre&gt;&lt;code&gt;// Linux Lab
-$ git log --oneline v1.2..HEAD | wc -l
-107
-
-// Cloud Lab
-$ it log --oneline v0.8..HEAD | wc -l
-45
-&lt;/code&gt;&lt;/pre&gt; 
-&lt;h2&gt;&lt;span&gt;更多资料&lt;/span&gt;&lt;/h2&gt; 
-&lt;ul&gt; 
- &lt;li&gt; &lt;p&gt;使用 Linux Lab 的好处&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Fwhy-linux-lab&quot; target=&quot;_blank&quot;&gt;Linux Lab：难以抗拒的十大理由 V1.0&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ftinylab.org%2Fwhy-linux-lab-v2&quot; target=&quot;_blank&quot;&gt;Linux Lab：难以抗拒的十大理由 V2.0&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;采用 Linux Lab 作为实验环境的公开课&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F687228362%2Fchannel%2Fcollectiondetail%3Fsid%3D1750690&quot; target=&quot;_blank&quot;&gt;《第 1 期 RISC-V Linux 系统开发公开课》&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-   &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F687228362%2Fchannel%2Fcollectiondetail%3Fsid%3D2021659&quot; target=&quot;_blank&quot;&gt;《第 2 期 RISC-V Linux 系统开发公开课》&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;泰晓社区正在开发的周边硬件&lt;/p&gt; 
-  &lt;ul&gt; 
-   &lt;li&gt;泰晓 Linux 实验盘，免安装、即插即用 Linux Lab 开发环境&lt;/li&gt; 
-   &lt;li&gt;泰晓 Linux 系统盘，免安装、即插即用 Linux 发行版&lt;/li&gt; 
-   &lt;li&gt;泰晓 RISC-V 实验箱，Linux Lab 支持的第 2 套真实硬件开发板&lt;/li&gt; 
-  &lt;/ul&gt; &lt;/li&gt; 
-&lt;/ul&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284024/linux-lab-v1-3</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284024/linux-lab-v1-3</guid>
-            <pubDate>Thu, 21 Mar 2024 02:18:18 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>Oracle 正式发布 Java 22</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;strong&gt;Oracle 正式发布 Java 22，这是备受欢迎的编程语言和开发平台推出的全新版本&lt;/strong&gt;。&lt;/p&gt; 
-&lt;p&gt;Java 22 (Oracle JDK 22) 在性能、稳定性和安全性方面进行了数千种改进，包括对 Java 语言、其 API 和性能，以及 Java 开发工具包 (JDK) 中工具的增强功能，以帮助开发人员提高工作效率，推动企业加速创新和发展。&lt;/p&gt; 
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-7017ea7120da0bb2e734341df5196285336.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p&gt;全新版本的 JDK 更新和改进了&lt;strong&gt;12 项 JDK 增强建议 (JEPs)&lt;/strong&gt;。&lt;/p&gt; 
-&lt;p&gt;JDK 22 将提供 OpenJDK Project Amber 的语言改进 (Statements before super[…]、Unnamed Variables &amp;amp; Patterns、String Templates 以及 Implicitly Declared Classes 和 Instance Main Methods)；Project Panama 的改进 (Foreign Function 以及 Memory API 和 Vector API)；有关 Project Loom 的特性 (Structured Concurrency 和 Scoped Values)；核心库和工具功能 (Class-File API、Launch Multi-File Source-Code Programs、Stream Gatherers) 以及性能更新 (Region Pinning for G1)。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;Java 22 提供的重要更新包括&lt;/strong&gt;：&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;Project Amber 的特性&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 447&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Statements before super(…)&lt;/strong&gt;— 支持开发人员自由地表达构造器的行为。对于未引用正在创建的实例的语句，该语句也可以在调用显式构造器之前出现，让开发人员可以更自然地放置逻辑。&lt;/p&gt; 
-&lt;p&gt;该逻辑需要纳入辅助静态方法、辅助中间构造器或构造器参数中。该特性还将延续现有保证，即允许构造器在类实例化期间按自上而下的顺序运行，以帮助确保子类构造器中的代码不会干扰超类实例化。&lt;/p&gt; 
-&lt;p&gt;此外，此特性不需要对 Java Virtual Machine(JVM) 进行任何更改，并且仅依赖于 JVM 的当前能力来验证和执行在构造器中显式调用之前显示的代码。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 456&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Unnamed Variables &amp;amp; Patterns&lt;/strong&gt;— 通过未命名的变量和模式来增强 Java 语言。在必须使用变量声明或嵌套模式，但又从未使用过的情况下，开发人员可以使用这些变量和模式来提高生产力。&lt;/p&gt; 
-&lt;p&gt;这种方法可以减少出错的机会，提高记录模式的可读性，并提高代码的可维护性。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 459&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;String Templates（第二预览版）&lt;/strong&gt;— 使包含运行时计算值的字符串更容易表达，简化 Java 程序的开发工作，同时提高将用户提供的值编写成字符串，并将字符串传递给其他系统的程序的安全性。&lt;/p&gt; 
-&lt;p&gt;此外，该特性还可提高参杂了表达式和文本的可读性，创建通过文字文本和嵌入表达式计算的非字符串值，而无需通过中间字符串表示形式传递。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 463&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Implicitly Declared Classes and Instance Main Methods（第二预览版）&lt;/strong&gt;— 通过 Java 编程入门教程，学生无需了解为大型程序而设计的语言功能，即可顺利编写第一个程序，加快了上手速度。&lt;/p&gt; 
-&lt;p&gt;通过此特性，教育工作者可以循序渐进地介绍概念，学生也可以编写简化的单类程序声明，并随着个人技能的提升，无缝扩展程序并使用更高级的功能。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;Project Loom 的特性&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 462&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Structured Concurrency（第二预览版&lt;/strong&gt;）— 通过引入用于结构化并发的 API，帮助开发人员简化错误处理和取消，并提高可观测性，进而鼓励更多人选择并发编程。&lt;/p&gt; 
-&lt;p&gt;该编程风格可以消除因取消和关闭而产生的常见风险，例如线程泄漏和取消延迟，以此提高并发代码的可观测性。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 464&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Scoped Values（第二预览版）&lt;/strong&gt;— 支持开发人员在线程内和线程之间共享不可变数据，从而提高项目的易用性、可理解性、性能和稳健性。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;Project Panama 的特性&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 454&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Foreign Function &amp;amp; Memory API&lt;/strong&gt;— 新推出的 API 使 Java 程序更容易与 Java 运行时之外的代码和数据互操作，从而帮助开发人员提高易用性、灵活性、安全性和性能。&lt;/p&gt; 
-&lt;p&gt;通过有效调用外部函数（即 Java Virtual Machine (JVM) 之外的代码），以及安全地访问外部内存（即不受 JVM 管理的内存），这个新的 API 支持 Java 程序在无需 Java Native Interface 的情况下调用本地库和处理原生数据。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 460&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Vector API （七次孵化阶段）&lt;/strong&gt;— 引入 API 来表达向量计算，在运行时可靠地编译为支持的 CPU 架构上的向量指令，使开发人员获得优于等效标量计算的性能。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;核心库和工具功能&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 457&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Class-File API（预览版）&lt;/strong&gt;— 通过提供用于解析、生成和转换 Java 类文件的标准 API，帮助开发人员提高工作效率。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 458&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Launch Multi-File Source-Code Programs&lt;/strong&gt;— 支持开发人员通过增强 Java 应用启动器，选择是否以及何时需要配置构建工具，从而运行作为多个 Java 源代码文件提供的程序。&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 461&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Stream Gatherers（预览版）&lt;/strong&gt;— 通过增强 Stream API 来支持自定义中间操作，让流管道能以比现有内置中间操作更轻松的方式转换数据，从而帮助开发人员提高工作效率。&lt;/p&gt; 
-&lt;p&gt;此特性能够使流管道更灵活、更具表达力，允许自定义中间操作处理大小不限的流，帮助开发人员高效读取、写入和维护 Java 代码。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;性能更新&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;JEP 423&lt;/strong&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;strong&gt;Region Pinning for G1&lt;/strong&gt;— 在原本需要暂停收集器的本机库调用期间，允许进行某些资源回收，有助于减少延迟。其中的原理是，在本机库调用期间，对需要禁止的对象以及仅「固定」包含这些对象的区域进行跟踪。&lt;/p&gt; 
-&lt;p&gt;如此一来，即使是在原本会禁止本机库调用的期间，未固定的区域也可以继续正常进行资源回收。&lt;/p&gt; 
-&lt;hr&gt; 
-&lt;p&gt;Java 22 是 Oracle 与全球 Java 开发人员社区成员通过 OpenJDK 社区，和 Java Community Process (JCP) 共同合作的成果。Java 22 除了推出了新的增强功能和特性，也获得 Java Management Service (JMS) 的支持，这是一项新的&lt;strong&gt;Oracle 云基础设施远程软件服务 (Oracle Cloud Infrastructure, OCI) 原生服务&lt;/strong&gt;，提供统一的控制枱和仪表盘，帮助企业管理本地或云端的 Java 运行时和应用。&lt;/p&gt; 
-&lt;p&gt;&lt;strong&gt;IDC 软件开发研究副总裁 Arnal Dayaratna&lt;/strong&gt;表示：&lt;/p&gt; 
-&lt;blockquote&gt; 
- &lt;p&gt;经过近三十年发展，Java 能够支持各种用例的复杂开发任务，这种能力让该平台变得十分重要。Java 的多功能性和全面的工具集使其能够大规模支持生产级关键任务应用的开发，因此成为了生成式 AI 等创新用例的关键支持技术。&lt;/p&gt; 
-&lt;/blockquote&gt; 
-&lt;p&gt;&lt;strong&gt;甲骨文公司 Java 平台高级副总裁兼 OpenJDK 管理委员会主席 Georges Saab&lt;/strong&gt;表示：&lt;/p&gt; 
-&lt;blockquote&gt; 
- &lt;p&gt;Java 22 新的增强功能让更多开发人员能够快速、轻松地构建和交付功能丰富、可扩展且安全的应用，从而帮助全球各地的组织发展业务。这些增强功能可以简化应用开发，扩大 Java 的覆盖范围，以供不同技术水平的开发人员访问，帮助组织和开发人员创建各种新的应用和服务。&lt;/p&gt; 
-&lt;/blockquote&gt; 
-&lt;p&gt;&lt;strong&gt;原文：&lt;em&gt;&lt;u&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F1snQNsuhJWaHV0XcRnvwMA&quot; target=&quot;_blank&quot;&gt;https://mp.weixin.qq.com/s/1snQNsuhJWaHV0XcRnvwMA&lt;/a&gt;&lt;/u&gt;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284023/the-arrival-of-java-22</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284023/the-arrival-of-java-22</guid>
-            <pubDate>Thu, 21 Mar 2024 02:13:18 GMT</pubDate>
-            <author>来源: OSCHINA</author>
-        </item>
-        <item>
-            <title>GNOME 46「加德满都」正式发布</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;GNOME 46&lt;u&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdiscourse.gnome.org%2Ft%2Fgnome-46-released%2F20066&quot; target=&quot;_blank&quot;&gt; 已正式发布&lt;/a&gt;&lt;/u&gt;，代号 ‘Kathmandu’——以表彰 GNOME.Asia 2023 组织者所做的出色工作。&lt;/p&gt; 
-&lt;p&gt;新版本主要变化包括使用 RDP 进行远程登录、可变刷新率 (VRR)、可访问性改进、增强的通知和设置、改进了全局搜索和其他增强功能的新文件应用程序，以及在 GNOME Circle 中添加的新应用程序。&lt;/p&gt; 
-&lt;p style=&quot;color:#424242; margin-left:0; margin-right:0; text-align:justify&quot;&gt;四月份，Fedora 40 将率先预装 GNOME 46，大约一周后，Canonical 将发布带有 GNOME 46 的 Ubuntu 24.04 LTS。&lt;/p&gt; 
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-453a62dcf65ba94cca916cc924881cbc44c.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-da816e5a0b1359611d85ed264c59fa0f909.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p&gt;GNOME 46 最明显的改进之一是在 GNOME 的在线账户功能中添加了 Microsoft OneDrive。该版本可以在&quot;设置&quot;中连接 Microsoft 365 账户，OneDrive 将显示在&quot;文件&quot;侧边栏中，可以在浏览本地文件和文件夹的同时浏览 OneDrive。&lt;/p&gt; 
-&lt;p&gt;GNOME 46 中一些更深层次的变化包括降低了搜索的内存使用率、更好的屏幕录制性能、Image VIewer 更高效的资源处理以及 GNOME 终端应用程序的速度提升。&lt;/p&gt; 
-&lt;p&gt;除了&quot;文件&quot;中的搜索改进外，文件传输对话框也在本次更新中得到了一定程度的改进。&lt;/p&gt; 
-&lt;p&gt;在以前的版本中，传输对话框会隐藏在窗口左上方的一个小按钮中，随着文件的复制而逐渐填满，对于用户来说，文件传输是否已经开始并不是很清楚。现在，GNOME 46 将原来的文件传输按钮移到了搜索按钮上，文件传输对话框也移到了侧边栏的底部。现在，用户将看到一个随着文件传输的进行而逐渐填满的圆圈，同时也会看到一些文字说明文件正在被复制。&lt;/p&gt; 
-&lt;p&gt;详情查看&amp;nbsp;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Frelease.gnome.org%2F46%2F&quot; target=&quot;_blank&quot;&gt;https://release.gnome.org/46/&lt;/a&gt;。&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284018/gnome-46-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284018/gnome-46-released</guid>
-            <pubDate>Thu, 21 Mar 2024 02:06:18 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>DjangoAdmin 敏捷开发框架 FastAPI+AntdVue 版本 v2.2.0 发布</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;v2.2.0 更新内容：&lt;/span&gt;&lt;br&gt; &lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;1、解决编辑用户密码误被清空的问题；&lt;/span&gt;&lt;br&gt; &lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;2、解决编辑会员密码误被清空的问题；&lt;/span&gt;&lt;br&gt; &lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;3、优化系统权限架构，提升使用体验；&lt;/span&gt;&lt;br&gt; &lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;4、删除系统中废弃的代码；&lt;/span&gt;&lt;br&gt; &lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;5、修复近期用户反馈的问题；&lt;/span&gt;&lt;/p&gt; 
-&lt;div&gt; 
- &lt;div&gt; 
-  &lt;div&gt; 
-   &lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;一款基于 Fastapi、Vue3、AntDesign、MySQL 等技术栈研发的前后端分离开发框架，设计之初就定位为一款高端产品，采用全新的架构设计，后端服务和前端都是采用全新的设计方案，兼容手机、PAD 和 PC 电脑端，具备良好的用户使用体验；框架拥有完善的 (RBAC) 权限架构和基础核心管理模块，权限控制精细化到按钮节点级别颗粒度控制，根据不同的角色分配不同的权限即可实现；为了避免重复造轮子，系统本身已经集成了基础模块，包括常规的权限管理、字典、配置、行政区划等等常规模块；开发者可以基于框架做二次开发，可以用户个人项目、公司项目以及客户定制化项目，本框架为一站式系统框架开发平台，可以帮助开发者提升开发效率、降低研发成本，同时便于后期的系统维护升级。&lt;/p&gt; 
-   &lt;h2&gt;软件信息&lt;/h2&gt; 
-   &lt;ul&gt; 
-    &lt;li&gt;软件名称：DjangoAdmin 敏捷开发框架 FastAPI+AntdVue 版本&lt;/li&gt; 
-    &lt;li&gt;官网网址：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.djangoadmin.cn&quot; target=&quot;_blank&quot;&gt;https://www.djangoadmin.cn&lt;/a&gt;&lt;/li&gt; 
-    &lt;li&gt;文档网址：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fdocs.fastapi.antdvue.djangoadmin.cn&quot; target=&quot;_blank&quot;&gt;http://docs.fastapi.antdvue.djangoadmin.cn&lt;/a&gt;&lt;/li&gt; 
-    &lt;li&gt;演示地址：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fmanage.fastapi.antdvue.djangoadmin.cn&quot; target=&quot;_blank&quot;&gt;http://manage.fastapi.antdvue.djangoadmin.cn&lt;/a&gt;&lt;/li&gt; 
-   &lt;/ul&gt; 
-   &lt;h2&gt;版本说明&lt;/h2&gt; 
-   &lt;table cellspacing=&quot;0&quot; style=&quot;-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; border:none; box-sizing:border-box; color:#40485b; display:block; font-family:-apple-system,BlinkMacSystemFont,&amp;quot;Segoe UI&amp;quot;,Helvetica,Arial,&amp;quot;Apple Color Emoji&amp;quot;,&amp;quot;Segoe UI Emoji&amp;quot;,&amp;quot;Segoe UI Symbol&amp;quot;,&amp;quot;Liberation Sans&amp;quot;,&amp;quot;PingFang SC&amp;quot;,&amp;quot;Microsoft YaHei&amp;quot;,&amp;quot;Hiragino Sans GB&amp;quot;,&amp;quot;Wenquanyi Micro Hei&amp;quot;,&amp;quot;WenQuanYi Zen Hei&amp;quot;,&amp;quot;ST Heiti&amp;quot;,SimHei,SimSun,&amp;quot;WenQuanYi Zen Hei Sharp&amp;quot;,sans-serif; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; line-height:inherit; margin:0px 0px 16px; max-width:100%; orphans:2; overflow:auto; text-align:left; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:635px; word-break:initial; word-spacing:0px&quot;&gt; 
-    &lt;tbody&gt; 
-     &lt;tr&gt; 
-      &lt;th&gt;版本名称&lt;/th&gt; 
-      &lt;th&gt;版本说明&lt;/th&gt; 
-      &lt;th&gt;版本地址&lt;/th&gt; 
-     &lt;/tr&gt; 
-    &lt;/tbody&gt; 
-    &lt;tbody&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Django+Layui 混编版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Django、Layui 等框架研发&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Django_Layui&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Django_Layui&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Flask+Layui 混编版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Flask、Layui 等框架研发&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Flask_Layui&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Flask_Layui&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;FastAPI+Layui 混编版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 FastAPI、Layui 等框架研发&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_Layui&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_Layui&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Tornado+Layui 混编版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Tornado、Layui 等框架研发&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_Layui&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_Layui&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Django+EleVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Django、Vue2.x、ElementUI 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Django_EleVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Django_EleVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Flask+EleVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Flask、Vue2.x、ElementUI 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Flask_EleVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Flask_EleVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;FastAPI+EleVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 FastAPI、Vue2.x、ElementUI 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_EleVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_EleVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Tornado+EleVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Tornado、Vue2.x、ElementUI 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_EleVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_EleVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Django+AntdVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Django、Vue3.x、AntDesign 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Django_AntdVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Django_AntdVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Flask+AntdVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Flask、Vue3.x、AntDesign 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Flask_AntdVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Flask_AntdVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;FastAPI+AntdVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 FastAPI、Vue3.x、AntDesign 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_AntdVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Fastapi_AntdVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-     &lt;tr&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;Tornado+AntdVue 前后端分离版&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;采用 Tornado、Vue、AntDesign 等框架研发前后端分离版本&lt;/td&gt; 
-      &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;&lt;a href=&quot;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_AntdVue&quot;&gt;https://gitee.com/djangoadmin/DjangoAdmin_Tornado_AntdVue&lt;/a&gt;&lt;/td&gt; 
-     &lt;/tr&gt; 
-    &lt;/tbody&gt; 
-   &lt;/table&gt; 
-   &lt;h2&gt;模块展示&lt;/h2&gt; 
-   &lt;p style=&quot;margin-left:0; margin-right:0&quot;&gt;&lt;img alt=&quot;&quot; height=&quot;1080&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-7dd1d0abdb572e300160c22888d34f366a0.png&quot; width=&quot;1920&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-  &lt;/div&gt; 
- &lt;/div&gt; 
-&lt;/div&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284006</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284006</guid>
-            <pubDate>Wed, 20 Mar 2024 22:56:00 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>fast-poster v2.19.0 已经发布，海报生成器</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;fast-poster v2.19.0 已经发布，海报生成器&lt;/p&gt; 
-&lt;p&gt;此版本更新内容包括：&lt;/p&gt; 
-&lt;h2&gt;fastposter v2.19.0 一款很哇塞的海报生成器&lt;/h2&gt; 
-&lt;p&gt;fastposter 是一款快速开发海报的工具，已经服务众多电商、分销系统、电商海报、电商主图、行业海报等海报生成和制作场景。&lt;/p&gt; 
-&lt;h3&gt;什么是 fastposter&lt;/h3&gt; 
-&lt;p&gt;fastposter 是一款海报生成器，它能够让您快速、轻松地创建各种类型的海报。&lt;/p&gt; 
-&lt;p&gt;只需上传一张背景图，然后在需要的位置添加&lt;code&gt;文字&lt;/code&gt;、&lt;code&gt;图片&lt;/code&gt;、&lt;code&gt;二维&lt;/code&gt;、&lt;code&gt;头像&lt;/code&gt;等组件。点击生成代码按钮，直接获取各种语言 SDK 的调用代码，无需编写复杂的绘图渲染代码，轻松完成海报制作。&lt;/p&gt; 
-&lt;p&gt;fastposter 支持&lt;code&gt;Docker&lt;/code&gt;部署和&lt;code&gt;云服务&lt;/code&gt;两种方式，开箱即用，灵活易用，基于低代码理念设计，无需编写复杂代码，能够帮助开发者快速高效地生成各种类型的海报。&lt;/p&gt; 
-&lt;blockquote&gt; 
- &lt;p&gt;如果项目有帮到您，请点亮你点亮的小星星&lt;/p&gt; 
-&lt;/blockquote&gt; 
-&lt;h3&gt;社区版 v2.19.0 发布&lt;/h3&gt; 
-&lt;ol&gt; 
- &lt;li&gt;修复放大居中显示问题&lt;/li&gt; 
- &lt;li&gt;增加示例海报模版&lt;/li&gt; 
-&lt;/ol&gt; 
-&lt;h3&gt;专业版 v2.0.21&lt;/h3&gt; 
-&lt;ol&gt; 
- &lt;li&gt;增加支持文字双击修改&lt;/li&gt; 
- &lt;li&gt;修复图片第一次无法删除的 BUG&lt;/li&gt; 
- &lt;li&gt;修复批量生成，切换海报缓存问题&lt;/li&gt; 
- &lt;li&gt;修复&lt;code&gt;docker&lt;/code&gt;基础镜像无法拉取问题&lt;/li&gt; 
- &lt;li&gt;解决排序导致海报图片错误问题&lt;/li&gt; 
- &lt;li&gt;解决字体斜体冲突问题&lt;/li&gt; 
- &lt;li&gt;修复初始化脚本 token 问题&lt;/li&gt; 
-&lt;/ol&gt; 
-&lt;h2&gt;文档&lt;/h2&gt; 
-&lt;ul&gt; 
- &lt;li&gt;开发文档：&lt;a href=&quot;https://gitee.com/link?target=https%3A%2F%2Ffastposter.net%2Fdoc%2F&quot; target=&quot;_blank&quot;&gt;https://fastposter.net/doc/&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;Java 专业版-在线体验：&lt;a href=&quot;https://gitee.com/link?target=https%3A%2F%2Ffastposter.net%2Fdemo%2Fjava%2F&quot; target=&quot;_blank&quot;&gt;https://fastposter.net/demo/java/&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;Python 专业版-在线体验：&lt;a href=&quot;https://gitee.com/link?target=https%3A%2F%2Ffastposter.net%2Fdemo%2Fpython%2F&quot; target=&quot;_blank&quot;&gt;https://fastposter.net/demo/python/&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;社区版-在线体验：&lt;a href=&quot;https://gitee.com/link?target=https%3A%2F%2Ffastposter.net%2Fdemo%2Fopen%2F&quot; target=&quot;_blank&quot;&gt;https://fastposter.net/demo/open/&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;云服务-免费试用：&lt;a href=&quot;https://gitee.com/link?target=https%3A%2F%2Ffastposter.net%2F&quot; target=&quot;_blank&quot;&gt;https://fastposter.net/&lt;/a&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;h2&gt;特性&lt;/h2&gt; 
-&lt;ul&gt; 
- &lt;li&gt;支持&lt;code&gt;docker&lt;/code&gt;快速部署&lt;/li&gt; 
- &lt;li&gt;支持电商级生产环境&lt;/li&gt; 
- &lt;li&gt;主流的 SDK 支持，方便快速开发 &lt;code&gt;Java&lt;/code&gt; &lt;code&gt;Python&lt;/code&gt; &lt;code&gt;PHP&lt;/code&gt; &lt;code&gt;Go&lt;/code&gt; &lt;code&gt;JavaScript&lt;/code&gt; &lt;code&gt;小程序&lt;/code&gt; &lt;code&gt;UniApp&lt;/code&gt;&lt;/li&gt; 
- &lt;li&gt;无需编写复杂、繁琐的绘图渲染代码&lt;/li&gt; 
- &lt;li&gt;支持多种文件格式 &lt;code&gt;jpeg&lt;/code&gt; &lt;code&gt;png&lt;/code&gt; &lt;code&gt;webp&lt;/code&gt; &lt;code&gt;pdf&lt;/code&gt; &lt;code&gt;base64&lt;/code&gt;&lt;/li&gt; 
- &lt;li&gt;快捷的代码生成&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;h2&gt;快速开始&lt;/h2&gt; 
-&lt;h3&gt;一、启动服务&lt;/h3&gt; 
-&lt;div&gt; 
- &lt;pre&gt;&lt;code&gt;docker run -it --name fastposter -p 5000:5000 fastposter/fastposter
-&lt;/code&gt;&lt;/pre&gt; 
- &lt;div&gt;
-  &amp;nbsp;
- &lt;/div&gt; 
-&lt;/div&gt; 
-&lt;h3&gt;二、编辑海报&lt;/h3&gt; 
-&lt;p&gt;&lt;img alt=&quot;image-20240320145745417.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145745417.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;h3&gt;三、生成代码&lt;/h3&gt; 
-&lt;p&gt;Java 代码&lt;/p&gt; 
-&lt;p&gt;&lt;img alt=&quot;image-20240320145856100.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145856100.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;div&gt; 
- &lt;pre&gt;&lt;code&gt;// 进一步了解，请参考开发文档 https://fastposter.net/doc/sdk/
-import net.fastposter.client.FastposterClient;
-import java.util.*;
-
-public class FastposterClientDemo {
-
-    public static void main(String[] args) {
-
-        // 1.创建海报客户端对象
-        FastposterClient client = FastposterClient.builder()
-                .endpoint(&quot;http://127.0.0.1:5000&quot;)      // 设置接入端点
-                .token(&quot;ApfrIzxCoK1DwNZOEJCwlrnv6QZ0PCdv&quot;)  // 设置 token
-                .build();
-
-        // 2.准备海报参数
-        Map&amp;lt;String, Object&amp;gt; params = new HashMap&amp;lt;&amp;gt;();
-        params.put(&quot;NO&quot;, &quot;SN88888888&quot;);
-
-
-        // 3.生成海报并保存
-        client.buildPoster(&quot;6fba72004fa20aee&quot;).params(params).build().save();
-
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt; 
- &lt;div&gt;
-  &amp;nbsp;
- &lt;/div&gt; 
-&lt;/div&gt; 
-&lt;p&gt;Python 代码&lt;/p&gt; 
-&lt;p&gt;&lt;img alt=&quot;image-20240320145914360.png&quot; src=&quot;https://fastposter.net/dassets/image-20240320145914360.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;div&gt; 
- &lt;pre&gt;&lt;code&gt;# 进一步了解，请参考开发文档 https://fastposter.net/doc/sdk/
-from fastposter import Client
-
-client = Client(&#39;ApfrIzxCoK1DwNZOEJCwlrnv6QZ0PCdv&#39;, &#39;http://127.0.0.1:5000&#39;)
-params = {
-  &quot;NO&quot;: &quot;SN88888888&quot;
-}
-client.buildPoster(&#39;6fba72004fa20aee&#39;, params=params).save()
-&lt;/code&gt;&lt;/pre&gt; 
- &lt;div&gt;
-  &amp;nbsp;
- &lt;/div&gt; 
-&lt;/div&gt; 
-&lt;p&gt;响应示例（返回海报图片）&lt;/p&gt; 
-&lt;p&gt;&lt;img src=&quot;https://fastposter.net/dassets/image-20240320153953887.png&quot; width=&quot;300&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;h2&gt;适用场景&lt;/h2&gt; 
-&lt;table&gt; 
- &lt;tbody&gt; 
-  &lt;tr&gt; 
-   &lt;th&gt;应用场景&lt;/th&gt; 
-   &lt;th&gt;描述&lt;/th&gt; 
-  &lt;/tr&gt; 
- &lt;/tbody&gt; 
- &lt;tbody&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;海报生成器&lt;/td&gt; 
-   &lt;td&gt;创建各类海报。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;海报自动生成工具&lt;/td&gt; 
-   &lt;td&gt;自动化生成海报，适用于批量生产需求。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;海报在线设计生成器&lt;/td&gt; 
-   &lt;td&gt;在线设计和生成个性化海报。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;电商海报编辑器&lt;/td&gt; 
-   &lt;td&gt;优化电子商务平台产品海报的编辑工具。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;证书制作&lt;/td&gt; 
-   &lt;td&gt;自动生成各种类型的证书，如学历证书、奖状。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;证书自动生成工具&lt;/td&gt; 
-   &lt;td&gt;自动创建证书的工具。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;二维码分享海报图片&lt;/td&gt; 
-   &lt;td&gt;将二维码嵌入海报，方便用户扫描分享信息。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;Python Pillow 绘图 Pillow 制作海报&lt;/td&gt; 
-   &lt;td&gt;利用 Python 的 Pillow 库进行图像处理和绘图。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;Java 生成二维码分享海报图片&lt;/td&gt; 
-   &lt;td&gt;使用 Java 生成含有二维码的海报图片。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;Java Graphics2D 绘制海报图片&lt;/td&gt; 
-   &lt;td&gt;利用 Java 中的 Graphics2D 进行图像绘制。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;微信小程序生成海报分享朋友圈&lt;/td&gt; 
-   &lt;td&gt;为微信小程序创建朋友圈分享用的海报。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;PHP 生成二维码海报图片&lt;/td&gt; 
-   &lt;td&gt;利用 PHP 生成带有二维码的海报图像。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;自定义商业海报图片&lt;/td&gt; 
-   &lt;td&gt;制作定制商业用途的海报图像。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;H5 生成海报图片&lt;/td&gt; 
-   &lt;td&gt;利用 HTML5 和相关技术生成在线海报图像。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;canvas 生成海报图片&lt;/td&gt; 
-   &lt;td&gt;使用 HTML5 的 Canvas 元素制作和编辑海报图像。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;通过 JSON 生成海报图片&lt;/td&gt; 
-   &lt;td&gt;利用 JSON 数据自动生成海报，适用于批量生产。&lt;/td&gt; 
-  &lt;/tr&gt; 
-  &lt;tr&gt; 
-   &lt;td&gt;BufferedImage 绘制图片&lt;/td&gt; 
-   &lt;td&gt;在 Java 中利用 BufferedImage 进行图像绘制。&lt;/td&gt; 
-  &lt;/tr&gt; 
- &lt;/tbody&gt; 
-&lt;/table&gt; 
-&lt;p&gt;详情查看：&lt;a href=&quot;https://gitee.com/psoho/fast-poster/releases/v2.19.0&quot;&gt;https://gitee.com/psoho/fast-poster/releases/v2.19.0&lt;/a&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283983/fast-poster-2-19-0-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283983/fast-poster-2-19-0-released</guid>
-            <pubDate>Wed, 20 Mar 2024 14:25:00 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>wlnmp 一键安装包更新 240320</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;strong&gt;wlnmp 一键安装包 240320 更新内容如下：&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;（bug 修复）在 OpenEuler22.03 SP3 版本下安装 php 时，出现 libicuio.so.69 问题，详见 https://github.com/wlnmp/wlnmp/issues/5&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&amp;nbsp;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;strong&gt;关于 wlnmp&lt;/strong&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;从 2019 年初开始维护 wlnmp 一键安装包这个项目，起初只是为了在日常运维过程中，可以快速的部署 lnmp 服务。wlnmp 已支持国产华为欧拉 OpenEuler、国产龙蜥 AnolisOS、OpenCloudOS 系统等。&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;wlnmp 一键安装包基于上游开源软件二次开发，可以在 Linux 系统上通过 wlnmp 提供的镜像源，快速部署 Nginx/Mysql/PHP 等常用软件，支持 php、MySQL 多个版本在同一系统中并存。&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span style=&quot;color:#72c490&quot;&gt;&lt;strong&gt;系统支持：&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;Alibaba CloudLinux 2.1903&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;Alibaba CloudLinux 3&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;AlmaLinux8.x&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;AnolisOS8.x&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;CentOS7.x&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;CentOS8.x&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;&lt;/span&gt;OpenCloudOS8.x&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦ OpenEuler20.03&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;OpenEuler22.03&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span&gt;✦&amp;nbsp;RockyLinux8.x&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;span&gt;传统方式添加 wlnmp 镜像源，实现 yum 一键安装部署！&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;span&gt;安装便捷，稳定更新，模块集成&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;span&gt;方便维护&amp;nbsp;中国特色，独立包组&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;span&gt;免费使用，为爱发电&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;安装使用见：&lt;/span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wlnmp.com%2Finstall&quot; target=&quot;_blank&quot;&gt;install&lt;/a&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;&lt;span style=&quot;background-color:#ffffff; color:#333333&quot;&gt;更新日志可查看：&lt;/span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.php.net%2FChangeLog-8.php%238.2.17&quot; target=&quot;_blank&quot;&gt;ChangeLo&lt;/a&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wlnmp.com%2Fchangelog&quot; target=&quot;_blank&quot;&gt;g&lt;/a&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283968</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283968</guid>
-            <pubDate>Wed, 20 Mar 2024 12:09:00 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>前端项目 Fes-design v0.8.37 版本更新</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;h2&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWeBankFinTech%2Ffes-design%2Fcompare%2Fv0.8.36...v0.8.37&quot; target=&quot;_blank&quot;&gt;0.8.37&lt;/a&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;(2024-03-14)&lt;/h2&gt; 
-&lt;h3&gt;Bug Fixes&lt;/h3&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;strong&gt;SelectTree:&lt;/strong&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;修复 TreeOption 的 label 为自定义渲染时，过滤函数的逻辑 (&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWeBankFinTech%2Ffes-design%2Fissues%2F676&quot; target=&quot;_blank&quot;&gt;#676&lt;/a&gt;) (&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWeBankFinTech%2Ffes-design%2Fcommit%2F5f6d61c1dde6f44b653bda182bc772b66da5d733&quot; target=&quot;_blank&quot;&gt;5f6d61c&lt;/a&gt;)&lt;/li&gt; 
- &lt;li&gt;&lt;strong&gt;Tabs:&lt;/strong&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;滚动条复用 Scrollbar 组件，同时修复 Win 下横向滚动问题 (&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWeBankFinTech%2Ffes-design%2Fissues%2F675&quot; target=&quot;_blank&quot;&gt;#675&lt;/a&gt;) (&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FWeBankFinTech%2Ffes-design%2Fcommit%2Fafdb82149785642e829f7550a82d12760c52df86&quot; target=&quot;_blank&quot;&gt;afdb821&lt;/a&gt;)&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:left&quot;&gt;FES-Design 是由微众银行前端技术团队联合用户体验设计团队共同打造的一款服务于中后台系统的组件库，其初衷是为了给中后台系统开发者提供一个好用的前端应用解决方案，前端技术团队始终以 「快速、简单、稳定」 为核心理念，推动 FES-Design 的成长，FES-Design 的设计体系目前还在不断的探索中，希望今后能够通过更多的积累为用户提供一款更优秀更专业的企业级产品设计体系。&lt;/p&gt; 
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283960/fes-design-0-8-37-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283960/fes-design-0-8-37-released</guid>
-            <pubDate>Wed, 20 Mar 2024 10:11:00 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>Zulip Server 8.3 发布，开源团队协作工具</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;Zulip 是一个开源团队协作工具，一款专为实时和异步对话而设计的现代团队聊天应用程序，支持快速搜索、拖放文件上传、图像预览、组私人消息、可听通知、错过电子邮件消息提醒与桌面应用等。&lt;/p&gt; 
-&lt;p&gt;Zulip Server 8.3 现已&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzulip.readthedocs.io%2Fen%2Flatest%2Foverview%2Fchangelog.html%23zulip-server-8-3&quot; target=&quot;_blank&quot;&gt;发布&lt;/a&gt;，一些更新内容包括：&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt; &lt;p&gt;&lt;strong&gt;CVE-2024-27286：&lt;/strong&gt;在流之间移动信息时，错误地保留了访问权限。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;添加了对即将发布的 Ubuntu 24.04 版本的测试版支持。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;向 compliant export tool 添加了新的 DM 搜索选项。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;为尚未配置移动推送通知服务时尝试访问「plan management」的安装添加了一个有用的错误页面。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;添加了&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzulip.readthedocs.io%2Fen%2Flatest%2Fproduction%2Fexport-and-import.html%23streaming-backups-to-local-disk&quot; target=&quot;_blank&quot;&gt;本地磁盘数据库备份&lt;/a&gt;选项。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzulip.readthedocs.io%2Fen%2Flatest%2Fproduction%2Fsystem-configuration.html%23backups-incremental&quot; target=&quot;_blank&quot;&gt;添加了存储增量数据库备份的&lt;/a&gt;功能&amp;nbsp;。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;流之间批量移动消息的性能提高了约 2 倍。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;Zulip 服务器安装程序的简化文档。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了「Topics are required for this organization」弹出窗口在某些按键时错误关闭的问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了分析 cron 作业在意外中断（例如通过重新启动）时泄漏锁定的问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了「Invites」设置面板中按到期日期排序的问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了点击「plan management」后齿轮菜单保持打开状态的问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了左侧边栏 DM 部分中机器人图标的小视觉问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;修复了安装时存在但为空的&lt;code&gt;zulip&lt;/code&gt;数据库的问题。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;向后移植了各种开发人员工具改进。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;升级了依赖项。&lt;/p&gt; &lt;/li&gt; 
- &lt;li&gt; &lt;p&gt;更新了翻译，包括古吉拉特语和希腊语的新翻译。&lt;/p&gt; &lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;&lt;span style=&quot;background-color:#ffffff; color:#000000&quot;&gt;更多详情可&lt;/span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fzulip.readthedocs.io%2Fen%2Flatest%2Foverview%2Fchangelog.html%23zulip-server-8-3&quot; target=&quot;_blank&quot;&gt;查看发布说明&lt;/a&gt;&lt;span style=&quot;background-color:#ffffff; color:#000000&quot;&gt;。&lt;/span&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283900/zulip-server-8-3-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283900/zulip-server-8-3-released</guid>
-            <pubDate>Wed, 20 Mar 2024 06:15:00 GMT</pubDate>
-            <author>来源: OSCHINA</author>
-        </item>
-        <item>
-            <title>Docker 25.0.5 发布</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;span style=&quot;color:#333333&quot;&gt;Docker 25.0.5 现已发布，具体更新内容如下：&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;text-align:start&quot;&gt;&lt;strong&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#1f2328&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;background-color:#ffffff&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;安全&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
-&lt;p style=&quot;text-align:start&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;color:#1f2328&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;span style=&quot;background-color:#ffffff&quot;&gt;&lt;span&gt;&lt;span&gt;&lt;span&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fsecurity%2Fadvisories%2FGHSA-mq39-4gv4-mvpx&quot; target=&quot;_blank&quot;&gt;此版本包含针对 CVE-2024-29018&lt;/a&gt;&amp;nbsp;的安全修复程序，该漏洞可能会通过 authoritative DNS servers 从「internal」网络泄露数据。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:#333333; margin-left:0; margin-right:0; text-align:start&quot;&gt;&lt;strong&gt;Bug fixes and enhancements&lt;/strong&gt;&lt;/p&gt; 
-&lt;ul&gt; 
- &lt;li&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fsecurity%2Fadvisories%2FGHSA-mq39-4gv4-mvpx&quot; target=&quot;_blank&quot;&gt;CVE-2024-29018&lt;/a&gt;：不要将仅连接到「internal」网络的容器的请求转发到外部 DNS 服务器。以前，如果主机的 DNS 服务器在 loopback address 上运行，例如 systemd 的 127.0.0.53，则请求会被转发。&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fpull%2F47589&quot; target=&quot;_blank&quot;&gt;moby/moby#47589&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;插件：修复在 UserNS 中运行时挂载 /etc/hosts 的问题。&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fpull%2F47588&quot; target=&quot;_blank&quot;&gt;moby/moby#47588&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;rootless：修复&lt;code&gt;open /etc/docker/plugins: permission denied&lt;/code&gt;。&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fpull%2F47587&quot; target=&quot;_blank&quot;&gt;moby/moby#47587&lt;/a&gt;&lt;/li&gt; 
- &lt;li&gt;修复多个并行的&lt;code&gt;docker build&lt;/code&gt;运行泄漏磁盘空间的问题。&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Fpull%2F47527&quot; target=&quot;_blank&quot;&gt;moby/moby#47527&lt;/a&gt;&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;更新说明：&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fmoby%2Fmoby%2Freleases%2Ftag%2Fv25.0.5&quot; target=&quot;_blank&quot;&gt;https://github.com/moby/moby/releases/tag/v25.0.5&lt;/a&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283892/docker-25-0-5-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283892/docker-25-0-5-released</guid>
-            <pubDate>Wed, 20 Mar 2024 05:53:00 GMT</pubDate>
-            <author>来源: OSCHINA</author>
-        </item>
-        <item>
-            <title>ApiCat oauth 发布，基于 AI 技术的 API 开发工具</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;ApiCat oauth 已经发布，这是一个基于 AI 技术的 API 开发工具。&lt;/p&gt; 
-&lt;p&gt;此版本更新内容包括：&lt;/p&gt; 
-&lt;h3&gt;Bug 修复&lt;/h3&gt; 
-&lt;ul&gt; 
- &lt;li&gt;修复 github oauth 设置不生效的 bug。&lt;/li&gt; 
-&lt;/ul&gt; 
-&lt;p&gt;详情查看：&lt;a href=&quot;https://gitee.com/apicat/apicat/releases/oauth&quot;&gt;https://gitee.com/apicat/apicat/releases/oauth&lt;/a&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283882/apicat-oauth</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283882/apicat-oauth</guid>
-            <pubDate>Wed, 20 Mar 2024 04:10:10 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>云原生 Kafka AutoMQ 1.0.2 正式发布</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;div&gt;
- &lt;strong&gt;AutoMQ 是基于云构建的无服务、极速弹性、极具成本效益的下一代 Kafka。100% 兼容 Apache Kafka，无分区数据复制。在无副作用的前提下解决了 Kafka 弹性、运维上的诸多痛点并且带来了数量级的成本降低。&lt;/strong&gt;
-&lt;/div&gt; 
-&lt;div&gt;
- &amp;nbsp;
-&lt;/div&gt; 
-&lt;div&gt;
- AutoMQ 1.0.2 版本现已在
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ%2Fautomq&quot; target=&quot;_blank&quot;&gt;Github 仓库&lt;/a&gt;正式发布，欢迎大家关注与下载使用。
-&lt;/div&gt; 
-&lt;div&gt; 
- &lt;h3&gt;&lt;span style=&quot;background-color:#ffffff; color:#080808&quot;&gt;重要更新 &lt;/span&gt;&lt;/h3&gt; 
- &lt;p&gt;&lt;span style=&quot;background-color:#ffffff; color:#080808&quot;&gt;&lt;strong&gt;自适应内存相关配置：&lt;/strong&gt;这一新功能简化了您的设置过程，使得 AutoMQ Kafka 能够在任何内存大小的机器上运行，而无需手动调整配置。 通过这次更新，AutoMQ Kafka 默认会根据可用的机器内存智能调整堆大小和各种缓存大小。这一进步旨在显著简化您的设置过程，实现最佳性能而无需手动干预，帮助您更高效地开始使用 AutoMQ Kafka。&lt;/span&gt;&lt;/p&gt; 
-&lt;/div&gt; 
-&lt;div&gt;
- &lt;strong&gt;END&lt;/strong&gt;
-&lt;/div&gt; 
-&lt;h3&gt;关于我们&lt;/h3&gt; 
-&lt;div&gt;
- AutoMQ 是来自 Apache RocketMQ 和 Linux LVS 项目的核心团队，曾经见证并应对过消息队列基础设施在大型互联网公司和云计算公司的挑战。现在我们基于对象存储优先、存算分离、多云原生等技术理念，重新设计并实现了 Apache Kafka 和 Apache RocketMQ，带来高达 10 倍的成本优势和百倍的弹性效率提升。
-&lt;/div&gt; 
-&lt;div&gt;
- 🌟 GitHub 地址：
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span style=&quot;color:#245bdb&quot;&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FAutoMQ&quot;&gt;https://github.com/AutoMQ&lt;/a&gt;&lt;/span&gt;
-&lt;/div&gt; 
-&lt;div&gt;
- 💻 官网：
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span style=&quot;color:#245bdb&quot;&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.automq.com&quot;&gt;https://www.automq.com&lt;/a&gt;&lt;/span&gt;
-&lt;/div&gt; 
-&lt;div&gt;
- 👀 B 站：
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span&gt;&amp;nbsp;&lt;/span&gt;
- &lt;span style=&quot;color:#245bdb&quot;&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fspace.bilibili.com%2F3546572478482870&quot;&gt;AutoMQ 官方账号&lt;/a&gt;&lt;/span&gt;
-&lt;/div&gt; 
-&lt;div&gt;
- 🔍 视频号：AutoMQ
-&lt;/div&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/283868/automq-1-0-2-released</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/283868/automq-1-0-2-released</guid>
-            <pubDate>Wed, 20 Mar 2024 03:17:00 GMT</pubDate>
             <author>来源: 投稿</author>
         </item>
     </channel>
