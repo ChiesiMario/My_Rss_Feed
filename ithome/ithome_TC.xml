@@ -9,8 +9,342 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>en</language>
-        <lastBuildDate>Thu, 21 Mar 2024 14:42:32 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 22 Mar 2024 15:03:57 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>Apple Ｍ系列處理器允許攻擊者發動微架構旁路攻擊，竊取加密演算法機密金鑰</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/jie_tu_2024-03-22_xia_wu_2.07.37.png?itok=9bfXFQGj&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; title=&quot;&lt;a href=&amp;quot;https://gofetch.fail/&amp;quot;&gt;研究人員在 Apple M1 處理器擷取出 Go RSA-2048 金鑰。&lt;/a&gt;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;          &lt;p class=&quot;caption&quot;&gt; &lt;a href=&quot;https://gofetch.fail/&quot;&gt;研究人員在 Apple M1 處理器擷取出 Go RSA-2048 金鑰。&lt;/a&gt; &lt;/p&gt;
+        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;研究人員發現 Apple M 系列處理器，允許攻擊者執行&lt;a href=&quot;https://gofetch.fail/&quot;&gt;GoFetch&lt;/a&gt;的微架構旁路攻擊，透過資料記憶體依賴預取器（Data Memory-dependent Prefetcher，DMP），從執行常數時間的加密演算法中擷取機密金鑰。&lt;/p&gt;
+&lt;p&gt;研究人員現在已經實現從 OpenSSL 的 Diffie-Hellman、Go RSA，以及 CRYSTALS 專案的 Kyber 與 Dilithium 加密演算法擷取機密金鑰。目前已知受影響的 Apple 晶片包括 M1、M2 和 M3 型號，研究人員特別強調，雖然 Intel 的第 13 代 Raptor Lake 微架構同樣也有 DMP，但是因為其啟動標準更嚴格，因此較具抵禦 GoFetch 攻擊的能力。&lt;/p&gt;
+&lt;p&gt;GoFetch 攻擊要從常數時間程式開發解釋起，常數時間程式開發是一種範式，可以確保所有操作花費相同的時間，來強化程式碼抵禦旁路攻擊的能力。在非常數時間的演算法中，加密程式可能會因為不同的輸入或是金鑰，導致執行速度更快或更慢，使得攻擊者可以測量這些時間差，獲得加密過程或是金鑰的資訊。&lt;/p&gt;
+&lt;p&gt;要符合常數時間程式開發範式，程式碼中不能包含依賴機密的分支、迴圈和控制結構，而且因為攻擊者也可以觀察 CPU 快取不同記憶體位置的延遲，來推斷儲存在記憶體中的資訊，因此常數時間演算法也不能以任何方式混合資料和位置，並禁止使用相依於機密的記憶體存取或是陣列索引。&lt;/p&gt;
+&lt;p&gt;而 GoFetch 攻擊成功的關鍵，就是即便加密演算法按照常數時間程式開發原則，將資料與記憶體位址分開，由於 DMP 的存在，仍然可能產生與機密資料相依的記憶體存取行為，這種機制導致常數時間的演算法實際程式執行時間變得不一致，而這種時間變化就可被攻擊者觀察並利用，進一步擷取金鑰破解加密。&lt;/p&gt;
+&lt;p&gt;導致常數時間加密失效的 DMP 是一種 CPU 功能，在 Apple 的 M 系列 CPU 上都有，研究人員對 M 系列 CPU 進行逆向工程，發現 DMP 會啟動並嘗試解引用（Dereference），從類似記憶體位置載入資料，研究人員提到，這樣的 DMP 機制明顯違反常數時間程式開發範式中，禁止混合資料和記憶體存取模式的要求。&lt;/p&gt;
+&lt;p&gt;攻擊者便可以利用這項缺陷，精心設計加密操作來猜出金鑰。研究人員安排加密操作的輸入，只有當猜中金鑰部分位元時才出現類似指標的值，而透過分析快取時序，監控 DMP 是否執行解引用來驗證猜測，如此研究人員便可以逐批猜測金鑰位元。根據研究人員發表的論文，他們已成功破解了包括 OpenSSL Diffie-Hellman 金鑰交換、Go RSA 解密和後量子加密演算法 CRYSTALS-Kyber 和 CRYSTALS-Dilithium 等 4 種熱門的常數時間加密實作。&lt;/p&gt;
+&lt;p&gt;不過，其實在 GoFetch 之前，就有安全研究發展出 Augury 攻擊方法，發現可濫用 Apple M 系列晶片 DMP 混合資料和記憶體位置的問題，只是 Augury 沒發現 M 系列晶片 DMP 啟用的標準，其實不如想像的嚴謹，GoFetch 研究人員提到，任何從記憶體載入的值，無論實際內容和預期用途，都被 M 系列晶片 DMP 視為一個記憶體位址並嘗試解引用。這個發現讓 GoFetch 更具危險性，DMP 可被用於攻擊現實世界中的常數時間的加密演算法。&lt;/p&gt;
+&lt;p&gt;研究人員在 M1 處理器嘗試發動端對端 GoFetch 攻擊，同時也在 M2 和 M3 上發現類似可濫用 DMP 的行為，雖然研究人員並沒有在 M 系列其他變體，諸如 M2 Pro 上測試，但他們猜測這些變體具有相同的微架構，可能也會有相同的問題。&lt;/p&gt;
+&lt;p&gt;目前 M3 晶片可以透過設定 DIT（Data Independent Timing）位元停用 DMP，但 M1 和 M2 的無法適用此方法，而 Intel 的 Raptor Lake 處理器則可設定 DOIT（Data Operand Independent Timing）位元來停用 DMP。加密函式庫開發人員，可以透過設定 DIT 位元和 DOIT 位元，在特定 CPU 上停用 DMP 避免 GoFetch 攻擊。&lt;/p&gt;
+&lt;p&gt;採用輸入盲法（Blinding）也可以協助部分加密架構，免遭攻擊者控制中介值，進而避免依賴金鑰的 DMP 啟動，此外，研究人員還提到，防止攻擊者測量 DMP 啟動，可以進一步強化加密協定的安全性。Apple 目前對此還無回應，而研究人員在 2023 年 12 月 5 日向 Apple 揭露該漏洞，並於現在負責任的公開攻擊手法，之後還會釋出概念性驗證程式碼。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161909</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161909</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>李建興</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>夠用就好！重新審視品質開支</title>
+            <description>&lt;header&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;凡事勿過猶不及、秉持中庸之道，是許多人耳熟能詳的處世原則，卻很難做到，例如，我們都想兼顧工作品質、產量、速度的要求，現實卻經常是顧此失彼，雖然有新科技的幫忙，但既有的作業模式往往很難改變，因為大家高興可能得以用輕鬆的方式增加生產能力之餘，還是擔心品質是否因此受到影響而卻步。&lt;/p&gt;
+&lt;p&gt;就像在生成式 AI 應用崛起的此刻，每個資訊工作者可能都在思考該積極擁抱 AI，以此取代大量手動操作，或是要花時間、心力研究，找出與 AI 合作的方法，希望兼顧提高效率與滿足精確度的要求。而這樣的場景，過去已在我們的身邊重演過好幾次。&lt;/p&gt;
+&lt;p&gt;無論我們是否接受，人類社會越來越依賴科技已是事實，在許多領域當中，純手工的作業越來越罕見，我們早就在很多層面與機器形成共同合作的關係，甚至交給它們全自動處理，然而，還是有許多工作，我們認為還是要自己動手處理，因為相關科技還沒發展到讓人完全信賴的地步。&lt;/p&gt;
+&lt;p&gt;能否接受新科技的另一個關鍵，在於不同時代、地區人們（顧客）對品質的要求有多高，以及對產量、速度的要求是否高過品質，而使得我們（生產者）必須妥協，採取因時因地制宜的策略。&lt;/p&gt;
+&lt;p&gt;這讓我想到最近聽 Podcast 斐姨所思專訪前台積電研發處處長楊光磊，被問到日本晶圓製造面臨的挑戰時，他回答「效率」會是關鍵，因為日本引以為傲、舉世聞名的職人精神、重視品質，有可能成為效率提升的阻礙。接著他用品質成本（Cost of Quality）的概念解釋，為了提高品質，工作者必須投入很多心力，而台積電的作法是「just enough！只要客戶可以用的，就可以了」。由此可知可是關鍵是務實，而非不顧一切代價地追求極致品質或產量。&lt;/p&gt;
+&lt;p&gt;論似觀察不僅這個專訪提及，我曾在多位長期居住台灣的國外 YouTuber 影片看到，當他們談論台灣優勢時，經常讚揚台灣人做事不拖泥帶水，無論到公務機關、銀行、郵局洽公，或是到便利商店、連鎖超市、量販店，都展現絕佳服務品質和效率。而對於企業或民眾而言，都很重視「降低成本」，很多人都把 Cost Down、Cost Saving 掛嘴邊（正式用語應為 cost reduction 或是 lower the cost），採購產品與服務時，大家也都習於精打細算，追求高性價比（CP 值）是常態。&lt;/p&gt;
+&lt;p&gt;這樣的成果並非一蹴可幾，早年 Made In Taiwan 傳遞的形象是台灣產品大量外銷，但品質未必不如顧客的期待，經過多年努力、持續提升，如今來自台灣的產品與服務，已在許多領域獲得全球市場肯定，一方面顯示我們在品質、產量、速度等層面的表現上，有著長足的進步，另一方面可能也反映台灣的務實精神。&lt;/p&gt;
+&lt;p&gt;為何我這次會以「夠用就好」為題來描述這個價值觀？還有一個原因是今年全球 IT 熱烈關注的 FinOps 議題。&lt;/p&gt;
+&lt;p&gt;iThome 電腦報週刊近期有幾篇文章，可呼應這件事的討論。首先是 1 月初發表的封面故事《2024 年 CIO 要知道的 IT 趨勢》，FinOps 就是名列第二大議題。透過我們的採訪主任餘至浩撰寫的&lt;a href=&quot;https://www.ithome.com.tw/news/160676&quot; target=&quot;_blank&quot;&gt;〈雲成本增長帶動財務管理新需求，FinOps 新思維崛起〉&lt;/a&gt;，突顯企業更廣泛採用雲端服務之後，面臨 IT 成本增加的財務管理壓力，因而積極尋求對策。&lt;/p&gt;
+&lt;p&gt;另一個相關的系列文章，是由我們的總編輯吳其勳寫的&lt;a href=&quot;https://www.ithome.com.tw/news/160659&quot; target=&quot;_blank&quot;&gt;〈搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構〉&lt;/a&gt;，説明雲端服務龍頭廠商 AWS 提出的節約架構（Frugal Architect）」設計法則，促使大家將成本意識納入軟體架構設計，達成永續目標。&lt;/p&gt;
+&lt;p&gt;關於這些討論，在在提醒一句大家都知道的諺語：「天下沒有白吃的午餐」，在關注技術發展同時，不只注意既有與新進解決方案的效能，例如，大（支援大規模使用）、快（能在最短時間得到結果）、準（使命必達、精確完成指定工作），以及便利（操作簡便）等特性，判斷是否符合自身所需之餘，也必須充分體認取捨後的代價，無論是純手工、半自動、或是全自動，我們都必須對最終品質的呈現負起責任，並且持續觀察顧客在乎品質的程度是否有明確的變化，如此一來，對於品質的提升與確保就能找出合理、可接受的邊界，因為大家都不希望陷入得不償失的局面，賠上誠信與名譽。&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;相關報導&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;strong&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/160676&quot; target=&quot;_blank&quot;&gt;&lt;span style=&quot;color:#3399ff;&quot;&gt;雲成本增長帶動財務管理新需求，FinOps 新思維崛起&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;&lt;strong&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/160659&quot; target=&quot;_blank&quot;&gt;&lt;span style=&quot;color:#3399ff;&quot;&gt;搶救 IT 失傳技藝，亞馬遜技術長倡議節約架構&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/voice/161918</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/voice/161918</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>李宗翰李宗翰</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>DEVCORE 資安研討會登場，揭露最新攻擊技術手法與企業資安破口</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/zhu_tu_devcore_conference_2024.jpg?itok=jLHcVbVw&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;以紅隊演練聞名的台灣資安業者 DEVCORE 戴夫寇爾，在上週六舉行年度研討會 DEVCORE Conference 2024，探討駭客創新攻擊技術和手法，以及他們所看到的實際企業資安風險。雖然這是付費的資安技術活動，仍吸引近 400 名來自資安業界、學界人士參與。這是 DEVCORE 繼 2019、2023 年之後，第三度舉辦。&lt;/p&gt;
+&lt;p&gt;這次大會首場演講聚焦企業普遍採用的 Active Directory（AD），戴夫寇爾表示，過去常見的 3 種攻擊 AD 手法，現在多數企業都已經能夠防範，但有新的威脅面向要注意。&lt;/p&gt;
+&lt;p&gt;根據 DEVCORE 的紅隊演練經驗，他們發現超過 9 成企業都安裝 AD CS 憑證服務（Active Directory Certificate Services），卻有 7 成沒做好安全設定，因此，關於攻擊者會如何利用這些疏漏，瞭解相關風險的類型，以及如何避免，是企業必須關注的重要議題。&lt;/p&gt;
+&lt;p&gt;以 AD 安全方面而言，的確是國內企業必需關注的一大重點。其實 DEVCORE 先前對這方面就非常關注，例如，我們在 2022 年看到他們與另一家資安業者奧義智慧，共同向外界揭露國內 AD 防護現況，並指出他們看到哪些常見問題，像是近 8 成企業環境可從 DMZ 區直接存取 AD 等。不只上述兩家廠商，還有 TXOne Networks 等不同資安業者，近年持續在國內大型研討會上公佈這方面的最新討探與研究，闡述 AD 管理的挑戰，以及 AD 安全防護的重點。&lt;/p&gt;
+&lt;p&gt;這次 DEVCORE Conference 2024 的另一場演講，則是關於網站應用程式防火牆（WAF）的深度解析，戴夫寇爾派出專家介紹這類產品的處理流程、偵測機制與阻擋手段，並提醒目前存在前後端解析不一致的問題，需多加註意。&lt;/p&gt;
+&lt;p&gt;關於這方面的議題，雖然討論聲浪不如 AD 安全那麼高，但回顧過去，多年前 DEVCORE 也曾談及 WAF 不良設定的安全風險，這次再有前後端解析不一致的深度解析，顯現他們持續看重這方面的議題，應也期盼更多企業與研究人員能有更多相關探討。&lt;/p&gt;
+&lt;p&gt;除此之外，本次大會還介紹了多種創新的攻擊技術議題，包括旁路攻擊手法、紅隊工具開發、Pwn2Own 2023 國際大賽的參賽心路等。而且，這次 DEVCORE 也首度特別邀請其他研究人員，由奧義智慧的專家來從藍隊身份、紅隊視角，提供不同的攻擊思路的探討。&lt;/p&gt;
+&lt;p&gt;另外特別值得一提的是，關於 DEVCORE 公司本身的概況，該公司執行長翁浩正提到一個新的轉變，是他們這家資安公司現在已經開始實施週休三日，希望促進員工工作效率的提升。或許也是希望能更好招募資安人才。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161917</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161917</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>羅正漢</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>微軟公佈第一批有 Copilot 專用鍵的 Surface AI 電腦</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0322-copilot_key-new_surface_pro-surface_laptop_6_for_business-3-960.jpg?itok=7b-vj74D&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-field-photo-source field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;圖片來源:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;微軟&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;&lt;a href=&quot;https://blogs.windows.com/devices/2024/03/21/introducing-surface-pro-10-for-business-and-surface-laptop-6-for-business/&quot; target=&quot;_blank&quot;&gt;微軟本週宣佈&lt;/a&gt;第一批鍵盤提供 Copilot AI 助理專用鍵的商務用 Surface 產品，包括 Surface Pro 10 for Business 平板及 Surface Laptop 6 for Business 筆電，部份市場今起接受預購，預計 4 月出貨。&lt;/p&gt;
+&lt;p&gt;這是&lt;a href=&quot;https://www.ithome.com.tw/news/160671&quot; target=&quot;_blank&quot;&gt;微軟 1 月宣佈&lt;/a&gt;為 Windows 11 加入獨立的 Copilot 鍵後，該公司第一批產品。Surface Pro 搭配專用的 Surface Pro Keyboard 鍵盤及 Surface Laptop 6 鍵盤都加入了獨立鍵，一按即可啟動 Copilot。微軟今天並同時宣佈&lt;a href=&quot;https://www.microsoft.com/en-us/store/b/accessible-adaptive-devices-accessories&quot; target=&quot;_blank&quot;&gt;Microsoft 適應性配件&lt;/a&gt;（Adaptive Accessories）系列，包括觸控筆、滑鼠、搖桿等，提供商務用戶客製，用戶可透過 3D 列印服務列印自有設計。&lt;/p&gt;
+&lt;p class=&quot;rtecenter&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/0322-Copilot%20key-new%20Surface%20Pro-Surface%20Laptop%206%20for%20Business-1-600.png&quot; style=&quot;width: 531px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;微軟指出，這是第一批為 AI 最佳化的 Surface PC 系列。兩款 Surface 產品都採用搭載 Windows 11 Pro、Intel Core Ultra vPro 處理器、及執行 AI 的 Intel AI Boost NPU，Windows 11 Pro 也可降級為 Windows 10 Pro。從效能而言，Surface Pro 10 比前代提升 53%，Laptop 6 則為 2 倍快。NPU 整合可支援 AI 功能如影像優化功能 Windows Studio Effects 及即時字幕（Live Caption）等。Surface Pro 10 為第一款具備 114°視野的 Windows PC，配合 1440p 影像及 Windows Studio Effects 的影像優化功能，方便商務人士以 Teams 執行視訊會議。&lt;/p&gt;
+&lt;p&gt;為提供企業安全，兩款產品都是 Windows 11 Secured-core PC，從硬體面提供 Hardware TPM 2.0 晶片、BitLocker 支援、Windows Hello 臉部辨識，並提供 NFC 驗證可支援 YubiKey 等硬體金鑰。&lt;/p&gt;
+&lt;p class=&quot;rtecenter&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/0322-Microsoft%20Surface%20Pro%2010%20for%20Business-NFC-YubiKeys.png&quot; style=&quot;width: 600px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;color:#696969;&quot;&gt;&lt;span style=&quot;font-size:14px;&quot;&gt;圖片來源／Yubico&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;二款產品並強調堅固耐用、輕薄及省電。其中 Surface Pro 10 for Business 搭載 13 吋 PixelSense 觸控螢幕，重僅 879 公克重，電池續航力在一般使用下達 19 小時，Surface Laptop 6 則分 13.5 吋及 15 吋機種，重量分別為 1.38 及 1.68 公斤，電池續航力達 18.5 到 19 小時。&lt;/p&gt;
+&lt;p&gt;其他規格方面，新一代 Surface 電腦記憶體 8GB 起跳，並提供最低 256GB 的固態硬碟選擇。&lt;/p&gt;
+&lt;p&gt;Surface Pro 10 及 Surface Laptop 6 定價皆為$1,200 美元，現在開放部份市場預購，用戶需洽詢 Surface 授權經銷商採購，預定 2024 年 4 月 9 日出貨。台灣微軟網頁尚未列出價格。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161907</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161907</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>林妍溱</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>美國司法部、16 州控告蘋果壟斷智慧型手機市場</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0322-apple-shi_yi_tu_-photo_by_laurenz_heymann_on_unsplash.jpg?itok=ksL4m_hj&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; title=&quot;Photo by &lt;a href=&amp;quot;https://unsplash.com/@einfachlaurenz?utm_content=creditCopyText&amp;amp;utm_medium=referral&amp;amp;utm_source=unsplash&amp;quot;&gt;Laurenz Heymann&lt;/a&gt; on &lt;a href=&amp;quot;https://unsplash.com/photos/apple-store-shop-front-VkfhJLz5SMQ?utm_content=creditCopyText&amp;amp;utm_medium=referral&amp;amp;utm_source=unsplash&amp;quot;&gt;Unsplash&lt;/a&gt;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;          &lt;p class=&quot;caption&quot;&gt; Photo by &lt;a href=&quot;https://unsplash.com/@einfachlaurenz?utm_content=creditCopyText&amp;amp;utm_medium=referral&amp;amp;utm_source=unsplash&quot;&gt;Laurenz Heymann&lt;/a&gt; on &lt;a href=&quot;https://unsplash.com/photos/apple-store-shop-front-VkfhJLz5SMQ?utm_content=creditCopyText&amp;amp;utm_medium=referral&amp;amp;utm_source=unsplash&quot;&gt;Unsplash&lt;/a&gt; &lt;/p&gt;
+        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;美國司法部及加州、紐約州等 16 州週四&lt;a href=&quot;https://www.justice.gov/opa/pr/justice-department-sues-apple-monopolizing-smartphone-markets&quot; target=&quot;_blank&quot;&gt;控告蘋果壟斷智慧型手機市場&lt;/a&gt;，包含採取違法手段阻礙美國民眾轉換手機、打壓應用程式、產品、服務創新，以維持 iOS 及 iPhone 獨佔優勢，並迫使消費者及企業用戶支付更高費用。&lt;/p&gt;
+&lt;p&gt;美國司法部在紐澤西州地方法院提起告訴，並有加州、紐約州、亞歷桑納州等 15 州及哥倫比亞特區參與，控告蘋果壟斷或試圖壟斷智慧型手機市場，違反美國反托拉斯法。這是繼 1998 年對微軟控告 Windows 壟斷 PC 作業系統並搭售 IE 瀏覽器以來，美國司法部再度對科技龍頭提出壟斷控訴。&lt;/p&gt;
+&lt;p&gt;司法部及 16 州相信，蘋果選擇性對某些開發商行使合約限制，並限縮存取管道，以維持智慧型手機壟斷。蘋果排擠了原本可降低消費者對 iPhone 的依賴、提供相容性，以及降低成本的應用程式、產品和服務。透過行使壟斷權，蘋果得以從消費者、開發商、內容創作者、出版商、店家和小型企業賺取更多錢。&lt;/p&gt;
+&lt;p&gt;美國司法部長 Merrick Garland 指出，消費者不應被迫支付更高費用，因為是廠商違法。他説，蘋果能在市場勝出，並非只基於法定權利，甚至還違反反托拉斯法，如果置之不理，將任憑蘋果強化智慧型手機壟斷局面。&lt;/p&gt;
+&lt;p&gt;美國政府控訴蘋果運用對 iPhone 的主導權行使壟斷行為，並列出五大罪狀。五大罪狀包括封鎖創新的超級 App，擾亂可讓消費者輕鬆在競爭手機平台間轉換的 App 成長（例如 Spotify）；打壓行動雲端串流服務，打壓可讓消費者無需買昂貴手機硬體，即可享受高品質電玩和其他雲端應用的雲端串流 App（例如 Epic Games）；排擠跨平台訊息 App，讓跨平台訊息品質與安全性降低、難以創新（指的是讓非 iPhone 訊息和 iMessage 無法互通）；限制第三方智慧手錶的功能，讓 Apple Watch 消費者不得不繼續花大錢升級 iPhone。最後是限制第三方電子錢包，使這些 App 無法使用一鍵支付（Tap-to-pay）功能，阻礙跨平台第三方電子錢包的開發。&lt;/p&gt;
+&lt;p&gt;其他罪狀還包括蘋果影響瀏覽器、視訊、新聞訂閲、娛樂、車上資訊服務、廣告、定位服務等反競爭行為。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.nytimes.com/2024/03/21/technology/apple-doj-lawsuit-antitrust.html&quot; target=&quot;_blank&quot;&gt;蘋果週四已做出回應&lt;/a&gt;。蘋果指出，該公司設計出無縫整合的產品，確保用戶隱私和安全性，並開發優異的使用者體驗，這官司威脅公司宗旨及讓蘋果在激烈競爭市場中領先的原則。一旦官司成功，將阻礙蘋果開發消費者期待的技術，也將立下危險前例，給了政府介入影響科技設計的權力，該公司將極力捍衞這項權利。蘋果週四股價下跌 2%。&lt;/p&gt;
+&lt;p&gt;美國司法部和 16 州的控告案是繼今年 3 月正式施行的&lt;a href=&quot;https://www.ithome.com.tw/news/158633&quot; target=&quot;_blank&quot;&gt;歐盟《數位市場法》&lt;/a&gt;（Digital Markets Act，DMA）後，由國家行政部門主導的反托拉斯行動。但美國政府關注點更多；歐盟並未要求蘋果 iPhone 允許第三方市集 App，或是開放 Tap to Pay 給第三方廠商存取。&lt;/p&gt;
+&lt;p&gt;蘋果打壓競爭對手，是本案和 1998 年司法部 vs 微軟案中最相似的地方。不過有觀點認為，司法部所謂蘋果的「壟斷」和微軟當年不同。例如，&lt;a href=&quot;https://techcrunch.com/2024/03/21/apples-iphone-is-not-a-monopoly-like-windows-was-a-monopoly/&quot; target=&quot;_blank&quot;&gt;《Techcrunch》&lt;/a&gt;分析，1998 年，Windows 市佔高達 90%，但 iOS 市佔遠不及如此；根據&lt;a href=&quot;https://gs.statcounter.com/os-market-share/mobile/worldwide&quot; target=&quot;_blank&quot;&gt;Statcounter 數據&lt;/a&gt;，iOS 市佔為 27.84%。&lt;a href=&quot;https://www.nytimes.com/2024/03/21/technology/apple-doj-lawsuit-antitrust.html&quot; target=&quot;_blank&quot;&gt;一些法學專家則指出&lt;/a&gt;，所有廠商都允許有偏私自家產品的商業行為，司法部得解釋，何以獨獨蘋果這樣做不行。&lt;/p&gt;
+&lt;p&gt;但一旦判決傾向原告，可能會對產業產生重大影響。微軟在 1998 年被起訴後，雖然 2001 年和司法部達成和解，但也迫使微軟 IE 瀏覽器從此失去市場，而微軟創辦人比爾蓋茲事後也回憶，官司也讓微軟無法專心開發手機作業系統，錯失行動平台的機會。&lt;/p&gt;
+&lt;p&gt;另一方面，因應 DMA 上路，蘋果也在本月相繼公佈多項開放措施，包括&lt;a href=&quot;https://www.ithome.com.tw/news/161669&quot; target=&quot;_blank&quot;&gt;允許用戶&lt;/a&gt;將 iCloud、iPhone 資料搬到 Android 平台、&lt;a href=&quot;https://www.ithome.com.tw/news/161035&quot; target=&quot;_blank&quot;&gt;同意開發商&lt;/a&gt;將用戶導向外部 App 市集下載或支付網站，並讓&lt;a href=&quot;https://www.ithome.com.tw/news/161267&quot; target=&quot;_blank&quot;&gt;iOS App 在第三方市集上架&lt;/a&gt;等。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161904</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161904</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>林妍溱</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>【資安日報】3 月 22 日，研究人員公佈無限循環的阻斷服務攻擊手法 Loop DoS</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240322.jpg?itok=TTrgdNh8&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;透過傳送大量訊號癱瘓設備運作的攻擊手法，可説是相當常見，但最近有研究人員揭露一種造成通訊無限循環而產生大流量的方法，一旦觸發，就算是攻擊者也無法將其停止。&lt;/p&gt;
+&lt;p&gt;值得留意的是，這種新方法估計有 30 萬台伺服器曝險，雖然尚未有人將其用於實際攻擊行動，但研究人員呼籲，IT 人員還是應儘速採取因應措施。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;【攻擊與威脅】&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.darkreading.com/cloud-security/russia-s-midnight-blizzard-targeting-service-accounts-for-initial-cloud-access&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;雲端服務帳號遭到俄羅斯駭客組織 APT29 鎖定，成為對方重要的入侵管道&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: bf2f5e83-bfcb-4f74-b01e-7e9e2ed487a8 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;美國、英國、澳洲、紐西蘭聯合針對匿稱為 Midnight Blizzard、The Dukes、Cozy Bear 的俄羅斯駭客組織 APT29 攻擊行動提出警告，有別於過往會利用軟體漏洞或是網路環境的弱點，來入侵目標組織的 IT 基礎架構，隨著企業組織採用雲端服務越來越普遍，這些駭客也調整入侵的手段，鎖定雲端服務來取得初期的存取管道。&lt;/p&gt;
+&lt;p&gt;為了達成目的，APT29 最常見的手段就是採取暴力破解或是密碼潑灑攻擊，來取得雲端服務帳號的存取權限，由於這種帳號多半是用於管理應用程式及服務的自動化，難以藉由雙因素驗證（MFA）進行保護，而成為這些駭客偏好的目標。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://therecord.media/cisa-takes-two-systems-offline-following-ivanti-compromise&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;CISA 傳出遭到 Ivanti 漏洞攻擊，並指出有 2 個系統受到影響&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: dfa5452b-c5c7-4053-9893-2d4f25f0b826 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Ivanti 自 1 月上旬至 2 月初，揭露 Connect Secure、Policy Secure 多個漏洞，包括：CVE-2023-46805、CVE-2024-21887、CVE-2024-21888、CVE-2024-21893、CVE-2024-22024，並出現多起漏洞利用攻擊事故，現在傳出美國政府機關受害的情況。&lt;/p&gt;
+&lt;p&gt;根據資安新聞網站 Recorded Future News 的報導，美國網路安全暨基礎設施安全局（CISA）表示，他們在一個月前發現使用的 Ivanti 產品，遭到漏洞利用的活動，並指出僅有 2 個系統受到影響，CISA 隨即將其下線，並表示暫時不會對營運造成影響。但對於攻擊者的身分，以及是否有資料遭竊，CISA 並未進一步説明。&lt;/p&gt;
+&lt;p&gt;知情人士透露，遭到攻擊的系統分別是：基礎設施防護閘道（Infrastructure Protection Gateway），以及化學品安全評估工具（Chemical Security Assessment Tool，CSAT）。CISA 不願對此説法進行證實，亦並未説明上述兩個系統的運作狀態。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.trendmicro.com/vinfo/us/security/research-and-analysis/threat-reports/roundup/calibrating-expansion-2023-annual-cybersecurity-threat-report&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;趨勢科技揭露 2023 年資安威脅態勢，警告台灣要留意駭客組織 Earth Estries 動態&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 16ce241b-cccf-4b82-87a4-e86eb8a3af6b --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;資安業者趨勢科技針對 2023 年的威脅態勢提出看法，特別呼籲台灣留意去年 1 月發動攻擊的駭客組織 Earth Estries，因為對方專門針對政府機關與科技業而來，擅長利用 Github、Gmail、AnonFiles、File.io 等雲端服務，來交換、傳輸命令、竊取資料，並使用多個後門和駭客工具，以及 PowerShell 降級攻擊來迴避偵測。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;【漏洞與修補】&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/security/new-loop-dos-attack-may-impact-up-to-300-000-online-systems/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;新型態攻擊手法 Loop DoS 有可能影響 30 萬個線上系統&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 96bf5ca4-b6d9-4540-8c8f-db9f416944f8 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/Loop-DoS.png&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/Loop-DoS.png&quot; style=&quot;width: 300px; float: right;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;德國 CISPA 亥姆霍茲資訊安全中心公佈新型態的阻斷服務（DoS）攻擊手法 Loop DoS，研究人員利用 UDP 通訊協定的弱點 CVE-2024-2169，透過應用程式層的通訊，將兩個網路服務進行配對，導致無限循環回應彼此訊息的情況，從而產生大量流量，使得相關系統或是網路服務癱瘓。&lt;/p&gt;
+&lt;p&gt;這種弱點潛在影響的範圍相當廣泛，不只老舊通訊協定，如：QOTD、Chargen、Echo 會受到影響，DNS、NTP、TFTP 等較新的通訊協定也無法倖免。值得留意的是，一旦觸發上述漏洞啟動循環回應，攻擊者也無法終止相關攻擊，研究人員估計，可能有 30 萬台可透過網際網路存取的主機曝險。&lt;/p&gt;
+&lt;p&gt;雖然這種攻擊尚未實際出現，但研究人員警告，IT 人員應儘速採取行動降低相關風險，因為，攻擊者利用上述漏洞的難度並不高。他們與卡內基美隆大學電腦緊急應變小組協調中心（CERT/CC）進行協調、披露，目前有 5 家廠商確認受到影響。&lt;/p&gt;
+&lt;p&gt;資料來源&lt;/p&gt;
+&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://cispa.de/en/loop-dos&quot;&gt;https://cispa.de/en/loop-dos&lt;/a&gt;&lt;br&gt;
+2.&amp;nbsp;&lt;a href=&quot;https://kb.cert.org/vuls/id/417980&quot;&gt;https://kb.cert.org/vuls/id/417980&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://securityaffairs.com/160694/hacking/fortra-filecatalyst-critical-flaw.html&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;Fortra 公佈去年修補的檔案傳輸工具 FileCatalyst 重大漏洞&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 82b3c9ac-4ad7-4d15-bf0e-01533f179587 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;3 月 13 日資安業者 Fortra 發布公告，指出旗下的檔案傳輸系統 FileCatalyst 存在重大漏洞 CVE-2024-25153，此弱點與資料夾穿越有關，出現在該系統的工作流程（Workflow）入口網站，一旦攻擊者發出特製的 POST 請求，就有機會從外部上傳檔案到特定資料夾，CVSS 風險評分為 9.8。&lt;/p&gt;
+&lt;p&gt;這項漏洞在去年 8 月發現，影響 FileCatalyst 5.x 版，當時該公司已推出 5.1.6 Build 114 版予以修補。但為何現在才發布公告？該公司表示，他們在去年 12 月取得 CVE 編號管理者（CVE Numbering Authority，CNA）資格，並因應通報該漏洞的威脅情報業者 LRQA Nettitude 的請求，將這個漏洞進行列管。LRQA Nettitude 也於 3 月 13 日，公佈該漏洞的細節及概念性驗證（PoC）程式碼。&lt;/p&gt;
+&lt;p&gt;資料來源&lt;/p&gt;
+&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://www.fortra.com/security/advisory/fi-2024-002&quot;&gt;https://www.fortra.com/security/advisory/fi-2024-002&lt;/a&gt;&lt;br&gt;
+2.&amp;nbsp;&lt;a href=&quot;https://labs.nettitude.com/blog/cve-2024-25153-remote-code-execution-in-fortra-filecatalyst/&quot;&gt;https://labs.nettitude.com/blog/cve-2024-25153-remote-code-execution-in-fortra-filecatalyst/&lt;/a&gt;&lt;br&gt;
+3.&amp;nbsp;&lt;a href=&quot;https://github.com/nettitude/CVE-2024-25153&quot;&gt;https://github.com/nettitude/CVE-2024-25153&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.wordfence.com/blog/2024/03/critical-vulnerability-remains-unpatched-in-two-permanently-closed-miniorange-wordpress-plugins-1250-bounty-awarded/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;已終止維護的 WordPress 資安外掛程式存在漏洞，恐導致網站遭到挾持&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 736c8fda-78d8-4d26-85a1-a09990731577 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;資安業者 Wordfence 指出，他們在舉辦第 2 屆漏洞懸賞活動的過程中，收到 miniOrange 開發的 WordPress 外掛程式 Malware Scanner 權限提升漏洞通報，一旦攻擊者加以利用，就有機會在未經身分驗證的情況下，透過更新密碼的管道取得管理員權限，由於超過 1 萬個網站採用此外掛程式，影響範圍相當廣泛。&lt;/p&gt;
+&lt;p&gt;然而，該公司的威脅情資團隊對漏洞進行確認的過程中，發現這名開發者另一個外掛程式 Web Application Firewall 也有相同的漏洞。此漏洞被登記為 CVE-2024-2172，影響上述兩款由 miniOrange 開發的外掛程式，CVSS 風險評分達到 9.8，3 月 5 日 Wordfence 向開發者通報相關細節，對方決定停止提供這些外掛程式因應，對此，Wordfence 呼籲網站管理者儘速移除，並尋找替代方案。&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;【資安產業動態】&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.zerodayinitiative.com/blog/2024/3/20/pwn2own-vancouver-2024-day-one-results&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;Pwn2Own Vancouver 2024 登場，參賽團隊首日抱走電動車與高額獎金&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 89a5efe7-b412-4a6b-bbe0-621c36db4953 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/Synacktiv-Image%2B(3).jpeg&quot; style=&quot;width: 300px; float: right;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;漏洞挖崛競賽 Pwn2Own Vancouver 2024 於 3 月 20 日、21 日舉行，在第 1 天的賽程當中，參賽者總共找到 19 個零時差漏洞，贏得 73 萬美元的獎金。&lt;/p&gt;
+&lt;p&gt;其中最受到矚目的部分，是 Synacktiv 團隊針對特斯拉電子控制單元（ECU）進行的單一整數溢位漏洞攻擊，這項漏洞讓他們不僅進帳 20 萬美元獎金、20 個大師積分，還有 1 輛特斯拉 Model 3，而這是該團隊參與 Pwn2Own 競賽獲得的第 2 輛汽車。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.blog/2024-03-20-found-means-fixed-introducing-code-scanning-autofix-powered-by-github-copilot-and-codeql/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;程式碼儲存庫 GitHub 推出新工具，自動修補用戶部分程式碼的弱點&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3 月 20 日 GitHub 宣佈向 Advanced Security 用戶提供程式碼自動掃描修復功能（Code Scanning Autofix），藉助人工智慧工具 GitHub Copilot、程式碼靜態掃描工具 CodeQL 的力量運作，該功能自動修復的範圍，可以涵蓋約 90% 的 JavaScript、TypeScript、Java、Python 程式碼的警告或問題。&lt;/p&gt;
+&lt;p&gt;此外，該修復工具可提供程式碼建議，讓開發者在幾乎不需要編輯程式碼的情況下，修復超過三分之二的漏洞。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3&gt;&lt;strong&gt;【其他新聞】&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://blog.talosintelligence.com/tinyturla-full-kill-chain/&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;歐洲非政府組織遭到俄羅斯駭客組織攻擊，被植入後門程式 TinyTurla-NG&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;!-- notionvc: 74201940-3670-4f32-9c89-d3126fa5386d --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://blogs.juniper.net/en-us/security/shielding-networks-against-androxgh0st&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;竊資軟體 AndroxGh0st 鎖定網頁應用程式框架 Laravel，盜取雲端服務帳密&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 85b36a40-c889-4012-8d44-878151c35066 --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.tenable.com/blog/flowfixation-aws-apache-airflow-service-takeover-vulnerability-and-why-neglecting-guardrails&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;研究人員揭露 FlowFixation 漏洞，攻擊者有可能用來一鍵接管 AWS 服務帳號&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/security/exploit-released-for-fortinet-rce-bug-used-in-attacks-patch-now/&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;FortiClient EMS 存在危急漏洞，且已被用於攻擊行動&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 55248597-7dcb-43df-93de-51da506986ad --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161763&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;微軟預告資安 AI 模型 Copilot for Security 將於 4 月 1 日正式上市&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;!-- notionvc: 9a83d7a2-a425-4772-8171-eb694df27bea --&gt;&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;近期資安日報&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161889&quot;&gt;&lt;strong&gt;【3 月 21 日】多組人馬鎖定 TeamCity 伺服器加密檔案、用於挖礦、部署後門程式&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161868&quot;&gt;&lt;strong&gt;【3 月 20 日】研究人員針對行動應用程式開發平台 Firebase 配置不當氾濫的現象提出警告&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161852&quot;&gt;&lt;strong&gt;【3 月 19 日】駭客組織 Earth Krahang 鎖定政府機關而來，疑為中國資安業者安洵旗下團隊&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161905</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161905</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>周峻佑</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>GitHub 預覽程式碼掃描自動修復功能</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/image-27.jpg?itok=H8e2wEfX&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;GitHub 向所有 GitHub Advanced Security 用戶提供&lt;a href=&quot;https://github.blog/2024-03-20-found-means-fixed-introducing-code-scanning-autofix-powered-by-github-copilot-and-codeql/&quot;&gt;程式碼掃描自動修復功能（Code Scanning Autofix）&lt;/a&gt;，藉助 GitHub Copilot 和靜態掃描程式碼工具 CodeQL 的支援，程式碼掃描自動修復可以涵蓋 JavaScript、TypeScript、Java 和 Python 程式碼中 90％的警告或問題。此外，程式碼掃描自動修復還提供程式碼建議，讓開發者可以在幾乎不需要編輯程式碼的情況下，修復超過三分之二發現的漏洞。&lt;/p&gt;
+&lt;p&gt;在程式碼中發現漏洞時，程式碼掃描自動修復功能會提供自然語言解釋，開發人員可以選擇接受、編輯或是拒絕程式碼建議。除了對當前文件進行更改之外，自動修復功能還可以修改多個檔案，並調整專案中的相依項目，更全面地修復問題。&lt;/p&gt;
+&lt;p&gt;程式碼掃描自動修復由多個元件共同運作，以自動生成修復漏洞的具體建議。在背景中利用 CodeQL 引擎，以及一系列啟發式演算法，並結合 GitHub Copilot API 來生成程式碼建議。&lt;/p&gt;
+&lt;p&gt;這項新功能有助於減緩組織安全債的增加，GitHub 提到，雖然應用程式仍然是主要的攻擊向量，但多數組織也承認生產環境的儲存庫中，程式碼有越來越多尚未修復的漏洞。而程式碼掃描自動修復功能可以讓開發人員在編寫程式的同時，更容易地修復漏洞。&lt;/p&gt;
+&lt;p&gt;GitHub 承諾會支援更多的語言，接下來程式碼掃描自動修復功能也會涵蓋 C#和 Go 的程式碼。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161902</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161902</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>李建興</author>
+            <category>新聞</category>
+        </item>
+        <item>
+            <title>Google 發表當前最佳 UI 與資訊圖表理解模型 ScreenAI</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2308_-_screenai_a_visual_language_model_for_ui_and_visually-situated_langu_-_blog.research.google.jpg?itok=DLA0w6h1&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;Google 發表了能夠理解使用者介面和資訊圖表的模型&lt;a href=&quot;https://blog.research.google/2024/03/screenai-visual-language-model-for-ui.html&quot;&gt;ScreenAI&lt;/a&gt;，ScreenAI 建立在視覺語言模型 PaLI 基礎之上，並採用圖片轉文字模型 pix2struct 的彈性區塊處理策略（Flexible Patching Strategy）強化，再加上以特別製作的資料集和任務組合進行訓練，使得 ScreenAI 擁有目前最先進的解讀圖表能力。&lt;/p&gt;
+&lt;p&gt;ScreenAI 是一個結合視覺和語言處理能力的模型，用於理解用戶介面和資訊圖表。ScreenAI 以 PaLI 架構為基礎，由多模態編碼器（Multimodal Encoder）和自回歸解碼器（Autoregressive Decoder）組成。PaLI 編碼器使用視覺 Transformer（ViT）來創建圖像嵌入，並結合文字嵌入，使得模型能夠同時理解圖像和相關文字資訊。&lt;/p&gt;
+&lt;p&gt;特別的是，ScreenAI 採用了 pix2struct 模型的彈性區塊處理策略，因此 ScreenAI 更能夠處理不同長寬比的圖像，研究人員解釋，這與傳統固定網格模式不同，彈性區塊處理策略的網格尺寸能保留輸入圖像的原始長寬比，因此可以提升模型對於不同類型圖像的處理能力。&lt;/p&gt;
+&lt;p&gt;ScreenAI 模型的訓練階段分為兩階段，第一是預訓練階段，第二則是微調階段。ScreenAI 預訓練階段採用自監督學習自動生成資料標籤，這些標籤被用於訓練 ViT 和語言模型，而在微調階段時，ViT 參數便會被凍結，大部分使用的資料由人工評估員手動標記，以微調模型提高特定任務的表現。&lt;/p&gt;
+&lt;p&gt;ScreenAI 的訓練資料集主要來自不同裝置的螢幕截圖，包括了桌面電腦、手機和平板，由於來源豐富，確保了資料集在視覺樣式、佈局配置和使用者介面元素的多樣性。研究人員使用基於 DETR 模型的佈局註解工具，辨識並標記出各種使用者介面元素，像是圖像、象形圖（Pictogram）按鈕、文字以及空間關係等。&lt;/p&gt;
+&lt;p&gt;而象形圖則會再經過一個專門的分類器進一步分析，該分類器能夠區分 77 種圖標類型，而分類器未涵蓋的資訊圖表和圖像，則使用 PaLI 圖説模型產生符合上下文資訊的描述性文字。另外，圖片上的文字還會經過 OCR 引擎辨識，與註解文字相結合，創建出每個螢幕截圖詳細的描述。&lt;/p&gt;
+&lt;p&gt;註解工具生成的螢幕描述文字，還需要經過語言模型 PaLM 2 強化資料的多樣性，才會成為最終的訓練資料集。PaLM 2 會根據截圖描述以及問答、螢幕導覽和螢幕總結等任務，生成輸入與輸出資料對，像是根據店家資訊的截圖描述，生成「餐廳何時開門？」的問題和相對應的答案。由於 PaLM 2 可根據不同類型的任務和互動，創建多樣化和更全面的資料集，使得 ScreenAI 能夠更好地理解和回應各種用戶的需求和行為。&lt;/p&gt;
+&lt;p class=&quot;rtecenter&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/LLM.png&quot; style=&quot;width: 580px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;ScreenAI 僅擁有 50 億參數卻非常高效，在處理用戶介面和資訊圖表相關任務 WebSRC 和 MoTIF，與當前規模相近的先進模型相比，得到最高的分數，而在圖表問答相關的任務 Chart QA、DocVQA 和 InfographicVQA，也是當前同類模型中表現最佳者。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161901</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161901</guid>
+            <pubDate>Thu, 21 Mar 2024 16:00:00 GMT</pubDate>
+            <author>李建興</author>
+            <category>新聞</category>
+        </item>
         <item>
             <title>甲骨文推出 Java 22，提升開發效率還強化運算效能</title>
             <description>&lt;header&gt;
@@ -134,7 +468,7 @@
             <guid isPermaLink="false">https://www.ithome.com.tw/news/161889</guid>
             <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
             <author>周峻佑</author>
-            <category>新聞</category>
+            <category>資安 </category>
         </item>
         <item>
             <title>私自使用媒體內容訓練 Gemini，Google 遭法國判罰 2.5 億歐元</title>
@@ -232,421 +566,6 @@
             <guid isPermaLink="false">https://www.ithome.com.tw/news/161885</guid>
             <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
             <author>陳曉莉</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>Reddit 週四 IPO，發行價為每股 34 美元</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0129-reddit-960-guan_fang_tu_pian__0.jpg?itok=9zyQ7f6o&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;美國新聞社交平台&lt;a href=&quot;https://investor.redditinc.com/news-events/news-releases/news-details/2024/Reddit-Announces-Pricing-of-Initial-Public-Offering/default.aspx&quot; target=&quot;_blank&quot;&gt;Reddit 本週宣佈&lt;/a&gt;，將於週四（3/21）以 RDDT 為代號，登上美國紐約股市，每股發行價為 34 美元。Reddit 此次的 IPO 預計發行 2,200 萬股，可望對外募資 7.48 億美元，使其市值達到 64 億美元。而這也是繼 Pinterest 於 2019 年 IPO 之後，第一次再有大型社交平台公開發行股票。&lt;/p&gt;
-&lt;p&gt;Reddit 創立於 2005 年，註冊會員可上傳各種內容，從文章、連結、照片到影片等，其他會員則會針對這些內容投下贊成或反對的票數，以決定相關內容的排序。目前 Reddit 已有超過 10 萬個社團，每日不重覆造訪人數有 7,300 萬個，每週則高達 2.67 億個，站上累積的貼文超過 10 億篇。在 2021 年的估值曾高達 100 億美元。&lt;/p&gt;
-&lt;p&gt;Reddit 過去主要的營收來自於廣告，包括贊助式貼文或推廣內容，2022 年與 2023 年的年度營收為 6.66 億美元及 8.04 億美元，分別虧損了 1.58 億美元及 9,000 萬美元。OpenAI 共同創辦人 Sam Altman 及其關係企業握有 5% 以上的 Reddit 股份。&lt;/p&gt;
-&lt;p&gt;儘管身為全美第九大網站、擁有龐大的用戶基礎，也是個具備影響力的社交平台，但外界對於 Reddit 能否成功依舊抱持著懷疑的態度，畢竟 Reddit 自創立以來從未獲利。&lt;/p&gt;
-&lt;p&gt;不過，此事可能因為大型語言模型（LLM）的興起而有了轉機，因為 Reddit 可藉由授權平台內容給 AI 公司以訓練 LLM 來創造營收，除了在日前&lt;a href=&quot;https://www.ithome.com.tw/news/161440&quot; target=&quot;_blank&quot;&gt;宣佈&lt;/a&gt;擴大與 Google 的合作之外，Reddit 也在&lt;a href=&quot;https://www.sec.gov/Archives/edgar/data/1713445/000162828024006294/reddits-1q423.htm&quot; target=&quot;_blank&quot;&gt;上市申請文件&lt;/a&gt;中透露，目前正處於允許第三方存取、搜尋與分析平台資料來變現的早期階段，今年 1 月便簽訂了價值 2.03 億美元的合約，可望於未來的 2、3 年內實現，其中，至少會有 6,640 萬美元被列為今年的營收。&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161884</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161884</guid>
-            <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
-            <author>陳曉莉</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>【上市櫃資安事件背後的企業挑戰】導致資安事件常見問題是管理疏失，普遍組織高層仍缺乏事件應變團隊概念</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/wang_zhan_zhu_tu_zi_an_shi_jian_ying_bian_gai_zen_mo_zuo_.jpg?itok=ptJI02jV&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;這一年來，台灣上市櫃公司因應證券交易所與櫃買中心的要求，若遭駭客網路攻擊，需發布重大訊息揭露，&lt;a href=&quot;https://www.ithome.com.tw/news/161666&quot;&gt;使得更多台灣發生的資安事故浮上枱面&lt;/a&gt;，雖然外界比過去更能瞭解當前威脅局勢，也讓所有公司高層更關注資安，但大家往往只從中得到處理結果，很難有機會瞭解到這些資安事故問題如何發生。&lt;/p&gt;
-&lt;p&gt;而且資安事件重訊的內容大同小異，如下所示：&lt;br&gt;
-●「本公司資安人員於查知遭受網路攻擊時，於第一時間啟動相關防禦機制，並與外部專家協同處理及進行復原。」&lt;br&gt;
-●「自偵測到部份資訊系統遭網路攻擊，資訊部門已啟動防禦機制與復原作業，同時與外部資安專家協同處理。」&lt;/p&gt;
-&lt;p&gt;經由上述簡單説明，雖然能得知這些公司發生資安事故，但我們無法看出是否已經查出事件發生的原因，以及當下事件應變的挑戰與概況。&lt;/p&gt;
-&lt;p&gt;回顧這些資安事故重大訊息的揭露，有哪些是企業需要特別重視的？對此，我們特別詢問一些曾協助上市櫃公司進行資安事故調查與應變的業者，請他們談談下列兩個層面的觀察：一是企業資安防護可能存在哪些常見破口，導致事件發生？一是事件發生後、國內企業是否有足夠的應變能力？&lt;/p&gt;
-&lt;h2&gt;&lt;strong&gt;常見資安破口：使用 VPN 卻沒有做好安全管理&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;「今日很多企業遭遇到的網路攻擊事件，其實絕大多數都是資訊安全管理疏漏造成，並不是有什麼新的威脅出現。」趨勢科技台灣區暨香港區總經理洪偉淦認為。&lt;/p&gt;
-&lt;p&gt;至於有哪些常見資安管理疏漏，值得企業重視？&lt;/p&gt;
-&lt;p&gt;洪偉淦説：「做好資安，並不只是完成 Shopping list 就好，同時也要做好管理。」如高權限帳號沒限縮存取、防火牆未妥善設定，使用的 VPN 有漏洞未修補，這些都是常見問題。&lt;/p&gt;
-&lt;p&gt;舉例來説，近期很多攻擊都經由 VPN 入侵，而且發生在高階主管身上，並缺乏嚴格的身分驗證和授權機制；許多企業伺服器服務都放在虛擬平台執行，但虛擬平台 root 權限竟然沒有妥善保護。&lt;/p&gt;
-&lt;p&gt;對於上市櫃公司透過重大訊息揭露遭駭現況，安永企管副總經理陳志明同樣很有感觸，他指出，之所以許多企業發生資安事故，大多是缺乏管理的人為疏失問題。&lt;/p&gt;
-&lt;p&gt;例如，有 VPN 漏洞未及時修補而遭濫用，又或是 VPN 帳號權限管理出問題，甚至為了省錢而有多人共用帳號的情形，也發生員工離職後、其帳號仍具有存取權限等。他強調，這些都不是特殊個案，而是普遍常見的狀況。&lt;/p&gt;
-&lt;p&gt;為提醒大家避免這些問題，陳志明認為，以國內資安通報體制而言，TWCERT/CC 的位階、角色很適合，能為上市櫃公司提供協助，因這個組織專門負責民間業者的資安通報。而且，能將一些事故案例，藉由去識別化的方式分享出去，促進其他企業反思內部是否也有同樣的問題存在。&lt;/p&gt;
-&lt;p&gt;當然，也不要忘記資安成熟度的概念，企業與組織需持續盤點出最大的風險，一步一步著手處理，以降低資安風險。&lt;/p&gt;
-&lt;p&gt;綜觀上述狀況，顯而易見的是，國內許多企業在 VPN 與權限安全管控上，需要有更多的警惕性。&lt;/p&gt;
-&lt;p&gt;平心而論，這些如果是常見的管理疏失問題，就不應該一再發生，否則，只會顯現出台灣企業環境的資安有多落後。儘管有些公司早已長期付諸相關行動，但有些企業的高層，則是這一兩年才體會資安的重要性，但都已經不是藉口。&lt;/p&gt;
-&lt;h2&gt;&lt;strong&gt;資安事件應變準備度仍低，多數企業尚未建立應變團隊&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;由於上市櫃公司遭受網路攻擊的情況持續增加，除了要從治理與防護層面去強化資安，面對資安事故的發生，在瞭解普遍事故原因之餘，各家公司在資安事件應變的層面，是否具有足夠的準備？&lt;/p&gt;
-&lt;p&gt;過去三五年來，我們不斷看到資安界耳提面命，他們呼籲面對資安事件的可能發生，需要建立資安應變團隊，甚至要有應變的演練，才能在事件發生當下，能有獲得充分授權的指揮團隊，加速確認資安事件發生的手法及範圍，並根據現況來應變。&lt;/p&gt;
-&lt;p&gt;而這樣的作法，不只是出現在資安，其實也存在公共安全領域，像是 COVID-19 期間成立的疫情指揮中心就是一例。&lt;/p&gt;
-&lt;p&gt;關於當前企業的資安應變力，洪偉淦認為，國內在這方面有待進步，這是因為，根據他們的觀察結果，大部分企業連資安應變團隊都沒有，更關鍵的是，很多企業高層缺乏這些概念。&lt;/p&gt;
-&lt;p&gt;他強調，面對資安事故發生，事故調查就是起手式。需要釐清損害範圍，才能知道可能損失有多大，入侵範圍有多廣，以及有哪些資料遭非授權存取，接下來，才是恢復營運正常。如果沒有這樣的資訊，要如何評估事件影響範圍與嚴重性。&lt;/p&gt;
-&lt;p&gt;只是，從最近一年的現況來看，洪偉淦認為，大多數公司在遭遇資安事故當下，仍是處於焦頭爛額的狀態，無法在事故發生後按部就班處置。&lt;/p&gt;
-&lt;p&gt;如果更嚴格看待，本身已建立應變流程執行的手冊文件，而且內容是確切可行的企業，更是少之又少。&lt;/p&gt;
-&lt;p&gt;洪偉淦指出，如果企業應變做得夠好，其實過去兩年就不會有「是否該發重訊」的問題。因為，當企業建立應變團隊，將資安事故層級定義清楚，並讓每個事故等級都有不同的 SOP 流程可依循，一旦遭遇事件，第一線人員知道小型事件要向誰回報，當事件層級上升知道向誰回報，而在對外溝通上，不同角色也都能清楚該做的事。&lt;/p&gt;
-&lt;p&gt;綜觀上述情形，我們可以發現，問題的關鍵在於，仍有很高比例的企業，缺乏建立有關的緊急應變機制，這是一個警訊，企業需要重新審視這方面落實的現況，該懂得建立資安應變團隊、應變流程，而且也要建立企業自身的資安事故層級定義。&lt;/p&gt;
-&lt;p&gt;以資安事故層級而言，過去政府在「資通安全事件通報及應變辦法」，就提出相關定義。雖然這主要規範公務機關與特定非公務機關（8 大關鍵基礎設施），並非針對上市櫃公司，但當中就將資通安全事件區分為 4 個等級，這也是一種可參考的作法。&lt;/p&gt;
-&lt;p&gt;除此之外，我們也提醒上市櫃公司，在對外溝通的資訊上，要記得配合國內的法規政策，例如，在資安事件的重訊發布要求上，須&lt;a href=&quot;https://www.ithome.com.tw/news/161745&quot;&gt;依循現行規定的「重大性」標準來發布&lt;/a&gt;。&lt;/p&gt;
-&lt;h2&gt;&lt;strong&gt;缺乏資安事件的應變能力？TWCERT/CC 提供簡易指南&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;由於企業與組織資安事故頻傳，但大多都尚未建立資安事件應變機制，我們該怎麼做？是否有參考的資源？&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;台灣電腦網路危機處理暨協調中心（TWCERT/CC），在半年多前已有這方面的行動，在 2023 年 6 月，他們發布《&lt;a href=&quot;https://www.twcert.org.tw/tw/lp-160-1.html&quot;&gt;企業資安事件應變處理指南&lt;/a&gt;》，可以幫助毫無頭緒的企業，瞭解資安事件應變的整體規畫、準備與行動步驟。&lt;/p&gt;
-&lt;p&gt;簡單來説，這份指南共有 3 個篇章，主要針對「事前準備」、「事中應處」、「事後改善」這 3 個不同階段，提供一些較具體的作業流程説明。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%96%E8%A1%A82%EF%BC%89%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E5%9C%8B%E5%85%A7%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90_TWCERT%E4%BC%81%E6%A5%AD%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E8%99%95%E7%90%86%E6%8C%87%E5%8D%97_iThome.jpg&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%96%E8%A1%A82%EF%BC%89%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E5%9C%8B%E5%85%A7%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90_TWCERT%E4%BC%81%E6%A5%AD%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E8%99%95%E7%90%86%E6%8C%87%E5%8D%97_iThome.jpg&quot; style=&quot;width: 600px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;（一）在事前準備階段，有 8 個重要工作，包括：資安工具準備、資安事件分類分級、訂定資安事件紀錄表、資通系統分級、設立專責資安聯絡人員、規劃專業資安教育訓練、規劃資安健檢、建立情資交換與通報管道。&lt;/p&gt;
-&lt;p&gt;在此當中，關於資安事件分類分級，就是為了區分事件嚴重性，並建議依組織業務營運狀況畫分為 1 到 4 級。原則上，1 級資安事件是指影響部分資訊設備，組織仍然可以持續營運，2 級資安事件是非核心業務受影響、組織仍可持續營運，這兩種影響較輕微；3 級事件是部分核心業務受影響，4 級事件組織核心業務停擺。基本上，越嚴重的事件，處理速度其實也必須更快。&lt;/p&gt;
-&lt;p&gt;還有資安工具的準備，當中列出 5 種類型工具，包括：&lt;br&gt;
-●網路檢測：Angry IP Scanner、Nmap、Snort、TCPView、Wireshark。&lt;br&gt;
-●檔案檢測：Msert、PE Studio、VirusCheck、VirusTotal。&lt;br&gt;
-●系統檢測：Autoruns、Eventvwr、ProcessExplorer、Regedit。&lt;br&gt;
-●記憶體取證：FTK Imager、Volatility。&lt;br&gt;
-●弱點掃描：Nessus、OpenVas。&lt;/p&gt;
-&lt;p&gt;有了這些備妥的工具，一旦事件發生時，就能快速派上用場，減少因應時間的耽擱。&lt;/p&gt;
-&lt;p&gt;（二）在事中準備的階段，有 4 項重要工作，資安事件偵測與分析、保存數位證據、資安事件應變與處理，以及通知利害關係人。&lt;/p&gt;
-&lt;p&gt;這裡要提醒的是最後一點，企業在對外溝通上，其實有很多關係人需要聯繫，包含：客戶、系統使用者、上下游供應商、主管機關等，説明面臨的資安事件類型，以及處理的進度、影響的範圍與結果。&lt;/p&gt;
-&lt;p&gt;（三）在事後改善的階段，有 5 個面向需要顧及，包括：檢討目前的資安管理制度是否需調整，事件處理程序是否合宜，資安事件情資分享，檢視其他主機、系統、設備是否有同樣的弱點，以及檢討防護設備或防護管理是否足夠。&lt;/p&gt;
-&lt;p&gt;這裡特別要提最後兩點，畢竟每次事件都是寶貴的經驗，除了針對這次事件的問題進行改善，企業也要進一步思考，組織內部其他主機、系統、設備是否有同樣的弱點，以及環境中是否有更多應設定但未設定的組態，進而採取行動、逐一檢視。換言之，這些動作，也將回饋到資安防護規畫上的資安策略制定、資安風險評估與管理等。&lt;/p&gt;
-&lt;p&gt;綜觀上述 3 大階段，雖然這裡的內容算是簡單扼要，但對於還沒頭緒的企業來説，將可快速瞭解資安應變要做的事，不只是「事中」與「事後」的行動要點，也涵蓋「事前」的準備，讓還沒有概念的企業，至少可以知道規畫方向，而且這些都是中文的內容。&lt;/p&gt;
-&lt;p&gt;但也要提醒大家的是，這些指引雖提供基本的參考方向，但各家公司的組織架構有別，狀況都不一樣，因此仍需要企業依自身需求設計與落實。&lt;/p&gt;
-&lt;p&gt;此外，在最近這一兩年來，金管會與證交所在闡述上市櫃公司資安措施政策時，持續推動上市櫃公司共享資安情資，加入 TWCERT/CC 的平台，除了期盼促進最新威脅情資的交流，應也希望讓相關經驗可以成為教訓。&lt;/p&gt;
-&lt;h2&gt;&lt;strong&gt;還可參考國際上的資安事件應變框架，提升應變策略&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;值得一提的是，國際間也有相關資源可以參考。&lt;a href=&quot;https://www.ithome.com.tw/news/138882&quot;&gt;我們過去報導這方面議題時&lt;/a&gt;，曾有多位專家提供建議，他們都認為：面對資安事件不能羣龍無首，必須建立資安應變團隊，不論是實體的編制，或是虛擬的負責單位都行，並提到推動這些工作的一些重點。&lt;/p&gt;
-&lt;p&gt;例如，TeamT5 杜浦數位安全執行長蔡松廷指出，在這個資安應變團隊的背後，至少應建立三個任務小組，包括事件調查、災難復原與溝通協調，並讓對外的窗口能獨立運作，而且，所有負責人員都要做到同步協調。&lt;/p&gt;
-&lt;p&gt;關於參考資源方面，戴夫寇爾執行長翁浩正有具體建議，他推薦的實施框架，源自非營利組織 CREST，而在此資安事件應變流程（Cyber Security Incident Response）架構中，總共規畫 3 大階段，也就是「準備」、「應變」、「追蹤」，並細分 15 個步驟來實施。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%96%E8%A1%A81%EF%BC%89%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E5%9C%8B%E9%9A%9B%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90_CREST%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E6%A1%86%E6%9E%B6_iThome.jpg&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/%EF%BC%88%E5%9C%96%E8%A1%A81%EF%BC%89%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E5%9C%8B%E9%9A%9B%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90_CREST%E8%B3%87%E5%AE%89%E4%BA%8B%E4%BB%B6%E6%87%89%E8%AE%8A%E6%A1%86%E6%9E%B6_iThome.jpg&quot; style=&quot;width: 600px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;以準備階段為例，有 5 大步驟，包括：對組織進行關鍵性的評估，實施資安威脅的分析並且搭配情境的模擬與演練，從人員、流程、技術與資訊的層面來考量影響，建立適當的控制框架，以及檢視資安事件應變的準備狀態。&lt;/p&gt;
-&lt;p&gt;這裡要特別注意的是，第一階段「準備」至關重要，但容易被大家忽視，原因是企業缺乏這方面意識、支持或資源。&lt;/p&gt;
-&lt;p&gt;整體而言，企業在進行資安事件應變時，應該要瞭解到：在資安事件發生之前，就要超前部署、預先做好整體規畫。&lt;/p&gt;
-&lt;p&gt;除了 CREST 安全事件應變流程框架，我們還可以在資安領域找到更多參考資源，例如：SANS 提出的事件回應 6 大步驟（Incident Handler&#39;s Handbook），以及 NIST 提出的電腦事件安全處理指南（SP 800-61 Rev. 2）。&lt;/p&gt;
-&lt;p&gt;企業也可以參考 NIST 的網路安全框架（CSF），因為涵蓋網路安全風險管理生命週期，事件應變也是其中的一部分。&lt;/p&gt;
-&lt;p&gt;例如，在 NIST CSF 的「識別」方面就指出，要有資安事件應變計畫；在「偵測」方面，也是支持事故應變與復原活動的成功關鍵，企業與組織才能及早看到攻擊跡象，降低資安事件所帶來的影響，而且，上述的工作都與事前的準備有關。&lt;/p&gt;
-&lt;p&gt;在 NIST CSF 的「回應」、「復原」方面，包含了事件管理、事件分析、事件回應通報與溝通、事件緩解，以及事件復原計畫執行、事件復原溝通，這些動作也對應到前面提到的事中應變。至於事後的改進，也將會涉及「防護」、「治理」的面向。&lt;/p&gt;
-&lt;p&gt;總體而言，大家對於火災等公安事故，許多企業都有制定緊急災害應變措施計畫，甚至定期進行演練，面對資安事故也應如此，需要有應變措施。&lt;/p&gt;
-&lt;p&gt;畢竟從上述現況來看，很多企業到現在還沒有這方面準備，面對網路攻擊事件接連發生的態勢，企業必須要有足夠的應變作為準備。&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h2 class=&quot;rtecenter&quot;&gt;&lt;span style=&quot;color:#B22222;&quot;&gt;&lt;strong&gt;企業為何難揭露資安事件細節&lt;/strong&gt;&lt;/span&gt;&lt;/h2&gt;
-&lt;p&gt;放眼全球，沒有企業敢擔保不發生資安事件，有許多公司都會主動坦承，我們也常看到國外媒體報導，但很少見到國內企業將內部的資安事件調查報告公開，示警其他企業注意同樣的威脅。&lt;/p&gt;
-&lt;p&gt;趨勢趨勢科技台灣區暨香港區總經理洪偉淦認為，若發現是新的零時差漏洞攻擊，導致各界可能曝險，以該公司協助處理的狀況而言，他們會在不透露客戶的情形下，向外界示警新威脅出現。&lt;/p&gt;
-&lt;p&gt;但是，今日很多企業遭遇的網路攻擊，其實絕大多數都是資訊安全管理疏漏造成，並不是什麼新的威脅出現。&lt;/p&gt;
-&lt;p&gt;而且，在這些資安事件揭露的當下，其實企業無法在很短時間內就完成事故調查，就另一方面而言，即便找出根因、弱點，但企業也不見得很快就能投入修補。&lt;/p&gt;
-&lt;p&gt;換言之，如果太早公佈事件的問題癥結點，反而造成更大的曝險。因此，如果不是本次攻擊事件的主要成因，對外不見得要揭露太多，而且，若牽涉網路架構設計上的問題，所需要的改善時間，可能長達一兩年。&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h2 class=&quot;rtecenter&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#B22222;&quot;&gt;對單一事故發多次重訊，展現透明度與誠意&lt;/span&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;多家上市櫃公司遭網路攻擊，需趕緊依照規定發布重大訊息，向外界揭露事件的發生，但往往所能公開的資訊相當有限，企業是否有更好的揭露作法？&lt;/p&gt;
-&lt;p&gt;其實有少數受害公司，後續會發布新的重訊，説明最新的處理或調查情形。我們認為，這的確是不錯的方式，可讓外界更清楚因應情形。&lt;/p&gt;
-&lt;p&gt;以上櫃公司大拓－KY 為例，該公司曾在 2022 年代子公司發布重大訊息，雖然內容不多，但其實在日本大拓公司官方網站，公佈了更多資訊。例如，事故發生當日就有事故公告，相隔 10 天之後，他們再度揭露資安事件調查結果，説明事發時間及確認是遭勒索軟體攻擊。在事故 30 天後，該公司又發布第二版調查報告。&lt;/p&gt;
-&lt;p&gt;另一個例子是 2023 年初華航針對媒體報導資料外洩事件發布重訊，一個月後再發新的重訊，公佈後續調查結果，説明查出委外電商平台系統連線異常，並公佈確切影響範圍，有 5 千多筆會員資料遭擷取。&lt;/p&gt;
-&lt;p&gt;2024 年 2 月建準的重訊也是如此，而且是相隔一週後就有事件後續説明，指出部分技術人員電腦的部分重要檔案被加密攻擊，無法解密，且該部分資料恐有外洩疑慮。&lt;br&gt;
-&amp;nbsp;&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161876</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161876</guid>
-            <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
-            <author>羅正漢</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>JetBrains 發布 CI/CD 新工具 TeamCity Pipelines，具多項智慧功能簡化工作管線配置</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/smart-pipeline-optimization.png?itok=VjRv6IDN&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;JetBrains 推出新的 CI/CD 工具&lt;a href=&quot;https://blog.jetbrains.com/teamcity/2024/03/meet-teamcity-pipelines/&quot;&gt;TeamCity Pipelines&lt;/a&gt;，助用戶最佳化開發流程。TeamCity Pipelines 提供建置 CI/CD 工作管線需要的所有工具，盡可能減少用戶切換應用程式的狀況。官方提到，TeamCity Pipelines 直覺的介面和智慧配置輔助功能，能大幅簡化測試工作，使用戶更有效率地運作 CI/CD 工作管線。&lt;/p&gt;
-&lt;p&gt;TeamCity Pipelines 擁有一個易用的工作管線編輯器，讓用戶簡單點擊滑鼠，就能建立起工作管線。除了視覺化編輯器之外，開發者也可以使用 YAML，以程式碼即配置的方式來設定工作管線，用戶可以選擇從網頁介面進行編輯，或是直接將設定檔添加到儲存庫。&lt;/p&gt;
-&lt;p&gt;TeamCity Pipelines 減少開發者需要尋找或是記憶的配置項目，智慧配置輔助功能可引導用戶完成工作管線配置流程，並且提出改進建議，像是 TeamCity Pipelines 可以自動偵測特定的建置工具，並建議採用智慧測試平行化選項，可使執行速度提高達 75％。&lt;/p&gt;
-&lt;p&gt;該 CI/CD 工具支援 Linux、Windows 與 macOS 作業系統，用戶可以選擇相對應執行代理類型，當開發者需要用到額外的工具，則可以在代理程式上安裝，或在 Docker 容器執行工作。TeamCity Pipelines 內建 Docker 映像檔搜尋功能，用戶不需要切換環境就可找到需要的映像檔，用戶還可以在介面自訂 Dockerfile。&lt;/p&gt;
-&lt;p&gt;而且 TeamCity Pipelines 能夠動態最佳化工作管線，供用戶選擇重複使用之前執行過的工作、平行測試和建置快取功能。TeamCity Pipelines 會建議用戶將測試分成多個批次，執行平行測試加速迭代，特別的是，開發者不需要更改程式碼或是專案結構，TeamCity Pipelines 會自動完成需要的配置工作。&lt;/p&gt;
-&lt;p&gt;除了動態最佳化建議之外，TeamCity Pipelines 也會在每次測試工作完成後提供報告，並自動辨識測試專案所採用的語言與框架。TeamCity Pipelines 能跨多次工作追蹤測試結果，讓開發者簡單地比較測試變化。&lt;/p&gt;
-&lt;p&gt;TeamCity Pipelines 介面可以讓開發者用終端機，直接存取代理所在的機器快速進行除錯，其具有完整的建置日誌記錄，介面提供語法突出顯示、搜尋等功能方便開發者閲讀，日誌也可以下載到用戶熟悉的工具進行分析。&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161874</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161874</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>李建興</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>Google 公開皮膚病狀圖片資料集 SCIN，涵蓋各種膚色與身體部位</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2305_-_scin_a_new_resource_for_representative_dermatology_images_-_google_-_blog.research.google.jpg?itok=gbS_QyHB&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;有鑒於當前皮膚科影像資料集的不足，Google 與史丹佛大學醫學院合作，收集涵蓋各種膚色、身體部位皮膚病狀的照片，推出了&lt;a href=&quot;https://blog.research.google/2024/03/scin-new-resource-for-representative.html&quot;&gt;皮膚病狀圖像網路（SCIN）資料集&lt;/a&gt;，由於該資料集的收集方式來自網路，因此也可反映出人們常在線上搜尋的常見皮膚問題。SCIN 資料集補充臨牀皮膚疾病資料集的不足，並提高人工智慧工具的泛用性。&lt;/p&gt;
-&lt;p&gt;健康資料集在研究和醫學教育都非常重要，但研究人員提到，要創建能夠代表現實世界的資料集具有挑戰性。像是皮膚問題的外觀和嚴重程度各有不同，而且現有皮膚科影像資料集缺乏人們日常經常出現的皮疹、過敏和感染等病狀的圖片，同時內容多淺色皮膚也欠缺種族資訊，使得研究人員難以評估差異和創建通用解決方案。&lt;/p&gt;
-&lt;p&gt;而 SCIN 資料集經過仔細設計，收集廣泛條件的圖片，具有詳細貢獻者的資訊，還有專業皮膚科醫師標注。SCIN 資料集共收錄超過 1 萬張皮膚、指甲和頭髮狀況的圖像，這些圖像由本人自願貢獻，並被要求拍攝特寫與稍遠距離的圖像。貢獻者可選擇提供人口統計資料與日曬傾向，還有描述他們關心的問題、症狀與持續時間等資訊。&lt;/p&gt;
-&lt;p&gt;由一到三位皮膚科醫生對貢獻者的皮膚狀況，給出最多 5 個皮膚病狀，以及附上每個標籤的信賴分數。研究人員提到，資料集包含單獨的標籤，以及衍生出的聚合和加權差異診斷，可用於模型測試和訓練。雖然這些標籤屬於回顧性的資訊，無法等同於臨牀診斷，但研究人員可以將 SCIN 資料集中皮膚病狀的分佈，與現有資料集進行比較。&lt;/p&gt;
-&lt;p&gt;許多皮膚病資料集針對良性與惡性腫瘤，以協助診斷皮膚癌，但是 SCIN 資料集的組成，主要是常見的過敏、發炎和感染性疾病。SCIN 資料集中的大多數圖像，展示了皮膚病的早期狀況，超過一半的皮膚病狀在照片拍攝一週內出現，甚至有 30％的症狀是在圖像拍攝不到一天內出現。&lt;/p&gt;
-&lt;p&gt;在現有的皮膚病學資料庫中，這些短時間出現的症況，往往得到關注不足，因此在健康系統內不常見。也就是説，當臨牀環境少有文件紀錄，這些早期症狀沒有被資料集紀錄，對於病狀研究和診斷工具的開發就會受限，進而影響了對這些病狀的理解和治療。&lt;/p&gt;
-&lt;p&gt;研究人員特別提到，他們在創建 SCIN 資料集，採用了一種羣眾外包新方法。研究人員藉由在網頁搜尋結果頁面投放廣告，吸引網路參與者，並與之建立聯繫，這個方法擴大了參與者的範圍，確保可以從廣泛且多元的人羣中收集資料，而且由於貢獻者在醫療健康研究中扮演積極角色，使研究者能夠接觸到處於健康問題早期階段的人們。&lt;/p&gt;
-&lt;p&gt;結果也顯示，這種羣眾外包方法收集到的資料不只品質高且垃圾訊息率低，超過 97.5％的貢獻都是真實的皮膚狀況圖像，也有大約一半的貢獻回報了人口統計資訊，且有 80％包含皮膚狀況的自我評估，像是膚質、持續時間和其他症狀描述。&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161873</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161873</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>李建興</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>微軟開源多雲容器網路觀測平台 Retina</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/2304_-_microsoft_open_sources_retina_a_cloud-native_container_networking_o_-_azure.microsoft.com_.jpg?itok=A8mxj1la&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;微軟 Azure 容器網路團隊發布雲端原生容器網路觀測平台&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/microsoft-open-sources-retina-a-cloud-native-container-networking-observability-platform/&quot;&gt;Retina&lt;/a&gt;，讓 Kubernetes 用戶、管理者和開發者，能夠以視覺化的方式，觀測、除錯並且分析 Kubernetes 的工作負載流量。Retina 支援各種容器網路介面（CNI）、作業系統和雲端平台，還能夠與產業標準 Prometheus 和網路流量日誌搭配使用，具有適應不同用例和環境的靈活性。&lt;/p&gt;
-&lt;p&gt;隨著 Kubernetes 等相關雲端原生技術的發展，雖然使得應用程式可在多種平台上運作，但同時管理應用程式也變得複雜，特別是雲端原生應用程式的部署橫跨多個公有雲，以及企業的私有基礎設施，導致網路的可觀測性、故障排除和除錯越來越困難。&lt;/p&gt;
-&lt;p&gt;Retina 的出現便是要解決這個狀況，其提供簡單的方法，供用戶觀測和排除應用程式資料封包丟失和延遲等問題，而且不需要擔心底層基礎設施和轉換的複雜性。Retina 利用 eBPF（extended Berkley Packet Filter）的功能，在不需更改現有應用程式的情況下，以非侵入的方式對 Kubernetes 網路進行深入分析和監控。&lt;/p&gt;
-&lt;p&gt;微軟提到，根據他們營運 AKS（Azure Kubernetes Service）的經驗，發現網路監控、指標收集和 Kubernetes 叢集追蹤嚴重不足。而 Retina 提供了用戶對叢集網路的全面觀測性，同時藉由 Kubernetes 特有的上下文流量分析，像是 Pod、服務和命名空間等資訊，將指標轉成產業標準的 Prometheus 或是網路流量日誌。&lt;/p&gt;
-&lt;p&gt;Retina 的特色之一是獨立於容器網路介面、作業系統和雲端平台，微軟指出，現有的開源解決方案，通常與特定 CNI、作業系統和資料平面緊密整合，因此限制了多功能性和可用範圍。Retina 則是設計成多功能、可適應和可擴充的套件框架，能夠與所有 CNI、作業系統和雲端平台搭配使用，並且成為現有工具集的補充。&lt;/p&gt;
-&lt;p&gt;Retina 支援 Linux 和 Windows 資料平面，滿足可靠性工程師的多樣化需求，並佔用盡可能少的記憶體和 CPU 資源，其可插拔設計可讓用戶簡單擴展，應用於各種新用例。&lt;/p&gt;
-&lt;p&gt;Retina 還有一個重要功能，是可以深入分析網路流量，涵蓋網路第四層指標、DNS 指標和分散式資料封包擷取，其無縫整合 Kubernetes 應用程式模型，提供詳細 Pod 層級的指標。微軟解釋，用戶能以標籤來配置分散式資料封包擷取，指定擷取封包的內容、位置和物件。而 Retina 所提供的網路流程日誌，用戶可以使用歷史紀錄和進階除錯功能，強化網路故障排除和效能最佳化。&lt;/p&gt;
-&lt;p&gt;微軟透過開源 Retina 以及支援多雲架構，將廣泛的雲端原生生態系納入 Retina 的觀測範圍中。微軟提到，他們會繼續發展 Retina 的可擴展性，使用戶可以更簡單地添加新指標和分析，並且可以與其他監控系統和工具整合。&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161871</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161871</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>李建興</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>MedTech 醫療科技雙周報第 33 期：Nvidia 推出 25 項醫療專用生成式 AI 微服務</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/healthcare-microservices-image.jpg?itok=Fo0FX7D6&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; title=&quot;Nvidia 在最近的年度技術大會 GTC 上發表 25 項醫療生成式 AI 微服務，如專門用來最佳化模型推論結果的 Nvidia NIM。&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;          &lt;p class=&quot;caption&quot;&gt; Nvidia 在最近的年度技術大會 GTC 上發表 25 項醫療生成式 AI 微服務，如專門用來最佳化模型推論結果的 Nvidia NIM。 &lt;/p&gt;
-        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-field-photo-source field-type-text field-label-inline clearfix&quot;&gt;&lt;div class=&quot;field-label&quot;&gt;圖片來源:&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;Nvidia&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt;重點新聞（0301～0315）&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;Nvidia&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; 微服務 &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;生成式 AI&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 22px;&quot;&gt;&lt;strong&gt;Nvidia 推出 25 項醫療專用生成式 AI 微服務&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;在今年 GTC 大會上，Nvidia 推出 25 項醫藥領域微服務，要讓使用者在任何地方、任何雲端環境都能用來打造新服務。這些微服務包括 Nvidia NIM，專門用來最佳化模型推論結果，如醫學成像、藥物探索和數位健康等模型。再來是一系列用於藥物探索的模型，如用於生成化學的 MolMIM、用於預測蛋白質結構的 ESMFold，以及模擬藥物分子與標靶相互作用的 DiffDock。此外，Nvidia VISTA 3D 微服務還能加速建立 3D 分割模型的速度，而 Universal DeepVariant 微服務則能加速分析，與在 CPU 上執行的 DeepVariant 分析作業相比，可將基因組分析工作中的變異調用速度提高 50 倍以上。&lt;/p&gt;
-&lt;p&gt;同時，這些微服務也與 Nvidia 的合作夥伴整合，比如，運算軟體公司 Cadence 將 Nvidia 的藥物探索微服務 BioNeMo 整合到自家藥物探索 Orion 分子設計平台，可供製藥專家用來生成、搜尋和模擬具數千億種化合物的資料庫。還有一個例子是，數位健康新創 Hippocratic AI 整合 Nvidia ACE 微服務和 NIM，可用來建立 AI 代理、進行低延遲推論和語音辨識等，可用來打造能與患者電話交談、安排預約、術前訪問、出院後隨訪等功能的 Chatbot。Nivida 表示，目前開發者可在 ai.nvidia.com 上試用 Nvidia AI 微服務，也能在經認證的系統中，使用 Nvidia AI Enterprise 5.0 來部署 NIM 微服務。&lt;a href=&quot;https://nvidianews.nvidia.com/news/healthcare-generative-ai-microservices&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;HIMSS&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;衞福部&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;次世代 HIS&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 22px;&quot;&gt;&lt;strong&gt;衞福部率台灣產學研醫療團隊赴美 HIMSS 24 年會&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;美國醫療資訊與管理系統協會（HIMSS）在 3 月 11 日展開今年度醫療 IT 大會，衞福部資訊處處長李建璋、衞福部科技發展組技監劉明勳和健保署副署長龐一鳴特別率台灣團參加，帶領產學研醫團隊近 50 位代表在 HIMSS 2024 會場展示台灣智慧醫療研發成果。&lt;/p&gt;
-&lt;p&gt;台灣展場分為 4 區，主要亮點有以次世代 HIS 平台為核心推動資料標準化、加速研發 AI 輔助工具，該展區的團隊有台大醫院、中醫大附醫、台中榮總、長佳智能、宏碁智醫和華碩。另一亮點是以次世代 HIS 平台實現病患旅程，如從醫療 AI 區實現疾病篩檢、診斷，再到智慧藥局、智慧病房和遠距醫療與居家醫療等，展出廠商有研華、華碩電腦和華碩雲端等。&lt;/p&gt;
-&lt;p&gt;李建璋在現場表示，衞福部累積 20 年來數位轉型經驗，現在則要迎向第 2 波智慧轉型。他觀察，目前數位科技逐漸導入醫療場域，特別是 AI，能輔助醫師早期篩檢疾病、提升疾病診斷效率和後續治療效果，是推動轉型必須重視的技術應用。台灣食品藥物管理署（TFDA）也持續核發軟體醫材許可證，目前取證的國產產品已有 60 項，其中 37 項是 AI 軟體醫材。另外，衞福部也表明今年開始執行「次世代數位醫療平台」計畫，要建立核心關鍵基礎設施、發展大數據資料庫，推動 AI 智慧醫療進展。&lt;a href=&quot;https://www.mohw.gov.tw/cp-16-77977-1.html&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://www.mohw.gov.tw/Public/Images/202403/2242403131207d0ad6.jpg&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;遠距醫療&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;AI &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;個人化醫療 &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;美國醫學中心 IT 主管盤點 4 大數位醫療趨勢&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;在今年度 HIMSS 醫療 IT 大會上，來自范登堡大學附設醫學中心（VUMC）、浸信會醫院和梅約醫學中心的 3 位 IT 主管&lt;a href=&quot;https://healthtechmagazine.net/media/video/himss24-4-trends-digital-health-and-patient-experience&quot;&gt;接受媒體採訪&lt;/a&gt;時，點出今年 4 大數位醫療趨勢，包括 AI、行動化、遠距醫療和個人化醫療。VUMC 醫療 IT 主任醫師 Yaa Kuma-Crystal 表示，AI 並非新技術，但自從 ChatGPT 問世後，開啟了很多醫療應用的可能，比如大語言模型（LLM）可用來摘要病歷文件、將難懂的醫療術語翻譯為白話，協助醫病溝通，都對臨牀業務有幫助。浸信會醫院臨牀 EHR 應用資深主任 Kat Hasanovic 則指出，他們正運用 AI 來解決醫護人員下班後仍需進行的文書工作（俗稱 Pajama time），梅約醫學中心創新平台醫學總監 Sonya Makhni 則表示，由於安全考量、無法隨意授權，導致醫療資料極度碎片化且孤島化，因此他們認為，採用 AI 最重要的是透過外部資料集驗證模型，可行後才能建立資料處理流程並落地應用。&lt;/p&gt;
-&lt;p&gt;另一方面，對浸信會醫院來説，行動化是另一大趨勢，他們不只發展專用 App 來整合病人看診資料，也能讓病人上傳穿戴式裝置數據，來加強醫病溝通。Yaa Kuma-Crystal 表示，遠距醫療是 VUMC 今年關注的另一趨勢，今年會根據看診頻率和病患黏著度，來找出適合發展的情境。梅約醫學中心也有類似想法，他們今年要透過遠距醫療，做為個人化醫療的輔助手段，來降低病人到院看診的成本，同時提高個人化程度。Yaa Kuma-Crystal 點出，發展個人化醫療也是他們的目標，他們還會將病人納入測試應用環節，再根據他們的回饋來修正系統，發展更貼近使用者的服務。&lt;a href=&quot;https://healthtechmagazine.net/media/video/himss24-4-trends-digital-health-and-patient-experience&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202024-03-21%20154036.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;微軟 &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; 可信任 AI &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; TRAIN&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 22px;&quot;&gt;&lt;strong&gt;微軟聯手全美 10 多家醫院，要推負責任的醫療 AI&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在近期落幕美國醫療資訊與管理系統協會的醫療 IT 盛會 HIMSS 24 中，微軟宣佈一項新策略，要聯手全美最大的 10 幾家醫院，共同組成可信任與負責任的醫療 AI 網路（簡稱 TRAIN），來推動醫療 AI 的開發和評估標準，以及提高可解釋性和透明度的工具。&lt;/p&gt;
-&lt;p&gt;TRAIN 的成員有微軟、麻省總醫院、約翰霍普金斯醫學院、波士頓兒童醫院、克里夫蘭醫學中心、Advocate Health 體系醫院等，此外還有 OCHIN 和 TruBridge。其中，OCHIN 是美國一家非營利組織，專門提供專業知識、數據和洞察給社區健康組織，目前服務 300 多家醫療機構，而 TruBridge 則是一家醫療保險和帳單支付公司，OCHIN 和 TruBridge 的加入，能讓更多醫療機構使用 TRAIN 所提供的 AI 工具，來提高照護品質和病人安全。&lt;a href=&quot;https://news.microsoft.com/2024/03/11/new-consortium-of-healthcare-leaders-announces-formation-of-trustworthy-responsible-ai-network-train-making-safe-and-fair-ai-accessible-to-every-healthcare-organization/&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;Google 雲端&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt; 生成式 AI&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; 護理交班&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;Google 雲端新添醫療生成式 AI 功能，還瞄準護理交班情境&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;在 3 月 11 日展開的北美年度醫療 IT 大會 HIMSS 24 上，Google 雲端揭露一系列新生成式 AI 應用，首先是醫療健康領域的 Vertex AI 搜尋服務，能幫助臨牀醫生快速解析患者數據和臨牀記錄。Google 雲端醫療保健策略和解決方案全球總監 Aashima Gupta 在接受 HIMSS 採訪時表示，搜尋臨牀數據困難又耗時，但透過 API 使用 Vertex AI 搜尋，則能享有 Google.com 般的生成式搜尋體驗。而且，該工具在生成答案時，還會附上資料來源的註腳，來確保可信度。&lt;/p&gt;
-&lt;p&gt;除了 Vertex AI 搜尋，Google 雲端還宣佈在醫療專用大語言模型服務 MedLM 中，添加 2 項新功能，其一是用於胸部 X 光片分類的 API，另一個是病情摘要 API，能根據患者病況時間順序，來生成每種病況的簡短摘要。Aashima Gupta 也指出，MedLM 目前在梅約醫學中心、HCA 醫療集團等地測試，特別鎖定護理師交接場景。她表示，護理師交班前，總得花 10 到 15 分鐘説明每一位病人的情況，若手上有 10 位病人，就得花上 1.5 小時説明，而 MedLM 可快速根據患者狀況產生摘要，還能引用 EHR 系統中的資訊，來縮短説明時間。&lt;a href=&quot;https://cloud.google.com/blog/topics/healthcare-life-sciences/google-cloud-gen-ai-healthcare-announcements&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;生成式 AI &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt; Oracle &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; 績效&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;Oracle 推出新醫療生成式 AI 功能，涵蓋摘要、分析和績效衡量&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在今年醫療 IT 大會 HIMSS 24 大會上，Oracle 宣佈自家的醫療資料平台 Oracle Health Data Intelligence 新添生成式 AI 功能，包括病人病史摘要生成、更多種內建的醫療品質分析、更細緻的自動警報通知，還有根據美國最新責任醫療組織（ACO）標準制定的績效衡量基準等，能幫助醫院衡量績效、成本與收益。&lt;/p&gt;
-&lt;p&gt;進一步來説，Oracle Health Data Intelligence 是一款提供雲端應用程式、分析應用的模組化套件平台，可整合多種來源的資料並分析，如電子健康記錄（EHR）、企業級應用、保險申請文件等。Oracle 表示，這次新添的功能，可幫助使用者創新、提高照護品質、善用人力和 IT 資源等。&lt;a href=&quot;https://www.oracle.com/news/announcement/oracle-delivers-foundation-for-more-intelligent-healthcare-2024-03-12/&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;HIMSS&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;Gartner&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt;&amp;nbsp;虛擬照護&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;Gartner 醫療分析總監：虛擬照護是趨勢&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;北美醫療 IT 年會 HIMSS24 在 3 月上旬展開，Gartner 醫療照護分析師總監 Veronica Walk 接受 HIMSS 旗下媒體訪問，點出生成式 AI 和虛擬照護是今年會展一大趨勢。她表示，今年展出許多生成式 AI 應用，可用來分擔醫護等臨牀人員的行政工作，如快速生成病歷摘要、臨牀文件等。此外，由於近來臨牀醫師工作疲乏和護理人力短缺問題越來越嚴重，虛擬照護和在宅照護的解決方案也越來越多，可用來結合醫療設備資訊，提供更細緻的遠端分級照護。&lt;/p&gt;
-&lt;p&gt;但她表示，這些概念很可能成為新解決方案的炒作關鍵字，因此她建議，在接下來的 1 年，醫資廠商 IT 主管和營運者應回到問題本身，比如臨牀醫師工作疲乏，就需要運用適當的技術分擔工作量，才能幫助醫院招人和留人。她也提到 Gartner 自家的技術成熟度曲線，提供每項創新技術的預期效益、成熟度和採用情況，可用來輔助廠商和醫院，衡量適不適合投資特定新技術。&lt;a href=&quot;https://www.healthcareitnews.com/news/gartner-emerging-tech-expert-talks-ai-and-virtual-care-himss24&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;骨質疏鬆&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;台中榮總 &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; X 光片&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;台中榮總用 AI 輔助，快速判讀骨質疏鬆 X 光片&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;台中榮總聯手宏碁智醫，共同研發一套骨質疏鬆輔助判讀 AI 系統智骨篩 VeriOsteo OP，可根據病人的胸腔 X 光片，在 30 秒內判斷骨鬆密度值，來協助醫院篩選大量疑似骨鬆的民眾，及早治療和預防。&lt;/p&gt;
-&lt;p&gt;進一步來説，醫院輸入患者 X 光片時，系統會給出病人骨鬆密度值，如-2.5 至-3.1，來協助醫師制定術前計畫和復健治療。目前，台中榮總骨科部為降低銀髮族骨折風險，已在院內應用 VeriOsteo OP，來進行骨質密度異常篩檢，準確率高達近九成，能有效找出骨質異常的病人，並給予適當衞教和預約骨鬆防治諮詢。該軟體也獲衞福部食品藥物管理署（TFDA）覈准，成為台灣首款骨質疏鬆症輔助診斷智慧醫材。接下來，他們要推廣至各大醫療機構、健檢中心和基層診所，提供更便捷的骨質密度篩檢服務。&lt;a href=&quot;https://www.vghtc.gov.tw/Module/BreakingNewsContent?BreakingNewsID=af3db0bb-648d-4392-b32a-c3ef090ee9a6&amp;amp;WebMenuID=c47a00fc-ee22-4871-b6ec-5dc557ec27b3&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202024-03-21%20154604.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;LLM&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp;香港 &lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color: rgb(51, 153, 255);&quot;&gt; CARES Copilot&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size:22px;&quot;&gt;&lt;strong&gt;香港創新院 AI 中心發表醫療專用 LLM&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;中科院香港創新院 AI 中心（CAIR）最近發表醫療業專用的&lt;a href=&quot;https://www.cair-cas.org.hk/articles/ai&quot;&gt;CARES Copilot&lt;/a&gt;大型語言模型系統，能與醫療設備高度整合，還兼具可信任和可解釋性特點。這款 CARES Copilot 1.0 可處理多模態資料，包括圖像、文字、語音、影片、MRI、CT、超音波等手術數據。同時還能在多場景處理多任務，像是手術階段識別、器械與解剖結構分割、器械檢測與計數，以及 MRI 高分辨率圖像生成等。&lt;/p&gt;
-&lt;p&gt;CASRES Copilot 可處理長達 100K Token 上下文，能處理超過 3000 頁的覆雜手術教材，可用來培養年輕醫生的專業知識。而且，CARES Copilot 還具備深度檢索功能，能快速精確地提取手術教材、專家指南、醫學論文等專業文件資訊。經測試，該系統能在 1、2 秒內快速檢索百萬級數據，準確率高達 95%。該系統也在多家醫院的不同科室進行測試和優化。&lt;a href=&quot;https://www.cair-cas.org.hk/article/295&quot;&gt;（詳全文）&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://www.cair-cas.org.hk/uploads/image/202312/8d8d4b122420428e6711b819aad98369.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;圖片來源／衞福部、Health Tech、台中榮總、CAIR&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:#FFFFFF;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;background-color:#3399ff;&quot;&gt;&amp;nbsp; MedTech 醫療科技近期新聞&amp;nbsp;&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;strong&gt;1. 新加坡推出糖尿病足部照護 App&lt;/strong&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;strong&gt;2. Salesforce 推出醫療資料平台 Einstein Copilot &lt;/strong&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;資料來源：iThome 整理，2024 年 3 月&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161888</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161888</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>王若樸</author>
-            <category>醫療 IT</category>
-        </item>
-        <item>
-            <title>Google 將打造個人化健康大型語言模型，以提供 Fitbit 用戶來自 AI 的建議</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/0320-the_check_up_with_google_health-fitbit_labs-960.jpg?itok=1Dn65MvZ&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; title=&quot;繼去年推出供 Fitbit Premium 用戶存取實驗性 AI 功能的 Fitbit Labs 後，Google 準備打造基於 Gemini 的醫療保健大型語言模型，讓 Fitbit 行動程式具備個人 AI 助理功能。（圖片來源／Google）&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;          &lt;p class=&quot;caption&quot;&gt; 繼去年推出供 Fitbit Premium 用戶存取實驗性 AI 功能的 Fitbit Labs 後，Google 準備打造基於 Gemini 的醫療保健大型語言模型，讓 Fitbit 行動程式具備個人 AI 助理功能。（圖片來源／Google） &lt;/p&gt;
-        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;&lt;a href=&quot;https://blog.google/technology/health/google-generative-ai-healthcare/&quot; target=&quot;_blank&quot;&gt;Google 本週宣佈&lt;/a&gt;，旗下 Google Research 及 Fitbit 團隊將合作建置一個攸關個人化健康的大型語言模型（Personal Health Large Language Model），以支援 Fitbit 行動程式中的個人化健康及保健功能，讓使用者可透過 Fitbit 及 Pixel 裝置上的資料獲得更多的見解與建議。&lt;/p&gt;
-&lt;p&gt;根據 Google 的説明，此一個人化健康 LLM 將以 Gemini 模型為基礎，再利用去身分識別的高品質研究案例中的健康訊號進行微調，這些研究正在與通過認證的教練或健康專家合作收集及驗證資訊，以讓該模型得以展現對生理及行為資料的深刻推論能力；目前 Google 正在利用類似睡眠醫學認證考試的練習來測試該模型的效能，未來將可用來分析使用者的睡眠模式與睡眠品質的變化，再依照相關的見解來提供運動上的建議。&lt;/p&gt;
-&lt;p&gt;在有了個人化健康 LLM 之後，Fitbit 行動程式即可藉由追蹤使用者的狀態，協助使用者更全面地理解自己的健康資料，同時以自然語言提出問題，並建立專屬的圖表。例如可深入瞭解活躍區間分鐘數（AZM）與睡眠恢復程度的相關性。&lt;/p&gt;
-&lt;p&gt;Google 在 2021 年完成對智慧手錶業者 Fitbit 的&lt;a href=&quot;https://www.ithome.com.tw/news/142247&quot; target=&quot;_blank&quot;&gt;收購案&lt;/a&gt;，在 2023 年推出了 Fitbit Labs，供 Fitbit Premium 用戶存取實驗性的 AI 功能，而新的個人化健康 LLM 將會在今年率先部署至少數的 Android 裝置上，供註冊 Fitbit Labs 的 Fitbit 用戶試用。&lt;/p&gt;
-&lt;p class=&quot;rtecenter&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/0320-The%20Check%20Up%20with%20Google%20Health-Fitbit%20labs-2.png&quot; style=&quot;width: 473px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161870</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161870</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>陳曉莉</author>
-            <category>新聞</category>
-        </item>
-        <item>
-            <title>【資安日報】3 月 20 日，研究人員針對行動應用程式開發平台 Firebase 配置不當氾濫的現象提出警告</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240320.jpg?itok=Th4hwxpo&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;伺服器配置不當的情況，過往最常出現的是在公有雲系統，但應用程式開發系統出現配置不當的問題，也相當值得留意。&lt;/p&gt;
-&lt;p&gt;最近有研究人員針對 Google 旗下的行動與網頁應用程式開發平台 Firebase 進行調查，一口氣找到超過 1 億筆機敏資料（Secrets），值得留意的是，當中包含不少明文密碼。&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;【攻擊與威脅】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://env.fail/posts/firewreck-1/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;配置不當的 Firebase 曝露近 2 千萬筆明文帳密資料&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 639168a2-86fd-4028-93dd-56902791476c --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/supabase_table.png&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/supabase_table.png&quot; style=&quot;width: 300px; float: right;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;研究人員 Logykk、Xyzeva、MrBruh 指出，行動與網頁應用程式開發平台 Firebase 的資安控管不足，放任用戶進行可能危及資安的組態設定。因為當中竟然允許 IT 人員配置具有潛在資安風險的規則，且不會發出任何警示訊息，而因為存在這樣的狀況，使得不少 Firebase 伺服器呈現「裸奔」狀態，因為許多機敏資料都因此而曝露在外。&lt;/p&gt;
-&lt;p&gt;這些研究人員針對全球的 Firebase 伺服器進行掃描，結果發現超過 1.25 億筆機敏資料，內含電子郵件信箱、姓名、密碼、電話號碼，甚至部分具備詳細金融資訊的帳單明細。這批資料一共有 84,221,169 個姓名、106,266,766 個電子郵件帳號、33,559,863 筆電話號碼、20,185,831 個密碼，以及 27,487,924 組帳單資料，其中值得留意的是，上述的密碼有 19,867,627 個都是以純文字型式存放，換言之，幾乎（98%）並未採取保護措施。&lt;/p&gt;
-&lt;p&gt;對此，研究人員在兩週內發送 842 封電子郵件，通知受影響的 Firebase 用戶，約有四分之一的管理者修復了配置錯誤的情況，1% 管理者回信，此外，研究人員也得到 2 個企業組織的抓漏獎勵。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.securonix.com/blog/securonix-threat-research-security-advisory-new-deepgosu-attack-campaign/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;研究人員揭露 Deep#Gosu 攻擊行動，北韓駭客打造 PowerShell 及 VBS 惡意軟體對 Windows 電腦下手&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 1ac555f1-7609-4040-997f-656a0b78b9bc --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;資安業者 Securonix 揭露北韓駭客組織 Kimsuky 的攻擊行動 Deep#Gosu，指出對方調整手法，採用以指令碼為基礎的攻擊流程，利用多個以 PowerShell 及 VBScript 製作的工具來感染目標電腦，並進一步使用 RAT 木馬程式來進行控制。&lt;/p&gt;
-&lt;p&gt;值得一提的是，所有 C2 的通訊都是透過 Dropbox 與 Google Docs 等雲端服務來處理，使得攻擊流量融入合法流量，而能讓惡意軟體的行蹤難以察覺；此外，這起攻擊行動的惡意酬載，都是存放 Dropbox 等雲端服務，因此駭客能夠動態更新惡意程式的功能，或是部署其他的模組。&lt;/p&gt;
-&lt;p&gt;而對於攻擊流程的進行，這些駭客透過 ZIP 壓縮檔向目標人士散佈 Windows 捷徑檔（LNK），但此檔案容量過大，竟高達 2.2 MB（LNK 檔通常只有幾 KB），研究人員拆解其內容，發現當中包含 PowerShell 指令碼，從而解出嵌入的檔案，並從網路下載其他惡意 VBScript 程式碼，並向受害者顯示 PDF 檔案，以降低戒心，接下來，攻擊者會執行來自 Dropbox 的 RAT 木馬 TruRat。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/security/white-house-and-epa-warn-of-hackers-breaching-water-systems/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;美國對水利系統業者提出警告，駭客鎖定全國各地有關的關鍵基礎設施發動攻擊&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: e173be17-ae33-4aa6-90e4-106fad9c9c86 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;美國環境保護局（Environmental Protection Agency，EPA）、國家安全顧問 Jake Sullivan 對各州政府提出警告，駭客正在襲擊多州的水利關鍵基礎設施，因此他們想要請求州長協助，確保轄內的水利系統能夠因應相關威脅，並在遭到破壞時能迅速恢復。&lt;/p&gt;
-&lt;p&gt;對此，他們將於美國東部時間 21 日下午 1 時舉行線上會議，邀請各州環保局、公共衞生機關、國土安全部的首長參與，討論如何保護水利系統的關鍵基礎設施，重點將説明當局與各州要如何強化這類設施的資訊安全。&lt;/p&gt;
-&lt;p&gt;EPA 將與國土安全部（DHS）、網路安全暨基礎設施安全局（CISA）合作，提供相關的指引、工具、教育訓練、技術協助等資源；美國水務協會（American Water Works Association，AWWA）、國家農村水利協會（National Rural Water Association，NRWA）、水利資訊共享暨分析中心（Water Information Sharing and Analysis Center，WaterISAC）也將提供相關技術支援。&lt;/p&gt;
-&lt;p&gt;資料來源&lt;/p&gt;
-&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://www.epa.gov/system/files/documents/2024-03/epa-apnsa-letter-to-governors_03182024.pdf&quot;&gt;https://www.epa.gov/system/files/documents/2024-03/epa-apnsa-letter-to-governors_03182024.pdf&lt;/a&gt;&lt;br&gt;
-2.&amp;nbsp;&lt;a href=&quot;https://www.epa.gov/newsreleases/biden-harris-administration-engages-states-safeguarding-water-sector-infrastructure&quot;&gt;https://www.epa.gov/newsreleases/biden-harris-administration-engages-states-safeguarding-water-sector-infrastructure&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://cyble.com/blog/cgsi-probes-shadowsyndicate-groups-possible-exploitation-of-aiohttp-vulnerability-cve-2024-23334/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;HTTP 非同步傳輸框架 Aiohttp 漏洞遭到勒索軟體駭客組織鎖定&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 9315e84c-6d1d-4bf1-90e1-45181290b460 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;1 月 28 日 HTTP 非同步傳輸框架 Aiohttp 發布 3.9.2 版，修補當中 Python 程式庫的路徑穿越漏洞 CVE-2024-23334，嚴重程度為高風險等級，CVSS 風險評為 7.5，而這項漏洞傳出被用於攻擊行動。&lt;/p&gt;
-&lt;p&gt;資安業者 Cyble 指出，他們在 2 月 27 日看到有人公佈該漏洞的概念性驗證程式碼（PoC），2 天後駭客透過 5 個 IP 位址嘗試利用這項漏洞，研究人員根據另一家資安業者 Group-IB 去年的調查，認為攻擊者的身分可能是勒索軟體駭客組織 ShadowSyndicate。&lt;/p&gt;
-&lt;p&gt;研究人員根據他們的網路掃描工具進行調查，全球約有 4.4 萬台可透過網際網路存取的 Aiohttp 實體，位於美國的最多，佔 15.8%，其次是德國、西班牙，各有 8%、5.7%，但由於難以判斷這些伺服器使用的版本，他們無法確認有多少主機曝險。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://securityintelligence.com/posts/pixpirate-brazilian-financial-malware/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;安卓惡意軟體 PixPirate 採用新型態策略埋藏在背景運作&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: f6728bb6-0c39-4e7e-8989-bd17d75ae2a0 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;去年 2 月資安業者 Cleafy 揭露專門鎖定巴西的安卓木馬程式 PixPirate，並指出該木馬能對多家當地銀行的用戶進行自動轉帳系統（ATS）攻擊、攔截簡訊，還能投放惡意廣告，如今這個惡意程式以更隱密的方式於受害手機運作。&lt;/p&gt;
-&lt;p&gt;IBM 威脅情報團隊指出，他們近期看到 PixPirate 的變種版本，但有別於過往的版本，首先，這次駭客採取新的隱藏應用程式圖示策略（不具備啟動器的圖示，而能在最新版的安卓作業系統維持隱藏的狀態）；再者，攻擊者將該惡意程式拆成兩個 APK 檔案進行散佈，這樣的做法也相當罕見。&lt;/p&gt;
-&lt;p&gt;對方先透過 WhatsApp 或是釣魚簡訊散佈第 1 個「下載器」的 APK 檔案，一旦使用者執行安裝，該 APK 檔案就會要求使用者，開放輔助功能在內的多種權限，啟動後便會下載 PixPirate 的主程式，此軟體安裝後，不會在手機前端介面呈現 App 圖示，但會產生可被其他應用程式連接的服務，而能被前述的下載器執行。研究人員指出，就算受害者移除下載器的 App，PixPirate 仍舊能夠獨立運作。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/PixPirate-infection-flow.png&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/PixPirate-infection-flow.png&quot; style=&quot;width: 580px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://perception-point.io/blog/operation-phantomblu-new-and-evasive-method-delivers-netsupport-rat/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;駭客組織 PhantomBlu 透過 OLE 物件在 Microsoft 365 用戶電腦植入後門&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: c7e83a89-fe6b-467f-a66a-ccf921285806 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/blu.png&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/blu.png&quot; style=&quot;width: 300px; float: right;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;有人針對美國組織的 Microsoft 365 用戶發起名為 PhantomBlu 的攻擊行動，對方假借提供每個月的薪資報告，透過 SendInBlue、Brevo 等行銷管理平台寄送釣魚郵件，引誘收信人下載特定 Word 檔案。&lt;/p&gt;
-&lt;p&gt;一旦照做，收信人便會看到受到密碼保護的檔案及對應的「説明文件」，從而於受害電腦植入木馬程式 NetSupport RAT，使得攻擊者能夠進行監控、側錄鍵盤輸入內容、傳輸檔案，濫用系統資源，甚至能在受害網路進行橫向移動。&lt;/p&gt;
-&lt;p&gt;資安業者 Perceptive Point 指出，有別於大部分散佈 NetSupport RAT 的攻擊行動，這次駭客濫用了物件連結與嵌入（OLE）的範本檔案，並藉由 Office 文件範本執行惡意程式碼，從而迴避偵測。&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;/div&gt;
-&lt;h3&gt;&lt;strong&gt;【其他新聞】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.recordedfuture.com/adversarial-intelligence-red-teaming-malicious-use-cases-ai&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;駭客嘗試透過大型語言模型修改惡意程式，降低被防毒軟體特徵碼察覺的機會&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://therecord.media/lockbit-ransomware-takes-credit-for-south-african-pension-fund-attack&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;北韓駭客 Lazarus 疑似透過加密貨幣混幣系統 Tornado Cash 洗錢&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/security/new-acidpour-data-wiper-targets-linux-x86-network-devices/&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;資料破壞軟體 AcidPour 鎖定 Linux 網路裝置而來&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://securelist.com/trojanized-text-editor-apps/112167/&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;中國用戶遭到惡意廣告鎖定，駭客假借提供 Notepad++、VNote 等應用程式散佈滲透測試工具 Geacon&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: fa60516f-ec72-4327-ac51-db6ea08e365a --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://therecord.media/lockbit-ransomware-takes-credit-for-south-african-pension-fund-attack&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;南非公務員退休基金傳出在 2 月遭遇勒索軟體 LockBit 攻擊&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;近期資安日報&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161852&quot;&gt;&lt;strong&gt;【3 月 19 日】駭客組織 Earth Krahang 鎖定政府機關而來，疑為中國資安業者安洵旗下團隊&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161813&quot;&gt;&lt;strong&gt;【3 月 18 日】國際貨幣基金組織電子郵件帳號傳出遭到挾持&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161788&quot;&gt;&lt;strong&gt;【3 月 15 日】Windows 安全機制 SmartScreen 弱點在公佈前也被用於散佈惡意程式 DarkGate&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161868</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161868</guid>
-            <pubDate>Tue, 19 Mar 2024 16:00:00 GMT</pubDate>
-            <author>周峻佑</author>
             <category>新聞</category>
         </item>
     </channel>
