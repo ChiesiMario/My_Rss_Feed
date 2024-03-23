@@ -9,8 +9,151 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>en</language>
-        <lastBuildDate>Fri, 22 Mar 2024 16:05:15 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 23 Mar 2024 07:11:04 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>苹果正在与百度就 iOS 18 集成生成式 AI 功能的合作进行谈判</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;p&gt;&lt;u&gt;&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2F9to5mac.com%2F2024%2F03%2F22%2Fapple-baidu-china-ios-18-generative-ai-partnership%2F&quot; target=&quot;_blank&quot;&gt;据外媒报道&lt;/a&gt;&lt;/u&gt;，本周早些时候，有消息称，苹果正在与谷歌进行&lt;a href=&quot;https://www.oschina.net/news/283755&quot;&gt;谈判&lt;/a&gt;，以授权其 Gemini 模型用于为即将推出的 iOS 18 中的一些生成式 AI 功能提供支持。据说还与 OpenAI 就可能的交易进行了交谈。&lt;/p&gt; 
+&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-3c920abebeb85058ed5fe9c84e0cf77dff0.png&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
+&lt;p&gt;近日，《华尔街日报》&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.wsj.com%2Ftech%2Fapple-held-talks-with-chinas-baidu-over-ai-for-its-devices-76879b7f%23&quot; target=&quot;_blank&quot;&gt;称苹果还与百度进行了谈判&lt;/a&gt;，以获得其模型的许可。这可能是为了满足苹果在中国客户的人工智能请求，因为中国法律要求模型在被允许使用之前必须得到监管机构的批准。&lt;/p&gt; 
+&lt;p&gt;迄今为止，中国监管机构已批准了 40 多个模型，其中包括百度的 Ernie Bot。&lt;/p&gt; 
+&lt;p&gt;截至目前，据信苹果尚未与任何生成人工智能提供商敲定交易。谈判正在进行中，预计将在 6 月份的 WWDC 之前达成一致。iOS 18 预计将包含许多人工智能驱动的功能，一些任务在设备上处理，另一些则传递给在云中运行的后端模型。&lt;/p&gt; 
+&lt;p&gt;假设苹果遵循一贯的传统，iOS 18 将于 6 月发布，开发者测试版将在夏季运行。iOS 18 将于 9 月份向所有 iPhone 客户免费下载，并预装在 iPhone 16 系列上。&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284390/apple-baidu-china-ios-18-generative-ai-partnership</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284390/apple-baidu-china-ios-18-generative-ai-partnership</guid>
+            <pubDate>Sat, 23 Mar 2024 03:19:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>Solon Web 文件上传（upload）的最佳实践</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;h3&gt;1、如果是高频且文件极小&lt;/h3&gt; 
+&lt;p style=&quot;color:#24292e; margin-left:0; margin-right:0; text-align:start&quot;&gt;使用「纯内存模式」，即默认。如果高频小文件，应该是不适合用「临时文件模式」的，磁盘可能容易刷坏。只能多配些内存！&lt;/p&gt; 
+&lt;h3&gt;2、如果是低频或者文件很大&lt;/h3&gt; 
+&lt;p style=&quot;color:#24292e; margin-left:0; margin-right:0; text-align:start&quot;&gt;建议使用「临时文件模式」。即上传的文件数据流，先缓存为临时文件，再以文件流形式提供使用。这个非常省内存。比如，上传 1GB 的文件，服务内存几乎不会上升。&lt;/p&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;a) 添加配置&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span style=&quot;color:#986801&quot;&gt;server.request.useTempfile:&lt;/span&gt; &lt;span style=&quot;color:#0184bb&quot;&gt;true&lt;/span&gt; &lt;em&gt;#默认 false&lt;/em&gt;
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;b) 用后主动删除（建议，不管有没有用「临时文件模式」都主动删除。方便随时切换）&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;p style=&quot;color:#24292e; margin-left:0; margin-right:0; text-align:start&quot;&gt;使用完后，注意要删掉（框架不会自动删除）。如果等操作系统自动删除临时文件可能磁盘要暴掉了。&lt;/p&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span style=&quot;color:#4078f2&quot;&gt;@Controller&lt;/span&gt;
+&lt;span style=&quot;color:#a626a4&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#c18401&quot;&gt;DemoController&lt;/span&gt;{
+    &lt;span style=&quot;color:#4078f2&quot;&gt;@Post&lt;/span&gt;
+    &lt;span style=&quot;color:#4078f2&quot;&gt;@Mapping(&quot;/upload&quot;)&lt;/span&gt;
+    &lt;span style=&quot;color:#a626a4&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#4078f2&quot;&gt;upload&lt;/span&gt;&lt;span&gt;(UploadedFile file)&lt;/span&gt; { 
+        &lt;span style=&quot;color:#a626a4&quot;&gt;try&lt;/span&gt;{
+            &lt;em&gt;//可以同步处理，也可以异步&lt;/em&gt;
+            file.transferTo(&lt;span style=&quot;color:#a626a4&quot;&gt;new&lt;/span&gt; &lt;span style=&quot;color:#c18401&quot;&gt;File&lt;/span&gt;(&lt;span style=&quot;color:#50a14f&quot;&gt;&quot;/demo/user/logo.jpg&quot;&lt;/span&gt;)); 
+        } &lt;span style=&quot;color:#a626a4&quot;&gt;finally&lt;/span&gt; {
+            &lt;em&gt;//用完之后，删除&quot;可能的&quot;临时文件 //v2.7.2 后支持&lt;/em&gt;
+            file.delete();
+        }
+    }
+}   
+&lt;/code&gt;&lt;/pre&gt; 
+&lt;p style=&quot;color:#24292e; margin-left:0; margin-right:0; text-align:start&quot;&gt;关于 useTempfile 的配置支持情况：&lt;/p&gt; 
+&lt;table cellspacing=&quot;0&quot; style=&quot;-webkit-text-stroke-width:0px; background-color:#ffffff; border-collapse:collapse; border-spacing:0px; box-sizing:border-box; color:#24292e; display:block; font-family:-apple-system,&amp;quot;system-ui&amp;quot;,&amp;quot;Segoe UI&amp;quot;,Helvetica,Arial,sans-serif,&amp;quot;Apple Color Emoji&amp;quot;,&amp;quot;Segoe UI Emoji&amp;quot;,&amp;quot;Segoe UI Symbol&amp;quot;; font-size:16px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; margin-bottom:16px; margin-top:0px; orphans:2; overflow:auto; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-decoration-thickness:initial; text-transform:none; white-space:normal; widows:2; width:870px; word-spacing:0px&quot;&gt; 
+ &lt;tbody&gt; 
+  &lt;tr&gt; 
+   &lt;th&gt;插件&lt;/th&gt; 
+   &lt;th&gt;情况&lt;/th&gt; 
+  &lt;/tr&gt; 
+ &lt;/tbody&gt; 
+ &lt;tbody&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;solon.boot.jdkhttp&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;支持&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;solon.boot.jlhttp&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;支持&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;solon.boot.smarthttp&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;支持&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;solon.boot.jetty&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;支持&lt;/td&gt; 
+  &lt;/tr&gt; 
+  &lt;tr&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;solon.boot.undertow&lt;/td&gt; 
+   &lt;td style=&quot;border-color:#dfe2e5; border-style:solid; border-width:1px&quot;&gt;不支持（强制使用临时文件模式）&lt;/td&gt; 
+  &lt;/tr&gt; 
+ &lt;/tbody&gt; 
+&lt;/table&gt; 
+&lt;ul&gt; 
+ &lt;li&gt;c) 使用过滤器实现自动删除（文件处理不能为异步，否则提前就删没了）&lt;/li&gt; 
+&lt;/ul&gt; 
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span style=&quot;color:#a626a4&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color:#c18401&quot;&gt;FileDeleteFilter&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;implements&lt;/span&gt; &lt;span style=&quot;color:#c18401&quot;&gt;Filter&lt;/span&gt; {
+    &lt;span style=&quot;color:#4078f2&quot;&gt;@Override&lt;/span&gt;
+    &lt;span style=&quot;color:#a626a4&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#4078f2&quot;&gt;doFilter&lt;/span&gt;&lt;span&gt;(Context ctx, FilterChain chain)&lt;/span&gt; &lt;span style=&quot;color:#a626a4&quot;&gt;throws&lt;/span&gt; Throwable {
+        chain.doFilter(ctx);
+        
+        &lt;span style=&quot;color:#a626a4&quot;&gt;if&lt;/span&gt; (ctx.isMultipartFormData()) {
+            &lt;em&gt;//批量删除临时文件&lt;/em&gt;
+            &lt;span style=&quot;color:#a626a4&quot;&gt;for&lt;/span&gt; (List&amp;lt;UploadedFile&amp;gt; files : ctx.filesMap().values()) {
+                &lt;span style=&quot;color:#a626a4&quot;&gt;for&lt;/span&gt; (UploadedFile file : files) {
+                    file.delete();
+                }
+            }
+        }
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284380</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284380</guid>
+            <pubDate>Sat, 23 Mar 2024 01:03:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
+        <item>
+            <title>1Panel 应用推荐：DataEase 开源数据可视化分析工具</title>
+            <description>&lt;div class=&quot;content&quot;&gt;
+                                                                    
+                                                        &lt;p style=&quot;color:#000000; text-align:start&quot;&gt;1Panel（&lt;em&gt;github.com/1Panel-dev/1Panel&lt;/em&gt;）是一款现代化、开源的 Linux 服务器运维管理面板，它致力于通过开源的方式，帮助用户简化建站与运维管理流程。为了方便广大用户快捷安装部署相关软件应用，1Panel 特别开通应用商店，精选各类高质量的开源工具和应用软件，为用户的应用安装与升级操作提供便利。&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:start&quot;&gt;目前，1Panel 应用商店已经上架了超过 100 款精品软件并且定期更新维护，基本涵盖了大部分用户的基本装机需求。自 2024 年 1 月起，1Panel 开源项目组特别开设「应用推荐」专栏，为大家推荐 1Panel 应用商店中的宝藏开源软件。&lt;/p&gt; 
+&lt;h1&gt;本期推荐应用&lt;/h1&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;DataEase 开源数据可视化分析工具&lt;/p&gt; 
+&lt;div&gt;
+ &lt;img alt=&quot;&quot; height=&quot;1654&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-081cb5721d67f54fc310a3ffc302633d293.png&quot; width=&quot;2950&quot; referrerpolicy=&quot;no-referrer&quot;&gt; 
+ &lt;p&gt;&amp;nbsp;&lt;/p&gt; 
+&lt;/div&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-官方网站-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;https://dataease.io&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-开源许可协议-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;GPL-3.0 license&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-应用描述-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;人人可用的开源数据可视化分析工具&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-开发语言-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;JavaScript、Vue.js&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-上架版本-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;2.4.0&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-GitHub Star-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;14,774&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#005eeb&quot;&gt;-GitHub Fork-&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:center&quot;&gt;2,700&lt;/p&gt; 
+&lt;h1&gt;推荐原因&lt;/h1&gt; 
+&lt;p style=&quot;color:#000000; text-align:start&quot;&gt;数字化时代的来临带来了数据的爆发式增长。企业的生产活动会产生大量的业务数据，如何从庞杂的数据中筛选、提取关键信息，实现对业务决策的辅助和支持，就成为了数字经济时代企业决策者、业务人员、数据分析从业者面临的重要挑战。&lt;strong&gt;&lt;span style=&quot;color:#ff8124&quot;&gt;DataEase 是一款人人可用的开源数据可视化分析工具，它帮助用户快速分析数据并洞察业务趋势，从而实现业务的改进与优化。&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:start&quot;&gt;DataEase 是一款非常容易上手的 BI 大屏制作工具，用户通过鼠标点击和拖拽即可完成数据的提取和导入，并且快速生成精美的仪表板和数据大屏。刚刚接触数据分析的新手和缺少专业数据分析技能的业务用户也可以快速上手使用。&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:start&quot;&gt;在数据源方面，DataEase 支持 OLTP、OLAP、数据仓库、数据湖、数据文件和 API 接口等各种数据源。同时，DataEase 开源数据可视化分析工具还为用户提供多平台安装途径和多样化的嵌入支持，支持多种数据分享的方式，为用户的数据安全提供保障。&lt;/p&gt; 
+&lt;p style=&quot;color:#000000; text-align:start&quot;&gt;DataEase 通过内置的模板市场为用户提供了丰富的业务场景模板。在制作大屏时，用户往往面临数据呈现和视觉效果无法双重满足的困惑，DataEase 模板市场（&lt;em&gt;https://templates.dataease.cn/&lt;/em&gt;）提供了 100 多款高质量的免费大屏模板，覆盖制造、零售、电商、金融、医疗、教育、交通、物流等行业，协助用户快速制作精美的数据大屏。&lt;/p&gt;
+                                        &lt;/div&gt;
+                                    </description>
+            <link>https://www.oschina.net/news/284361</link>
+            <guid isPermaLink="false">https://www.oschina.net/news/284361</guid>
+            <pubDate>Fri, 22 Mar 2024 16:01:00 GMT</pubDate>
+            <author>来源: 投稿</author>
+        </item>
         <item>
             <title>升思 MindSpore 2.3 全新发布 | 升思人工智能框架峰会 2024 圆满举办</title>
             <description>&lt;div class=&quot;content&quot;&gt;
@@ -683,57 +826,6 @@
             <guid isPermaLink="false">https://www.oschina.net/news/284063</guid>
             <pubDate>Thu, 21 Mar 2024 06:33:32 GMT</pubDate>
             <author>来源: OSCHINA</author>
-        </item>
-        <item>
-            <title>联合国机构报告：2022 年全球产生 6200 万吨电子垃圾</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;联合国机构 20 日发布的《&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fapi.globalewaste.org%2Fpublications%2Ffile%2F297%2FGlobal-E-waste-Monitor-2024.pdf&quot; target=&quot;_blank&quot;&gt;全球电子垃圾监测&lt;/a&gt;》报告显示，2022 年全球范围内共产生 6200 万吨电子垃圾，其中仅有不到四分之一被回收利用。&lt;/p&gt; 
-&lt;p&gt;&lt;img height=&quot;353&quot; src=&quot;https://static.oschina.net/uploads/space/2024/0321/113551_rF8x_4252687.png&quot; width=&quot;500&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p&gt;这份由国际电信联盟和联合国训练研究所共同发布的报告显示，2022 年全球电子垃圾的产生量相比 2010 年增长了 82%。电子垃圾产生量增长速度远高于回收量增长速度。2022 年全球仅 22.3% 的电子垃圾被妥善收集并回收利用，这意味着价值 620 亿美元的可回收资源流失。大量含有害物质的电子垃圾未被妥善处理，对生态环境和人类健康造成巨大威胁。&lt;/p&gt; 
-&lt;p&gt;联合国训练研究所执行主任尼基尔·塞特强调：「在积极采用太阳能电池板和电子设备以应对气候危机并推动数字进步之际，电子垃圾的激增亟需关注。」&lt;/p&gt; 
-&lt;p&gt;这份报告还预测，按目前发展趋势，到 2030 年，电子垃圾产生量将比 2022 年增长 33%，达到 8200 万吨；与此同时，2030 年全球电子垃圾回收率将降至 20%。报告强调，如果各国能在 2030 年将电子垃圾回收利用率提高到 60%，这将在降低人类健康风险等方面产生超过 380 亿美元的经济效益。&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284038</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284038</guid>
-            <pubDate>Thu, 21 Mar 2024 03:30:45 GMT</pubDate>
-            <author>来源: 投稿</author>
-        </item>
-        <item>
-            <title>Snowflake 报告：Python 使用率增长 571%</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;Snowflake &lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.snowflake.com%2Fblog%2Fdata-trends-2024-ai-ready-data-foundation%2F&quot; target=&quot;_blank&quot;&gt;发布&lt;/a&gt;了一份「Data Trends 2024」报告，基于对 9000 多名 Snowflake 客户使用数据的分析。重点关注全球企业业务和技术领导者如何利用 AI 等资源来建立数据基础并改变未来的业务运营。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;&lt;img alt=&quot;&quot; height=&quot;286&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-ddb63532c9454484520ee2bf4824c7c9017.jpg&quot; width=&quot;500&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;报告指出，基于 LLM 的应用程序呈爆炸式增长。从 2023 年 4 月到 2024 年 1 月，有超过 20,000 名开发人员在 Streamlit 社区中开发了 33,000 个基于 LLM 的应用程序。在此期间，此类应用程序中聊天机器人的比例也显着增加，从 4 月份的 18% 增加到 1 月底的 46%，且这一指标还在不断攀升。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;Snowflake 预计其中大部分都是实验和试点项目，&quot;但事实上，如此多的开发人员渴望使用这些复杂的 AI 模型，这一事实只证实了人们的预期，即变革性的创新浪潮正在开始。&quot;&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;在对 Streamlit 的开发者社区进行调查后发现，近 65% 的受访者指出，他们的 LLM 项目是为了工作目的，这表明利用生成式 AI 提高劳动力生产力、效率和洞察力的重要性发生了转变。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;Streamlit 是一个面向机器学习和数据科学团队的开源应用框架，能够让开发者在几分钟内构建出 Web 应用。Snowflake 在 2022 年以 8 亿美元的价格&lt;a href=&quot;https://oschina.net/news/184963/snowflake-to-acquire-streamlit&quot;&gt;收购&lt;/a&gt;了&amp;nbsp;Streamlit。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;在开发 AI 项目时，Python 是首选的编程语言。报告发现，Python (571%) 过去一年中的使用增长速度明显快于 Java (131%) 和 Scala (387%)。就应用程序开发的地点而言，用户更趋向于直接在管理数据的平台上编写 LLM 应用程序。2023 年 7 月至 2024 年 1 月期间，Snowflake Native Apps 增长了 311%。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;此外，随着 AI 的采用，公司正在增加对非结构化数据的分析和处理，过去一年企业对非结构化数据的处理量增加了 123%。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span style=&quot;color:#000000&quot;&gt;更多详情可&lt;a href=&quot;https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fwww.snowflake.com%2Fdata-trends-report%2F&quot; target=&quot;_blank&quot;&gt;查看完整报告&lt;/a&gt;。&lt;/span&gt;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284025/snowflake-report-data-trends-report-2024</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284025/snowflake-report-data-trends-report-2024</guid>
-            <pubDate>Thu, 21 Mar 2024 02:18:18 GMT</pubDate>
-            <author>来源: OSCHINA</author>
-        </item>
-        <item>
-            <title>佳比亚加入 openKylin，携手社区打造智能办公系统！</title>
-            <description>&lt;div class=&quot;content&quot;&gt;
-                                                                                            &lt;p&gt;&lt;span&gt;近日，广州佳比亚电子科技有限公司（以下简称「佳比亚」）签署了 openKylin 社区 CLA(Contributor License Agreement 贡献者许可协议)，正式加入 openKylin 开源社区。&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:center&quot;&gt;&lt;img alt=&quot;&quot; height=&quot;1079&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-1208b9830fbad68da15460056bee0e5b915.png&quot; width=&quot;829&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify&quot;&gt;&lt;span&gt;佳比亚隶属于佳比国际集团有限公司，集团旗下拥有 15 家全资子公司、10 家省级办事处，并同步在海外成立了多家分公司及办事处，营销网络遍布全球。佳比亚专注于光电音视频互联互通、为全球提供 LAVC1 整体解决方案，是集研发、生产、销售、服务、项目设计于一体的「高新技术企业」，目前拥有知名品牌「JUSBE（佳比）」。&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;color:rgba(0, 0, 0, 0.9); margin-left:0; margin-right:0; text-align:justify&quot;&gt;&lt;span&gt;佳比亚坚持自主创新，拥有高水平专业研发团队，获得发明专利、实用新型专利、外观设计专利、软件著作权等多项自主知识产权专利技术。佳比亚还倡导环保节能理念，厉行 RoHS、CE、WEEE、HF 要求等国际安全环保标准，积极打造新时代绿色新型企业。&lt;/span&gt;&lt;/p&gt; 
-&lt;p style=&quot;text-align:center&quot;&gt;&lt;img alt=&quot;&quot; height=&quot;410&quot; src=&quot;https://oscimg.oschina.net/oscnet/up-569862b5415d7b403a8298d29c52df64911.png&quot; width=&quot;940&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt; 
-&lt;p&gt;&lt;span&gt;加入 openKylin 社区后，JUSBE(佳比) 将利用自身在智能办公系统、智慧教育、智慧安防等领域，尤其是声光视讯行业多年的项目经验、需求积累和技术沉淀，基于 openKylin 社区版本打造智能办公系统、智慧教育及智慧安防解决方案：一方面打造智能会议室、数字校园、楼宇公共广播系统等多场景应用解决方案，为用户提供一站式的声光视讯定制服务；另一方面解决智能无纸化会议系统的在各行业的应用及融合，推动社区在智能办公系统、智慧教育及智慧政务领域的生态建设方面跃升一个新台阶。&lt;/span&gt;&lt;/p&gt; 
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-                                        &lt;/div&gt;
-                                    </description>
-            <link>https://www.oschina.net/news/284013</link>
-            <guid isPermaLink="false">https://www.oschina.net/news/284013</guid>
-            <pubDate>Thu, 21 Mar 2024 01:31:00 GMT</pubDate>
-            <author>来源: 投稿</author>
         </item>
     </channel>
 </rss>
