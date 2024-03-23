@@ -9,8 +9,144 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>en</language>
-        <lastBuildDate>Sat, 23 Mar 2024 03:35:20 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 23 Mar 2024 07:37:20 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>蘋果芯片被曝安全漏洞，錢包密鑰存在泄露可能</title>
+            <description>&lt;blockquote&gt;漏洞只能依賴第三方加密軟件緩解，但此舉或導致芯片性能大幅下降。&lt;/blockquote&gt;&lt;p&gt;綜編：Felix, PANews&lt;/p&gt;
+&lt;p&gt;3 月 21 日，學術研究人員稱在蘋果 M 系列芯片中發現了一項新的安全漏洞。該漏洞允許攻擊者在執行廣泛使用的加密操作時從 Mac 電腦中提取密鑰。漏洞無法通過直接修補芯片解決，只能依賴第三方加密軟件，但此舉或導致性能大幅下降。&lt;/p&gt;
+&lt;p&gt;經研究人員測驗，該漏洞對多種加密實現構成威脅。目前已從 OpenSSL Diffie-Hellman、Go RSA 以及 CRYSTALS Kyber 和 Dilithium 中提取了密鑰。&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;攻擊者可以竊取密鑰&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;漏洞源於數據內存依賴預取器（Data Memory-Dependent Prefetcher，簡稱為 DMP），DMP 能夠預測將要訪問的內存地址以提高處理器效率。&lt;/p&gt;
+&lt;p&gt;然而，DMP 有時會錯誤地將密鑰等敏感數據內容與內存地址指針混淆，攻擊者可以通過操縱加密算法中的中間數據，使其在特定輸入下看起來像是地址，從而利用 DMP 的這一特性來間接泄露密鑰信息。這種攻擊不是立即破解加密密鑰。然而，攻擊可以重複進行，直到密鑰暴露。&lt;/p&gt;
+&lt;p&gt;研究人員聲稱，這種攻擊既可以攻擊經典的加密算法，也可以攻擊最新的量子強化算法。&lt;/p&gt;
+&lt;p&gt;至於其有效性，研究人員的測試應用程序能夠在不到一個小時的時間內提取 2048 位的 RSA 密鑰，而提取 2048 位的 Diffie-Hellman 密鑰只需兩個多小時。除去離線處理時間，獲取 Dilithium-2 密鑰需要十個小時。&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;蘋果芯片自身難以修補&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;這次攻擊的主要問題是，因屬於其蘋果 Silicon 芯片的核心部分，自身無法修補，只能依賴第三方加密軟件增加防禦措施。&lt;/p&gt;
+&lt;p&gt;問題是，任何緩解措施都將增加執行操作所需的工作負載，進而影響性能，特別是對於 M1 和 M2 系列芯片來説，這種性能下降可能更為明顯。&lt;/p&gt;
+&lt;p&gt;蘋果拒絕就此事發表評論。研究人員聲稱，他們在公開發布報告之前向蘋果公司進行了負責任的披露，於 2023 年 12 月 5 日通知了該公司。&lt;/p&gt;
+&lt;p&gt;用户和軟件開發人員可能需要密切關注 macOS 和其他操作系統中與此漏洞相關的未來 Apple 更新和緩解措施。&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;芯片漏洞屢屢被曝&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;值得一提的是，此前一些研究人員在 2022 年就指出蘋果芯片的 DMP 存在一個名為「Augury 」的漏洞。當時，所謂的 Augury 漏洞並未被認為會構成重大威脅」。&lt;/p&gt;
+&lt;p&gt;此外，麻省理工學院的研究人員在 2022 年發現了一個名為「PACMAN」的無法修復的漏洞，該漏洞利用指針身份驗證過程創建了旁路攻擊。&lt;/p&gt;
+&lt;p&gt;芯片漏洞對設備生產商來説可能是一個大問題，特別是不得不對操作系統和軟件進行更改。&lt;/p&gt;
+&lt;p&gt;2018 年，Meltdown 和 Spectre 芯片被發現漏洞，影響了所有 Mac 和 iOS 設備，以及自 1997 年以來生產的幾乎所有 X86 設備。這些安全漏洞依賴於「推測性執行」，即芯片可以通過同時處理多條指令，甚至無序處理來提高速度。&lt;/p&gt;
+&lt;p&gt;參考：&lt;a href=&quot;https://arstechnica.com/security/2024/03/hackers-can-extract-secret-encryption-keys-from-apples-mac-chips/&quot; rel=&quot;nofollow&quot;&gt;Ars Technica&lt;/a&gt;、&lt;a href=&quot;https://appleinsider.com/articles/24/03/21/apple-silicon-vulnerability-leaks-encryption-keys-and-cant-be-patched-easily&quot; rel=&quot;nofollow&quot;&gt;Appleinsider&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;相關閲讀：&lt;a href=&quot;https://www.panewslab.com/zh/articledetails/1624d8cc.html&quot;&gt;比特幣「萬幣候」們如何保管他們的「鉅額資產」？&lt;/a&gt;&lt;/p&gt;</description>
+            <link>https://panewslab.com/zh/articledetails/2yu9wuix.html</link>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/2yu9wuix.html</guid>
+            <pubDate>Sat, 23 Mar 2024 06:01:12 GMT</pubDate>
+            <author>Felix</author>
+            <category>深度</category>
+            <category>PA 原創</category>
+            <category>用户</category>
+            <category>安全</category>
+        </item>
+        <item>
+            <title>Frax Finance 的多重新敍事：重點發力 Layer2 Fraxtal，多個產品尚未形成「吸血效應」</title>
+            <description>&lt;blockquote&gt;本文將回顧 Frax Finance 的最新進展和市場數據。&lt;/blockquote&gt;&lt;p&gt;作者：Nancy，PANews&lt;/p&gt;
+&lt;p&gt;3 月 22 日，Frax Finance 創始人 Sam Kazemian 發佈 Frax 未來路線圖，計劃在未來一年內推出 23 個 L3，並在 2026 年底實現超 1000 億美元 Fraxtal TVL 的目標。作為老牌算穩，Frax Finance 已從原先單一的貨幣協議建立起了多元產品矩陣，業務涵蓋 LSD、借貸、跨鏈橋、RWA 和 L2 等多個熱門賽道。本文 PANews 將回顧 Frax Finance 的最新進展和市場數據。&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;擴大穩定幣競爭力，計劃今年重點發力&lt;/strong&gt;&lt;strong&gt;L2 &lt;/strong&gt;&lt;strong&gt;Fraxtal&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;從今年的市場動態來看，Frax Finance 不僅僅侷限於資產發行，其正加速產品功能和敍事路線的迭代升級。&lt;/p&gt;
+&lt;p&gt;一方面，Frax Finance 於今年 1 月中旬正式上線 FXB（Frax 債券）模塊，正式完成了 FRAX v3 的設計和所有新功能的部署。該版本旨在消除對 USDC 的依賴，創建一個新的去中心化穩定幣機制，並正式進入 RWA 賽道。其中，FXB 是一種到期時可無需信任地轉換為 1 個 FRAX 穩定幣的實用代幣，以 FRAX 穩定幣計價，簡單來説允許持有者以折扣價購買未來穩定幣 FRAX，債券收益率將與類似期限的美國國債收益率相對應，且具有特定的時間戳。從 Frax Finance 多個更新版本來看，其敍事實現了從算穩到 LSD 再到 RWA 的多維升級。&lt;/p&gt;
+&lt;p&gt;另一方面，類似於此前 Uniswap 協議的費用開關提案，Frax Finance 也正計劃為代幣持有者這類獎勵機制，近期名為「重新激活費用開關」提案就提出向 veFXS 持有者分配 75% 的協議費用收入。而 Kazemian 也在最新路線圖中提議，建議重開協議費用開關，將 50% 的收益流向 veFXS，另外 50% 用於回購 FXS 及其他 Frax 資產，並提議將 FPIS 到 veFXS 的轉換率降低 67%，以新的轉換率 1 FPIS -&amp;gt; 1.33 veFXS，期限四年。據 DeFiLlama 數據顯示，截至 3 月 22 日，Frax Finance 的年收入預計 4793 萬美元。而為加速擴大資產覆蓋範圍，Frax Finance 近期在 NEAR 上推出 FRAX 穩定幣，且在最新規劃中透露還將發行 frxTIA 和 frxMetis 等新資產。&lt;/p&gt;
+&lt;p&gt;此外，前有 dYdX 開發 Layer1 區塊鏈 dYdX Chain、Synthetix 部署 SNX Chain、MakerDAO 計劃推出 Newchain 等，後有 Frax Finance 也將發鏈作為新打法。今年 2 月，Frax Finance 宣佈推出了基於 OP Stack 構建的模塊化 Layer 2 區塊鏈 Fraxtal，旨在成為由技術論文驅動的區塊鏈，鼓勵其他人在其平台上構建和發展。&lt;/p&gt;
+&lt;p&gt;相比其他 Layer2，Fraxtal 採用了獨特的區塊空間激勵機制（稱為 Flox）用於區塊空間激勵機制（稱為 Flox），可根據 Fraxtal 鏈的使用情況獎勵 FXTL 積分，也可通過質押 veFXS 獲得，這些積分可被代幣化。FXS 是 Fraxtal 的定序器質押代幣，用於捕獲排序器收入。Fraxtal 是 Frax Finance2024 年發展的重點，未來包括 FRAX、sFRAX、frxETH（以及新的 Frax 資產）在內的所有 Frax 資產都將優先在 Fraxtal 上發行。而作為唯一一個在市值前 200 的項目中擁有 4 個獨立代幣/資產的協議，未來隨着 Fraxtal 的成熟，所有的 Frax 資產都將可以作為 Fraxtal 上的 Gas 代幣使用。&lt;/p&gt;
+&lt;p&gt;值得一提的是，Frax Finance 還瞄準了 Layer3，該賽道被普遍認為是可為 Layer2 帶來強大應用構建能力，具備爆發空間。Frax Finance 計劃在未來 365 天內推出 23 個官方 L3，以啓動 Fraxtal Nation 社區。目前官方已構建了 2 個 L3，剩餘預計在未來幾個月內完成。據官方介紹，L3 鏈不僅可以通過 Flox 獲得 FXTL 積分，且 23 個 L3 鏈插槽是為官方合作伙伴保留的，他們將獲得 Fraxtal 核心開發人員的額外支持，並分配大量的 FXTL。&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;熱點題材吸引資金流入，較同賽道產品存在一定差距&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;從多項數據來看，雖然踩着熱點的 Frax Finance 在穩定幣賽道的競爭力有限，但在 LSD 和 RWA 賽道具備較大的增長空間。&lt;/p&gt;
+&lt;p&gt;從穩定幣賽道來看，CoinGecko 數據顯示，截至 3 月 22 日，Frax Finance 的穩定幣 FRAX 以 6.4 億美元市值排名第八，但僅佔整體市值的 0.4%。雖然僅此於去中心化穩定幣賽道的 DAI，但只有後者市值的零頭。就當前穩定幣市場格局來看，龍頭的壟斷地位是很難被打破的。&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;https://cdn-img.panewslab.com/panews/2024/03/23/images/Omo094BdSR.jpg&quot; alt=&quot;Frax Finance 的多重新敍事：重點發力 Layer2 Fraxtal，多個產品尚未形成「吸血效應」&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;從 LSD 競爭來看，DeFiLlama 數據顯示，截至 3 月 22 日，LSD 賽道的總 TVL 達 486.62 億美元，其中 Frax Ether（frxETH）以近 10 億美元佔比達 2.09%，較年初增長了 42.5%。與排名首位的 Lido 的超 345 億美元相比，Frax Ether 仍有較大差距。但 Frax Finance 官網顯示，截至 3 月 22 日，frxETH 的 APR 達 4.08%，超過同時期的 stETH、rETH 和 cbETH 等，相對更高的質押收益率或將吸引更多資金進入。&lt;/p&gt;
+&lt;p&gt;另從 RWA 佈局來看，Frax Finance 官網顯示，截至 3 月 22 日，旗下利用美國國債收益的質押金庫 sFRAX 的質押總量超 2838.8 萬枚。根據 DeFiLlama 數據顯示，截至 3 月 22 日，RWA 賽道項目總 TVL 超 40.1 億美元。相比 stUSDT 和 Ondo Finance 等排名靠前的 RWA 項目的收益率，sFRAX 的利率為 5.4%，具備一定優勢。&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;https://cdn-img.panewslab.com/panews/2024/03/23/images/4UCY23G443.jpg&quot; alt=&quot;Frax Finance 的多重新敍事：重點發力 Layer2 Fraxtal，多個產品尚未形成「吸血效應」&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;熱點賽道的佈局也讓 Frax Finance 整體鎖倉量出現一定增長。DeFiLlama 數據顯示，Frax Finance 的 TVL 自年初以來上升了 30.6%，但在受近期費用開關消息影響後短暫衝高後出現下滑。但對治理代幣 FXS 價格並未提到明顯提振作用，CoinGecko 數據顯示，FXS 較年初下跌了 15.6%。&lt;/p&gt;
+&lt;p&gt;總的來説，在各家穩定幣競爭日益激烈的當下，Frax Finance 通過集成多個產品套件探索差異化發展路，但能否真正構建自身增長飛輪還有待時間驗證。&lt;/p&gt;</description>
+            <link>https://panewslab.com/zh/articledetails/uclla1px.html</link>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/uclla1px.html</guid>
+            <pubDate>Sat, 23 Mar 2024 04:04:35 GMT</pubDate>
+            <author>Nancy</author>
+            <category>深度</category>
+            <category>PA 原創</category>
+            <category>Frax Finance</category>
+            <category>Layer2</category>
+            <category>RWA</category>
+            <category>穩定幣</category>
+        </item>
+        <item>
+            <title>不發幣也能躋身頭部，Base 靠的是什麼？</title>
+            <description>&lt;blockquote&gt;Base 天生好命，沒有發幣預期 TVL 也能節節高升，但背後不能忽視的是 Base 的運作邏輯。&lt;/blockquote&gt;&lt;p&gt;作者：Kaori&lt;/p&gt;
+&lt;p&gt;Base 的 TVL 在三月漲幅突出，得益於昨日 meme 狂潮，Base TVL 突破 7 億美元，截止撰稿時，TVL 總量為 7.43 億美元，達到歷史新高。背靠 Coinbase，Base 似乎正在成為以太坊生態新的活力增長點。&lt;/p&gt;
+&lt;p&gt;Base 鏈上活動增加被社區質疑是機器人，沒有多少真正的活躍用户，答案也許並非如此，因為沒有哪一條鏈比 base 更需要真實用户和鏈上活躍度。&lt;/p&gt;
+&lt;p&gt;Base 於去年 8 月推出主網，協議負責人 Jesse Pollak 曾在 Bankless 播客中明確表示 Base 不會發布代幣，也沒有發幣計劃。作為唯一一家上市的加密交易平台 Coinbase 打造的鏈，Base 的發幣預期確實是很低，因此需要真實用户貢獻手續費收入作為整個生態的收入來源。&lt;/p&gt;
+&lt;p&gt;眾所周知，加密市場是一個極度投機、追求資本效率的地方，那鏈上的用户為什麼進入 Base，Base 又依靠什麼獲得更多用户，以及 Base 還有多大的增長空間？&lt;/p&gt;
+&lt;h3&gt;Base 的生態邏輯&lt;/h3&gt;
+&lt;p&gt;沒有發幣預期，這讓 Base 成為以太坊 Layer 2 中獨特的存在，而 Base 上似乎隔一段時間就會出現神盤，為整個生態帶來實打實的收入和流量。從 TVL 走勢圖可以看出，Base 上線至今共經歷過三次 TVL 大幅上漲。&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/65afa93791cbb825a9ffa36b0493d048.&quot; alt=&quot;不發幣也能躋身頭部，Base 靠的是什麼？&quot; width=&quot;800&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;第一次是社交應用 Friend Tech 爆火，以一己之力帶動 Base TVL 直線上升；第二次是今年二月，社交協議 Farcaster 推出新功能 frames，社區 meme 幣 DEGEN 以及一系列空投預期帶來的綜合反應；第三次是近期隨着坎昆升級落地，Coinbase 助力 Base 生態 DeFi 項目推動鏈上流動性增加加上市場熱錢增多的協同效應導致。&lt;/p&gt;
+&lt;p&gt;而這三次上漲也分別説明瞭 Base 的基因裏攜帶着與其它 Layer 2 不一樣的發展因素。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;專注於用户增長「VC 鏈」&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;還記得去年 Friend Tech 橫空出世帶來的市場熱度嗎？儘管現在看起來有些一地雞毛，但彼時市場還處於熊市週期，建立在 Base 鏈上的社交協議 Friend Tech 的出現無異於平地驚雷。&lt;/p&gt;
+&lt;p&gt;從 8 月初產品發佈到 10 月中旬，Friend Tech 協議收入累積 2100 萬美元，日最高累積收入約 100 萬美元，遠超當時的主流 Defi 協議或者 NFT 市場。通過社交裂變解決行業分享痛點，恰逢其時透過投機效應做到冷啓動，並依靠快速迭代與捆綁 Paradigm 夯實發展預期，此外釋放空投預期加深用户黏性。可以説，Friend Tech 給彼時的 Web3 市場好好地上了一堂產品經理課。&lt;/p&gt;
+&lt;p&gt;而在這個螺旋上升的鏈條裏，前期靠的是邀請碼和知名 KOL 拉人頭進行社交裂變，但 Paradigm 的出現是關鍵因素。Folius Ventures 的一份研究報告表示 Friend.Tech 拒絕接觸所有除了 Paradigm 以外的 VC，這説明其和 paradigm 是高度綁定的。但要説這場 SocialFi 狂潮受益最大的是誰，我想毋庸置疑是 Base。&lt;/p&gt;
+&lt;p&gt;除了 Friend Tech，Base 上還有專注於電子寵物市場的 FrenPets，Web3 直播平台 Unlongly，專注於收集音樂的 sound.xyz，籌款平台 PartyDAO，收藏藝術品的 Zora，Web3 Tiktok 的 Drakula 等等。&lt;/p&gt;
+&lt;p&gt;在 Base meme 硝煙瀰漫過後，很多人問 Base 上還有什麼，Base 協議負責人 Jesse Pollak 艾特了一大串項目名單，這些項目都是專注於服務 Web3 用户的消費應用。Jesse 稱 Base 目前正在醖釀一場被稱為 build2earn 或「構建有影響力的新鏈上產品並贏得尊重、讚賞和經濟獎勵」的趨勢。&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/db23360cf9ce26ca3f5bb684f1ed65f7.&quot; alt=&quot;不發幣也能躋身頭部，Base 靠的是什麼？&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;站在這些消費應用背後的，是 Paradigm、a16z、Multicoin、DragonFly、Variant Funds、1confirmation 等一批加密市場知名的 VC 機構。而這些 VC 機構也因各自的投資風格不同，在 Base 生態分化出了兩種特色，一方是以 Paradigm 為首的「賭徒文化」攢局者，另一方是以 a16z 為中心的長期主義派。但他們的目的都只有一個——為 Base 帶來更多的真實用户，創建一個活躍繁榮的鏈上生態。&lt;/p&gt;
+&lt;p&gt;與 Friend Tech 模式相反的是長期低調耕耘的社交協議 Farcaster。拿到 a16z、1confirmation 等 VC 的 3000 萬美元融資，Farcaster 上線後便被認作是去中心化社交協議的天花板。其一開始並不急於做用户增長，直到今年 2 月，推出 frames 框架功能後才經由各大機構或者 KOL 發文介紹獲得大規模破圈，DAU 創歷史新高，也為 Base 短暫的帶來了一波交易熱潮。&lt;/p&gt;
+&lt;p&gt;目前來看，Farcaster 及其最大的前端協議 Warpcast 已經成為 Base 生態的後花園，以 DEGEN 為代表的生態資產也正在成為 Base 鏈上主要的炒作標的。雖然現在進入 Warpcast 仍然有一定的門檻，但 Base 生態乃至以太坊生態都在其上建立了自己的社交圈層和文化。這看上去有些精英主義，但隨着項目持續破圈，以及更廣泛的用户採用，這些「精英們」似乎也在向賭徒文化妥協。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;生態聯動，和 OP 互通有無&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;之所以説 Base 好命，除了有 VC 傾情打造增長方案，還在於其和以太坊生態的通力合作。其中最有代表性的是加入 OP 超級鏈願景。&lt;/p&gt;
+&lt;p&gt;去年 8 月，Base 和 Optimism 聯合公佈了一項治理及收入共享協議，協議規定了 Optimism 和 Base 雙方在短期、長期狀態下不同的治理協作模式，以及雙方之間的經濟交互關係。也就是説，本來是競爭關係的兩條以太坊 Layer 2 聯起手來做生態建設。&lt;/p&gt;
+&lt;p&gt;除了戰略路線上達成一致，在具體的生態項目發展上，Base 和 OP 二者也有很好的合作。很多人認為 Base 既然有那麼多消費應用，或許沒人關注 DeFi 這個大部分區塊鏈的核心配置。但擁有頂級資源的 Base 告訴你，不僅可以打造真正的消費應用鏈，也能做好流動性管理，打造優秀的 DeFi 應用，而這靠的也是生態聯動所帶來的協同效應。&lt;/p&gt;
+&lt;p&gt;目前，佔據 Base TVL 半壁江山的是流動性協議 Aerodrome，由 OP 頭部協議 Velodrome Finance 在 Base 上部署的分叉協議，其原生代幣是 AERO，通過排放分配給流動性提供者。去年八月底上線 Base 後，在短短 24 小時內吸引了接近 2 億美元的 TVL，其流動性挖礦收益未複利年化更是接近 1000%。&lt;/p&gt;
+&lt;p&gt;1 月 25 日，Coinbase 將 Aerodrome Finance (AERO) 添加至上幣路線圖。2 月 27 日，Aerodrome 宣佈獲得 Coinbase Ventures 領導的 Base 生態基金投資，具體金額未披露，投資方式為購買 Aerodrome 原生代幣 AERO 代幣。截止撰稿時，AERO 短時突破 0.83 美元，&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/bed37fcfb833b29bb69f0091aa303ebe.&quot; alt=&quot;不發幣也能躋身頭部，Base 靠的是什麼？&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;從 Coinbase 上幣再到投資這一連串操作，讓本就是 Base 流動性中心的 Aerodrome 再次乘上東風，幣價接連上漲，月漲幅近 700%。截止撰稿時，Aerodrome 的 TVL 達到了 3.17 億美元，交易費用達 1452 萬美元，擁有 3.3 餘萬活躍用户&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;背靠 Coinbase 大樹好乘涼&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;但 Coinbase 才是 Base 成為天生好命型 Layer 2 的關鍵。&lt;/p&gt;
+&lt;p&gt;前文提到，Coinbase 是 Base 上部分項目部署代幣後的最佳交易場所，正所謂背靠大樹好乘涼，其實不止是從 Base 流向 CEX，從 Coinbase 流向 Base 也十分值得關注。&lt;/p&gt;
+&lt;p&gt;最近，Coinbase 推出了新的智能錢包，核心功能 Magic Spend 可以使得用户「及時」地在鏈上轉移資金。在交易簽名 / 付款時，用户可以選擇從 Coinbase 賬户中提取資金，資金僅在交易簽名 / 付款時提取。除了 Coinbase 賬户中有資金外，用户無需執行任何其他操作，也無需下載錢包擴展程、無需橋接。&lt;/p&gt;
+&lt;p&gt;智能錢包進一步打通鏈上與鏈下的阻礙，而 Base 無疑是受此利好最明顯的鏈，這不僅為為 Base 鏈大規模吸引用户和資金奠定了基礎，也讓 Base 上已有的消費應用有更廣泛的採用可能性。&lt;/p&gt;
+&lt;p&gt;Coinbase 除了賦能 Base 生態，其合規管理也使得 Base 在更長遠的未來降低風險。&lt;/p&gt;
+&lt;p&gt;3 月 19 日，Coinbase 首席執行官 Brian Armstrong 發文稱「權威人士表示除了投機和非法活動之外，加密貨幣沒有任何實際用途。然而，全球有 4 億人（包括超 5000 萬美國人）購買了加密貨幣，第三方數據顯示，非法活動佔交易量的比例不到 0.5%。」Armstrong 身為 CEX 的 CEO，經常發聲不僅是為 Coinbase 發聲，也是在為 Base 站台，或者是為加密市場正名。&lt;/p&gt;
+&lt;h3&gt;有哪些標的值得關注&lt;/h3&gt;
+&lt;p&gt;在一眾 VC 和 Coinbase 的扶持下，Base 無疑將會成為以太坊生態中 Alpha 最密集的地方。因為 Coinbase 的合規屬性，Base 因此擁有了不發幣的先天屬性，而這個原因也導致如果用户想炒作 Base 標的，只能將目光放在 Base 的生態項目上。&lt;/p&gt;
+&lt;p&gt;前文提到的 Aerodrome 其原生代幣在上線 Coinbase 後從底部 0.04 美元上漲至 0.8 美元，漲幅達 1900%。而 Base 生態還有許多項目，社區也正在加大其上線 Coinbase 的預期。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Moonwell (WELL)&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Moonwell 是一個部署在 Base 上的開放借貸協議，與 Base 主網同步上線。2 月 15 日，Moonwell 推出了一項名為「USDC Anywhere」的工具，使個人能夠通過各種以太坊網絡向 Moonwell 借出 Circle 的 USDC 穩定幣。該工具支持在 Arbitrum、Avalanche、Base、以太坊、Optimism 和 Polygon 等網絡上檢測用户錢包中的 USDC，並利用 Circle 的跨鏈協議將穩定幣轉移到平台上，無需手動橋接資產，從而允許用户利用在 Moonwell 上的數字資產在以太坊生態系統中發送 USDC。&lt;/p&gt;
+&lt;p&gt;隨着 Base 生態升温，Moonwell 的用户也在逐步增長。其原生代幣 WELL 目前價格為 0.032 美元，30 日漲幅達 333%。&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/15053c16177fc8bd192a380e6dba92bd.&quot; alt=&quot;不發幣也能躋身頭部，Base 靠的是什麼？&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Avantis&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;2 月 4 日，基於預言機的合成衍生品協議 Avantis 已在 Base 鏈上完成主網發佈，其協議允許用户可以使用槓桿交易加密貨幣和現實世界資產。&lt;/p&gt;
+&lt;p&gt;2023 年 9 月，Avantis Labs 完成 400 萬美元種子輪融資，由 Pantera Capital 領投，Founders Fund、Coinbase 旗下的 Base 生態系統基金和 Modular Capital 參投。&lt;/p&gt;
+&lt;p&gt;目前，Avantis 還未發幣，3 月 12 日推出了交易量獎勵。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Infusion&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Infusion 是 Base 上的一個新的 AMM 協議，於 3 月 15 日在 Base 上線，是 Base 流動性協議的新星。Infusion Protocol 通過名為 Timefuse 的新型時間鎖組件鞏固了鏈上流動性。當流動性被「時間融合」時，資金池將大部分費用分配給流動性提供者，並將流動性鎖定一段時間，從而激勵 DeFi 所需的長期穩定性。&lt;/p&gt;
+&lt;p&gt;Infusion Protocol 是一個社區驅動項目，由來自各個 DeFi 和基礎設施項目的貢獻者和顧問組成。核心貢獻者和顧問來自 1inch、Pendle Finance、Harmony、LI.FI 和 Thorchain。&lt;/p&gt;
+&lt;p&gt;Infusion 目前還未發幣。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;BSX&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;BSX 是一個 Base 上的新興 DEX，Coinbase Ventures 旗下 Base 生態基金首輪投資 6 個加密項目之一。採用「鏈下執行、鏈上結算」的非託管系統，未來還將支持商品和外匯交易。BSX 的核心成員來自 Coinbase、Kraken、FalconX 和 Jump 等機構。&lt;/p&gt;
+&lt;p&gt;BSX 目前處於公共測試網階段，將於月底推出主網。&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Deakula&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;3 月 14 日，社交應用 Drakula.app 在社交平台上表示，已推出鏈上短視頻社交應用 Drakula，用户使用 Farcaster 登錄即可獲取 250 個 BLOOD 積分，還可通過發佈與觀看短視頻等方式賺取積分，創作者也可從每筆代幣交易中獲得佣金收入。此外，Drakula 還與 Degen 合作，使用 DEGEN 作為主要交易代幣，Degen 還向 Drakula 提供 1000 萬枚 DEGEN 資助。&lt;/p&gt;
+&lt;p&gt;在 Drakula 的官推簡介裏，項目方表示這是有 Paradigm 和 DragonFly 投資的社交項目，聯想到 Friend Tech 曾經的熱潮，或許可以期待 Drakula 在未來的表現。&lt;/p&gt;</description>
+            <link>https://panewslab.com/zh/articledetails/z9kpfi9p.html</link>
+            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/z9kpfi9p.html</guid>
+            <pubDate>Sat, 23 Mar 2024 03:30:02 GMT</pubDate>
+            <author>區塊律動 BlockBeats</author>
+            <category>深度</category>
+            <category>Base</category>
+            <category>a16z</category>
+            <category>SocialFi</category>
+            <category>加密貨幣</category>
+            <category>NFT</category>
+            <category>Coinbase</category>
+            <category>Optimism</category>
+            <category>治理</category>
+            <category>去中心化</category>
+            <category>以太坊</category>
+        </item>
         <item>
             <title>以太坊生態跑出的千億賽道：梳理近期熱度較高的質押項目</title>
             <description>&lt;blockquote&gt;今天，白話來給大家梳理下近期熱度較高的一些質押項目。&lt;/blockquote&gt;&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/999782a61b65f535e1723133595f53f5.png&quot; alt=&quot;以太坊生態跑出的千億賽道：梳理近期熱度較高的質押項目&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
@@ -1356,258 +1492,6 @@
             <category>比特幣</category>
             <category>灰度</category>
             <category>去中心化</category>
-        </item>
-        <item>
-            <title>Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME</title>
-            <description>&lt;blockquote&gt;Base 生態 BRETT 在 3 周內上漲 130 倍， NORMIE 已經上漲了 90 倍。&lt;/blockquote&gt;&lt;p&gt;作者：&lt;a href=&quot;https://twitter.com/DeFiTracer/status/1770838187973177732&quot; rel=&quot;nofollow&quot;&gt;&lt;strong&gt;ᴛʀᴀᴄᴇʀ&lt;/strong&gt;&lt;/a&gt;, 加密 KOL&lt;/p&gt;
-&lt;p&gt;編譯：Felix, PANews&lt;/p&gt;
-&lt;p&gt;錯過了 Solana 生態山寨幣和模因幣的炒作？ 無妨，本輪牛市還有一次機會實現收益最大化。本週，市場上的所有目光都集中在 Base 生態上，大量代幣飆升。其中，BRETT 在 3 周內上漲 130 倍， NORMIE 已經上漲了 90 倍。&lt;/p&gt;
-&lt;p&gt;而 Base 生態山寨季似乎才剛剛開始。鯨魚正在將資金轉移到 Base 生態 ，期望買到下一個百倍山寨幣。加密 KOL ᴛʀᴀᴄᴇʀ盤點了有望成為下一個 BRETT 或 NORMIE 的 9 個潛力代幣。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;PANews&lt;/strong&gt;&lt;strong&gt;注：本文旨在提供市場信息，不構成投資意見，&lt;/strong&gt;&lt;strong&gt;DYOR&lt;/strong&gt;&lt;strong&gt;。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/62257ddd29bfa0a7d8ba91120281e176.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Poncho&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;PONCHO&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;基於 Base 的模因幣，擁有強大的社區和來自同一社區的支持。Poncho 作為 Base 生態上的模因幣，具備價格飆升的可能性。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：358&lt;/li&gt;
-&lt;li&gt;X 粉絲數：2779&lt;/li&gt;
-&lt;li&gt;當前價格：0.877 美元&lt;/li&gt;
-&lt;li&gt;當前 FDV：877 萬美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/54d56e934aa53021b00ccc8f724bb0e7.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Wolf &lt;/strong&gt;&lt;strong&gt;Wif&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;BALLZ&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;BALLZ 是一種來自狼迷和時尚內衣愛好者的模因幣。這個項目是由社區驅動的，純粹由社區發起，強調公平、公正和包容性，每個人都可以參與並在決策中發表意見，重點關注社區發展。目前 BALLZ 已經停滯已久。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;X 粉絲數：1.6 萬&lt;/li&gt;
-&lt;li&gt;當前價格：0037 美元&lt;/li&gt;
-&lt;li&gt;當前 FDV：3780 萬美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/4cc6fb99f68a0024f40bf089a0e00fe4.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;bloo&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;BLOO&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;一種圍繞無家可歸靈魂概念構建的模因幣。bloo 曾經是一個無家可歸的靈魂，後來被布萊恩和傑西所救並給予關愛。 他們在寄養之家為他找到了家。在那裏他遇到了同伴，並一起踏上了充滿活力的旅程，編織了友誼和冒險的故事，塑造了 bloo 充滿愛和歡笑的新生活。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：398&lt;/li&gt;
-&lt;li&gt;X 粉絲數：4059&lt;/li&gt;
-&lt;li&gt;價格：14.71 美元&lt;/li&gt;
-&lt;li&gt;市值：14,712,512 美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/0e07b3ff3177224a81d07fc306580153.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;MYSTCL&lt;/strong&gt;（&lt;strong&gt;MYST&lt;/strong&gt;）&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://twitter.com/WeMYSTCL&quot; rel=&quot;nofollow&quot;&gt;MYSTCL&lt;/a&gt;是 Base 網絡上的第一個 ERC404 PFP，在很短的時間內就吸引了一批用户。該代幣近一個月內漲幅超 800%。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：691&lt;/li&gt;
-&lt;li&gt;X 粉絲數：6346&lt;/li&gt;
-&lt;li&gt;當前價格：560 美元&lt;/li&gt;
-&lt;li&gt;當前 FDV：399 萬美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/6bd969be76ade1bfd2a57825f29bffa8.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;ElonRWA&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;ELONRWA&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;ElonRWA 是第一個與 RWA 關聯的 Elon 模因幣。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：496&lt;/li&gt;
-&lt;li&gt;X 粉絲數：1509&lt;/li&gt;
-&lt;li&gt;價格：0.0002851 美元&lt;/li&gt;
-&lt;li&gt;市值：22,562,913 美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/1cf3b282ed9b99c184fd339b901b70cc.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BPS&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;BPS&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;BPS 是一個在 Base 區塊鏈上釣魚和獲取收益的一站式商店。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：385&lt;/li&gt;
-&lt;li&gt;X 粉絲數：496&lt;/li&gt;
-&lt;li&gt;價格：0.005131 美元&lt;/li&gt;
-&lt;li&gt;市值：5,174,634 美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/f1965f24f2d5044cad2032aa79ab56fc.jpeg&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;DEFiDO&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;DEFIDO&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;DeFido 是一羣對去中心化金融創造價值、促進社區發展和釋放創造力充滿熱情的人組成。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：674&lt;/li&gt;
-&lt;li&gt;X 粉絲數：1.9 萬&lt;/li&gt;
-&lt;li&gt;價格: 0.004818 美元&lt;/li&gt;
-&lt;li&gt;市值：4,861,952 美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/e33b4f47647358f7d5e5ec2d3ddec4c5.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Degen&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;DEGEN&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Degen 是一種 ERC-20 代幣，於 2024 年 1 月推出，旨在重塑 Farcaster 生態系統，允許用户使用 DEGEN 代幣對高質量內容進行獎勵。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：914&lt;/li&gt;
-&lt;li&gt;X 粉絲數：7778&lt;/li&gt;
-&lt;li&gt;當前價格：0.0094 美元&lt;/li&gt;
-&lt;li&gt;當前 FDV：3.46 億美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/876b71bcf71e164ac8cae16111440f53.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Base God&lt;/strong&gt;&lt;strong&gt;（&lt;/strong&gt;&lt;strong&gt;TYBG&lt;/strong&gt;&lt;strong&gt;）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;一個模因幣，其社區將 Vitalik Buterin 奉為神明。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Telegram 人數：874&lt;/li&gt;
-&lt;li&gt;X 粉絲數：5490&lt;/li&gt;
-&lt;li&gt;當前價格：0.0003426 美元&lt;/li&gt;
-&lt;li&gt;當前市值：4200 萬美元&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com//panews/2022/3/22/images/a5ac74903b20d2db683a8f480d5fbc20.png&quot; alt=&quot;Base 生態 MEME 熱度起勢，一覽 9 個受關注 MEME&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p&gt;相關閲讀：&lt;a href=&quot;https://www.panewslab.com/zh/articledetails/5nof05om.html&quot;&gt;Base 能否接棒 Solana 再掀 Meme 熱潮？&lt;/a&gt;&lt;/p&gt;</description>
-            <link>https://panewslab.com/zh/articledetails/zoutcyca.html</link>
-            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/zoutcyca.html</guid>
-            <pubDate>Fri, 22 Mar 2024 05:52:54 GMT</pubDate>
-            <author>Felix</author>
-            <category>深度</category>
-            <category>Base</category>
-            <category>Memecoin</category>
-            <category>PA 原創</category>
-        </item>
-        <item>
-            <title>TVL 接近 10 億美元后，Swell Network 宣佈將上線 L2</title>
-            <description>&lt;blockquote&gt;Layer2 鏈將在下半年上線，Swell Network 藉機拓寬 DeFi 世界的朋友圈&lt;/blockquote&gt;&lt;p dir=&quot;ltr&quot;&gt;2024 年 3 月，Swell Network 宣佈將推出其 Layer 2 rollup 鏈，預計今年下半年主網將正式上線。這一 Layer 2 網絡採用了 AltLayer 開發的獨特「restaked rollup」框架，區別於傳統 Layer 2 設計，它是基於 Polygon 的鏈開發套件（CDK）並得到 AltLayer 支持構建的。該網絡旨在為 Swell 用户帶來包括原生再質押收益、更優的可擴展性和更低的交易費用等多重好處。Swell 即將推出的代幣，將被用於網絡的治理工作。下文介紹一下 Swell Network 項目的概況。&lt;/p&gt;
-&lt;h3 dir=&quot;ltr&quot;&gt;TVL 已接近 10 億美元，為用户提供 LST 或 LRT 的質押收入&lt;/h3&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Swell Network，一家領先的非託管質押協議，即將推出其創新產品 rswETH。通過 Swell，用户能夠通過質押或重新質押 ETH 來源源不斷地賺取被動收入，包括區塊鏈獎勵和 AVS 獎勵。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/images/nVkbNQy7Mi.png&quot; alt=&quot;TVL 接近 10 億美元后，Swell Network 宣佈將上線 L2&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;作為獎勵，用户將獲得收益性流動性代幣（LST 或 LRT），這些代幣不僅可以持有，還可以用於參與更廣泛的 DeFi 生態系統，以實現額外收益。下面將對本次合作進行深入探討。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Swell 的 L2 解決方案基於其 LST 和 LRT 的總鎖定價值（TVL）約 10 億美元，專注於 EigenLayer 上的流動性重新抵押資產。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;區別於傳統 rollup 技術，Swell 採用 AltLayer 首創的「restaked rollup」框架，通過一系列主動驗證服務（AVS）提高其安全性和去中心化程度，包括去中心化排序、驗證和加速交易最終確定性。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/images/6Vv57KP8fS.png&quot; alt=&quot;TVL 接近 10 億美元后，Swell Network 宣佈將上線 L2&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Swell 的 L2 網絡不僅提供原生重新質押收益，還通過 LRTfi 的新飛輪機制，為用户帶來更高的可擴展性和更低的費用。這些優勢基於原生質押和重新質押收益率，為 DeFi 領域引入新的和熟悉的原語。Swell 的原生 Gas 代幣 rswETH，以及治理代幣 SWELL，均是與行業專家合作開發的，旨在進一步治理和優化網絡。&lt;/p&gt;
-&lt;h3 dir=&quot;ltr&quot;&gt;從 EigenLabs 到 Chainlink，一覽 Swell Network 的多家合作伙伴&lt;/h3&gt;
-&lt;p dir=&quot;ltr&quot;&gt;在區塊鏈技術的快速發展中，合作伙伴的角色至關重要。以下是 Swell Network 在本次推進其 Layer 2 rollup 鏈合作中的幾個關鍵技術合作夥伴。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;1、EigenLabs：&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;EigenLabs，一個領先的研究組織，負責開發 EigenDA。由 Sreeram Kannan 創立，EigenLabs 得到了 Blockchain Capital、Polychain Capital、Ethereal Ventures 等知名公司的支持，致力於推動區塊鏈技術的創新和應用。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;成立於 2021 年的 AltLayer，是一個開放且去中心化的協議，通過 Optimistic 和 ZK Rollup 技術加速 Rollup 的推出。其旗艦產品「restaked rollups」已經成為行業的顛覆者，通過增強的安全性、去中心化、快速最終確定性和互操作性，釋放了 Rollups 的真正潛力。AltLayer 的重放彙總包括三個垂直集成的主動驗證服務（AVS）：MACH、VITAL 和 SQUAD，這些服務利用匯總堆棧的無需許可特性和重新抵押原則，允許網絡從以太坊借用經濟安全。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/images/ZSFRL48mpK.png&quot; alt=&quot;TVL 接近 10 億美元后，Swell Network 宣佈將上線 L2&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Swell 將成為首批重新投入運行的 Rollups 實例之一，得到 AltLayer 三個關鍵產品的支持：MACH（用於更快的最終確定）、VITAL（用於去中心化驗證）和 SQUAD（用於去中心化排序）。這些服務作為 AVS 運行，通過 EigenLayer 的重新抵押機制從以太坊借用安全性，構建在 Swell 協議之上的是一個多鏈、多虛擬機兼容的 Rollups 即服務（RaaS）啓動器，為開發者提供了一個無麻煩的平台，以快速啓動自定義 Rollup。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;對此，Swell 創始人 Daniel Dizon 表示，將 Swell 的流動性重新抵押產品擴展到 L2 是社區和 DAO 發展的自然步驟，這不僅擴展了協議的願景，還為 DeFi 生態系統提供了優質的流動性重新抵押體驗。AltLayer 首席執行官賈耀奇也對這次合作表示期待，認為 restaked rollups 的引入將大大增強網絡的安全性和去中心化程度，為 DeFi 帶來新的創新。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;2、Polygon Labs：&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Polygon Labs 為 Polygon 協議開發以太坊擴展解決方案，與其他生態系統開發商合作，提供可擴展、負擔得起、安全和可持續的區塊鏈基礎設施。Polygon Labs 開發的擴展解決方案已被廣泛採用，支持數萬個去中心化應用程序，處理了 35 億筆交易，成為許多大型 Web3 項目和知名企業的選擇。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;3、Chainlink：&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Chainlink，作為行業標準的去中心化計算平台，為可驗證網絡提供支持，通過提供對真實世界數據、鏈下計算和安全跨鏈互操作性的訪問，支持全球金融機構、初創公司和開發人員。Chainlink 已實現超過 9 萬億美元的交易價值，為多個行業的可驗證應用程序和市場提供支持。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;這些合作伙伴的技術支持和創新合作，為 Swell Network 的 Layer 2 解決方案提供了堅實的基礎，預示着區塊鏈技術在安全性、可擴展性和用户體驗方面的重大進步。&lt;/p&gt;
-&lt;h3 dir=&quot;ltr&quot;&gt;一系列舉措能否為用户帶來更好的 DeFi 價值體驗？Swell Network 後市仍需關注&lt;/h3&gt;
-&lt;p dir=&quot;ltr&quot;&gt;在本文中，我們深入探討了 Swell Network 及其在區塊鏈技術領域的最新進展，特別是其即將推出的 Layer 2 解決方案。通過與 EigenLabs、AltLayer、Polygon Labs 和 Chainlink 等行業領導者的緊密合作，Swell 不僅展示了其在推動技術創新方面的決心，也為 DeFi 生態系統的發展設定了新的標準。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;Swell Network 的 Layer 2 解決方案，特別是其採用的&quot;restaked rollups&quot;技術，標誌着一個重要的技術突破，它通過提高交易的安全性、去中心化程度和速度，為用户帶來了前所未有的價值。此外，Swell 的技術架構和合作夥伴的支持，為開發者提供了一個無縫的平台，以快速啓動和擴展 Web3 應用程序，無論是在 NFT 領域、DeFi、Web3 遊戲還是現實世界資產的代幣化等方面。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;正如 Dolomite 在其領域內通過創新和用户友好的策略獲得認可一樣，Swell Network 也通過其 Layer 2 解決方案和合作夥伴網絡，為區塊鏈技術的應用和普及樹立了新的典範。Swell 的願景和野心遠不止於此，隨着其技術的不斷進步和生態系統的擴展，未來無疑將為用户、開發者和整個區塊鏈社區帶來更多的機會和可能性。&lt;/p&gt;
-&lt;p dir=&quot;ltr&quot;&gt;總之，Swell Network 的進展不僅僅是技術上的一次飛躍，更是對 DeFi 生態系統未來發展方向的一次明確指引。隨着更多的協議和應用程序的加入，以及向 DAO 治理的轉變，我們有理由相信，Swell 及其合作伙伴將繼續引領區塊鏈技術的創新，推動整個行業向前發展。&lt;/p&gt;</description>
-            <link>https://panewslab.com/zh/articledetails/ac39v6dgu38u.html</link>
-            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/ac39v6dgu38u.html</guid>
-            <pubDate>Fri, 22 Mar 2024 04:00:03 GMT</pubDate>
-            <author>DeMan</author>
-            <category>深度</category>
-            <category>EigenLayer</category>
-            <category>去中心化</category>
-            <category>以太坊</category>
-            <category>DAO</category>
-            <category>安全</category>
-        </item>
-        <item>
-            <title>為什麼説以太坊經典是一種商品，以太坊是一種證券</title>
-            <description>&lt;blockquote&gt;作者：Donald McIntyre
-Howey 測試
-為了確定一個價值單位、合同，或交易是否是證券，美國證券交易委員會 (SEC) 使用所謂的 Howey 測試，這是 1946 年最高法院裁定什麼是證券的基礎。
-根據測試，如果一個價值單位、合同或交易具有以下要&lt;/blockquote&gt;&lt;p&gt;作者：&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Donald McIntyre&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;howey%E6%B5%8B%E8%AF%95&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#howey%E6%B5%8B%E8%AF%95&quot; rel=&quot;nofollow&quot;&gt;Howey 測試&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;為了確定一個價值單位、合同，或交易是否是證券，&lt;a href=&quot;https://www.sec.gov/corpfin/framework-investment-contract-analysis-digital-assets&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;美國證券交易委員會 (SEC)&lt;/a&gt;使用所謂的 Howey 測試，這是 1946 年最高法院裁定什麼是證券的基礎。&lt;/p&gt;
-&lt;p&gt;根據測試，如果一個價值單位、合同或交易具有以下要素，那麼它就有資格成為證券:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;金錢投資&lt;/li&gt;
-&lt;li&gt;在一個普通企業中&lt;/li&gt;
-&lt;li&gt;合理的利潤預期&lt;/li&gt;
-&lt;li&gt;源自其他人的努力&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;比特幣 (BTC) 和以太坊 (ETH)，以及以太坊在 2016 年從以太坊分離出來後的以太坊經典 (ETC)，在 2015 年被商品期貨交易委員會 (CFTC) 確定為&lt;a href=&quot;https://www.cftc.gov/digitalassets/index.htm&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;商品&lt;/a&gt;，因為它們是去中心化的，因此沒有共同的企業指導它們，它們的回報不是來自其他人的努力。&lt;/p&gt;
-&lt;p&gt;問題是，以太坊現在在其權益證明 (PoS) 共識機制下，是否仍然有資格作為一種商品。&lt;/p&gt;
-&lt;h3 id=&quot;%E4%BD%BF%E7%94%A8howey%E6%A3%80%E9%AA%8C%E6%AF%94%E8%BE%83etc%E5%92%8Ceth&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#%E4%BD%BF%E7%94%A8howey%E6%A3%80%E9%AA%8C%E6%AF%94%E8%BE%83etc%E5%92%8Ceth&quot; rel=&quot;nofollow&quot;&gt;使用 Howey 檢驗比較 ETC 和 ETH&lt;/a&gt;&lt;/h3&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/cnUqaeyo81.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1254&quot; height=&quot;638&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;ETC、ETH、Howey 測試&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;上表用於比較 ETH 和 ETC 在 Howey 測試中的表現。&lt;/p&gt;
-&lt;p&gt;如表中所示，在我們看來，以太坊現在通過了測試，因此應該被歸類為證券，因為它涉及所有四個元素。但是由於 ETC 仍然是一個去中心化的項目，因此它應該仍然是一種商品。&lt;/p&gt;
-&lt;p&gt;在下面的部分中，我們將解釋我們的比較和基本原理。&lt;/p&gt;
-&lt;h4 id=&quot;1-%E9%87%91%E9%92%B1%E6%8A%95%E8%B5%84&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#1-%E9%87%91%E9%92%B1%E6%8A%95%E8%B5%84&quot; rel=&quot;nofollow&quot;&gt;1.金錢投資:&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;在 Howey 測試的第一個元素中，很明顯，ETH 和 ETC 都是對一個價值單位的貨幣投資。許多人使用這兩種加密貨幣只是作為一種支付方式，因此是一種交換單位，而不是投資。但對許多人來説，它們是價值儲存和在市場上進行利潤交易的方式。&lt;/p&gt;
-&lt;h4 id=&quot;2-%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BC%81%E4%B8%9A%E4%B8%AD&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#2-%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E4%BC%81%E4%B8%9A%E4%B8%AD&quot; rel=&quot;nofollow&quot;&gt;2.在一個普通企業中:&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;自 2022 年 9 月遷移到股權證明以來，ETH 是一個常見的企業，因為股權證明是集中的。該模型使用資本而不是基於工作量證明的挖掘來確定誰生產區塊。這使得押注業務具有強大的規模經濟，不可避免地將該行業集中到極少數且根深蒂固的押注池中。&lt;/p&gt;
-&lt;p&gt;這些池可以過濾誰可能參與和/或誰可能是驗證器集的一部分，或者可能是驗證塊和事務的節點操作符本身。&lt;/p&gt;
-&lt;p&gt;這幾個實體將是靜態的，這意味着他們很少會從行業中輪換，因為他們業務的壕溝，他們將與以太坊基金會協調行動，所有這些結合起來將明顯形成一個共同的企業，指導系統的未來。&lt;/p&gt;
-&lt;p&gt;這種程度的中心化，以及在生產區塊時缺乏工作量證明加密戳，完全消除了鏈的選擇點，從而使以太坊具有自由進出、無許可、抗審查和不可更改的屬性，使其成為具有傳統中心化功能和控制的常見企業。&lt;/p&gt;
-&lt;p&gt;ETC 仍然是一種商品，因為在可預見的未來，它仍然是工作量證明 (PoW)。&lt;/p&gt;
-&lt;p&gt;因此，不會也永遠不會有企業或集團來控制 ETC，挖礦和擁有比特幣將永遠是完全獨立的活動。&lt;/p&gt;
-&lt;p&gt;ETC 沒有指導系統路線圖的基礎，區塊的生產或驗證是自由的、去中心化的、基於價值的活動。&lt;/p&gt;
-&lt;h4 id=&quot;3-%E5%90%88%E7%90%86%E7%9A%84%E5%88%A9%E6%B6%A6%E9%A2%84%E6%9C%9F&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#3-%E5%90%88%E7%90%86%E7%9A%84%E5%88%A9%E6%B6%A6%E9%A2%84%E6%9C%9F&quot; rel=&quot;nofollow&quot;&gt;3.合理的利潤預期:&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;如前所述，雖然 ETH 和 ETC 都可以純粹用作交換單位，但它們也可以用作價格升值的價值儲存，因此兩者都有合理的利潤預期。&lt;/p&gt;
-&lt;h4 id=&quot;4-%E6%BA%90%E8%87%AA%E5%85%B6%E4%BB%96%E4%BA%BA%E7%9A%84%E5%8A%AA%E5%8A%9B&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#4-%E6%BA%90%E8%87%AA%E5%85%B6%E4%BB%96%E4%BA%BA%E7%9A%84%E5%8A%AA%E5%8A%9B&quot; rel=&quot;nofollow&quot;&gt;4. 源自其他人的努力:&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;由於同樣的原因，以太坊現在是一個普通的企業，它也是一個系統，在這個系統中，對系統成功的期望，以及它未來的利潤，都來自於其他人的努力。&lt;/p&gt;
-&lt;p&gt;這些「其他人」將是完全可識別的，因為它們將是 4 或 5 個大型賭注池和以太坊基金會，所有這些都將作為一個單一的企業。&lt;/p&gt;
-&lt;p&gt;PoS 系統不是像 PoW 那樣的績效系統，而是池和驗證者之間的完全協作夥伴關係，驗證者本質上與池相同，因為他們之間是承包商的關係。&lt;/p&gt;
-&lt;p&gt;在系統中，驗證者以每個區塊為基礎劃分任務，其中一個生成一個區塊，然後將其發送給對區塊進行投票的其他驗證者，然後將其發送給網絡的其餘部分，這些網絡必須無異議地接受它們。&lt;/p&gt;
-&lt;p&gt;因為 ETC 是 PoW 和去中心化的，礦工可以隨時從世界任何地方出現或離開，在完全隔離的情況下競爭構建區塊，將它們發送到網絡的其他地方進行驗證，並根據他們唯一的優點獲得報酬。不存在其他過濾器或條件。&lt;/p&gt;
-&lt;p&gt;在 ETC 中，它以前是一種商品的原因今天仍然存在:沒有共同的企業，因此代幣的未來價值只是由市場未來的普遍採用來決定，而不是像以太坊那樣由一個定義好的集中式池運營商或管理者組成的協作組來決定。&lt;/p&gt;
-&lt;h3 id=&quot;%E4%BB%A5%E5%8E%86%E5%8F%B2%E8%A7%92%E5%BA%A6%E8%A7%A3%E8%AF%BBetc%E5%92%8Ceth%E6%B3%95%E5%BE%8B%E5%9C%B0%E4%BD%8D&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#%E4%BB%A5%E5%8E%86%E5%8F%B2%E8%A7%92%E5%BA%A6%E8%A7%A3%E8%AF%BBetc%E5%92%8Ceth%E6%B3%95%E5%BE%8B%E5%9C%B0%E4%BD%8D&quot; rel=&quot;nofollow&quot;&gt;以歷史角度解讀 ETC 和 ETH 法律地位&lt;/a&gt;&lt;/h3&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/713xZ34t00.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1340&quot; height=&quot;680&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;眾籌&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;從 2014 年到 2016 年，以太坊和以太坊經典都是一個項目，所以我們在這段時間稱之為 ETH/ETC。&lt;/p&gt;
-&lt;p&gt;這個項目的資金來自眾籌。根據 Howey 檢驗，可以推斷 ETH/ETC&lt;a href=&quot;https://twitter.com/WendellMoone/status/1623760982672564226&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;眾賣確實是一種證券&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;它由 Vitalik Buterin&lt;a href=&quot;https://en.wikipedia.org/wiki/Ethereum&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;創立&lt;/a&gt;;然後，他與幾個人合作，組成了一個聯合創始人小組;他們承諾期望從投資中獲得利潤;用網絡的名字創建了一個基金會，甚至註冊了它的商標;在加密貨幣創建之前出售一個單位的價值，以籌集開發資金;並推廣了眾籌和以太坊的功能、好處和升值潛力，就像任何首次公開發行股票一樣。&lt;/p&gt;
-&lt;p&gt;然而，這種證券的地位可能僅限於眾籌和 2015 年 7 月 30 日網絡推出之間的這段時間。&lt;/p&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/79t989Q3Bb.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1314&quot; height=&quot;722&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;ETH/ETC 發行&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;2015 年 7 月 30 日，該項目的初始證券轉換為 ETH 加密貨幣，隨後被 CFTC 歸類為商品。&lt;/p&gt;
-&lt;p&gt;這一步可以解釋為投資者、Vitalik Buterin 及其合作伙伴和以太坊基金會作為項目總監之間的初始共同企業的交換和退出。&lt;/p&gt;
-&lt;p&gt;從這裏開始，這個項目變成了一個真正去中心化、基於工作量證明的公共區塊鏈。&lt;/p&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/Vq8fr44YR4.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1326&quot; height=&quot;710&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;以太坊分裂&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;即使以太坊在 2016 年因 DAO 硬分叉從 ETC 主網中分離出來，ETH 仍然保持着去中心化，因為它仍然是工作證明區塊鏈。&lt;/p&gt;
-&lt;p&gt;這段時間一直持續到 2022 年 9 月 15 日。&lt;/p&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/hEEovMj3u3.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1328&quot; height=&quot;718&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;ETH 遷移到權益證明&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;從 2022 年 9 月 15 日開始，以太坊不能被描述為一個去中心化的項目，因為它遷移到了權益證明。事實上，在它遷移的那一刻，51% 的區塊受到了大型賭注池的審查，以遵守美國外國資產控制辦公室 (OFAC) 實施的國際制裁。幾個月後，多達 70% 的區塊被審查。&lt;/p&gt;
-&lt;p&gt;如前所述，PoS 依賴於控制網絡的大型和根深蒂固的池運營商。這一點，加上以太坊基金會以前擁有的控制和影響力，以及開發人員在協議決策中具有令人難以置信的影響力 (例如，在其歷史上改變了 6 次令幣的供應)，使其成為一個從單位價值角度依賴於其他人的集中式項目。&lt;/p&gt;
-&lt;figure&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;https://cdn-img.panewslab.com/panews/2024/03/22/images/KpTE9673qk.jpg&quot; alt=&quot;為什麼説以太坊經典是一種商品，以太坊是一種證券&quot; width=&quot;1322&quot; height=&quot;704&quot; referrerpolicy=&quot;no-referrer&quot;&gt;
-&lt;figcaption&gt;
-&lt;figure&gt;
-&lt;figcaption&gt;和比特幣一樣，ETC 仍然是一種商品&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;與此同時，比特幣一直保持着 CFTC 在 2015 年確定的商品地位，ETC 在功能上也是一種商品，就像 BTC 一樣，因為它具有完全相同的共識設計和去中心化保證。&lt;/p&gt;
-&lt;h3 id=&quot;%E6%80%BB%E7%BB%93&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#%E6%80%BB%E7%BB%93&quot; rel=&quot;nofollow&quot;&gt;總結&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;值得注意的是，任何建立在以太坊經典之上的東西都可能是一種商品或證券。作為一個廣義和去中心化的計算系統，無論 dapp、第二層系統和令牌的設計如何，都將決定它們的地位。&lt;/p&gt;
-&lt;p&gt;ETC 內部結構為公司股票、債券或衍生品的 DAO 都將是證券。ERC-20 代幣可以創建幣、迷因幣或其他不屬於 Howey 測試的代幣，它們可以被歸類為商品。&lt;/p&gt;
-&lt;p&gt;然而，ETC 作為這些技術的基礎層仍然是一種通用商品。&lt;/p&gt;
-&lt;p&gt;以太坊中的權益證明算法意味着驗證者之間的持續合作，驗證者是池運營商的承包商。他們生產區塊，對這些區塊進行投票，然後將這些區塊發送給網絡的其他部分，這些部分必須毫無疑問地接受它們。&lt;/p&gt;
-&lt;p&gt;此外，來自公共或節點操作員的涉眾對運行驗證客户端的參與將被池操作員過濾和限制。沒有去中心化的自由進出系統，因此它顯然是一個普通的企業。&lt;/p&gt;
-&lt;p&gt;ETH/ETC 在眾籌期間的推廣過程中經歷了一箇中心化的銷售過程，但隨後它在推出時就變成了一個去中心化的區塊鏈，是一個工作量證明系統。&lt;/p&gt;
-&lt;p&gt;當 ETH 在 2016 年從 ETC 主網中分離出來時，ETC 從以太坊基金會的開發者和領導者的主要社區中分離出來，在社交層變得更加去中心化。這就是它的「代碼即法律」原則確立的時候。&lt;/p&gt;
-&lt;p&gt;ETC 從來沒有一個明確的啓動者羣體。事實上，ETC 中所有不同的組成部分都在不斷地輪換和遷移。&lt;/p&gt;
-&lt;p id=&quot;%E5%9F%BA%E4%BA%8E%E4%B8%8A%E8%BF%B0%E6%89%80%E6%9C%89%E5%8E%9F%E5%9B%A0%EF%BC%8C%E6%88%91%E4%BB%AC%E5%BE%97%E5%87%BA%E7%9A%84%E7%BB%93%E8%AE%BA%E6%98%AF%EF%BC%8C%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%BB%8F%E5%85%B8%E4%BB%8D%E7%84%B6%E6%98%AF%E4%B8%80%E7%A7%8D%E5%95%86%E5%93%81%EF%BC%8C%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%98%AF%E4%B8%80%E7%A7%8D%E8%AF%81%E5%88%B8%E3%80%82&quot;&gt;&lt;a href=&quot;https://ethereumclassic.org/zh/blog/2023-02-28-ethereum-classic-is-a-commodity-ethereum-is-a-security#%E5%9F%BA%E4%BA%8E%E4%B8%8A%E8%BF%B0%E6%89%80%E6%9C%89%E5%8E%9F%E5%9B%A0%EF%BC%8C%E6%88%91%E4%BB%AC%E5%BE%97%E5%87%BA%E7%9A%84%E7%BB%93%E8%AE%BA%E6%98%AF%EF%BC%8C%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%BB%8F%E5%85%B8%E4%BB%8D%E7%84%B6%E6%98%AF%E4%B8%80%E7%A7%8D%E5%95%86%E5%93%81%EF%BC%8C%E4%BB%A5%E5%A4%AA%E5%9D%8A%E6%98%AF%E4%B8%80%E7%A7%8D%E8%AF%81%E5%88%B8%E3%80%82&quot; rel=&quot;nofollow&quot;&gt;基於上述所有原因，我們得出的結論是，以太坊經典仍然是一種商品，以太坊是一種證券。&lt;/a&gt;&lt;/p&gt;</description>
-            <link>https://panewslab.com/zh/articledetails/vi0e6gy2.html</link>
-            <guid isPermaLink="false">https://panewslab.com/zh/articledetails/vi0e6gy2.html</guid>
-            <pubDate>Fri, 22 Mar 2024 03:40:45 GMT</pubDate>
-            <author>PA 薦讀</author>
-            <category>ETC</category>
-            <category>Vitalik Buterin</category>
-            <category>ETH</category>
-            <category>以太坊</category>
         </item>
     </channel>
 </rss>
