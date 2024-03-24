@@ -9,8 +9,41 @@
         <generator>RSSHub</generator>
         <webMaster>i@diygod.me (DIYgod)</webMaster>
         <language>en</language>
-        <lastBuildDate>Sat, 23 Mar 2024 07:58:37 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 24 Mar 2024 17:14:55 GMT</lastBuildDate>
         <ttl>120</ttl>
+        <item>
+            <title>Apple 全装置 Safari 现在皆支援垂直表单控制元件</title>
+            <description>&lt;header&gt;
+        &lt;div class=&quot;img-wrapper&quot;&gt;
+      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/vfc-dark-1.png?itok=lWYfwKyu&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
+                    
+      &lt;/header&gt;
+    &lt;div class=&quot;row-fluid&quot;&gt;
+    &lt;div class=&quot;contents-wrap&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+    &lt;div class=&quot;side-extra&quot;&gt;
+      
+  &lt;/div&gt;
+
+&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;在浏览器互通专案 Interop 2023 倡议之下，主要浏览器都开始统一垂直表单控制元件支援，而 Apple 在推出&lt;a href=&quot;https://webkit.org/blog/15190/implementing-vertical-form-controls/&quot;&gt;Safari 17.4&lt;/a&gt;之后，所有装置包括 iOS 上的 Safari，都已经能够正确呈现垂直书写模式下的表单控制元件。支援垂直书写模式对浏览器来说是一项大工程，因为需要重新调整许多表单控制元件的呈现方式，甚至需要为垂直书写模式编写特别的渲染逻辑。&lt;/p&gt;
+&lt;p&gt;垂直文字书写常见于东亚语言，包括中文、日文和韩文等都可以垂直书写，并且从上到下阅读，虽然 CSS 书写模式属性对垂直文字的支援已经实施一段时间，但是所有浏览器对表单控制元件 vertical-lr 和 vertical-rl 值的支援都不同，因此在 Interop 2023 中，各家厂商便决定实现更加一致的垂直书写支援。&lt;/p&gt;
+&lt;p&gt;要在已支援的浏览器中，显示垂直表单控制元件，设定书写模式属性即可，从右到左的区块流使用 vertical-rl，而左到右区块流则使用 vertical-lr。支援垂直书写模式的元件包括&amp;lt;button&amp;gt;、&amp;lt;textarea&amp;gt;、&amp;lt;progress&amp;gt;、&amp;lt;meter&amp;gt;、&amp;lt;input&amp;gt;和&amp;lt;select&amp;gt;等。不过，与表单控制元件相关的弹出式用户介面，像是&amp;lt;select&amp;gt;的下拉选单，或是&amp;lt;input type=「color&quot;&amp;gt;颜色选择器，仍然会以水平的方式显示。要更好地支援垂直书写模式，WebKit 更新了其样式表，使用逻辑属性像是 inline-size 代替传统的宽度，并且用 block-size 来代替高度，这些属性更能适应不同的书写方向，因为他们与内容的走向相关。&lt;/p&gt;
+&lt;p&gt;而布局（Layout）方面，WebKit 中的表单控制元件大量使用自定义的布局程式码，以在不同的环境和条件保持一致和功能性，但开发团队提到，这些实作设计皆考量水平书写模式，在垂直书写模式下会出现问题。因此 WebKit 开发团队更新这些实作，在计算逻辑宽度时考虑书写模式。自定义基线调整逻辑也更新使用垂直书写模式的中央基线，使复选框和单选按钮等控制元件，能与垂直文字相搭配。&lt;/p&gt;
+&lt;p&gt;不只如此，WebKit 表单控制元件于垂直书写模式的渲染，在不同作业系统也需要特别调整。在 macOS 上，因为作业系统本身不支援垂直书写模式，WebKit 表单控制元件又需要和作业系统外观和感觉维持一致，像是&amp;lt;progress&amp;gt;等控制元件，无法直接在垂直模式下渲染，因此 WebKit 会直接旋转这些控制元件来支援垂直渲染，使其在垂直书写模式下可用，且外观又接近系统标准。&lt;/p&gt;
+&lt;p&gt;但像是&amp;lt;select&amp;gt;这类元件具有阴影等细节，就无法单纯透过旋转，否则显示会不正确。而 WebKit 便采用自定义回退渲染方法，这些控制元件在垂直模式下采用特别的渲染逻辑，因此这些控制元件和作业系统的原生元件外观可能会有所不同。&lt;/p&gt;
+&lt;p&gt;对于原本在 WebKit 中就已经是自定义绘制的控制元件，像是在 iOS 和 macOS 中的列表选择框&amp;lt;select multiple&amp;gt;，现在皆使用逻辑座标而非物理座标，确保控制元件在垂直书写模式的呈现一致。而像是复选框或是单选按钮则不需要进行任何渲染变更，他们在所有书写模式看起来都相同。&lt;/p&gt;
+&lt;p&gt;目前桌面浏览器支援表单控制元件垂直书写模式的有 Firefox 120 以上版本，以及 Chrome124 以上版本，Edge 则处在部分支援的阶段，而在行动装置上，除了 iOS 上的 Safari 之外，还有 Android 的 Firefox，也支援表单控制元件垂直书写模式。&lt;/p&gt;
+ &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
+  &lt;/div&gt;
+  &lt;/div&gt;
+       
+  &lt;/div&gt;&lt;/div&gt;</description>
+            <link>https://www.ithome.com.tw/news/161922</link>
+            <guid isPermaLink="false">https://www.ithome.com.tw/news/161922</guid>
+            <pubDate>Sat, 23 Mar 2024 16:00:00 GMT</pubDate>
+            <author>李建兴</author>
+            <category>新闻</category>
+        </item>
         <item>
             <title>Martech 双周报第 50 期：打破 RMN 通路壁垒！Google 将开放用零售业者一手数据来支援搜寻广告投放的功能</title>
             <description>&lt;header&gt;
@@ -635,97 +668,6 @@ Youtube 新增短影音及动态内影片广告的成效测量机制&lt;/strong&
             <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
             <author>李建兴</author>
             <category>新闻</category>
-        </item>
-        <item>
-            <title>【资安日报】3 月 21 日，多组人马锁定 TeamCity 伺服器加密档案、用于挖矿、部署后门程式</title>
-            <description>&lt;header&gt;
-        &lt;div class=&quot;img-wrapper&quot;&gt;
-      &lt;div class=&quot;field field-name-field-image field-type-image field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt;&lt;img src=&quot;https://s4.itho.me/sites/default/files/styles/picture_size_large/public/field/image/20240321.jpg?itok=mgmlYHK4&quot; width=&quot;960&quot; height=&quot;420&quot; alt=&quot;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;        &lt;/div&gt;
-                    
-      &lt;/header&gt;
-    &lt;div class=&quot;row-fluid&quot;&gt;
-    &lt;div class=&quot;contents-wrap&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-    &lt;div class=&quot;side-extra&quot;&gt;
-      
-  &lt;/div&gt;
-
-&lt;div class=&quot;field field-name-body field-type-text-with-summary field-label-hidden&quot;&gt;&lt;div class=&quot;field-items&quot;&gt;&lt;div class=&quot;field-item even&quot;&gt; &lt;p&gt;本月初 JetBrains 修补 TeamCity 两个漏洞 CVE-2024-27198、CVE-2024-27199，随后就传出有人将其用于攻击行动，其中一组人马就是曾经对台湾发动攻击的勒索软体骇客组织「变脸」。&lt;/p&gt;
-&lt;p&gt;但事隔不到一周，但事隔不到一周，更多骇客也加入利用这些漏洞的行列，他们对 TeamCity 植入更多恶意程式，以便进行攻击行动。&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;【攻击与威胁】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.trendmicro.com/en_us/research/24/c/teamcity-vulnerability-exploits-lead-to-jasmin-ransomware.html&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;更多骇客利用 TeamCity 重大漏洞，散布勒索软体 Jasmin、挖矿程式 XMRig、木马程式 SparkRAT&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 50308e89-3d70-432d-89b3-9b79ccea3c53 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/TeamCity-fig3.jpg&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/TeamCity-fig3.jpg&quot; style=&quot;width: 300px; float: right;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;3 月 4 日 JetBrains 公开 CI/CD 开发平台 TeamCity 的高风险漏洞 CVE-2024-27198、CVE-2024-27199（CVSS 风险评分为 9.8、7.3），一周后勒索软体骇客组织「变脸」开始将其用于攻击行动，现在有更多骇客加入利用漏洞的行列。&lt;/p&gt;
-&lt;p&gt;资安业者趋势科技指出，他们看到多组人马利用这些漏洞，最早发现的是勒索软体 Jasmin 攻击，对方加密受害电脑并留下勒索讯息，要求受害者透过电子邮件联系，并以比特币或门罗币支付赎金；接著，他们也发现有人利用这项漏洞部署挖矿程式 XMRig 变种，进行调查发现，对方可能早在 1 月就在用 TeamCity 伺服器挖矿。&lt;/p&gt;
-&lt;p&gt;除了上述攻击事故，研究人员看到有人对这类伺服器散布 RAT 木马程式 SparkRAT 变种的情况，骇客使用 Go 语言打造并将其当作后门使用。此外，他们也看到攻击者利用漏洞部署 Cobalt Strike Beacon 的事故。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://techcrunch.com/2024/03/19/pokemon-resets-some-users-passwords-after-hacking-attempts/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;宝可梦公司网站发布警讯，有人疑似对玩家发动帐号填充攻击&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;电玩游戏业者宝可梦公司（The Pokémon Company）近日在网站上提出警告，指出他们发现有人企图入侵部分用户的帐号并重设密码，该公司将暂时停用受此影响的帐号。&lt;/p&gt;
-&lt;p&gt;该公司发言人 Daniel Benkwitt 向科技新闻网站 TechCrunch 透露，他们并未察觉有帐号遭到入侵，但为了保护用户，仍决定重设部分用户的密码，这些帐号占总体用户的比例是 0.1%。TechCrunch 推测，此次事故很有可能使用了帐号填充（credential stuffing）手法进行攻击。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://s4.itho.me/sites/default/files/images/pokemon-hack-alert.png&quot;&gt;&lt;img alt=&quot;&quot; src=&quot;https://s4.itho.me/sites/default/files/images/pokemon-hack-alert.png&quot; style=&quot;width: 580px;&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.cisa.gov/resources-tools/resources/prc-state-sponsored-cyber-activity-actions-critical-infrastructure-leaders&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;针对中国资助的骇客 Volt Typhoon 持续锁定关键基础设施攻击，美国提供防御指引&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;美国网路安全暨基础设施安全局（CISA）与英国、澳洲、加拿大的网路安全机构联手对中国骇客组织 Volt Typhoon 带来的威胁提出警告，指出这些骇客的攻击目标与策略与大部分的攻击者有所不同，他们的主要目标是拿下操作科技（OT）资产的存取权限，若是得逞，就有机会破坏关键基础设施，未来一旦发生军事冲突，或是出现地缘政治紧张的局势，就能趁机制造混乱。&lt;/p&gt;
-&lt;p&gt;对此，他们呼吁关键基础设施的领导团队采取行动，落实下列工作：&lt;/p&gt;
-&lt;p&gt;（一）实施明确及积极的资源挹注决策；&lt;br&gt;
-（二）保护供应链；&lt;br&gt;
-（三）深植资安文化。&lt;/p&gt;
-&lt;p&gt;其中，他们提及在最佳实践的做法里，留存事件记录对资安团队尤其重要，例如，应用程式及重要系统的存取记录及安全事件记录，并应集中管理。&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;【漏洞与修补】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;!-- notionvc: f6acb564-5d20-4854-beaa-56e55814bda6 --&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.securityweek.com/atlassian-patches-critical-vulnerability-in-bamboo-data-center-and-server/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;Atlassian 修补 CI/CD 工具 Bamboo 重大漏洞&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 2e9a3075-bd04-46d7-abb7-240ea5a7ea91 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;3 月 19 日 Atlassian 针对旗下的 Bamboo、Bitbucket、Confluence、Jira 等产品发布安全性修补，总共处理超过 20 个漏洞，其中最值得留意的部分，是 CVSS 风险评分达到 10 分的 SQL 注入漏洞 CVE-2024-1597，此漏洞涉及 CI/CD 工具 Bamboo，在其搭配的 SQL 资料库采用特定连线组态时，就会存在这个弱点。&lt;/p&gt;
-&lt;p&gt;资料来源&lt;/p&gt;
-&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://confluence.atlassian.com/security/security-bulletin-march-19-2024-1369444862.html&quot;&gt;https://confluence.atlassian.com/security/security-bulletin-march-19-2024-1369444862.html&lt;/a&gt;&lt;br&gt;
-2.&amp;nbsp;&lt;a href=&quot;https://jira.atlassian.com/browse/BAM-25716&quot;&gt;https://jira.atlassian.com/browse/BAM-25716&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/security/ivanti-fixes-critical-standalone-sentry-bug-reported-by-nato/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;北约组织向 Ivanti 通报同步应用系统 Standalone Sentry 的重大漏洞&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 6cc42ac9-efc4-42e8-9ed4-1c186d4ce63b --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;接获北约组织网路安全中心的通报，3 月 18 日 Ivanti 发布资安公告，指出旗下的 Standalone Sentry 存在重大层级的 RCE 漏洞 CVE-2023-41724，未经身分验证的攻击者可透过与设备相同的实体或逻辑网路，在作业系统底层执行任意命令，CVSS 风险评分为 9.6，影响所有版本的 Standalone Sentry，该公司提供修补程式，并强调尚未发现漏洞遭到利用的迹象。&lt;/p&gt;
-&lt;p&gt;附带一提，该公司后来于 20 日公布另一个重大漏洞 CVE-2023-46808，此为远端档案写入漏洞，影响 Neurons for ITSM，攻击者若是通过身分验证，就有机会触发漏洞在敏感资料夹写入档案，从而执行命令，CVSS 风险评为 9.9 分。&amp;nbsp;&lt;/p&gt;
-&lt;!-- --&gt;
-&lt;p&gt;资料来源&lt;/p&gt;
-&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://forums.ivanti.com/s/article/CVE-2023-41724-Remote-Code-Execution-for-Ivanti-Standalone-Sentry&quot;&gt;https://forums.ivanti.com/s/article/CVE-2023-41724-Remote-Code-Execution-for-Ivanti-Standalone-Sentry&lt;/a&gt;&lt;br&gt;
-2.&amp;nbsp;&lt;a href=&quot;https://forums.ivanti.com/s/article/SA-CVE-2023-46808-Authenticated-Remote-File-Write-for-Ivanti-Neurons-for-ITSM&quot;&gt;https://forums.ivanti.com/s/article/SA-CVE-2023-46808-Authenticated-Remote-File-Write-for-Ivanti-Neurons-for-ITSM&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.securityweek.com/chrome-123-firefox-124-patch-serious-vulnerabilities/&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;Chrome 123、Firefox 124 正式推出，修补多项高风险漏洞&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;!-- notionvc: 4bfeada6-6901-4cdb-96c3-4a4e6347c79c --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;3 月 19 日浏览器 Chrome、Firefox 不约而同发布重大改版，并修补十多项漏洞。&lt;/p&gt;
-&lt;p&gt;升级至 123 版的 Chrome，共修补 12 个漏洞，其中一项漏洞 CVE-2024-2625 被列为高风险而受到关注，此漏洞与排版引擎 V8 有关，为物件生命周期造成的弱点。&lt;/p&gt;
-&lt;p&gt;迈入 124 版的 Firefox 同样修补 12 个漏洞，最值得留意的是危急（Critical）等级的记忆体安全漏洞 CVE-2024-2615，这个弱点有可能被用于执行任意程式码。&lt;/p&gt;
-&lt;p&gt;资料来源&lt;/p&gt;
-&lt;p&gt;1.&amp;nbsp;&lt;a href=&quot;https://chromereleases.googleblog.com/2024/03/stable-channel-update-for-desktop_19.html&quot;&gt;https://chromereleases.googleblog.com/2024/03/stable-channel-update-for-desktop_19.html&lt;/a&gt;&lt;br&gt;
-2.&amp;nbsp;&lt;a href=&quot;https://www.mozilla.org/en-US/security/advisories/mfsa2024-12/&quot;&gt;https://www.mozilla.org/en-US/security/advisories/mfsa2024-12/&lt;/a&gt;&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;【资安产业动态】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161675&quot;&gt;&lt;strong style=&quot;font-size: 22px;&quot;&gt;软体安全评估工具 GUAC 成 OpenSSF 孵化专案&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;2022 年 10 月推出的软体安全评估工具 GUAC，主要目的是提高企业组织软体供应链的透明度，透过了解应用程式元件的相依性，明确掌握漏洞的影响范围。&lt;/p&gt;
-&lt;p&gt;在发展一段时间后，成立此专案的 Kusari、Google、普渡大学，今年 3 月决定将其转移至开源软体安全基金会（OpenSSF），并成为孵化专案。OpenSSF 将征召相关领域专家协助开发新功能，并计划与数个软体供应链团队、专案进行合作。&lt;/p&gt;
-&lt;!-- notionvc: 10799cbc-1b48-42b9-b6b7-1e2b98c2ec82 --&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;/div&gt;
-&lt;h3&gt;&lt;strong&gt;【其他新闻】&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://github.blog/2024-03-20-found-means-fixed-introducing-code-scanning-autofix-powered-by-github-copilot-and-codeql/&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;程式码储存库 GitHub 导入新的 AI 工具，自动修补用户程式码的弱点&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;!-- notionvc: be3e60f0-ae6e-4239-b343-7954b3d1abf4 --&gt;&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://content.govdelivery.com/bulletins/gd/USDODDC3-390288e&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;美国国防部公布漏洞悬赏专案执行成果，7 年来找出逾 5 万个漏洞&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.bleepingcomputer.com/news/microsoft/microsoft-announces-deprecation-of-1024-bit-rsa-keys-in-windows/&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;微软宣布将于 Windows 的 TLS 连线弃用低于 2048 位元的 RSA 金钥&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161711&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;苹果在 Safari 17 引入的&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161711&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;进阶音讯指纹辨识保护机制遭到破解&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161820&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Let&#39;s Encrypt 推出新的凭证透明度日志服务 Sunlight&lt;/span&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;近期资安日报&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161868&quot;&gt;&lt;strong&gt;【3 月 20 日】研究人员针对行动应用程式开发平台 Firebase 配置不当泛滥的现象提出警告&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161852&quot;&gt;&lt;strong&gt;【3 月 19 日】骇客组织 Earth Krahang 锁定政府机关而来，疑为中国资安业者安洵旗下团队&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.ithome.com.tw/news/161813&quot;&gt;&lt;strong&gt;【3 月 18 日】国际货币基金组织电子邮件帐号传出遭到挟持&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
- &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;    &lt;div&gt;
-  &lt;/div&gt;
-  &lt;/div&gt;
-       
-  &lt;/div&gt;&lt;/div&gt;</description>
-            <link>https://www.ithome.com.tw/news/161889</link>
-            <guid isPermaLink="false">https://www.ithome.com.tw/news/161889</guid>
-            <pubDate>Wed, 20 Mar 2024 16:00:00 GMT</pubDate>
-            <author>周峻佑</author>
-            <category>资安 </category>
         </item>
     </channel>
 </rss>
